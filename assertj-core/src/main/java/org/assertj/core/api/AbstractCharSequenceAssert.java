@@ -290,10 +290,6 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     if (containsWhitespaces(actual)) throw assertionError(shouldNotContainAnyWhitespaces(actual));
   }
 
-  private static boolean containsWhitespaces(CharSequence actual) {
-    return !isNullOrEmpty(actual) && containsOneOrMoreWhitespaces(actual);
-  }
-
   /**
    * Verifies that the actual {@code CharSequence} is either:
    * <ul>
@@ -2143,16 +2139,20 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return !isNullOrEmpty(actual) && strictlyContainsWhitespaces(actual);
   }
 
+  private static boolean containsWhitespaces(CharSequence actual) {
+    return !isNullOrEmpty(actual) && containsOneOrMoreWhitespaces(actual);
+  }
+
   private static boolean isNullOrEmpty(CharSequence actual) {
     return actual == null || actual.length() == 0;
   }
 
-  private static boolean containsOneOrMoreWhitespaces(CharSequence actual) {
-    return actual.chars().anyMatch(Character::isWhitespace);
-  }
-
   private static boolean strictlyContainsWhitespaces(CharSequence actual) {
     return actual.chars().allMatch(Character::isWhitespace);
+  }
+
+  private static boolean containsOneOrMoreWhitespaces(CharSequence actual) {
+    return actual.chars().anyMatch(Character::isWhitespace);
   }
 
 }
