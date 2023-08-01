@@ -40,7 +40,6 @@ import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
-import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
 import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
@@ -149,7 +148,7 @@ public class Strings {
     return s.length() > 0;
   }
 
-  private static boolean containsWhitespaces(CharSequence actual) {
+  public static boolean containsWhitespaces(CharSequence actual) {
     return !isNullOrEmpty(actual) && containsOneOrMoreWhitespaces(actual);
   }
 
@@ -167,10 +166,6 @@ public class Strings {
 
   public static boolean strictlyContainsWhitespaces(CharSequence actual) {
     return actual.chars().allMatch(Character::isWhitespace);
-  }
-
-  public void assertContainsWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (!containsWhitespaces(actual)) throw failures.failure(info, shouldContainOneOrMoreWhitespaces(actual));
   }
 
   public void assertContainsOnlyWhitespaces(AssertionInfo info, CharSequence actual) {

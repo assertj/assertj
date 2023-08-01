@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeHexadecimal.shouldBeHexadecimal;
 import static org.assertj.core.error.ShouldBePrintable.shouldBePrintable;
 import static org.assertj.core.error.ShouldBeVisible.shouldBeVisible;
+import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.internal.Strings.strictlyContainsWhitespaces;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -226,8 +227,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.11.0
    */
   public SELF containsWhitespaces() {
-    strings.assertContainsWhitespaces(info, actual);
+    assertContainsWhitespaces(actual);
     return myself;
+  }
+
+  private void assertContainsWhitespaces(CharSequence actual) {
+    if (!Strings.containsWhitespaces(actual)) throw assertionError(shouldContainOneOrMoreWhitespaces(actual));
   }
 
   /**
