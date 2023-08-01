@@ -12,9 +12,7 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.util.Arrays.stream;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toSet;
+import org.assertj.core.util.introspection.PropertySupport;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -22,7 +20,9 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.assertj.core.util.introspection.PropertySupport;
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * A {@link RecursiveComparisonIntrospectionStrategy} that introspects properties by looking at public getters like
@@ -59,35 +59,29 @@ public class ComparingProperties implements RecursiveComparisonIntrospectionStra
 
   private static String toPropertyName(String methodName) {
     String propertyWithCapitalLetter = methodName.startsWith(GET_PREFIX)
-        ? methodName.substring(GET_PREFIX.length())
-        : methodName.substring(IS_PREFIX.length());
+      ? methodName.substring(GET_PREFIX.length())
+      : methodName.substring(IS_PREFIX.length());
     return propertyWithCapitalLetter.toLowerCase().charAt(0) + propertyWithCapitalLetter.substring(1);
   }
 
   public static Set<Method> gettersIncludingInheritedOf(Class<?> clazz) {
-    Set<Method> getters = gettersOf(clazz);
-    // get fields declared in superClass
-    Class<?> superClass = clazz.getSuperclass();
-    while (superClass != null && !superClass.getName().startsWith("java.lang")) {
-      getters.addAll(gettersOf(superClass));
-      superClass = superClass.getSuperclass();
-    }
-    return getters;
+    return gettersOf(clazz);
   }
 
   private static Set<Method> gettersOf(Class<?> clazz) {
-    return stream(clazz.getDeclaredMethods()).filter(method -> !isStatic(method))
-                                             .filter(ComparingProperties::isPublic)
-                                             .filter(ComparingProperties::isGetter)
-                                             .collect(toCollection(LinkedHashSet::new));
+    return stream(clazz.getMethods())
+      .filter(method -> !belongsToFundamentalPackage(method))
+      .filter(method -> !isStatic(method))
+      .filter(ComparingProperties::isGetter)
+      .collect(toCollection(LinkedHashSet::new));
+  }
+
+  private static boolean belongsToFundamentalPackage(Method method) {
+    return method.getDeclaringClass().getName().startsWith("java.lang");
   }
 
   private static boolean isStatic(Method method) {
     return Modifier.isStatic(method.getModifiers());
-  }
-
-  private static boolean isPublic(Method method) {
-    return Modifier.isPublic(method.getModifiers());
   }
 
   private static boolean isGetter(Method method) {
