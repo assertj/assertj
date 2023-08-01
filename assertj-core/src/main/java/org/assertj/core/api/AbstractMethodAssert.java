@@ -119,7 +119,7 @@ public abstract class AbstractMethodAssert<SELF extends AbstractMethodAssert<SEL
    * assertThat(Math.class.getDeclaredMethod("abs", long.class)).isStatic();
    *
    * // this assertion fails:
-   * assertThat(AtomicLong.class.getDeclaredMethod("get")).isStatic() </code></pre>
+   * assertThat(AtomicLong.class.getDeclaredMethod("get")).isStatic(); </code></pre>
    *
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.

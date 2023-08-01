@@ -38,6 +38,24 @@ public class ShouldHaveAnnotations extends BasicErrorMessageFactory {
     return new ShouldHaveAnnotations(actual, expected, missing);
   }
 
+  /**
+   * Creates a new <code>{@link ShouldHaveAnnotations}</code>.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @param expected expected annotations for this class
+   * @param missing missing annotations for this class
+   * @return the created {@code ErrorMessageFactory}.
+   *
+   * @deprecated This method is retained for binary compatibility with assertj 3.24.2 and older.
+   *             Use {@link #shouldHaveAnnotations(AnnotatedElement, Collection, Collection)} instead
+   */
+  @Deprecated
+  public static ErrorMessageFactory shouldHaveAnnotations(Class<?> actual,
+          Collection<Class<? extends Annotation>> expected,
+          Collection<Class<? extends Annotation>> missing) {
+    return new ShouldHaveAnnotations(actual, expected, missing);
+  }
+
   private ShouldHaveAnnotations(AnnotatedElement actual, Collection<Class<? extends Annotation>> expected,
                                 Collection<Class<? extends Annotation>> missing) {
     super("%nExpecting%n  %s%nto have annotations:%n  %s%nbut the following annotations were not found:%n  %s", actual, expected,
