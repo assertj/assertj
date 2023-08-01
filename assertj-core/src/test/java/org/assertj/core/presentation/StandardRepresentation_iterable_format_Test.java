@@ -29,11 +29,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.configuration.Configuration;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -265,11 +267,12 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
   }
 
   @Test
+  @Timeout(value = 1, unit = TimeUnit.SECONDS)
   void should_format_big_list() {
     // GIVEN
-    int elementsPerArray = 1000;
+    int elementsPerArray = 200;
     List<int[]> numbers = new ArrayList<>();
-    for (int i = 0; i < 1 << 20; i++) {
+    for (int i = 0; i < 1 << 18; i++) {
       numbers.add(new int[elementsPerArray]);
     }
     // WHEN
