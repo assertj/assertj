@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.api.Assertions.contentOf;
 import static org.assertj.core.error.ShouldBeASCII.shouldBeASCII;
 import static org.assertj.core.error.ShouldBeAlphabetic.shouldBeAlphabetic;
@@ -20,17 +22,22 @@ import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeHexadecimal.shouldBeHexadecimal;
 import static org.assertj.core.error.ShouldBePrintable.shouldBePrintable;
 import static org.assertj.core.error.ShouldBeVisible.shouldBeVisible;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
 import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
+import static org.assertj.core.internal.Strings.doCommonCheckForCharSequence;
+import static org.assertj.core.internal.Strings.removeAllWhitespaces;
 import static org.assertj.core.util.IterableUtil.toArray;
 
 import java.io.File;
 import java.io.LineNumberReader;
 import java.text.Normalizer;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -910,8 +917,22 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF containsIgnoringWhitespaces(CharSequence... values) {
-    strings.assertContainsIgnoringWhitespaces(info, actual, values);
+    assertContainsIgnoringWhitespaces(values);
     return myself;
+  }
+
+  private void assertContainsIgnoringWhitespaces(CharSequence... values) {
+    doCommonCheckForCharSequence(info, actual, values);
+    String actualWithoutWhitespace = removeAllWhitespaces(actual);
+    Set<CharSequence> notFound = stream(values).map(Strings::removeAllWhitespaces)
+                                               .filter(value -> !objects.getComparisonStrategy()
+                                                                        .stringContains(actualWithoutWhitespace, value))
+                                               .collect(toCollection(LinkedHashSet::new));
+    if (notFound.isEmpty()) return;
+    if (values.length == 1) {
+      throw assertionError(shouldContainIgnoringWhitespaces(actual, values[0], objects.getComparisonStrategy()));
+    }
+    throw assertionError(shouldContainIgnoringWhitespaces(actual, values, notFound, objects.getComparisonStrategy()));
   }
 
   /**

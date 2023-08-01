@@ -38,7 +38,6 @@ import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainCharSequence.containsIgnoringNewLines;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
-import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
@@ -272,19 +271,6 @@ public class Strings {
     throw failures.failure(info, containsIgnoringNewLines(actual, values, notFound, comparisonStrategy));
   }
 
-  public void assertContainsIgnoringWhitespaces(AssertionInfo info, CharSequence actual, CharSequence... values) {
-    doCommonCheckForCharSequence(info, actual, values);
-    String actualWithoutWhitespace = removeAllWhitespaces(actual);
-    Set<CharSequence> notFound = stream(values).map(Strings::removeAllWhitespaces)
-                                               .filter(value -> !stringContains(actualWithoutWhitespace, value))
-                                               .collect(toCollection(LinkedHashSet::new));
-    if (notFound.isEmpty()) return;
-    if (values.length == 1) {
-      throw failures.failure(info, shouldContainIgnoringWhitespaces(actual, values[0], comparisonStrategy));
-    }
-    throw failures.failure(info, shouldContainIgnoringWhitespaces(actual, values, notFound, comparisonStrategy));
-  }
-
   public void assertDoesNotContainIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence... values) {
     doCommonCheckForCharSequence(info, actual, values);
 
@@ -354,7 +340,7 @@ public class Strings {
     return removeAllWhitespaces(actual).equals(removeAllWhitespaces(expected));
   }
 
-  private static String removeAllWhitespaces(CharSequence toBeStripped) {
+  public static String removeAllWhitespaces(CharSequence toBeStripped) {
     final StringBuilder result = new StringBuilder(toBeStripped.length());
     for (int i = 0; i < toBeStripped.length(); i++) {
       char c = toBeStripped.charAt(i);
@@ -747,7 +733,7 @@ public class Strings {
     return normalizedText.replace("\n", EMPTY_STRING);
   }
 
-  private static void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
+  public static void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
     assertNotNull(info, actual);
     checkIsNotNull(sequence);
     checkIsNotEmpty(sequence);
