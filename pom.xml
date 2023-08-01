@@ -144,19 +144,19 @@
               <goals>
                 <goal>check</goal>
               </goals>
-              <configuration>
-                <java>
-                  <includes>
-                    <include>src/main/java/**/*.java</include>
-                    <include>src/test/java/**/*.java</include>
-                  </includes>
-                  <eclipse>
-                    <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
-                  </eclipse>
-                </java>
-              </configuration>
             </execution>
           </executions>
+          <configuration>
+            <java>
+              <includes>
+                <include>src/main/java/**/*.java</include>
+                <include>src/test/java/**/*.java</include>
+              </includes>
+              <eclipse>
+                <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
+              </eclipse>
+            </java>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>com.mycila</groupId>
