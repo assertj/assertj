@@ -22,6 +22,7 @@ import static org.assertj.core.error.ShouldBeHexadecimal.shouldBeHexadecimal;
 import static org.assertj.core.error.ShouldBePrintable.shouldBePrintable;
 import static org.assertj.core.error.ShouldBeVisible.shouldBeVisible;
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
+import static org.assertj.core.internal.Strings.strictlyContainsWhitespaces;
 import static org.assertj.core.util.IterableUtil.toArray;
 
 import java.io.File;
@@ -158,8 +159,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.6.0 / 3.6.0
    */
   public SELF isBlank() {
-    strings.assertBlank(info, actual);
+    assertBlank(actual);
     return myself;
+  }
+
+  private void assertBlank(CharSequence actual) {
+    if (!isBlank(actual)) throw assertionError(shouldBeBlank(actual));
   }
 
   /**
@@ -189,8 +194,16 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.6.0 / 3.6.0
    */
   public SELF isNotBlank() {
-    strings.assertNotBlank(info, actual);
+    assertNotBlank(actual);
     return myself;
+  }
+
+  private void assertNotBlank(CharSequence actual) {
+    if (isBlank(actual)) throw assertionError(shouldNotBeBlank(actual));
+  }
+
+  private static boolean isBlank(CharSequence actual) {
+    return Strings.isNullOrEmpty(actual) || strictlyContainsWhitespaces(actual);
   }
 
   /**
@@ -324,6 +337,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return myself;
   }
 
+  private void assertJavaBlank(CharSequence actual) {
+    if (!isJavaBlank(actual)) throw assertionError(shouldBeBlank(actual));
+  }
+
   /**
    * Verifies that the actual {@code CharSequence} is not blank, i.e. either is {@code null}, empty or
    * contains at least one non-whitespace character (according to {@link Character#isWhitespace(char)}).
@@ -349,10 +366,6 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   public SELF isNotJavaBlank() {
     assertNotJavaBlank(actual);
     return myself;
-  }
-
-  private void assertJavaBlank(CharSequence actual) {
-    if (!isJavaBlank(actual)) throw assertionError(shouldBeBlank(actual));
   }
 
   private void assertNotJavaBlank(CharSequence actual) {

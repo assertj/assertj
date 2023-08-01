@@ -48,7 +48,7 @@ class CharSequenceAssert_isJavaBlank_Test {
       " bc ",
       "\u00A0", // non-breaking space
       "\u2007", // non-breaking space
-      "\u202F"
+      "\u202F"  // non-breaking space
   })
   void should_fail_if_actual_is_not_blank(String actual) {
     // WHEN

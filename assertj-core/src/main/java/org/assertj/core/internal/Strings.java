@@ -20,7 +20,6 @@ import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
-import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
@@ -54,7 +53,6 @@ import static org.assertj.core.error.ShouldHaveSizeGreaterThanOrEqualTo.shouldHa
 import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
 import static org.assertj.core.error.ShouldHaveSizeLessThanOrEqualTo.shouldHaveSizeLessThanOrEqualTo;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
-import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
@@ -151,18 +149,6 @@ public class Strings {
     return s.length() > 0;
   }
 
-  public void assertBlank(AssertionInfo info, CharSequence actual) {
-    if (!isBlank(actual)) throw failures.failure(info, shouldBeBlank(actual));
-  }
-
-  public void assertNotBlank(AssertionInfo info, CharSequence actual) {
-    if (isBlank(actual)) throw failures.failure(info, shouldNotBeBlank(actual));
-  }
-
-  private static boolean isBlank(CharSequence actual) {
-    return isNullOrEmpty(actual) || strictlyContainsWhitespaces(actual);
-  }
-
   private static boolean containsWhitespaces(CharSequence actual) {
     return !isNullOrEmpty(actual) && containsOneOrMoreWhitespaces(actual);
   }
@@ -171,7 +157,7 @@ public class Strings {
     return !isNullOrEmpty(actual) && strictlyContainsWhitespaces(actual);
   }
 
-  private static boolean isNullOrEmpty(CharSequence actual) {
+  public static boolean isNullOrEmpty(CharSequence actual) {
     return actual == null || actual.length() == 0;
   }
 
@@ -179,7 +165,7 @@ public class Strings {
     return actual.chars().anyMatch(Character::isWhitespace);
   }
 
-  private static boolean strictlyContainsWhitespaces(CharSequence actual) {
+  public static boolean strictlyContainsWhitespaces(CharSequence actual) {
     return actual.chars().allMatch(Character::isWhitespace);
   }
 
