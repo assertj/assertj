@@ -51,8 +51,8 @@ public class ShouldHaveAnnotations extends BasicErrorMessageFactory {
    */
   @Deprecated
   public static ErrorMessageFactory shouldHaveAnnotations(Class<?> actual,
-          Collection<Class<? extends Annotation>> expected,
-          Collection<Class<? extends Annotation>> missing) {
+                                                          Collection<Class<? extends Annotation>> expected,
+                                                          Collection<Class<? extends Annotation>> missing) {
     return new ShouldHaveAnnotations(actual, expected, missing);
   }
 
