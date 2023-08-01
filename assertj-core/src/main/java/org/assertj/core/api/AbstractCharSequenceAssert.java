@@ -12,13 +12,16 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.Character.isWhitespace;
 import static org.assertj.core.api.Assertions.contentOf;
 import static org.assertj.core.error.ShouldBeASCII.shouldBeASCII;
 import static org.assertj.core.error.ShouldBeAlphabetic.shouldBeAlphabetic;
 import static org.assertj.core.error.ShouldBeAlphanumeric.shouldBeAlphanumeric;
+import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeHexadecimal.shouldBeHexadecimal;
 import static org.assertj.core.error.ShouldBePrintable.shouldBePrintable;
 import static org.assertj.core.error.ShouldBeVisible.shouldBeVisible;
+import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.util.IterableUtil.toArray;
 
 import java.io.File;
@@ -317,7 +320,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Deprecated
   public SELF isJavaBlank() {
-    strings.assertJavaBlank(info, actual);
+    assertJavaBlank(actual);
     return myself;
   }
 
@@ -344,8 +347,24 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Deprecated
   public SELF isNotJavaBlank() {
-    strings.assertNotJavaBlank(info, actual);
+    assertNotJavaBlank(actual);
     return myself;
+  }
+
+  private void assertJavaBlank(CharSequence actual) {
+    if (!isJavaBlank(actual)) throw assertionError(shouldBeBlank(actual));
+  }
+
+  private void assertNotJavaBlank(CharSequence actual) {
+    if (isJavaBlank(actual)) throw assertionError(shouldNotBeBlank(actual));
+  }
+
+  private static boolean isJavaBlank(CharSequence actual) {
+    if (actual == null || actual.length() == 0) return false;
+    for (int i = 0; i < actual.length(); i++) {
+      if (!isWhitespace(actual.charAt(i))) return false;
+    }
+    return true;
   }
 
   /**

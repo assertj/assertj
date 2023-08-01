@@ -199,22 +199,6 @@ public class Strings {
     if (containsOnlyWhitespaces(actual)) throw failures.failure(info, shouldNotContainOnlyWhitespaces(actual));
   }
 
-  public void assertJavaBlank(AssertionInfo info, CharSequence actual) {
-    if (!isJavaBlank(actual)) throw failures.failure(info, shouldBeBlank(actual));
-  }
-
-  public void assertNotJavaBlank(AssertionInfo info, CharSequence actual) {
-    if (isJavaBlank(actual)) throw failures.failure(info, shouldNotBeBlank(actual));
-  }
-
-  private static boolean isJavaBlank(CharSequence actual) {
-    if (actual == null || actual.length() == 0) return false;
-    for (int i = 0; i < actual.length(); i++) {
-      if (!isWhitespace(actual.charAt(i))) return false;
-    }
-    return true;
-  }
-
   public void assertHasSize(AssertionInfo info, CharSequence actual, int expectedSize) {
     assertNotNull(info, actual);
     checkSizes(actual, actual.length(), expectedSize, info);
