@@ -57,7 +57,6 @@ import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNo
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContainIgnoringCase;
-import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.error.ShouldNotEndWithIgnoringCase.shouldNotEndWithIgnoringCase;
@@ -144,26 +143,6 @@ public class Strings {
 
   private static boolean hasContent(CharSequence s) {
     return s.length() > 0;
-  }
-
-  public static boolean containsOnlyWhitespaces(CharSequence actual) {
-    return !isNullOrEmpty(actual) && strictlyContainsWhitespaces(actual);
-  }
-
-  private static boolean isNullOrEmpty(CharSequence actual) {
-    return actual == null || actual.length() == 0;
-  }
-
-  public static boolean containsOneOrMoreWhitespaces(CharSequence actual) {
-    return actual.chars().anyMatch(Character::isWhitespace);
-  }
-
-  public static boolean strictlyContainsWhitespaces(CharSequence actual) {
-    return actual.chars().allMatch(Character::isWhitespace);
-  }
-
-  public void assertDoesNotContainOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (containsOnlyWhitespaces(actual)) throw failures.failure(info, shouldNotContainOnlyWhitespaces(actual));
   }
 
   public void assertHasSize(AssertionInfo info, CharSequence actual, int expectedSize) {

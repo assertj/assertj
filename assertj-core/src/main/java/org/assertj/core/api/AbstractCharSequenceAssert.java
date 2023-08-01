@@ -25,8 +25,7 @@ import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldCon
 import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
-import static org.assertj.core.internal.Strings.containsOneOrMoreWhitespaces;
-import static org.assertj.core.internal.Strings.strictlyContainsWhitespaces;
+import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
 import static org.assertj.core.util.IterableUtil.toArray;
 
 import java.io.File;
@@ -265,7 +264,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   private void assertContainsOnlyWhitespaces(CharSequence actual) {
-    if (!Strings.containsOnlyWhitespaces(actual)) throw assertionError(shouldContainOnlyWhitespaces(actual));
+    if (!containsOnlyWhitespaces(actual)) throw assertionError(shouldContainOnlyWhitespaces(actual));
   }
 
   /**
@@ -327,8 +326,16 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.9.0 / 3.9.0
    */
   public SELF doesNotContainOnlyWhitespaces() {
-    strings.assertDoesNotContainOnlyWhitespaces(info, actual);
+    assertDoesNotContainOnlyWhitespaces(actual);
     return myself;
+  }
+
+  private void assertDoesNotContainOnlyWhitespaces(CharSequence actual) {
+    if (containsOnlyWhitespaces(actual)) throw assertionError(shouldNotContainOnlyWhitespaces(actual));
+  }
+
+  private static boolean containsOnlyWhitespaces(CharSequence actual) {
+    return !isNullOrEmpty(actual) && strictlyContainsWhitespaces(actual);
   }
 
   /**
@@ -2147,6 +2154,14 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
 
   private static boolean isNullOrEmpty(CharSequence actual) {
     return actual == null || actual.length() == 0;
+  }
+
+  private static boolean containsOneOrMoreWhitespaces(CharSequence actual) {
+    return actual.chars().anyMatch(Character::isWhitespace);
+  }
+
+  private static boolean strictlyContainsWhitespaces(CharSequence actual) {
+    return actual.chars().allMatch(Character::isWhitespace);
   }
 
 }
