@@ -24,6 +24,8 @@ import static org.assertj.core.error.ShouldBeVisible.shouldBeVisible;
 import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
+import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
+import static org.assertj.core.internal.Strings.containsOneOrMoreWhitespaces;
 import static org.assertj.core.internal.Strings.strictlyContainsWhitespaces;
 import static org.assertj.core.util.IterableUtil.toArray;
 
@@ -205,7 +207,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   private static boolean isBlank(CharSequence actual) {
-    return Strings.isNullOrEmpty(actual) || strictlyContainsWhitespaces(actual);
+    return isNullOrEmpty(actual) || strictlyContainsWhitespaces(actual);
   }
 
   /**
@@ -233,7 +235,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   private void assertContainsWhitespaces(CharSequence actual) {
-    if (!Strings.containsWhitespaces(actual)) throw assertionError(shouldContainOneOrMoreWhitespaces(actual));
+    if (!containsWhitespaces(actual)) throw assertionError(shouldContainOneOrMoreWhitespaces(actual));
   }
 
   /**
@@ -286,8 +288,16 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.11.0
    */
   public SELF doesNotContainAnyWhitespaces() {
-    strings.assertDoesNotContainAnyWhitespaces(info, actual);
+    assertDoesNotContainAnyWhitespaces(actual);
     return myself;
+  }
+
+  private void assertDoesNotContainAnyWhitespaces(CharSequence actual) {
+    if (containsWhitespaces(actual)) throw assertionError(shouldNotContainAnyWhitespaces(actual));
+  }
+
+  private static boolean containsWhitespaces(CharSequence actual) {
+    return !isNullOrEmpty(actual) && containsOneOrMoreWhitespaces(actual);
   }
 
   /**
@@ -383,7 +393,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   private static boolean isJavaBlank(CharSequence actual) {
-    if (actual == null || actual.length() == 0) return false;
+    if (isNullOrEmpty(actual)) return false;
     for (int i = 0; i < actual.length(); i++) {
       if (!isWhitespace(actual.charAt(i))) return false;
     }
@@ -2133,6 +2143,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     isNotNull();
     if (!Pattern.matches("\\p{Graph}+", actual)) throwAssertionError(shouldBeVisible(actual));
     return myself;
+  }
+
+  private static boolean isNullOrEmpty(CharSequence actual) {
+    return actual == null || actual.length() == 0;
   }
 
 }
