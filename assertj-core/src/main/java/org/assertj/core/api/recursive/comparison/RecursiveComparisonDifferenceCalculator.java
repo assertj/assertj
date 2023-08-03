@@ -152,6 +152,30 @@ public class RecursiveComparisonDifferenceCalculator {
       }
     }
 
+    private static Set<String> getAllChildFieldsSpecifiedForCompare(RecursiveComparisonConfiguration recursiveComparisonConfiguration,
+                                                                    DualValue dualValue) {
+      return recursiveComparisonConfiguration.getComparedFields().stream()
+                                             // Remove all specified fields that are not children of this DualValue
+                                             .filter(field -> isChildOfSpecifiedComparatorField(dualValue, field))
+                                             // Map the next FieldLocation to the fieldName
+                                             .map(field -> getChildFieldForValidation(field, dualValue.fieldLocation))
+                                             .collect(Collectors.toSet());
+    }
+
+    private static boolean isChildOfSpecifiedComparatorField(DualValue dualValue, FieldLocation field) {
+
+      return field.getPathToUseInRules()
+                  // Check if the comparator field is relevant by checking if the path validated so far matches
+                  // &&
+                  // Check if it has a child field still waiting to be validated.
+                  .startsWith(dualValue.fieldLocation.getPathToUseInRules())
+             && field.getDecomposedPath().size() > dualValue.fieldLocation.getDecomposedPath().size();
+    }
+
+    private static String getChildFieldForValidation(FieldLocation field, FieldLocation fieldValue) {
+      return field.getDecomposedPath().get(fieldValue.getDecomposedPath().size());
+    }
+
     private boolean mustCompareNodesRecursively(DualValue dualValue) {
       return !recursiveComparisonConfiguration.hasCustomComparator(dualValue)
              && !shouldHonorEquals(dualValue, recursiveComparisonConfiguration)
