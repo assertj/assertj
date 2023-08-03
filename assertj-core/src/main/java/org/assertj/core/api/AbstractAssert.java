@@ -591,12 +591,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /** {@inheritDoc} */
-  @SuppressWarnings("unchecked")
+  @Deprecated
   @Override
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList() {
-    objects.assertIsInstanceOf(info, actual, List.class);
-    return newListAssertInstance((List<Object>) actual).as(info.description());
+    return asInstanceOf(InstanceOfAssertFactories.LIST);
   }
 
   /** {@inheritDoc} */

@@ -149,6 +149,7 @@ class IterableDiff_Test {
   }
 
   // issue #2147
+  @SuppressWarnings("deprecation")
   @Test
   void should_work_when_comparison_strategy_is_not_symmetrical() {
     // GIVEN
