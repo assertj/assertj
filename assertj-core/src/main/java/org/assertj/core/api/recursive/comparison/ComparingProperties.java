@@ -59,8 +59,8 @@ public class ComparingProperties implements RecursiveComparisonIntrospectionStra
 
   private static String toPropertyName(String methodName) {
     String propertyWithCapitalLetter = methodName.startsWith(GET_PREFIX)
-      ? methodName.substring(GET_PREFIX.length())
-      : methodName.substring(IS_PREFIX.length());
+        ? methodName.substring(GET_PREFIX.length())
+        : methodName.substring(IS_PREFIX.length());
     return propertyWithCapitalLetter.toLowerCase().charAt(0) + propertyWithCapitalLetter.substring(1);
   }
 
@@ -69,11 +69,10 @@ public class ComparingProperties implements RecursiveComparisonIntrospectionStra
   }
 
   private static Set<Method> gettersOf(Class<?> clazz) {
-    return stream(clazz.getMethods())
-      .filter(method -> !belongsToFundamentalPackage(method))
-      .filter(method -> !isStatic(method))
-      .filter(ComparingProperties::isGetter)
-      .collect(toCollection(LinkedHashSet::new));
+    return stream(clazz.getMethods()).filter(method -> !belongsToFundamentalPackage(method))
+                                     .filter(method -> !isStatic(method))
+                                     .filter(ComparingProperties::isGetter)
+                                     .collect(toCollection(LinkedHashSet::new));
   }
 
   private static boolean belongsToFundamentalPackage(Method method) {
