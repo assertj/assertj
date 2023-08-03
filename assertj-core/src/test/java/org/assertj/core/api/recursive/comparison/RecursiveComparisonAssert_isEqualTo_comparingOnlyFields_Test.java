@@ -278,6 +278,67 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
 
   }
 
+  // #3129
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
+  @MethodSource
+  void should_fail_when_non_existent_fields_specified(Object actual, Object expected, List<String> fieldNamesToCompare,
+                                                      String expectedFailureMsg) {
+
+    // GIVEN
+    recursiveComparisonConfiguration.compareOnlyFields(arrayOf(fieldNamesToCompare));
+    // WHEN
+    AssertionError test = compareRecursivelyFailsAsExpected(actual, expected);
+    // THEN
+    then(test).hasMessageContaining(expectedFailureMsg);
+
+  }
+
+  private static Stream<Arguments> should_fail_when_non_existent_fields_specified() {
+    Person p1 = new Person("John");
+    Person p2 = new Person("Alice");
+    Person neighbour = new Person("Jack");
+    Person neighbour2 = new Person("Joan");
+
+    p1.neighbour = neighbour;
+    p2.neighbour = neighbour2;
+    neighbour.neighbour = p1;
+    neighbour2.neighbour = p2;
+
+    return Stream.of(arguments(p1, p2, list("naame"), "does not declare all Person fields, it lacks these: [naame]"),
+                     arguments(p1, p2, list("name", "neighbour", "number"),
+                               "does not declare all Person fields, it lacks these: [number]"),
+                     arguments(p1, p2, list("neighbor"), "does not declare all Person fields, it lacks these: [neighbor]"),
+                     arguments(p1, p2, list("neighbour.neighbor.name"),
+                               "does not declare all Person fields, it lacks these: [neighbor]"),
+                     arguments(p1, p2, list("neighbour.neighbour.name", "neighbour.neighbour.number"),
+                               "does not declare all Person fields, it lacks these: [number]"),
+                     arguments(list(p1, p2), list(neighbour,
+                                                  neighbour2),
+                               list("neighbour.neighbour.name"),
+                               "- actual value  : Person [dateOfBirth=null, name=Jack, phone=null, home=Home [address=Address [number=1]]]\n"
+                                                                 +
+                                                                 "- expected value: Person [dateOfBirth=null, name=John, phone=null, home=Home [address=Address [number=1]]]"));
+  }
+
+  // #3129
+  @Test
+  void should_pass_when_fields_are_nested() {
+
+    // GIVEN
+    Person p1 = new Person("John");
+    Person p2 = new Person("Alice");
+    Person neighbour = new Person("Jack");
+    Person neighbour2 = new Person("Joan");
+
+    p1.neighbour = neighbour;
+    p2.neighbour = neighbour2;
+    neighbour.neighbour = neighbour;
+    neighbour2.neighbour = neighbour;
+    // WHEN/THEN
+    then(p1).usingRecursiveComparison().comparingOnlyFields("neighbour.neighbour.name").isEqualTo(p2);
+
+  }
+
   static class Student {
     String name;
     String subject;
