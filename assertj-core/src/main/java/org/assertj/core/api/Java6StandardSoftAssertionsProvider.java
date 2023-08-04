@@ -646,6 +646,20 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   }
 
   /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.25.0
+   */
+  default CharSequenceAssert assertThatCharSequence(CharSequence actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuilder}.
    *
    * @param actual the actual value.
