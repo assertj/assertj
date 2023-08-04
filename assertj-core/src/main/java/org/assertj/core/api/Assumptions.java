@@ -341,9 +341,13 @@ public class Assumptions {
 
   /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption.
+   * <p>
+   * Use this over {@link #assumeThat(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assumeThat</code> for.
    *
    * @param actual the actual value.
    * @return the created assumption for assertion object.
+   * @since 3.25.0
    */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThatCharSequence(CharSequence actual) {
     return assumeThat(actual);

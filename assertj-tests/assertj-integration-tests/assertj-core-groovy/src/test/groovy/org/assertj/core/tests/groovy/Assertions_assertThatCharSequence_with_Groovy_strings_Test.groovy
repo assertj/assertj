@@ -14,9 +14,9 @@ package org.assertj.core.tests.groovy
 
 import org.junit.jupiter.api.Test
 
-import static org.assertj.core.api.Java6BDDAssertions.thenCharSequence
+import static org.assertj.core.api.Assertions.assertThatCharSequence
 
-class Java6BDDAssertions_then_with_Groovy_strings_Test {
+class Assertions_assertThatCharSequence_with_Groovy_strings_Test {
 
   @Test
   void should_accept_interpolated_expressions() {
@@ -24,7 +24,7 @@ class Java6BDDAssertions_then_with_Groovy_strings_Test {
     def foo = "foo"
     def actual = /.*${foo}.*/
     // WHEN/THEN
-    thenCharSequence(actual).isEqualTo(/.*${foo}.*/)
+    assertThatCharSequence(actual).isEqualTo(/.*${foo}.*/)
   }
 
 }

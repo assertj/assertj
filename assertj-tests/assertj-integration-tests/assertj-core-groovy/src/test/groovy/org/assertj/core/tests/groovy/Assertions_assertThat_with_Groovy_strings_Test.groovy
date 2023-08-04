@@ -15,7 +15,6 @@ package org.assertj.core.tests.groovy
 import org.junit.jupiter.api.Test
 
 import static org.assertj.core.api.Assertions.assertThat
-import static org.assertj.core.api.Assertions.assertThatCharSequence
 
 class Assertions_assertThat_with_Groovy_strings_Test {
 
@@ -43,15 +42,6 @@ class Assertions_assertThat_with_Groovy_strings_Test {
     def actual = $/.*foo.*/$
     // WHEN/THEN
     assertThat(actual).isEqualTo(".*foo.*")
-  }
-
-  @Test
-  void should_accept_interpolated_expressions() {
-    // GIVEN
-    def foo = "foo"
-    def actual = /.*${foo}.*/
-    // WHEN/THEN
-    assertThatCharSequence(actual).isEqualTo(/.*${foo}.*/)
   }
 
 }

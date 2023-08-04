@@ -652,9 +652,13 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
 
   /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code>.
+   * <p>
+   * Use this over {@link #then(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param actual the actual value.
    * @return the created assertion object.
+   * @since 3.25.0
    */
   default CharSequenceAssert thenCharSequence(CharSequence actual) {
     return then(actual);
