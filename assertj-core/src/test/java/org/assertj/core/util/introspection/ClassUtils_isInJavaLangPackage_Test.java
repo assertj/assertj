@@ -13,33 +13,32 @@
 package org.assertj.core.util.introspection;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.introspection.ClassUtils.isOptionalOrPrimitiveOptional;
+import static org.assertj.core.util.introspection.ClassUtils.isInJavaLangPackage;
 
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
+import java.lang.ref.SoftReference;
+import java.sql.Date;
+import java.util.List;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-class ClassUtils_isOptionalOrPrimitiveOptional_Test {
+class ClassUtils_isInJavaLangPackage_Test {
 
   @ParameterizedTest
-  @ValueSource(classes = { Optional.class, OptionalLong.class, OptionalDouble.class, OptionalInt.class })
-  void should_detect_Optional_and_primitive_Optional_types(Class<?> clazz) {
+  @ValueSource(classes = { String.class, Object.class, SoftReference.class })
+  void should_detect_java_lang_types(Class<?> clazz) {
     // WHEN
-    boolean isPrimitive = isOptionalOrPrimitiveOptional(clazz);
+    boolean isInJavaLangPackage = isInJavaLangPackage(clazz);
     // THEN
-    then(isPrimitive).isTrue();
+    then(isInJavaLangPackage).isTrue();
   }
 
   @ParameterizedTest
-  @ValueSource(classes = { String.class, com.google.common.base.Optional.class })
-  void should_detect_as_not_from_the_Optional_family(Class<?> clazz) {
+  @ValueSource(classes = { List.class, Date.class })
+  void should_detect_non_java_lang_types(Class<?> clazz) {
     // WHEN
-    boolean isPrimitive = isOptionalOrPrimitiveOptional(clazz);
+    boolean isInJavaLangPackage = isInJavaLangPackage(clazz);
     // THEN
-    then(isPrimitive).isFalse();
+    then(isInJavaLangPackage).isFalse();
   }
 }
