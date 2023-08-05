@@ -361,6 +361,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /** {@inheritDoc} */
   @Override
   public SELF isEqualTo(Object expected) {
+    if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
+      throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isEqualTo'. "
+                                              + "This is not supported. Perhaps you meant 'isSameAs' instead?");
+    }
+
     objects.assertEqual(info, actual, expected);
     return myself;
   }
@@ -368,6 +373,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /** {@inheritDoc} */
   @Override
   public SELF isNotEqualTo(Object other) {
+    if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
+      throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isNotEqualTo'. "
+                                              + "This is not supported. Perhaps you meant 'isNotSameAs' instead?");
+    }
+
     objects.assertNotEqual(info, actual, other);
     return myself;
   }
@@ -740,7 +750,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Deprecated
   public boolean equals(Object obj) {
     if (throwUnsupportedExceptionOnEquals) {
-      throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
+      throw new UnsupportedOperationException("'equals' is not supported... maybe you intended to call 'isEqualTo'");
     }
     return super.equals(obj);
   }
@@ -1169,5 +1179,4 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   protected boolean areEqual(Object actual, Object other) {
     return objects.getComparisonStrategy().areEqual(actual, other);
   }
-
 }

@@ -12,19 +12,32 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.stream;
+import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.api.Assertions.contentOf;
 import static org.assertj.core.error.ShouldBeASCII.shouldBeASCII;
 import static org.assertj.core.error.ShouldBeAlphabetic.shouldBeAlphabetic;
 import static org.assertj.core.error.ShouldBeAlphanumeric.shouldBeAlphanumeric;
+import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeHexadecimal.shouldBeHexadecimal;
 import static org.assertj.core.error.ShouldBePrintable.shouldBePrintable;
 import static org.assertj.core.error.ShouldBeVisible.shouldBeVisible;
+import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
+import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
+import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
+import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
+import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
+import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
+import static org.assertj.core.internal.Strings.doCommonCheckForCharSequence;
+import static org.assertj.core.internal.Strings.removeAllWhitespaces;
 import static org.assertj.core.util.IterableUtil.toArray;
 
 import java.io.File;
 import java.io.LineNumberReader;
 import java.text.Normalizer;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -155,8 +168,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.6.0 / 3.6.0
    */
   public SELF isBlank() {
-    strings.assertBlank(info, actual);
+    assertBlank(actual);
     return myself;
+  }
+
+  private void assertBlank(CharSequence actual) {
+    if (!isBlank(actual)) throw assertionError(shouldBeBlank(actual));
   }
 
   /**
@@ -186,8 +203,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.6.0 / 3.6.0
    */
   public SELF isNotBlank() {
-    strings.assertNotBlank(info, actual);
+    assertNotBlank(actual);
     return myself;
+  }
+
+  private void assertNotBlank(CharSequence actual) {
+    if (isBlank(actual)) throw assertionError(shouldNotBeBlank(actual));
   }
 
   /**
@@ -210,8 +231,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.11.0
    */
   public SELF containsWhitespaces() {
-    strings.assertContainsWhitespaces(info, actual);
+    assertContainsWhitespaces(actual);
     return myself;
+  }
+
+  private void assertContainsWhitespaces(CharSequence actual) {
+    if (!containsWhitespaces(actual)) throw assertionError(shouldContainOneOrMoreWhitespaces(actual));
   }
 
   /**
@@ -236,8 +261,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsOnlyWhitespaces() {
-    strings.assertContainsOnlyWhitespaces(info, actual);
+    assertContainsOnlyWhitespaces(actual);
     return myself;
+  }
+
+  private void assertContainsOnlyWhitespaces(CharSequence actual) {
+    if (!containsOnlyWhitespaces(actual)) throw assertionError(shouldContainOnlyWhitespaces(actual));
   }
 
   /**
@@ -260,8 +289,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.11.0
    */
   public SELF doesNotContainAnyWhitespaces() {
-    strings.assertDoesNotContainAnyWhitespaces(info, actual);
+    assertDoesNotContainAnyWhitespaces(actual);
     return myself;
+  }
+
+  private void assertDoesNotContainAnyWhitespaces(CharSequence actual) {
+    if (containsWhitespaces(actual)) throw assertionError(shouldNotContainAnyWhitespaces(actual));
   }
 
   /**
@@ -291,8 +324,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.9.0 / 3.9.0
    */
   public SELF doesNotContainOnlyWhitespaces() {
-    strings.assertDoesNotContainOnlyWhitespaces(info, actual);
+    assertDoesNotContainOnlyWhitespaces(actual);
     return myself;
+  }
+
+  private void assertDoesNotContainOnlyWhitespaces(CharSequence actual) {
+    if (containsOnlyWhitespaces(actual)) throw assertionError(shouldNotContainOnlyWhitespaces(actual));
   }
 
   /**
@@ -317,8 +354,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Deprecated
   public SELF isJavaBlank() {
-    strings.assertJavaBlank(info, actual);
+    assertJavaBlank(actual);
     return myself;
+  }
+
+  private void assertJavaBlank(CharSequence actual) {
+    if (!containsOnlyWhitespaces(actual)) throw assertionError(shouldBeBlank(actual));
   }
 
   /**
@@ -344,8 +385,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Deprecated
   public SELF isNotJavaBlank() {
-    strings.assertNotJavaBlank(info, actual);
+    assertNotJavaBlank(actual);
     return myself;
+  }
+
+  private void assertNotJavaBlank(CharSequence actual) {
+    if (containsOnlyWhitespaces(actual)) throw assertionError(shouldNotBeBlank(actual));
   }
 
   /**
@@ -872,8 +917,22 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF containsIgnoringWhitespaces(CharSequence... values) {
-    strings.assertContainsIgnoringWhitespaces(info, actual, values);
+    assertContainsIgnoringWhitespaces(values);
     return myself;
+  }
+
+  private void assertContainsIgnoringWhitespaces(CharSequence... values) {
+    doCommonCheckForCharSequence(info, actual, values);
+    String actualWithoutWhitespace = removeAllWhitespaces(actual);
+    Set<CharSequence> notFound = stream(values).map(Strings::removeAllWhitespaces)
+                                               .filter(value -> !objects.getComparisonStrategy()
+                                                                        .stringContains(actualWithoutWhitespace, value))
+                                               .collect(toCollection(LinkedHashSet::new));
+    if (notFound.isEmpty()) return;
+    if (values.length == 1) {
+      throw assertionError(shouldContainIgnoringWhitespaces(actual, values[0], objects.getComparisonStrategy()));
+    }
+    throw assertionError(shouldContainIgnoringWhitespaces(actual, values, notFound, objects.getComparisonStrategy()));
   }
 
   /**
@@ -2091,6 +2150,30 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     isNotNull();
     if (!Pattern.matches("\\p{Graph}+", actual)) throwAssertionError(shouldBeVisible(actual));
     return myself;
+  }
+
+  private static boolean isBlank(CharSequence actual) {
+    return isNullOrEmpty(actual) || strictlyContainsWhitespaces(actual);
+  }
+
+  private static boolean containsOnlyWhitespaces(CharSequence actual) {
+    return !isNullOrEmpty(actual) && strictlyContainsWhitespaces(actual);
+  }
+
+  private static boolean containsWhitespaces(CharSequence actual) {
+    return !isNullOrEmpty(actual) && containsOneOrMoreWhitespaces(actual);
+  }
+
+  private static boolean isNullOrEmpty(CharSequence actual) {
+    return actual == null || actual.length() == 0;
+  }
+
+  private static boolean strictlyContainsWhitespaces(CharSequence actual) {
+    return actual.chars().allMatch(Character::isWhitespace);
+  }
+
+  private static boolean containsOneOrMoreWhitespaces(CharSequence actual) {
+    return actual.chars().anyMatch(Character::isWhitespace);
   }
 
 }
