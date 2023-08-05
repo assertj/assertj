@@ -12,6 +12,10 @@
 
   <name>AssertJ Core Integration Tests - Groovy</name>
 
+  <properties>
+    <rootDirectory>${project.basedir}/../../../</rootDirectory>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.groovy</groupId>

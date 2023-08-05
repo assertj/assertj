@@ -15,6 +15,7 @@
   <description>Parent POM for all AssertJ modules</description>
 
   <properties>
+    <rootDirectory>${project.basedir}/../</rootDirectory>
     <additionalparam>-Xdoclint:none</additionalparam>
     <java.version>8</java.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
