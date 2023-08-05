@@ -31,18 +31,18 @@ import org.junit.jupiter.params.provider.MethodSource;
 final class BoundedQueue_Test {
   static Stream<Arguments> should_only_be_able_to_offer_up_to_capacity_source() {
     return Stream.of(
-      Arguments.of(0, ImmutableList.of(1), ImmutableList.of()),
-      Arguments.of(1, ImmutableList.of(1), ImmutableList.of(1)),
-      Arguments.of(2, ImmutableList.of(1), ImmutableList.of(1)),
-      Arguments.of(2, ImmutableList.of(1, 2), ImmutableList.of(1, 2)),
-      Arguments.of(2, ImmutableList.of(1, 2, 3), ImmutableList.of(1, 2)),
-      Arguments.of(3, ImmutableList.of(1, 2, 3, 4, 5), ImmutableList.of(1, 2, 3)));
+                     Arguments.of(0, ImmutableList.of(1), ImmutableList.of()),
+                     Arguments.of(1, ImmutableList.of(1), ImmutableList.of(1)),
+                     Arguments.of(2, ImmutableList.of(1), ImmutableList.of(1)),
+                     Arguments.of(2, ImmutableList.of(1, 2), ImmutableList.of(1, 2)),
+                     Arguments.of(2, ImmutableList.of(1, 2, 3), ImmutableList.of(1, 2)),
+                     Arguments.of(3, ImmutableList.of(1, 2, 3, 4, 5), ImmutableList.of(1, 2, 3)));
   }
 
   @ParameterizedTest
   @MethodSource("should_only_be_able_to_offer_up_to_capacity_source")
   void should_only_be_able_to_offer_up_to_capacity(
-    int capacity, List<Integer> toAdd, List<Integer> expected) {
+                                                   int capacity, List<Integer> toAdd, List<Integer> expected) {
     // GIVEN
     Queue<Integer> bounded = new BoundedQueue<>(capacity);
     // WHEN
@@ -57,7 +57,7 @@ final class BoundedQueue_Test {
   @ParameterizedTest
   @MethodSource("should_only_be_able_to_offer_up_to_capacity_source")
   void should_only_be_able_to_add_up_to_capacity(
-    int capacity, List<Integer> toAdd, List<Integer> expected) {
+                                                 int capacity, List<Integer> toAdd, List<Integer> expected) {
     // GIVEN
     Queue<Integer> bounded = new BoundedQueue<>(capacity);
     // WHEN
@@ -90,8 +90,7 @@ final class BoundedQueue_Test {
     Queue<Integer> bounded = new BoundedQueue<>(1);
     bounded.add(RandomUtils.nextInt());
     // WHEN
-    IllegalStateException exception =
-      catchThrowableOfType(() -> bounded.add(RandomUtils.nextInt()), IllegalStateException.class);
+    IllegalStateException exception = catchThrowableOfType(() -> bounded.add(RandomUtils.nextInt()), IllegalStateException.class);
     // THEN
     then(exception).hasMessageContaining("full");
     then(bounded.size()).isEqualTo(1);

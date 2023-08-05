@@ -659,7 +659,7 @@ public class StandardRepresentation implements Representation {
     elements.forEach(accumulator::add);
 
     return accumulator.toList().stream().map(element -> safeStringOf(element, start, end, elementSeparator, indentation, root))
-                       .collect(toList());
+                      .collect(toList());
   }
 
   // this method only deals with max number of elements to display, the elements representation is already computed

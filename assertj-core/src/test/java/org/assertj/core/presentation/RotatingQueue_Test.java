@@ -45,24 +45,25 @@ final class RotatingQueue_Test {
     // GIVEN
     Queue<Integer> rotating = new RotatingQueue<>(0);
     // WHEN
-    IllegalStateException exception = catchThrowableOfType(() -> rotating.add(RandomUtils.nextInt()), IllegalStateException.class);
+    IllegalStateException exception = catchThrowableOfType(() -> rotating.add(RandomUtils.nextInt()),
+                                                           IllegalStateException.class);
     // THEN
     then(exception).hasMessageContaining("full");
   }
 
   static Stream<Arguments> should_rotate_old_elements_source() {
     return Stream.of(
-      Arguments.of(1, ImmutableList.of(1), ImmutableList.of(1)),
-      Arguments.of(2, ImmutableList.of(1), ImmutableList.of(1)),
-      Arguments.of(2, ImmutableList.of(1, 2), ImmutableList.of(1, 2)),
-      Arguments.of(2, ImmutableList.of(1, 2, 3), ImmutableList.of(2, 3)),
-      Arguments.of(3, ImmutableList.of(1, 2, 3, 4, 5), ImmutableList.of(3, 4, 5)));
+                     Arguments.of(1, ImmutableList.of(1), ImmutableList.of(1)),
+                     Arguments.of(2, ImmutableList.of(1), ImmutableList.of(1)),
+                     Arguments.of(2, ImmutableList.of(1, 2), ImmutableList.of(1, 2)),
+                     Arguments.of(2, ImmutableList.of(1, 2, 3), ImmutableList.of(2, 3)),
+                     Arguments.of(3, ImmutableList.of(1, 2, 3, 4, 5), ImmutableList.of(3, 4, 5)));
   }
 
   @ParameterizedTest
   @MethodSource("should_rotate_old_elements_source")
   void should_rotate_old_elements_with_offer(
-    int capacity, List<Integer> toAdd, List<Integer> expected) {
+                                             int capacity, List<Integer> toAdd, List<Integer> expected) {
     // GIVEN
     Queue<Integer> rotating = new RotatingQueue<>(capacity);
     // WHEN
@@ -77,7 +78,7 @@ final class RotatingQueue_Test {
   @ParameterizedTest
   @MethodSource("should_rotate_old_elements_source")
   void should_rotate_old_elements_with_add(
-    int capacity, List<Integer> toAdd, List<Integer> expected) {
+                                           int capacity, List<Integer> toAdd, List<Integer> expected) {
     // GIVEN
     Queue<Integer> rotating = new RotatingQueue<>(capacity);
     // WHEN

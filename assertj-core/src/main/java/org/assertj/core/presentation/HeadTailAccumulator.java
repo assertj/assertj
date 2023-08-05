@@ -37,9 +37,9 @@ final class HeadTailAccumulator<T> {
    */
   HeadTailAccumulator(int headCapacity, int tailCapacity) {
     Preconditions.checkArgument(
-        headCapacity >= 0, "head capacity must be non-negative but was %d", headCapacity);
+                                headCapacity >= 0, "head capacity must be non-negative but was %d", headCapacity);
     Preconditions.checkArgument(
-        tailCapacity >= 0, "tail capacity must be non-negative but was %d", tailCapacity);
+                                tailCapacity >= 0, "tail capacity must be non-negative but was %d", tailCapacity);
 
     this.head = new BoundedQueue<>(headCapacity);
     this.tail = new RotatingQueue<>(tailCapacity);

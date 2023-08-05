@@ -280,7 +280,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     // THEN
     then(formatted).contains("...");
     then(StringUtils.countMatches(formatted, "0")).isEqualTo(
-      Configuration.MAX_ELEMENTS_FOR_PRINTING * elementsPerArray);
+                                                             Configuration.MAX_ELEMENTS_FOR_PRINTING * elementsPerArray);
   }
 
   private static String stringOfLength(int length) {

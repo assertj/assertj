@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
-
 /**
  * Queue with a fixed maximum size. When an element is added to a full queue, the oldest element
  * is removed before the new element is added.
