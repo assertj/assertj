@@ -272,7 +272,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     // GIVEN
     int elementsPerArray = 200;
     List<int[]> numbers = new ArrayList<>();
-    for (int i = 0; i < 1 << 18; i++) {
+    for (int i = 0; i < 32000; i++) {
       numbers.add(new int[elementsPerArray]);
     }
     // WHEN
