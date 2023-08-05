@@ -15,6 +15,7 @@ package org.assertj.core.api.recursive.comparison;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toSet;
+import static org.assertj.core.util.introspection.ClassUtils.isInJavaLangPackage;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -65,29 +66,18 @@ public class ComparingProperties implements RecursiveComparisonIntrospectionStra
   }
 
   public static Set<Method> gettersIncludingInheritedOf(Class<?> clazz) {
-    Set<Method> getters = gettersOf(clazz);
-    // get fields declared in superClass
-    Class<?> superClass = clazz.getSuperclass();
-    while (superClass != null && !superClass.getName().startsWith("java.lang")) {
-      getters.addAll(gettersOf(superClass));
-      superClass = superClass.getSuperclass();
-    }
-    return getters;
+    return gettersOf(clazz);
   }
 
   private static Set<Method> gettersOf(Class<?> clazz) {
-    return stream(clazz.getDeclaredMethods()).filter(method -> !isStatic(method))
-                                             .filter(ComparingProperties::isPublic)
-                                             .filter(ComparingProperties::isGetter)
-                                             .collect(toCollection(LinkedHashSet::new));
+    return stream(clazz.getMethods()).filter(method -> !isInJavaLangPackage(method.getDeclaringClass()))
+                                     .filter(method -> !isStatic(method))
+                                     .filter(ComparingProperties::isGetter)
+                                     .collect(toCollection(LinkedHashSet::new));
   }
 
   private static boolean isStatic(Method method) {
     return Modifier.isStatic(method.getModifiers());
-  }
-
-  private static boolean isPublic(Method method) {
-    return Modifier.isPublic(method.getModifiers());
   }
 
   private static boolean isGetter(Method method) {
