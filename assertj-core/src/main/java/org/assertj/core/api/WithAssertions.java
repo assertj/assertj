@@ -31,6 +31,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalUnit;
 import java.util.Collection;
@@ -2597,6 +2598,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default AbstractLocalDateAssert<?> assertThat(final LocalDate localDate) {
     return Assertions.assertThat(localDate);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link YearMonthAssert}</code>.
+   *
+   * @param yearMonth the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  default AbstractYearMonthAssert<?> assertThat(final YearMonth yearMonth) {
+    return Assertions.assertThat(yearMonth);
   }
 
   /**

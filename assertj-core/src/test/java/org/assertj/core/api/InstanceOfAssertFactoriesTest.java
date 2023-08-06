@@ -98,6 +98,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUILDER;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
+import static org.assertj.core.api.InstanceOfAssertFactories.YEAR_MONTH;
 import static org.assertj.core.api.InstanceOfAssertFactories.ZONED_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.array;
 import static org.assertj.core.api.InstanceOfAssertFactories.array2D;
@@ -141,6 +142,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Date;
@@ -782,6 +784,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractLocalDateAssert<?> result = assertThat(value).asInstanceOf(LOCAL_DATE);
     // THEN
     result.isBeforeOrEqualTo(LocalDate.now());
+  }
+
+  @Test
+  void year_month_factory_should_allow_year_month_assertions() {
+    // GIVEN
+    Object value = YearMonth.now();
+    // WHEN
+    AbstractYearMonthAssert<?> result = assertThat(value).asInstanceOf(YEAR_MONTH);
+    // THEN
+    result.isBeforeOrEqualTo(YearMonth.now());
   }
 
   @Test

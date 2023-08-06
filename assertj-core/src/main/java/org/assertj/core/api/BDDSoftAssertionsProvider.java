@@ -21,6 +21,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -136,6 +137,17 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   */
   default LocalDateAssert then(LocalDate actual) {
     return proxy(LocalDateAssert.class, LocalDate.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link YearMonthAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  default YearMonthAssert then(YearMonth actual) {
+    return proxy(YearMonthAssert.class, YearMonth.class, actual);
   }
 
   /**
