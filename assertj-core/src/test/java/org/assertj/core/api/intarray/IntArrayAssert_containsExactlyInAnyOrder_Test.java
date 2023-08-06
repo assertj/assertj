@@ -37,6 +37,6 @@ class IntArrayAssert_containsExactlyInAnyOrder_Test extends IntArrayAssertBaseTe
 
   @Test
   void invoke_api_like_user() {
-     assertThat(new int[] { 1, 2, 2 }).containsExactlyInAnyOrder(2, 2, 1);
+    assertThat(new int[] { 1, 2, 2 }).containsExactlyInAnyOrder(2, 2, 1);
   }
 }

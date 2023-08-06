@@ -23,7 +23,6 @@ import org.assertj.core.test.WithPlayerData;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
-
 public abstract class AbstractTest_equals_filter extends WithPlayerData {
 
   @Test
@@ -52,7 +51,8 @@ public abstract class AbstractTest_equals_filter extends WithPlayerData {
 
   @Test
   public void should_fail_if_property_to_filter_on_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> filterIterable(players, null, 6000L)).withMessage("The property/field name to filter on should not be null or empty");
+    assertThatIllegalArgumentException().isThrownBy(() -> filterIterable(players, null, 6000L))
+                                        .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test

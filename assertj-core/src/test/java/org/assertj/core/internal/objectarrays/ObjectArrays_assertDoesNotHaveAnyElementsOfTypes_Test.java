@@ -38,7 +38,8 @@ class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends ObjectArrays
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), null, Integer.class))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), null,
+                                                                                                                Integer.class))
                                                    .withMessage(actualIsNull());
   }
 
@@ -51,7 +52,7 @@ class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends ObjectArrays
 
     // THEN
     String message = shouldNotHaveAnyElementsOfTypes(array, unexpectedTypes, nonMatchingElementsByType).create();
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       // WHEN;
       arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), array, Long.class);
     }).withMessage(message);
@@ -66,7 +67,7 @@ class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends ObjectArrays
 
     // THEN
     String message = shouldNotHaveAnyElementsOfTypes(array, unexpectedTypes, nonMatchingElementsByType).create();
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       // WHEN;
       arrays.assertDoesNotHaveAnyElementsOfTypes(someInfo(), array, Number.class);
     }).withMessage(message);

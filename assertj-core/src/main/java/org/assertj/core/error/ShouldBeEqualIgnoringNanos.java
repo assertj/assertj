@@ -64,7 +64,7 @@ public class ShouldBeEqualIgnoringNanos extends BasicErrorMessageFactory {
 
   private ShouldBeEqualIgnoringNanos(Object actual, Object other) {
     super("%nExpecting actual:%n  %s%nto have same year, month, day, hour, minute and second as:%n  %s%nbut had not.",
-      actual, other);
+          actual, other);
   }
 
   private ShouldBeEqualIgnoringNanos(LocalTime actual, LocalTime other) {

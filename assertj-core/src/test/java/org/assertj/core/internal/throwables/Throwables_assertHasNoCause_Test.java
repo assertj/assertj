@@ -24,7 +24,6 @@ import org.assertj.core.internal.Throwables;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Throwables#assertHasNoCause(AssertionInfo, Throwable)}</code>.
  * 

@@ -21,10 +21,10 @@ public class ShouldEndWithPath extends BasicErrorMessageFactory {
   public static final String PATH_SHOULD_END_WITH = "%nExpected path:%n  %s%nto end with:%n  %s%nbut it did not.";
 
   public static ErrorMessageFactory shouldEndWith(final Path actual, final Path other) {
-	return new ShouldEndWithPath(actual, other);
+    return new ShouldEndWithPath(actual, other);
   }
 
   private ShouldEndWithPath(final Path actual, final Path other) {
-	super(PATH_SHOULD_END_WITH, actual, other);
+    super(PATH_SHOULD_END_WITH, actual, other);
   }
 }

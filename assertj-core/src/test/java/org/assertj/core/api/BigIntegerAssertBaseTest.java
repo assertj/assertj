@@ -20,7 +20,6 @@ import java.math.BigInteger;
 import org.assertj.core.internal.BigIntegers;
 import org.assertj.core.internal.Comparables;
 
-
 public abstract class BigIntegerAssertBaseTest extends ComparableAssertBaseTest<BigIntegerAssert, BigInteger> {
 
   protected static final String ONE_AS_STRING = "1";

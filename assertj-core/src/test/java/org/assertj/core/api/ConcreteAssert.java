@@ -68,7 +68,8 @@ public class ConcreteAssert extends AbstractAssert<ConcreteAssert, Object> {
 
   @VisibleForTesting
   @Override
-  public AssertionFailedError failureWithActualExpected(Object actual, Object expected, String errorMessage, Object... arguments) {
-    return (AssertionFailedError)super.failureWithActualExpected(actual, expected, errorMessage, arguments);
+  public AssertionFailedError failureWithActualExpected(Object actual, Object expected, String errorMessage,
+                                                        Object... arguments) {
+    return (AssertionFailedError) super.failureWithActualExpected(actual, expected, errorMessage, arguments);
   }
 }

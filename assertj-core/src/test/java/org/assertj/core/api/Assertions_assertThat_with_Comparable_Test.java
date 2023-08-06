@@ -62,7 +62,6 @@ class Assertions_assertThat_with_Comparable_Test {
     // assertThat(name).isGreaterThanOrEqualTo(name);
   }
 
-
   @Test
   void all_comparable_assertions_should_work_with_object_comparable() {
     // GIVEN

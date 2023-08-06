@@ -25,7 +25,6 @@ import org.assertj.core.internal.Shorts;
 import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Shorts#assertGreaterThan(AssertionInfo, Short, short)}</code>.
  * 

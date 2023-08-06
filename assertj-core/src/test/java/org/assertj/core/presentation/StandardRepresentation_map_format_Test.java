@@ -13,11 +13,15 @@
 package org.assertj.core.presentation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import java.io.File;
+import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
@@ -44,46 +48,82 @@ class StandardRepresentation_map_format_Test extends AbstractBaseRepresentationT
 
   @Test
   void should_format_Map() {
+    // GIVEN
     Map<String, Class<?>> map = new LinkedHashMap<>();
     map.put("One", String.class);
     map.put("Two", File.class);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{\"One\"=java.lang.String, \"Two\"=java.io.File}");
+    // WHEN
+    String mapRepresentation = STANDARD_REPRESENTATION.toStringOf(map);
+    // THEN
+    then(mapRepresentation).isEqualTo("{\"One\"=java.lang.String, \"Two\"=java.io.File}");
   }
 
   @Test
   void should_format_Map_up_to_the_maximum_allowed_elements() {
+    // GIVEN
     Map<Character, Integer> map = new HashMap<>();
     map.put('C', 3);
     map.put('B', 2);
     map.put('A', 1);
     StandardRepresentation.setMaxElementsForPrinting(2);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{'A'=1, 'B'=2, ...}");
+    // WHEN
+    String mapRepresentation = STANDARD_REPRESENTATION.toStringOf(map);
+    // THEN
+    then(mapRepresentation).isEqualTo("{'A'=1, 'B'=2, ...}");
   }
 
   @Test
   void should_format_Map_containing_itself() {
+    // GIVEN
     Map<String, Object> map = new HashMap<>();
     map.put("One", "First");
     map.put("Myself", map);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{\"Myself\"=(this Map), \"One\"=\"First\"}");
+    // WHEN
+    String mapRepresentation = STANDARD_REPRESENTATION.toStringOf(map);
+    // THEN
+    then(mapRepresentation).isEqualTo("{\"Myself\"=(this Map), \"One\"=\"First\"}");
   }
 
   @Test
   void should_sort_Map_before_formatting() {
+    // GIVEN
     Map<Character, Integer> map = new HashMap<>();
     map.put('C', 3);
     map.put('B', 2);
     map.put('A', 1);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{'A'=1, 'B'=2, 'C'=3}");
+    // WHEN
+    String mapRepresentation = STANDARD_REPRESENTATION.toStringOf(map);
+    // THEN
+    then(mapRepresentation).isEqualTo("{'A'=1, 'B'=2, 'C'=3}");
   }
 
   @Test
   void should_retain_initial_ordering_if_keys_are_not_comparable() {
+    // GIVEN
     Map<Object, Integer> map = new LinkedHashMap<>();
     map.put("foo", 3);
     map.put(false, 2);
     map.put('A', 1);
+    // WHEN
+    String mapRepresentation = STANDARD_REPRESENTATION.toStringOf(map);
+    // THEN
+    then(mapRepresentation).isEqualTo("{\"foo\"=3, false=2, 'A'=1}");
+  }
 
-    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{\"foo\"=3, false=2, 'A'=1}");
+  @Test
+  void should_formal_null_in_the_entry_set() {
+    // GIVEN
+    Map<Integer, Integer> map = new AbstractMap<Integer, Integer>() {
+      @Override
+      public Set<Entry<Integer, Integer>> entrySet() {
+        Set<Entry<Integer, Integer>> entries = new HashSet<>();
+        entries.add(null);
+        return entries;
+      }
+    };
+    // WHEN
+    String mapRepresentation = STANDARD_REPRESENTATION.toStringOf(map);
+    // THEN
+    then(mapRepresentation).isEqualTo("{null}");
   }
 }

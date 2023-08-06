@@ -111,7 +111,7 @@ public final class Preconditions {
    */
   public static <T> void checkNotNull(FilterOperator<T> filterOperator) {
     checkArgument(filterOperator != null, "The expected value should not be null.%n"
-        + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead");
+                                          + "If you were trying to filter on a null value, please use filteredOnNull(String propertyOrFieldName) instead");
   }
 
   /**

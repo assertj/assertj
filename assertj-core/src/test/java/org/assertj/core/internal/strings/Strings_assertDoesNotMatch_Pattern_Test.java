@@ -26,7 +26,6 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Strings#assertDoesNotMatch(AssertionInfo, CharSequence, Pattern)}</code>.
  * 
@@ -73,7 +72,9 @@ class Strings_assertDoesNotMatch_Pattern_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_matches_Pattern_whatever_custom_comparison_strategy_is() {
     Pattern pattern = matchAnything();
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(), actual, pattern))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotMatch(someInfo(),
+                                                                                                                                     actual,
+                                                                                                                                     pattern))
                                                    .withMessage(shouldNotMatch(actual, pattern.pattern()).create());
   }
 

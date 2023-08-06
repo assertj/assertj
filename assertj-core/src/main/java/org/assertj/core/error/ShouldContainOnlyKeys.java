@@ -35,8 +35,8 @@ public class ShouldContainOnlyKeys extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainOnlyKeys(Object actual, Object expected, Object notFound,
-	                                                      Object notExpected) {
-	return new ShouldContainOnlyKeys(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+                                                          Object notExpected) {
+    return new ShouldContainOnlyKeys(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
   }
 
   /**
@@ -49,36 +49,36 @@ public class ShouldContainOnlyKeys extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainOnlyKeys(Object actual, Object expected, Object notFound,
-	                                                      Iterable<?> notExpected) {
-	if (isNullOrEmpty(notExpected)) {
-	  return new ShouldContainOnlyKeys(actual, expected, notFound, StandardComparisonStrategy.instance());
-	}
-	return new ShouldContainOnlyKeys(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
+                                                          Iterable<?> notExpected) {
+    if (isNullOrEmpty(notExpected)) {
+      return new ShouldContainOnlyKeys(actual, expected, notFound, StandardComparisonStrategy.instance());
+    }
+    return new ShouldContainOnlyKeys(actual, expected, notFound, notExpected, StandardComparisonStrategy.instance());
   }
 
   private ShouldContainOnlyKeys(Object actual, Object expected, Object notFound, Object notExpected,
-	                            ComparisonStrategy comparisonStrategy) {
-	super("%n" +
-	      "Expecting actual:%n" +
-	      "  %s%n" +
-	      "to contain only following keys:%n" +
-	      "  %s%n" +
-	      "keys not found:%n" +
-	      "  %s%n" +
-	      "and keys not expected:%n" +
-	      "  %s%n%s", actual,
-	      expected, notFound, notExpected, comparisonStrategy);
+                                ComparisonStrategy comparisonStrategy) {
+    super("%n" +
+          "Expecting actual:%n" +
+          "  %s%n" +
+          "to contain only following keys:%n" +
+          "  %s%n" +
+          "keys not found:%n" +
+          "  %s%n" +
+          "and keys not expected:%n" +
+          "  %s%n%s", actual,
+          expected, notFound, notExpected, comparisonStrategy);
   }
 
   private ShouldContainOnlyKeys(Object actual, Object expected, Object notFound, ComparisonStrategy comparisonStrategy) {
-	super("%n" +
-	      "Expecting actual:%n" +
-	      "  %s%n" +
-	      "to contain only following keys:%n" +
-	      "  %s%n" +
-	      "but could not find the following keys:%n" +
-	      "  %s%n%s",
-	      actual, expected, notFound, comparisonStrategy);
+    super("%n" +
+          "Expecting actual:%n" +
+          "  %s%n" +
+          "to contain only following keys:%n" +
+          "  %s%n" +
+          "but could not find the following keys:%n" +
+          "  %s%n%s",
+          actual, expected, notFound, comparisonStrategy);
   }
 
 }

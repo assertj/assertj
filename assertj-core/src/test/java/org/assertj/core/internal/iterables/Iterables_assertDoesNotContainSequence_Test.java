@@ -64,7 +64,8 @@ class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainSequence(someInfo(), null, array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainSequence(someInfo(), null,
+                                                                                                            array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -134,7 +135,7 @@ class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
     assertThat(error).isInstanceOf(AssertionError.class);
     verifyFailureThrownWhenSequenceNotFound(info, sequence, 0);
   }
-  
+
   // ------------------------------------------------------------------------------------------------------------------
   // tests using a custom comparison strategy
   // ------------------------------------------------------------------------------------------------------------------
@@ -158,7 +159,9 @@ class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "LUKe", "leia" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info,
+                                                                                                                       actual,
+                                                                                                                       sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 1, comparisonStrategy));
@@ -169,7 +172,9 @@ class Iterables_assertDoesNotContainSequence_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] sequence = { "YODA", "luke", "lEIA", "Obi-wan" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info, actual, sequence));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainSequence(info,
+                                                                                                                       actual,
+                                                                                                                       sequence));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotContainSequence(actual, sequence, 0, comparisonStrategy));

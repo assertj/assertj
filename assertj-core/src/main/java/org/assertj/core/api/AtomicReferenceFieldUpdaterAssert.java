@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 
 /**
@@ -26,7 +25,8 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
  * @author epeee
  * @since 2.7.0 / 3.7.0
  */
-public class AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> extends AbstractAtomicFieldUpdaterAssert<AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT>, FIELD, AtomicReferenceFieldUpdater<OBJECT, FIELD>, OBJECT> {
+public class AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> extends
+    AbstractAtomicFieldUpdaterAssert<AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT>, FIELD, AtomicReferenceFieldUpdater<OBJECT, FIELD>, OBJECT> {
 
   public AtomicReferenceFieldUpdaterAssert(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     super(actual, AtomicReferenceFieldUpdaterAssert.class, true);
@@ -57,7 +57,7 @@ public class AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> extends AbstractAt
   public AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> hasValue(FIELD expectedValue, OBJECT obj) {
     return super.hasValue(expectedValue, obj);
   }
-  
+
   @Override
   protected FIELD getActualValue(OBJECT obj) {
     return actual.get(obj);

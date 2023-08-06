@@ -21,7 +21,6 @@ import org.assertj.core.api.BigIntegerAssert;
 import org.assertj.core.api.BigIntegerAssertBaseTest;
 import org.assertj.core.data.Percentage;
 
-
 class BigIntegerAssert_isCloseToPercentage_Test extends BigIntegerAssertBaseTest {
 
   private final Percentage percentage = withPercentage(5);

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -59,7 +58,9 @@ public abstract class ClassesBaseTest {
 
   protected static class MethodsClass {
     public void publicMethod() {}
+
     protected void protectedMethod() {}
+
     @SuppressWarnings("unused")
     private void privateMethod() {}
 

@@ -14,7 +14,6 @@ package org.assertj.core.internal;
 
 import java.time.chrono.ChronoZonedDateTime;
 
-
 public class ChronoZonedDateTimeByInstantComparator extends DescribableComparator<ChronoZonedDateTime<?>> {
 
   private static final ChronoZonedDateTimeByInstantComparator INSTANCE = new ChronoZonedDateTimeByInstantComparator();
@@ -23,8 +22,7 @@ public class ChronoZonedDateTimeByInstantComparator extends DescribableComparato
     return INSTANCE;
   }
 
-  private ChronoZonedDateTimeByInstantComparator() {
-  }
+  private ChronoZonedDateTimeByInstantComparator() {}
 
   @Override
   public String description() {

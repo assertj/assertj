@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.biginteger;
 
-
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.BigIntegerAssert;

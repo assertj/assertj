@@ -54,14 +54,14 @@ class StringAssert_asByte_Test extends StringAssertBaseTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"127, 127", "-128, -128", "0, 0"})
+  @CsvSource({ "127, 127", "-128, -128", "0, 0" })
   void should_parse_string_as_byte_for_valid_input(String string, byte expectedByte) {
     assertThat(string).asByte().isEqualTo(expectedByte);
   }
 
   @ParameterizedTest
   @NullSource
-  @ValueSource(strings = {"1024", "1L", "foo"})
+  @ValueSource(strings = { "1024", "1L", "foo" })
   void should_throw_AssertionError_for_null_or_invalid_string(String string) {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(string).asByte());

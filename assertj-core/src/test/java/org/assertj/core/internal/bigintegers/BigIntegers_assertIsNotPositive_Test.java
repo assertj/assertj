@@ -48,15 +48,18 @@ class BigIntegers_assertIsNotPositive_Test extends BigIntegersBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), new BigInteger("-1")));
+    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                         new BigInteger("-1")));
     // THEN
-    then(assertionError).hasMessage(shouldBeLessOrEqual(new BigInteger("-1"), BigInteger.ZERO, absValueComparisonStrategy).create());
+    then(assertionError).hasMessage(shouldBeLessOrEqual(new BigInteger("-1"), BigInteger.ZERO,
+                                                        absValueComparisonStrategy).create());
   }
 
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), BigInteger.ONE));
+    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                         BigInteger.ONE));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(BigInteger.ONE, BigInteger.ZERO, absValueComparisonStrategy).create());
   }

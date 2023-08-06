@@ -30,7 +30,6 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Strings#assertMatches(AssertionInfo, CharSequence, CharSequence)}</code>.
  * 
@@ -57,7 +56,8 @@ class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), null, matchAnything().pattern()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertMatches(someInfo(), null,
+                                                                                           matchAnything().pattern()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -89,7 +89,9 @@ class Strings_assertMatches_CharSequence_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(), null, matchAnything().pattern()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertMatches(someInfo(),
+                                                                                                                                null,
+                                                                                                                                matchAnything().pattern()))
                                                    .withMessage(actualIsNull());
   }
 

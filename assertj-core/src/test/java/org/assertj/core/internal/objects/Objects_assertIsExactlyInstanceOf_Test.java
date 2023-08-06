@@ -47,7 +47,8 @@ class Objects_assertIsExactlyInstanceOf_Test extends ObjectsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsExactlyInstanceOf(someInfo(), null, String.class))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsExactlyInstanceOf(someInfo(), null,
+                                                                                                       String.class))
                                                    .withMessage(actualIsNull());
   }
 

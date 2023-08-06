@@ -78,7 +78,8 @@ class Maps_assertHasEntrySatisfying_with_key_and_value_conditions_Test extends M
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfyingConditions(someInfo(), null, isColor, isGreen))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfyingConditions(someInfo(), null,
+                                                                                                             isColor, isGreen))
                                                    .withMessage(actualIsNull());
   }
 

@@ -1428,18 +1428,19 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @SuppressWarnings("unchecked")
   private void assertIsUnmodifiable() {
     switch (actual.getClass().getName()) {
-      case "java.util.Collections$EmptyNavigableMap":
-      case "java.util.Collections$EmptyMap":
-      case "java.util.Collections$EmptySortedMap":
-      case "java.util.Collections$SingletonMap":
-        // unmodifiable by contract, although not all methods throw UnsupportedOperationException
-        return;
+    case "java.util.Collections$EmptyNavigableMap":
+    case "java.util.Collections$EmptyMap":
+    case "java.util.Collections$EmptySortedMap":
+    case "java.util.Collections$SingletonMap":
+      // unmodifiable by contract, although not all methods throw UnsupportedOperationException
+      return;
     }
 
     expectUnsupportedOperationException(() -> actual.clear(), "Map.clear()");
     expectUnsupportedOperationException(() -> actual.compute(null, (k, v) -> v), "Map.compute(null, (k, v) -> v)");
     expectUnsupportedOperationException(() -> actual.computeIfAbsent(null, k -> null), "Map.computeIfAbsent(null, k -> null)");
-    expectUnsupportedOperationException(() -> actual.computeIfPresent(null, (k, v) -> v), "Map.computeIfPresent(null, (k, v) -> v)");
+    expectUnsupportedOperationException(() -> actual.computeIfPresent(null, (k, v) -> v),
+                                        "Map.computeIfPresent(null, (k, v) -> v)");
     expectUnsupportedOperationException(() -> actual.merge(null, null, (v1, v2) -> v1), "Map.merge(null, null, (v1, v2) -> v1))");
     expectUnsupportedOperationException(() -> actual.put(null, null), "Map.put(null, null)");
     expectUnsupportedOperationException(() -> actual.putAll(new HashMap<>()), "Map.putAll(new HashMap<>())");
@@ -1451,7 +1452,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     expectUnsupportedOperationException(() -> actual.replaceAll((k, v) -> v), "Map.replaceAll((k, v) -> v)");
 
     if (actual instanceof NavigableMap) {
-      NavigableMap<K, V> navigableMap = (NavigableMap<K, V> ) actual;
+      NavigableMap<K, V> navigableMap = (NavigableMap<K, V>) actual;
       expectUnsupportedOperationException(() -> navigableMap.pollFirstEntry(), "NavigableMap.pollFirstEntry()");
       expectUnsupportedOperationException(() -> navigableMap.pollLastEntry(), "NavigableMap.pollLastEntry()");
     }

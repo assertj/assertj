@@ -47,12 +47,13 @@ class MapAssert_contains_Test extends MapAssertBaseTest {
   }
 
   @Test
-  void invoke_api_like_user() {
+  protected void invoke_api_like_user() {
     assertThat(map("key1", "value1", "key2", "value2")).contains(entry("key2", "value2"));
+
   }
 
   @Test
-  void should_pass_contains_values() {
+  protected void should_pass_contains_values() {
     // GIVEN
     Map<Object, Object> map = new HashMap<>();
     map.put("key1", "value1");
@@ -62,7 +63,7 @@ class MapAssert_contains_Test extends MapAssertBaseTest {
   }
 
   @Test
-  void should_pass_contains_values_after_casting() {
+  protected void should_pass_contains_values_after_casting() {
     // GIVEN
     Map<Object, Object> map = new HashMap<>();
     map.put("key1", "value1");
@@ -72,7 +73,7 @@ class MapAssert_contains_Test extends MapAssertBaseTest {
   }
 
   @Test
-  void should_pass_not_allowed_casting() {
+  protected void should_pass_not_allowed_casting() {
     // GIVEN
     Map<Object, Object> map = new HashMap<>();
     map.put("key1", 1);

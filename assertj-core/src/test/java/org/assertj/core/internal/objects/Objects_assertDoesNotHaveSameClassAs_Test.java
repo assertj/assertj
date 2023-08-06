@@ -28,7 +28,6 @@ import org.assertj.core.test.Person;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Objects#assertDoesNotHaveSameClassAs(AssertionInfo, Object, Object)}</code>.
  * 
@@ -52,12 +51,13 @@ class Objects_assertDoesNotHaveSameClassAs_Test extends ObjectsBaseTest {
   @Test
   void should_throw_error_if_type_is_null() {
     assertThatNullPointerException().isThrownBy(() -> objects.assertDoesNotHaveSameClassAs(someInfo(), actual, null))
-                                                     .withMessage("The given object should not be null");
+                                    .withMessage("The given object should not be null");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertDoesNotHaveSameClassAs(someInfo(), null, Object.class))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertDoesNotHaveSameClassAs(someInfo(), null,
+                                                                                                          Object.class))
                                                    .withMessage(actualIsNull());
   }
 

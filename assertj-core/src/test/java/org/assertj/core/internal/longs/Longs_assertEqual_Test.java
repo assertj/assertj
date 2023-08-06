@@ -57,7 +57,8 @@ class Longs_assertEqual_Test extends LongsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, 8L))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertEqual(someInfo(),
+                                                                                                                     null, 8L))
                                                    .withMessage(actualIsNull());
   }
 

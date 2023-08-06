@@ -20,7 +20,6 @@ import org.assertj.core.api.ByteArrayAssertBaseTest;
 import org.assertj.core.test.IntArrays;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrayAssert#contains(int...)}</code>.
  */

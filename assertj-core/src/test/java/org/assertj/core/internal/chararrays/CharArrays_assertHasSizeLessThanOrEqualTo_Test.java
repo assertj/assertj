@@ -31,7 +31,8 @@ class CharArrays_assertHasSizeLessThanOrEqualTo_Test extends CharArraysBaseTest 
   @Test
   void should_fail_if_size_of_actual_is_not_less_than_or_equal_to_boundary() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeLessThanOrEqualTo(someInfo(), actual, 1))
-                                                   .withMessage(shouldHaveSizeLessThanOrEqualTo(actual, actual.length, 1).create());
+                                                   .withMessage(shouldHaveSizeLessThanOrEqualTo(actual, actual.length,
+                                                                                                1).create());
   }
 
   @Test

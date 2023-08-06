@@ -31,5 +31,5 @@ class CharSequenceAssert_containsOnlyDigits_Test extends CharSequenceAssertBaseT
   protected void verify_internal_effects() {
     verify(strings).assertContainsOnlyDigits(getInfo(assertions), getActual(assertions));
   }
-  
+
 }

@@ -32,15 +32,15 @@ class FloatComparatorTest {
 
   @ParameterizedTest
   @CsvSource({
-    "1.0, 1.0",
-    "1.001, 1.0",
-    "1.0, 1.001",
-    "0.001, 0.0",
-    "0.01, 0.0",
-    "0.0, 0.001",
-    "-1.001, -1.0",
-    "-1.0, -1.001",
-    ","
+      "1.0, 1.0",
+      "1.001, 1.0",
+      "1.0, 1.001",
+      "0.001, 0.0",
+      "0.01, 0.0",
+      "0.0, 0.001",
+      "-1.001, -1.0",
+      "-1.0, -1.001",
+      ","
   })
   void should_be_equal_if_difference_is_less_than_or_equal_to_epsilon(Float actual, Float other) {
     assertThat(nearlyEqual(actual, other)).as("comparing %f to %f with epsilon %f", actual, other,
@@ -50,14 +50,14 @@ class FloatComparatorTest {
 
   @ParameterizedTest
   @CsvSource({
-    "1.0, 2.0",
-    "1.010001, 1.0",
-    "1.0, 1.010001",
-    "0.0, 0.010001",
-    "-1.010001, -1.0",
-    "-1.0, -1.010001",
-    ", 1.0",
-    "1.0,"
+      "1.0, 2.0",
+      "1.010001, 1.0",
+      "1.0, 1.010001",
+      "0.0, 0.010001",
+      "-1.010001, -1.0",
+      "-1.0, -1.010001",
+      ", 1.0",
+      "1.0,"
   })
   void should_not_be_equal_if_difference_is_more_than_epsilon(Float actual, Float other) {
     assertThat(nearlyEqual(actual, other)).as("comparing %f to %f with epsilon %f", actual, other,

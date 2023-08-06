@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link DoubleArrayAssert#hasSize(int)}</code>.
  * 

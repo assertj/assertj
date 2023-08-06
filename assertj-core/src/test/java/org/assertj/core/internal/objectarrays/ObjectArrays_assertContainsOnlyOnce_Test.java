@@ -67,7 +67,8 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Leia"), newLinkedHashSet("Luke", "Yoda")));
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Leia"),
+                                                    newLinkedHashSet("Luke", "Yoda")));
   }
 
   @Test
@@ -83,7 +84,8 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual,
+                                                                                                   emptyArray()));
   }
 
   @Test
@@ -94,7 +96,8 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null, array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), null,
+                                                                                                   array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -107,7 +110,7 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet()));
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Han"), newLinkedHashSet()));
   }
 
   @Test
@@ -130,20 +133,22 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(
-        info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Leia"), newLinkedHashSet("Luke", "yOda"),
-            caseInsensitiveStringComparisonStrategy));
+                             info,
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("Leia"), newLinkedHashSet("Luke", "yOda"),
+                                                    caseInsensitiveStringComparisonStrategy));
   }
 
   @Test
   void should_pass_if_actual_contains_given_values_only_once_according_to_custom_comparison_strategy_even_if_duplicated_() {
     arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual,
-        array("Luke", "Yoda", "Leia", "Luke", "yODA", "LeiA"));
+                                                              array("Luke", "Yoda", "Leia", "Luke", "yODA", "LeiA"));
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               actual,
+                                                                                                                               emptyArray()));
   }
 
   @Test
@@ -156,7 +161,9 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(), null, array("yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
+                                                                                                                               null,
+                                                                                                                               array("yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -169,8 +176,8 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(
-        info,
-        shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("han"), newLinkedHashSet(),
-            caseInsensitiveStringComparisonStrategy));
+                             info,
+                             shouldContainsOnlyOnce(actual, expected, newLinkedHashSet("han"), newLinkedHashSet(),
+                                                    caseInsensitiveStringComparisonStrategy));
   }
 }

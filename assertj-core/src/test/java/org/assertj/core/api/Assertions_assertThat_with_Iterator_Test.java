@@ -73,7 +73,7 @@ class Assertions_assertThat_with_Iterator_Test {
     Iterator<?> iterator = mock(Iterator.class);
     assertThat(iterator).isEqualTo(iterator);
   }
-  
+
   @Test
   void should_not_consume_iterator_when_asserting_non_null() {
     Iterator<?> iterator = mock(Iterator.class);
@@ -139,15 +139,14 @@ class Assertions_assertThat_with_Iterator_Test {
   @Test
   void isNotSameAs_should_check_the_original_iterator_without_consuming_it() {
     Iterator<?> iterator = mock(Iterator.class);
-    try{
+    try {
       assertThat(iterator).isNotSameAs(iterator);
-    } catch(AssertionError e){
+    } catch (AssertionError e) {
       verifyNoInteractions(iterator);
       return;
     }
     fail("Expected assertionError, because assert notSame on same iterator.");
   }
-
 
   @Test
   void iterator_can_be_asserted_twice() {

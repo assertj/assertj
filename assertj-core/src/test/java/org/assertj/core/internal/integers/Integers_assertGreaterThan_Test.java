@@ -26,7 +26,6 @@ import org.assertj.core.internal.IntegersBaseTest;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Integers#assertGreaterThan(AssertionInfo, Integer, int)}</code>.
  * 

@@ -41,16 +41,16 @@ public class ShouldBeSorted extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldBeSorted(int i, Object group) {
     List<?> groupAsList = groupAsList(group);
     return new ShouldBeSorted(
-        "%ngroup is not sorted because element %s:%n  %s%nis not less or equal than element %s:%n  %s%ngroup was:%n  %s",
-        i, groupAsList.get(i), i + 1, groupAsList.get(i + 1), groupAsList);
+                              "%ngroup is not sorted because element %s:%n  %s%nis not less or equal than element %s:%n  %s%ngroup was:%n  %s",
+                              i, groupAsList.get(i), i + 1, groupAsList.get(i + 1), groupAsList);
   }
 
   public static ErrorMessageFactory shouldBeSortedAccordingToGivenComparator(int i, Object group,
-      Comparator<?> comparator) {
+                                                                             Comparator<?> comparator) {
     List<?> arrayWrapper = groupAsList(group);
     return new ShouldBeSorted(
-        "%ngroup is not sorted according to %s comparator because element %s:%n  %s%nis not less or equal than element %s:%n  %s%ngroup was:%n  %s",
-        comparator, i, arrayWrapper.get(i), i + 1, arrayWrapper.get(i + 1), arrayWrapper);
+                              "%ngroup is not sorted according to %s comparator because element %s:%n  %s%nis not less or equal than element %s:%n  %s%ngroup was:%n  %s",
+                              comparator, i, arrayWrapper.get(i), i + 1, arrayWrapper.get(i + 1), arrayWrapper);
   }
 
   public static ErrorMessageFactory shouldHaveMutuallyComparableElements(Object actual) {
@@ -58,9 +58,9 @@ public class ShouldBeSorted extends BasicErrorMessageFactory {
   }
 
   public static ErrorMessageFactory shouldHaveComparableElementsAccordingToGivenComparator(Object actual,
-      Comparator<?> comparator) {
+                                                                                           Comparator<?> comparator) {
     return new ShouldBeSorted("%nsome elements are not mutually comparable according to %s comparator in group:%n<%s>",
-        comparator, actual);
+                              comparator, actual);
   }
 
   /**

@@ -21,11 +21,16 @@
     <module>assertj-core-testng-with-junit4</module>
   </modules>
 
+  <properties>
+    <rootDirectory>${project.basedir}/../../</rootDirectory>
+  </properties>
+
+
   <profiles>
     <profile>
       <id>it-groovy</id>
       <activation>
-        <jdk>(,21)</jdk>
+        <jdk>(,22)</jdk>
       </activation>
       <modules>
         <module>assertj-core-groovy</module>

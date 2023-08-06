@@ -43,7 +43,6 @@ class ZonedDateTimeAssert_isBefore_Test extends AbstractZonedDateTimeAssertBaseT
     verify(comparables).assertIsBefore(getInfo(assertions), getActual(assertions), TOMORROW);
   }
 
-
   @Test
   void should_fail_if_zonedDateTime_parameter_is_null() {
     // GIVEN

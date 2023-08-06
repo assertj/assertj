@@ -53,7 +53,8 @@ class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<String> startsWithM = s -> s.startsWith("M");
 
-    Throwable error = catchThrowable(() -> iterables.assertAnyMatch(info, actual, startsWithM, new PredicateDescription("custom")));
+    Throwable error = catchThrowable(() -> iterables.assertAnyMatch(info, actual, startsWithM,
+                                                                    new PredicateDescription("custom")));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, anyElementShouldMatch(actual, new PredicateDescription("custom")));
@@ -61,7 +62,7 @@ class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       actual = null;
       iterables.assertAnyMatch(someInfo(), actual, String::isEmpty, PredicateDescription.GIVEN);
     }).withMessage(actualIsNull());

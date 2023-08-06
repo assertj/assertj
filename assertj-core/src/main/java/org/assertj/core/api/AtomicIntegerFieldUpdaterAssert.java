@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 /**
@@ -25,12 +24,13 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
  * @author epeee
  * @since 2.7.0 / 3.7.0
  */
-public class AtomicIntegerFieldUpdaterAssert<OBJECT> extends AbstractAtomicFieldUpdaterAssert<AtomicIntegerFieldUpdaterAssert<OBJECT>, Integer, AtomicIntegerFieldUpdater<OBJECT>, OBJECT> {
+public class AtomicIntegerFieldUpdaterAssert<OBJECT> extends
+    AbstractAtomicFieldUpdaterAssert<AtomicIntegerFieldUpdaterAssert<OBJECT>, Integer, AtomicIntegerFieldUpdater<OBJECT>, OBJECT> {
 
   public AtomicIntegerFieldUpdaterAssert(AtomicIntegerFieldUpdater<OBJECT> actual) {
     super(actual, AtomicIntegerFieldUpdaterAssert.class, false);
   }
-  
+
   /**
    * Verifies that the actual atomic field updater contains the given value at the given object.
    * <p>

@@ -53,7 +53,7 @@ public class AtomicMarkableReferenceAssert<VALUE>
   public AtomicMarkableReferenceAssert<VALUE> hasReference(VALUE expectedValue) {
     return super.hasReference(expectedValue);
   }
-  
+
   @Override
   protected VALUE getReference() {
     return actual.getReference();

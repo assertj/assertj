@@ -18,7 +18,6 @@ import java.util.Set;
 
 import org.assertj.core.api.Condition;
 
-
 /**
  * 
  * A {@code Condition} checking is a Jedi

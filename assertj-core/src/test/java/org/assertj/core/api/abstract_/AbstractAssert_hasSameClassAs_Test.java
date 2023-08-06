@@ -18,7 +18,6 @@ import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.api.ObjectAssert;
 
-
 /**
  * Tests for <code>{@link ObjectAssert#hasSameClassAs(Object)}</code>.
  * 

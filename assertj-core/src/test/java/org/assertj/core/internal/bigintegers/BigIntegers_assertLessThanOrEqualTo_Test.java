@@ -83,7 +83,8 @@ class BigIntegers_assertLessThanOrEqualTo_Test extends BigIntegersBaseTest {
   void should_fail_if_actual_is_less_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, TEN.negate(), ONE));
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, TEN.negate(),
+                                                                                                         ONE));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeLessOrEqual(TEN.negate(), ONE, absValueComparisonStrategy));

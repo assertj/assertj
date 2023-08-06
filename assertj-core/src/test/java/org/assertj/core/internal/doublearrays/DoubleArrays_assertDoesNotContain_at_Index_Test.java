@@ -27,7 +27,6 @@ import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.internal.DoubleArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link DoubleArrays#assertDoesNotContain(AssertionInfo, double[], double, Index)}</code>.
  * 
@@ -38,7 +37,8 @@ class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArraysBaseTe
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, 8d, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, 8d,
+                                                                                                 someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -72,7 +72,10 @@ class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArraysBaseTe
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, -8d, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                             null,
+                                                                                                                             -8d,
+                                                                                                                             someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -103,7 +106,11 @@ class DoubleArrays_assertDoesNotContain_at_Index_Test extends DoubleArraysBaseTe
   @Test
   void should_fail_if_actual_contains_value_at_index_according_to_custom_comparison_strategy() {
     Index index = atIndex(0);
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), actual, 6d, index))
-                                                   .withMessage(shouldNotContainAtIndex(actual, 6d, index, absValueComparisonStrategy).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                             actual,
+                                                                                                                             6d,
+                                                                                                                             index))
+                                                   .withMessage(shouldNotContainAtIndex(actual, 6d, index,
+                                                                                        absValueComparisonStrategy).create());
   }
 }

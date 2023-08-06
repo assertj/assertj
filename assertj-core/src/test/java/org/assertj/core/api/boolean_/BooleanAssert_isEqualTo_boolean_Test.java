@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.BooleanAssert;
 import org.assertj.core.api.BooleanAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link BooleanAssert#isEqualTo(boolean)}</code>.
  * 

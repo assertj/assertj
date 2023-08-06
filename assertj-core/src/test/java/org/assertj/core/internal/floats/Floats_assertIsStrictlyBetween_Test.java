@@ -27,7 +27,6 @@ import org.assertj.core.internal.Floats;
 import org.assertj.core.internal.FloatsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Floats#assertIsStrictlyBetween(AssertionInfo, Float, Float, Float)}</code>.
  * 
@@ -39,7 +38,7 @@ class Floats_assertIsStrictlyBetween_Test extends FloatsBaseTest {
   private static final Float ONE = 1f;
   private static final Float TWO = 2f;
   private static final Float TEN = 10f;
-  
+
   @Test
   void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE))

@@ -36,5 +36,5 @@ class AtomicLongAssert_customRepresentation_Test {
       return "@" + s + "L@";
     }
   }
-  
+
 }

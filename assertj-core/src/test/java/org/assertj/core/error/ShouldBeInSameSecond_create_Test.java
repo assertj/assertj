@@ -26,15 +26,16 @@ class ShouldBeInSameSecond_create_Test {
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeInSameSecond(parseDatetime("2010-01-01T03:01:02"), parseDatetime("2010-01-01T03:01:08"));
+    ErrorMessageFactory factory = shouldBeInSameSecond(parseDatetime("2010-01-01T03:01:02"),
+                                                       parseDatetime("2010-01-01T03:01:08"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-      "Expecting actual:%n" +
-      "  2010-01-01T03:01:02.000 (java.util.Date)%n" +
-      "to have same year, month, day, hour, minute and second fields values as:%n" +
-      "  2010-01-01T03:01:08.000 (java.util.Date)"));
+                                   "Expecting actual:%n" +
+                                   "  2010-01-01T03:01:02.000 (java.util.Date)%n" +
+                                   "to have same year, month, day, hour, minute and second fields values as:%n" +
+                                   "  2010-01-01T03:01:08.000 (java.util.Date)"));
   }
 
 }

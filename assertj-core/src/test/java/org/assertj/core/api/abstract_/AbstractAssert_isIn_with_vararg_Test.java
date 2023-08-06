@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
 
-
 /**
  * Tests for <code>{@link AbstractAssert#isIn(Iterable))}</code>.
  * 

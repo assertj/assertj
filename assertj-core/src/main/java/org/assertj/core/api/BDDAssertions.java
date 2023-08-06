@@ -1084,6 +1084,20 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code>.
+   * <p>
+   * Use this over {@link #then(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.25.0
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> thenCharSequence(CharSequence actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code> from a {@link StringBuilder}.
    *
    * @param actual the actual value.
@@ -2101,7 +2115,8 @@ public class BDDAssertions extends Assertions {
    * @since 3.22.0
    */
   public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException, ReflectiveOperationException.class);
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException,
+                                                        ReflectiveOperationException.class);
   }
 
   /**
@@ -3381,53 +3396,53 @@ public class BDDAssertions extends Assertions {
     return Assertions.linesOf(file, charsetName);
   }
 
-	/**
-	 * Loads the text content of a file at a given path into a list of strings with the default charset, each string corresponding to a
-	 * line.
-	 * The line endings are either \n, \r or \r\n.
-	 *
-	 * @param path the path.
-	 * @return the content of the file at the given path.
-	 * @throws NullPointerException if the given charset is {@code null}.
-	 * @throws UncheckedIOException if an I/O exception occurs.
-	 *
-	 * @since 3.23.0
-	 */
-	public static List<String> linesOf(Path path) {
-		return Assertions.linesOf(path, Charset.defaultCharset());
-	}
+  /**
+   * Loads the text content of a file at a given path into a list of strings with the default charset, each string corresponding to a
+   * line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @return the content of the file at the given path.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path) {
+    return Assertions.linesOf(path, Charset.defaultCharset());
+  }
 
-	/**
-	 * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line.
-	 * The line endings are either \n, \r or \r\n.
-	 *
-	 * @param path the path.
-	 * @param charset the character set to use.
-	 * @return the content of the file at the given path.
-	 * @throws NullPointerException if the given charset is {@code null}.
-	 * @throws UncheckedIOException if an I/O exception occurs.
-	 *
-	 * @since 3.23.0
-	 */
-	public static List<String> linesOf(Path path, Charset charset) {
-		return Assertions.linesOf(path, charset);
-	}
+  /**
+   * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line.
+   * The line endings are either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @param charset the character set to use.
+   * @return the content of the file at the given path.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path, Charset charset) {
+    return Assertions.linesOf(path, charset);
+  }
 
-	/**
-	 * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line. The line endings are
-	 * either \n, \r or \r\n.
-	 *
-	 * @param path the path.
-	 * @param charsetName the name of the character set to use.
-	 * @return the content of the file at the given path.
-	 * @throws NullPointerException if the given charset is {@code null}.
-	 * @throws UncheckedIOException if an I/O exception occurs.
-	 *
-	 * @since 3.23.0
-	 */
-	public static List<String> linesOf(Path path, String charsetName) {
-		return Assertions.linesOf(path, charsetName);
-	}
+  /**
+   * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line. The line endings are
+   * either \n, \r or \r\n.
+   *
+   * @param path the path.
+   * @param charsetName the name of the character set to use.
+   * @return the content of the file at the given path.
+   * @throws NullPointerException if the given charset is {@code null}.
+   * @throws UncheckedIOException if an I/O exception occurs.
+   *
+   * @since 3.23.0
+   */
+  public static List<String> linesOf(Path path, String charsetName) {
+    return Assertions.linesOf(path, charsetName);
+  }
 
   // --------------------------------------------------------------------------------------------------
   // URL/Resource methods : not assertions but here to have a single entry point to all AssertJ features.

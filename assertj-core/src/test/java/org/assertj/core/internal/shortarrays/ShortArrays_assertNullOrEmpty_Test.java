@@ -24,7 +24,6 @@ import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.internal.ShortArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ShortArrays#assertNullOrEmpty(AssertionInfo, short[])}</code>.
  * 

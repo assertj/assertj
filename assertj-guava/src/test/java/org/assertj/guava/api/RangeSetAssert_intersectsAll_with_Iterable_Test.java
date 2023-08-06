@@ -95,8 +95,8 @@ class RangeSetAssert_intersectsAll_with_Iterable_Test {
     // GIVEN
     RangeSet<Integer> rangeSet = ImmutableRangeSet.of(closed(0, 100));
     Iterable<Range<Integer>> ranges = list(closed(-10, 10),
-                                       open(50, 60),
-                                       open(90, 170));
+                                           open(50, 60),
+                                           open(90, 170));
     // WHEN/THEN
     assertThat(rangeSet).intersectsAll(ranges);
   }

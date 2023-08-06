@@ -38,22 +38,22 @@ public class ShouldNotExist extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotExist(File actual) {
-	return new ShouldNotExist(actual);
+    return new ShouldNotExist(actual);
   }
 
   public static ErrorMessageFactory shouldNotExist(final Path actual) {
-	return new ShouldNotExist(actual);
+    return new ShouldNotExist(actual);
   }
 
   public static ErrorMessageFactory shouldExistNoFollowLinks(final Path actual) {
-	return new ShouldNotExist(actual);
+    return new ShouldNotExist(actual);
   }
 
   private ShouldNotExist(File actual) {
-	super(FILE_SHOULD_NOT_EXIST, actual);
+    super(FILE_SHOULD_NOT_EXIST, actual);
   }
 
   private ShouldNotExist(final Path actual) {
-	super(PATH_SHOULD_NOT_EXIST, actual);
+    super(PATH_SHOULD_NOT_EXIST, actual);
   }
 }

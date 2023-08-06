@@ -30,7 +30,6 @@ import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link BigDecimals#assertEqual(AssertionInfo, BigDecimal, bigdecimal)}</code>.
  * 
@@ -63,7 +62,9 @@ class BigDecimals_assertEqual_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertEqual(someInfo(), null, ONE))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertEqual(someInfo(),
+                                                                                                                         null,
+                                                                                                                         ONE))
                                                    .withMessage(actualIsNull());
   }
 
@@ -80,7 +81,7 @@ class BigDecimals_assertEqual_Test extends BigDecimalsBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqual(TEN, ONE, comparatorComparisonStrategy,
-          new StandardRepresentation()));
+                                                 new StandardRepresentation()));
   }
 
 }

@@ -16,7 +16,6 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Object2DArrays;
 
-
 /**
  * Base class for {@link Object2DArrayAssert} tests.
  * 
@@ -36,7 +35,7 @@ public abstract class Object2DArrayAssertBaseTest extends BaseTestTemplate<Objec
     arrays = mock(Object2DArrays.class);
     assertions.object2dArrays = arrays;
   }
-  
+
   protected Object2DArrays<Object> getArrays(Object2DArrayAssert<Object> someAssertions) {
     return someAssertions.object2dArrays;
   }

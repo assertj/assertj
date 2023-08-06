@@ -35,7 +35,7 @@ class CharSequenceAssert_isEmpty_Test extends CharSequenceAssertBaseTest {
   protected void verify_internal_effects() {
     verify(strings).assertEmpty(getInfo(assertions), getActual(assertions));
   }
-  
+
   @Override
   @Test
   public void should_return_this() {

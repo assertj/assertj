@@ -39,10 +39,10 @@ class Uris_assertHasPath_Test extends UrisBaseTest {
 
   @ParameterizedTest
   @CsvSource({
-    "http://example.com/pages/,   /pages/",
-    "http://example.com,          ''"
+      "http://example.com/pages/,   /pages/",
+      "http://example.com,          ''"
   })
-  void should_pass_if_actual_uri_has_the_given_path(URI uri,  String expectedPath) {
+  void should_pass_if_actual_uri_has_the_given_path(URI uri, String expectedPath) {
     // WHEN/THEN
     uris.assertHasPath(info, uri, expectedPath);
   }

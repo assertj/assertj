@@ -26,8 +26,9 @@ class ShouldHaveRecordComponents_create_Test {
   @Test
   void should_create_error_message() {
     // WHEN
-    String message = shouldHaveRecordComponents(Object.class, set("component1", "component2"), set("component2")).create(new TestDescription("TEST"),
-                                                                                                      STANDARD_REPRESENTATION);
+    String message = shouldHaveRecordComponents(Object.class, set("component1", "component2"),
+                                                set("component2")).create(new TestDescription("TEST"),
+                                                                          STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[TEST] %n" +
                                    "Expecting%n" +

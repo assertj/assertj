@@ -25,7 +25,6 @@ import org.assertj.core.internal.Characters;
 import org.assertj.core.internal.CharactersBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Characters#assertGreaterThan(AssertionInfo, Character, char)}</code>.
  * 

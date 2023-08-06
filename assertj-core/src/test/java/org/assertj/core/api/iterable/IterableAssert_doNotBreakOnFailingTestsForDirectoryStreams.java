@@ -12,8 +12,9 @@
  */
 package org.assertj.core.api.iterable;
 
-import org.assertj.core.api.IterableAssert;
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenNoException;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -26,9 +27,10 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.BDDAssertions.thenNoException;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;;
+import org.assertj.core.api.IterableAssert;
+import org.junit.jupiter.api.Test;
+
+;
 
 /**
  * Checks that we can fail an assertion on DirectoryStream types without accidentally
@@ -84,10 +86,9 @@ public class IterableAssert_doNotBreakOnFailingTestsForDirectoryStreams {
       }
 
       List<Path> paths = Arrays.asList(
-        Paths.get(  "foo", "bar"),
-        Paths.get(  "baz", "bork"),
-        Paths.get(  "qux", "quxx")
-      );
+                                       Paths.get("foo", "bar"),
+                                       Paths.get("baz", "bork"),
+                                       Paths.get("qux", "quxx"));
 
       return paths.iterator();
     }

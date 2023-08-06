@@ -33,6 +33,6 @@ class ObjectArrayAssert_containsExactlyInAnyOrderElementsOf_Test extends ObjectA
   @Override
   protected void verify_internal_effects() {
     verify(arrays)
-      .assertContainsExactlyInAnyOrder(getInfo(assertions), getActual(assertions), new String[] { "Yoda", "Luke" });
+                  .assertContainsExactlyInAnyOrder(getInfo(assertions), getActual(assertions), new String[] { "Yoda", "Luke" });
   }
 }

@@ -37,7 +37,6 @@ public class ClassBasedNavigableIterableAssert<SELF extends ClassBasedNavigableI
    
 // @format:on
 
-
   public ClassBasedNavigableIterableAssert(ACTUAL actual, Class<?> selfType, Class<ELEMENT_ASSERT> assertClass) {
     super(actual, selfType);
     this.assertClass = assertClass;

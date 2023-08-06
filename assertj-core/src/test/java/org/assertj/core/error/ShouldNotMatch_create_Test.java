@@ -34,7 +34,8 @@ class ShouldNotMatch_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nnot to match given predicate." + ShouldNotMatch.ADVICE));
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nnot to match given predicate."
+                                   + ShouldNotMatch.ADVICE));
   }
 
   @Test

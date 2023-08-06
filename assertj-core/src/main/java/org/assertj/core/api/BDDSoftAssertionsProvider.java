@@ -128,7 +128,6 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
     return proxy(MatcherAssert.class, Matcher.class, actual);
   }
 
-
   /**
   * Creates a new instance of <code>{@link LocalDateAssert}</code>.
   *

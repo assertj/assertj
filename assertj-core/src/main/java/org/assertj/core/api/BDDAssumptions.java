@@ -1119,6 +1119,20 @@ public final class BDDAssumptions extends Assumptions {
   }
 
   /**
+   * Creates a new assumption's instance for a {@link CharSequence} value.
+   * <p>
+   * Use this over {@link #given(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>given</code> for.
+   *
+   * @param actual the actual {@link CharSequence} value to be validated.
+   * @return the {@link AbstractCharSequenceAssert} assertion object to be used for assumptions.
+   * @since 3.25.0
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> givenCharSequence(CharSequence actual) {
+    return given(actual);
+  }
+
+  /**
    * Creates a new assumption's instance for a {@link String} value.
    * <p>
    * Examples:

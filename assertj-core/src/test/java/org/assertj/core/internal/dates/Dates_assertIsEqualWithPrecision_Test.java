@@ -26,7 +26,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link org.assertj.core.internal.Dates#assertIsEqualWithPrecision(org.assertj.core.api.AssertionInfo, java.util.Date, java.util.Date, java.util.concurrent.TimeUnit)}</code>.
  *
@@ -63,11 +62,11 @@ class Dates_assertIsEqualWithPrecision_Test extends DatesBaseTest {
   @Test
   void should_pass_regardless_of_hour_minute_second_and_millisecond_fields_values() {
     AssertionInfo info = someInfo();
-    Date other  = parseDatetimeWithMs("2011-09-27T17:24:35.999");
+    Date other = parseDatetimeWithMs("2011-09-27T17:24:35.999");
     dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.HOURS);
     // test with hour values that are equals if you don't take AM/PM into account (1PM == 13).
     actual = parseDatetimeWithMs("2011-09-27T13:23:35.999"); // 01PM
-    other  = parseDatetimeWithMs("2011-09-27T01:23:35.999");
+    other = parseDatetimeWithMs("2011-09-27T01:23:35.999");
     dates.assertIsEqualWithPrecision(info, actual, other, TimeUnit.HOURS);
   }
 

@@ -67,11 +67,13 @@ class AtomicReferenceArrayAssert_flatExtracting_with_String_parameter_Test {
 
   @Test
   void should_throw_illegal_argument_exception_when_extracting_from_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting("children"));
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer,
+                                                                                                      null))).flatExtracting("children"));
   }
 
   @Test
   void should_throw_exception_when_extracted_value_is_not_an_array_or_an_iterable() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(new CartoonCharacter[] { homer, fred }).flatExtracting("name")).withMessage("Flat extracting expects extracted values to be Iterables or arrays but was a String");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(new CartoonCharacter[] { homer,
+        fred }).flatExtracting("name")).withMessage("Flat extracting expects extracted values to be Iterables or arrays but was a String");
   }
 }

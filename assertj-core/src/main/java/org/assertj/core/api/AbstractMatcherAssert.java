@@ -18,14 +18,12 @@ import java.util.regex.Matcher;
 
 import org.assertj.core.internal.Failures;
 
-
 /**
  * Assertions for {@link java.util.regex.Matcher}
  *
  * @author Jiashu Zhang
  */
-public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<SELF>> extends
-  AbstractAssert<SELF, Matcher> {
+public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<SELF>> extends AbstractAssert<SELF, Matcher> {
 
   protected AbstractMatcherAssert(Matcher actual, Class<?> selfType) {
     super(actual, selfType);

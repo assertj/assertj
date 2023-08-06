@@ -39,13 +39,15 @@ class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBaseTest 
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), null, ONE, withPercentage(1)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), null, ONE,
+                                                                                                          withPercentage(1)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, null, withPercentage(1)));
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, null,
+                                                                                           withPercentage(1)));
   }
 
   @Test
@@ -55,16 +57,17 @@ class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBaseTest 
 
   @Test
   void should_fail_if_percentage_is_negative() {
-    assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
+    assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsNotCloseToPercentage(someInfo(), ONE, ZERO,
+                                                                                               withPercentage(-1)));
   }
 
   @ParameterizedTest
   @CsvSource({
-    "1, 2, 1",
-    "1, 11, 90",
-    "-1, -2, 1",
-    "-1, -11, 90",
-    "0, -1, 99"
+      "1, 2, 1",
+      "1, 11, 90",
+      "-1, -2, 1",
+      "-1, -11, 90",
+      "0, -1, 99"
   })
   void should_pass_if_difference_is_greater_than_given_percentage(BigDecimal actual, BigDecimal other, Integer percentage) {
     numbers.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage));
@@ -72,12 +75,12 @@ class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBaseTest 
 
   @ParameterizedTest
   @CsvSource({
-    "1, 1, 0",
-    "2, 1, 100",
-    "1, 2, 50",
-    "-1, -1, 0",
-    "-2, -1, 100",
-    "-1, -2, 50"
+      "1, 1, 0",
+      "2, 1, 100",
+      "1, 2, 50",
+      "-1, -1, 0",
+      "-2, -1, 100",
+      "-1, -2, 50"
   })
   void should_fail_if_difference_is_equal_to_given_percentage(BigDecimal actual, BigDecimal other, Integer percentage) {
     AssertionInfo info = someInfo();
@@ -85,7 +88,8 @@ class BigDecimals_assertIsNotCloseToPercentage_Test extends BigDecimalsBaseTest 
     Throwable error = catchThrowable(() -> numbers.assertIsNotCloseToPercentage(info, actual, other, withPercentage(percentage)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withinPercentage(percentage), actual.subtract(other).abs()));
+    verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withinPercentage(percentage),
+                                                                    actual.subtract(other).abs()));
   }
 
   @Test

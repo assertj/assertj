@@ -19,7 +19,6 @@ import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 
-
 class AtomicLongArrayAssert_contains_at_Index_Test extends AtomicLongArrayAssertBaseTest {
   private final Index index = someIndex();
 

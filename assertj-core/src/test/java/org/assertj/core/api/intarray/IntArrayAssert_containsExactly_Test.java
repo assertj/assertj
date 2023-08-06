@@ -37,11 +37,11 @@ class IntArrayAssert_containsExactly_Test extends IntArrayAssertBaseTest {
   protected void verify_internal_effects() {
     verify(arrays).assertContainsExactly(getInfo(assertions), getActual(assertions), arrayOf(1, 2));
   }
-  
+
   @Test
   void should_honor_the_given_element_comparator() {
     int[] actual = new int[] { 1, 2, 3, 4 };
     assertThat(actual).usingElementComparator(new AbsValueComparator<Integer>()).containsExactly(-1, 2, 3, -4);
   }
-  
+
 }

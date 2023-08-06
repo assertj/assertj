@@ -19,19 +19,19 @@ import org.junit.jupiter.api.Test;
 
 class Assertions_withinPercentage_Test {
 
-    @Test
-    void should_create_double() {
-        assertThat(withinPercentage(1d)).isNotNull();
-    }
+  @Test
+  void should_create_double() {
+    assertThat(withinPercentage(1d)).isNotNull();
+  }
 
-    @Test
-    void should_create_integer() {
-        assertThat(withinPercentage(1)).isNotNull();
-    }
+  @Test
+  void should_create_integer() {
+    assertThat(withinPercentage(1)).isNotNull();
+  }
 
-    @Test
-    void should_create_long() {
-        assertThat(withinPercentage(1L)).isNotNull();
-    }
+  @Test
+  void should_create_long() {
+    assertThat(withinPercentage(1L)).isNotNull();
+  }
 
 }

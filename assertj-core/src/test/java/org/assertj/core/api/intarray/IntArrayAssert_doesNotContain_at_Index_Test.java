@@ -19,7 +19,6 @@ import org.assertj.core.api.IntArrayAssert;
 import org.assertj.core.api.IntArrayAssertBaseTest;
 import org.assertj.core.data.Index;
 
-
 /**
  * Tests for <code>{@link IntArrayAssert#doesNotContain(int, Index)}</code>.
  * 

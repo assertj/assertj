@@ -57,7 +57,9 @@ class Shorts_assertEqual_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, (short) 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertEqual(someInfo(),
+                                                                                                                      null,
+                                                                                                                      (short) 8))
                                                    .withMessage(actualIsNull());
   }
 
@@ -74,6 +76,6 @@ class Shorts_assertEqual_Test extends ShortsBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, absValueComparisonStrategy,
-        new StandardRepresentation()));
+                                                 new StandardRepresentation()));
   }
 }

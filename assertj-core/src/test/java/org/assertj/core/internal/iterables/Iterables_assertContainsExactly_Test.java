@@ -105,7 +105,8 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     // THEN
     List<String> notFound = list("Han");
     List<String> notExpected = list("Leia");
-    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expected), notFound, notExpected), actual, asList(expected));
+    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expected), notFound, notExpected), actual,
+                             asList(expected));
   }
 
   @Test
@@ -128,7 +129,8 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     // WHEN
     expectAssertionError(() -> iterables.assertContainsExactly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expected), emptyList(), list("Luke")), actual, asList(expected));
+    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expected), emptyList(), list("Luke")), actual,
+                             asList(expected));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -147,7 +149,8 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     // WHEN
     expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expected), list("Han"), list("Leia"), comparisonStrategy), actual, asList(expected));
+    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expected), list("Han"), list("Leia"), comparisonStrategy),
+                             actual, asList(expected));
   }
 
   @Test
@@ -159,7 +162,8 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     // THEN
     List<IndexedDiff> indexDiffs = list(new IndexedDiff("Yoda", "Leia", 1),
                                         new IndexedDiff("Leia", "Yoda", 2));
-    verify(failures).failure(INFO, shouldContainExactlyWithIndexes(actual, list(expected), indexDiffs, comparisonStrategy), actual, list(expected));
+    verify(failures).failure(INFO, shouldContainExactlyWithIndexes(actual, list(expected), indexDiffs, comparisonStrategy),
+                             actual, list(expected));
   }
 
   @Test
@@ -170,7 +174,8 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     // WHEN
     expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactly(INFO, actual, expected));
     // THEN
-    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expected), emptyList(), list("Luke"), comparisonStrategy), actual, asList(expected));
+    verify(failures).failure(INFO, shouldContainExactly(actual, asList(expected), emptyList(), list("Luke"), comparisonStrategy),
+                             actual, asList(expected));
   }
 
   @Test

@@ -46,7 +46,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Grzegorz Piwowarek
  */
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
-@SuppressWarnings({"deprecation", "RedundantSuppression"})
+@SuppressWarnings({ "deprecation", "RedundantSuppression" })
 public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert<SELF, VALUE>, VALUE> extends
     AbstractAssert<SELF, Optional<VALUE>> {
 
@@ -280,7 +280,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    */
   @Deprecated
   @CheckReturnValue
-  @SuppressWarnings({"DeprecatedIsStillUsed", "deprecation"})
+  @SuppressWarnings({ "DeprecatedIsStillUsed", "deprecation" })
   public SELF usingFieldByFieldValueComparator() {
     return usingValueComparator(new FieldByFieldComparator());
   }

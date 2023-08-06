@@ -39,10 +39,10 @@ class AtomicLongAssert_doesNotHaveValue_Test {
 
   @Test
   void should_fail_when_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       AtomicLong actual = null;
       assertThat(actual).doesNotHaveValue(1234L);
     }).withMessage(actualIsNull());
   }
-  
+
 }

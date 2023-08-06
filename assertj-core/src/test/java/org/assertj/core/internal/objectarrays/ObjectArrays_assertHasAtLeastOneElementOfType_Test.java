@@ -24,28 +24,30 @@ import org.junit.jupiter.api.Test;
 class ObjectArrays_assertHasAtLeastOneElementOfType_Test extends ObjectArraysBaseTest {
 
   private static final Object[] array = { 6, "Hello" };
- 
+
   @Test
   void should_pass_if_actual_has_one_element_of_the_expected_type() {
-	arrays.assertHasAtLeastOneElementOfType(someInfo(), array, Integer.class);
-	arrays.assertHasAtLeastOneElementOfType(someInfo(), array, String.class);
-	arrays.assertHasAtLeastOneElementOfType(someInfo(), array, Object.class);
+    arrays.assertHasAtLeastOneElementOfType(someInfo(), array, Integer.class);
+    arrays.assertHasAtLeastOneElementOfType(someInfo(), array, String.class);
+    arrays.assertHasAtLeastOneElementOfType(someInfo(), array, Object.class);
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-	assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasAtLeastOneElementOfType(someInfo(), null, Integer.class))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasAtLeastOneElementOfType(someInfo(), null,
+                                                                                                             Integer.class))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_throw_exception_if_expected_type_is_null() {
-	assertThatNullPointerException().isThrownBy(() -> arrays.assertHasAtLeastOneElementOfType(someInfo(), array, null));
+    assertThatNullPointerException().isThrownBy(() -> arrays.assertHasAtLeastOneElementOfType(someInfo(), array, null));
   }
 
   @Test
   void should_fail_if_no_elements_in_actual_belongs_to_the_expected_type() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasAtLeastOneElementOfType(someInfo(), array, Float.class))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasAtLeastOneElementOfType(someInfo(), array,
+                                                                                                             Float.class))
                                                    .withMessage(shouldHaveAtLeastOneElementOfType(array, Float.class).create());
   }
 

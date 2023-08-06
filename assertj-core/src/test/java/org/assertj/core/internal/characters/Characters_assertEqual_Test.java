@@ -26,7 +26,6 @@ import org.assertj.core.internal.CharactersBaseTest;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Characters#assertEqual(AssertionInfo, Character, char)}</code>.
  * 
@@ -37,7 +36,9 @@ class Characters_assertEqual_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(someInfo(), null, 'a'))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(someInfo(),
+                                                                                                                                 null,
+                                                                                                                                 'a'))
                                                    .withMessage(actualIsNull());
   }
 
@@ -58,7 +59,9 @@ class Characters_assertEqual_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(someInfo(), null, 'a'))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertEqual(someInfo(),
+                                                                                                                                 null,
+                                                                                                                                 'a'))
                                                    .withMessage(actualIsNull());
   }
 
@@ -75,6 +78,6 @@ class Characters_assertEqual_Test extends CharactersBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqual('b', 'a', caseInsensitiveComparisonStrategy,
-        new StandardRepresentation()));
+                                                 new StandardRepresentation()));
   }
 }

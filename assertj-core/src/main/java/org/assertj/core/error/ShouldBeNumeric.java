@@ -20,25 +20,19 @@ package org.assertj.core.error;
  */
 public class ShouldBeNumeric extends BasicErrorMessageFactory {
 
-  public enum NumericType
-  {
-    BYTE("byte"),
-    SHORT("short"),
-    INTEGER("int"),
-    LONG("long"),
-    FLOAT("float"),
-    DOUBLE("double");
+  public enum NumericType {
+    BYTE("byte"), SHORT("short"), INTEGER("int"), LONG("long"), FLOAT("float"), DOUBLE("double");
 
-  private final String typeName;
+    private final String typeName;
 
-  NumericType(String typeName) {
+    NumericType(String typeName) {
       this.typeName = typeName;
     }
 
-  @Override
-  public String toString() {
-    return typeName;
-  }
+    @Override
+    public String toString() {
+      return typeName;
+    }
 
   }
 

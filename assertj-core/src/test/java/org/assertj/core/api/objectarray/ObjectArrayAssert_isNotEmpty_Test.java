@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link ObjectArrayAssert#isNotEmpty()}</code>.
  * 

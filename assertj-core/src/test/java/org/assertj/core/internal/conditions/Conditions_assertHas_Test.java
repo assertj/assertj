@@ -25,7 +25,6 @@ import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.ConditionsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Conditions#assertHas(AssertionInfo, Object, Condition)}</code>.
  * 

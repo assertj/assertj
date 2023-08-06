@@ -20,7 +20,6 @@ import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
-import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
@@ -39,11 +38,8 @@ import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainCharSequence.containsIgnoringNewLines;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
-import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
-import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
-import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
@@ -54,15 +50,12 @@ import static org.assertj.core.error.ShouldHaveSizeGreaterThanOrEqualTo.shouldHa
 import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
 import static org.assertj.core.error.ShouldHaveSizeLessThanOrEqualTo.shouldHaveSizeLessThanOrEqualTo;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
-import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
-import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContainIgnoringCase;
-import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.error.ShouldNotEndWithIgnoringCase.shouldNotEndWithIgnoringCase;
@@ -149,70 +142,6 @@ public class Strings {
 
   private static boolean hasContent(CharSequence s) {
     return s.length() > 0;
-  }
-
-  public void assertBlank(AssertionInfo info, CharSequence actual) {
-    if (!isBlank(actual)) throw failures.failure(info, shouldBeBlank(actual));
-  }
-
-  public void assertNotBlank(AssertionInfo info, CharSequence actual) {
-    if (isBlank(actual)) throw failures.failure(info, shouldNotBeBlank(actual));
-  }
-
-  private static boolean isBlank(CharSequence actual) {
-    return isNullOrEmpty(actual) || strictlyContainsWhitespaces(actual);
-  }
-
-  private static boolean containsWhitespaces(CharSequence actual) {
-    return !isNullOrEmpty(actual) && containsOneOrMoreWhitespaces(actual);
-  }
-
-  private static boolean containsOnlyWhitespaces(CharSequence actual) {
-    return !isNullOrEmpty(actual) && strictlyContainsWhitespaces(actual);
-  }
-
-  private static boolean isNullOrEmpty(CharSequence actual) {
-    return actual == null || actual.length() == 0;
-  }
-
-  private static boolean containsOneOrMoreWhitespaces(CharSequence actual) {
-    return actual.chars().anyMatch(Character::isWhitespace);
-  }
-
-  private static boolean strictlyContainsWhitespaces(CharSequence actual) {
-    return actual.chars().allMatch(Character::isWhitespace);
-  }
-
-  public void assertContainsWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (!containsWhitespaces(actual)) throw failures.failure(info, shouldContainOneOrMoreWhitespaces(actual));
-  }
-
-  public void assertContainsOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (!containsOnlyWhitespaces(actual)) throw failures.failure(info, shouldContainOnlyWhitespaces(actual));
-  }
-
-  public void assertDoesNotContainAnyWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (containsWhitespaces(actual)) throw failures.failure(info, shouldNotContainAnyWhitespaces(actual));
-  }
-
-  public void assertDoesNotContainOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (containsOnlyWhitespaces(actual)) throw failures.failure(info, shouldNotContainOnlyWhitespaces(actual));
-  }
-
-  public void assertJavaBlank(AssertionInfo info, CharSequence actual) {
-    if (!isJavaBlank(actual)) throw failures.failure(info, shouldBeBlank(actual));
-  }
-
-  public void assertNotJavaBlank(AssertionInfo info, CharSequence actual) {
-    if (isJavaBlank(actual)) throw failures.failure(info, shouldNotBeBlank(actual));
-  }
-
-  private static boolean isJavaBlank(CharSequence actual) {
-    if (actual == null || actual.length() == 0) return false;
-    for (int i = 0; i < actual.length(); i++) {
-      if (!isWhitespace(actual.charAt(i))) return false;
-    }
-    return true;
   }
 
   public void assertHasSize(AssertionInfo info, CharSequence actual, int expectedSize) {
@@ -342,19 +271,6 @@ public class Strings {
     throw failures.failure(info, containsIgnoringNewLines(actual, values, notFound, comparisonStrategy));
   }
 
-  public void assertContainsIgnoringWhitespaces(AssertionInfo info, CharSequence actual, CharSequence... values) {
-    doCommonCheckForCharSequence(info, actual, values);
-    String actualWithoutWhitespace = removeAllWhitespaces(actual);
-    Set<CharSequence> notFound = stream(values).map(Strings::removeAllWhitespaces)
-                                               .filter(value -> !stringContains(actualWithoutWhitespace, value))
-                                               .collect(toCollection(LinkedHashSet::new));
-    if (notFound.isEmpty()) return;
-    if (values.length == 1) {
-      throw failures.failure(info, shouldContainIgnoringWhitespaces(actual, values[0], comparisonStrategy));
-    }
-    throw failures.failure(info, shouldContainIgnoringWhitespaces(actual, values, notFound, comparisonStrategy));
-  }
-
   public void assertDoesNotContainIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence... values) {
     doCommonCheckForCharSequence(info, actual, values);
 
@@ -424,7 +340,7 @@ public class Strings {
     return removeAllWhitespaces(actual).equals(removeAllWhitespaces(expected));
   }
 
-  private static String removeAllWhitespaces(CharSequence toBeStripped) {
+  public static String removeAllWhitespaces(CharSequence toBeStripped) {
     final StringBuilder result = new StringBuilder(toBeStripped.length());
     for (int i = 0; i < toBeStripped.length(); i++) {
       char c = toBeStripped.charAt(i);
@@ -817,7 +733,7 @@ public class Strings {
     return normalizedText.replace("\n", EMPTY_STRING);
   }
 
-  private static void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
+  public static void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
     assertNotNull(info, actual);
     checkIsNotNull(sequence);
     checkIsNotEmpty(sequence);

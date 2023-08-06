@@ -12,25 +12,48 @@
  */
 package org.assertj.core.api.charsequence;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.CharSequenceAssert;
-import org.assertj.core.api.CharSequenceAssertBaseTest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#containsOnlyWhitespaces()}</code>.
- * 
  * @author Chris Arnott
  */
-class CharSequenceAssert_containsOnlyWhitespaces_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_containsOnlyWhitespaces_Test {
 
-  @Override
-  protected CharSequenceAssert invoke_api_method() {
-    return assertions.containsOnlyWhitespaces();
+  @ParameterizedTest
+  @ValueSource(strings = {
+      " ",
+      "\t", // tab
+      "\n", // line feed
+      "\r", // carriage return
+      " \n\r  "
+  })
+  void should_pass_if_actual_contains_only_whitespaces(String actual) {
+    // WHEN/THEN
+    assertThat(actual).containsOnlyWhitespaces();
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(strings).assertContainsOnlyWhitespaces(getInfo(assertions), getActual(assertions));
+  @ParameterizedTest
+  @NullSource
+  @ValueSource(strings = {
+      "",
+      "a",
+      " bc ",
+      "\u00A0", // non-breaking space
+      "\u2007", // non-breaking space
+      "\u202F"  // non-breaking space
+  })
+  void should_fail_if_actual_does_not_contain_only_whitespaces(String actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsOnlyWhitespaces());
+    // THEN
+    then(assertionError).hasMessage(shouldContainOnlyWhitespaces(actual).create());
   }
+
 }

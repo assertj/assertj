@@ -24,7 +24,6 @@ import org.assertj.core.internal.Throwables;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Throwables#assertHasMessageContaining(AssertionInfo, Throwable, String)}</code>.
  * 
@@ -42,7 +41,8 @@ class Throwables_assertHasMessageContaining_Test extends ThrowablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasMessageContaining(someInfo(), null, "Throwable"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasMessageContaining(someInfo(), null,
+                                                                                                           "Throwable"))
                                                    .withMessage(actualIsNull());
   }
 

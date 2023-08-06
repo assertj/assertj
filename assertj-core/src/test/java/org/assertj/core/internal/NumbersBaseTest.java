@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
@@ -51,6 +50,8 @@ public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMBER_TY
   }
 
   protected abstract NUMBERS_TYPE getNumbers();
+
   protected abstract NUMBERS_TYPE getNumbers(ComparisonStrategy comparisonStrategy);
+
   protected abstract Comparator<NUMBER_TYPE> getComparator();
 }

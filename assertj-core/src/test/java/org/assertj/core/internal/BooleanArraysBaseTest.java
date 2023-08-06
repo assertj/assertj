@@ -19,7 +19,6 @@ import static org.mockito.Mockito.spy;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.junit.jupiter.api.BeforeEach;
 
-
 /**
  * Base class for testing <code>{@link BooleanArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and
  * another with {@link ComparatorBasedComparisonStrategy}.

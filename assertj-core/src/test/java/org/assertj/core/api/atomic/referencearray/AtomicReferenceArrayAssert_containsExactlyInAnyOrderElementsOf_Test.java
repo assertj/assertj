@@ -23,7 +23,7 @@ import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
  * @author Filip Hrisafov
  */
 class AtomicReferenceArrayAssert_containsExactlyInAnyOrderElementsOf_Test
-  extends AtomicReferenceArrayAssertBaseTest {
+    extends AtomicReferenceArrayAssertBaseTest {
 
   @Override
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {

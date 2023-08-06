@@ -25,7 +25,6 @@ import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Doubles#assertLessThanOrEqualTo(AssertionInfo, Double, double)}</code>.
  * 
@@ -62,7 +61,9 @@ class Doubles_assertLessThanOrEqualTo_Test extends DoublesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), null, 8d))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(),
+                                                                                                                                   null,
+                                                                                                                                   8d))
                                                    .withMessage(actualIsNull());
   }
 

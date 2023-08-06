@@ -82,7 +82,7 @@ class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
       "0, 1, 2"
   })
   void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(int actual, int other,
-                                                                                       int offset) {
+                                                                                int offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> integers.assertIsNotCloseTo(info, actual, other, byLessThan(offset)));
@@ -108,7 +108,8 @@ class Integers_assertIsNotCloseTo_Test extends IntegersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNotCloseTo(someInfo(), null, ONE,
+                                                                                                 byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 

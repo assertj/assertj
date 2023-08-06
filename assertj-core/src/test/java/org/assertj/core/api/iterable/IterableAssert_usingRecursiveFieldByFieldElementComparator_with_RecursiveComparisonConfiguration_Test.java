@@ -25,7 +25,8 @@ import org.assertj.core.internal.Iterables;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class IterableAssert_usingRecursiveFieldByFieldElementComparator_with_RecursiveComparisonConfiguration_Test extends IterableAssertBaseTest {
+class IterableAssert_usingRecursiveFieldByFieldElementComparator_with_RecursiveComparisonConfiguration_Test
+    extends IterableAssertBaseTest {
 
   private Iterables iterablesBefore;
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();

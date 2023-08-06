@@ -18,7 +18,6 @@ import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.test.AlwaysEqualComparator;
 
-
 /**
  * Base class for {@link FloatAssert} tests.
  *

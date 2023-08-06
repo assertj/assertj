@@ -32,7 +32,6 @@ import org.assertj.core.internal.ByteArraysBaseTest;
 import org.assertj.core.test.IntArrays;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrays#assertDoesNotContain(AssertionInfo, byte[], byte[])}</code>.
  */
@@ -63,7 +62,8 @@ class ByteArrays_assertDoesNotContain_with_Integer_Arguments_Test extends ByteAr
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, IntArrays.arrayOf(8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null,
+                                                                                                 IntArrays.arrayOf(8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -105,7 +105,9 @@ class ByteArrays_assertDoesNotContain_with_Integer_Arguments_Test extends ByteAr
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, IntArrays.arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                             null,
+                                                                                                                             IntArrays.arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -113,9 +115,11 @@ class ByteArrays_assertDoesNotContain_with_Integer_Arguments_Test extends ByteAr
   void should_fail_if_actual_contains_given_values_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual, IntArrays.arrayOf(6, -8, 20)));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(info, actual,
+                                                                                                   IntArrays.arrayOf(6, -8, 20)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContain(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 6, (byte) -8), absValueComparisonStrategy));
+    verify(failures).failure(info, shouldNotContain(actual, arrayOf(6, -8, 20), newLinkedHashSet((byte) 6, (byte) -8),
+                                                    absValueComparisonStrategy));
   }
 }

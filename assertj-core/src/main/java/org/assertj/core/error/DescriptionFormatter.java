@@ -17,7 +17,6 @@ import static org.assertj.core.util.Strings.isNullOrEmpty;
 import org.assertj.core.description.Description;
 import org.assertj.core.util.VisibleForTesting;
 
-
 /**
  * Formats the <code>{@link Description}</code>s to be included in assertion errors.
  * 

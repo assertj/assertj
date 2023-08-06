@@ -26,5 +26,5 @@ public class ClassAssert extends AbstractClassAssert<ClassAssert> {
   public ClassAssert(Class<?> actual) {
     super(actual, ClassAssert.class);
   }
-  
+
 }

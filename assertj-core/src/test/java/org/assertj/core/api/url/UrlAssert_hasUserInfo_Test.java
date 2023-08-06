@@ -21,7 +21,7 @@ import org.assertj.core.api.UrlAssertBaseTest;
  * Test for <code>{@link org.assertj.core.api.UrlAssert#hasUserInfo(String)}  </code>.
  */
 class UrlAssert_hasUserInfo_Test extends UrlAssertBaseTest {
-  private  String expected = "user-info";
+  private String expected = "user-info";
 
   @Override
   protected UrlAssert invoke_api_method() {

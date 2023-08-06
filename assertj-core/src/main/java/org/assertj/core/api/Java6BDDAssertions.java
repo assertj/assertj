@@ -56,7 +56,7 @@ import org.assertj.core.util.CheckReturnValue;
 @Deprecated
 @CheckReturnValue
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
-@SuppressWarnings({"DeprecatedIsStillUsed", "deprecation", "RedundantSuppression"})
+@SuppressWarnings({ "DeprecatedIsStillUsed", "deprecation", "RedundantSuppression" })
 public class Java6BDDAssertions {
 
   /**
@@ -871,6 +871,20 @@ public class Java6BDDAssertions {
    */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> then(CharSequence actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code>.
+   * <p>
+   * Use this over {@link #then(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.25.0
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> thenCharSequence(CharSequence actual) {
+    return then(actual);
   }
 
   /**

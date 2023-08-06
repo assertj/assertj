@@ -22,7 +22,6 @@ import org.assertj.core.internal.Strings;
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Strings#assertEmpty(AssertionInfo, CharSequence)}</code>.
  * 
@@ -50,13 +49,15 @@ class Strings_assertEmpty_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(),
+                                                                                                                              null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_not_empty_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(), "Yoda"))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertEmpty(someInfo(),
+                                                                                                                              "Yoda"))
                                                    .withMessage(shouldBeEmpty("Yoda").create());
   }
 

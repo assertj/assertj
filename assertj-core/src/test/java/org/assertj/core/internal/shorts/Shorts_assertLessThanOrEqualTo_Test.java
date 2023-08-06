@@ -25,7 +25,6 @@ import org.assertj.core.internal.Shorts;
 import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Shorts#assertLessThanOrEqualTo(AssertionInfo, Short, short)}</code>.
  * 
@@ -62,7 +61,9 @@ class Shorts_assertLessThanOrEqualTo_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(), null, (short) 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(someInfo(),
+                                                                                                                                  null,
+                                                                                                                                  (short) 8))
                                                    .withMessage(actualIsNull());
   }
 
@@ -80,7 +81,8 @@ class Shorts_assertLessThanOrEqualTo_Test extends ShortsBaseTest {
   void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> shortsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, (short) -8, (short) 6));
+    Throwable error = catchThrowable(() -> shortsWithAbsValueComparisonStrategy.assertLessThanOrEqualTo(info, (short) -8,
+                                                                                                        (short) 6));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeLessOrEqual((short) -8, (short) 6, absValueComparisonStrategy));

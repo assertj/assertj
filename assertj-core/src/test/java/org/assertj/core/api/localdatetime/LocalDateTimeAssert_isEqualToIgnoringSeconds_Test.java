@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
-
 @SuppressWarnings("deprecation")
 class LocalDateTimeAssert_isEqualToIgnoringSeconds_Test {
 

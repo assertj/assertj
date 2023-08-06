@@ -28,7 +28,7 @@ class CharSequenceAssert_contains_several_String_as_Iterable_Test extends CharSe
 
   @Override
   protected CharSequenceAssert invoke_api_method() {
-    return assertions.contains(Arrays.<CharSequence>asList("od", "do"));
+    return assertions.contains(Arrays.<CharSequence> asList("od", "do"));
   }
 
   @Override

@@ -34,9 +34,9 @@ class MapAssert_doesNotContain_with_Java_Util_MapEntry_Test extends MapAssertBas
     Map.Entry<String, String>[] entries = array(javaMapEntry("key1", "value1"), javaMapEntry("key2", "value2"));
     verify(maps).assertDoesNotContain(getInfo(assertions), getActual(assertions), entries);
   }
-  
+
   @Test
   void invoke_api_like_user() {
-     assertThat(map("key1", "value1")).doesNotContain(javaMapEntry("key2", "value2"), javaMapEntry("key3", "value3"));
+    assertThat(map("key1", "value1")).doesNotContain(javaMapEntry("key2", "value2"), javaMapEntry("key3", "value3"));
   }
 }

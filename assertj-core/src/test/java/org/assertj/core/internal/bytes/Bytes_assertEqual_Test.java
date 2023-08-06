@@ -26,7 +26,6 @@ import org.assertj.core.internal.BytesBaseTest;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Bytes#assertEqual(AssertionInfo, Byte, byte)}</code>.
  * 
@@ -58,7 +57,9 @@ class Bytes_assertEqual_Test extends BytesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertEqual(someInfo(), null, (byte) 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertEqual(someInfo(),
+                                                                                                                     null,
+                                                                                                                     (byte) 8))
                                                    .withMessage(actualIsNull());
   }
 
@@ -75,6 +76,6 @@ class Bytes_assertEqual_Test extends BytesBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeEqual((byte) 6, (byte) 8, absValueComparisonStrategy,
-        new StandardRepresentation()));
+                                                 new StandardRepresentation()));
   }
 }

@@ -36,7 +36,7 @@ public class LongAssert extends AbstractLongAssert<LongAssert> {
   }
 
   public LongAssert(AtomicLong actual) {
-    this(actual == null ? null: actual.get());
+    this(actual == null ? null : actual.get());
   }
-  
+
 }

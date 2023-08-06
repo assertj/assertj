@@ -17,7 +17,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
 
-
 /**
  * Tests for <code>{@link FloatArrayAssert#hasSize(int)}</code>.
  * 

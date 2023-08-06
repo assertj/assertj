@@ -24,14 +24,17 @@ class Iterables_assertHasSizeLessThanOrEqualTo_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSizeLessThanOrEqualTo(someInfo(), null, 6))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSizeLessThanOrEqualTo(someInfo(), null,
+                                                                                                              6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_size_of_actual_is_not_less_than_or_equal_to_boundary() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSizeLessThanOrEqualTo(someInfo(), actual, 1))
-                                                   .withMessage(shouldHaveSizeLessThanOrEqualTo(actual, actual.size(), 1).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSizeLessThanOrEqualTo(someInfo(), actual,
+                                                                                                              1))
+                                                   .withMessage(shouldHaveSizeLessThanOrEqualTo(actual, actual.size(),
+                                                                                                1).create());
   }
 
   @Test

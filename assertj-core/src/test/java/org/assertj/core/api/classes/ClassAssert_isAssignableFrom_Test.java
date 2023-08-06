@@ -32,7 +32,7 @@ class ClassAssert_isAssignableFrom_Test extends ClassAssertBaseTest {
   @Override
   protected void verify_internal_effects() {
     verify(classes).assertIsAssignableFrom(getInfo(assertions), getActual(assertions),
-        ClassAssert_isAssignableFrom_Test.class);
+                                           ClassAssert_isAssignableFrom_Test.class);
   }
 
 }

@@ -38,7 +38,7 @@ public class ShouldContainsOnlyOnce extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound,
-      Set<?> notOnlyOnce, ComparisonStrategy comparisonStrategy) {
+                                                           Set<?> notOnlyOnce, ComparisonStrategy comparisonStrategy) {
     if (!isNullOrEmpty(notFound) && !isNullOrEmpty(notOnlyOnce))
       return new ShouldContainsOnlyOnce(actual, expected, notFound, notOnlyOnce, comparisonStrategy);
     if (!isNullOrEmpty(notFound))
@@ -57,15 +57,15 @@ public class ShouldContainsOnlyOnce extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound,
-      Set<?> notOnlyOnce) {
+                                                           Set<?> notOnlyOnce) {
     return shouldContainsOnlyOnce(actual, expected, notFound, notOnlyOnce, StandardComparisonStrategy.instance());
   }
 
   private ShouldContainsOnlyOnce(Object actual, Object expected, Set<?> notFound, Set<?> notOnlyOnce,
-      ComparisonStrategy comparisonStrategy) {
+                                 ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto contain only once:%n  %s%n"
-        + "but some elements were not found:%n  %s%n"
-        + "and others were found more than once:%n  %s%n%s",
+          + "but some elements were not found:%n  %s%n"
+          + "and others were found more than once:%n  %s%n%s",
           actual, expected, notFound, notOnlyOnce, comparisonStrategy);
   }
 
@@ -76,7 +76,7 @@ public class ShouldContainsOnlyOnce extends BasicErrorMessageFactory {
 
   // change the order of parameters to avoid confusion with previous constructor
   private ShouldContainsOnlyOnce(Set<?> notOnlyOnce, Object actual, Object expected,
-      ComparisonStrategy comparisonStrategy) {
+                                 ComparisonStrategy comparisonStrategy) {
     super("%nExpecting actual:%n  %s%nto contain only once:%n  %s%nbut some elements were found more than once:%n  %s%n%s",
           actual, expected, notOnlyOnce, comparisonStrategy);
   }

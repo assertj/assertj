@@ -49,7 +49,6 @@ public class IterableAssert<ELEMENT> extends
     return new IterableAssert<>(actual);
   }
 
-
   static <T> Iterable<T> toIterable(Iterator<T> iterator) {
     return Streams.stream(iterator).collect(toList());
   }

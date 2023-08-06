@@ -38,10 +38,10 @@ class ThrowableAssert_hasSuppressedException_Test extends ThrowableAssertBaseTes
   void invoke_api_like_user() {
     // GIVEN
     Throwable actual = new Throwable();
-    
+
     // WHEN
     actual.addSuppressed(npe);
-    
+
     // THEN
     assertThat(actual).hasSuppressedException(npe);
   }

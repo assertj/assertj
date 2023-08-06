@@ -33,6 +33,6 @@ public class OptionalShouldBePresent extends BasicErrorMessageFactory {
    * @throws java.lang.NullPointerException if optional is null.
    */
   public static OptionalShouldBePresent shouldBePresent(Object optional) {
-	  return new OptionalShouldBePresent(optional);
+    return new OptionalShouldBePresent(optional);
   }
 }

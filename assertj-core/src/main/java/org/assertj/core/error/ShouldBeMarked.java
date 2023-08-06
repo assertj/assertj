@@ -26,7 +26,7 @@ public class ShouldBeMarked extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldNotBeMarked(AtomicMarkableReference<?> actual) {
     return new ShouldBeMarked(actual, false);
   }
-  
+
   private ShouldBeMarked(AtomicMarkableReference<?> actual, boolean marked) {
     super(marked ? EXPECTING_TO_BE_MARKED : EXPECTING_NOT_TO_BE_MARKED, actual);
   }

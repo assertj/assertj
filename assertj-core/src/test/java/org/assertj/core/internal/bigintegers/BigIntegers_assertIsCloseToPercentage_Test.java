@@ -39,13 +39,15 @@ class BigIntegers_assertIsCloseToPercentage_Test extends BigIntegersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), null, ONE, withPercentage(1)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), null, ONE,
+                                                                                                       withPercentage(1)))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, null, withPercentage(1)));
+    assertThatNullPointerException().isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, null,
+                                                                                        withPercentage(1)));
   }
 
   @Test
@@ -55,16 +57,17 @@ class BigIntegers_assertIsCloseToPercentage_Test extends BigIntegersBaseTest {
 
   @Test
   void should_fail_if_percentage_is_negative() {
-    assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, ZERO, withPercentage(-1)));
+    assertThatIllegalArgumentException().isThrownBy(() -> numbers.assertIsCloseToPercentage(someInfo(), ONE, ZERO,
+                                                                                            withPercentage(-1)));
   }
 
   @ParameterizedTest
   @CsvSource({
-    "1, 1, 1",
-    "1, 2, 100",
-    "-1, -1, 1",
-    "-1, -2, 100",
-    "-1, 1, 200"
+      "1, 1, 1",
+      "1, 2, 100",
+      "-1, -1, 1",
+      "-1, -2, 100",
+      "-1, 1, 200"
   })
   void should_pass_if_difference_is_less_than_given_percentage(BigInteger actual, BigInteger other,
                                                                Integer percentage) {
@@ -73,12 +76,12 @@ class BigIntegers_assertIsCloseToPercentage_Test extends BigIntegersBaseTest {
 
   @ParameterizedTest
   @CsvSource({
-    "1, 1, 0",
-    "2, 1, 100",
-    "1, 2, 50",
-    "-1, -1, 0",
-    "-2, -1, 100",
-    "-1, -2, 50"
+      "1, 1, 0",
+      "2, 1, 100",
+      "1, 2, 50",
+      "-1, -1, 0",
+      "-2, -1, 100",
+      "-1, -2, 50"
   })
   void should_pass_if_difference_is_equal_to_given_percentage(BigInteger actual, BigInteger other,
                                                               Integer percentage) {

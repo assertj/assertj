@@ -23,14 +23,13 @@ import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link AbstractIterableAssert#isSubsetOf(Object[])}</code>.
  */
 class IterableAssert_isSubsetOf_with_Array_Test extends IterableAssertBaseTest {
 
   private final List<String> values = newArrayList("Yoda", "Luke");
-  
+
   @Override
   protected ConcreteIterableAssert<Object> invoke_api_method() {
     return assertions.isSubsetOf(values);
@@ -40,7 +39,7 @@ class IterableAssert_isSubsetOf_with_Array_Test extends IterableAssertBaseTest {
   protected void verify_internal_effects() {
     verify(iterables).assertIsSubsetOf(getInfo(assertions), getActual(assertions), values);
   }
-  
+
   @Test
   void invoke_api_like_user() {
     assertThat(newArrayList("Luke", "Yoda")).isSubsetOf("Yoda", "Luke", "Chewbacca");

@@ -59,7 +59,8 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactlyInAnyOrder(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactlyInAnyOrder(someInfo(), actual,
+                                                                                                               emptyArray()));
   }
 
   @Test
@@ -71,7 +72,8 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactlyInAnyOrder(someInfo(), null, emptyArray()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsExactlyInAnyOrder(someInfo(), null,
+                                                                                                               emptyArray()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -84,7 +86,8 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainExactlyInAnyOrder(actual, expected, newArrayList("Han"), newArrayList("Leia"), StandardComparisonStrategy.instance()));
+                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList("Han"), newArrayList("Leia"),
+                                                            StandardComparisonStrategy.instance()));
   }
 
   @Test
@@ -104,19 +107,22 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList("Luke"), StandardComparisonStrategy.instance())); }
+                             shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList("Luke"),
+                                                            StandardComparisonStrategy.instance()));
+  }
 
   @Test
   void should_fail_if_expected_contains_duplicates_and_actual_does_not() {
     AssertionInfo info = someInfo();
     actual = newArrayList("Luke", "Leia");
-    Object[] expected = { "Luke", "Leia", "Luke"};
+    Object[] expected = { "Luke", "Leia", "Luke" };
 
     Throwable error = catchThrowable(() -> iterables.assertContainsExactlyInAnyOrder(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContainExactlyInAnyOrder(actual, expected, newArrayList("Luke"), emptyList(), StandardComparisonStrategy.instance()));
+                             shouldContainExactlyInAnyOrder(actual, expected, newArrayList("Luke"), emptyList(),
+                                                            StandardComparisonStrategy.instance()));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -126,7 +132,7 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
   @Test
   void should_pass_if_actual_contains_given_values_exactly_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(), actual,
-                                                                         array("LUKE", "YODA", "Leia"));
+                                                                                   array("LUKE", "YODA", "Leia"));
   }
 
   @Test
@@ -134,11 +140,13 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Object[] expected = { "Luke", "Yoda", "Han" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(info,
+                                                                                                                          actual,
+                                                                                                                          expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, newArrayList("Han"),
-        newArrayList("Leia"), comparisonStrategy));
+                                                                  newArrayList("Leia"), comparisonStrategy));
   }
 
   @Test
@@ -154,10 +162,13 @@ class Iterables_assertContainsExactlyInAnyOrder_Test extends IterablesBaseTest {
     actual = newArrayList("Luke", "Leia", "Luke");
     Object[] expected = { "LUKE", "Leia" };
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(info, actual, expected));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsExactlyInAnyOrder(info,
+                                                                                                                          actual,
+                                                                                                                          expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList("Luke"), comparisonStrategy));
+    verify(failures).failure(info, shouldContainExactlyInAnyOrder(actual, expected, emptyList(), newArrayList("Luke"),
+                                                                  comparisonStrategy));
   }
 
 }

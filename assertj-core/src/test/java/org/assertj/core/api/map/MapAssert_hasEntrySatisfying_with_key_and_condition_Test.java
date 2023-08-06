@@ -33,7 +33,7 @@ class MapAssert_hasEntrySatisfying_with_key_and_condition_Test extends MapAssert
   private final Condition<Object> condition = new Condition<Object>() {
     @Override
     public boolean matches(Object value) {
-      //return is not important as we are testing the invoking and the internal effects
+      // return is not important as we are testing the invoking and the internal effects
       return false;
     }
   };

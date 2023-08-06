@@ -38,7 +38,7 @@ class ShouldBeEqualIgnoringTimezone_create_Test {
   void should_create_error_message_for_OffsetTime() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualIgnoringTimezone(OffsetTime.of(12, 0, 0, 0, UTC),
-                                            OffsetTime.of(12, 0, 0, 0, MIN));
+                                                                OffsetTime.of(12, 0, 0, 0, MIN));
     // WHEN
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
@@ -54,7 +54,7 @@ class ShouldBeEqualIgnoringTimezone_create_Test {
   void should_create_error_message_for_OffsetDateTime() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualIgnoringTimezone(OffsetDateTime.of(2000, 5, 13, 12, 0, 0, 0, UTC),
-                                            OffsetDateTime.of(2000, 5, 13, 12, 0, 0, 0, MIN));
+                                                                OffsetDateTime.of(2000, 5, 13, 12, 0, 0, 0, MIN));
     // WHEN
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN

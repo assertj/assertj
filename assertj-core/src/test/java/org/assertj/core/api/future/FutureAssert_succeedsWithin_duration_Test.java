@@ -51,9 +51,7 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
 
     // WHEN/THEN
     // using the same duration would fail depending on when the thread executing the future is started
-    assertThat(future)
-      .succeedsWithin(Duration.ofMillis(sleepDuration + 1_000))
-      .isEqualTo(value);
+    assertThat(future).succeedsWithin(Duration.ofMillis(sleepDuration + 1_000)).isEqualTo(value);
   }
 
   @Test
@@ -74,9 +72,8 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(10)));
     // THEN
-    then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
-                                                       "  <FutureTask[Incomplete]>%n" +
-                                                       "to be completed within 0.01S.%n"));
+    then(assertionError).hasMessageStartingWith(format("%nExpecting%n" + "  <FutureTask[Incomplete]>%n"
+                                                       + "to be completed within 0.01S.%n"));
   }
 
   @Test

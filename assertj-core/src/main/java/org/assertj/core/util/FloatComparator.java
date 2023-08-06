@@ -21,7 +21,7 @@ public class FloatComparator extends NullSafeComparator<Float> {
   public FloatComparator(float epsilon) {
     this.precision = epsilon;
   }
-  
+
   public float getEpsilon() {
     return precision;
   }

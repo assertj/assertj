@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-
 /**
  * A <code>{@link Condition}</code> for testing.
  * @param <T> the type of object this condition accepts.

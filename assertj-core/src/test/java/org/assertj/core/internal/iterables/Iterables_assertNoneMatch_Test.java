@@ -61,7 +61,8 @@ class Iterables_assertNoneMatch_Test extends IterablesBaseTest {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<? super String> predicate = s -> s.startsWith("L");
 
-    Throwable error = catchThrowable(() -> iterables.assertNoneMatch(info, actual, predicate, new PredicateDescription("custom")));
+    Throwable error = catchThrowable(() -> iterables.assertNoneMatch(info, actual, predicate,
+                                                                     new PredicateDescription("custom")));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, noElementsShouldMatch(actual, "Luke", new PredicateDescription("custom")));

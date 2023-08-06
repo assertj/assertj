@@ -54,14 +54,14 @@ class StringAssert_asLong_Test extends StringAssertBaseTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"123, 123", "0, 0", Long.MIN_VALUE+", "+Long.MIN_VALUE, Long.MAX_VALUE+", "+Long.MAX_VALUE})
+  @CsvSource({ "123, 123", "0, 0", Long.MIN_VALUE + ", " + Long.MIN_VALUE, Long.MAX_VALUE + ", " + Long.MAX_VALUE })
   void should_parse_string_as_long_for_valid_input(String string, long expectedLong) {
     assertThat(string).asLong().isEqualTo(expectedLong);
   }
 
   @ParameterizedTest
   @NullSource
-  @ValueSource(strings = {"1.1", "foo", ""})
+  @ValueSource(strings = { "1.1", "foo", "" })
   void should_throw_AssertionError_when_null_or_not_a_valid_long(String string) {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(string).asLong());

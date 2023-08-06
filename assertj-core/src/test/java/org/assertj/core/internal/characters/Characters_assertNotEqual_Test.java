@@ -25,7 +25,6 @@ import org.assertj.core.internal.Characters;
 import org.assertj.core.internal.CharactersBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link Characters#assertNotEqual(AssertionInfo, Character, char)}</code>.
  * 
@@ -57,7 +56,9 @@ class Characters_assertNotEqual_Test extends CharactersBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertNotEqual(someInfo(), null, 'a'))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> charactersWithCaseInsensitiveComparisonStrategy.assertNotEqual(someInfo(),
+                                                                                                                                    null,
+                                                                                                                                    'a'))
                                                    .withMessage(actualIsNull());
   }
 

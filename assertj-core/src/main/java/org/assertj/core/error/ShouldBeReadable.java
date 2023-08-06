@@ -26,11 +26,11 @@ public class ShouldBeReadable extends BasicErrorMessageFactory {
   static final String SHOULD_BE_READABLE = "%nExpecting actual:%n  %s%nto be readable.";
 
   private ShouldBeReadable(File actual) {
-	super(SHOULD_BE_READABLE, actual);
+    super(SHOULD_BE_READABLE, actual);
   }
 
   private ShouldBeReadable(Path actual) {
-	super(SHOULD_BE_READABLE, actual);
+    super(SHOULD_BE_READABLE, actual);
   }
 
   /**
@@ -40,11 +40,11 @@ public class ShouldBeReadable extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeReadable(File actual) {
-	return new ShouldBeReadable(actual);
+    return new ShouldBeReadable(actual);
   }
 
   public static ErrorMessageFactory shouldBeReadable(Path actual) {
-	return new ShouldBeReadable(actual);
+    return new ShouldBeReadable(actual);
   }
 
 }

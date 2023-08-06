@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import java.io.File;
 
-
 /**
  * Assertion methods for {@link File}s.
  * <p>

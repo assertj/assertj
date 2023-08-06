@@ -37,19 +37,18 @@ public class ShouldHaveNoParent extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ShouldHaveNoParent shouldHaveNoParent(File actual) {
-	return new ShouldHaveNoParent(actual);
+    return new ShouldHaveNoParent(actual);
   }
 
   public static ShouldHaveNoParent shouldHaveNoParent(Path actual) {
-	return new ShouldHaveNoParent(actual);
+    return new ShouldHaveNoParent(actual);
   }
 
   private ShouldHaveNoParent(File actual) {
-	super(FILE_HAS_PARENT, actual, actual.getParentFile());
+    super(FILE_HAS_PARENT, actual, actual.getParentFile());
   }
 
-  private ShouldHaveNoParent(Path actual)
-  {
-	super(PATH_HAS_PARENT, actual, actual.getParent());
+  private ShouldHaveNoParent(Path actual) {
+    super(PATH_HAS_PARENT, actual, actual.getParent());
   }
 }

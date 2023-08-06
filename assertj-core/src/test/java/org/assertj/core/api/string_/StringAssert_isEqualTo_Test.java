@@ -60,7 +60,8 @@ class StringAssert_isEqualTo_Test extends StringAssertBaseTest {
     // WHEN
     Throwable exception = catchThrowable(() -> assertThat("foo").isEqualTo(template, 1));
     // THEN
-    assertThat(exception).isInstanceOf(NullPointerException.class).hasMessageContaining("The expectedStringTemplate must not be null");
+    assertThat(exception).isInstanceOf(NullPointerException.class)
+                         .hasMessageContaining("The expectedStringTemplate must not be null");
   }
 
   @Test

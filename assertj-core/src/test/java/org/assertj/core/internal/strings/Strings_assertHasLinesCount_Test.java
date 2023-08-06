@@ -51,7 +51,9 @@ class Strings_assertHasLinesCount_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertHasLineCount(someInfo(), null, 3))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertHasLineCount(someInfo(),
+                                                                                                                                     null,
+                                                                                                                                     3))
                                                    .withMessage(actualIsNull());
   }
 
@@ -60,7 +62,9 @@ class Strings_assertHasLinesCount_Test extends StringsBaseTest {
     AssertionInfo info = someInfo();
     String actual = "Begin" + lineSeparator() + "End";
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertHasLineCount(info, actual, 3))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertHasLineCount(info,
+                                                                                                                                     actual,
+                                                                                                                                     3))
                                                    .withMessage(shouldHaveLinesCount(actual, 2, 3).create());
   }
 

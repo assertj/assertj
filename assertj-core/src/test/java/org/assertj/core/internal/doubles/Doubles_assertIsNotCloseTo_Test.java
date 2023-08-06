@@ -117,7 +117,7 @@ class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
     // THEN
     verify(failures).failure(INFO, shouldNotBeEqual(actual, other, within(offset), absDiff(actual, other)));
   }
-  
+
   @Test
   void should_fail_if_actual_is_too_close_to_expected_value() {
     // WHEN

@@ -54,7 +54,7 @@ class StringAssert_asInt_Test extends StringAssertBaseTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"123, 123", "0, 0", Integer.MIN_VALUE + ", " + Integer.MIN_VALUE, Integer.MAX_VALUE + ", " + Integer.MAX_VALUE})
+  @CsvSource({ "123, 123", "0, 0", Integer.MIN_VALUE + ", " + Integer.MIN_VALUE, Integer.MAX_VALUE + ", " + Integer.MAX_VALUE })
   void should_parse_string_as_long_for_valid_input(String string, int expectedInt) {
     assertThat(string).asInt().isEqualTo(expectedInt);
   }

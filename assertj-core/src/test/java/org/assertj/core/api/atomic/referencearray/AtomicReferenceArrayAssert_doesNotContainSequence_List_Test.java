@@ -35,7 +35,7 @@ class AtomicReferenceArrayAssert_doesNotContainSequence_List_Test extends Atomic
   protected AtomicReferenceArrayAssert<Object> invoke_api_method() {
     // AtomicReferenceArrayAssertBaseTest is testing AtomicReferenceArray<Object>, so the List type needs to be Object
     // or the {@link AtomicReferenceArrayAssert#containsSequence(Object...)} method is called.
-    return assertions.doesNotContainSequence(Lists.newArrayList((Object)"Luke", "Yoda"));
+    return assertions.doesNotContainSequence(Lists.newArrayList((Object) "Luke", "Yoda"));
   }
 
   @Override

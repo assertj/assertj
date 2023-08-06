@@ -247,8 +247,7 @@ class RecursiveComparisonAssert_isEqualTo_with_enums_Test extends RecursiveCompa
       this.jobTitle = jobTitle;
     }
 
-    public enum JobTitle
-    {
+    public enum JobTitle {
       SOFTWARE_DEVELOPER, QA_ENGINEER
     }
   }

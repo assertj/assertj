@@ -66,7 +66,8 @@ class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsAll(someInfo(), null, newArrayList("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsAll(someInfo(), null,
+                                                                                              newArrayList("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -133,6 +134,7 @@ class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldContain(actual, expected.toArray(), newLinkedHashSet("Han"), caseInsensitiveStringComparisonStrategy));
+                             shouldContain(actual, expected.toArray(), newLinkedHashSet("Han"),
+                                           caseInsensitiveStringComparisonStrategy));
   }
 }

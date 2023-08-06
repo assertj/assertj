@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeASCII.shouldBeASCII;
