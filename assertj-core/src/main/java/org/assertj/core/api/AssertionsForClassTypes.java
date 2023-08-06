@@ -31,6 +31,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
@@ -667,6 +668,17 @@ public class AssertionsForClassTypes {
    */
   public static AbstractLocalDateAssert<?> assertThat(LocalDate localDate) {
     return new LocalDateAssert(localDate);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link YearMonthAssert}</code>.
+   *
+   * @param yearMonth the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  public static AbstractYearMonthAssert<?> assertThat(YearMonth yearMonth) {
+    return new YearMonthAssert(yearMonth);
   }
 
   /**

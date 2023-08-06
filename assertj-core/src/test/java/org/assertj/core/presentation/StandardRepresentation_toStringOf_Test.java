@@ -34,6 +34,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -244,6 +245,16 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
     String localDateRepresentation = STANDARD_REPRESENTATION.toStringOf(localDate);
     // THEN
     then(localDateRepresentation).isEqualTo("2011-06-18 (java.time.LocalDate)");
+  }
+
+  @Test
+  void should_return_unambiguous_toString_of_YearMonth() {
+    // GIVEN use Object to call toStringOf(Object) and not toStringOf(YearMonth)
+    Object yearMonth = YearMonth.of(2011, 6);
+    // WHEN
+    String localDateRepresentation = STANDARD_REPRESENTATION.toStringOf(yearMonth);
+    // THEN
+    then(localDateRepresentation).isEqualTo("2011-06 (java.time.YearMonth)");
   }
 
   @Test

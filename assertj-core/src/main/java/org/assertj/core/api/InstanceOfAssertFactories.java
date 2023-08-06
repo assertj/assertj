@@ -27,6 +27,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Date;
@@ -535,6 +536,14 @@ public interface InstanceOfAssertFactories {
    * {@link InstanceOfAssertFactory} for a {@link LocalDate}.
    */
   InstanceOfAssertFactory<LocalDate, AbstractLocalDateAssert<?>> LOCAL_DATE = new InstanceOfAssertFactory<>(LocalDate.class,
+                                                                                                            Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link LocalDate}.
+   *
+   * @since 3.26.0
+   */
+  InstanceOfAssertFactory<YearMonth, AbstractYearMonthAssert<?>> YEAR_MONTH = new InstanceOfAssertFactory<>(YearMonth.class,
                                                                                                             Assertions::assertThat);
 
   /**

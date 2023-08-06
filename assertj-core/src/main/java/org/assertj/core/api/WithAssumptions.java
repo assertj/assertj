@@ -29,6 +29,7 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Iterator;
@@ -984,6 +985,17 @@ public interface WithAssumptions {
    */
   default AbstractLocalDateAssert<?> assumeThat(final LocalDate localDate) {
     return Assumptions.assumeThat(localDate);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link YearMonthAssert}</code> assumption.
+   *
+   * @param yearMonth the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.26.0
+   */
+  default AbstractYearMonthAssert<?> assumeThat(final YearMonth yearMonth) {
+    return Assumptions.assumeThat(yearMonth);
   }
 
   /**
