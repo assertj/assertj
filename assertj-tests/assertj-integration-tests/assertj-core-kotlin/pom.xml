@@ -14,7 +14,6 @@
 
   <properties>
     <kotlin.version>1.9.0</kotlin.version>
-    <rootDirectory>${project.basedir}/../../../</rootDirectory>
   </properties>
 
   <dependencies>

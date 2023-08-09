@@ -15,6 +15,7 @@
   <properties>
     <osgi.bundle>${project.build.directory}/${project.build.finalName}-tests.jar</osgi.bundle>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
+    <spotless.skip>false</spotless.skip>
   </properties>
 
   <dependencyManagement>
@@ -44,10 +45,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-      </plugin>
       <plugin>
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-maven-plugin</artifactId>

@@ -15,10 +15,6 @@
   <description>This Bill of Materials POM can be used to ease dependency management when referencing multiple AssertJ artifacts using Gradle or Maven.</description>
   <url>${project.organization.url}</url>
 
-  <properties>
-    <rootDirectory>${project.basedir}/../</rootDirectory>
-  </properties>
-
   <dependencyManagement>
     <dependencies>
       <dependency>

@@ -26,6 +26,7 @@
     </argLine>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
     <rootDirectory>${project.basedir}/../</rootDirectory>
+    <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
     <byte-buddy.version>1.14.5</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
@@ -287,10 +288,6 @@
       </plugins>
     </pluginManagement>
     <plugins>
-      <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
