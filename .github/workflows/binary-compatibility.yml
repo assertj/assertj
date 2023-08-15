@@ -38,32 +38,6 @@ jobs:
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
           -Djapicmp.oldVersion.basedir=${{ github.run_id }}.${{ github.base_ref }}/assertj-core
 
-      - name: Add label
-        if: failure()
-        uses: actions/github-script@v6
-        continue-on-error: true
-        with:
-          script: |
-            github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: ['binary incompatible with: base']
-            })
-
-      - name: Remove label
-        if: success()
-        uses: actions/github-script@v6
-        continue-on-error: true
-        with:
-          script: |
-            github.rest.issues.removeLabel({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              name: 'binary incompatible with: base'
-            })
-
       - name: Add result to job summary
         if: success() || failure()
         run: |
@@ -94,30 +68,6 @@ jobs:
         run: >
           ./mvnw $MAVEN_ARGS -f assertj-core/pom.xml package japicmp:cmp
           -Djapicmp.breakBuildOnBinaryIncompatibleModifications=true
-
-      - name: Add label
-        if: github.base_ref != null && failure()
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: ['binary incompatible with: release']
-            })
-      - name: Remove label
-        if: github.base_ref != null && success()
-        uses: actions/github-script@v6
-        continue-on-error: true
-        with:
-          script: |
-            github.rest.issues.removeLabel({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              name: 'binary incompatible with: release'
-            })
 
       - name: Add result to job summary
         if: success() || failure()
