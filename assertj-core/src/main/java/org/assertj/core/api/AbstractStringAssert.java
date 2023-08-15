@@ -36,7 +36,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   @VisibleForTesting
   Failures failures = Failures.instance();
 
-  protected AbstractStringAssert(String actual, Class<?> selfType) {
+  AbstractStringAssert(String actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
