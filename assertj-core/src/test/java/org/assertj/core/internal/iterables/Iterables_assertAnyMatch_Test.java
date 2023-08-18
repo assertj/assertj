@@ -23,6 +23,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.assertj.core.internal.IterablesBaseTest;
@@ -35,6 +36,12 @@ class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
   void should_pass_if_an_element_satisfies_predicate() {
     List<String> actual = newArrayList("123", "1234", "12345");
     iterables.assertAnyMatch(someInfo(), actual, s -> s.length() >= 5, PredicateDescription.GIVEN);
+  }
+
+  @Test
+  void should_pass_if_an_element_is_null() {
+    List<String> actual = newArrayList("123", null, "12345");
+    iterables.assertAnyMatch(someInfo(), actual, Objects::isNull, PredicateDescription.GIVEN);
   }
 
   @Test
