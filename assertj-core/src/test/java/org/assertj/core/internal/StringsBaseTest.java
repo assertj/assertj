@@ -15,13 +15,13 @@ package org.assertj.core.internal;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
-import org.junit.jupiter.api.BeforeEach;
-
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.test.CaseInsensitiveStringComparator;
+import org.junit.jupiter.api.BeforeEach;
 
 /**
  * 

@@ -1658,7 +1658,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * To be exact, the following rules are applied:
    * <ul>
    * <li>all leading and trailing whitespace of both actual and expected strings are ignored</li>
-   * <li>any remaining whitespace, appearing within either string, is collapsed to a single space before comparison</li>
+   * <li>any remaining whitespace (including non-breaking spaces), appearing within either string, is collapsed to a single space before comparison</li>
    * </ul>
    * <p>
    * Example:
@@ -1687,11 +1687,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
 
   /**
    * Verifies that the actual {@code CharSequence} is equal to the given one, after the punctuation
-   * of both strings have been normalized.
+   * of both strings has been normalized.
    * <p>
    * To be exact, the following rules are applied:
    * <ul>
-   * <li>All punctuation of actual and expected strings are ignored and whitespaces are normalized</li>
+   * <li>All punctuation of actual and expected strings are ignored and whitespaces (including non-breaking spaces) are normalized</li>
    * <li>Punctuation is any of the following character <b>{@code !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~}</b></li>
    * </ul>
    * <p>

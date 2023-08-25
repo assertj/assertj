@@ -12,7 +12,8 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.Character.*;
+import static java.lang.Character.isDigit;
+import static java.lang.Character.isWhitespace;
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Locale.ROOT;
@@ -82,7 +83,12 @@ import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.text.Normalizer;
-import java.util.*;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
