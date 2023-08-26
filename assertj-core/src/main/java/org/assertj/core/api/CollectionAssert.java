@@ -13,8 +13,11 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Preconditions.checkNotNull;
 
 import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Assertion methods for {@link Collection}s.
@@ -47,4 +50,9 @@ public class CollectionAssert<ELEMENT> extends
     return new CollectionAssert<>(newArrayList(iterable));
   }
 
+  @Override
+  protected <T> T acceptVisitor(CollectionVisitor<? extends T> visitor) {
+    Objects.requireNonNull(visitor, "visitor can't be null");
+    return visitor.visitCollection(actual);
+  }
 }

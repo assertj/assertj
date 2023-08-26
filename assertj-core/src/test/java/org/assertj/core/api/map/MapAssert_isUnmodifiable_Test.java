@@ -90,7 +90,7 @@ class MapAssert_isUnmodifiable_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
     // THEN
-    then(assertionError).hasMessage(shouldBeUnmodifiable("Map.compute(null, (k, v) -> v)", new NullPointerException()).create());
+    then(assertionError).hasMessage(shouldBeUnmodifiable("Map.compute(null, (k, v) -> v)").create());
   }
 
   @ParameterizedTest
