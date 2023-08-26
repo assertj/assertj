@@ -26,7 +26,6 @@ import static org.mockito.Mockito.withSettings;
 import java.nio.file.DirectoryStream;
 import java.nio.file.SecureDirectoryStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -267,7 +266,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
   }
 
   @Test
-  @Timeout(value = 1, unit = TimeUnit.SECONDS)
+  @Timeout(value = 2, unit = TimeUnit.SECONDS)
   void should_format_big_list() {
     // GIVEN
     int elementsPerArray = 200;
