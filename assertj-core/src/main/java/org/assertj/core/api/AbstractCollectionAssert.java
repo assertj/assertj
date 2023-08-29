@@ -46,7 +46,7 @@ public abstract class AbstractCollectionAssert<
   }
 
   /**
-   *
+   * Verifies that the actual collection is unmodifiable, i.e., throws an
    * {@link UnsupportedOperationException} with any attempt to modify the collection.
    * <p>
    * Example:
