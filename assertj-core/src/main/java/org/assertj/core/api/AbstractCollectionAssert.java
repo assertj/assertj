@@ -44,4 +44,31 @@ public abstract class AbstractCollectionAssert<
   protected AbstractCollectionAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
   }
+
+  /**
+   *
+   * {@link UnsupportedOperationException} with any attempt to modify the collection.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(Collections.unmodifiableCollection(new ArrayList&lt;&gt;())).isUnmodifiable();
+   * assertThat(Collections.unmodifiableList(new ArrayList&lt;&gt;())).isUnmodifiable();
+   * assertThat(Collections.unmodifiableSet(new HashSet&lt;&gt;())).isUnmodifiable();
+   *
+   * // assertions will fail
+   * assertThat(new ArrayList&lt;&gt;()).isUnmodifiable();
+   * assertThat(new HashSet&lt;&gt;()).isUnmodifiable();
+   * assertThat(new MyCustomIterable&lt;&gt;()).isUnmodifiable();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual collection is modifiable.
+   * @see java.util.Collections#unmodifiableCollection(Collection)
+   * @see java.util.Collections#unmodifiableList(List)
+   * @see java.util.Collections#unmodifiableSet (java.util.Set)
+   */
+  @Beta
+  public SELF isUnmodifiable() {
+    // this method is included for binary backwards compatibility
+    return super.isUnmodifiable();
+  }
 }
