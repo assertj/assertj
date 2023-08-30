@@ -13,6 +13,9 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -35,6 +38,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 /** Tests finding mutating methods in lists. */
 class MutatingMethodFinder_List_Test extends MutatingMethodFinder_Collection_Test {
+  @Test
+  void should_not_allow_a_null_list() {
+    // WHEN
+    NullPointerException exception = catchNullPointerException(() -> finder.visitList(null));
+    // THEN
+    then(exception).hasMessageContainingAll("target");
+  }
 
   @ParameterizedTest
   @MethodSource("one_mutating_method_source")

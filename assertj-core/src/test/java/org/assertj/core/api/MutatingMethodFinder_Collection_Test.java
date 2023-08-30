@@ -23,7 +23,7 @@ import java.util.Optional;
 import java.util.stream.Stream;
 import org.junit.jupiter.params.provider.Arguments;
 
-/** Base class for tests for collections which implement {@link Collection}. */
+/** Base class for tests finding mutating methods in classes which implement {@link Collection}. */
 abstract class MutatingMethodFinder_Collection_Test extends MutatingMethodFinder_Test {
   /**
    * Makes all methods other than creating an iterator throw {@link UnsupportedOperationException}.

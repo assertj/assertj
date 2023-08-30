@@ -161,6 +161,7 @@ final class MutatingMethodFinder implements CollectionVisitor<Optional<String>> 
 
   @Override
   public Optional<String> visitCollection(final Collection<?> target) {
+    Objects.requireNonNull(target, "target");
     if (target instanceof List) return visitList((List<?>) target);
     if (target instanceof Set) return visitSet((Set<?>) target);
     return findSupportedMethod(COLLECTION_OPERATIONS, target);
@@ -168,6 +169,7 @@ final class MutatingMethodFinder implements CollectionVisitor<Optional<String>> 
 
   @Override
   public Optional<String> visitList(final List<?> target) {
+    Objects.requireNonNull(target, "target");
     if (IMMUTABLE_LISTS.contains(target.getClass().getName())) return Optional.empty();
     Optional<String> collectionMethod = findSupportedMethod(COLLECTION_OPERATIONS, target);
     return or(collectionMethod, () -> findSupportedMethod(LIST_OPERATIONS, target));
@@ -175,6 +177,7 @@ final class MutatingMethodFinder implements CollectionVisitor<Optional<String>> 
 
   @Override
   public Optional<String> visitSet(final Set<?> target) {
+    Objects.requireNonNull(target, "target");
     if (IMMUTABLE_SETS.contains(target.getClass().getName())) return Optional.empty();
     if (target instanceof NavigableSet) return visitNavigableSet((NavigableSet<?>) target);
     return findSupportedMethod(COLLECTION_OPERATIONS, target);
@@ -182,6 +185,7 @@ final class MutatingMethodFinder implements CollectionVisitor<Optional<String>> 
 
   @Override
   public Optional<String> visitMap(final Map<?, ?> target) {
+    Objects.requireNonNull(target, "target");
     if (IMMUTABLE_MAPS.contains(target.getClass().getName())) return Optional.empty();
     if (target instanceof NavigableMap) return visitNavigableMap((NavigableMap<?, ?>) target);
     return findSupportedMethod(MAP_OPERATIONS, target);

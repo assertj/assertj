@@ -56,6 +56,7 @@ public interface CollectionVisitor<T> {
    * @param target the collection to visit
    * @return the result of the visit
    * @throws TargetException if the target threw a runtime exception
+   * @throws NullPointerException if the argument is {@code null}
    */
   T visitCollection(Collection<?> target);
 
@@ -65,6 +66,7 @@ public interface CollectionVisitor<T> {
    * @param target the list to visit
    * @return the result of the visit
    * @throws TargetException if the target threw a runtime exception
+   * @throws NullPointerException if the argument is {@code null}
    */
   T visitList(List<?> target);
 
@@ -74,6 +76,7 @@ public interface CollectionVisitor<T> {
    * @param target the set to visit
    * @return the result of the visit
    * @throws TargetException if the target threw a runtime exception
+   * @throws NullPointerException if the argument is {@code null}
    */
   T visitSet(Set<?> target);
 
@@ -83,6 +86,7 @@ public interface CollectionVisitor<T> {
    * @param target the map to visit
    * @return the result of the visit
    * @throws TargetException if the target threw a runtime exception
+   * @throws NullPointerException if the argument is {@code null}
    */
   T visitMap(Map<?, ?> target);
 }

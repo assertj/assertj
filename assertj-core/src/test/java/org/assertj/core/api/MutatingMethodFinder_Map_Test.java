@@ -13,6 +13,8 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.catchNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
@@ -52,6 +54,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 /** Tests finding mutating methods in maps. */
 class MutatingMethodFinder_Map_Test extends MutatingMethodFinder_Test {
+  @Test
+  void should_not_allow_a_null_list() {
+    // WHEN
+    NullPointerException exception = catchNullPointerException(() -> finder.visitMap(null));
+    // THEN
+    then(exception).hasMessageContainingAll("target");
+  }
+
   @ParameterizedTest
   @MethodSource("one_mutating_map_method_is_detected_source")
   void one_mutating_map_method_is_detected(final String method, final int argumentCount) {
