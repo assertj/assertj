@@ -22,6 +22,8 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 /**
  * Tests for <code>{@link ShouldContainSubsequenceOfCharSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  *
@@ -40,7 +42,7 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  \"" + actual + "\"%n" +
-                                   "to contain the following CharSequences in this order:%n" +
+                                   "to contain the following CharSequences in this order (possibly with other values between them):%n" +
                                    "  [\"{\", \"author\", \"title\", \"}\"]%n" +
                                    "but \"title\" was found before \"author\"%n"));
   }
@@ -57,10 +59,28 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  \"" + actual + "\"%n" +
-                                   "to contain the following CharSequences in this order:%n" +
+                                   "to contain the following CharSequences in this order (possibly with other values between them):%n" +
                                    "  [\"{\", \"author\", \"title\", \"}\"]%n" +
                                    "but \"title\" was found before \"author\"%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 
+  @Test
+  void should_create_error_message_indicating_duplicate_subsequence() {
+    // GIVEN
+    String[] sequenceValues = { "{", "title", "author", "title", "}" };
+    String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+    ErrorMessageFactory factory = shouldContainSubsequence(actual, sequenceValues, Map.of("title", 1),
+                                                           new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
+                                   "  \"" + actual + "\"%n" +
+                                   "to contain the following CharSequences in this order (possibly with other values between them):%n" +
+                                   "  [\"{\", \"title\", \"author\", \"title\", \"}\"]%n" +
+                                   "But%n" +
+                                   "2nd occurrence of \"title\" was not found%n" +
+                                   "when comparing values using CaseInsensitiveStringComparator"));
+  }
 }
