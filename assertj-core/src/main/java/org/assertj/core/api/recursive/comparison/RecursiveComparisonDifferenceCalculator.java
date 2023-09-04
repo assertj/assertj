@@ -45,7 +45,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.DeepDifference;
@@ -123,16 +122,16 @@ public class RecursiveComparisonDifferenceCalculator {
       boolean mustCompareNodesRecursively = mustCompareNodesRecursively(dualValue);
       if (dualValue.hasNoNullValues() && mustCompareNodesRecursively) {
         // disregard the equals method and start comparing fields
+        if (recursiveComparisonConfiguration.someComparedFieldsHaveBeenSpecified()) {
+          recursiveComparisonConfiguration.checkComparedFieldsExist(actual);
+        }
         // TODO should fail if actual and expected don't have the same fields (taking into account ignored/compared fields)
         Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
         if (!actualChildrenNodeNamesToCompare.isEmpty()) {
           // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
           // ignored fields according to recursiveComparisonConfiguration
           Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(expected);
-          Set<String> specifiedFieldsToCompare = getAllChildFieldsSpecifiedForCompare(recursiveComparisonConfiguration,
-                                                                                      dualValue);
-          if (expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)
-              && actualChildrenNodeNamesToCompare.containsAll(specifiedFieldsToCompare)) {
+          if (expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
             // we compare actual fields vs expected, ignoring expected additional fields
             for (String actualChildNodeName : actualChildrenNodeNamesToCompare) {
               Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, actual);
@@ -231,9 +230,17 @@ public class RecursiveComparisonDifferenceCalculator {
 
       // first time we evaluate this dual value, perform the usual recursive comparison from there
 
-      if (dualValue.hasPotentialCyclingValues()) {
-        // visited dual values are tracked to avoid cycle, java types don't have cycle => no need to keep track of them.
-        // moreover this would make should_fix_1854_minimal_test to fail (see the test for a detailed explanation)
+      // visited dual values are tracked to avoid cycle
+      if (recursiveComparisonConfiguration.someComparedFieldsHaveBeenSpecified()) {
+        // only track dual values if their field location is a compared field or a child of one that could have cycles,
+        // before we get to a compared field, tracking dual values is wrong, ex: given a person root object with a
+        // neighbour.neighbour field that cycles back to itself, and we compare neighbour.neighbour.name, if we track
+        // visited all dual values, we would not introspect neighbour.neighbour as it was already visited as root.
+        if (recursiveComparisonConfiguration.isOrIsChildOfAnyComparedFields(dualValue.fieldLocation)
+            && dualValue.hasPotentialCyclingValues()) {
+          comparisonState.visitedDualValues.registerVisitedDualValue(dualValue);
+        }
+      } else if (dualValue.hasPotentialCyclingValues()) {
         comparisonState.visitedDualValues.registerVisitedDualValue(dualValue);
       }
 
@@ -347,14 +354,11 @@ public class RecursiveComparisonDifferenceCalculator {
       Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
       Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(expectedFieldValue);
       // Check if expected has more children nodes than actual, in that case the additional nodes are reported as difference
-      Set<String> specifiedFieldsToCompare = getAllChildFieldsSpecifiedForCompare(recursiveComparisonConfiguration, dualValue);
 
       // Check if expected has more children nodes than actual, in that case the additional nodes are reported as difference
-      if (!expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare) ||
-          !actualChildrenNodeNamesToCompare.containsAll(specifiedFieldsToCompare)) {
+      if (!expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
         // report missing nodes in actual
         Set<String> actualNodesNamesNotInExpected = newHashSet(actualChildrenNodeNamesToCompare);
-        actualNodesNamesNotInExpected.addAll(specifiedFieldsToCompare);
         actualNodesNamesNotInExpected.removeAll(expectedChildrenNodesNames);
         String missingNodes = actualNodesNamesNotInExpected.toString();
         String expectedClassName = expectedFieldClass.getName();
@@ -378,16 +382,6 @@ public class RecursiveComparisonDifferenceCalculator {
       }
     }
     return comparisonState.getDifferences();
-  }
-
-  private static Set<String> getAllChildFieldsSpecifiedForCompare(RecursiveComparisonConfiguration recursiveComparisonConfiguration,
-                                                                  DualValue dualValue) {
-    return recursiveComparisonConfiguration.getComparedFields().stream()
-                                           // Remove all specified fields that are not children of this DualValue
-                                           .filter(field -> isChildOfSpecifiedComparatorField(dualValue, field))
-                                           // Map the next FieldLocation to the fieldName
-                                           .map(field -> getChildFieldForValidation(field, dualValue.fieldLocation))
-                                           .collect(Collectors.toSet());
   }
 
   private static boolean isChildOfSpecifiedComparatorField(DualValue dualValue, FieldLocation field) {

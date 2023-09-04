@@ -12,7 +12,10 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.internal.objects.data.FriendlyPerson.friend;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.set;
@@ -24,6 +27,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
+import org.assertj.core.internal.objects.data.FriendlyPerson;
 import org.assertj.core.internal.objects.data.Human;
 import org.assertj.core.internal.objects.data.Person;
 import org.junit.jupiter.api.Test;
@@ -35,10 +39,10 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource
-  void should_only_compare_given_fields(Object actual, Object expected, List<String> fieldNamesToCompare) {
+  void should_only_compare_given_fields(Object actual, Object expected, String[] fieldNamesToCompare) {
 
     then(actual).usingRecursiveComparison()
-                .comparingOnlyFields(arrayOf(fieldNamesToCompare))
+                .comparingOnlyFields(fieldNamesToCompare)
                 .isEqualTo(expected);
   }
 
@@ -72,16 +76,16 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     Human person5 = new Human();
     person5.home.address.number = 1;
 
-    return Stream.of(arguments(person1, person2, list("name")),
-                     arguments(person1, person4, list("name")),
-                     arguments(person1, person5, list("home")),
-                     arguments(person1, person5, list("home.address")),
-                     arguments(person1, person5, list("home.address.number")),
-                     arguments(john, jack, list("home", "neighbour.neighbour")),
-                     arguments(john, jack, list("home.address", "neighbour.neighbour")),
-                     arguments(john, jack, list("home.address.number", "neighbour.neighbour")),
-                     arguments(john, jack, list("home", "neighbour.neighbour.home")),
-                     arguments(john, jack, list("home.address", "neighbour.neighbour")));
+    return Stream.of(arguments(person1, person2, array("name")),
+                     arguments(person1, person4, array("name")),
+                     arguments(person1, person5, array("home")),
+                     arguments(person1, person5, array("home.address")),
+                     arguments(person1, person5, array("home.address.number")),
+                     arguments(john, jack, array("home", "neighbour.neighbour")),
+                     arguments(john, jack, array("home.address", "neighbour.neighbour")),
+                     arguments(john, jack, array("home.address.number", "neighbour.neighbour")),
+                     arguments(john, jack, array("home", "neighbour.neighbour.home")),
+                     arguments(john, jack, array("home.address", "neighbour.neighbour")));
   }
 
   @Test
@@ -148,10 +152,6 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
                 .ignoringFields("home.address.number", "neighbour.name", "neighbour.neighbour.home.address.number")
                 .comparingOnlyFields("name", "home", "neighbour")
                 .isEqualTo(expected);
-  }
-
-  private static String[] arrayOf(List<String> list) {
-    return list.toArray(new String[0]);
   }
 
   @SuppressWarnings("unused")
@@ -281,62 +281,118 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
   // #3129
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource
-  void should_fail_when_non_existent_fields_specified(Object actual, Object expected, List<String> fieldNamesToCompare,
-                                                      String expectedFailureMsg) {
-
+  void should_fail_when_non_existent_fields_specified(Object actual, Object expected, String[] fieldNamesToCompare,
+                                                      String unknownFields) {
     // GIVEN
-    recursiveComparisonConfiguration.compareOnlyFields(arrayOf(fieldNamesToCompare));
+    recursiveComparisonConfiguration.compareOnlyFields(fieldNamesToCompare);
     // WHEN
-    AssertionError test = compareRecursivelyFailsAsExpected(actual, expected);
+    IllegalArgumentException iae = catchIllegalArgumentException(() -> assertThat(actual).usingRecursiveComparison()
+                                                                                         .comparingOnlyFields(fieldNamesToCompare)
+                                                                                         .isEqualTo(expected));
     // THEN
-    then(test).hasMessageContaining(expectedFailureMsg);
-
+    then(iae).hasMessage("The following fields don't exist: " + unknownFields);
   }
 
   private static Stream<Arguments> should_fail_when_non_existent_fields_specified() {
-    Person p1 = new Person("John");
-    Person p2 = new Person("Alice");
-    Person neighbour = new Person("Jack");
-    Person neighbour2 = new Person("Joan");
+    Person john = new Person("John");
+    Person alice = new Person("Alice");
+    Person jack = new Person("Jack");
+    Person joan = new Person("Joan");
+    Person joe = new Person("Joe");
+    john.neighbour = jack;
+    alice.neighbour = joan;
+    jack.neighbour = john;
+    joan.neighbour = alice;
 
-    p1.neighbour = neighbour;
-    p2.neighbour = neighbour2;
-    neighbour.neighbour = p1;
-    neighbour2.neighbour = p2;
+    FriendlyPerson sherlockHolmes = friend("Sherlock Holmes");
+    FriendlyPerson drWatson = friend("Dr. John Watson");
+    FriendlyPerson mollyHooper = friend("Molly Hooper");
+    sherlockHolmes.friends.add(drWatson);
+    sherlockHolmes.friends.add(mollyHooper);
+    drWatson.friends.add(mollyHooper);
+    drWatson.friends.add(sherlockHolmes);
 
-    return Stream.of(arguments(p1, p2, list("naame"), "does not declare all Person fields, it lacks these: [naame]"),
-                     arguments(p1, p2, list("name", "neighbour", "number"),
-                               "does not declare all Person fields, it lacks these: [number]"),
-                     arguments(p1, p2, list("neighbor"), "does not declare all Person fields, it lacks these: [neighbor]"),
-                     arguments(p1, p2, list("neighbour.neighbor.name"),
-                               "does not declare all Person fields, it lacks these: [neighbor]"),
-                     arguments(p1, p2, list("neighbour.neighbour.name", "neighbour.neighbour.number"),
-                               "does not declare all Person fields, it lacks these: [number]"),
-                     arguments(list(p1, p2), list(neighbour,
-                                                  neighbour2),
-                               list("neighbour.neighbour.name"),
-                               "- actual value  : Person [dateOfBirth=null, name=Jack, phone=null, home=Home [address=Address [number=1]]]\n"
-                                                                 +
-                                                                 "- expected value: Person [dateOfBirth=null, name=John, phone=null, home=Home [address=Address [number=1]]]"));
+    return Stream.of(arguments(john, alice, array("naame"), "{naame}"),
+                     arguments(john, alice, array("name", "neighbour", "number"), "{number}"),
+                     arguments(john, alice, array("neighbor"), "{neighbor}"),
+                     arguments(john, alice, array("neighbour.neighbor.name"), "{neighbor in <neighbour.neighbor.name>}"),
+                     arguments(sherlockHolmes, drWatson, array("friends.other"), "{other in <friends.other>}"),
+                     arguments(sherlockHolmes, drWatson, array("friends.name"), "{name in <friends.name>}"),
+                     arguments(john, alice, array("neighbour.neighbour.name", "neighbour.neighbour.number"),
+                               "{number in <neighbour.neighbour.number>}"));
+  }
+
+  @Test
+  void should_fail_when_actual_differs_from_expected_lists_on_compared_fields() {
+    // GIVEN
+    Person john = new Person("John");
+    Person alice = new Person("Alice");
+    Person jack = new Person("Jack");
+    Person joan = new Person("Joan");
+    john.neighbour = jack;
+    alice.neighbour = joan;
+    jack.neighbour = john;
+    joan.neighbour = alice;
+    List<Person> actual = list(john, alice);
+    List<Person> expected = list(jack, joan);
+
+    recursiveComparisonConfiguration.compareOnlyFields("neighbour.neighbour.name");
+
+    // WHEN
+    compareRecursivelyFailsAsExpected(actual, expected);
+
+    // THEN
+    ComparisonDifference difference1 = diff("[0].neighbour.neighbour.name", "John", "Jack");
+    ComparisonDifference difference2 = diff("[1].neighbour.neighbour.name", "Alice", "Joan");
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference1, difference2);
   }
 
   // #3129
   @Test
   void should_pass_when_fields_are_nested() {
-
     // GIVEN
-    Person p1 = new Person("John");
-    Person p2 = new Person("Alice");
-    Person neighbour = new Person("Jack");
-    Person neighbour2 = new Person("Joan");
-
-    p1.neighbour = neighbour;
-    p2.neighbour = neighbour2;
-    neighbour.neighbour = neighbour;
-    neighbour2.neighbour = neighbour;
+    Person john = new Person("John");
+    Person alice = new Person("Alice");
+    Person jack = new Person("Jack");
+    Person joan = new Person("Joan");
+    john.neighbour = jack;
+    alice.neighbour = joan;
+    jack.neighbour = jack;
+    joan.neighbour = jack;
     // WHEN/THEN
-    then(p1).usingRecursiveComparison().comparingOnlyFields("neighbour.neighbour.name").isEqualTo(p2);
+    then(john).usingRecursiveComparison()
+              .comparingOnlyFields("neighbour.neighbour.name")
+              .isEqualTo(alice);
+  }
 
+  @Test
+  void should_pass_with_cycles() {
+    // GIVEN
+    Person john = new Person("John");
+    Person alice = new Person("Alice");
+    Person jack = new Person("Jack");
+    Person joan = new Person("Joan");
+    john.neighbour = jack;
+    alice.neighbour = joan;
+    jack.neighbour = jack;
+    joan.neighbour = jack;
+    // WHEN/THEN
+    then(john).usingRecursiveComparison()
+              .comparingOnlyFields("neighbour.neighbour.neighbour.neighbour")
+              .isEqualTo(alice);
+  }
+
+  @Test
+  void cannot_report_unknown_compared_fields_if_parent_object_is_null() {
+    // GIVEN
+    Person john = new Person("John");
+    Person alice = new Person("Alice");
+    // WHEN/THEN
+    // badField is not detected as an unknown field since john.neighbour is null
+    // neighbour fields are compared and match since they are both null
+    then(john).usingRecursiveComparison()
+              .comparingOnlyFields("neighbour.badField")
+              .isEqualTo(alice);
   }
 
   static class Student {

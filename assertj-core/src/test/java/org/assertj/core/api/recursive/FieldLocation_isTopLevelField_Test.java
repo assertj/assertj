@@ -22,29 +22,31 @@ import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class FieldLocation_isRoot_Test {
+class FieldLocation_isTopLevelField_Test {
 
-  @ParameterizedTest(name = "{0}")
+  @ParameterizedTest
   @MethodSource
-  void should_evaluate_object_as_root(FieldLocation fieldLocation) {
-    assertThat(fieldLocation.isRoot()).isTrue();
+  void should_return_false_for_root_location_or_nested_field_location(FieldLocation fieldLocation) {
+    assertThat(fieldLocation.isTopLevelField()).isFalse();
   }
 
-  private static Stream<FieldLocation> should_evaluate_object_as_root() {
+  private static Stream<FieldLocation> should_return_false_for_root_location_or_nested_field_location() {
     return Stream.of(rootFieldLocation(),
                      new FieldLocation(list("[0]")),
-                     new FieldLocation(list("[1]")));
+                     new FieldLocation(list("[1]")),
+                     new FieldLocation(list("friend", "name")));
   }
 
-  @ParameterizedTest(name = "{0}")
+  @ParameterizedTest
   @MethodSource
-  void should_not_evaluate_object_as_root(FieldLocation fieldLocation) {
-    assertThat(fieldLocation.isRoot()).isFalse();
+  void should_return_true_for_top_level_field(FieldLocation fieldLocation) {
+    assertThat(fieldLocation.isTopLevelField()).isTrue();
   }
 
-  private static Stream<FieldLocation> should_not_evaluate_object_as_root() {
-    return Stream.of(new FieldLocation(list("[0]", "name")),
-                     new FieldLocation(list("name")));
-
+  private static Stream<FieldLocation> should_return_true_for_top_level_field() {
+    return Stream.of(new FieldLocation(list("name")),
+                     new FieldLocation(list("[0]", "name")),
+                     new FieldLocation(list("[1]", "name")));
   }
+
 }

@@ -12,42 +12,30 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.util.Collections.emptyList;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
 
 import org.junit.jupiter.api.Test;
 
-class DualValue_getFieldName_Test {
+class RecursiveComparisonConfiguration_someComparedFieldsHaveBeenSpecified_Test {
+
+  private final RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
 
   @Test
-  void should_return_top_level_field_name() {
+  void should_return_true_if_some_compared_fields_have_been_specified() {
     // GIVEN
-    DualValue dualValue = new DualValue(list("foo"), "", "");
+    recursiveComparisonConfiguration.compareOnlyFields("name");
     // WHEN
-    String expectedFieldName = dualValue.getFieldName();
+    boolean someComparedFieldsHaveBeenSpecified = recursiveComparisonConfiguration.someComparedFieldsHaveBeenSpecified();
     // THEN
-    then(expectedFieldName).isEqualTo("foo");
+    then(someComparedFieldsHaveBeenSpecified).isTrue();
   }
 
   @Test
-  void should_return_nested_field_name() {
-    // GIVEN
-    DualValue dualValue = new DualValue(list("foo", "bar"), "", "");
+  void should_return_false_if_no_compared_fields_have_been_specified() {
     // WHEN
-    String expectedFieldName = dualValue.getFieldName();
+    boolean someComparedFieldsHaveBeenSpecified = recursiveComparisonConfiguration.someComparedFieldsHaveBeenSpecified();
     // THEN
-    then(expectedFieldName).isEqualTo("bar");
-  }
-
-  @Test
-  void should_return_empty_for_root_objects() {
-    // GIVEN
-    DualValue dualValue = new DualValue(emptyList(), "", "");
-    // WHEN
-    String expectedFieldName = dualValue.getFieldName();
-    // THEN
-    then(expectedFieldName).isEqualTo("");
+    then(someComparedFieldsHaveBeenSpecified).isFalse();
   }
 
 }
