@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
@@ -20,7 +21,9 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
@@ -274,7 +277,14 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     ComparisonDifference difference = diff("[1].name", "Rohit", "Rohyt");
     return Stream.of(arguments(list(john1, rohit), list(john2, rohyt), difference),
                      arguments(array(john1, rohit), array(john2, rohyt), difference),
-                     arguments(set(john1, rohit), set(john2, rohyt), difference));
+                     arguments(set(john1, rohit), set(john2, rohyt), difference),
+                     //Ensure nested containers are also checked
+                     arguments(list(toMap(john1, rohit)), list(toMap(john2,
+                                                                     rohyt)), difference),
+                     arguments(set(set(john1, rohit)), set(set(john2,
+                                                               rohyt)), difference),
+                     arguments(toMap(toMap(john1, rohit)), toMap(toMap(john2,
+                                                                       rohyt)), difference));
 
   }
 
@@ -286,10 +296,12 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
 
     // GIVEN
     recursiveComparisonConfiguration.compareOnlyFields(arrayOf(fieldNamesToCompare));
-    // WHEN
-    AssertionError test = compareRecursivelyFailsAsExpected(actual, expected);
-    // THEN
-    then(test).hasMessageContaining(expectedFailureMsg);
+    // WHEN / THEN
+    assertThatThrownBy(() -> { then(actual).usingRecursiveComparison()
+                                           .comparingOnlyFields(arrayOf(fieldNamesToCompare))
+                                           .isEqualTo(expected); })
+      .isInstanceOf(IllegalArgumentException.class)
+      .hasMessageContaining(expectedFailureMsg);
 
   }
 
@@ -304,20 +316,48 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     neighbour.neighbour = p1;
     neighbour2.neighbour = p2;
 
-    return Stream.of(arguments(p1, p2, list("naame"), "does not declare all Person fields, it lacks these: [naame]"),
+    return Stream.of(arguments(p1, p2, list("naame"), "IllegalArguments do not exist for recursive match [<naame>]"),
                      arguments(p1, p2, list("name", "neighbour", "number"),
-                               "does not declare all Person fields, it lacks these: [number]"),
-                     arguments(p1, p2, list("neighbor"), "does not declare all Person fields, it lacks these: [neighbor]"),
+                               "IllegalArguments do not exist for recursive match [<number>]"),
+                     arguments(p1, p2, list("neighbor"), "IllegalArguments do not exist for recursive match [<neighbor>]"),
                      arguments(p1, p2, list("neighbour.neighbor.name"),
-                               "does not declare all Person fields, it lacks these: [neighbor]"),
+                               "IllegalArguments do not exist for recursive match [<neighbour.neighbor.name>]"),
                      arguments(p1, p2, list("neighbour.neighbour.name", "neighbour.neighbour.number"),
-                               "does not declare all Person fields, it lacks these: [number]"),
-                     arguments(list(p1, p2), list(neighbour,
+                               "IllegalArguments do not exist for recursive match [<neighbour.neighbour.number>]"));
+  }
+
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
+  @MethodSource
+  void should_pass_when_lists_or_collections_are_compared(Object actual, Object expected, List<String> fieldNamesToCompare) {
+
+    // GIVEN/WHEN/THEN
+    then(actual).usingRecursiveComparison().comparingOnlyFields(arrayOf(fieldNamesToCompare)).isEqualTo(expected);
+
+  }
+
+  private static Stream<Arguments> should_pass_when_lists_or_collections_are_compared() {
+    Person p1 = new Person("John");
+    Person p2 = new Person("Alice");
+    Person neighbour = new Person("Jack");
+    Person neighbour2 = new Person("Alice");
+
+    p1.neighbour = neighbour;
+    p2.neighbour = neighbour2;
+    neighbour.neighbour = p1;
+    neighbour2.neighbour = p2;
+
+    return Stream.of(arguments(list(p1, p2), list(neighbour,
                                                   neighbour2),
-                               list("neighbour.neighbour.name"),
-                               "- actual value  : Person [dateOfBirth=null, name=Jack, phone=null, home=Home [address=Address [number=1]]]\n"
-                                                                 +
-                                                                 "- expected value: Person [dateOfBirth=null, name=John, phone=null, home=Home [address=Address [number=1]]]"));
+                               list("neighbour.neighbour.name")),
+                     arguments(set(p1, p2), set(neighbour,
+                                                neighbour2),
+                               list("neighbour.neighbour.name")),
+                     arguments(array(p1, p2), array(neighbour,
+                                                    neighbour2),
+                               list("neighbour.neighbour.name")),
+                     arguments(toMap(p1, p2), toMap(neighbour,
+                                                    neighbour2), list("neighbour.neighbour.name")),
+                     arguments(toMap(toMap(p1,p2)), toMap(toMap(neighbour,neighbour2)),list("neighbour.neighbour.name")));
   }
 
   // #3129
@@ -337,6 +377,14 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     // WHEN/THEN
     then(p1).usingRecursiveComparison().comparingOnlyFields("neighbour.neighbour.name").isEqualTo(p2);
 
+  }
+
+  private static Map<?,?> toMap(Object... actuals){
+    Map<Integer,Object> map = new HashMap<>();
+    for(int i=0;i<actuals.length;i++) {
+      map.put(i,actuals[i]);
+    }
+    return map;
   }
 
   static class Student {

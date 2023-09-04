@@ -17,26 +17,19 @@ import static java.util.Objects.deepEquals;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newHashSet;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
+import java.lang.reflect.Field;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -129,10 +122,7 @@ public class RecursiveComparisonDifferenceCalculator {
           // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
           // ignored fields according to recursiveComparisonConfiguration
           Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(expected);
-          Set<String> specifiedFieldsToCompare = getAllChildFieldsSpecifiedForCompare(recursiveComparisonConfiguration,
-                                                                                      dualValue);
-          if (expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)
-              && actualChildrenNodeNamesToCompare.containsAll(specifiedFieldsToCompare)) {
+          if (expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
             // we compare actual fields vs expected, ignoring expected additional fields
             for (String actualChildNodeName : actualChildrenNodeNamesToCompare) {
               Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, actual);
@@ -214,6 +204,7 @@ public class RecursiveComparisonDifferenceCalculator {
   private static List<ComparisonDifference> determineDifferences(Object actual, Object expected, FieldLocation fieldLocation,
                                                                  VisitedDualValues visitedDualValues,
                                                                  RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+    checkCompareFieldExists(actual,recursiveComparisonConfiguration);
     ComparisonState comparisonState = new ComparisonState(visitedDualValues, recursiveComparisonConfiguration);
     comparisonState.initDualValuesToCompare(actual, expected, fieldLocation);
 
@@ -347,14 +338,9 @@ public class RecursiveComparisonDifferenceCalculator {
       Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
       Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(expectedFieldValue);
       // Check if expected has more children nodes than actual, in that case the additional nodes are reported as difference
-      Set<String> specifiedFieldsToCompare = getAllChildFieldsSpecifiedForCompare(recursiveComparisonConfiguration, dualValue);
-
-      // Check if expected has more children nodes than actual, in that case the additional nodes are reported as difference
-      if (!expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare) ||
-          !actualChildrenNodeNamesToCompare.containsAll(specifiedFieldsToCompare)) {
+      if (!expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
         // report missing nodes in actual
         Set<String> actualNodesNamesNotInExpected = newHashSet(actualChildrenNodeNamesToCompare);
-        actualNodesNamesNotInExpected.addAll(specifiedFieldsToCompare);
         actualNodesNamesNotInExpected.removeAll(expectedChildrenNodesNames);
         String missingNodes = actualNodesNamesNotInExpected.toString();
         String expectedClassName = expectedFieldClass.getName();
@@ -378,30 +364,6 @@ public class RecursiveComparisonDifferenceCalculator {
       }
     }
     return comparisonState.getDifferences();
-  }
-
-  private static Set<String> getAllChildFieldsSpecifiedForCompare(RecursiveComparisonConfiguration recursiveComparisonConfiguration,
-                                                                  DualValue dualValue) {
-    return recursiveComparisonConfiguration.getComparedFields().stream()
-                                           // Remove all specified fields that are not children of this DualValue
-                                           .filter(field -> isChildOfSpecifiedComparatorField(dualValue, field))
-                                           // Map the next FieldLocation to the fieldName
-                                           .map(field -> getChildFieldForValidation(field, dualValue.fieldLocation))
-                                           .collect(Collectors.toSet());
-  }
-
-  private static boolean isChildOfSpecifiedComparatorField(DualValue dualValue, FieldLocation field) {
-
-    return field.getPathToUseInRules()
-                // Check if the comparator field is relevant by checking if the path validated so far matches
-                // &&
-                // Check if it has a child field still waiting to be validated.
-                .startsWith(dualValue.fieldLocation.getPathToUseInRules())
-           && field.getDecomposedPath().size() > dualValue.fieldLocation.getDecomposedPath().size();
-  }
-
-  private static String getChildFieldForValidation(FieldLocation field, FieldLocation fieldValue) {
-    return field.getDecomposedPath().get(fieldValue.getDecomposedPath().size());
   }
 
   // avoid comparing enum recursively since they contain static fields which are ignored in recursive comparison
@@ -888,5 +850,70 @@ public class RecursiveComparisonDifferenceCalculator {
     return Stream.of(DEFAULT_ORDERED_COLLECTION_TYPES)
                  .map(Class::getName)
                  .collect(joining(", ", "[", "]"));
+  }
+
+  private static void checkCompareFieldExists(Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+
+    if(actual == null ) {
+      return;
+    }
+    List<?> actualAsObjects = actualToList(actual);
+
+    List<FieldLocation> illegalArguments= new ArrayList<>();
+    actualAsObjects.stream().forEach(a -> checkCompareFieldExists(a,recursiveComparisonConfiguration,illegalArguments));
+
+    if(!illegalArguments.isEmpty()) {
+      throw new IllegalArgumentException(String.format("IllegalArguments do not exist for recursive match %s",illegalArguments));
+    }
+
+  }
+
+  private static List<?> actualToList(Object actual) {
+
+    if(actual ==null){
+      return List.of();
+    }
+
+    if(actual instanceof Map ){
+      return mapToList((Map<?,?>)actual).stream().map(map -> actualToList(map)).collect(ArrayList::new,List::addAll,List::addAll);
+    }
+
+    if(actual.getClass().isArray()) {
+      return Arrays.asList((Object[]) actual).stream().map(entry -> actualToList(entry)).collect(ArrayList::new,List::addAll,List::addAll);
+    }
+
+    if(actual instanceof Collection) {
+      return new ArrayList<>((Collection<?>) actual).stream().map(entry -> actualToList(entry)).collect(ArrayList::new,List::addAll,List::addAll);
+    }
+
+    return Arrays.asList(actual);
+  }
+
+
+  private static List<?> mapToList(Map<?,?> actual){
+    return actual.values().stream().collect(toList());
+  }
+
+  private static void checkCompareFieldExists(Object actual, RecursiveComparisonConfiguration recursiveComparisonConfiguration, List<FieldLocation> illegalArguments) {
+    recursiveComparisonConfiguration.getComparedFields().forEach(comparedField -> {
+
+      Object compare = actual;
+      for(String field : comparedField.getDecomposedPath()) {
+        try {
+          Map<String,Field> allFields = Arrays.stream(compare.getClass().getDeclaredFields()).collect(Collectors.toMap(Field::getName,f -> f));
+          if(!allFields.containsKey(field)) {
+            illegalArguments.add(comparedField);
+            break;
+          }
+          allFields.get(field).setAccessible(true);
+          compare = allFields.get(field).get(compare);
+
+        } catch (IllegalAccessException e) {
+          throw new RuntimeException(e);
+        }
+
+      }
+    });
+
   }
 }
