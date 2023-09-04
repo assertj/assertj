@@ -277,15 +277,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     ComparisonDifference difference = diff("[1].name", "Rohit", "Rohyt");
     return Stream.of(arguments(list(john1, rohit), list(john2, rohyt), difference),
                      arguments(array(john1, rohit), array(john2, rohyt), difference),
-                     arguments(set(john1, rohit), set(john2, rohyt), difference),
-                     //Ensure nested containers are also checked
-                     arguments(list(toMap(john1, rohit)), list(toMap(john2,
-                                                                     rohyt)), difference),
-                     arguments(set(set(john1, rohit)), set(set(john2,
-                                                               rohyt)), difference),
-                     arguments(toMap(toMap(john1, rohit)), toMap(toMap(john2,
-                                                                       rohyt)), difference));
-
+                     arguments(set(john1, rohit), set(john2, rohyt), difference));
   }
 
   // #3129

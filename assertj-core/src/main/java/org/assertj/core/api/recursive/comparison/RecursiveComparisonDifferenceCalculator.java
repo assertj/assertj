@@ -871,7 +871,7 @@ public class RecursiveComparisonDifferenceCalculator {
   private static List<?> actualToList(Object actual) {
 
     if(actual ==null){
-      return List.of();
+      return Collections.emptyList();
     }
 
     if(actual instanceof Map ){
