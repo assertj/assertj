@@ -26,7 +26,7 @@ jobs:
 
     steps:
       - name: Checkout project
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           # important to set a fetch depth of 2. By default the checkout action make no history available
           fetch-depth: 2
