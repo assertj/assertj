@@ -18,7 +18,7 @@ jobs:
     if: github.base_ref != null
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
@@ -26,7 +26,7 @@ jobs:
           cache: 'maven'
 
       - name: Checkout `${{ github.base_ref }}` into subfolder
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.base_ref }}
           path: ${{ github.run_id }}.${{ github.base_ref }}
@@ -57,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
