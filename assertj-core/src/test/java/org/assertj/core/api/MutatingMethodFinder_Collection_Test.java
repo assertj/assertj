@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.AllowMethod.forCollection;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.InvocationHandler;
@@ -24,13 +25,18 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.provider.Arguments;
 
 /** Base class for tests finding mutating methods in classes which implement {@link Collection}. */
-abstract class MutatingMethodFinder_Collection_Test extends MutatingMethodFinder_Test {
+abstract class MutatingMethodFinder_Collection_Test {
+  /** The instance to test. */
+  protected final CollectionVisitor<Optional<String>> finder = new MutatingMethodFinder();
+
   /**
    * Makes all methods other than creating an iterator throw {@link UnsupportedOperationException}.
    * This is useful for testing a collection where none of the collection mutating methods
    * are supported but the collection has a mutating iterator.
    */
   private static final class IteratorHandler implements InvocationHandler {
+    private final Collection<?> target;
+
     /** Creates a new iterator. */
     private final String iteratorMethod;
 
@@ -40,10 +46,12 @@ abstract class MutatingMethodFinder_Collection_Test extends MutatingMethodFinder
     /**
      * Creates a new {@link IteratorHandler}.
      *
+     * @param target collection to handle actual calls
      * @param iteratorMethod creates an iterator
      * @param iterator the iterator to return
      */
-    private IteratorHandler(final String iteratorMethod, final Iterator<?> iterator) {
+    private IteratorHandler(final Collection<?> target, final String iteratorMethod, final Iterator<?> iterator) {
+      this.target = target;
       this.iteratorMethod = iteratorMethod;
       this.iterator = iterator;
     }
@@ -51,6 +59,9 @@ abstract class MutatingMethodFinder_Collection_Test extends MutatingMethodFinder
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
       if (method.getName().equals(iteratorMethod)) return iterator;
+      if (method.getName().equals("isEmpty") || method.getName().equals("iterator")) {
+        return method.invoke(target, args);
+      }
       throw new UnsupportedOperationException(method.getName());
     }
   }
@@ -80,7 +91,7 @@ abstract class MutatingMethodFinder_Collection_Test extends MutatingMethodFinder
                                                          final String method,
                                                          final int argumentCount) {
     // GIVEN
-    Collection<String> proxyInstance = withMutatingMethod(interfaceType, target, method, argumentCount);
+    Collection<String> proxyInstance = forCollection(interfaceType, target, method, argumentCount);
     // WHEN
     Optional<String> actual = finder.visitCollection(proxyInstance);
     // THEN
@@ -96,11 +107,12 @@ abstract class MutatingMethodFinder_Collection_Test extends MutatingMethodFinder
    * @param method successful mutating method in the iterator to expect
    */
   protected final void testIterator(final Class<?> interfaceType,
+                                    final Collection<?> target,
                                     final String iteratorMethod,
                                     final Iterator<?> iterator,
                                     final String method) {
     // GIVEN
-    Collection<?> proxyInstance = forIterator(interfaceType, iteratorMethod, iterator);
+    Collection<?> proxyInstance = forIterator(interfaceType, target, iteratorMethod, iterator);
     // WHEN
     Optional<String> actual = finder.visitCollection(proxyInstance);
     // THEN
@@ -115,9 +127,10 @@ abstract class MutatingMethodFinder_Collection_Test extends MutatingMethodFinder
    * @param iteratorMethod the iterator method to test
    * @param iterator the iterator to return from methods which create an iterator
    */
-  private final <T> T forIterator(final Class<?> interfaceType, final String iteratorMethod, final Iterator<?> iterator) {
+  private final <T> T forIterator(final Class<?> interfaceType, final Collection<?> target, final String iteratorMethod,
+                                  final Iterator<?> iterator) {
     return (T) Proxy.newProxyInstance(this.getClass().getClassLoader(),
                                       new Class[] { interfaceType },
-                                      new IteratorHandler(iteratorMethod, iterator));
+                                      new IteratorHandler(target, iteratorMethod, iterator));
   }
 }

@@ -12,22 +12,24 @@
  */
 package org.assertj.core.api;
 
-import static java.util.function.UnaryOperator.identity;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import static java.util.function.UnaryOperator.identity;
 
 /**
  * Looks for methods change the state of a collection and don't throw {@link
@@ -38,13 +40,13 @@ import java.util.function.Supplier;
  */
 final class MutatingMethodFinder implements CollectionVisitor<Optional<String>> {
   /** Mutating list operations. */
-  private static final Map<String, Consumer<List<?>>> LIST_OPERATIONS;
+  private static final Map<String, Consumer<List>> LIST_OPERATIONS;
 
   /** Mutating navigable set operations. */
   private static final Map<String, Consumer<NavigableSet<?>>> NAVIGABLE_SET_OPERATIONS;
 
   /** Mutating map operations. */
-  private static final Map<String, Consumer<Map<?, ?>>> MAP_OPERATIONS;
+  private static final Map<String, Consumer<Map>> MAP_OPERATIONS;
 
   /** Mutating navigable map operations. */
   private static final Map<String, Consumer<NavigableMap<?, ?>>> NAVIGABLE_MAP_OPERATIONS;
@@ -52,87 +54,61 @@ final class MutatingMethodFinder implements CollectionVisitor<Optional<String>> 
   /** Mutating collection operations. */
   private static final Map<String, Consumer<Collection<?>>> COLLECTION_OPERATIONS;
 
-  /** Known immutable set classes. */
-  private static final Set<String> IMMUTABLE_SETS;
-
-  /** Known immutable map classes. */
-  private static final Set<String> IMMUTABLE_MAPS;
-
-  /** Known immutable list classes. */
-  private static final Set<String> IMMUTABLE_LISTS;
-
-  /** Known immutable navigable set classes. */
-  private static final Set<String> IMMUTABLE_NAVIGABLE_SETS;
-
-  /** Known immutable navigable map classes. */
-  private static final Set<String> IMMUTABLE_NAVIGABLE_MAPS;
-
   static {
-    Set<String> immutableSets = new HashSet<>();
-    immutableSets.add("java.util.Collections$EmptySet");
-    immutableSets.add("java.util.Collections$EmptySortedSet");
-    immutableSets.add("java.util.Collections$SingletonSet");
-    IMMUTABLE_SETS = Collections.unmodifiableSet(immutableSets);
-
-    Set<String> immutableMaps = new HashSet<>();
-    immutableMaps.add("java.util.Collections$EmptyMap");
-    immutableMaps.add("java.util.Collections$EmptySortedMap");
-    immutableMaps.add("java.util.Collections$SingletonMap");
-    IMMUTABLE_MAPS = Collections.unmodifiableSet(immutableMaps);
-
-    Set<String> immutableLists = new HashSet<>();
-    immutableLists.add("java.util.Collections$EmptyList");
-    immutableLists.add("java.util.Collections$SingletonList");
-    IMMUTABLE_LISTS = Collections.unmodifiableSet(immutableLists);
-
-    Set<String> immutableNavigableSets = new HashSet<>();
-    immutableNavigableSets.add("java.util.Collections$EmptyNavigableSet");
-    IMMUTABLE_NAVIGABLE_SETS = Collections.unmodifiableSet(immutableNavigableSets);
-
-    Set<String> immutableNavigableMaps = new HashSet<>();
-    immutableNavigableMaps.add("java.util.Collections$EmptyNavigableMap");
-    IMMUTABLE_NAVIGABLE_MAPS = Collections.unmodifiableSet(immutableNavigableMaps);
-
     Map<String, Consumer<Collection<?>>> collectionOperations = new LinkedHashMap<>();
     collectionOperations.put("Collection.add(null)", ignoreNullPointerException(c -> c.add(null)));
-    collectionOperations.put("Collection.addAll(emptyCollection())", c -> c.addAll(Collections.emptyList()));
-    collectionOperations.put("Collection.clear()", Collection::clear);
-    collectionOperations.put("Collection.iterator().remove()", c -> c.iterator().remove());
-    collectionOperations.put("Collection.remove(null)", ignoreNullPointerException(c -> c.remove(null)));
-    collectionOperations.put("Collection.removeAll(emptyCollection())", c -> c.removeAll(Collections.emptyList()));
-    collectionOperations.put("Collection.removeIf(element -> true)", c -> c.removeIf(element -> true));
-    collectionOperations.put("Collection.retainAll(emptyCollection())", c -> c.retainAll(Collections.emptyList()));
+    collectionOperations.put("Collection.addAll([null])",
+                             ignoreNullPointerException(c -> c.addAll(Collections.singletonList(null))));
+    collectionOperations.put("Collection.clear()", skipEmpty((c, e) -> c.clear()));
+    collectionOperations.put("Collection.iterator().remove()", skipEmpty((c, e) -> {
+      Iterator<?> iter = c.iterator();
+      iter.next();
+      iter.remove();
+    }));
+    collectionOperations.put("Collection.remove(element)", skipEmpty((c, e) -> c.remove(e)));
+    collectionOperations.put("Collection.removeAll([element])", skipEmpty((c, e) -> c.removeAll(Collections.singletonList(e))));
+    collectionOperations.put("Collection.removeIf(element -> true)", skipEmpty((c, e) -> c.removeIf(element -> true)));
+    collectionOperations.put("Collection.retainAll(emptyCollection())",
+                             skipEmpty((c, e) -> c.retainAll(Collections.emptyList())));
     COLLECTION_OPERATIONS = Collections.unmodifiableMap(collectionOperations);
 
-    Map<String, Consumer<List<?>>> listOperations = new LinkedHashMap<>();
+    Map<String, Consumer<List>> listOperations = new LinkedHashMap<>();
     listOperations.put("List.add(0, null)", ignoreNullPointerException(list -> list.add(0, null)));
-    listOperations.put("List.addAll(0, emptyCollection())", list -> list.addAll(0, Collections.emptyList()));
+    listOperations.put("List.addAll(0, [null])",
+                       ignoreNullPointerException(list -> list.addAll(0, Collections.singletonList(null))));
     listOperations.put("List.listIterator().add(null)",
                        ignoreNullPointerException(list -> list.listIterator().add(null)));
-    listOperations.put("List.listIterator().remove()", list -> list.listIterator().remove());
-    listOperations.put("List.listIterator().set(null)",
-                       ignoreNullPointerException(list -> list.listIterator().set(null)));
-    listOperations.put("List.remove(0)", list -> list.remove(0));
-    listOperations.put("List.replaceAll(identity())", list -> list.replaceAll(identity()));
-    listOperations.put("List.set(0, null)",
-                       list -> {
-                         try {
-                           list.set(0, null);
-                         } catch (IndexOutOfBoundsException | NullPointerException e) {
-                           // mutating operation
-                         }
-                       });
-    listOperations.put("List.sort((o1, o2) -> 0)", list -> list.sort((o1, o2) -> 0));
+    listOperations.put("List.listIterator().remove()", skipEmpty((list, e) -> {
+      Iterator<?> iter = list.listIterator();
+      iter.next();
+      iter.remove();
+    }));
+    listOperations.put("List.listIterator().set(element)", skipEmpty((list, e) -> {
+      ListIterator iter = list.listIterator();
+      iter.next();
+      iter.set(e);
+    }));
+    listOperations.put("List.remove(0)", skipEmpty((list, e) -> list.remove(0)));
+    listOperations.put("List.replaceAll(identity())", skipEmpty((list, e) -> list.replaceAll(identity())));
+    listOperations.put("List.set(0, null)", skipEmpty((list, e) -> list.set(0, e)));
+    listOperations.put("List.sort((o1, o2) -> 0)", list -> {
+      if (list.size() <= 1) throw new UnsupportedOperationException("list already sorted");
+      list.sort((o1, o2) -> 0);
+    });
     LIST_OPERATIONS = Collections.unmodifiableMap(listOperations);
 
     Map<String, Consumer<NavigableSet<?>>> navigableSetOperations = new LinkedHashMap<>();
-    navigableSetOperations.put("NavigableSet.descendingIterator().remove()", set -> set.descendingIterator().remove());
+    navigableSetOperations.put("NavigableSet.descendingIterator().remove()", skipEmpty((set, e) -> {
+      Iterator<?> iter = set.descendingIterator();
+      iter.next();
+      iter.remove();
+    }));
     navigableSetOperations.put("NavigableSet.pollFirst()", NavigableSet::pollFirst);
     navigableSetOperations.put("NavigableSet.pollLast()", NavigableSet::pollLast);
     NAVIGABLE_SET_OPERATIONS = Collections.unmodifiableMap(navigableSetOperations);
 
-    Map<String, Consumer<Map<?, ?>>> mapOperations = new LinkedHashMap<>();
-    mapOperations.put("Map.clear()", Map::clear);
+    Map<String, Consumer<Map>> mapOperations = new LinkedHashMap<>();
+    mapOperations.put("Map.clear()", skipEmptyMap((m, k) -> m.clear()));
     mapOperations.put("Map.compute(null, (k, v) -> v)",
                       ignoreNullPointerException(map -> map.compute(null, (k, v) -> v)));
     mapOperations.put("Map.computeIfAbsent(null, k -> null)",
@@ -142,15 +118,19 @@ final class MutatingMethodFinder implements CollectionVisitor<Optional<String>> 
     mapOperations.put("Map.merge(null, null, (v1, v2) -> v1))",
                       ignoreNullPointerException(map -> map.merge(null, null, (v1, v2) -> v1)));
     mapOperations.put("Map.put(null, null)", ignoreNullPointerException(map -> map.put(null, null)));
-    mapOperations.put("Map.putAll(new HashMap<>())", map -> map.putAll(new HashMap<>()));
+    mapOperations.put("Map.putAll(otherMap)", ignoreNullPointerException(map -> {
+      Map<Object, Object> singletonMap = new HashMap<>();
+      singletonMap.put(null, null);
+      map.putAll(singletonMap);
+    }));
     mapOperations.put("Map.putIfAbsent(null, null)",
                       ignoreNullPointerException(map -> map.putIfAbsent(null, null)));
-    mapOperations.put("Map.replace(null, null, null)",
-                      ignoreNullPointerException(map -> map.replace(null, null, null)));
-    mapOperations.put("Map.replace(null, null)", ignoreNullPointerException(map -> map.replace(null, null)));
-    mapOperations.put("Map.remove(null)", ignoreNullPointerException(map -> map.remove(null)));
-    mapOperations.put("Map.remove(null, null)", ignoreNullPointerException(map -> map.remove(null, null)));
-    mapOperations.put("Map.replaceAll((k, v) -> v)", map -> map.replaceAll((k, v) -> v));
+    mapOperations.put("Map.replace(key, original, replacement)",
+                      skipEmptyMap((map, key) -> map.replace(key, map.get(key), map.get(key))));
+    mapOperations.put("Map.replace(key, value)", skipEmptyMap((map, key) -> map.replace(key, map.get(key))));
+    mapOperations.put("Map.remove(key)", skipEmptyMap((map, k) -> map.remove(k)));
+    mapOperations.put("Map.remove(key, value)", skipEmptyMap((map, k) -> map.remove(k, map.get(k))));
+    mapOperations.put("Map.replaceAll((k, v) -> v)", skipEmptyMap((map, key) -> map.replaceAll((k, v) -> v)));
     MAP_OPERATIONS = Collections.unmodifiableMap(mapOperations);
 
     Map<String, Consumer<NavigableMap<?, ?>>> navigableMapOperations = new LinkedHashMap<>();
@@ -170,7 +150,6 @@ final class MutatingMethodFinder implements CollectionVisitor<Optional<String>> 
   @Override
   public Optional<String> visitList(final List<?> target) {
     Objects.requireNonNull(target, "target");
-    if (IMMUTABLE_LISTS.contains(target.getClass().getName())) return Optional.empty();
     Optional<String> collectionMethod = findSupportedMethod(COLLECTION_OPERATIONS, target);
     return or(collectionMethod, () -> findSupportedMethod(LIST_OPERATIONS, target));
   }
@@ -178,29 +157,19 @@ final class MutatingMethodFinder implements CollectionVisitor<Optional<String>> 
   @Override
   public Optional<String> visitSet(final Set<?> target) {
     Objects.requireNonNull(target, "target");
-    if (IMMUTABLE_SETS.contains(target.getClass().getName())) return Optional.empty();
-    if (target instanceof NavigableSet) return visitNavigableSet((NavigableSet<?>) target);
-    return findSupportedMethod(COLLECTION_OPERATIONS, target);
+
+    return or(findSupportedMethod(COLLECTION_OPERATIONS, target), () -> target instanceof NavigableSet
+        ? findSupportedMethod(NAVIGABLE_SET_OPERATIONS, (NavigableSet<?>) target)
+        : Optional.empty());
   }
 
   @Override
   public Optional<String> visitMap(final Map<?, ?> target) {
     Objects.requireNonNull(target, "target");
-    if (IMMUTABLE_MAPS.contains(target.getClass().getName())) return Optional.empty();
-    if (target instanceof NavigableMap) return visitNavigableMap((NavigableMap<?, ?>) target);
-    return findSupportedMethod(MAP_OPERATIONS, target);
-  }
 
-  private Optional<String> visitNavigableSet(final NavigableSet<?> target) {
-    if (IMMUTABLE_NAVIGABLE_SETS.contains(target.getClass().getName())) return Optional.empty();
-    Optional<String> collectionMethod = findSupportedMethod(COLLECTION_OPERATIONS, target);
-    return or(collectionMethod, () -> findSupportedMethod(NAVIGABLE_SET_OPERATIONS, target));
-  }
-
-  private Optional<String> visitNavigableMap(final NavigableMap<?, ?> target) {
-    if (IMMUTABLE_NAVIGABLE_MAPS.contains(target.getClass().getName())) return Optional.empty();
-    Optional<String> mapMethod = findSupportedMethod(MAP_OPERATIONS, target);
-    return or(mapMethod, () -> findSupportedMethod(NAVIGABLE_MAP_OPERATIONS, target));
+    return or(findSupportedMethod(MAP_OPERATIONS, target), () -> target instanceof NavigableMap
+        ? findSupportedMethod(NAVIGABLE_MAP_OPERATIONS, (NavigableMap<?, ?>) target)
+        : Optional.empty());
   }
 
   /**
@@ -256,7 +225,32 @@ final class MutatingMethodFinder implements CollectionVisitor<Optional<String>> 
     };
   }
 
-  /** This method is first included in Java 9. */
+  /**
+   * Test an operation that will only have an effect when a collection has at least one element.
+   *
+   * @param operation an operation that consumes the target collection and an element in the
+   *   collection
+   */
+  private static <C extends Collection> Consumer<C> skipEmpty(final BiConsumer<C, Object> operation) {
+    return target -> {
+      if (target.isEmpty()) throw new UnsupportedOperationException("empty collection");
+      operation.accept(target, target.iterator().next());
+    };
+  }
+
+  /**
+   * Test an operation that will only have an effect when a map has at least one element.
+   *
+   * @param operation an operation that consumes the target map and a key in the map
+   */
+  private static <M extends Map> Consumer<M> skipEmptyMap(final BiConsumer<M, Object> operation) {
+    return target -> {
+      if (target.isEmpty()) throw new UnsupportedOperationException("empty map");
+      operation.accept(target, target.keySet().iterator().next());
+    };
+  }
+
+  /** Return the primary, if present, otherwise the secondary. */
   private static Optional<String> or(final Optional<String> primary, final Supplier<Optional<String>> secondary) {
     return primary.isPresent() ? primary : secondary.get();
   }

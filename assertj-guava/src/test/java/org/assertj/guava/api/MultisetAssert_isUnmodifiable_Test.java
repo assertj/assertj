@@ -13,11 +13,11 @@
 package org.assertj.guava.api;
 
 import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Multisets;
 import com.google.common.collect.TreeMultiset;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -60,17 +60,21 @@ class MultisetAssert_isUnmodifiable_Test {
                                HashMultiset.create(), shouldBeUnmodifiable("Collection.add(null)")));
   }
 
-  @Test
-  @Disabled("add removeIf() to UnmodifiableMultiSet")
-  void should_pass() {
-    // GIVEN
-    // removeIf() is implemented but only fails with non-empty sets
-    Multiset<String> multiset = HashMultiset.create();
-    multiset.add("");
-    Multiset<String> unmodifiableView = Multisets.unmodifiableMultiset(multiset);
+  @ParameterizedTest
+  @MethodSource("unodifiableMultisets")
+  void should_pass_if_actual_is_unmodifiable(Multiset<String> actual) {
+    assertThatNoException().as(actual.getClass().getName())
+                           .isThrownBy(() -> assertThat(actual).isUnmodifiable());
+  }
 
-    // WHEN/THEN
-    assertThatNoException().as(unmodifiableView.getClass().getName())
-                           .isThrownBy(() -> assertThat(unmodifiableView).isUnmodifiable());
+  private static Stream<Multiset<String>> unodifiableMultisets() {
+    Multiset<String> nonEmptyModifiable = HashMultiset.create();
+    nonEmptyModifiable.add("a");
+
+    return Stream.of(
+                     Multisets.unmodifiableMultiset(HashMultiset.create()),
+                     Multisets.unmodifiableMultiset(nonEmptyModifiable),
+                     ImmutableMultiset.of(),
+                     ImmutableMultiset.of("a"));
   }
 }

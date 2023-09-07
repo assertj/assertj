@@ -12,16 +12,16 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
-import static org.assertj.core.api.Assertions.catchNullPointerException;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
+import org.apache.commons.collections4.list.UnmodifiableList;
+import org.assertj.core.test.jdk11.Jdk11;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -30,11 +30,14 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Lists.list;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 
 /** Tests finding mutating methods in lists. */
 class MutatingMethodFinder_List_Test extends MutatingMethodFinder_Collection_Test {
@@ -49,12 +52,16 @@ class MutatingMethodFinder_List_Test extends MutatingMethodFinder_Collection_Tes
   @ParameterizedTest
   @MethodSource("one_mutating_method_source")
   void one_mutating_method(final String method, final int argumentCount) {
-    testOneMutatingMethodInCollection(List.class, new ArrayList<>(), method, argumentCount);
+    List<String> target = new ArrayList<>();
+    target.add("a");
+    target.add("b");
+    testOneMutatingMethodInCollection(List.class, target, method, argumentCount);
   }
 
   /** Mutating list and collection methods. */
   static Stream<Arguments> one_mutating_method_source() {
-    final Stream<Arguments> methods = Stream.of(Arguments.of("add", 2),
+    final Stream<Arguments> methods = Stream.of(
+                                                Arguments.of("add", 2),
                                                 Arguments.of("addAll", 2),
                                                 Arguments.of("remove", 1),
                                                 Arguments.of("replaceAll", 1),
@@ -68,7 +75,7 @@ class MutatingMethodFinder_List_Test extends MutatingMethodFinder_Collection_Tes
   class Iterator_Test {
     @Test
     void successful_remove_is_detected() {
-      testIterator(List.class, "iterator", mock(Iterator.class), "remove");
+      testIterator(List.class, Collections.singletonList(""), "iterator", mock(Iterator.class), "remove");
     }
 
     @Test
@@ -76,7 +83,7 @@ class MutatingMethodFinder_List_Test extends MutatingMethodFinder_Collection_Tes
       ListIterator<?> iterator = mock(ListIterator.class);
       doThrow(UnsupportedOperationException.class).when(iterator).remove();
       doThrow(UnsupportedOperationException.class).when(iterator).add(any());
-      testIterator(List.class, "listIterator", iterator, "set");
+      testIterator(List.class, Collections.singletonList(""), "listIterator", iterator, "set");
     }
 
     @Test
@@ -84,7 +91,7 @@ class MutatingMethodFinder_List_Test extends MutatingMethodFinder_Collection_Tes
       ListIterator<?> iterator = mock(ListIterator.class);
       doThrow(UnsupportedOperationException.class).when(iterator).remove();
       doThrow(UnsupportedOperationException.class).when(iterator).set(any());
-      testIterator(List.class, "listIterator", iterator, "add");
+      testIterator(List.class, Collections.singletonList(""), "listIterator", iterator, "add");
     }
 
     @Test
@@ -92,7 +99,7 @@ class MutatingMethodFinder_List_Test extends MutatingMethodFinder_Collection_Tes
       ListIterator<?> iterator = mock(ListIterator.class);
       doThrow(UnsupportedOperationException.class).when(iterator).set(any());
       doThrow(UnsupportedOperationException.class).when(iterator).add(any());
-      testIterator(List.class, "listIterator", iterator, "remove");
+      testIterator(List.class, Collections.singletonList(""), "listIterator", iterator, "remove");
     }
   }
 
@@ -103,7 +110,16 @@ class MutatingMethodFinder_List_Test extends MutatingMethodFinder_Collection_Tes
   }
 
   static Stream<Arguments> an_immutable_list_is_identified_source() {
-    return Stream.of(Collections.emptyList(), Collections.singletonList(""), ImmutableList.of())
+    return Stream.of(
+                     Collections.emptyList(),
+                     Collections.singletonList("element"),
+                     Collections.unmodifiableList(list(new Object())),
+                     ImmutableList.of(),
+                     ImmutableList.of(new Object()),
+                     Jdk11.List.of(),
+                     Jdk11.List.of("element"),
+                     UnmodifiableList.unmodifiableList(list()),
+                     UnmodifiableList.unmodifiableList(list(new Object())))
                  .map(list -> Arguments.of(list, list.getClass()));
   }
 

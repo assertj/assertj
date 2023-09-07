@@ -12,48 +12,32 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.AllowMethod.forMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.Collection;
+
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 import java.util.NavigableMap;
-import java.util.NavigableSet;
 import java.util.Optional;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.Vector;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.Nested;
+
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /** Tests finding mutating methods in maps. */
-class MutatingMethodFinder_Map_Test extends MutatingMethodFinder_Test {
+final class MutatingMethodFinder_Map_Test {
+  /** The instance to test. */
+  private final CollectionVisitor<Optional<String>> finder = new MutatingMethodFinder();
+
   @Test
   void should_not_allow_a_null_list() {
     // WHEN
@@ -65,7 +49,9 @@ class MutatingMethodFinder_Map_Test extends MutatingMethodFinder_Test {
   @ParameterizedTest
   @MethodSource("one_mutating_map_method_is_detected_source")
   void one_mutating_map_method_is_detected(final String method, final int argumentCount) {
-    testOneMutatingMethodInMap(Map.class, new HashMap<String, String>(), method, argumentCount);
+    final Map<String, String> target = new HashMap<>();
+    target.put("key", "value");
+    testOneMutatingMethodInMap(Map.class, target, method, argumentCount);
   }
 
   /** Mutating map methods. */
@@ -87,9 +73,10 @@ class MutatingMethodFinder_Map_Test extends MutatingMethodFinder_Test {
 
   @ParameterizedTest
   @MethodSource("one_mutating_navigable_map_method_is_detected_source")
-  void one_mutating_navigable_map_method_is_detected(
-                                                     final String method, final int argumentCount) {
-    testOneMutatingMethodInMap(NavigableMap.class, new TreeMap<>(), method, argumentCount);
+  void one_mutating_navigable_map_method_is_detected(final String method, final int argumentCount) {
+    final NavigableMap<String, String> target = new TreeMap<>();
+    target.put("key", "value");
+    testOneMutatingMethodInMap(NavigableMap.class, target, method, argumentCount);
   }
 
   /** Mutating navigable map methods. */
@@ -134,7 +121,7 @@ class MutatingMethodFinder_Map_Test extends MutatingMethodFinder_Test {
                                           final String method,
                                           final int argumentCount) {
     // GIVEN
-    Map<String, String> proxyInstance = withMutatingMethod(interfaceType, target, method, argumentCount);
+    Map<String, String> proxyInstance = forMap(interfaceType, target, method, argumentCount);
     // WHEN
     Optional<String> actual = finder.visitMap(proxyInstance);
     // THEN

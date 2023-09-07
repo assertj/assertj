@@ -66,11 +66,11 @@ class MapAssert_isUnmodifiable_Test {
   }
 
   private static Stream<Arguments> modifiableMaps() {
-    return Stream.of(arguments(new EnumMap<>(ChronoUnit.class), shouldBeUnmodifiable("Map.clear()")),
-                     arguments(new IdentityHashMap<>(), shouldBeUnmodifiable("Map.clear()")),
-                     arguments(new HashMap<>(), shouldBeUnmodifiable("Map.clear()")),
-                     arguments(new TreeMap<>(), shouldBeUnmodifiable("Map.clear()")),
-                     arguments(new LinkedHashMap<>(), shouldBeUnmodifiable("Map.clear()")));
+    return Stream.of(arguments(new EnumMap<>(ChronoUnit.class), shouldBeUnmodifiable("Map.compute(null, (k, v) -> v)")),
+                     arguments(new IdentityHashMap<>(), shouldBeUnmodifiable("Map.compute(null, (k, v) -> v)")),
+                     arguments(new HashMap<>(), shouldBeUnmodifiable("Map.compute(null, (k, v) -> v)")),
+                     arguments(new TreeMap<>(), shouldBeUnmodifiable("Map.compute(null, (k, v) -> v)")),
+                     arguments(new LinkedHashMap<>(), shouldBeUnmodifiable("Map.compute(null, (k, v) -> v)")));
   }
 
   @Test

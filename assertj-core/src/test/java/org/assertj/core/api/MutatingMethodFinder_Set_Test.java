@@ -12,47 +12,25 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.catchNullPointerException;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
-
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.NavigableMap;
-import java.util.NavigableSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
-import java.util.Vector;
-import java.util.stream.Stream;
-
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.NavigableSet;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.catchNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.mockito.Mockito.mock;
 
 /** Tests finding mutating methods in sets. */
 class MutatingMethodFinder_Set_Test extends MutatingMethodFinder_Collection_Test {
@@ -67,13 +45,17 @@ class MutatingMethodFinder_Set_Test extends MutatingMethodFinder_Collection_Test
   @MethodSource("org.assertj.core.api.MutatingMethodFinder_Collection_Test#collectionMethods")
   @ParameterizedTest
   void one_mutating_set_method(final String method, final int argumentCount) {
-    testOneMutatingMethodInCollection(Set.class, new HashSet<>(), method, argumentCount);
+    Set<String> target = new HashSet<>();
+    target.add("");
+    testOneMutatingMethodInCollection(Set.class, target, method, argumentCount);
   }
 
   @ParameterizedTest
   @MethodSource("one_mutating_navigable_set_method_source")
   void one_mutating_navigable_set_method(final String method, final int argumentCount) {
-    testOneMutatingMethodInCollection(NavigableSet.class, new TreeSet<>(), method, argumentCount);
+    NavigableSet<String> target = new TreeSet<>();
+    target.add("");
+    testOneMutatingMethodInCollection(NavigableSet.class, target, method, argumentCount);
   }
 
   /** Mutating navigable set methods. */
@@ -84,12 +66,16 @@ class MutatingMethodFinder_Set_Test extends MutatingMethodFinder_Collection_Test
 
   @Test
   void successful_iterator_remove_is_detected() {
-    testIterator(Set.class, "iterator", mock(Iterator.class), "remove");
+    NavigableSet<String> target = new TreeSet<>();
+    target.add("");
+    testIterator(Set.class, target, "iterator", mock(Iterator.class), "remove");
   }
 
   @Test
   void successful_navigable_set_iterator_remove_is_detected() {
-    testIterator(NavigableSet.class, "descendingIterator", mock(Iterator.class), "remove");
+    NavigableSet<String> target = new TreeSet<>();
+    target.add("a");
+    testIterator(NavigableSet.class, target, "descendingIterator", mock(Iterator.class), "remove");
   }
 
   @ParameterizedTest(name = "{1}")
@@ -99,7 +85,10 @@ class MutatingMethodFinder_Set_Test extends MutatingMethodFinder_Collection_Test
   }
 
   static Stream<Arguments> an_immutable_set_is_identified_source() {
-    return Stream.of(Collections.emptySet(), Collections.singleton(""), ImmutableSet.of())
+    return Stream.of(Collections.emptySet(),
+                     Collections.singleton("a"),
+                     ImmutableSet.of(),
+                     ImmutableSet.of("a"))
                  .map(set -> Arguments.of(set, set.getClass()));
   }
 
