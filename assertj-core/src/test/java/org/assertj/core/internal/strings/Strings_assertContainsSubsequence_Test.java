@@ -12,14 +12,13 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsNull;
+import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -29,10 +28,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.internal.StringsBaseTest;
-import org.assertj.core.test.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
-
-import java.util.Map;
 
 class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
 
@@ -152,7 +148,7 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     // WHEN
     expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, Map.of("v2", 1), comparisonStrategy));
+    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, mapOf(entry("v2", 1)), comparisonStrategy));
   }
 
   @Test
@@ -174,7 +170,7 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     // WHEN
     expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, Map.of("da", 1), comparisonStrategy));
+    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, mapOf(entry("da", 1)), comparisonStrategy));
   }
 
   @Test
@@ -185,6 +181,6 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     // WHEN
     expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, Map.of("George", 1), comparisonStrategy));
+    verify(failures).failure(INFO, shouldContainSubsequence(actual, subsequence, mapOf(entry("George", 1)), comparisonStrategy));
   }
 }

@@ -13,8 +13,10 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
+import static org.assertj.core.test.Maps.mapOf;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -22,7 +24,6 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
-import java.util.Map;
 
 /**
  * Tests for <code>{@link ShouldContainSubsequenceOfCharSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -70,7 +71,7 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
     // GIVEN
     String[] sequenceValues = { "{", "title", "author", "title", "}" };
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
-    ErrorMessageFactory factory = shouldContainSubsequence(actual, sequenceValues, Map.of("title", 1),
+    ErrorMessageFactory factory = shouldContainSubsequence(actual, sequenceValues, mapOf(entry("title", 1)),
                                                            new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
