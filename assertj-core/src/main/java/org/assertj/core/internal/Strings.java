@@ -189,7 +189,7 @@ public class Strings {
     assertNotNull(info, actual);
     LineNumberReader reader = new LineNumberReader(new StringReader(actual.toString()));
     try {
-      while (reader.readLine() != null) ;
+      while (reader.readLine() != null);
     } catch (IOException e) {
       throw new InputStreamsException(format("Unable to count lines in `%s`", actual), e);
     }
@@ -254,7 +254,8 @@ public class Strings {
   public void assertContainsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (!containsIgnoreCase(actual, sequence)) throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
+    if (!containsIgnoreCase(actual, sequence))
+      throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
   }
 
   private boolean containsIgnoreCase(CharSequence actual, CharSequence sequence) {
@@ -298,11 +299,13 @@ public class Strings {
   }
 
   public void assertEqualsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (!areEqualIgnoringCase(actual, expected)) throw failures.failure(info, shouldBeEqual(actual, expected), actual, expected);
+    if (!areEqualIgnoringCase(actual, expected))
+      throw failures.failure(info, shouldBeEqual(actual, expected), actual, expected);
   }
 
   public void assertNotEqualsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (areEqualIgnoringCase(actual, expected)) throw failures.failure(info, shouldNotBeEqualIgnoringCase(actual, expected));
+    if (areEqualIgnoringCase(actual, expected))
+      throw failures.failure(info, shouldNotBeEqualIgnoringCase(actual, expected));
   }
 
   private static boolean areEqualIgnoringCase(CharSequence actual, CharSequence expected) {
@@ -605,10 +608,10 @@ public class Strings {
    * Handles the scenario where certain subsequences were not found in the actual CharSequence.
    * Depending on the exact mismatch details, it throws appropriate assertion failures.
    *
-   * @param info Assertion metadata.
-   * @param actual The actual CharSequence being checked.
+   * @param info        Assertion metadata.
+   * @param actual      The actual CharSequence being checked.
    * @param subsequence The expected subsequence to be found in the actual CharSequence.
-   * @param notFound A map containing subsequences that were not found (or not found enough times) and their respective counts.
+   * @param notFound    A map containing subsequences that were not found (or not found enough times) and their respective counts.
    */
   private void handleNotFound(AssertionInfo info, CharSequence actual,
                               CharSequence[] subsequence, Map<CharSequence, Integer> notFound) {
@@ -644,7 +647,7 @@ public class Strings {
   /**
    * Computes and returns a map of subsequences that were not found (or not found enough times) in the actual CharSequence.
    *
-   * @param actual The actual CharSequence being checked.
+   * @param actual      The actual CharSequence being checked.
    * @param subsequence The expected subsequence to be found in the actual CharSequence.
    * @return A map where the key represents the missing subsequence and the value represents the number of times it appears in 'actual'.
    */
@@ -656,7 +659,8 @@ public class Strings {
     // Create a map to store how many times each element appears in the 'subsequence' array.
     // We use the Java Streams API to group the elements by their identity and then count their occurrences.
     Map<CharSequence, Long> subseqCounts = stream(subsequence)
-        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+                                                              .collect(Collectors.groupingBy(Function.identity(),
+                                                                                             Collectors.counting()));
 
     // For each element in the 'subsequence', compute its occurrences in the 'actual' sequence.
     // If the element is not yet in the actualCounts map (v is null), then count its occurrences in 'actual'.
@@ -671,16 +675,17 @@ public class Strings {
     return subseqCounts.entrySet().stream()
                        .filter(entry -> entry.getValue() > actualCounts.getOrDefault(entry.getKey(), 0))
                        .collect(Collectors.toMap(
-                           // The key of the output map entry is the same as the subsequence entry key.
-                           Map.Entry::getKey,
-                           // The value of the output map entry is the number of times the key appears in 'actual'.
-                           entry -> actualCounts.get(entry.getKey()),
-                           // If there are duplicate keys when collecting (which shouldn't happen in this case),
-                           // prefer the existing key.
-                           (existing, replacement) -> existing,
-                           // Use a LinkedHashMap to maintain the insertion order.
-                           LinkedHashMap::new
-                       ));
+                                                 // The key of the output map entry is the same as the subsequence entry key.
+                                                 Map.Entry::getKey,
+                                                 // The value of the output map entry is the number of times the key appears in
+                                                 // 'actual'.
+                                                 entry -> actualCounts.get(entry.getKey()),
+                                                 // If there are duplicate keys when collecting (which shouldn't happen in this
+                                                 // case),
+                                                 // prefer the existing key.
+                                                 (existing, replacement) -> existing,
+                                                 // Use a LinkedHashMap to maintain the insertion order.
+                                                 LinkedHashMap::new));
   }
 
   private String removeUpTo(String string, CharSequence toRemove) {

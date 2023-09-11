@@ -55,7 +55,8 @@ public class ShouldContainSubsequenceOfCharSequence extends BasicErrorMessageFac
 
     return new ShouldContainSubsequenceOfCharSequence("%nExpecting actual:%n" +
                                                       "  %s%n" +
-                                                      "to contain the following CharSequences in this order (possibly with other values between them):%n" +
+                                                      "to contain the following CharSequences in this order (possibly with other values between them):%n"
+                                                      +
                                                       "  %s%n" +
                                                       "but %s was found before %s%n%s",
                                                       actual, strings, strings[badOrderIndex + 1],
@@ -79,14 +80,15 @@ public class ShouldContainSubsequenceOfCharSequence extends BasicErrorMessageFac
                                                              ComparisonStrategy comparisonStrategy) {
 
     String detailedErrorMessage = notFoundRepeatedSubsequence.entrySet().stream()
-                                                             .map(entry ->
-                                                               String.format("%s occurrence of \"%s\" was not found", ordinal(entry.getValue() + 1), entry.getKey())
-                                                             )
+                                                             .map(entry -> String.format("%s occurrence of \"%s\" was not found",
+                                                                                         ordinal(entry.getValue() + 1),
+                                                                                         entry.getKey()))
                                                              .collect(Collectors.joining("%n"));
 
     return new ShouldContainSubsequenceOfCharSequence("%nExpecting actual:%n" +
                                                       "  %s%n" +
-                                                      "to contain the following CharSequences in this order (possibly with other values between them):%n" +
+                                                      "to contain the following CharSequences in this order (possibly with other values between them):%n"
+                                                      +
                                                       "  %s%n" +
                                                       "But%n" +
                                                       detailedErrorMessage + "%n%s",

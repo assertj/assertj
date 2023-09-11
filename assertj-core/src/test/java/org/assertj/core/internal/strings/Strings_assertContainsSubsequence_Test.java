@@ -155,7 +155,7 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
   void should_fail_when_actual_does_not_contain_non_existing_elements_and_missing_subsequence_duplicates() {
     // GIVEN
     String actual = "v1 : v2 : v3 : v2";
-    String[] subsequence = { "v2", "v2", "v2", "v3", "v4", "v5"};
+    String[] subsequence = { "v2", "v2", "v2", "v3", "v4", "v5" };
     // WHEN
     expectAssertionError(() -> strings.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
@@ -177,7 +177,7 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
   void should_fail_if_actual_does_not_contain_repeated_occurrences_of_subsequence_values_in_text_with_multiple_values() {
     // GIVEN
     String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
-    String[] subsequence = new String[]{"George", "George"};
+    String[] subsequence = new String[] { "George", "George" };
     // WHEN
     expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN

@@ -24,7 +24,6 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ShouldContainSubsequenceOfCharSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
  *
@@ -43,7 +42,8 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  \"" + actual + "\"%n" +
-                                   "to contain the following CharSequences in this order (possibly with other values between them):%n" +
+                                   "to contain the following CharSequences in this order (possibly with other values between them):%n"
+                                   +
                                    "  [\"{\", \"author\", \"title\", \"}\"]%n" +
                                    "but \"title\" was found before \"author\"%n"));
   }
@@ -60,7 +60,8 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  \"" + actual + "\"%n" +
-                                   "to contain the following CharSequences in this order (possibly with other values between them):%n" +
+                                   "to contain the following CharSequences in this order (possibly with other values between them):%n"
+                                   +
                                    "  [\"{\", \"author\", \"title\", \"}\"]%n" +
                                    "but \"title\" was found before \"author\"%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
@@ -78,7 +79,8 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting actual:%n" +
                                    "  \"" + actual + "\"%n" +
-                                   "to contain the following CharSequences in this order (possibly with other values between them):%n" +
+                                   "to contain the following CharSequences in this order (possibly with other values between them):%n"
+                                   +
                                    "  [\"{\", \"title\", \"author\", \"title\", \"}\"]%n" +
                                    "But%n" +
                                    "2nd occurrence of \"title\" was not found%n" +
