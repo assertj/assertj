@@ -20,10 +20,13 @@ import java.util.List;
 /**
  * {@code Comparator} comparing objects recursively as in {@link org.assertj.core.api.RecursiveComparisonAssert}.
  * <p>
- * This comparator does not enforce any ordering, it just returns 0 if compared objects are equals according the recursive
- * comparison and a non 0 value otherwise.
+ * This comparator does not enforce any ordering, it just returns zero if
+ * the compared objects are equals according the recursive comparison,
+ * or a non-zero value otherwise.
  * <p>
  * This comparator honors the {@link RecursiveComparisonConfiguration} passed at construction time.
+ *
+ * @since 3.24.0
  */
 public class RecursiveComparator implements Comparator<Object> {
 
@@ -46,11 +49,11 @@ public class RecursiveComparator implements Comparator<Object> {
   }
 
   /**
-   * Returns 0 if the arguments are recursively equal to each other, a non-zero otherwise (no ordering enforced).
+   * Returns zero if the arguments are recursively equal to each other, or non-zero otherwise (no ordering enforced).
    *
    * @param actual the object to compare to {@code other}
    * @param other the object to compare to {@code actual}
-   * @return 0 if the arguments are recursively equal to each other, a non-zero otherwise.
+   * @return zero if the arguments are recursively equal to each other, or non-zero otherwise.
    */
   @Override
   public int compare(Object actual, Object other) {
@@ -64,4 +67,5 @@ public class RecursiveComparator implements Comparator<Object> {
     return format("RecursiveComparator a comparator based on the recursive comparison with the following configuration:%n%s",
                   recursiveComparisonConfiguration);
   }
+
 }
