@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static java.lang.String.format;
+
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} contains a Subsequence of
  * several {@code CharSequence}s in order failed.
@@ -80,9 +82,9 @@ public class ShouldContainSubsequenceOfCharSequence extends BasicErrorMessageFac
                                                              ComparisonStrategy comparisonStrategy) {
 
     String detailedErrorMessage = notFoundRepeatedSubsequence.entrySet().stream()
-                                                             .map(entry -> String.format("%s occurrence of \"%s\" was not found",
-                                                                                         ordinal(entry.getValue() + 1),
-                                                                                         entry.getKey()))
+                                                             .map(entry -> format("the %s occurrence of \"%s\" was not found",
+                                                                                  ordinal(entry.getValue() + 1),
+                                                                                  entry.getKey()))
                                                              .collect(Collectors.joining("%n"));
 
     return new ShouldContainSubsequenceOfCharSequence("%nExpecting actual:%n" +
@@ -90,23 +92,30 @@ public class ShouldContainSubsequenceOfCharSequence extends BasicErrorMessageFac
                                                       "to contain the following CharSequences in this order (possibly with other values between them):%n"
                                                       +
                                                       "  %s%n" +
-                                                      "But%n" +
-                                                      detailedErrorMessage + "%n%s",
+                                                      "But " + detailedErrorMessage + "%n%s",
                                                       actual, strings, comparisonStrategy);
   }
 
-  public static String ordinal(int i) {
+  /**
+   * Returns the ordinal representation of a given integer.
+   * <p>
+   * This method converts integers to their ordinal form (e.g., 1 to "1st", 2 to "2nd", etc.).
+   * Special cases for numbers ending in 11, 12, and 13 are handled to return "th" instead of
+   * "st", "nd", or "rd".
+   * </p>
+   *
+   * @param i the integer to convert
+   * @return the ordinal representation of {@code i}
+   */
+  private static String ordinal(int i) {
     int mod100 = i % 100;
     int mod10 = i % 10;
-    if (mod10 == 1 && mod100 != 11) {
-      return i + "st";
-    } else if (mod10 == 2 && mod100 != 12) {
-      return i + "nd";
-    } else if (mod10 == 3 && mod100 != 13) {
-      return i + "rd";
-    } else {
-      return i + "th";
-    }
+
+    if (mod10 == 1 && mod100 != 11) return i + "st";
+    if (mod10 == 2 && mod100 != 12) return i + "nd";
+    if (mod10 == 3 && mod100 != 13) return i + "rd";
+
+    return i + "th";
   }
 
   private ShouldContainSubsequenceOfCharSequence(String format, CharSequence actual, CharSequence[] strings,

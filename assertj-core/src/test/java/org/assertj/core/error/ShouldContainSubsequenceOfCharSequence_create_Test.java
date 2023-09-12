@@ -23,6 +23,10 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
 
 /**
  * Tests for <code>{@link ShouldContainSubsequenceOfCharSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
@@ -67,12 +71,69 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 
+  @ParameterizedTest(name = "Testing {0} occurrence of title")
+  @MethodSource("provideTestCases")
+  void should_create_error_message_indicating_duplicate_subsequence(int occurrence, String[] sequenceValues, String actual,
+                                                                    String expectedErrorMessage) {
+    ErrorMessageFactory factory = shouldContainSubsequence(actual, sequenceValues, mapOf(entry("title", occurrence - 1)),
+                                                           new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
+
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+
+    // THEN
+    then(message).isEqualTo(expectedErrorMessage);
+  }
+
+  private static Stream<Object[]> provideTestCases() {
+    String actual2ndNotFound = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+    String actual3rdNotFound = "{ 'title':'A Game of Thrones', 'author':'George Martin', 'title':'A Clash of Kings', 'author':'George Martin'}";
+    String actual4thNotFound = "{ 'title':'A Game of Thrones', 'author':'George Martin', 'title':'A Clash of Kings', 'author':'George Martin', 'title':'A Storm of Swords', 'author':'George Martin'}";
+    return Stream.of(
+                     new Object[] {
+                         2,
+                         new String[] { "{", "title", "author", "title", "}" },
+                         actual2ndNotFound,
+                         format("[Test] %nExpecting actual:%n" +
+                                "  \"" + actual2ndNotFound + "\"%n" +
+                                "to contain the following CharSequences in this order (possibly with other values between them):%n"
+                                +
+                                "  [\"{\", \"title\", \"author\", \"title\", \"}\"]%n" +
+                                "But the 2nd occurrence of \"title\" was not found%n" +
+                                "when comparing values using CaseInsensitiveStringComparator")
+                     },
+                     new Object[] {
+                         3,
+                         new String[] { "{", "title", "author", "title", "title", "}" },
+                         actual3rdNotFound,
+                         format("[Test] %nExpecting actual:%n" +
+                                "  \"" + actual3rdNotFound + "\"%n" +
+                                "to contain the following CharSequences in this order (possibly with other values between them):%n"
+                                +
+                                "  [\"{\", \"title\", \"author\", \"title\", \"title\", \"}\"]%n" +
+                                "But the 3rd occurrence of \"title\" was not found%n" +
+                                "when comparing values using CaseInsensitiveStringComparator")
+                     },
+                     new Object[] {
+                         4,
+                         new String[] { "{", "title", "author", "title", "title", "title", "}" },
+                         actual4thNotFound,
+                         format("[Test] %nExpecting actual:%n" +
+                                "  \"" + actual4thNotFound + "\"%n" +
+                                "to contain the following CharSequences in this order (possibly with other values between them):%n"
+                                +
+                                "  [\"{\", \"title\", \"author\", \"title\", \"title\", \"title\", \"}\"]%n" +
+                                "But the 4th occurrence of \"title\" was not found%n" +
+                                "when comparing values using CaseInsensitiveStringComparator")
+                     });
+  }
+
   @Test
-  void should_create_error_message_indicating_duplicate_subsequence() {
+  void should_create_error_message_indicating_multiple_duplicate_subsequence() {
     // GIVEN
-    String[] sequenceValues = { "{", "title", "author", "title", "}" };
-    String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
-    ErrorMessageFactory factory = shouldContainSubsequence(actual, sequenceValues, mapOf(entry("title", 1)),
+    String[] sequenceValues = { "{", "title", "George", "title", "title", "George", "}" };
+    String actual = "{ 'title':'A Game of Thrones', 'author':'George Martin', 'title':'The Kingkiller Chronicle', 'author':'Patrick Rothfuss'}";
+    ErrorMessageFactory factory = shouldContainSubsequence(actual, sequenceValues, mapOf(entry("title", 2), entry("George", 1)),
                                                            new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
@@ -81,9 +142,9 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
                                    "  \"" + actual + "\"%n" +
                                    "to contain the following CharSequences in this order (possibly with other values between them):%n"
                                    +
-                                   "  [\"{\", \"title\", \"author\", \"title\", \"}\"]%n" +
-                                   "But%n" +
-                                   "2nd occurrence of \"title\" was not found%n" +
+                                   "  [\"{\", \"title\", \"author\", \"title\", \"title\", \"}\"]%n" +
+                                   "But the 3rd occurrence of \"title\" was not found%n" +
+                                   "the 2nd occurrence of \"George\" was not found%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 }
