@@ -19,6 +19,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.util.DoubleComparator;
 import org.assertj.core.util.FloatComparator;
+import org.assertj.core.util.Pair;
 import org.assertj.core.util.PathNaturalOrderComparator;
 
 /**
@@ -86,7 +87,7 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    *
    * @return sequence of field-comparator pairs
    */
-  public Stream<Entry<Class<?>, Comparator<?>>> comparatorByTypes() {
+  public Stream<Entry<Pair<Class<?>,Class<?>>, Comparator<?>>> comparatorByTypes() {
     return super.entityByTypes();
   }
 }

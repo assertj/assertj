@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.util.Pair.pair;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Comparator;
@@ -55,7 +56,7 @@ class RecursiveComparisonAssert_for_iterables_Test {
                                                                    .usingRecursiveComparison()
                                                                    .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(assertion.comparatorByTypes()).contains(entry(String.class, alwayEqualsString));
+    assertThat(assertion.comparatorByTypes()).contains(entry(pair(String.class, null), alwayEqualsString));
   }
 
 }

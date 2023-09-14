@@ -32,6 +32,7 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCa
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.Pair;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>> extends AbstractAssert<SELF, Object> {
@@ -1525,6 +1526,12 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
     return myself;
   }
 
+  // TODO: 15/09/23 bicomparator 
+  public <T,U> SELF withComparatorForType(Comparator<? super T> comparator, Class<T> type, Class<U> otherType) {
+    recursiveComparisonConfiguration.registerComparatorForType(comparator, type);
+    return myself;
+  }
+
   /**
    * Allows to register a {@link BiPredicate} to compare the fields with the given type.
    * A typical usage is to compare double/float fields with a given precision.
@@ -1752,8 +1759,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  private void registerComparatorForType(Entry<Class<?>, Comparator<?>> entry) {
-    withComparatorForType((Comparator) entry.getValue(), entry.getKey());
+  private void registerComparatorForType(Entry<Pair<Class<?>, Class<?>>, Comparator<?>> entry) {
+    withComparatorForType((Comparator) entry.getValue(), entry.getKey().left(), entry.getKey().right());
   }
 
   /**

@@ -34,6 +34,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -43,6 +44,7 @@ import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.TypeMessages;
 import org.assertj.core.presentation.Representation;
+import org.assertj.core.util.Pair;
 import org.assertj.core.util.VisibleForTesting;
 
 public class RecursiveComparisonConfiguration extends AbstractRecursiveOperationConfiguration {
@@ -160,7 +162,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return typeComparators;
   }
 
-  Stream<Entry<Class<?>, Comparator<?>>> comparatorByTypes() {
+  Stream<Entry<Pair<Class<?>, Class<?>>, Comparator<?>>> comparatorByTypes() {
     return typeComparators.comparatorByTypes();
   }
 
@@ -971,8 +973,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                    .forEach(description::append);
   }
 
-  private String formatRegisteredComparatorByType(Entry<Class<?>, Comparator<?>> next) {
-    return format("%s %s -> %s%n", INDENT_LEVEL_2, next.getKey().getName(), next.getValue());
+  private String formatRegisteredComparatorByType(Entry<Pair<Class<?>, Class<?>>, Comparator<?>> next) {
+    if (next.getKey().right() == null) {
+      return format("%s %s -> %s%n", INDENT_LEVEL_2, next.getKey().left().getName(), next.getValue());
+    } else {
+      return format("%s [%s - %s] -> %s%n", INDENT_LEVEL_2, next.getKey().left().getName(), next.getKey().right().getName(), next.getValue());
+    }
   }
 
   private void describeRegisteredComparatorForFields(StringBuilder description) {
@@ -1048,7 +1054,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private void describeErrorMessagesForType(StringBuilder description) {
     String types = typeMessages.messageByTypes()
-                               .map(it -> it.getKey().getName())
+                               .map(this::formatErrorMessageForType)
                                .collect(joining(DEFAULT_DELIMITER));
     description.append(format("%s %s%n", INDENT_LEVEL_2, types));
   }
@@ -1497,6 +1503,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private static Comparator toComparator(BiPredicate equals) {
     requireNonNull(equals, "Expecting a non null BiPredicate");
     return (o1, o2) -> equals.test(o1, o2) ? 0 : 1;
+  }
+
+  private String formatErrorMessageForType(Map.Entry<Pair<Class<?>, Class<?>>, String> entry) {
+    return entry.getKey().right() == null
+        ? entry.getKey().left().getName()
+        : format("[%s - %s]", entry.getKey().left().getName(), entry.getKey().right().getName());
   }
 
 }
