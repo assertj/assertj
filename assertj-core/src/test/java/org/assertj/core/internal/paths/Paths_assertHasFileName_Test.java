@@ -25,6 +25,8 @@ import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 class Paths_assertHasFileName_Test extends PathsBaseTest {
 
@@ -90,6 +92,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
   }
 
   @Test
+  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
   void should_pass_with_existing_symbolic_link() throws IOException {
     // GIVEN
     Path actual = createSymbolicLink(tempDir.resolve("actual"), tempDir);
