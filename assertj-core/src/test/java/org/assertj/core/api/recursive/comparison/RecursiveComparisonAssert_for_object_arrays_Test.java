@@ -47,7 +47,8 @@ class RecursiveComparisonAssert_for_object_arrays_Test {
                                                                    .usingRecursiveComparison()
                                                                    .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(assertion.comparatorByTypes()).contains(entry(pair(String.class, null), alwayEqualsString));
+    assertThat(assertion.comparatorByTypes()).anyMatch(e -> e.getKey().left() == String.class && e.getKey().right() == null
+                                                            && e.getValue() != null);
   }
 
 }

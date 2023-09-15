@@ -45,7 +45,8 @@ class RecursiveComparisonConfiguration_comparatorByType_Test {
     // WHEN
     TypeComparators typeComparators = recursiveComparisonConfiguration.getTypeComparators();
     // THEN
-    List<Entry<Pair<Class<?>, Class<?>>, Comparator<?>>> defaultComparators = defaultTypeComparators().comparatorByTypes().collect(toList());
+    List<Entry<Pair<Class<?>, Class<?>>, Comparator<?>>> defaultComparators = defaultTypeComparators().comparatorByTypes()
+                                                                                                      .collect(toList());
     assertThat(typeComparators.comparatorByTypes()).containsExactlyElementsOf(defaultComparators);
   }
 

@@ -50,7 +50,8 @@ class RecursiveComparisonAssert_fluent_API_Test {
                                                                                           .getRecursiveComparisonConfiguration();
     // THEN
     assertThat(recursiveComparisonConfiguration.isInStrictTypeCheckingMode()).isFalse();
-    List<Entry<Pair<Class<?>, Class<?>>, Comparator<?>>> defaultComparators = defaultTypeComparators().comparatorByTypes().collect(toList());
+    List<Entry<Pair<Class<?>, Class<?>>, Comparator<?>>> defaultComparators = defaultTypeComparators().comparatorByTypes()
+                                                                                                      .collect(toList());
     assertThat(recursiveComparisonConfiguration.comparatorByTypes()).containsExactlyElementsOf(defaultComparators);
     assertThat(recursiveComparisonConfiguration.comparatorByFields()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoreAllActualNullFields()).isFalse();
@@ -280,9 +281,10 @@ class RecursiveComparisonAssert_fluent_API_Test {
                                                                        .withEqualsForType((o1, o2) -> true, type3)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.comparatorByTypes()).contains(entry(pair(type1,null), ALWAYS_EQUALS_STRING),
-                                                           entry(pair(type2,null), ALWAYS_EQUALS_TIMESTAMP));
-    assertThat(configuration.comparatorByTypes()).anyMatch(entry -> entry.getKey().left().equals(type3) && entry.getValue() != null);
+    assertThat(configuration.comparatorByTypes()).contains(entry(pair(type1, null), ALWAYS_EQUALS_STRING),
+                                                           entry(pair(type2, null), ALWAYS_EQUALS_TIMESTAMP));
+    assertThat(configuration.comparatorByTypes()).anyMatch(entry -> entry.getKey().left().equals(type3)
+                                                                    && entry.getValue() != null);
   }
 
   @Test

@@ -34,7 +34,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.function.BiPredicate;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -44,6 +43,7 @@ import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.TypeMessages;
 import org.assertj.core.presentation.Representation;
+import org.assertj.core.util.BiComparator;
 import org.assertj.core.util.Pair;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -139,7 +139,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   public boolean hasComparatorForType(Class<?> keyType) {
-    return typeComparators.hasComparatorForType(keyType);
+    return hasComparatorForType(keyType, null);
+  }
+
+  public boolean hasComparatorForType(Class<?> keyType, Class<?> otherKeyType) {
+    return typeComparators.hasComparatorForTypes(keyType, otherKeyType);
   }
 
   public boolean hasCustomComparators() {
@@ -147,7 +151,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   public Comparator<?> getComparatorForType(Class<?> fieldType) {
-    return typeComparators.getComparatorForType(fieldType);
+    return getComparatorForType(fieldType, null);
+  }
+
+  public Comparator<?> getComparatorForType(Class<?> fieldType, Class<?> otherFieldType) {
+    return typeComparators.getComparatorForTypes(fieldType, otherFieldType);
   }
 
   public boolean hasCustomMessageForType(Class<?> fieldType) {
@@ -405,7 +413,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * Registers the given {@link Comparator} to compare the fields with the given type.
    * <p>
    * Comparators registered with this method have less precedence than comparators registered with
-   * {@link #registerComparatorForFields(Comparator, String...)}.
+   * {@link #registerComparatorForTypes(BiComparator, Class, Class)}.
    * <p>
    * Note that registering a {@link Comparator} for a given type will override the previously registered BiPredicate/Comparator (if any).
    * <p>
@@ -422,10 +430,33 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   /**
+   * Registers the given {@link BiComparator} to compare the fields with the given types.
+   * <p>
+   * Comparators registered with this method have less precedence than comparators registered with
+   * {@link #registerComparatorForFields(Comparator, String...)}.
+   * <p>
+   * Note that registering a {@link BiComparator} for a given types will override the previously registered BiPredicate/Comparator (if any).
+   * <p>
+   * See {@link RecursiveComparisonAssert#withComparatorForTypes(BiComparator, Class, Class)} for examples.
+   *
+   * @param <T> the class of the left element to register a comparator for
+   * @param <U> the class of the right element to register a comparator for
+   * @param comparator the {@link BiComparator Comparator} to use to compare the given type
+   * @param type the type of the left element to be compared with the given comparator.
+   * @param otherType the type of the right element  to be compared with the given comparator.
+   * @throws NullPointerException if the given comparator is null.
+   */
+  public <T, U> void registerComparatorForTypes(BiComparator<? super T, ? super U> comparator, Class<T> type,
+                                                Class<U> otherType) {
+    requireNonNull(comparator, "Expecting a non null BiComparator");
+    typeComparators.registerComparator(type, otherType, comparator);
+  }
+
+  /**
    * Registers the given {@link BiPredicate} to compare the fields with the given type.
    * <p>
    * BiPredicates specified with this method have less precedence than the ones registered with
-   * {@link #registerEqualsForFields(BiPredicate, String...)}
+   * {@link #registerEqualsForTypes(BiPredicate, Class, Class)}, {@link #registerEqualsForFields(BiPredicate, String...)}
    * or comparators registered with {@link #registerComparatorForFields(Comparator, String...)}.
    * <p>
    * Note that registering a {@link BiPredicate} for a given type will override the previously registered BiPredicate/Comparator (if any).
@@ -441,6 +472,29 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   @SuppressWarnings("unchecked")
   public <T> void registerEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
     registerComparatorForType(toComparator(equals), type);
+  }
+
+  /**
+   * Registers the given {@link BiPredicate} to compare the fields with the given types.
+   * <p>
+   * BiPredicates specified with this method have less precedence than the ones registered with
+   * {@link #registerEqualsForFields(BiPredicate, String...)}
+   * or comparators registered with {@link #registerComparatorForFields(Comparator, String...)}.
+   * <p>
+   * Note that registering a {@link BiPredicate} for a given types will override the previously registered BiPredicate/Comparator (if any).
+   * <p>
+   * See {@link RecursiveComparisonAssert#withEqualsForTypes(BiPredicate, Class, Class)} for examples.
+   *
+   * @param <T> the class of the left element to register a comparator for
+   * @param <U> the class of the right element to register a comparator for
+   * @param equals the equals implementation to compare the given type
+   * @param type the type of the left element to be compared with the given equals implementation.
+   * @param otherType the type of right left element to be compared with the given equals implementation.
+   * @throws NullPointerException if the given BiPredicate is null.
+   */
+  @SuppressWarnings("unchecked")
+  public <T, U> void registerEqualsForTypes(BiPredicate<? super T, ? super U> equals, Class<T> type, Class<U> otherType) {
+    registerComparatorForTypes(toBiComparator(equals), type, otherType);
   }
 
   /**
@@ -766,8 +820,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     if (hasComparatorForField(fieldName)) return true;
     if (dualValue.actual == null && dualValue.expected == null) return false;
     // best effort assuming actual and expected have the same type (not 100% true as we can compare object of different types)
-    Class<?> valueType = dualValue.actual != null ? dualValue.actual.getClass() : dualValue.expected.getClass();
-    return hasComparatorForType(valueType);
+    Class<?> actualType = dualValue.actual != null ? dualValue.actual.getClass() : dualValue.expected.getClass();
+    Class<?> expectedType = dualValue.expected != null ? dualValue.expected.getClass() : null;
+    if (hasComparatorForType(actualType, expectedType)) return true;
+    else return hasComparatorForType(actualType);
   }
 
   boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
@@ -977,7 +1033,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     if (next.getKey().right() == null) {
       return format("%s %s -> %s%n", INDENT_LEVEL_2, next.getKey().left().getName(), next.getValue());
     } else {
-      return format("%s [%s - %s] -> %s%n", INDENT_LEVEL_2, next.getKey().left().getName(), next.getKey().right().getName(), next.getValue());
+      return format("%s [%s - %s] -> %s%n", INDENT_LEVEL_2, next.getKey().left().getName(), next.getKey().right().getName(),
+                    next.getValue());
     }
   }
 
@@ -1501,6 +1558,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   private static Comparator toComparator(BiPredicate equals) {
+    requireNonNull(equals, "Expecting a non null BiPredicate");
+    return (o1, o2) -> equals.test(o1, o2) ? 0 : 1;
+  }
+
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  private static BiComparator toBiComparator(BiPredicate equals) {
     requireNonNull(equals, "Expecting a non null BiPredicate");
     return (o1, o2) -> equals.test(o1, o2) ? 0 : 1;
   }

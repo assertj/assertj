@@ -17,10 +17,9 @@ import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
 
-import org.assertj.core.util.DoubleComparator;
-import org.assertj.core.util.FloatComparator;
-import org.assertj.core.util.Pair;
-import org.assertj.core.util.PathNaturalOrderComparator;
+import org.assertj.core.util.*;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * An internal holder of the comparators for type. It is used to store comparators for registered classes.
@@ -58,7 +57,27 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @return the most relevant comparator, or {@code null} if no comparator could be found
    */
   public Comparator<?> getComparatorForType(Class<?> clazz) {
-    return super.get(clazz);
+    return getComparatorForTypes(clazz, null);
+  }
+
+  /**
+   * This method returns the most relevant comparator for the given class pair. The most relevant comparator is the
+   * comparator which is registered for the class pair that is closest in the inheritance chain of the given {@code clazz} and {@code otherClazz}.
+   * The order of checks is the following:
+   * 1. If there is a registered comparator for {@code clazz} and {@code otherClazz} then this one is used
+   * 2. We check if there is a registered comparator for a superclass of {@code clazz} and {@code otherClazz}
+   * 3. We check if there is a registered comparator for {@code clazz} and a superclass of {@code otherClazz}
+   * 4. We check if there is a registered comparator for a superclass of {@code clazz} and a superclass of {@code otherClazz}
+   * 5. We check if there is a registered comparator for an interface of {@code clazz} and {@code otherClazz}
+   * 6. We check if there is a registered comparator for {@code clazz} and an interface of {@code otherClazz}
+   * 7. We check if there is a registered comparator for an interface of {@code clazz} and an interface of {@code otherClazz}
+   *
+   * @param clazz the class of the left element for which to find a comparator
+   * @param otherClazz the class of the right element for which to find a comparator
+   * @return the most relevant comparator, or {@code null} if no comparator could be found
+   */
+  public Comparator<?> getComparatorForTypes(Class<?> clazz, Class<?> otherClazz) {
+    return super.get(clazz, otherClazz);
   }
 
   /**
@@ -68,7 +87,18 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @return is the giving type associated with any custom comparator
    */
   public boolean hasComparatorForType(Class<?> type) {
-    return super.hasEntity(type);
+    return hasComparatorForTypes(type, null);
+  }
+
+  /**
+   * Checks, whether an any custom comparator is associated with the giving types.
+   *
+   * @param type the type of the left element for which to check a comparator
+   * @param otherType the type of the right element for which to check a comparator
+   * @return is the giving type associated with any custom comparator
+   */
+  public boolean hasComparatorForTypes(Class<?> type, Class<?> otherType) {
+    return super.hasEntity(type, otherType);
   }
 
   /**
@@ -83,11 +113,30 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
   }
 
   /**
+   * Puts the {@code comparator} for the given {@code clazz} and {@code otherClazz}.
+   *
+   * @param clazz the class of the left element for the comparator
+   * @param otherClazz the class of the right element for the comparator
+   * @param comparator the comparator itself
+   * @param <T> the type of the left objects for the comparator
+   * @param <U> the type of the right objects for the comparator
+   */
+  public <T, U> void registerComparator(Class<T> clazz, Class<U> otherClazz, BiComparator<? super T, ? super U> comparator) {
+    super.put(clazz, otherClazz, toComparator(comparator));
+  }
+
+  /**
    * Returns a sequence of all type-comparator pairs which the current holder supplies.
    *
    * @return sequence of field-comparator pairs
    */
-  public Stream<Entry<Pair<Class<?>,Class<?>>, Comparator<?>>> comparatorByTypes() {
+  public Stream<Entry<Pair<Class<?>, Class<?>>, Comparator<?>>> comparatorByTypes() {
     return super.entityByTypes();
+  }
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  private Comparator toComparator(BiComparator comparator) {
+    requireNonNull(comparator, "Expecting a non null BiComparator");
+    return comparator::compare;
   }
 }
