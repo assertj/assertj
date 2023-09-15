@@ -1608,6 +1608,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
+  @SuppressWarnings("deprecation")
   @Test
   void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN

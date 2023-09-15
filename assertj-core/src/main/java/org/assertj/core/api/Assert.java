@@ -650,7 +650,9 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(unsortedListAsObject).asList().isSorted();</code></pre>
    *
    * @return a list assertion object
+   * @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
    */
+  @Deprecated
   AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList();
 
   /**

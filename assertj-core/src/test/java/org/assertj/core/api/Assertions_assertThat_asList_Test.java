@@ -22,9 +22,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for Assert.asList() methods
- */
+@SuppressWarnings("deprecation")
 class Assertions_assertThat_asList_Test {
 
   @Test
@@ -57,4 +55,5 @@ class Assertions_assertThat_asList_Test {
     // THEN
     assertThat(error).hasMessageContaining("oops");
   }
+
 }
