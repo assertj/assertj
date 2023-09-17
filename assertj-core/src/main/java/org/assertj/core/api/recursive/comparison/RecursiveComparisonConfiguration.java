@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
@@ -47,6 +48,7 @@ import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.TypeMessages;
 import org.assertj.core.presentation.Representation;
+import org.assertj.core.util.DualClass;
 
 public class RecursiveComparisonConfiguration extends AbstractRecursiveOperationConfiguration {
 
@@ -164,16 +166,33 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return fieldComparators;
   }
 
-  public boolean hasComparatorForType(Class<?> keyType) {
-    return typeComparators.hasComparatorForType(keyType);
+  private boolean hasComparatorForType(Class<?> keyType) {
+    return hasComparatorForDualTypes(keyType, null);
+  }
+
+  private boolean hasComparatorForDualTypes(Class<?> type1, Class<?> type2) {
+    return typeComparators.hasComparatorForDualTypes(type1, type2);
   }
 
   public boolean hasCustomComparators() {
     return !typeComparators.isEmpty() || !fieldComparators.isEmpty();
   }
 
-  public Comparator<?> getComparatorForType(Class<?> fieldType) {
-    return typeComparators.getComparatorForType(fieldType);
+  public Comparator<?> getComparatorForDualType(Class<?> fieldType) {
+    return getComparatorForDualType(fieldType, null);
+  }
+
+  private Comparator<?> getComparatorForDualType(Class<?> fieldType, Class<?> otherFieldType) {
+    return typeComparators.getComparatorForDualTypes(fieldType, otherFieldType);
+  }
+
+  @SuppressWarnings("rawtypes")
+  Comparator getComparator(DualValue dualValue) {
+    Class expectedFieldType = dualValue.expected != null ? dualValue.expected.getClass() : null;
+    Class actualFieldType = dualValue.actual != null ? dualValue.actual.getClass() : expectedFieldType;
+    Comparator typeComparator = getComparatorForDualType(actualFieldType, expectedFieldType);
+    if (typeComparator == null) typeComparator = getComparatorForDualType(actualFieldType);
+    return typeComparator;
   }
 
   public boolean hasCustomMessageForType(Class<?> fieldType) {
@@ -186,6 +205,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   public TypeComparators getTypeComparators() {
     return typeComparators;
+  }
+
+  public Stream<Entry<DualClass<?, ?>, Comparator<?>>> comparatorByTypes() {
+    return typeComparators.comparatorByTypes();
   }
 
   public boolean getIgnoreAllActualNullFields() {
@@ -207,7 +230,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   /**
    * Makes the recursive comparison to ignore <a href="https://docs.oracle.com/javase/specs/jvms/se6/html/Concepts.doc.html#18858">transient</a> fields.
    * <p>
-   *
    * See {@link RecursiveComparisonAssert#ignoringTransientFields()} for examples.
    */
   public void ignoreTransientFields() {
@@ -488,9 +510,9 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * <p>
    * See {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)} for examples.
    *
-   * @param <T> the class type to register a comparator for
+   * @param <T>        the class type to register a comparator for
    * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given type
-   * @param type the type to be compared with the given comparator.
+   * @param type       the type to be compared with the given comparator.
    * @throws NullPointerException if the given comparator is null.
    */
   public <T> void registerComparatorForType(Comparator<? super T> comparator, Class<T> type) {
@@ -502,21 +524,45 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * Registers the given {@link BiPredicate} to compare the fields with the given type.
    * <p>
    * BiPredicates specified with this method have less precedence than the ones registered with
-   * {@link #registerEqualsForFields(BiPredicate, String...)}
+   * {@link #registerEqualsForTypes(BiPredicate, Class, Class)}, {@link #registerEqualsForFields(BiPredicate, String...)}
    * or comparators registered with {@link #registerComparatorForFields(Comparator, String...)}.
    * <p>
    * Note that registering a {@link BiPredicate} for a given type will override the previously registered BiPredicate/Comparator (if any).
    * <p>
    * See {@link RecursiveComparisonAssert#withEqualsForType(BiPredicate, Class)} for examples.
    *
-   * @param <T> the class type to register a comparator for
+   * @param <T>    the class type to register a comparator for
    * @param equals the equals implementation to compare the given type
-   * @param type the type to be compared with the given equals implementation .
+   * @param type   the type to be compared with the given equals implementation .
    * @throws NullPointerException if the given BiPredicate is null.
    * @since 3.17.0
    */
   public <T> void registerEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
     registerComparatorForType(toComparator(equals), type);
+  }
+
+  /**
+   * Registers the given {@link BiPredicate} to compare the fields with the given types.
+   * <p>
+   * BiPredicates specified with this method have less precedence than the ones registered with
+   * {@link #registerEqualsForFields(BiPredicate, String...)}
+   * or comparators registered with {@link #registerComparatorForFields(Comparator, String...)}.
+   * <p>
+   * Note that registering a {@link BiPredicate} for a given types will override the previously registered BiPredicate/Comparator (if any).
+   * <p>
+   * See {@link RecursiveComparisonAssert#withEqualsForTypes(BiPredicate, Class, Class)} for examples.
+   *
+   * @param <T>       the class of the left element to register a comparator for
+   * @param <U>       the class of the right element to register a comparator for
+   * @param equals    the equals implementation to compare the given type
+   * @param type      the type of the left element to be compared with the given equals implementation.
+   * @param otherType the type of right left element to be compared with the given equals implementation.
+   * @throws NullPointerException if the given BiPredicate is null.
+   */
+  @SuppressWarnings("unchecked")
+  public <T, U> void registerEqualsForTypes(BiPredicate<? super T, ? super U> equals, Class<T> type, Class<U> otherType) {
+    requireNonNull(equals, "Expecting a non null BiPredicate");
+    typeComparators.registerComparator(type, otherType, toComparator(equals));
   }
 
   /**
@@ -532,7 +578,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * <p>
    * See {@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...) RecursiveComparisonAssert#withComparatorForFields(Comparator, String...)} for examples.
    *
-   * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
+   * @param comparator     the {@link java.util.Comparator Comparator} to use to compare the given field
    * @param fieldLocations the locations from the root object of the fields the comparator should be used for
    * @throws NullPointerException if the given comparator is null.
    */
@@ -555,7 +601,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * <p>
    * See {@link RecursiveComparisonAssert#withEqualsForFields(BiPredicate, String...) RecursiveComparisonAssert#withEqualsForFields(BiPredicate, String...)} for examples.
    *
-   * @param equals the equals implementation to compare the given fields.
+   * @param equals         the equals implementation to compare the given fields.
    * @param fieldLocations the locations from the root object of the fields the comparator should be used for
    * @throws NullPointerException if the given BiPredicate is null.
    * @since 3.17.0
@@ -582,9 +628,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * <p>
    * Example: see {@link RecursiveComparisonAssert#withEqualsForFieldsMatchingRegexes(BiPredicate, String...)}
    *
-   * @param equals the {@link BiPredicate} to use to compare the fields matching the given regexes
+   * @param equals  the {@link BiPredicate} to use to compare the fields matching the given regexes
    * @param regexes the regexes from the root object of the fields location the BiPredicate should be used for
-   *
    * @throws NullPointerException if the given BiPredicate is null.
    * @since 3.24.0
    */
@@ -603,7 +648,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * <p>
    * In case of {@code null} as message the default error message will be used (See {@link ComparisonDifference#DEFAULT_TEMPLATE}).
    *
-   * @param message the error message that will be thrown when comparison error occurred
+   * @param message        the error message that will be thrown when comparison error occurred
    * @param fieldLocations the field locations the error message should be used for
    */
   public void registerErrorMessageForFields(String message, String... fieldLocations) {
@@ -619,7 +664,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * In case of {@code null} as message the default error message will be used (See {@link ComparisonDifference#DEFAULT_TEMPLATE}).
    *
    * @param message the error message that will be thrown when comparison error occurred
-   * @param clazz the type the error message should be used for
+   * @param clazz   the type the error message should be used for
    */
   public void registerErrorMessageForType(String message, Class<?> clazz) {
     typeMessages.registerMessage(clazz, message);
@@ -861,9 +906,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     String fieldName = dualValue.getConcatenatedPath();
     if (hasComparatorForField(fieldName)) return true;
     if (dualValue.actual == null && dualValue.expected == null) return false;
-    // best effort assuming actual and expected have the same type (not 100% true as we can compare object of different types)
-    Class<?> valueType = dualValue.actual != null ? dualValue.actual.getClass() : dualValue.expected.getClass();
-    return hasComparatorForType(valueType);
+    Class<?> expectedType = dualValue.expected != null ? dualValue.expected.getClass() : null;
+    // use expected type when actual is null, we assume here as a best effort that actual and expected have the same type
+    // even though it's not true as we can compare object of different types.
+    Class<?> actualType = dualValue.actual != null ? dualValue.actual.getClass() : expectedType;
+    return hasComparatorForDualTypes(actualType, expectedType) || hasComparatorForType(actualType);
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -925,7 +972,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   protected void describeIgnoreAllActualNullFields(StringBuilder description) {
-    if (ignoreAllActualNullFields) description.append("- all actual null fields were ignored in the comparison%n".formatted());
+    if (ignoreAllActualNullFields)
+      description.append("- all actual null fields were ignored in the comparison%n".formatted());
   }
 
   protected void describeIgnoreAllActualEmptyOptionalFields(StringBuilder description) {
@@ -1110,8 +1158,13 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                    .forEach(description::append);
   }
 
-  private String formatRegisteredComparatorByType(Entry<Class<?>, Comparator<?>> next) {
-    return "%s %s -> %s%n".formatted(INDENT_LEVEL_2, next.getKey().getName(), next.getValue());
+  private String formatRegisteredComparatorByType(Entry<DualClass<?, ?>, Comparator<?>> entry) {
+    DualClass<?, ?> dualClass = entry.getKey();
+    Comparator<?> comparator = entry.getValue();
+    return dualClass.hasNoExpected()
+        ? format("%s %s -> %s%n", INDENT_LEVEL_2, dualClass.actualDescription(), comparator)
+        : format("%s [%s - %s] -> %s%n", INDENT_LEVEL_2, dualClass.actualDescription(), dualClass.expectedDescription(),
+                 comparator);
   }
 
   private void describeRegisteredComparatorForFields(StringBuilder description) {
@@ -1187,13 +1240,15 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private void describeErrorMessagesForType(StringBuilder description) {
     String types = typeMessages.messageByTypes()
-                               .map(it -> it.getKey().getName())
+                               .map(x -> x.getKey())
+                               .map(this::formatErrorMessageForDualType)
                                .collect(joining(DEFAULT_DELIMITER));
     description.append("%s %s%n".formatted(INDENT_LEVEL_2, types));
   }
 
   /**
    * Creates builder to build {@link RecursiveComparisonConfiguration}.
+   *
    * @return created builder
    */
   public static Builder builder() {
@@ -1537,9 +1592,9 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * <p>
      * See {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)} for examples.
      *
-     * @param <T> the class type to register a comparator for
+     * @param <T>        the class type to register a comparator for
      * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
-     * @param type the type to be compared with the given comparator.
+     * @param type       the type to be compared with the given comparator.
      * @return this builder.
      * @throws NullPointerException if the given Comparator is null.
      */
@@ -1559,12 +1614,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * <p>
      * See {@link RecursiveComparisonAssert#withEqualsForType(BiPredicate, Class)} for examples.
      *
-     * @param <T> the class type to register a BiPredicate for
+     * @param <T>    the class type to register a BiPredicate for
      * @param equals the {@link BiPredicate} to use to compare the given field
-     * @param type the type to be compared with the given comparator.
+     * @param type   the type to be compared with the given comparator.
      * @return this builder.
-     * @since 3.17.0
      * @throws NullPointerException if the given BiPredicate is null.
+     * @since 3.17.0
      */
     public <T> Builder withEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
       return withComparatorForType(toComparator(equals), type);
@@ -1585,7 +1640,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * See {@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...) RecursiveComparisonAssert#withComparatorForFields(Comparator comparator, String...fields)} for examples.
      *
      * @param comparator the {@link java.util.Comparator Comparator} to use to compare the given field
-     * @param fields the fields the comparator should be used for
+     * @param fields     the fields the comparator should be used for
      * @return this builder.
      * @throws NullPointerException if the given Comparator is null.
      */
@@ -1612,8 +1667,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * @param equals the {@link BiPredicate} to use to compare the given fields
      * @param fields the fields the BiPredicate should be used for
      * @return this builder.
-     * @since 3.17.0
      * @throws NullPointerException if the given BiPredicate is null.
+     * @since 3.17.0
      */
     public Builder withEqualsForFields(BiPredicate<?, ?> equals, String... fields) {
       return withComparatorForFields(toComparator(equals), fields);
@@ -1637,11 +1692,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * <p>
      * See {@link RecursiveComparisonAssert#withEqualsForFieldsMatchingRegexes(BiPredicate, String...) RecursiveComparisonAssert#withEqualsForFieldsMatchingRegexes(BiPredicate equals, String...fields)} for examples.
      *
-     * @param equals the {@link BiPredicate} to use to compare the fields matching the given regexes
+     * @param equals  the {@link BiPredicate} to use to compare the fields matching the given regexes
      * @param regexes the regexes to match fields against
      * @return this builder.
-     * @since 3.24.0
      * @throws NullPointerException if the given BiPredicate is null.
+     * @since 3.24.0
      */
     public Builder withEqualsForFieldsMatchingRegexes(BiPredicate<?, ?> equals, String... regexes) {
       fieldComparators.registerComparatorForFieldsMatchingRegexes(regexes, toComparator(equals));
@@ -1661,7 +1716,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
      *
      * @param message the error message that will be thrown when comparison error occurred.
-     * @param fields the fields the error message should be used for.
+     * @param fields  the fields the error message should be used for.
      * @return this builder.
      * @throws NullPointerException if the giving list of arguments is null.
      */
@@ -1680,7 +1735,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
      *
      * @param message the error message that will be thrown when comparison error occurred
-     * @param type the type the error message should be used for
+     * @param type    the type the error message should be used for
      * @return this builder
      */
     public Builder withErrorMessageForType(String message, Class<?> type) {
@@ -1719,7 +1774,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     /**
      * Makes the recursive comparison to ignore <a href="https://docs.oracle.com/javase/specs/jvms/se6/html/Concepts.doc.html#18858">transient</a> fields.
      * <p>
-     *
      * See {@link RecursiveComparisonAssert#ignoringTransientFields()} for examples.
      */
     public Builder withIgnoredTransientFields() {
@@ -1742,6 +1796,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private static Comparator toComparator(BiPredicate equals) {
     requireNonNull(equals, "Expecting a non null BiPredicate");
     return (o1, o2) -> equals.test(o1, o2) ? 0 : 1;
+  }
+
+  private String formatErrorMessageForDualType(DualClass<?, ?> dualClass) {
+    return dualClass.expected() == null
+        ? dualClass.actualDescription()
+        : format("[%s - %s]", dualClass.actualDescription(), dualClass.expectedDescription());
   }
 
 }

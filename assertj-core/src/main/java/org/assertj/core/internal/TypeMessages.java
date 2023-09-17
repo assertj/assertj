@@ -15,6 +15,8 @@ package org.assertj.core.internal;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import org.assertj.core.util.DualClass;
+
 /**
  * An internal holder of the custom message for type. It is used to store messages for registered classes.
  * When looking for a message for a given class the holder returns the most relevant comparator.
@@ -62,7 +64,7 @@ public class TypeMessages extends TypeHolder<String> {
    *
    * @return sequence of field-message pairs
    */
-  public Stream<Map.Entry<Class<?>, String>> messageByTypes() {
+  public Stream<Map.Entry<DualClass<?, ?>, String>> messageByTypes() {
     return super.entityByTypes();
   }
 }
