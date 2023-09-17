@@ -23,7 +23,7 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAM
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.test.BiPredicates.DOUBLE_EQUALS;
 import static org.assertj.core.test.BiPredicates.STRING_EQUALS;
-import static org.assertj.core.util.Pair.pair;
+import static org.assertj.core.util.DualClass.dualClass;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.test.AlwaysDifferentComparator;
 import org.assertj.core.test.AlwaysEqualComparator;
-import org.assertj.core.util.Pair;
+import org.assertj.core.util.DualClass;
 import org.junit.jupiter.api.Test;
 
 class RecursiveComparisonAssert_fluent_API_Test {
@@ -50,8 +50,8 @@ class RecursiveComparisonAssert_fluent_API_Test {
                                                                                           .getRecursiveComparisonConfiguration();
     // THEN
     assertThat(recursiveComparisonConfiguration.isInStrictTypeCheckingMode()).isFalse();
-    List<Entry<Pair<Class<?>, Class<?>>, Comparator<?>>> defaultComparators = defaultTypeComparators().comparatorByTypes()
-                                                                                                      .collect(toList());
+    List<Entry<DualClass<?, ?>, Comparator<?>>> defaultComparators = defaultTypeComparators().comparatorByTypes()
+                                                                                             .collect(toList());
     assertThat(recursiveComparisonConfiguration.comparatorByTypes()).containsExactlyElementsOf(defaultComparators);
     assertThat(recursiveComparisonConfiguration.comparatorByFields()).isEmpty();
     assertThat(recursiveComparisonConfiguration.getIgnoreAllActualNullFields()).isFalse();
@@ -281,9 +281,9 @@ class RecursiveComparisonAssert_fluent_API_Test {
                                                                        .withEqualsForType((o1, o2) -> true, type3)
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(configuration.comparatorByTypes()).contains(entry(pair(type1, null), ALWAYS_EQUALS_STRING),
-                                                           entry(pair(type2, null), ALWAYS_EQUALS_TIMESTAMP));
-    assertThat(configuration.comparatorByTypes()).anyMatch(entry -> entry.getKey().left().equals(type3)
+    assertThat(configuration.comparatorByTypes()).contains(entry(dualClass(type1, null), ALWAYS_EQUALS_STRING),
+                                                           entry(dualClass(type2, null), ALWAYS_EQUALS_TIMESTAMP));
+    assertThat(configuration.comparatorByTypes()).anyMatch(entry -> entry.getKey().actual().equals(type3)
                                                                     && entry.getValue() != null);
   }
 

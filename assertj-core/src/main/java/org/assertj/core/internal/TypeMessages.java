@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.util.Pair;
+import org.assertj.core.util.DualClass;
 
 import java.util.Map;
 import java.util.stream.Stream;
@@ -64,7 +64,7 @@ public class TypeMessages extends TypeHolder<String> {
    *
    * @return sequence of field-message pairs
    */
-  public Stream<Map.Entry<Pair<Class<?>, Class<?>>, String>> messageByTypes() {
+  public Stream<Map.Entry<DualClass<?, ?>, String>> messageByTypes() {
     return super.entityByTypes();
   }
 }

@@ -43,8 +43,7 @@ import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.TypeMessages;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.BiComparator;
-import org.assertj.core.util.Pair;
+import org.assertj.core.util.DualClass;
 import org.assertj.core.util.VisibleForTesting;
 
 public class RecursiveComparisonConfiguration extends AbstractRecursiveOperationConfiguration {
@@ -139,11 +138,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   public boolean hasComparatorForType(Class<?> keyType) {
-    return hasComparatorForType(keyType, null);
+    return hasComparatorForDualTypes(keyType, null);
   }
 
-  public boolean hasComparatorForType(Class<?> keyType, Class<?> otherKeyType) {
-    return typeComparators.hasComparatorForTypes(keyType, otherKeyType);
+  public boolean hasComparatorForDualTypes(Class<?> keyType, Class<?> otherKeyType) {
+    return typeComparators.hasComparatorForDualTypes(keyType, otherKeyType);
   }
 
   public boolean hasCustomComparators() {
@@ -155,7 +154,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   public Comparator<?> getComparatorForType(Class<?> fieldType, Class<?> otherFieldType) {
-    return typeComparators.getComparatorForTypes(fieldType, otherFieldType);
+    return typeComparators.getComparatorForDualTypes(fieldType, otherFieldType);
   }
 
   public boolean hasCustomMessageForType(Class<?> fieldType) {
@@ -170,7 +169,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return typeComparators;
   }
 
-  Stream<Entry<Pair<Class<?>, Class<?>>, Comparator<?>>> comparatorByTypes() {
+  Stream<Entry<DualClass<?, ?>, Comparator<?>>> comparatorByTypes() {
     return typeComparators.comparatorByTypes();
   }
 
@@ -413,7 +412,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * Registers the given {@link Comparator} to compare the fields with the given type.
    * <p>
    * Comparators registered with this method have less precedence than comparators registered with
-   * {@link #registerComparatorForTypes(BiComparator, Class, Class)}.
+   * {@link #registerComparatorForFields(Comparator, String...)}.
    * <p>
    * Note that registering a {@link Comparator} for a given type will override the previously registered BiPredicate/Comparator (if any).
    * <p>
@@ -427,29 +426,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   public <T> void registerComparatorForType(Comparator<? super T> comparator, Class<T> type) {
     requireNonNull(comparator, "Expecting a non null Comparator");
     typeComparators.registerComparator(type, comparator);
-  }
-
-  /**
-   * Registers the given {@link BiComparator} to compare the fields with the given types.
-   * <p>
-   * Comparators registered with this method have less precedence than comparators registered with
-   * {@link #registerComparatorForFields(Comparator, String...)}.
-   * <p>
-   * Note that registering a {@link BiComparator} for a given types will override the previously registered BiPredicate/Comparator (if any).
-   * <p>
-   * See {@link RecursiveComparisonAssert#withComparatorForTypes(BiComparator, Class, Class)} for examples.
-   *
-   * @param <T> the class of the left element to register a comparator for
-   * @param <U> the class of the right element to register a comparator for
-   * @param comparator the {@link BiComparator Comparator} to use to compare the given type
-   * @param type the type of the left element to be compared with the given comparator.
-   * @param otherType the type of the right element  to be compared with the given comparator.
-   * @throws NullPointerException if the given comparator is null.
-   */
-  public <T, U> void registerComparatorForTypes(BiComparator<? super T, ? super U> comparator, Class<T> type,
-                                                Class<U> otherType) {
-    requireNonNull(comparator, "Expecting a non null BiComparator");
-    typeComparators.registerComparator(type, otherType, comparator);
   }
 
   /**
@@ -494,7 +470,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    */
   @SuppressWarnings("unchecked")
   public <T, U> void registerEqualsForTypes(BiPredicate<? super T, ? super U> equals, Class<T> type, Class<U> otherType) {
-    registerComparatorForTypes(toBiComparator(equals), type, otherType);
+    requireNonNull(equals, "Expecting a non null BiPredicate");
+    typeComparators.registerComparator(type, otherType, toComparator(equals));
   }
 
   /**
@@ -822,7 +799,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     // best effort assuming actual and expected have the same type (not 100% true as we can compare object of different types)
     Class<?> actualType = dualValue.actual != null ? dualValue.actual.getClass() : dualValue.expected.getClass();
     Class<?> expectedType = dualValue.expected != null ? dualValue.expected.getClass() : null;
-    if (hasComparatorForType(actualType, expectedType)) return true;
+    if (hasComparatorForDualTypes(actualType, expectedType)) return true;
     else return hasComparatorForType(actualType);
   }
 
@@ -1029,11 +1006,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                    .forEach(description::append);
   }
 
-  private String formatRegisteredComparatorByType(Entry<Pair<Class<?>, Class<?>>, Comparator<?>> next) {
-    if (next.getKey().right() == null) {
-      return format("%s %s -> %s%n", INDENT_LEVEL_2, next.getKey().left().getName(), next.getValue());
+  private String formatRegisteredComparatorByType(Entry<DualClass<?, ?>, Comparator<?>> next) {
+    if (next.getKey().expected() == null) {
+      return format("%s %s -> %s%n", INDENT_LEVEL_2, next.getKey().actual().getName(), next.getValue());
     } else {
-      return format("%s [%s - %s] -> %s%n", INDENT_LEVEL_2, next.getKey().left().getName(), next.getKey().right().getName(),
+      return format("%s [%s - %s] -> %s%n", INDENT_LEVEL_2, next.getKey().actual().getName(), next.getKey().expected().getName(),
                     next.getValue());
     }
   }
@@ -1562,16 +1539,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return (o1, o2) -> equals.test(o1, o2) ? 0 : 1;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  private static BiComparator toBiComparator(BiPredicate equals) {
-    requireNonNull(equals, "Expecting a non null BiPredicate");
-    return (o1, o2) -> equals.test(o1, o2) ? 0 : 1;
-  }
-
-  private String formatErrorMessageForType(Map.Entry<Pair<Class<?>, Class<?>>, String> entry) {
-    return entry.getKey().right() == null
-        ? entry.getKey().left().getName()
-        : format("[%s - %s]", entry.getKey().left().getName(), entry.getKey().right().getName());
+  private String formatErrorMessageForType(Map.Entry<DualClass<?, ?>, String> entry) {
+    return entry.getKey().expected() == null
+        ? entry.getKey().actual().getName()
+        : format("[%s - %s]", entry.getKey().actual().getName(), entry.getKey().expected().getName());
   }
 
 }

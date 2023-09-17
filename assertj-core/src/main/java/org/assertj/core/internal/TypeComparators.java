@@ -57,7 +57,7 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @return the most relevant comparator, or {@code null} if no comparator could be found
    */
   public Comparator<?> getComparatorForType(Class<?> clazz) {
-    return getComparatorForTypes(clazz, null);
+    return getComparatorForDualTypes(clazz, null);
   }
 
   /**
@@ -76,7 +76,7 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @param otherClazz the class of the right element for which to find a comparator
    * @return the most relevant comparator, or {@code null} if no comparator could be found
    */
-  public Comparator<?> getComparatorForTypes(Class<?> clazz, Class<?> otherClazz) {
+  public Comparator<?> getComparatorForDualTypes(Class<?> clazz, Class<?> otherClazz) {
     return super.get(clazz, otherClazz);
   }
 
@@ -87,7 +87,7 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @return is the giving type associated with any custom comparator
    */
   public boolean hasComparatorForType(Class<?> type) {
-    return hasComparatorForTypes(type, null);
+    return hasComparatorForDualTypes(type, null);
   }
 
   /**
@@ -97,7 +97,7 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @param otherType the type of the right element for which to check a comparator
    * @return is the giving type associated with any custom comparator
    */
-  public boolean hasComparatorForTypes(Class<?> type, Class<?> otherType) {
+  public boolean hasComparatorForDualTypes(Class<?> type, Class<?> otherType) {
     return super.hasEntity(type, otherType);
   }
 
@@ -121,8 +121,8 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @param <T> the type of the left objects for the comparator
    * @param <U> the type of the right objects for the comparator
    */
-  public <T, U> void registerComparator(Class<T> clazz, Class<U> otherClazz, BiComparator<? super T, ? super U> comparator) {
-    super.put(clazz, otherClazz, toComparator(comparator));
+  public <T, U> void registerComparator(Class<T> clazz, Class<U> otherClazz, Comparator<? super T> comparator) {
+    super.put(clazz, otherClazz, comparator);
   }
 
   /**
@@ -130,13 +130,7 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    *
    * @return sequence of field-comparator pairs
    */
-  public Stream<Entry<Pair<Class<?>, Class<?>>, Comparator<?>>> comparatorByTypes() {
+  public Stream<Entry<DualClass<?, ?>, Comparator<?>>> comparatorByTypes() {
     return super.entityByTypes();
-  }
-
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  private Comparator toComparator(BiComparator comparator) {
-    requireNonNull(comparator, "Expecting a non null BiComparator");
-    return comparator::compare;
   }
 }

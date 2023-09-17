@@ -24,7 +24,6 @@ import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
-import static org.assertj.core.util.Pair.pair;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.verify;
 
@@ -48,7 +47,6 @@ import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Human;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.util.DoubleComparator;
-import org.assertj.core.util.Pair;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -101,7 +99,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
                                                                    .usingRecursiveComparison()
                                                                    .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(assertion.comparatorByTypes()).anyMatch(e -> e.getKey().left() == String.class && e.getKey().right() == null
+    assertThat(assertion.comparatorByTypes()).anyMatch(e -> e.getKey().actual() == String.class && e.getKey().expected() == null
                                                             && e.getValue() != null);
   }
 

@@ -32,9 +32,8 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.internal.TypeComparators;
-import org.assertj.core.util.BiComparator;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.Pair;
+import org.assertj.core.util.DualClass;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>> extends AbstractAssert<SELF, Object> {
@@ -1488,9 +1487,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Allows to register a comparator to compare the fields with the given type.
    * A typical usage is to compare double/float fields with a given precision.
    * <p>
-   * Comparators registered with this method have less precedence than comparators registered with {@link #withComparatorForTypes(BiComparator, Class, Class)} withComparatorForTypes(BiComparator, Class, Class)}
-   * ,{@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)} or BiPredicate registered
-   * with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}.
+   * Comparators registered with this method have less precedence than comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}
+   * or BiPredicate registered with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}.
    * <p>
    * Note that registering a {@link Comparator} for a given type will override the previously registered BiPredicate/Comparator (if any).
    * <p>
@@ -1526,53 +1524,6 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   @CheckReturnValue
   public <T> SELF withComparatorForType(Comparator<? super T> comparator, Class<T> type) {
     recursiveComparisonConfiguration.registerComparatorForType(comparator, type);
-    return myself;
-  }
-
-  /**
-   * Allows to register a comparator to compare the fields with the given types.
-   * A typical usage is to compare fields belonging to different types.
-   * <p>
-   * Comparators registered with this method have less precedence than comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}
-   * or BiPredicate registered with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}.
-   * <p>
-   * Note that registering a {@link BiComparator} for a given types will override the previously registered BiPredicate/Comparator (if any).
-   * <p>
-   * Example:
-   * <pre><code class='java'> public class TolkienCharacter {
-   *   LocalDate birthday;
-   * }
-   * public class TolkienCharacterDto {
-   *    String birthday;
-   * }
-   *
-   * TolkienCharacter frodo = new TolkienCharacter(LocalDate.of(2968, Month.SEPTEMBER, 22));
-   * TolkienCharacterDto frodoDto = new TolkienCharacterDto("2968-09-22");
-   * TolkienCharacterDto bilboDto = new TolkienCharacterDto("2890-09-22");
-   *
-   * BiComparator&lt;LocalDate, String&gt; sameDate = (d, s) -&gt; LocalDate.parse(s).compareTo(td);
-   *
-   * // assertion succeeds
-   * assertThat(frodo).usingRecursiveComparison()
-   *                  .withComparatorForTypes(sameDate, LocalDate.class, String.class)
-   *                  .isEqualTo(frodoDto);
-   *
-   * // assertion fails
-   * assertThat(frodo).usingRecursiveComparison()
-   *                  .withComparatorForTypes(closeEnough, Double.class)
-   *                  .isEqualTo(bilboDto);</code></pre>
-   *
-   * @param <T> the left element's class type to register a comparator for
-   * @param <U> the right element's class type to register a comparator for
-   * @param comparator the {@link BiComparator Comparator} to use to compare the given fields
-   * @param type the type of the left element to be compared with the given comparator.
-   * @param otherType the type of the right element to be compared with the given comparator.
-   *
-   * @return this {@link RecursiveComparisonAssert} to chain other methods.
-   * @throws NullPointerException if the given comparator is null.
-   */
-  public <T, U> SELF withComparatorForTypes(BiComparator<? super T, ? super U> comparator, Class<T> type, Class<U> otherType) {
-    recursiveComparisonConfiguration.registerComparatorForTypes(comparator, type, otherType);
     return myself;
   }
 
@@ -1651,7 +1602,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *
    * // assertion fails
    * assertThat(frodo).usingRecursiveComparison()
-   *                  .withEqualsForTypes(closeEnough, Double.class)
+   *                  .withEqualsForTypes(sameDate, LocalDate.class, String.class)
    *                  .isEqualTo(bilboDto);</code></pre>
    *
    * @param <T> the left element's class type to register a BiPredicate for
@@ -1851,8 +1802,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   @SuppressWarnings({ "unchecked" })
-  private void registerComparatorForType(Entry<Pair<Class<?>, Class<?>>, Comparator<?>> entry) {
-    withComparatorForTypes(toBiComparator(entry.getValue()), entry.getKey().left(), entry.getKey().right());
+  private void registerComparatorForType(Entry<DualClass<?, ?>, Comparator<?>> entry) {
+    withEqualsForTypes(toBiPredicate(entry.getValue()), entry.getKey().actual(), entry.getKey().expected());
   }
 
   /**
@@ -1869,8 +1820,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
-  private BiComparator toBiComparator(Comparator comparator) {
+  private BiPredicate toBiPredicate(Comparator comparator) {
     requireNonNull(comparator, "Expecting a non null Comparator");
-    return comparator::compare;
+    return (o, o2) -> comparator.compare(o, o2) == 0;
   }
 }

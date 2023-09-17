@@ -13,10 +13,8 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.core.util.Pair.pair;
 
 import java.util.Comparator;
 
@@ -47,7 +45,7 @@ class RecursiveComparisonAssert_for_object_arrays_Test {
                                                                    .usingRecursiveComparison()
                                                                    .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(assertion.comparatorByTypes()).anyMatch(e -> e.getKey().left() == String.class && e.getKey().right() == null
+    assertThat(assertion.comparatorByTypes()).anyMatch(e -> e.getKey().actual() == String.class && e.getKey().expected() == null
                                                             && e.getValue() != null);
   }
 
