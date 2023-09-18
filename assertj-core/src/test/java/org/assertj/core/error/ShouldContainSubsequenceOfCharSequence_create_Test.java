@@ -142,9 +142,10 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
                                    "  \"" + actual + "\"%n" +
                                    "to contain the following CharSequences in this order (possibly with other values between them):%n"
                                    +
-                                   "  [\"{\", \"title\", \"author\", \"title\", \"title\", \"}\"]%n" +
-                                   "But the 3rd occurrence of \"title\" was not found%n" +
-                                   "the 2nd occurrence of \"George\" was not found%n" +
+                                   "  [\"{\", \"title\", \"George\", \"title\", \"title\", \"George\", \"}\"]%n" +
+                                   "But:%n" +
+                                   "- the 3rd occurrence of \"title\" was not found%n" +
+                                   "- the 2nd occurrence of \"George\" was not found%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 }

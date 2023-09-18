@@ -81,18 +81,25 @@ public class ShouldContainSubsequenceOfCharSequence extends BasicErrorMessageFac
                                                              Map<CharSequence, Integer> notFoundRepeatedSubsequence,
                                                              ComparisonStrategy comparisonStrategy) {
 
-    String detailedErrorMessage = notFoundRepeatedSubsequence.entrySet().stream()
-                                                             .map(entry -> format("the %s occurrence of \"%s\" was not found",
-                                                                                  ordinal(entry.getValue() + 1),
-                                                                                  entry.getKey()))
-                                                             .collect(Collectors.joining("%n"));
+    String detailedErrorMessage;
+    if (notFoundRepeatedSubsequence.size() == 1) {
+      Map.Entry<CharSequence, Integer> singleEntry = notFoundRepeatedSubsequence.entrySet().iterator().next();
+      detailedErrorMessage = format("But the %s occurrence of \"%s\" was not found", ordinal(singleEntry.getValue() + 1),
+                                    singleEntry.getKey());
+    } else {
+      detailedErrorMessage = notFoundRepeatedSubsequence.entrySet().stream()
+                                                        .map(entry -> format("- the %s occurrence of \"%s\" was not found",
+                                                                             ordinal(entry.getValue() + 1), entry.getKey()))
+                                                        .collect(Collectors.joining("%n"));
+      detailedErrorMessage = "But:%n" + detailedErrorMessage;
+    }
 
     return new ShouldContainSubsequenceOfCharSequence("%nExpecting actual:%n" +
                                                       "  %s%n" +
                                                       "to contain the following CharSequences in this order (possibly with other values between them):%n"
                                                       +
                                                       "  %s%n" +
-                                                      "But " + detailedErrorMessage + "%n%s",
+                                                      detailedErrorMessage + "%n%s",
                                                       actual, strings, comparisonStrategy);
   }
 
