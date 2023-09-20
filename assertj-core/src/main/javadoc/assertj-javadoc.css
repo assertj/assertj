@@ -128,7 +128,127 @@ button {
 /*
  * Styles for navigation bar.
  */
-@media screen {
+button#navbar-toggle-button {
+    display: none;
+}
+
+ul.nav-list li {
+    float: left;
+}
+
+@media screen and (max-width: 920px) {
+    header.flex-header {
+        max-height: 100vh;
+        overflow-y: auto;
+    }
+
+    div#navbar-top {
+        height: 2.8em;
+        transition: height 0.35s ease;
+    }
+
+    ul.nav-list {
+        display: block;
+        width: 40%;
+        float: left;
+        clear: left;
+        margin: 10px 0 0 0;
+        padding: 0;
+    }
+
+    ul.nav-list li {
+        float: none;
+        padding: 6px;
+        margin-left: 10px;
+        margin-top: 2px;
+    }
+
+    ul.sub-nav-list-small {
+        display: block;
+        height: 100%;
+        width: 50%;
+        float: right;
+        clear: right;
+        background-color: var(--subnav-background-color);
+        color: var(--body-text-color);
+        margin: 6px 0 0 0;
+        padding: 0;
+    }
+
+    ul.sub-nav-list-small ul {
+        padding-left: 20px;
+    }
+
+    ul.sub-nav-list-small a:link, ul.sub-nav-list-small a:visited {
+        color: var(--link-color);
+    }
+
+    ul.sub-nav-list-small a:hover {
+        color: var(--link-color-active);
+    }
+
+    ul.sub-nav-list-small li {
+        list-style: none;
+        float: none;
+        padding: 6px;
+        margin-top: 1px;
+        text-transform: uppercase;
+    }
+
+    ul.sub-nav-list-small > li {
+        margin-left: 10px;
+    }
+
+    ul.sub-nav-list-small li p {
+        margin: 5px 0;
+    }
+
+    div#navbar-sub-list {
+        display: none;
+    }
+
+    .top-nav a:link, .top-nav a:active, .top-nav a:visited {
+        display: block;
+    }
+
+    button#navbar-toggle-button {
+        width: 3.4em;
+        height: 2.8em;
+        background-color: transparent;
+        display: block;
+        float: left;
+        border: 0;
+        margin: 0 10px;
+        cursor: pointer;
+        font-size: 10px;
+    }
+
+    button#navbar-toggle-button .nav-bar-toggle-icon {
+        display: block;
+        width: 24px;
+        height: 3px;
+        margin: 1px 0 4px 0;
+        border-radius: 2px;
+        transition: all 0.1s;
+        background-color: #e5c880;
+    }
+
+    button#navbar-toggle-button.expanded span.nav-bar-toggle-icon:nth-child(1) {
+        transform: rotate(45deg);
+        transform-origin: 10% 10%;
+        width: 26px;
+    }
+
+    button#navbar-toggle-button.expanded span.nav-bar-toggle-icon:nth-child(2) {
+        opacity: 0;
+    }
+
+    button#navbar-toggle-button.expanded span.nav-bar-toggle-icon:nth-child(3) {
+        transform: rotate(-45deg);
+        transform-origin: 10% 90%;
+        width: 26px;
+    }
+
     .flex-box {
         position:fixed;
         display:flex;
@@ -138,6 +258,8 @@ button {
     }
     .flex-header {
         flex: 0 0 auto;
+        max-height: 100vh;
+        overflow-y: auto;
     }
     .flex-content {
         flex: 1 1 auto;
@@ -155,38 +277,42 @@ button {
     padding-top:10px;
     overflow:hidden;
     font-size:12px;
+    flex: 0 0 auto;
 }
+
 .sub-nav {
-    background-color:#e5c880;
-    float:left;
-    width:100%;
-    overflow:hidden;
-    font-size:12px;
+    background-color: #e5c880;
+    float: left;
+    width: 100%;
+    overflow: hidden;
+    font-size: 12px;
 }
+
 .sub-nav div {
-    clear:left;
-    float:left;
-    padding:0 0 5px 6px;
-    text-transform:uppercase;
+    clear: left;
+    float: left;
+    padding: 0 0 5px 6px;
+    text-transform: uppercase;
 }
+
 .sub-nav .nav-list {
-    padding-top:5px;
+    padding-top: 5px;
 }
+
 ul.nav-list {
-    display:block;
-    margin:0 25px 0 0;
-    padding:0;
+    display: block;
+    padding: 0;
 }
+
 ul.sub-nav-list {
-    float:left;
-    margin:0 25px 0 0;
-    padding:0;
+    float: left;
+    padding: 0;
 }
+
 ul.nav-list li {
-    list-style:none;
-    float:left;
+    list-style: none;
     padding: 5px 6px;
-    text-transform:uppercase;
+    text-transform: uppercase;
 }
 .sub-nav .nav-list-search {
     float:right;
