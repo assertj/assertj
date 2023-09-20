@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 21
           cache: 'maven'
       - name: Test
         run: ./mvnw $MAVEN_ARGS verify javadoc:javadoc
@@ -38,7 +38,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 21
           cache: 'maven'
       - name: Test with Sonar
         run: >
