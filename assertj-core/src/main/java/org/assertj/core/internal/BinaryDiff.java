@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class BinaryDiff {
 
   @VisibleForTesting
   public BinaryDiffResult diff(Path actual, byte[] expected) throws IOException {
-    try (InputStream actualStream = Files.newInputStream(actual)) {
+    try(InputStream actualStream = new BufferedInputStream(Files.newInputStream(actual))) {
       return diff(actualStream, expected);
     }
   }
