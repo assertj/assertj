@@ -219,7 +219,6 @@
           </execution>
         </executions>
         <configuration>
-          <errorMessage>Some files do not have the expected license header. Run license:format to update them.</errorMessage>
           <licenseSets>
             <licenseSet>
               <inlineHeader><![CDATA[
