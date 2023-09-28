@@ -124,7 +124,7 @@
     <rootDirectory>${project.basedir}</rootDirectory>
     <spotless.skip>true</spotless.skip>
     <!-- Plugin versions -->
-    <license-maven-plugin.version>4.2</license-maven-plugin.version>
+    <license-maven-plugin.version>4.3</license-maven-plugin.version>
     <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
     <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
     <maven-release-plugin.version>3.0.1</maven-release-plugin.version>
@@ -219,7 +219,6 @@
           </execution>
         </executions>
         <configuration>
-          <errorMessage>Some files do not have the expected license header. Run license:format to update them.</errorMessage>
           <licenseSets>
             <licenseSet>
               <inlineHeader><![CDATA[
