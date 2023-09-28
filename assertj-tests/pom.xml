@@ -46,7 +46,7 @@
                     <exclude>*</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence />
+                <dependencyConvergence/>
               </rules>
             </configuration>
           </execution>
