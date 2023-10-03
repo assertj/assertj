@@ -64,6 +64,17 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   }
 
   /**
+   * Fails without a message.
+   *
+   * @param <T> dummy return value type
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail()));}.
+   */
+  @CanIgnoreReturnValue
+  public <T> T fail() {
+    return fail((String) null);
+  }
+
+  /**
    * Fails with the given message built like {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
@@ -92,6 +103,18 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
     error.initCause(realCause);
     collectAssertionError(error);
     return null;
+  }
+
+  /**
+   * Fails with the {@link Throwable} that caused the failure.
+   *
+   * @param <T> dummy return value type
+   * @param realCause cause of the error.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
+   */
+  @CanIgnoreReturnValue
+  public <T> T fail(Throwable realCause) {
+    return fail(null, realCause);
   }
 
   /**

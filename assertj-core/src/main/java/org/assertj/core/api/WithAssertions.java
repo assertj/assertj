@@ -172,6 +172,18 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Throws an {@link AssertionError} without a message.
+   *
+   * @param <T> dummy return value type
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail()));}.
+   * @throws AssertionError without a message.
+   */
+  @CanIgnoreReturnValue
+  default <T> T fail() {
+    return fail((String) null);
+  }
+
+  /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
@@ -198,6 +210,19 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   @CanIgnoreReturnValue
   default <T> T fail(final String failureMessage, final Throwable realCause) {
     return Assertions.fail(failureMessage, realCause);
+  }
+
+  /**
+   * Throws an {@link AssertionError} with the {@link Throwable} that caused the failure.
+   *
+   * @param <T> dummy return value type
+   * @param realCause cause of the error.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
+   * @throws AssertionError with the {@link Throwable} that caused the failure.
+   */
+  @CanIgnoreReturnValue
+  default <T> T fail(final Throwable realCause) {
+    return fail(null, realCause);
   }
 
   /**

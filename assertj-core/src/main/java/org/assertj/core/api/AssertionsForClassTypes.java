@@ -960,6 +960,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Only delegate to {@link Fail#fail()} so that Assertions offers a full feature entry point to all Assertj
+   * Assert features (but you can use Fail if you prefer).
+   *
+   * @throws AssertionError without a message.
+   */
+  public static void fail() {
+    Fail.fail();
+  }
+
+  /**
    * Only delegate to {@link Fail#fail(String, Throwable)} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use Fail if you prefer).
    *
@@ -969,6 +979,17 @@ public class AssertionsForClassTypes {
    */
   public static void fail(String failureMessage, Throwable realCause) {
     Fail.fail(failureMessage, realCause);
+  }
+
+  /**
+   * Only delegate to {@link Fail#fail(Throwable)} so that Assertions offers a full feature entry point to all
+   * AssertJ features (but you can use Fail if you prefer).
+   *
+   * @param realCause cause of the error.
+   * @throws AssertionError with the {@link Throwable} that caused the failure.
+   */
+  public static void fail(Throwable realCause) {
+    Fail.fail(realCause);
   }
 
   /**
