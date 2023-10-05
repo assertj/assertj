@@ -25,13 +25,16 @@ class RecursiveComparisonAssert_isEqualTo_java_objects_Test extends RecursiveCom
   @Test
   void should_describe_cause_of_equals_use() {
 
+    // GIVEN two equal values of a type from a java package
     IntSummaryStatistics statisticsActual = new IntSummaryStatistics();
     IntSummaryStatistics statisticsExpected = new IntSummaryStatistics();
 
+    // WHEN recursive comparison is called
     ThrowableAssert.ThrowingCallable equalComparison = () -> assertThat(statisticsActual).usingRecursiveComparison()
                                                                                          .isEqualTo(statisticsExpected);
     AssertionError assertionError = expectAssertionError(equalComparison);
 
+    // THEN additional information explains how was the comparison done
     assertThat(assertionError.getMessage()).contains("Comparison objects are of Java types and were then compared with equals method");
   }
 }
