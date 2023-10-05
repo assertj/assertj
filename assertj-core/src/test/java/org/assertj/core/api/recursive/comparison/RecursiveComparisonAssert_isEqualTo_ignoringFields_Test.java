@@ -170,7 +170,8 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
+    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2),
+                                                                         "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 
@@ -187,7 +188,8 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
+    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2),
+                                                                         "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 
@@ -206,7 +208,8 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
+    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2),
+                                                                         "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 
@@ -313,11 +316,19 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
-    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
+    String javaComparisonInformation = "Comparison objects are of Java types and were then compared with equals method";
+    ComparisonDifference dateOfBirthDifference = diff("dateOfBirth",
+                                                      actual.dateOfBirth,
+                                                      expected.dateOfBirth,
+                                                      javaComparisonInformation);
+    ComparisonDifference neighbourNameDifference = diff("neighbour.name",
+                                                        actual.neighbour.name,
+                                                        expected.neighbour.name,
+                                                        javaComparisonInformation);
     ComparisonDifference numberDifference = diff("neighbour.neighbour.home.address.number",
                                                  actual.neighbour.neighbour.home.address.number,
-                                                 expected.neighbour.neighbour.home.address.number);
+                                                 expected.neighbour.neighbour.home.address.number,
+                                                 javaComparisonInformation);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
                                                               dateOfBirthDifference, neighbourNameDifference, numberDifference);
   }
@@ -408,10 +419,14 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
+    ComparisonDifference dateOfBirthDifference = diff("dateOfBirth",
+                                                      actual.dateOfBirth,
+                                                      expected.dateOfBirth,
+                                                      "Comparison objects are of Java types and were then compared with equals method");
     ComparisonDifference neighbourDateOfBirthDifference = diff("neighbour.dateOfBirth",
                                                                actual.neighbour.dateOfBirth,
-                                                               expected.neighbour.dateOfBirth);
+                                                               expected.neighbour.dateOfBirth,
+                                                               "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
                                                               dateOfBirthDifference, neighbourDateOfBirthDifference);
   }
@@ -490,7 +505,8 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     ComparisonDifference addressDifference = diff("home.address", actual.home.address, expected.home.address);
     ComparisonDifference neighbourDateOfBirthDifference = diff("neighbour.neighbour.dateOfBirth",
                                                                actual.neighbour.neighbour.dateOfBirth,
-                                                               expected.neighbour.neighbour.dateOfBirth);
+                                                               expected.neighbour.neighbour.dateOfBirth,
+                                                               "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
                                                               addressDifference, neighbourDateOfBirthDifference);
   }

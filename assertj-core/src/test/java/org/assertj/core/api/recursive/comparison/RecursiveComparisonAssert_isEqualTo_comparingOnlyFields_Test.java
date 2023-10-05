@@ -113,11 +113,18 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
-    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
+    ComparisonDifference dateOfBirthDifference = diff("dateOfBirth",
+                                                       actual.dateOfBirth,
+                                                       expected.dateOfBirth,
+                                                       "Comparison objects are of Java types and were then compared with equals method");
+    ComparisonDifference neighbourNameDifference = diff("neighbour.name",
+                                                        actual.neighbour.name,
+                                                        expected.neighbour.name,
+                                                        "Comparison objects are of Java types and were then compared with equals method");
     ComparisonDifference numberDifference = diff("neighbour.neighbour.home.address.number",
                                                  actual.neighbour.neighbour.home.address.number,
-                                                 expected.neighbour.neighbour.home.address.number);
+                                                 expected.neighbour.neighbour.home.address.number,
+                                                 "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
                                                               dateOfBirthDifference, neighbourNameDifference, numberDifference);
   }
@@ -216,11 +223,17 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     recursiveComparisonConfiguration.compareOnlyFields("deleted");
     // THEN
     compareRecursivelyFailsAsExpected(staffWithLessFields, staff);
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(staffWithLessFields, staff,
-                                                              diff("deleted", staffWithLessFields.deleted, staff.deleted));
+    ComparisonDifference differenceWithFirst = diff("deleted",
+                                                    staffWithLessFields.deleted,
+                                                    staff.deleted,
+                                                    "Comparison objects are of Java types and were then compared with equals method");
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(staffWithLessFields, staff, differenceWithFirst);
     compareRecursivelyFailsAsExpected(staff, staffWithLessFields);
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(staff, staffWithLessFields,
-                                                              diff("deleted", staff.deleted, staffWithLessFields.deleted));
+    ComparisonDifference differenceWithLast = diff("deleted",
+                                                   staff.deleted,
+                                                   staffWithLessFields.deleted,
+                                                   "Comparison objects are of Java types and were then compared with equals method");
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(staff, staffWithLessFields, differenceWithLast);
   }
 
   // https://github.com/assertj/assertj/issues/2610
@@ -249,7 +262,10 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    ComparisonDifference difference = diff("a", actual.a, expected.a);
+    ComparisonDifference difference = diff("a",
+                                           actual.a,
+                                           expected.a,
+                                           "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
   }
 
@@ -271,7 +287,10 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     Student john2 = new Student("John", "math", 1);
     Student rohit = new Student("Rohit", "english", 2);
     Student rohyt = new Student("Rohyt", "english", 2);
-    ComparisonDifference difference = diff("[1].name", "Rohit", "Rohyt");
+    ComparisonDifference difference = diff("[1].name",
+                                           "Rohit",
+                                           "Rohyt",
+                                           "Comparison objects are of Java types and were then compared with equals method");
     return Stream.of(arguments(list(john1, rohit), list(john2, rohyt), difference),
                      arguments(array(john1, rohit), array(john2, rohyt), difference),
                      arguments(set(john1, rohit), set(john2, rohyt), difference));
@@ -342,8 +361,14 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference difference1 = diff("[0].neighbour.neighbour.name", "John", "Jack");
-    ComparisonDifference difference2 = diff("[1].neighbour.neighbour.name", "Alice", "Joan");
+    ComparisonDifference difference1 = diff("[0].neighbour.neighbour.name",
+                                            "John",
+                                            "Jack",
+                                            "Comparison objects are of Java types and were then compared with equals method");
+    ComparisonDifference difference2 = diff("[1].neighbour.neighbour.name",
+                                            "Alice",
+                                            "Joan",
+                                            "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference1, difference2);
   }
 

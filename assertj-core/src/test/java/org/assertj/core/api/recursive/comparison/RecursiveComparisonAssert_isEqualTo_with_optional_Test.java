@@ -47,33 +47,35 @@ class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveCo
   @ParameterizedTest(name = "author 1 {0} / author 2 {1} / path {2} / value 1 {3}/ value 2 {4}")
   @MethodSource("differentBookWithOptionalCoAuthors")
   void should_fail_when_comparing_different_optional_fields(BookWithOptionalCoAuthor actual,
-                                                            BookWithOptionalCoAuthor expected, String path, Object value1,
-                                                            Object value2) {
+                                                            BookWithOptionalCoAuthor expected,
+                                                            ComparisonDifference diff) {
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, diff(path, value1, value2));
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, diff);
   }
 
   private static Stream<Arguments> differentBookWithOptionalCoAuthors() {
     BookWithOptionalCoAuthor pratchett = new BookWithOptionalCoAuthor("Terry Pratchett");
     BookWithOptionalCoAuthor georgeMartin = new BookWithOptionalCoAuthor("George Martin");
 
+    String javaComparisonInformation = "Comparison objects are of Java types and were then compared with equals method";
+
     return Stream.of(Arguments.of(pratchett, georgeMartin,
-                                  "coAuthor.value.name", "Terry Pratchett", "George Martin"),
+                                  diff("coAuthor.value.name", "Terry Pratchett", "George Martin", javaComparisonInformation)),
                      Arguments.of(pratchett, new BookWithOptionalCoAuthor(null),
-                                  "coAuthor", Optional.of(new Author("Terry Pratchett")), Optional.empty()),
+                                  diff("coAuthor", Optional.of(new Author("Terry Pratchett")), Optional.empty())),
                      Arguments.of(new BookWithOptionalCoAuthor(null), pratchett,
-                                  "coAuthor", Optional.empty(), Optional.of(new Author("Terry Pratchett"))),
+                                  diff("coAuthor", Optional.empty(), Optional.of(new Author("Terry Pratchett")))),
                      Arguments.of(new BookWithOptionalCoAuthor("Terry Pratchett", 1, 2L, 3.0),
                                   new BookWithOptionalCoAuthor("Terry Pratchett", 2, 2L, 3.0),
-                                  "numberOfPages", OptionalInt.of(1), OptionalInt.of(2)),
+                                  diff("numberOfPages", OptionalInt.of(1), OptionalInt.of(2), javaComparisonInformation)),
                      Arguments.of(new BookWithOptionalCoAuthor("Terry Pratchett", 1, 2L, 3.0),
                                   new BookWithOptionalCoAuthor("Terry Pratchett", 1, 4L, 3.0),
-                                  "bookId", OptionalLong.of(2L), OptionalLong.of(4L)),
+                                  diff("bookId", OptionalLong.of(2L), OptionalLong.of(4L), javaComparisonInformation)),
                      Arguments.of(new BookWithOptionalCoAuthor("Terry Pratchett", 1, 2L, 3.0),
                                   new BookWithOptionalCoAuthor("Terry Pratchett", 1, 2L, 6.0),
-                                  "price", OptionalDouble.of(3.0), OptionalDouble.of(6.0)));
+                                  diff("price", OptionalDouble.of(3.0), OptionalDouble.of(6.0), javaComparisonInformation)));
   }
 
   @Test
@@ -85,9 +87,10 @@ class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveCo
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
+    String javaComparisonInformation = "Comparison objects are of Java types and were then compared with equals method";
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
                                                               diff("bookId", null, 0l),
-                                                              diff("coAuthor", Optional.of(pratchett), pratchett),
+                                                              diff("coAuthor", Optional.of(pratchett), pratchett, javaComparisonInformation),
                                                               diff("numberOfPages", null, 0),
                                                               diff("price", null, 0.0));
   }

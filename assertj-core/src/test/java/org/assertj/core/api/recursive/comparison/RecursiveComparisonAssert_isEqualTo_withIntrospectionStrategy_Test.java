@@ -86,10 +86,12 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference phoneDifference = diff("phone.value", actual.phone.get(), expected.phone.get());
+    ComparisonDifference phoneDifference = diff("phone.value", actual.phone.get(), expected.phone.get(),
+                                                "Comparison objects are of Java types and were then compared with equals method");
     ComparisonDifference neighbourDateOfBirthDifference = diff("neighbour.dateOfBirth",
                                                                actual.neighbour.dateOfBirth,
-                                                               expected.neighbour.dateOfBirth);
+                                                               expected.neighbour.dateOfBirth,
+                                                               "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, neighbourDateOfBirthDifference, phoneDifference);
   }
 
@@ -316,7 +318,8 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference valuesDifference = diff("values[1]", "B", "C");
+    ComparisonDifference valuesDifference = diff("values[1]", "B", "C",
+                                                 "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, valuesDifference);
 
     // Note that this succeeds when it should not:

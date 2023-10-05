@@ -68,13 +68,14 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     Optional<PersonDto> expectedAsOptional = Optional.of(sheldonDto);
     Map<String, PersonDto> expectedAsMap = newHashMap("sheldon", sheldonDto);
     Map<String, Person> actualAsMap = newHashMap("sheldon", sheldon);
+    String overriddenEqualsComparisonInformation = "Comparison objects were compared with equals method";
     return Stream.of(Arguments.of(actualAsIterable, expectAsIterable,
                                   diff("", actualAsIterable, expectAsIterable,
                                        format("The following expected elements were not matched in the actual HashSet:%n"
                                               + "  [PersonDto [name=Sheldon, home=HomeDto [address=AddressDto [number=1]]]]"))),
-                     Arguments.of(actualAsArray, expectedAsArray, diff("[0]", sheldon, sheldonDto)),
-                     Arguments.of(actualAsOptional, expectedAsOptional, diff("value", sheldon, sheldonDto)),
-                     Arguments.of(actualAsMap, expectedAsMap, diff("sheldon", sheldon, sheldonDto)));
+                     Arguments.of(actualAsArray, expectedAsArray, diff("[0]", sheldon, sheldonDto, overriddenEqualsComparisonInformation)),
+                     Arguments.of(actualAsOptional, expectedAsOptional, diff("value", sheldon, sheldonDto, overriddenEqualsComparisonInformation)),
+                     Arguments.of(actualAsMap, expectedAsMap, diff("sheldon", sheldon, sheldonDto, overriddenEqualsComparisonInformation)));
   }
 
   @ParameterizedTest(name = "author 1 {0} / author 2 {1}")
@@ -143,7 +144,9 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     Author none = null;
     Set<Author> pratchettHashSet = newHashSet(pratchett);
     List<Author> pratchettList = list(pratchett);
-    return Stream.of(Arguments.of(pratchettList, list(georgeMartin), "group[0].name", "Terry Pratchett", "George Martin", null),
+    String javaComparisonInformation = "Comparison objects are of Java types and were then compared with equals method";
+    return Stream.of(Arguments.of(pratchettList, list(georgeMartin), "group[0].name",
+                                  "Terry Pratchett", "George Martin", javaComparisonInformation),
                      Arguments.of(list(pratchett, georgeMartin), pratchettList, "group",
                                   list(pratchett, georgeMartin), pratchettList,
                                   "actual and expected values are collections of different size, actual size=2 when expected size=1"),
@@ -153,7 +156,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                      Arguments.of(pratchettHashSet, pratchettList, "group", pratchettHashSet, pratchettList,
                                   "expected field is an ordered collection but actual field is not (java.util.HashSet), ordered collections are: [java.util.List, java.util.SortedSet, java.util.LinkedHashSet]"),
                      Arguments.of(authorsTreeSet(pratchett), authorsTreeSet(georgeMartin), "group[0].name",
-                                  "Terry Pratchett", "George Martin", null),
+                                  "Terry Pratchett", "George Martin", javaComparisonInformation),
                      Arguments.of(newHashSet(pratchett, georgeMartin), pratchettHashSet, "group",
                                   newHashSet(pratchett, georgeMartin), pratchettHashSet,
                                   "actual and expected values are collections of different size, actual size=2 when expected size=1"),
