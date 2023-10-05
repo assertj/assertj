@@ -362,8 +362,17 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      if (shouldHonorEquals(dualValue, recursiveComparisonConfiguration)) {
-        if (!actualFieldValue.equals(expectedFieldValue)) comparisonState.addDifference(dualValue);
+      boolean shouldHonorJavaTypeEquals = dualValue.hasSomeJavaTypeValue() && !dualValue.isExpectedAContainer();
+      boolean shouldHonorOverriddenEquals = shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration);
+
+      if (shouldHonorJavaTypeEquals || shouldHonorOverriddenEquals) {
+        if (!actualFieldValue.equals(expectedFieldValue)) {
+          String description =
+            shouldHonorJavaTypeEquals ?
+              "Comparison objects are of Java types and were then compared with equals method" :
+              "Comparison objects were compared with equals method";
+          comparisonState.addDifference(dualValue, description);
+          }
         continue;
       }
 
