@@ -114,9 +114,9 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
 
     // THEN
     ComparisonDifference dateOfBirthDifference = diff("dateOfBirth",
-                                                       actual.dateOfBirth,
-                                                       expected.dateOfBirth,
-                                                       "Comparison objects are of Java types and were then compared with equals method");
+                                                      actual.dateOfBirth,
+                                                      expected.dateOfBirth,
+                                                      "Comparison objects are of Java types and were then compared with equals method");
     ComparisonDifference neighbourNameDifference = diff("neighbour.name",
                                                         actual.neighbour.name,
                                                         expected.neighbour.name,

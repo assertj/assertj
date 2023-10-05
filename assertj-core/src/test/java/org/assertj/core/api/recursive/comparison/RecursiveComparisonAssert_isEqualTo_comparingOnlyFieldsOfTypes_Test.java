@@ -124,7 +124,8 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
 
   private static Stream<Arguments> failComparingTopLevelFields() {
     String javaComparisonInformation = "Comparison objects are of Java types and were then compared with equals method";
-    return Stream.of(arguments(billie, john, types(String.class), "different name", array(diff("name", billie.name, john.name, javaComparisonInformation))),
+    return Stream.of(arguments(billie, john, types(String.class), "different name",
+                               array(diff("name", billie.name, john.name, javaComparisonInformation))),
                      arguments(billie, anotherBillie, types(OptionalInt.class, OptionalDouble.class), "different age and weight",
                                array(diff("age", billie.age, anotherBillie.age, javaComparisonInformation),
                                      diff("weight", billie.weight, anotherBillie.weight, javaComparisonInformation))),
@@ -133,7 +134,8 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
                                array(diff("neighbour.age", john.neighbour.age, jill.neighbour.age, javaComparisonInformation),
                                      diff("neighbour.home.address.number", john.neighbour.home.address.number,
                                           jill.neighbour.home.address.number, javaComparisonInformation),
-                                     diff("neighbour.name", john.neighbour.name, jill.neighbour.name, javaComparisonInformation))));
+                                     diff("neighbour.name", john.neighbour.name, jill.neighbour.name,
+                                          javaComparisonInformation))));
   }
 
   @Test
@@ -157,9 +159,9 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
                                               anotherBillie.age,
                                               "Comparison objects are of Java types and were then compared with equals method");
     ComparisonDifference weightDifference = diff("weight",
-                                                  billie.weight,
-                                                  anotherBillie.weight,
-                                                  "Comparison objects are of Java types and were then compared with equals method");
+                                                 billie.weight,
+                                                 anotherBillie.weight,
+                                                 "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(billie, anotherBillie, ageDifference, weightDifference);
   }
 

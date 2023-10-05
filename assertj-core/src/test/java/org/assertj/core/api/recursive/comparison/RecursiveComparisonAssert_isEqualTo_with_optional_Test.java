@@ -90,7 +90,8 @@ class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveCo
     String javaComparisonInformation = "Comparison objects are of Java types and were then compared with equals method";
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
                                                               diff("bookId", null, 0l),
-                                                              diff("coAuthor", Optional.of(pratchett), pratchett, javaComparisonInformation),
+                                                              diff("coAuthor", Optional.of(pratchett), pratchett,
+                                                                   javaComparisonInformation),
                                                               diff("numberOfPages", null, 0),
                                                               diff("price", null, 0.0));
   }

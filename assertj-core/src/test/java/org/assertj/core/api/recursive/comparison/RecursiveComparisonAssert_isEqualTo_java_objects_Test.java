@@ -28,11 +28,10 @@ class RecursiveComparisonAssert_isEqualTo_java_objects_Test extends RecursiveCom
     IntSummaryStatistics statistics1 = new IntSummaryStatistics();
     IntSummaryStatistics statistics2 = new IntSummaryStatistics();
 
-    ThrowableAssert.ThrowingCallable equalComparison =
-      () -> assertThat(statistics1).usingRecursiveComparison().isEqualTo(statistics2);
+    ThrowableAssert.ThrowingCallable equalComparison = () -> assertThat(statistics1).usingRecursiveComparison()
+                                                                                    .isEqualTo(statistics2);
     AssertionError assertionError = expectAssertionError(equalComparison);
 
-    assertThat(assertionError.getMessage())
-      .contains("Comparison objects are of Java types and were then compared with equals method");
+    assertThat(assertionError.getMessage()).contains("Comparison objects are of Java types and were then compared with equals method");
   }
 }

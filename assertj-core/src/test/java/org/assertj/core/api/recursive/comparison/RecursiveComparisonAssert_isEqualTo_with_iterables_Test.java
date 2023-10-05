@@ -73,9 +73,12 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                                   diff("", actualAsIterable, expectAsIterable,
                                        format("The following expected elements were not matched in the actual HashSet:%n"
                                               + "  [PersonDto [name=Sheldon, home=HomeDto [address=AddressDto [number=1]]]]"))),
-                     Arguments.of(actualAsArray, expectedAsArray, diff("[0]", sheldon, sheldonDto, overriddenEqualsComparisonInformation)),
-                     Arguments.of(actualAsOptional, expectedAsOptional, diff("value", sheldon, sheldonDto, overriddenEqualsComparisonInformation)),
-                     Arguments.of(actualAsMap, expectedAsMap, diff("sheldon", sheldon, sheldonDto, overriddenEqualsComparisonInformation)));
+                     Arguments.of(actualAsArray, expectedAsArray,
+                                  diff("[0]", sheldon, sheldonDto, overriddenEqualsComparisonInformation)),
+                     Arguments.of(actualAsOptional, expectedAsOptional,
+                                  diff("value", sheldon, sheldonDto, overriddenEqualsComparisonInformation)),
+                     Arguments.of(actualAsMap, expectedAsMap,
+                                  diff("sheldon", sheldon, sheldonDto, overriddenEqualsComparisonInformation)));
   }
 
   @ParameterizedTest(name = "author 1 {0} / author 2 {1}")

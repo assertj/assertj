@@ -367,12 +367,11 @@ public class RecursiveComparisonDifferenceCalculator {
 
       if (shouldHonorJavaTypeEquals || shouldHonorOverriddenEquals) {
         if (!actualFieldValue.equals(expectedFieldValue)) {
-          String description =
-            shouldHonorJavaTypeEquals ?
-              "Comparison objects are of Java types and were then compared with equals method" :
-              "Comparison objects were compared with equals method";
+          String description = shouldHonorJavaTypeEquals
+              ? "Comparison objects are of Java types and were then compared with equals method"
+              : "Comparison objects were compared with equals method";
           comparisonState.addDifference(dualValue, description);
-          }
+        }
         continue;
       }
 
