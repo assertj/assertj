@@ -15,6 +15,10 @@ package org.assertj.core.internal;
 import static org.assertj.core.test.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,6 +41,17 @@ public class StringsBaseTest {
 
   protected ComparatorBasedComparisonStrategy comparisonStrategy;
   protected Strings stringsWithCaseInsensitiveComparisonStrategy;
+
+  protected static final Set<Character> NON_BREAKING_SPACES;
+
+  static {
+    Set<Character> nonBreakingSpaces = new HashSet<>();
+    nonBreakingSpaces.add('\u00A0');
+    nonBreakingSpaces.add('\u2007');
+    nonBreakingSpaces.add('\u202F');
+
+    NON_BREAKING_SPACES = Collections.unmodifiableSet(nonBreakingSpaces);
+  }
 
   @BeforeEach
   public void setUp() {

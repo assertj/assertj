@@ -12,10 +12,17 @@
  */
 package org.assertj.core.api.charsequence;
 
-import static org.mockito.Mockito.verify;
-
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.Mockito.verify;
 
 /**
  * Created by harisha talanki on 2/29/20
@@ -31,5 +38,17 @@ class CharSequenceAssert_isEqualToNormalizingPunctuationAndWhitespace_Test exten
   protected void verify_internal_effects() {
     verify(strings).assertEqualsNormalizingPunctuationAndWhitespace(getInfo(assertions), getActual(assertions),
                                                                     "Game of Thrones");
+  }
+
+  @ParameterizedTest
+  @MethodSource("notEqualToNormalizingWhiteSpaceGenerator")
+  void should_pass_if_actual_is_equal_normalizing_breaking_spaces(String actual, String expected) {
+    assertThat(actual).isEqualToNormalizingPunctuationAndWhitespace(expected);
+  }
+
+  public static Stream<Arguments> notEqualToNormalizingWhiteSpaceGenerator() {
+    return NON_BREAKING_SPACES.stream()
+                              .map(nonBreakingSpace -> arguments("my" + nonBreakingSpace
+                                                                 + "foo bar", "my foo bar"));
   }
 }
