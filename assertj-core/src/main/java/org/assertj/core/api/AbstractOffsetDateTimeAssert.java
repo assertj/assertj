@@ -854,8 +854,8 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    *                                          .isBetween(parse("2010-01-01T01:00:00+01:00"),
    *                                                     parse("2010-01-01T01:00:00+01:00"));</code></pre>
    *
-   * @param startInclusive the start value (exclusive), expected not to be null.
-   * @param endInclusive the end value (exclusive), expected not to be null.
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
@@ -892,8 +892,8 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * // assertion fails:
    * assertThat(firstOfJanuary2000).isBetween("1999-01-01T00:00:01Z", "1999-12-31T23:59:59Z");</code></pre>
    *
-   * @param startInclusive the start value (exclusive), expected not to be null.
-   * @param endInclusive the end value (exclusive), expected not to be null.
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
    * @return this assertion object.
    *
    * @throws AssertionError if the actual value is {@code null}.
