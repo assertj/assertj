@@ -145,11 +145,15 @@ class Assertions_sync_with_BDDAssertions_WithAssertions_and_soft_assertions_vari
   }
 
   private static Set<Method> non_assertThat_methodsOf(Method[] declaredMethods) {
-    return stream(declaredMethods).filter(method -> !method.getName().startsWith("assert")).collect(toSet());
+    return stream(declaredMethods).filter(method -> !method.getName().startsWith("assert"))
+                                  .filter(method -> !method.isSynthetic())
+                                  .collect(toSet());
   }
 
   private static Set<Method> non_then_methodsOf(Method[] declaredMethods) {
-    return stream(declaredMethods).filter(method -> !method.getName().startsWith("then")).collect(toSet());
+    return stream(declaredMethods).filter(method -> !method.getName().startsWith("then"))
+                                  .filter(method -> !method.isSynthetic())
+                                  .collect(toSet());
   }
 
   private static Set<Method> removeMethods(Set<Method> methods, List<String> methodsToRemove) {
