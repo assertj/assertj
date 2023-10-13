@@ -41,6 +41,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.internal.CronExpression;
 import org.assertj.core.util.CheckReturnValue;
 
 @CheckReturnValue
@@ -59,8 +60,8 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
   /**
    * Creates a new, proxied instance of a {@link PathAssert}
    * <p>
-   * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param actual the path to test
    * @return the created assertion object
@@ -210,6 +211,16 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
   }
 
   /**
+   * Creates a new instance of <code>{@link CronExpressionAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default CronExpressionAssert assertThat(CronExpression actual) {
+    return proxy(CronExpressionAssert.class, CronExpression.class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link PeriodAssert}</code>.
    *
    * @param actual the actual value.
@@ -266,8 +277,8 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
   /**
    * Create assertion for {@link Predicate}.
    * <p>
-   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link Predicate}.
@@ -330,8 +341,8 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only

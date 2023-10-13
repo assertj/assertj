@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.internal.CronExpression;
+import org.assertj.core.util.CheckReturnValue;
+
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
@@ -41,8 +44,6 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.util.CheckReturnValue;
-
 @CheckReturnValue
 public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvider {
 
@@ -59,8 +60,8 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   /**
    * Creates a new instance of {@link PathAssert}
    * <p>
-   * Use this over {@link #then(Path)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Path)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param actual the path to test
    * @return the created assertion object
@@ -267,8 +268,8 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   /**
    * Create assertion for {@link Predicate}.
    * <p>
-   * Use this over {@link #then(Predicate)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Predicate)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link Predicate}.
@@ -313,6 +314,16 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   }
 
   /**
+   * Create assertion for {@link CronExpressionPredicate}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default AbstractCronExpressionAssert<?> then(CronExpression actual) {
+    return proxy(CronExpressionAssert.class, CronExpression.class, actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
@@ -331,8 +342,8 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * Use this over {@link #then(Stream)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Stream)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
