@@ -41,6 +41,7 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -517,6 +518,30 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // THEN
     then(error).hasMessageContaining(unambiguousToStringOf(ambiguous1))
                .hasMessageContaining(unambiguousToStringOf(ambiguous2));
+  }
+
+  @Test
+  void should_get_unambiguous_representation_with_package() {
+    // GIVEN
+    boolean withPackageName = true;
+    // WHEN
+    String unambiguousRepresentation = STANDARD_REPRESENTATION.unambiguousToStringOf(new Person(), withPackageName);
+    // THEN
+    then(unambiguousRepresentation).contains("Person [name=null, age=0, account=0] (org.assertj.tests.core.presentation.Person@");
+  }
+
+  @Test
+  void should_get_unambiguous_representation_without_package() {
+    // GIVEN
+    boolean withPackageName = false;
+    // WHEN
+    String unambiguousRepresentation = STANDARD_REPRESENTATION.unambiguousToStringOf(new Person(), withPackageName);
+    // THEN
+    then(unambiguousRepresentation).contains("Person [name=null, age=0, account=0] (Person@");
+  }
+
+  private static String removeHashCode(String representation) {
+    return representation.replaceAll("(@\\w+)", "");
   }
 
   private static String unambiguousToStringOf(Object o) {

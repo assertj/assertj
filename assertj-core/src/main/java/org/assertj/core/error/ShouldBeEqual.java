@@ -17,6 +17,7 @@ import static java.util.Objects.deepEquals;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.hashCodeFor;
+import static org.assertj.core.util.introspection.ClassUtils.haveSameClassNameInDifferentPackages;
 
 import java.util.Objects;
 
@@ -47,6 +48,7 @@ public class ShouldBeEqual {
                                                                                    Object.class);
   protected final Object actual;
   protected final Object expected;
+  protected final boolean haveSameClassNameInDifferentPackages;
   protected final MessageFormatter messageFormatter = MessageFormatter.instance();
   protected final ComparisonStrategy comparisonStrategy;
   private final Representation representation;
@@ -84,6 +86,7 @@ public class ShouldBeEqual {
     this.expected = expected;
     this.comparisonStrategy = comparisonStrategy;
     this.representation = representation;
+    this.haveSameClassNameInDifferentPackages = haveSameClassNameInDifferentPackages(actual, expected);
   }
 
   /**
@@ -220,11 +223,11 @@ public class ShouldBeEqual {
   }
 
   protected String detailedActual() {
-    return representation.unambiguousToStringOf(actual);
+    return representation.unambiguousToStringOf(actual, haveSameClassNameInDifferentPackages);
   }
 
   protected String detailedExpected() {
-    return representation.unambiguousToStringOf(expected);
+    return representation.unambiguousToStringOf(expected, haveSameClassNameInDifferentPackages);
   }
 
   @Override
