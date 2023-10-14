@@ -28,6 +28,7 @@ import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.ClassUtils;
 
 /**
  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are equal
@@ -195,18 +196,23 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   }
 
   /**
-   * Builds and returns an error message from description using {@link #detailedExpected()} and
-   * {@link #detailedActual()} detailed representation.
+   * Builds and returns an error message from description using {@link #detailedExpected(boolean)} and
+   * {@link #detailedActual(boolean)} detailed representation.
    *
    * @param description the {@link Description} used to build the returned error message
    * @param representation the {@link org.assertj.core.presentation.Representation} used to build String representation
    *          of object
-   * @return the error message from description using {@link #detailedExpected()} and {@link #detailedActual()}
+   * @return the error message from description using {@link #detailedExpected(boolean)} and {@link #detailedActual(boolean)}
    *         <b>detailed</b> representation.
    */
   protected String defaultDetailedErrorMessage(Description description, Representation representation) {
-    String actualRepresentation = detailedActual();
-    String expectedRepresentation = detailedExpected();
+    boolean sameClassNameInDifferentPackages = false;
+    if (actual != null && expected != null) {
+      sameClassNameInDifferentPackages = ClassUtils.areClassesWithSameNameInDifferentPackages(actual.getClass(),
+                                                                                              expected.getClass());
+    }
+    String actualRepresentation = detailedActual(sameClassNameInDifferentPackages);
+    String expectedRepresentation = detailedExpected(sameClassNameInDifferentPackages);
     if (hasMultilineValue(actualRepresentation, expectedRepresentation)) {
       return errorMessageForMultilineValues(description, representation, actualRepresentation, expectedRepresentation);
     }
@@ -255,12 +261,12 @@ public class ShouldBeEqual implements AssertionErrorFactory {
     return o instanceof AssertionError ? (AssertionError) o : null;
   }
 
-  protected String detailedActual() {
-    return representation.unambiguousToStringOf(actual);
+  protected String detailedActual(boolean sameClassWithDifferentPackages) {
+    return representation.unambiguousToStringOf(actual, sameClassWithDifferentPackages);
   }
 
-  protected String detailedExpected() {
-    return representation.unambiguousToStringOf(expected);
+  protected String detailedExpected(boolean sameClassWithDifferentPackages) {
+    return representation.unambiguousToStringOf(expected, sameClassWithDifferentPackages);
   }
 
   @Override

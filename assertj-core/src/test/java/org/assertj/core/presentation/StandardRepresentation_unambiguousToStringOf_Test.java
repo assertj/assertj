@@ -48,7 +48,7 @@ import org.assertj.core.util.StringTestComparator;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link StandardRepresentation#unambiguousToStringOf(Object)}.
+ * Tests for {@link Representation#unambiguousToStringOf(Object, boolean)}.
  *
  * @author Alexandre Dutra
  */
@@ -405,8 +405,40 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
                      .hasMessageContaining(unambiguousToStringOf(ambiguous2));
   }
 
+  @Test
+  void should_get_unambiguous_representation_with_package() {
+    // GIVEN
+    Person person = new Person();
+    boolean shouldKeepPackageName = true;
+
+    // WHEN
+    String unambiguousRepresentation = STANDARD_REPRESENTATION.unambiguousToStringOf(person, shouldKeepPackageName);
+
+    // THEN
+    String unambiguousRepresentationWithoutHashCode = removeHashCode(unambiguousRepresentation);
+    assertThat(unambiguousRepresentationWithoutHashCode).isEqualTo("Person [name=null, age=0, account=0] (org.assertj.core.presentation.Person)");
+  }
+
+  @Test
+  void should_get_unambiguous_representation_without_package() {
+    // GIVEN
+    Person person = new Person();
+    boolean shouldKeepPackageName = false;
+
+    // WHEN
+    String unambiguousRepresentation = STANDARD_REPRESENTATION.unambiguousToStringOf(person, shouldKeepPackageName);
+
+    // THEN
+    String unambiguousRepresentationWithoutHashCode = removeHashCode(unambiguousRepresentation);
+    assertThat(unambiguousRepresentationWithoutHashCode).isEqualTo("Person [name=null, age=0, account=0] (Person)");
+  }
+
+  private String removeHashCode(String representation) {
+    return representation.replaceAll("(@\\w+)", "");
+  }
+
   private static String unambiguousToStringOf(Object o) {
-    return STANDARD_REPRESENTATION.unambiguousToStringOf(o);
+    return STANDARD_REPRESENTATION.unambiguousToStringOf(o, false);
   }
 
   private static class MyTestFile extends File {

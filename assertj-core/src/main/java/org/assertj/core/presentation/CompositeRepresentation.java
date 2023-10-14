@@ -41,13 +41,13 @@ public class CompositeRepresentation implements Representation {
   }
 
   @Override
-  public String unambiguousToStringOf(Object object) {
+  public String unambiguousToStringOf(Object object, boolean shouldKeepPackage) {
     // don't create streams for performance reasons and because this code is simple enough (even not as elegant as with stream)
     for (Representation representation : representations) {
-      String value = representation.unambiguousToStringOf(object);
+      String value = representation.unambiguousToStringOf(object, shouldKeepPackage);
       if (value != null) return value;
     }
-    return STANDARD_REPRESENTATION.unambiguousToStringOf(object);
+    return STANDARD_REPRESENTATION.unambiguousToStringOf(object, shouldKeepPackage);
   }
 
   @Override

@@ -34,7 +34,7 @@ class CompositeRepresentation_Test extends AbstractBaseRepresentationTest {
     CompositeRepresentation compositeRepresentation = new CompositeRepresentation(representations);
     // WHEN
     String toString = compositeRepresentation.toStringOf("foo");
-    String unambiguousToString = compositeRepresentation.unambiguousToStringOf("foo");
+    String unambiguousToString = compositeRepresentation.unambiguousToStringOf("foo", false);
     // THEN
     then(toString).isEqualTo("3");
     then(unambiguousToString).isEqualTo("3");
@@ -48,7 +48,9 @@ class CompositeRepresentation_Test extends AbstractBaseRepresentationTest {
     Object longNumber = 123L;
     // THEN
     then(compositeRepresentation.toStringOf(longNumber)).isEqualTo(STANDARD_REPRESENTATION.toStringOf(longNumber));
-    then(compositeRepresentation.unambiguousToStringOf(longNumber)).isEqualTo(STANDARD_REPRESENTATION.unambiguousToStringOf(longNumber));
+    then(compositeRepresentation.unambiguousToStringOf(longNumber,
+                                                       false)).isEqualTo(STANDARD_REPRESENTATION.unambiguousToStringOf(longNumber,
+                                                                                                                       false));
   }
 
   @Test
@@ -86,7 +88,7 @@ class CompositeRepresentation_Test extends AbstractBaseRepresentationTest {
       }
 
       @Override
-      public String unambiguousToStringOf(Object object) {
+      public String unambiguousToStringOf(Object object, boolean shouldKeepPackage) {
         return "" + getPriority();
       }
 

@@ -145,4 +145,21 @@ public class ClassUtils {
   public static boolean isInJavaLangPackage(final Class<?> type) {
     return type != null && type.getName().startsWith("java.lang");
   }
+
+  /**
+   * Returns whether the given {@code type1} and {@code type2} have the same name but are
+   * located in different packages
+   *
+   * @param type1 first class to compare
+   * @param type2 the class to compare to
+   * @return true if the given {@code type1} have the same name as {@code type2} but is
+   * in a different package
+   */
+  public static boolean areClassesWithSameNameInDifferentPackages(Class<?> type1, Class<?> type2) {
+    if (type1 != null && type2 != null) {
+      return type1.getSimpleName().equals(type2.getSimpleName())
+             && !type1.getPackage().getName().equals(type2.getPackage().getName());
+    }
+    return false;
+  }
 }
