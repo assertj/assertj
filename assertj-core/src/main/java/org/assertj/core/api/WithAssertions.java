@@ -239,6 +239,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfies(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SuppressWarnings("unchecked")
+  default <T> ThrowingConsumer<T> allOf(ThrowingConsumer<? super T>... consumers) {
+    return Assertions.allOf(consumers);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
    *
    * @param <T> the actual's elements type.
@@ -1964,6 +1979,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   @SuppressWarnings("unchecked")  // Heap pollution risk. We accept that as we cannot use @SafeVarargs here.
   default <T> Condition<T> anyOf(final Condition<? super T>... conditions) {
     return Assertions.anyOf(conditions);
+  }
+
+  /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfiesAnyOf(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SuppressWarnings("unchecked")
+  default <T> ThrowingConsumer<T> anyOf(ThrowingConsumer<? super T>... consumers) {
+    return Assertions.anyOf(consumers);
   }
 
   /**

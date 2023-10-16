@@ -17,7 +17,8 @@ import java.util.function.Consumer;
 /**
  * {@link Consumer} that deals with checked exceptions by rethrowing them as {@link RuntimeException}.
  * <p>
- * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are while any other {@link Throwable} are rethrown as {@link RuntimeException}. 
+ * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are,
+ * while any other {@link Throwable} is wrapped in a {@link RuntimeException} and rethrown.
  *
  * @param <T> consumed type
  */
@@ -36,4 +37,5 @@ public interface ThrowingConsumer<T> extends Consumer<T> {
   }
 
   void acceptThrows(T input) throws Throwable;
+
 }
