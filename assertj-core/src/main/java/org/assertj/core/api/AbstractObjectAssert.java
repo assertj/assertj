@@ -1096,6 +1096,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
    * @param <T> the expected value type the given {@code method} returns.
    * @return {@code this} assertion object.
+   * @throws AssertionError if {@code actual} is {@code null}
    * @throws NullPointerException if given {@code from} function is null
    *
    * @see #usingComparatorForType(Comparator, Class)
@@ -1126,6 +1127,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
    * @param <T> the expected value type the given {@code method} returns.
    * @return {@code this} assertion object.
+   * @throws AssertionError if {@code actual} is {@code null}
    * @throws NullPointerException if given {@code from} function is null
    *
    * @since 3.22.0

@@ -773,7 +773,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param predicate the {@link Predicate} to match
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not match the given {@link Predicate}.
+   * @throws AssertionError if {@code actual} does not match the given {@link Predicate}.
    * @throws NullPointerException if given {@link Predicate} is null.
    */
   public SELF matches(Predicate<? super ACTUAL> predicate) {
@@ -798,7 +798,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param predicate the {@link Predicate} to match
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not match the given {@link Predicate}.
+   * @throws AssertionError if {@code actual} does not match the given {@link Predicate}.
    * @throws NullPointerException if given {@link Predicate} is null.
    * @throws NullPointerException if given predicateDescription is null.
    */
@@ -1118,7 +1118,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param propertyOrField the property/field to extract from the initial object under test
    * @param assertFactory   the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
-   * @throws AssertionError if the object under test is {@code null}
+   * @throws AssertionError if {@code actual} is {@code null}
    *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(String)
@@ -1146,7 +1146,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param extractor     the extractor function used to extract the value from the object under test
    * @param assertFactory the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
-   * @throws AssertionError if the object under test is {@code null}
+   * @throws AssertionError if {@code actual} is {@code null}
    *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(Function)
