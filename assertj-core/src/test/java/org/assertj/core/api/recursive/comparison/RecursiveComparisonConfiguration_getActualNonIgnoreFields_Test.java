@@ -13,6 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.Date;
@@ -20,6 +21,7 @@ import java.util.Set;
 
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.internal.objects.data.PersonDtoWithPersonNeighbour;
+import org.assertj.core.test.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -90,5 +92,27 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
     Set<String> fields = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
     // THEN
     then(fields).containsExactly("name");
+  }
+
+  @Test
+  void should_return_all_fields_when_some_compared_types_are_specified_as_a_value_not_to_compare_could_have_a_field_to_compare() {
+    // GIVEN
+    Company microsoft = new Company(new Person("Bill"));
+    DualValue dualValue = new DualValue(rootFieldLocation(), microsoft, microsoft);
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(Person.class);
+    recursiveComparisonConfiguration.compareOnlyFields("ceo");
+    // WHEN
+    Set<String> fields = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
+    // THEN includes engineers in case any subfields of engineers is of a type to compare
+    then(fields).containsOnly("ceo", "engineers");
+  }
+
+  static class Company {
+    Person ceo;
+    Employee[] engineers;
+
+    public Company(Person ceo) {
+      this.ceo = ceo;
+    }
   }
 }

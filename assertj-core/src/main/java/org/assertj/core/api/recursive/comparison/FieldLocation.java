@@ -16,11 +16,13 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 /**
  * Represents the path to a given field. Immutable
@@ -31,22 +33,103 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   private final String pathToUseInRules;
   private final List<String> decomposedPath;
+  private final List<String> pathsHierarchyToUseInRules;
 
   public FieldLocation(List<String> path) {
     decomposedPath = unmodifiableList(requireNonNull(path, "path cannot be null"));
     pathToUseInRules = pathToUseInRules(decomposedPath);
+    pathsHierarchyToUseInRules = pathsHierarchyToUseInRules();
   }
 
   public FieldLocation(String s) {
     this(list(s.split("\\.")));
   }
 
-  public boolean matches(FieldLocation field) {
-    return pathToUseInRules.equals(field.pathToUseInRules);
+  public boolean exactlyMatches(FieldLocation field) {
+    return exactlyMatches(field.pathToUseInRules);
   }
 
-  public boolean matches(String fieldPath) {
+  public boolean exactlyMatches(String fieldPath) {
     return pathToUseInRules.equals(fieldPath);
+  }
+
+  /**
+   * Reruns true if it exactly matches this field, false otherwise.
+   *
+   * @param fieldPath field path to check
+   * @return true if it exactly matches this field, false otherwise
+   * @deprecated use {@link #exactlyMatches(String)} instead.
+   */
+  @Deprecated
+  public boolean matches(String fieldPath) {
+    return exactlyMatches(fieldPath);
+  }
+
+  /**
+   * Reruns true if it exactly matches this field, false otherwise.
+   *
+   * @param field field to check
+   * @return true if it exactly matches this field, false otherwise
+   * @deprecated use {@link #exactlyMatches(String)} instead.
+   */
+  @Deprecated
+  public boolean matches(FieldLocation field) {
+    return exactlyMatches(field);
+  }
+
+  /**
+   * Checks whether this fieldLocation or any of its parents matches the given fieldPath.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * | fieldLocation       | fieldPath    | matches?
+   * -----------------------------------------------
+   * | name.first          | "name"       | true
+   * | name.first.nickname | "name"       | true
+   * | name.first          | "name.first" | true
+   * | name.first.nickname | "name.first" | true
+   * | name                | "name"       | true
+   * | name                | "name.first" | false
+   * | person.name         | "name"       | false
+   * | names               | "name"       | false
+   * | nickname            | "name"       | false
+   * | name                | "nickname"   | false
+   * | first.nickname      | "name"       | false
+   * </code></pre>
+   *
+   * @param fieldPath the field path to test
+   * @return true if this fieldLocation is the given fieldPath or a child of it, false otherwise.
+   */
+  public boolean hierarchyMatches(String fieldPath) {
+    return pathsHierarchyToUseInRules.contains(fieldPath);
+  }
+
+  /**
+   * Checks whether this fieldLocation or any of its parents matches the given regex.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * | fieldLocation       | regex        | matches?
+   * -----------------------------------------------
+   * | name.first          | "name"       | true
+   * | name.first          | "..me"       | true
+   * | name.first.nickname | "name"       | true
+   * | name.first          | "name.first" | true
+   * | name.first.nickname | "name.first" | true
+   * | name                | "name"       | true
+   * | name                | "name.first" | false
+   * | person.name         | "name"       | false
+   * | names               | "name"       | false
+   * | nickname            | "name"       | false
+   * | name                | "nickname"   | false
+   * | first.nickname      | "name"       | false
+   * </code></pre>
+   *
+   * @param regex the regex to test
+   * @return true this fieldLocation or any of its parent matches the given regex., false otherwise.
+   */
+  public boolean hierarchyMatchesRegex(Pattern regex) {
+    return pathsHierarchyToUseInRules.stream().anyMatch(path -> regex.matcher(path).matches());
   }
 
   public List<String> getDecomposedPath() {
@@ -74,12 +157,13 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     if (!(obj instanceof FieldLocation)) return false;
     FieldLocation that = (FieldLocation) obj;
     return Objects.equals(pathToUseInRules, that.pathToUseInRules)
-           && Objects.equals(decomposedPath, that.decomposedPath);
+           && Objects.equals(decomposedPath, that.decomposedPath)
+           && Objects.equals(pathsHierarchyToUseInRules, that.pathsHierarchyToUseInRules);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(pathToUseInRules, decomposedPath);
+    return Objects.hash(pathToUseInRules, decomposedPath, pathsHierarchyToUseInRules);
   }
 
   @Override
@@ -126,7 +210,8 @@ public final class FieldLocation implements Comparable<FieldLocation> {
    * Returns true if this has the given parent (direct or indirect), false otherwise.
    * <p>
    * Examples:
-   * <pre><code class='java'> | field                 | parent       | hasParent? 
+   * <pre><code class='java'>
+   * | field                 | parent       | hasParent?
    * -----------------------------------------------  
    * | "name.first"          | "name"       | true       
    * | "name.first.nickname" | "name"       | true       
@@ -171,4 +256,21 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     return child.hasParent(this);
   }
 
+  private List<String> pathsHierarchyToUseInRules() {
+    List<FieldLocation> fieldAndParentFields = list();
+    FieldLocation currentLocation = this;
+    while (!currentLocation.isRoot()) {
+      fieldAndParentFields.add(currentLocation);
+      currentLocation = currentLocation.parent();
+    }
+    return fieldAndParentFields.stream()
+                               .map(fieldLocation -> fieldLocation.pathToUseInRules)
+                               .collect(toList());
+  }
+
+  private FieldLocation parent() {
+    List<String> parentPath = new ArrayList<>(decomposedPath);
+    parentPath.remove(decomposedPath.size() - 1);
+    return new FieldLocation(parentPath);
+  }
 }
