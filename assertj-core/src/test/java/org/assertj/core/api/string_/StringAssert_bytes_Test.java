@@ -83,9 +83,8 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
 
   @Test
   void should_throw_exception_for_null_charset() {
-    assertThatNullPointerException()
-      .isThrownBy(() -> assertThat("abc").bytes((Charset) null))
-      .withMessage("The charset must not be null");
+    assertThatNullPointerException().isThrownBy(() -> assertThat("abc").bytes((Charset) null))
+                                    .withMessage("The charset must not be null");
   }
 
   @Test
@@ -108,9 +107,8 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
 
   @Test
   void should_throw_exception_for_null_charset_name() {
-    assertThatNullPointerException()
-      .isThrownBy(() -> assertThat("abc").bytes((String) null))
-      .withMessage("The charsetName must not be null");
+    assertThatNullPointerException().isThrownBy(() -> assertThat("abc").bytes((String) null))
+                                    .withMessage("The charsetName must not be null");
   }
 
   @Test
