@@ -12,10 +12,19 @@
  */
 package org.assertj.core.api.charsequence;
 
-import static org.mockito.Mockito.verify;
-
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.Mockito.verify;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.CharSequenceAssert#isNotEqualToNormalizingWhitespace(CharSequence)}</code>.
@@ -32,5 +41,20 @@ class CharSequenceAssert_isNotEqualToNormalizingWhitespace_Test extends CharSequ
   @Override
   protected void verify_internal_effects() {
     verify(strings).assertNotEqualsNormalizingWhitespace(getInfo(assertions), getActual(assertions), " my foo bar ");
+  }
+
+  @ParameterizedTest
+  @MethodSource("notEqualToNormalizingWhiteSpaceGenerator")
+  void should_fail_if_actual_is_equal_normalizing_breaking_spaces(String actual, String expected) {
+    assertThatExceptionOfType(AssertionError.class)
+                                                   .isThrownBy(() -> assertThat(actual).isNotEqualToNormalizingWhitespace(expected))
+                                                   .withMessage(shouldNotBeEqualNormalizingWhitespace(actual,
+                                                                                                      expected).create());
+  }
+
+  public static Stream<Arguments> notEqualToNormalizingWhiteSpaceGenerator() {
+    return NON_BREAKING_SPACES.stream()
+                              .map(nonBreakingSpace -> arguments("my" + nonBreakingSpace
+                                                                 + "foo bar", "my foo bar"));
   }
 }

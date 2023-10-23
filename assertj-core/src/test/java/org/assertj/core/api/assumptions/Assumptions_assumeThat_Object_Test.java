@@ -33,6 +33,7 @@ class Assumptions_assumeThat_Object_Test {
     assertThatCode(() -> assumeThat(STRING_OBJECT).isNotNull().asString().startsWith("te")).doesNotThrowAnyException();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   void should_run_test_when_assumption_for_internally_created_list_passes() {
     Object listObject = asList(1, 2, 3);
@@ -52,6 +53,7 @@ class Assumptions_assumeThat_Object_Test {
                                                                    .isEqualTo("other"));
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   void should_ignore_test_when_assumption_for_internally_created_list_assertion_fails() {
     Object listObject = asList(1, 2, 3);

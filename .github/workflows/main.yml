@@ -8,14 +8,16 @@ env:
 jobs:
 
   test_os:
+
     name: OS ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macOS-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
@@ -23,15 +25,32 @@ jobs:
           java-version: 17
           cache: 'maven'
       - name: Test
-        run: ./mvnw $MAVEN_ARGS verify javadoc:javadoc
+        run: ./mvnw $MAVEN_ARGS verify
+
+  javadoc:
+
+    name: Javadoc
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: maven
+      - name: Generate Javadoc
+        run: ./mvnw $MAVEN_ARGS -DskipTests package javadoc:javadoc
 
   sonar:
+
     name: Sonar code analysis
     runs-on: ubuntu-latest
     if: github.repository == 'assertj/assertj' && github.event_name == 'push'
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Setup Java
@@ -42,7 +61,7 @@ jobs:
           cache: 'maven'
       - name: Test with Sonar
         run: >
-          ./mvnw $MAVEN_ARGS verify javadoc:javadoc sonar:sonar
+          ./mvnw $MAVEN_ARGS verify sonar:sonar
           -Dsonar.host.url=https://sonarcloud.io
           -Dsonar.organization=assertj
           -Dsonar.projectKey=joel-costigliola_assertj-core

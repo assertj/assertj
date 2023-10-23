@@ -134,4 +134,15 @@ public class ClassUtils {
     }
     return OPTIONAL_TYPES.contains(type);
   }
+
+  /**
+   * Returns whether the given {@code type} belongs to the java.lang package itself or one of its subpackage.
+   *
+   * @param type The class to check or null.
+   * @return true the given {@code type} belongs to the java.lang package itself or one of its subpackage, false otherwise.
+   * @since 3.25.0
+   */
+  public static boolean isInJavaLangPackage(final Class<?> type) {
+    return type != null && type.getName().startsWith("java.lang");
+  }
 }

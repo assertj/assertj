@@ -12,15 +12,17 @@
  */
 package org.assertj.core.api.abstract_;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.ConcreteAssert;
+import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link AbstractAssert#isEqualTo(Object)}</code>.
- *
  * @author Alex Ruiz
  */
 class AbstractAssert_isEqualTo_Test extends AbstractAssertBaseTest {
@@ -28,6 +30,26 @@ class AbstractAssert_isEqualTo_Test extends AbstractAssertBaseTest {
   @Override
   protected ConcreteAssert invoke_api_method() {
     return assertions.isEqualTo(Long.valueOf(8l));
+  }
+
+  @Test
+  void should_fail_because_called_on_assertion_directly() {
+    // WHEN
+    Throwable thrown = catchThrowable(() -> assertThat(assertions).isEqualTo(assertions));
+    // THEN
+    then(thrown).isInstanceOf(UnsupportedOperationException.class)
+                .hasMessage("Attempted to compare an assertion object to another object using 'isEqualTo'. "
+                            + "This is not supported. Perhaps you meant 'isSameAs' instead?");
+  }
+
+  @Test
+  void should_not_fail_when_equals_exceptions_is_deactivated() {
+    AbstractAssert.throwUnsupportedExceptionOnEquals = false;
+    try {
+      assertions.isEqualTo(assertions);
+    } finally {
+      AbstractAssert.throwUnsupportedExceptionOnEquals = true;
+    }
   }
 
   @Override

@@ -122,14 +122,15 @@
 
   <properties>
     <rootDirectory>${project.basedir}</rootDirectory>
+    <spotless.skip>true</spotless.skip>
     <!-- Plugin versions -->
-    <license-maven-plugin.version>4.2</license-maven-plugin.version>
-    <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
+    <license-maven-plugin.version>4.3</license-maven-plugin.version>
+    <maven-enforcer-plugin.version>3.4.1</maven-enforcer-plugin.version>
     <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
     <maven-release-plugin.version>3.0.1</maven-release-plugin.version>
     <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-    <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
-    <spotless-maven-plugin.version>2.38.0</spotless-maven-plugin.version>
+    <sonar-maven-plugin.version>3.10.0.2594</sonar-maven-plugin.version>
+    <spotless-maven-plugin.version>2.40.0</spotless-maven-plugin.version>
   </properties>
 
   <build>
@@ -139,24 +140,17 @@
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
           <version>${spotless-maven-plugin.version}</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>check</goal>
-              </goals>
-              <configuration>
-                <java>
-                  <includes>
-                    <include>src/main/java/**/*.java</include>
-                    <include>src/test/java/**/*.java</include>
-                  </includes>
-                  <eclipse>
-                    <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
-                  </eclipse>
-                </java>
-              </configuration>
-            </execution>
-          </executions>
+          <configuration>
+            <java>
+              <includes>
+                <include>src/main/java/**/*.java</include>
+                <include>src/test/java/**/*.java</include>
+              </includes>
+              <eclipse>
+                <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
+              </eclipse>
+            </java>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>com.mycila</groupId>
@@ -204,6 +198,17 @@
     </pluginManagement>
     <plugins>
       <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <executions>
@@ -214,7 +219,6 @@
           </execution>
         </executions>
         <configuration>
-          <errorMessage>Some files do not have the expected license header. Run license:format to update them.</errorMessage>
           <licenseSets>
             <licenseSet>
               <inlineHeader><![CDATA[
@@ -248,15 +252,15 @@ Copyright ${project.inceptionYear}-${currentYear} the original author or authors
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
           <execution>
-            <id>enforce-maven</id>
+            <id>enforce-java-and-maven</id>
             <goals>
               <goal>enforce</goal>
             </goals>
             <configuration>
               <rules>
-                <requireMavenVersion>
-                  <version>[3.5.0,)</version>
-                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>[17,)</version>
+                </requireJavaVersion>
               </rules>
             </configuration>
           </execution>

@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -27,8 +28,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -222,6 +226,9 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * on the other hand if you specify {@code person.name}, {@code person} won't be compared but {@code person.name} will be.
    * <p>
    * See {@link RecursiveComparisonAssert#comparingOnlyFields(String...) RecursiveComparisonAssert#comparingOnlyFields(String...)} for examples.
+   * <p>
+   * Note that the recursive comparison checks whether the fields actually exist and throws an {@link IllegalArgumentException} if some of them don't,
+   * this is done to catch typos.
    *
    * @param fieldNamesToCompare the fields of the object under test to compare in the comparison.
    */
@@ -250,6 +257,16 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    */
   public Set<FieldLocation> getComparedFields() {
     return comparedFields;
+  }
+
+  boolean someComparedFieldsHaveBeenSpecified() {
+    return !comparedFields.isEmpty();
+  }
+
+  boolean isOrIsChildOfAnyComparedFields(FieldLocation currentFieldLocation) {
+    return comparedFields.stream()
+                         .anyMatch(comparedField -> comparedField.equals(currentFieldLocation)
+                                                    || comparedField.hasChild(currentFieldLocation));
   }
 
   /**
@@ -1042,6 +1059,44 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    */
   public static Builder builder() {
     return new Builder();
+  }
+
+  void checkComparedFieldsExist(Object actual) {
+    Map<FieldLocation, String> unknownComparedFields = new TreeMap<>();
+    for (FieldLocation comparedField : comparedFields) {
+      checkComparedFieldExists(actual,
+                               comparedField).ifPresent(entry -> unknownComparedFields.put(entry.getKey(), entry.getValue()));
+    }
+    if (!unknownComparedFields.isEmpty()) {
+      StringBuilder errorMessageBuilder = new StringBuilder("The following fields don't exist: ");
+      unknownComparedFields.forEach((fieldLocation,
+                                     nodeName) -> errorMessageBuilder.append(formatUnknownComparedField(fieldLocation,
+                                                                                                        nodeName)));
+      throw new IllegalArgumentException(errorMessageBuilder.toString());
+    }
+  }
+
+  private Optional<Entry<FieldLocation, String>> checkComparedFieldExists(Object actual, FieldLocation comparedFieldLocation) {
+    Object node = actual;
+    for (int nestingLevel = 0; nestingLevel < comparedFieldLocation.getDecomposedPath().size(); nestingLevel++) {
+      if (node == null) {
+        // won't be able to get children nodes, assume the field is known as we can't check it
+        return Optional.empty();
+      }
+      String comparedFieldNodeNameElement = comparedFieldLocation.getDecomposedPath().get(nestingLevel);
+      Set<String> nodeNames = introspectionStrategy.getChildrenNodeNamesOf(node);
+      if (!nodeNames.contains(comparedFieldNodeNameElement)) {
+        return Optional.of(entry(comparedFieldLocation, comparedFieldNodeNameElement));
+      }
+      node = introspectionStrategy.getChildNodeValue(comparedFieldNodeNameElement, node);
+    }
+    return Optional.empty();
+  }
+
+  private static String formatUnknownComparedField(FieldLocation fieldLocation, String unknownNodeNameElement) {
+    return fieldLocation.isTopLevelField()
+        ? format("{%s}", unknownNodeNameElement)
+        : format("{%s in %s}", unknownNodeNameElement, fieldLocation);
   }
 
   /**

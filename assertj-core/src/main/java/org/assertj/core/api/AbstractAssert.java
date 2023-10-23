@@ -361,6 +361,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /** {@inheritDoc} */
   @Override
   public SELF isEqualTo(Object expected) {
+    if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
+      throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isEqualTo'. "
+                                              + "This is not supported. Perhaps you meant 'isSameAs' instead?");
+    }
+
     objects.assertEqual(info, actual, expected);
     return myself;
   }
@@ -368,6 +373,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /** {@inheritDoc} */
   @Override
   public SELF isNotEqualTo(Object other) {
+    if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
+      throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isNotEqualTo'. "
+                                              + "This is not supported. Perhaps you meant 'isNotSameAs' instead?");
+    }
+
     objects.assertNotEqual(info, actual, other);
     return myself;
   }
@@ -581,12 +591,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /** {@inheritDoc} */
-  @SuppressWarnings("unchecked")
+  @Deprecated
   @Override
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList() {
-    objects.assertIsInstanceOf(info, actual, List.class);
-    return newListAssertInstance((List<Object>) actual).as(info.description());
+    return asInstanceOf(InstanceOfAssertFactories.LIST);
   }
 
   /** {@inheritDoc} */
@@ -740,7 +749,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Deprecated
   public boolean equals(Object obj) {
     if (throwUnsupportedExceptionOnEquals) {
-      throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
+      throw new UnsupportedOperationException("'equals' is not supported... maybe you intended to call 'isEqualTo'");
     }
     return super.equals(obj);
   }
@@ -764,7 +773,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param predicate the {@link Predicate} to match
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not match the given {@link Predicate}.
+   * @throws AssertionError if {@code actual} does not match the given {@link Predicate}.
    * @throws NullPointerException if given {@link Predicate} is null.
    */
   public SELF matches(Predicate<? super ACTUAL> predicate) {
@@ -789,7 +798,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param predicate the {@link Predicate} to match
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not match the given {@link Predicate}.
+   * @throws AssertionError if {@code actual} does not match the given {@link Predicate}.
    * @throws NullPointerException if given {@link Predicate} is null.
    * @throws NullPointerException if given predicateDescription is null.
    */
@@ -1109,7 +1118,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param propertyOrField the property/field to extract from the initial object under test
    * @param assertFactory   the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
-   * @throws AssertionError if the object under test is {@code null}
+   * @throws AssertionError if {@code actual} is {@code null}
    *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(String)
@@ -1137,7 +1146,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param extractor     the extractor function used to extract the value from the object under test
    * @param assertFactory the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
-   * @throws AssertionError if the object under test is {@code null}
+   * @throws AssertionError if {@code actual} is {@code null}
    *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(Function)
@@ -1169,5 +1178,4 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   protected boolean areEqual(Object actual, Object other) {
     return objects.getComparisonStrategy().areEqual(actual, other);
   }
-
 }

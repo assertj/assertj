@@ -13,7 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ class DualValue_getFieldName_Test {
     // WHEN
     String expectedFieldName = dualValue.getFieldName();
     // THEN
-    assertThat(expectedFieldName).isEqualTo("foo");
+    then(expectedFieldName).isEqualTo("foo");
   }
 
   @Test
@@ -37,7 +37,7 @@ class DualValue_getFieldName_Test {
     // WHEN
     String expectedFieldName = dualValue.getFieldName();
     // THEN
-    assertThat(expectedFieldName).isEqualTo("bar");
+    then(expectedFieldName).isEqualTo("bar");
   }
 
   @Test
@@ -47,7 +47,7 @@ class DualValue_getFieldName_Test {
     // WHEN
     String expectedFieldName = dualValue.getFieldName();
     // THEN
-    assertThat(expectedFieldName).isEqualTo("");
+    then(expectedFieldName).isEqualTo("");
   }
 
 }

@@ -1084,6 +1084,20 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code>.
+   * <p>
+   * Use this over {@link #then(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.25.0
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> thenCharSequence(CharSequence actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code> from a {@link StringBuilder}.
    *
    * @param actual the actual value.
@@ -3136,6 +3150,21 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfies(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SafeVarargs
+  public static <T> ThrowingConsumer<T> allOf(ThrowingConsumer<? super T>... consumers) {
+    return Assertions.allOf(consumers);
+  }
+
+  /**
    * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use {@link AnyOf} if you prefer).
    * <p>
@@ -3167,6 +3196,21 @@ public class BDDAssertions extends Assertions {
    */
   public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
     return Assertions.anyOf(conditions);
+  }
+
+  /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfiesAnyOf(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SafeVarargs
+  public static <T> ThrowingConsumer<T> anyOf(ThrowingConsumer<? super T>... consumers) {
+    return Assertions.anyOf(consumers);
   }
 
   /**

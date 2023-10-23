@@ -22,6 +22,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ClassUtils_isPrimitiveOrWrapper_Test {
 
@@ -35,7 +36,7 @@ class ClassUtils_isPrimitiveOrWrapper_Test {
   }
 
   @ParameterizedTest
-  @MethodSource
+  @ValueSource(classes = { Optional.class, String.class, List.class, AtomicInteger.class })
   void should_detect_as_not_primitive_types_or_their_corresponding_wrapper(Class<?> clazz) {
     // WHEN
     boolean isPrimitive = isPrimitiveOrWrapper(clazz);
@@ -48,9 +49,4 @@ class ClassUtils_isPrimitiveOrWrapper_Test {
                      Float.class, Void.class, Boolean.TYPE, Byte.TYPE, Character.TYPE, Short.TYPE, Integer.TYPE, Long.TYPE,
                      Double.TYPE, Float.TYPE, Void.TYPE);
   }
-
-  private static Stream<Class<?>> should_detect_as_not_primitive_types_or_their_corresponding_wrapper() {
-    return Stream.of(Optional.class, String.class, List.class, AtomicInteger.class);
-  }
-
 }

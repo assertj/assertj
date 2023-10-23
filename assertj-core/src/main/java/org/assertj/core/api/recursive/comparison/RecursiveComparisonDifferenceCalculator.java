@@ -122,6 +122,9 @@ public class RecursiveComparisonDifferenceCalculator {
       boolean mustCompareNodesRecursively = mustCompareNodesRecursively(dualValue);
       if (dualValue.hasNoNullValues() && mustCompareNodesRecursively) {
         // disregard the equals method and start comparing fields
+        if (recursiveComparisonConfiguration.someComparedFieldsHaveBeenSpecified()) {
+          recursiveComparisonConfiguration.checkComparedFieldsExist(actual);
+        }
         // TODO should fail if actual and expected don't have the same fields (taking into account ignored/compared fields)
         Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
         if (!actualChildrenNodeNamesToCompare.isEmpty()) {
@@ -227,9 +230,17 @@ public class RecursiveComparisonDifferenceCalculator {
 
       // first time we evaluate this dual value, perform the usual recursive comparison from there
 
-      if (dualValue.hasPotentialCyclingValues()) {
-        // visited dual values are tracked to avoid cycle, java types don't have cycle => no need to keep track of them.
-        // moreover this would make should_fix_1854_minimal_test to fail (see the test for a detailed explanation)
+      // visited dual values are tracked to avoid cycle
+      if (recursiveComparisonConfiguration.someComparedFieldsHaveBeenSpecified()) {
+        // only track dual values if their field location is a compared field or a child of one that could have cycles,
+        // before we get to a compared field, tracking dual values is wrong, ex: given a person root object with a
+        // neighbour.neighbour field that cycles back to itself, and we compare neighbour.neighbour.name, if we track
+        // visited all dual values, we would not introspect neighbour.neighbour as it was already visited as root.
+        if (recursiveComparisonConfiguration.isOrIsChildOfAnyComparedFields(dualValue.fieldLocation)
+            && dualValue.hasPotentialCyclingValues()) {
+          comparisonState.visitedDualValues.registerVisitedDualValue(dualValue);
+        }
+      } else if (dualValue.hasPotentialCyclingValues()) {
         comparisonState.visitedDualValues.registerVisitedDualValue(dualValue);
       }
 
@@ -343,6 +354,8 @@ public class RecursiveComparisonDifferenceCalculator {
       Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
       Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(expectedFieldValue);
       // Check if expected has more children nodes than actual, in that case the additional nodes are reported as difference
+
+      // Check if expected has more children nodes than actual, in that case the additional nodes are reported as difference
       if (!expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
         // report missing nodes in actual
         Set<String> actualNodesNamesNotInExpected = newHashSet(actualChildrenNodeNamesToCompare);
@@ -369,6 +382,20 @@ public class RecursiveComparisonDifferenceCalculator {
       }
     }
     return comparisonState.getDifferences();
+  }
+
+  private static boolean isChildOfSpecifiedComparatorField(DualValue dualValue, FieldLocation field) {
+
+    return field.getPathToUseInRules()
+                // Check if the comparator field is relevant by checking if the path validated so far matches
+                // &&
+                // Check if it has a child field still waiting to be validated.
+                .startsWith(dualValue.fieldLocation.getPathToUseInRules())
+           && field.getDecomposedPath().size() > dualValue.fieldLocation.getDecomposedPath().size();
+  }
+
+  private static String getChildFieldForValidation(FieldLocation field, FieldLocation fieldValue) {
+    return field.getDecomposedPath().get(fieldValue.getDecomposedPath().size());
   }
 
   // avoid comparing enum recursively since they contain static fields which are ignored in recursive comparison

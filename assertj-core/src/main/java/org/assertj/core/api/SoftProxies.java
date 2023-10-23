@@ -50,7 +50,6 @@ class SoftProxies {
                                                                                                                                    "asFloat",
                                                                                                                                    "asInstanceOf",
                                                                                                                                    "asInt",
-                                                                                                                                   "asList",
                                                                                                                                    "asLong",
                                                                                                                                    "asShort",
                                                                                                                                    "asString",

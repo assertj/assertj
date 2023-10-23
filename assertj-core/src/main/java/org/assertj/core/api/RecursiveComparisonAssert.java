@@ -539,6 +539,9 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * assertThat(sherlock).usingRecursiveComparison()
    *                     .", "(Home.class)
    *                     .isEqualTo(moriarty);</code></pre>
+   * <p>
+   * Note that the recursive comparison checks whether the fields actually exist and throws an {@link IllegalArgumentException} if some of them don't,
+   * this is done to catch typos.
    *
    * @param typesToCompare the types to compare in the recursive comparison.
    * @return this {@link RecursiveComparisonAssert} to chain other methods.

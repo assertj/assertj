@@ -36,13 +36,24 @@ class ComparingProperties_getChildrenNodeNamesOf_Test {
                              .doesNotContain("privateValue", "packagePrivateValue", "protectedValue", "publicStaticValue");
   }
 
+  @Test
+  void getChildrenNodeNamesOf_returns_inherited_default_properties_names() {
+    // GIVEN
+    PropertiesInterface actual = new PropertiesImpl();
+    // WHEN
+    Set<String> childrenNodeNames = COMPARING_PROPERTIES.getChildrenNodeNamesOf(actual);
+    // THEN
+    then(childrenNodeNames).containsExactlyInAnyOrder("string")
+                           .doesNotContain("staticValue", "invalidValue");
+  }
+
   static class Properties {
 
     // non readable
 
     public static Object getPublicStaticValue() {
       return "public Static value";
-    };
+    }
 
     protected Object getProtectedValue() {
       return "protectedValue value";
@@ -107,6 +118,28 @@ class ComparingProperties_getChildrenNodeNamesOf_Test {
     }
   }
 
+  interface PropertiesInterface {
+
+    // not readable
+
+    static String getStaticValue() {
+      return "static value";
+    }
+
+    default String invalidValue() {
+      return "";
+    }
+
+    // readable
+
+    default String getString() {
+      return "string value";
+    }
+  }
+
+  static class PropertiesImpl implements PropertiesInterface {
+  }
+
   @Test
   void getChildrenNodeNamesOf_ignores_synthetic_fields() {
     // GIVEN
@@ -139,6 +172,7 @@ class ComparingProperties_getChildrenNodeNamesOf_Test {
     private final String superClassField2 = "superClassField2 value";
 
   }
+
   static class SubClass extends SuperClass {
     private final String subClassField = "subClassField value";
   }

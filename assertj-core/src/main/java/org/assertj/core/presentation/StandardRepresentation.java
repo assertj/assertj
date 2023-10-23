@@ -13,8 +13,6 @@
 package org.assertj.core.presentation;
 
 import static java.lang.Integer.toHexString;
-import static java.lang.reflect.Array.get;
-import static java.lang.reflect.Array.getLength;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
@@ -23,7 +21,6 @@ import static org.assertj.core.util.Arrays.notAnArrayOfPrimitives;
 import static org.assertj.core.util.DateUtil.formatAsDatetime;
 import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
 import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Streams.stream;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
 import static org.assertj.core.util.Throwables.getStackTrace;
@@ -64,7 +61,6 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
@@ -603,8 +599,8 @@ public class StandardRepresentation implements Representation {
 
   protected String formatPrimitiveArray(Object o) {
     if (!isArrayTypePrimitive(o)) throw notAnArrayOfPrimitives(o);
-    Object[] array = toObjectArray(o);
-    return format(array, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, array);
+    List<Object> objects = new PrimitiveArrayList(o);
+    return format(objects, DEFAULT_START, DEFAULT_END, ELEMENT_SEPARATOR, INDENTATION_FOR_SINGLE_LINE, objects);
   }
 
   protected String multiLineFormat(Object[] array, Object root) {
@@ -618,7 +614,15 @@ public class StandardRepresentation implements Representation {
   protected String format(Object[] array, String start, String end, String elementSeparator, String indentation, Object root) {
     if (array == null) return null;
     // root is used to avoid infinite recursion in case one element refers to it.
-    List<String> representedElements = representElements(Stream.of(array), start, end, elementSeparator, indentation, root);
+    return format(java.util.Arrays.asList(array), start, end, elementSeparator, indentation, root);
+  }
+
+  protected String format(List<?> elements, String start, String end, String elementSeparator, String indentation,
+                          Object root) {
+    if (elements == null) return null;
+    if (elements.isEmpty()) return start + end;
+    List<String> representedElements = new TransformingList<>(elements, elem -> safeStringOf(elem, start, end, elementSeparator,
+                                                                                             indentation, root));
     return representGroup(representedElements, start, end, elementSeparator, indentation);
   }
 
@@ -627,8 +631,7 @@ public class StandardRepresentation implements Representation {
     if (iterable == null) return null;
     Iterator<?> iterator = iterable.iterator();
     if (!iterator.hasNext()) return start + end;
-    // alreadyVisited is used to avoid infinite recursion when one element is a container already visited
-    List<String> representedElements = representElements(stream(iterable), start, end, elementSeparator, indentation, root);
+    List<String> representedElements = representElements(iterable, start, end, elementSeparator, indentation, root);
     return representGroup(representedElements, start, end, elementSeparator, indentation);
   }
 
@@ -647,10 +650,14 @@ public class StandardRepresentation implements Representation {
 
   // private methods
 
-  private List<String> representElements(Stream<?> elements, String start, String end, String elementSeparator,
+  private List<String> representElements(Iterable<?> elements, String start, String end, String elementSeparator,
                                          String indentation, Object root) {
-    return elements.map(element -> safeStringOf(element, start, end, elementSeparator, indentation, root))
-                   .collect(toList());
+    int capacity = maxElementsForPrinting / 2 + 1;
+    HeadTailAccumulator<Object> accumulator = new HeadTailAccumulator<>(capacity, capacity);
+    elements.forEach(accumulator::add);
+
+    return accumulator.stream().map(element -> safeStringOf(element, start, end, elementSeparator, indentation, root))
+                      .collect(toList());
   }
 
   // this method only deals with max number of elements to display, the elements representation is already computed
@@ -748,14 +755,4 @@ public class StandardRepresentation implements Representation {
   private String format(Map<?, ?> map, Object o) {
     return o == map ? "(this Map)" : toStringOf(o);
   }
-
-  private static Object[] toObjectArray(Object o) {
-    int length = getLength(o);
-    Object[] array = new Object[length];
-    for (int i = 0; i < length; i++) {
-      array[i] = get(o, i);
-    }
-    return array;
-  }
-
 }

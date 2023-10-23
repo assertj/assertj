@@ -26,6 +26,7 @@ import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
+import static org.assertj.core.error.ShouldBePrimitive.shouldBePrimitive;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldBeSealed.shouldBeSealed;
@@ -36,6 +37,7 @@ import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
 import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.error.ShouldNotBePrimitive.shouldNotBePrimitive;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -1156,4 +1158,59 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     }
   }
 
+  /**
+   * Verifies that the actual {@code Class} is a primitive type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // these assertions succeed:
+   * assertThat(byte.class).isPrimitive();
+   * assertThat(short.class).isPrimitive();
+   * assertThat(int.class).isPrimitive();
+   * assertThat(long.class).isPrimitive();
+   * assertThat(float.class).isPrimitive();
+   * assertThat(double.class).isPrimitive();
+   * assertThat(boolean.class).isPrimitive();
+   * assertThat(char.class).isPrimitive();
+   *
+   * // this assertion fails as Object is not a primitive type:
+   * assertThat(Object.class).isPrimitive(); </code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not a primitive type.
+   * @see Class#isPrimitive()
+   */
+  public SELF isPrimitive() {
+    isNotNull();
+    if (!actual.isPrimitive()) throw assertionError(shouldBePrimitive(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not a primitive type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // this assertion succeeds as Object is not a primitive type:
+   * assertThat(Object.class).isNotPrimitive();
+   *
+   * // these assertions fail:
+   * assertThat(byte.class).isNotPrimitive();
+   * assertThat(short.class).isNotPrimitive();
+   * assertThat(int.class).isNotPrimitive();
+   * assertThat(long.class).isNotPrimitive();
+   * assertThat(float.class).isNotPrimitive();
+   * assertThat(double.class).isNotPrimitive();
+   * assertThat(boolean.class).isNotPrimitive();
+   * assertThat(char.class).isNotPrimitive(); </code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is a primitive type.
+   * @see Class#isPrimitive()
+   */
+  public SELF isNotPrimitive() {
+    isNotNull();
+    if (actual.isPrimitive()) throw assertionError(shouldNotBePrimitive(actual));
+    return myself;
+  }
 }

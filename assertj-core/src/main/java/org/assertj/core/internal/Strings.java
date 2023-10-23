@@ -18,9 +18,12 @@ import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
-import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
@@ -39,11 +42,8 @@ import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldContainCharSequence.containsIgnoringNewLines;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringCase;
-import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgnoringWhitespaces;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
-import static org.assertj.core.error.ShouldContainOneOrMoreWhitespaces.shouldContainOneOrMoreWhitespaces;
 import static org.assertj.core.error.ShouldContainOnlyDigits.shouldContainOnlyDigits;
-import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
 import static org.assertj.core.error.ShouldContainSubsequenceOfCharSequence.shouldContainSubsequence;
@@ -54,15 +54,12 @@ import static org.assertj.core.error.ShouldHaveSizeGreaterThanOrEqualTo.shouldHa
 import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
 import static org.assertj.core.error.ShouldHaveSizeLessThanOrEqualTo.shouldHaveSizeLessThanOrEqualTo;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
-import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringCase.shouldNotBeEqualIgnoringCase;
 import static org.assertj.core.error.ShouldNotBeEqualIgnoringWhitespace.shouldNotBeEqualIgnoringWhitespace;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
-import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContainIgnoringCase;
-import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.error.ShouldNotEndWithIgnoringCase.shouldNotEndWithIgnoringCase;
@@ -87,11 +84,17 @@ import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.text.Normalizer;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
@@ -104,6 +107,16 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Michal Kordas
  */
 public class Strings {
+
+  private static final Set<Character> NON_BREAKING_SPACES;
+
+  static {
+    Set<Character> nonBreakingSpaces = new HashSet<>();
+    nonBreakingSpaces.add('\u00A0');
+    nonBreakingSpaces.add('\u2007');
+    nonBreakingSpaces.add('\u202F');
+    NON_BREAKING_SPACES = Collections.unmodifiableSet(nonBreakingSpaces);
+  }
 
   private static final String EMPTY_STRING = "";
   private static final Strings INSTANCE = new Strings();
@@ -149,70 +162,6 @@ public class Strings {
 
   private static boolean hasContent(CharSequence s) {
     return s.length() > 0;
-  }
-
-  public void assertBlank(AssertionInfo info, CharSequence actual) {
-    if (!isBlank(actual)) throw failures.failure(info, shouldBeBlank(actual));
-  }
-
-  public void assertNotBlank(AssertionInfo info, CharSequence actual) {
-    if (isBlank(actual)) throw failures.failure(info, shouldNotBeBlank(actual));
-  }
-
-  private static boolean isBlank(CharSequence actual) {
-    return isNullOrEmpty(actual) || strictlyContainsWhitespaces(actual);
-  }
-
-  private static boolean containsWhitespaces(CharSequence actual) {
-    return !isNullOrEmpty(actual) && containsOneOrMoreWhitespaces(actual);
-  }
-
-  private static boolean containsOnlyWhitespaces(CharSequence actual) {
-    return !isNullOrEmpty(actual) && strictlyContainsWhitespaces(actual);
-  }
-
-  private static boolean isNullOrEmpty(CharSequence actual) {
-    return actual == null || actual.length() == 0;
-  }
-
-  private static boolean containsOneOrMoreWhitespaces(CharSequence actual) {
-    return actual.chars().anyMatch(Character::isWhitespace);
-  }
-
-  private static boolean strictlyContainsWhitespaces(CharSequence actual) {
-    return actual.chars().allMatch(Character::isWhitespace);
-  }
-
-  public void assertContainsWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (!containsWhitespaces(actual)) throw failures.failure(info, shouldContainOneOrMoreWhitespaces(actual));
-  }
-
-  public void assertContainsOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (!containsOnlyWhitespaces(actual)) throw failures.failure(info, shouldContainOnlyWhitespaces(actual));
-  }
-
-  public void assertDoesNotContainAnyWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (containsWhitespaces(actual)) throw failures.failure(info, shouldNotContainAnyWhitespaces(actual));
-  }
-
-  public void assertDoesNotContainOnlyWhitespaces(AssertionInfo info, CharSequence actual) {
-    if (containsOnlyWhitespaces(actual)) throw failures.failure(info, shouldNotContainOnlyWhitespaces(actual));
-  }
-
-  public void assertJavaBlank(AssertionInfo info, CharSequence actual) {
-    if (!isJavaBlank(actual)) throw failures.failure(info, shouldBeBlank(actual));
-  }
-
-  public void assertNotJavaBlank(AssertionInfo info, CharSequence actual) {
-    if (isJavaBlank(actual)) throw failures.failure(info, shouldNotBeBlank(actual));
-  }
-
-  private static boolean isJavaBlank(CharSequence actual) {
-    if (actual == null || actual.length() == 0) return false;
-    for (int i = 0; i < actual.length(); i++) {
-      if (!isWhitespace(actual.charAt(i))) return false;
-    }
-    return true;
   }
 
   public void assertHasSize(AssertionInfo info, CharSequence actual, int expectedSize) {
@@ -326,7 +275,8 @@ public class Strings {
   public void assertContainsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (!containsIgnoreCase(actual, sequence)) throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
+    if (!containsIgnoreCase(actual, sequence))
+      throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
   }
 
   private boolean containsIgnoreCase(CharSequence actual, CharSequence sequence) {
@@ -340,19 +290,6 @@ public class Strings {
                                                .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty()) return;
     throw failures.failure(info, containsIgnoringNewLines(actual, values, notFound, comparisonStrategy));
-  }
-
-  public void assertContainsIgnoringWhitespaces(AssertionInfo info, CharSequence actual, CharSequence... values) {
-    doCommonCheckForCharSequence(info, actual, values);
-    String actualWithoutWhitespace = removeAllWhitespaces(actual);
-    Set<CharSequence> notFound = stream(values).map(Strings::removeAllWhitespaces)
-                                               .filter(value -> !stringContains(actualWithoutWhitespace, value))
-                                               .collect(toCollection(LinkedHashSet::new));
-    if (notFound.isEmpty()) return;
-    if (values.length == 1) {
-      throw failures.failure(info, shouldContainIgnoringWhitespaces(actual, values[0], comparisonStrategy));
-    }
-    throw failures.failure(info, shouldContainIgnoringWhitespaces(actual, values, notFound, comparisonStrategy));
   }
 
   public void assertDoesNotContainIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence... values) {
@@ -383,11 +320,13 @@ public class Strings {
   }
 
   public void assertEqualsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (!areEqualIgnoringCase(actual, expected)) throw failures.failure(info, shouldBeEqual(actual, expected), actual, expected);
+    if (!areEqualIgnoringCase(actual, expected))
+      throw failures.failure(info, shouldBeEqual(actual, expected), actual, expected);
   }
 
   public void assertNotEqualsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (areEqualIgnoringCase(actual, expected)) throw failures.failure(info, shouldNotBeEqualIgnoringCase(actual, expected));
+    if (areEqualIgnoringCase(actual, expected))
+      throw failures.failure(info, shouldNotBeEqualIgnoringCase(actual, expected));
   }
 
   private static boolean areEqualIgnoringCase(CharSequence actual, CharSequence expected) {
@@ -424,7 +363,7 @@ public class Strings {
     return removeAllWhitespaces(actual).equals(removeAllWhitespaces(expected));
   }
 
-  private static String removeAllWhitespaces(CharSequence toBeStripped) {
+  public static String removeAllWhitespaces(CharSequence toBeStripped) {
     final StringBuilder result = new StringBuilder(toBeStripped.length());
     for (int i = 0; i < toBeStripped.length(); i++) {
       char c = toBeStripped.charAt(i);
@@ -458,7 +397,7 @@ public class Strings {
     boolean lastWasSpace = true;
     for (int i = 0; i < toNormalize.length(); i++) {
       char c = toNormalize.charAt(i);
-      if (isWhitespace(c)) {
+      if (isWhitespace(c) || NON_BREAKING_SPACES.contains(c)) {
         if (!lastWasSpace) result.append(' ');
         lastWasSpace = true;
       } else {
@@ -666,16 +605,8 @@ public class Strings {
   public void assertContainsSubsequence(AssertionInfo info, CharSequence actual, CharSequence[] subsequence) {
     doCommonCheckForCharSequence(info, actual, subsequence);
 
-    Set<CharSequence> notFound = stream(subsequence).filter(value -> !stringContains(actual, value))
-                                                    .collect(toCollection(LinkedHashSet::new));
-
-    if (!notFound.isEmpty()) {
-      // don't bother looking for a subsequence, some of the subsequence elements were not found !
-      if (notFound.size() == 1 && subsequence.length == 1) {
-        throw failures.failure(info, shouldContain(actual, subsequence[0], comparisonStrategy));
-      }
-      throw failures.failure(info, shouldContain(actual, subsequence, notFound, comparisonStrategy));
-    }
+    Map<CharSequence, Integer> notFound = getNotFoundSubsequence(actual, subsequence);
+    handleNotFound(info, actual, subsequence, notFound);
 
     // we have found all the given values but were they in the expected order ?
     if (subsequence.length == 1) return; // no order check needed for a one element subsequence
@@ -692,6 +623,84 @@ public class Strings {
       if (stringContains(actualRest, subsequence[i])) actualRest = removeUpTo(actualRest, subsequence[i]);
       else throw failures.failure(info, shouldContainSubsequence(actual, subsequence, i - 1, comparisonStrategy));
     }
+  }
+
+  /**
+   * Handles the scenario where certain subsequences were not found in the actual CharSequence.
+   * Depending on the exact mismatch details, it throws appropriate assertion failures.
+   *
+   * @param info        Assertion metadata.
+   * @param actual      The actual CharSequence being checked.
+   * @param subsequence The expected subsequence to be found in the actual CharSequence.
+   * @param notFound    A map containing subsequences that were not found (or not found enough times) and their respective counts.
+   */
+  private void handleNotFound(AssertionInfo info, CharSequence actual,
+                              CharSequence[] subsequence, Map<CharSequence, Integer> notFound) {
+
+    // If there are no missing subsequences, there's nothing to handle, so return.
+    if (notFound.isEmpty()) return;
+
+    // Special case: If there's only one missing subsequence, and we were only looking for one,
+    // throw a specific failure for that.
+    if (notFound.size() == 1 && subsequence.length == 1) {
+      throw failures.failure(info, shouldContain(actual, subsequence[0], comparisonStrategy));
+    }
+
+    // Check if all the missing subsequences are due to not finding duplicates.
+    // If every value in 'notFound' map is greater than 0, this indicates that the corresponding
+    // subsequences were found, but not as many times as expected.
+    boolean anyDuplicateSubsequenceFound = notFound.values().stream().allMatch(count -> count > 0);
+
+    // If the above is true, throw a failure specifying the subsequence mismatch details.
+    if (anyDuplicateSubsequenceFound) {
+      throw failures.failure(info, shouldContainSubsequence(actual, subsequence, notFound, comparisonStrategy));
+    }
+
+    // Otherwise, filter the 'notFound' map to get the keys (subsequences) that were not found at all (value is 0).
+    Set<CharSequence> notFoundKeysWithZeroValue = notFound.entrySet().stream()
+                                                          .filter(entry -> entry.getValue() == 0)
+                                                          .map(Map.Entry::getKey)
+                                                          .collect(Collectors.toSet());
+    // Throw a failure specifying the completely missing subsequences.
+    throw failures.failure(info, shouldContain(actual, subsequence, notFoundKeysWithZeroValue, comparisonStrategy));
+  }
+
+  /**
+   * Computes and returns a map of subsequence elements that were not found (or not found enough times) in actual.
+   *
+   * @param actual      The actual CharSequence being checked.
+   * @param subsequence The expected subsequence to be found in the actual CharSequence.
+   * @return A map where the key represents the missing subsequence and the value represents the number of times it appears in 'actual'.
+   */
+  private Map<CharSequence, Integer> getNotFoundSubsequence(CharSequence actual, CharSequence[] subsequence) {
+    // Create a map to store how many times each element appears in the 'actual' sequence.
+    // We use a HashMap for efficient look-ups and modifications.
+    Map<CharSequence, Integer> actualCounts = new HashMap<>();
+
+    // Create a map to store how many times each element appears in the 'subsequence' array.
+    // We use the Java Streams API to group the elements by their identity and then count their occurrences.
+    Map<CharSequence, Long> subseqCounts = stream(subsequence).collect(groupingBy(identity(), counting()));
+
+    // For each element in the 'subsequence', compute its occurrences in the 'actual' sequence.
+    // If the element is not yet in the actualCounts map (v is null), then count its occurrences in 'actual'.
+    // If the element is already in the actualCounts map (v is not null), then keep its current count.
+    for (CharSequence value : subsequence) {
+      actualCounts.compute(value, (k, v) -> v == null ? countOccurrences(k, actual) : v);
+    }
+    // Return a map that contains only the elements from the 'subsequence' that appear more times in 'subsequence' than
+    // in 'actual'. The map's keys are the elements and the values are the number of times they appear in 'actual'.
+    return subseqCounts.entrySet().stream()
+                       .filter(entry -> entry.getValue() > actualCounts.getOrDefault(entry.getKey(), 0))
+                       .collect(toMap(// The key of the output map entry is the same as the subsequence entry key.
+                                      Map.Entry::getKey,
+                                      // The value of the output map entry is the number of times the key appears in
+                                      // 'actual'.
+                                      entry -> actualCounts.get(entry.getKey()),
+                                      // If there are duplicate keys when collecting (which shouldn't happen in this
+                                      // case), prefer the existing key.
+                                      (existing, replacement) -> existing,
+                                      // Use a LinkedHashMap to maintain the insertion order.
+                                      LinkedHashMap::new));
   }
 
   private String removeUpTo(String string, CharSequence toRemove) {
@@ -817,7 +826,7 @@ public class Strings {
     return normalizedText.replace("\n", EMPTY_STRING);
   }
 
-  private static void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
+  public static void doCommonCheckForCharSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
     assertNotNull(info, actual);
     checkIsNotNull(sequence);
     checkIsNotEmpty(sequence);

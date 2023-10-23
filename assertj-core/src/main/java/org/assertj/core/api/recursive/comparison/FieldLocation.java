@@ -30,7 +30,7 @@ import java.util.Objects;
 public final class FieldLocation implements Comparable<FieldLocation> {
 
   private final String pathToUseInRules;
-  private final List<String> decomposedPath; // TODO is it useful?
+  private final List<String> decomposedPath;
 
   public FieldLocation(List<String> path) {
     decomposedPath = unmodifiableList(requireNonNull(path, "path cannot be null"));
@@ -114,6 +114,10 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     return pathToUseInRules.isEmpty();
   }
 
+  public boolean isTopLevelField() {
+    return !isRoot() && !pathToUseInRules.contains(".");
+  }
+
   public static FieldLocation rootFieldLocation() {
     return new FieldLocation(emptyList());
   }
@@ -146,7 +150,8 @@ public final class FieldLocation implements Comparable<FieldLocation> {
    * Returns true if this field has the given child (direct or indirect), false otherwise.
    * <p>
    * Examples:
-   * <pre><code class='java'> | field                 | child           | hasChild? 
+   * <pre><code class='java'>
+   * | field                 | child           | hasChild?
    * -----------------------------------------------  
    * | "name"                | "name.first"    | true       
    * | "name"                | "name.last"     | true       

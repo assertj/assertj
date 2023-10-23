@@ -56,6 +56,7 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.introspection.ClassUtils.isInJavaLangPackage;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -486,7 +487,7 @@ public class Objects {
     Set<Field> declaredFields = getDeclaredFieldsIgnoringSyntheticAndStatic(clazz);
     // get fields declared in superClass
     Class<?> superClass = clazz.getSuperclass();
-    while (superClass != null && !superClass.getName().startsWith("java.lang")) {
+    while (!isInJavaLangPackage(superClass)) {
       declaredFields.addAll(getDeclaredFieldsIgnoringSyntheticAndStatic(superClass));
       superClass = superClass.getSuperclass();
     }

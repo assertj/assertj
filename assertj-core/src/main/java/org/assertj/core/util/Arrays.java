@@ -186,7 +186,7 @@ public class Arrays {
   }
 
   public static boolean isArrayTypePrimitive(Object o) {
-    return o != null && isArray(o) && o.getClass().getComponentType().isPrimitive();
+    return isArray(o) && o.getClass().getComponentType().isPrimitive();
   }
 
   public static IllegalArgumentException notAnArrayOfPrimitives(Object o) {

@@ -19,63 +19,63 @@ import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.assertj.core.api.ObjectAssert;
-import org.assertj.core.api.ObjectAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.Test;
 
-class ObjectAssert_doesNotReturn_Test extends ObjectAssertBaseTest {
+class ObjectAssert_doesNotReturn_Test {
 
-  @Override
-  protected ObjectAssert<Jedi> invoke_api_method() {
-    return assertions.doesNotReturn("Yoda", Jedi::getName);
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    verify(objects).assertNotEqual(getInfo(assertions), getActual(assertions).getName(), "Yoda");
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Jedi actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).doesNotReturn("Yoda", from(Jedi::getName)));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_with_throwing_NullPointerException_if_method_is_null() {
+  void should_fail_if_from_is_null() {
+    // GIVEN
+    Jedi actual = new Jedi("Yoda", "Green");
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertions.doesNotReturn("May the force be with you.", null));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).doesNotReturn("Yoda", null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
                 .hasMessage("The given getter method/Function must not be null");
   }
 
   @Test
-  void perform_assertion_like_users() {
+  void should_pass() {
     // GIVEN
-    Jedi yoda = new Jedi("Yoda", "Green");
+    Jedi actual = new Jedi("Yoda", "Green");
     // WHEN/THEN
-    assertThat(yoda).doesNotReturn("Luke", from(Jedi::getName))
-                    .doesNotReturn("Luke", Jedi::getName);
+    assertThat(actual).doesNotReturn("Luke", from(Jedi::getName))
+                      .doesNotReturn("Luke", Jedi::getName);
+  }
+
+  @Test
+  void should_pass_if_expected_is_null() {
+    // GIVEN
+    Jedi actual = new Jedi("Yoda", "Green");
+    // WHEN/THEN
+    assertThat(actual).doesNotReturn(null, from(Jedi::getName));
   }
 
   @Test
   void should_honor_custom_type_comparator() {
     // GIVEN
-    Jedi yoda = new Jedi("Yoda", "Green");
+    Jedi actual = new Jedi("Yoda", "Green");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).usingComparatorForType(CASE_INSENSITIVE_ORDER,
-                                                                                                       String.class)
-                                                                               .doesNotReturn("YODA", from(Jedi::getName)));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingComparatorForType(CASE_INSENSITIVE_ORDER,
+                                                                                                         String.class)
+                                                                                 .doesNotReturn("YODA", from(Jedi::getName)));
     // THEN
     then(assertionError).hasMessage(shouldNotBeEqual("Yoda", "YODA",
                                                      new ComparatorBasedComparisonStrategy(CASE_INSENSITIVE_ORDER)).create());
-  }
-
-  @Test
-  void should_pass_with_null_expected_value() {
-    // GIVEN
-    Jedi yoda = new Jedi("Yoda", "Green");
-    // WHEN/THEN
-    assertThat(yoda).doesNotReturn(null, from(Jedi::getName));
   }
 
 }

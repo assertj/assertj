@@ -1352,9 +1352,9 @@ public class Iterables {
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
-    stream(actual).filter(predicate)
-                  .findFirst()
-                  .orElseThrow(() -> failures.failure(info, anyElementShouldMatch(actual, predicateDescription)));
+    if (stream(actual).noneMatch(predicate)) {
+      throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
+    }
   }
 
   public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,

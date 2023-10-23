@@ -18,8 +18,9 @@
   <properties>
     <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
     <rootDirectory>${project.basedir}/../</rootDirectory>
+    <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <guava.version>32.1.1-jre</guava.version>
+    <guava.version>32.1.3-jre</guava.version>
   </properties>
 
   <dependencies>
@@ -68,15 +69,11 @@
     </pluginManagement>
     <plugins>
       <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
           <execution>
-            <id>enforce-java-and-dependencies</id>
+            <id>enforce-dependencies</id>
             <goals>
               <goal>enforce</goal>
             </goals>
@@ -92,10 +89,7 @@
                     <exclude>*:*:*:jar:compile</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence />
-                <requireJavaVersion>
-                  <version>[17,)</version>
-                </requireJavaVersion>
+                <dependencyConvergence/>
               </rules>
             </configuration>
           </execution>

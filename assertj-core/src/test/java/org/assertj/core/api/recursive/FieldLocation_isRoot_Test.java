@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.recursive;
 
-import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.util.Lists.list;
 
@@ -27,26 +27,19 @@ class FieldLocation_isRoot_Test {
   @ParameterizedTest(name = "{0}")
   @MethodSource
   void should_evaluate_object_as_root(FieldLocation fieldLocation) {
-    // GIVEN
-    FieldLocation rootFieldLocation = rootFieldLocation();
-    // WHEN/THEN
-    then(rootFieldLocation.isRoot()).isTrue();
+    assertThat(fieldLocation.isRoot()).isTrue();
   }
 
   private static Stream<FieldLocation> should_evaluate_object_as_root() {
     return Stream.of(rootFieldLocation(),
                      new FieldLocation(list("[0]")),
                      new FieldLocation(list("[1]")));
-
   }
 
   @ParameterizedTest(name = "{0}")
   @MethodSource
   void should_not_evaluate_object_as_root(FieldLocation fieldLocation) {
-    // GIVEN
-    FieldLocation rootFieldLocation = rootFieldLocation();
-    // WHEN/THEN
-    then(rootFieldLocation.isRoot()).isTrue();
+    assertThat(fieldLocation.isRoot()).isFalse();
   }
 
   private static Stream<FieldLocation> should_not_evaluate_object_as_root() {
