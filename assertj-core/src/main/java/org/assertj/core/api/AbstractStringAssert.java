@@ -465,35 +465,36 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * Encodes the actual value as byte array using the platform's default charset, the encoded byte array becoming the new value under test.
    * <p>
    * Examples:
-   * <pre><code class='java'> assertThat("abc").asBytes().isEqualTo(new byte[] {'a', 'b', 'c'});
-   * assertThat("").asBytes().isEqualTo(new byte[0]()));
-   * assertThat((String) null).asByte().isNull(); </code></pre>
+   * <pre><code class='java'> assertThat("abc").bytes().isEqualTo(new byte[] {'a', 'b', 'c'});
+   * assertThat("").bytes().isEqualTo(new byte[0]())); </code></pre>
    *
+   * @throws AssertionError actual string is {@code null}.
    * @return a new {@link AbstractByteArrayAssert} instance whose value under test is the result of the parse.
    *
    * @since 3.25.0
    */
-  public AbstractByteArrayAssert<?> asBytes() {
-    byte[] bytes = actual != null ? actual.getBytes() : null;
-    return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(bytes).withAssertionState(myself);
+  public AbstractByteArrayAssert<?> bytes() {
+    isNotNull();
+    return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(actual.getBytes()).withAssertionState(myself);
   }
 
   /**
    * Encodes the actual value as byte array using a specific {@link Charset}, the encoded byte array becoming the new value under test.
    * <p>
    * Examples:
-   * <pre><code class='java'> assertThat("abc").asBytes(StandardCharsets.US_ASCII).isEqualTo("abc".getBytes(StandardCharsets.US_ASCII));
-   * assertThat("").asBytes(StandardCharsets.US_ASCII).isEqualTo(new byte[0]()));
-   * assertThat((String) null).asByte(StandardCharsets.US_ASCII).isNull(); </code></pre>
+   * <pre><code class='java'> assertThat("abc").bytes(StandardCharsets.US_ASCII).isEqualTo("abc".getBytes(StandardCharsets.US_ASCII));
+   * assertThat("").bytes(StandardCharsets.US_ASCII).isEqualTo(new byte[0]())); </code></pre>
    *
    * @param charset the Charset to be used to encode the string.
    * @throws NullPointerException if charset parameter is {@code null}.
+   * @throws AssertionError actual string is {@code null}.
    * @return a new {@link AbstractByteArrayAssert} instance whose value under test is the result of the parse.
    *
    * @since 3.25.0
    */
-  public AbstractByteArrayAssert<?> asBytes(Charset charset) {
-    byte[] bytes = actual != null ? actual.getBytes(requireNonNull(charset, "The charset must not be null")) : null;
+  public AbstractByteArrayAssert<?> bytes(Charset charset) {
+    isNotNull();
+    byte[] bytes = actual.getBytes(requireNonNull(charset, "The charset must not be null"));
     return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(bytes).withAssertionState(myself);
   }
 
@@ -501,21 +502,20 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * Encodes the actual value as byte array using a specific {@link Charset}, the encoded byte array becoming the new value under test.
    * <p>
    * Examples:
-   * <pre><code class='java'> assertThat("abc").asBytes(StandardCharsets.US_ASCII).isEqualTo("abc".getBytes(StandardCharsets.US_ASCII));
-   * assertThat("").asBytes(StandardCharsets.US_ASCII).isEqualTo(new byte[0]()));
-   * assertThat((String) null).asByte(StandardCharsets.US_ASCII).isNull(); </code></pre>
+   * <pre><code class='java'> assertThat("abc").bytes(StandardCharsets.US_ASCII).isEqualTo("abc".getBytes(StandardCharsets.US_ASCII));
+   * assertThat("").bytes(StandardCharsets.US_ASCII).isEqualTo(new byte[0]())); </code></pre>
    *
    * @param charsetName the Charset to be used to encode the string.
    * @throws NullPointerException if named charset parameter is {@code null}.
-   * @throws AssertionError if the named charset parameter is not supported.
+   * @throws AssertionError if the actual string is {@code null} or if the named charset parameter is not supported.
    * @return a new {@link AbstractByteArrayAssert} instance whose value under test is the result of the parse.
    *
    * @since 3.25.0
    */
-  public AbstractByteArrayAssert<?> asBytes(String charsetName) {
+  public AbstractByteArrayAssert<?> bytes(String charsetName) {
+    isNotNull();
     try {
-      String charset = requireNonNull(charsetName, "The charsetName must not be null");
-      byte[] bytes = actual != null? actual.getBytes(charset) : null;
+      byte[] bytes = actual.getBytes(requireNonNull(charsetName, "The charsetName must not be null"));
       return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(bytes).withAssertionState(myself);
     } catch (UnsupportedEncodingException e) {
       throw failures.failure(String.format("%s is not a supported Charset", charsetName));
