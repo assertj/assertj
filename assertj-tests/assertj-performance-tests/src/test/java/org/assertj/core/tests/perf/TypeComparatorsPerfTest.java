@@ -18,15 +18,18 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
+@Disabled("only run on demand")
+@Tag("performance")
+@Tag("flaky")
 class TypeComparatorsPerfTest {
 
   // execution time for 1000000:
   // before change: ~700ms
   // with Comparator.comparing(Class::getName) : ~240ms
   // with anonymous class replacing Comparator.comparing(Class::getName) : ~160ms
-  @Disabled
   @Test
   void run_100_000_object_assertions() {
     long start = System.currentTimeMillis();

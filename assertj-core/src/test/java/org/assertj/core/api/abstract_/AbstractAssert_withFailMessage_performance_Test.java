@@ -17,10 +17,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
-// only run for perf metrics
-@Disabled
+@Disabled("only run on demand")
+@Tag("performance")
+@Tag("flaky")
 class AbstractAssert_withFailMessage_performance_Test {
 
   @Test
