@@ -13,7 +13,6 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.comparison.ComparingFields.COMPARING_FIELDS;
 import static org.assertj.core.api.recursive.comparison.ComparingProperties.COMPARING_PROPERTIES;
 
 import java.util.Set;
@@ -45,6 +44,19 @@ class ComparingProperties_getChildrenNodeNamesOf_Test {
     // THEN
     then(childrenNodeNames).containsExactlyInAnyOrder("string")
                            .doesNotContain("staticValue", "invalidValue");
+  }
+
+  @Test
+  void getChildrenNodeNamesOf_caches_all_properties_names() {
+    // GIVEN
+    Properties node = new Properties();
+    // Create new instance to ensure that cache is empty before first getChildrenNodeNamesOf call
+    ComparingProperties comparingProperties = new ComparingProperties();
+    // WHEN
+    Set<String> nodePropertiesNames = comparingProperties.getChildrenNodeNamesOf(node);
+    Set<String> cachedNodePropertiesNames = comparingProperties.getChildrenNodeNamesOf(node);
+    // THEN
+    then(cachedNodePropertiesNames).isSameAs(nodePropertiesNames);
   }
 
   static class Properties {
@@ -140,40 +152,4 @@ class ComparingProperties_getChildrenNodeNamesOf_Test {
   static class PropertiesImpl implements PropertiesInterface {
   }
 
-  @Test
-  void getChildrenNodeNamesOf_ignores_synthetic_fields() {
-    // GIVEN
-    Outer.Inner inner = new Outer().new Inner();
-    // WHEN
-    Set<String> childrenNodeNames = COMPARING_FIELDS.getChildrenNodeNamesOf(inner);
-    // THEN
-    then(childrenNodeNames).containsOnly("innerField");
-  }
-
-  static class Outer {
-    class Inner {
-      // compiler generates a synthetic field to represent the appropriate instance of the Outer class.
-      private final String innerField = "innerField value";
-    }
-  }
-
-  @Test
-  void getChildrenNodeNamesOf_returns_inherited_fields() {
-    // GIVEN
-    SubClass actual = new SubClass();
-    // WHEN
-    Set<String> childrenNodeNames = COMPARING_FIELDS.getChildrenNodeNamesOf(actual);
-    // THEN
-    then(childrenNodeNames).containsExactlyInAnyOrder("superClassField1", "superClassField2", "subClassField");
-  }
-
-  static class SuperClass {
-    private final String superClassField1 = "superClassField1 value";
-    private final String superClassField2 = "superClassField2 value";
-
-  }
-
-  static class SubClass extends SuperClass {
-    private final String subClassField = "subClassField value";
-  }
 }

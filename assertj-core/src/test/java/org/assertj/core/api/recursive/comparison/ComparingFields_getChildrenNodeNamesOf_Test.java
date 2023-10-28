@@ -34,6 +34,19 @@ class ComparingFields_getChildrenNodeNamesOf_Test {
                                                       "privateLong", "privateFloat", "privateDouble", "privateChar");
   }
 
+  @Test
+  void getChildrenNodeNamesOf_caches_instance_fields_names() {
+    // GIVEN
+    Fields node = new Fields();
+    // Create new instance to ensure that cache is empty before first getChildrenNodeNamesOf call
+    ComparingFields comparingFields = new ComparingFields();
+    // WHEN
+    Set<String> childrenNodeNames = comparingFields.getChildrenNodeNamesOf(node);
+    Set<String> cachedChildrenNodeNames = comparingFields.getChildrenNodeNamesOf(node);
+    // THEN
+    then(cachedChildrenNodeNames).isSameAs(childrenNodeNames);
+  }
+
   @SuppressWarnings("unused")
   static class Fields {
     public static final Object publicStaticField = "publicStaticField value";
