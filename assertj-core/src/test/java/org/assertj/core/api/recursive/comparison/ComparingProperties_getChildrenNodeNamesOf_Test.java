@@ -47,6 +47,23 @@ class ComparingProperties_getChildrenNodeNamesOf_Test {
                            .doesNotContain("staticValue", "invalidValue");
   }
 
+  @Test
+  void getChildrenNodeNamesOf_caches_all_properties_names() {
+    // GIVEN
+    Properties node = new Properties();
+    // We have to create new instance to ensure that cache will not be populated before first getChildrenNodeNamesOf call
+    ComparingProperties comparingProperties = new ComparingProperties();
+    // WHEN
+    Set<String> nodePropertiesNames = comparingProperties.getChildrenNodeNamesOf(node);
+    Set<String> cachedNodePropertiesNames = comparingProperties.getChildrenNodeNamesOf(node);
+    // THEN
+    then(cachedNodePropertiesNames).isSameAs(nodePropertiesNames);
+    then(nodePropertiesNames).containsExactlyInAnyOrder("object", "boolean", "booleanWrapper", "booleanVariation",
+                                                        "booleanVariationWrapper", "byte", "short", "int", "long", "float",
+                                                        "double", "char")
+                             .doesNotContain("privateValue", "packagePrivateValue", "protectedValue", "publicStaticValue");
+  }
+
   static class Properties {
 
     // non readable

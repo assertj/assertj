@@ -21,7 +21,9 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.assertj.core.util.introspection.PropertySupport;
 
@@ -36,9 +38,15 @@ public class ComparingProperties implements RecursiveComparisonIntrospectionStra
   private static final String GET_PREFIX = "get";
   private static final String IS_PREFIX = "is";
 
+  // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
+  private final Map<Class<?>, Set<String>> propertiesNamesPerClass = new ConcurrentHashMap<>();
+
   @Override
   public Set<String> getChildrenNodeNamesOf(Object node) {
-    return node == null ? new HashSet<>() : getPropertiesNamesOf(node.getClass());
+    if (node == null) {
+      return new HashSet<>();
+    }
+    return propertiesNamesPerClass.computeIfAbsent(node.getClass(), ComparingProperties::getPropertiesNamesOf);
   }
 
   @Override

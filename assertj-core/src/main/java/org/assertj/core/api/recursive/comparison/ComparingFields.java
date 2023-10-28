@@ -12,11 +12,12 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static org.assertj.core.internal.Objects.getFieldsNames;
-
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
+import org.assertj.core.internal.Objects;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
@@ -27,9 +28,15 @@ public class ComparingFields implements RecursiveComparisonIntrospectionStrategy
 
   public static final ComparingFields COMPARING_FIELDS = new ComparingFields();
 
+  // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
+  private final Map<Class<?>, Set<String>> fieldNamesPerClass = new ConcurrentHashMap<>();
+
   @Override
   public Set<String> getChildrenNodeNamesOf(Object node) {
-    return node == null ? new HashSet<>() : getFieldsNames(node.getClass());
+    if (node == null) {
+      return new HashSet<>();
+    }
+    return fieldNamesPerClass.computeIfAbsent(node.getClass(), Objects::getFieldsNames);
   }
 
   @Override
