@@ -32,6 +32,19 @@ class ComparingSnakeOrCamelCaseFields_getChildrenNodeNamesOf_Test {
                                                       "field5", "field6", "fieldSeven", "fieldDto");
   }
 
+  @Test
+  void getChildrenNodeNamesOf_caches_all_properties_names() {
+    // GIVEN
+    Fields node = new Fields();
+    // Create new instance to ensure that cache is empty before first getChildrenNodeNamesOf call
+    ComparingSnakeOrCamelCaseFields comparingSnakeOrCamelCaseFields = new ComparingSnakeOrCamelCaseFields();
+    // WHEN
+    Set<String> nodePropertiesNames = comparingSnakeOrCamelCaseFields.getChildrenNodeNamesOf(node);
+    Set<String> cachedNodePropertiesNames = comparingSnakeOrCamelCaseFields.getChildrenNodeNamesOf(node);
+    // THEN
+    then(cachedNodePropertiesNames).isSameAs(nodePropertiesNames);
+  }
+
   @SuppressWarnings("unused")
   static class Fields {
     String field = "field value";
