@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ActualIsNotEmpty.actualIsNotEmpty;
 import static org.assertj.core.error.ShouldHaveLineCount.shouldHaveLinesCount;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
@@ -37,6 +38,7 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
+import org.assertj.core.error.ActualIsNotEmpty;
 
 /**
  * @author Alex Ruiz
@@ -93,8 +95,9 @@ public final class CommonValidations {
     checkIsNotEmpty(iterable);
   }
 
-  public static void failIfEmptySinceActualIsNotEmpty(Object[] values) {
-    if (values.length == 0) throw new AssertionError("actual is not empty while group of values to look for is.");
+  public static void failIfEmptySinceActualIsNotEmpty(AssertionInfo info, Failures failures, Object actual,
+                                                      Object[] values) {
+    if (values.length == 0) throw failures.failure(info, actualIsNotEmpty(actual));
   }
 
   public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Object other, int sizeOfActual) {
