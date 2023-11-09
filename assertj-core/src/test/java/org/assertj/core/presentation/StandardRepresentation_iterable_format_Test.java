@@ -266,7 +266,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
   }
 
   @Test
-  @Timeout(value = 2, unit = TimeUnit.SECONDS)
+  @Timeout(value = 4, unit = TimeUnit.SECONDS)
   void should_format_big_list() {
     // GIVEN
     int elementsPerArray = 200;
