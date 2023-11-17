@@ -198,7 +198,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>5.3.30</version>
+      <version>5.3.31</version>
       <scope>test</scope>
     </dependency>
     <dependency>
