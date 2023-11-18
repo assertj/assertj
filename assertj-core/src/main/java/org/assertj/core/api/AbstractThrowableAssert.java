@@ -14,7 +14,9 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
+import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThrownExcept;
 
+import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.regex.Pattern;
 
@@ -37,6 +39,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Jack Gough
  * @author Mike Gilchrist
+ * @author Paweł Baczyński
  */
 public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAssert<SELF, ACTUAL>, ACTUAL extends Throwable>
     extends AbstractObjectAssert<SELF, ACTUAL> {
@@ -841,6 +844,44 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public void doesNotThrowAnyException() {
     if (actual != null) throw Failures.instance().failure(info, shouldNotHaveThrown(actual));
+  }
+
+  /**
+   * Verifies that the {@link org.assertj.core.api.ThrowableAssert.ThrowingCallable} didn't raise a throwable
+   * except matching the provided type(s).
+   * <p>
+   * Example:
+   * <pre><code class='java'> void foo() {
+   *   throw new IllegalArgumentException();
+   * }
+   *
+   * void bar() {
+   * }
+   *
+   * // assertions succeed:
+   * assertThatCode(() -&gt; foo()).doesNotThrowAnyExceptionExcept(IllegalArgumentException.class);
+   * assertThatCode(() -&gt; foo()).doesNotThrowAnyExceptionExcept(RuntimeException.class);
+   * assertThatCode(() -&gt; foo()).doesNotThrowAnyExceptionExcept(IllegalArgumentException.class, IllegalStateException.class);
+   * assertThatCode(() -&gt; bar()).doesNotThrowAnyExceptionExcept();
+   *
+   * // assertions fails:
+   * assertThatCode(() -&gt; foo()).doesNotThrowAnyExceptionExcept();
+   * assertThatCode(() -&gt; foo()).doesNotThrowAnyExceptionExcept(NumberFormatException.class);
+   * assertThatCode(() -&gt; foo()).doesNotThrowAnyExceptionExcept(NumberFormatException.class, IOException.class);</code></pre>
+   *
+   * @param ignoredExceptionTypes types allowed to be thrown.
+   * @throws AssertionError if the actual statement raised a {@code Throwable} with type other than provided one(s).
+   * @since 3.26.0
+   */
+  @SafeVarargs
+  public final void doesNotThrowAnyExceptionExcept(Class<? extends Throwable>... ignoredExceptionTypes) {
+    if (isNotAnInstanceOfAny(ignoredExceptionTypes))
+      throwAssertionError(shouldNotHaveThrownExcept(actual, ignoredExceptionTypes));
+  }
+
+  private boolean isNotAnInstanceOfAny(Class<? extends Throwable>[] exceptionTypes) {
+    if (actual == null) return false;
+    return Arrays.stream(exceptionTypes).noneMatch(ex -> ex.isAssignableFrom(actual.getClass()));
   }
 
   /**
