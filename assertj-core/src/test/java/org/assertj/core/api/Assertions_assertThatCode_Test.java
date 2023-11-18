@@ -15,9 +15,12 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
+import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThrownExcept;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
 
 class Assertions_assertThatCode_Test {
 
@@ -42,6 +45,45 @@ class Assertions_assertThatCode_Test {
       // When;
       assertThatCode(boom).doesNotThrowAnyException();
     }).withMessage(shouldNotHaveThrown(exception).create());
+  }
+
+  @Test
+  void should_fail_when_asserting_no_exception_raised_other_than_empty_but_exception_occurs() {
+    // Given
+    Exception exception = new Exception("boom");
+    ThrowingCallable boom = raisingException(exception);
+
+    // Expect
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      // When;
+      assertThatCode(boom).doesNotThrowAnyExceptionExcept();
+    }).withMessage(shouldNotHaveThrownExcept(exception).create());
+  }
+
+  @Test
+  void should_fail_when_asserting_no_exception_raised_other_than_with_values_but_not_matching_exception_occurs() {
+    // Given
+    Exception exception = new IllegalArgumentException("boom");
+    ThrowingCallable boom = raisingException(exception);
+
+    // Expect
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      // When;
+      assertThatCode(boom).doesNotThrowAnyExceptionExcept(IllegalStateException.class, IOException.class);
+    }).withMessage(shouldNotHaveThrownExcept(exception, IllegalStateException.class, IOException.class).create());
+  }
+
+  @Test
+  void should_fail_when_asserting_no_exception_raised_other_than_with_values_but_a_subtype_of_that_exception_occurs() {
+    // Given
+    Exception exception = new IllegalArgumentException("boom");
+    ThrowingCallable boom = raisingException(exception);
+
+    // Expect
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
+      // When;
+      assertThatCode(boom).doesNotThrowAnyExceptionExcept(NumberFormatException.class);
+    }).withMessage(shouldNotHaveThrownExcept(exception, NumberFormatException.class).create());
   }
 
   @Test
@@ -74,6 +116,44 @@ class Assertions_assertThatCode_Test {
 
     // Then
     assertThatCode(silent).doesNotThrowAnyException();
+  }
+
+  @Test
+  void should_succeed_when_asserting_no_exception_raised_other_than_empty_and_no_exception_occurs() {
+    // Given
+    ThrowingCallable silent = () -> {};
+
+    // Then
+    assertThatCode(silent).doesNotThrowAnyExceptionExcept();
+  }
+
+  @Test
+  void should_succeed_when_asserting_no_exception_raised_except_with_values_and_no_exception_occurs() {
+    // Given
+    ThrowingCallable silent = () -> {};
+
+    // Then
+    assertThatCode(silent).doesNotThrowAnyExceptionExcept(IOException.class, IllegalStateException.class);
+  }
+
+  @Test
+  void should_succeed_when_asserting_no_exception_raised_except_with_values_and_a_matching_exception_occurs() {
+    // Given
+    Exception exception = new IllegalArgumentException("boom");
+    ThrowingCallable boom = raisingException(exception);
+
+    // Then
+    assertThatCode(boom).doesNotThrowAnyExceptionExcept(IOException.class, IllegalArgumentException.class);
+  }
+
+  @Test
+  void should_succeed_when_asserting_no_exception_raised_except_with_values_and_a_supertype_of_that_exception_occurs() {
+    // Given
+    Exception exception = new IllegalArgumentException("boom");
+    ThrowingCallable boom = raisingException(exception);
+
+    // Then
+    assertThatCode(boom).doesNotThrowAnyExceptionExcept(RuntimeException.class);
   }
 
   private ThrowingCallable raisingException(final String reason) {
