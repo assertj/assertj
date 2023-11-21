@@ -2405,7 +2405,7 @@ public final class BDDAssumptions extends Assumptions {
    *   // ...
    *}</code></pre>
    *
-   * @param <OBJECT> the type of the object holding the updatable field which gets updated by the the actual value.
+   * @param <OBJECT> the type of the object holding the updatable field which gets updated by the actual value.
    * @param actual the actual {@link AtomicIntegerFieldUpdater} value to be validated.
    * @return the {@link AtomicIntegerFieldUpdaterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
@@ -2532,7 +2532,7 @@ public final class BDDAssumptions extends Assumptions {
    *   // ...
    *}</code></pre>
    *
-   * @param <OBJECT> the type of the object holding the updatable field which gets updated by the the actual value.
+   * @param <OBJECT> the type of the object holding the updatable field which gets updated by the actual value.
    * @param actual the actual {@link AtomicLongFieldUpdater} value to be validated.
    * @return the {@link AtomicLongFieldUpdaterAssert} assertion object to be used for assumptions.
    * @since 3.14.0
@@ -2632,8 +2632,8 @@ public final class BDDAssumptions extends Assumptions {
    *   // ...
    *}</code></pre>
    *
-   * @param <FIELD> the type of the field which gets updated by the the actual updater.
-   * @param <OBJECT> the type of the object holding the updatable field which gets updated by the the actual updater.
+   * @param <FIELD> the type of the field which gets updated by the actual updater.
+   * @param <OBJECT> the type of the object holding the updatable field which gets updated by the actual updater.
    * @param actual the actual {@link AtomicReferenceFieldUpdater} value to be validated.
    * @return the {@link AtomicReferenceFieldUpdaterAssert} assertion object to be used for assumptions.
    * @since 3.14.0

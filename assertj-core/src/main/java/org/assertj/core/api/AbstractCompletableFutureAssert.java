@@ -388,7 +388,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * assertThat(future).succeedsWithin(timeout);</code></pre>
    *
    * @param timeout the maximum time to wait
-   * @return a new assertion object on the the future's result.
+   * @return a new assertion object on the future's result.
    * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
    */
@@ -431,7 +431,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    *
    * @param timeout the maximum time to wait
    * @param unit the time unit of the timeout argument
-   * @return a new assertion object on the the future's result.
+   * @return a new assertion object on the future's result.
    * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
    */
@@ -446,7 +446,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
 
   /**
    * Waits if necessary for at most the given time for this future to complete, the {@link InstanceOfAssertFactory}
-   * parameter is used to return assertions specific to the the future's result type.
+   * parameter is used to return assertions specific to the future's result type.
    * <p>
    * If the future's result is not available for any reason an assertion error is thrown.
    * <p>
@@ -477,7 +477,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
 
   /**
    * Waits if necessary for at most the given time for this future to complete, the {@link InstanceOfAssertFactory}
-   * parameter is used to return assertions specific to the the future's result type.
+   * parameter is used to return assertions specific to the future's result type.
    * <p>
    * If the future's result is not available for any reason an assertion error is thrown.
    * <p>
@@ -578,7 +578,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * assertThat(future).failsWithin(Duration.ofMillis(200));</code></pre>
    *
    * @param timeout the maximum time to wait
-   * @return a new assertion instance on the the future's exception.
+   * @return a new assertion instance on the future's exception.
    * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
    * @throws AssertionError if the actual {@code CompletableFuture} succeeds within the given timeout.
    * @since 3.18.0
@@ -613,7 +613,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    *
    * @param timeout the maximum time to wait
    * @param unit the time unit
-   * @return a new assertion instance on the the future's exception.
+   * @return a new assertion instance on the future's exception.
    * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
    * @throws AssertionError if the actual {@code CompletableFuture} succeeds within the given timeout.
    * @since 3.18.0
