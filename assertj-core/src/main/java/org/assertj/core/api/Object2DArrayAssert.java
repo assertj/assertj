@@ -192,7 +192,7 @@ public class Object2DArrayAssert<ELEMENT> extends
   }
 
   /**
-   * Verifies that the actual {@code ELEMENT[][]} has the the given dimensions.
+   * Verifies that the actual {@code ELEMENT[][]} has the given dimensions.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
