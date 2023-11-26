@@ -336,15 +336,15 @@ public class Strings {
   }
 
   public void assertIsEqualToNormalizingNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    String actualNormalized = normalizeNewlines(actual);
-    String expectedNormalized = normalizeNewlines(expected);
-    if (!actualNormalized.equals(expectedNormalized))
-      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected), actualNormalized,
-                             expectedNormalized);
+    String normalizedActual = normalizeNewlines(actual);
+    String normalizedExpected = normalizeNewlines(expected);
+    if (!java.util.Objects.equals(normalizedActual, normalizedExpected))
+      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected), normalizedActual,
+                             normalizedExpected);
   }
 
-  private static String normalizeNewlines(CharSequence actual) {
-    return actual.toString().replace("\r\n", "\n");
+  private static String normalizeNewlines(CharSequence charSequence) {
+    return charSequence != null ? charSequence.toString().replace("\r\n", "\n") : null;
   }
 
   public void assertEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {

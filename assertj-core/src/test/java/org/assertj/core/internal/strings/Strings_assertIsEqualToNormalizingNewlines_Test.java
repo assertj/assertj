@@ -12,14 +12,18 @@
  */
 package org.assertj.core.internal.strings;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNewLineDifferences.shouldBeEqualIgnoringNewLineDifferences;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
+
+import java.util.stream.Stream;
 
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * Tests for
@@ -30,30 +34,61 @@ import org.junit.jupiter.api.Test;
  */
 class Strings_assertIsEqualToNormalizingNewlines_Test extends StringsBaseTest {
 
-  @Test
-  void should_pass_if_both_strings_are_equals_after_normalizing_newline() {
-    strings.assertIsEqualToNormalizingNewlines(someInfo(), "Lord of the Rings\r\nis cool", "Lord of the Rings\nis cool");
-    strings.assertIsEqualToNormalizingNewlines(someInfo(), "Lord of the Rings\nis cool", "Lord of the Rings\nis cool");
+  @ParameterizedTest
+  @MethodSource
+  void should_pass_if_both_strings_are_equals_after_normalizing_newlines(String actual, String expected) {
+    strings.assertEqualsIgnoringWhitespace(someInfo(), actual, expected);
   }
 
-  @Test
-  void should_pass_if_comparing_string_with_only_newlines() {
-    strings.assertIsEqualToNormalizingNewlines(someInfo(), "\n", "\r\n");
-    strings.assertIsEqualToNormalizingNewlines(someInfo(), "\r\n", "\n");
-    strings.assertIsEqualToNormalizingNewlines(someInfo(), "\r\n", "\r\n");
-    strings.assertIsEqualToNormalizingNewlines(someInfo(), "\n", "\n");
+  public static Stream<Arguments> should_pass_if_both_strings_are_equals_after_normalizing_newlines() {
+    return Stream.of(Arguments.of("Lord of the Rings\r\nis a classic", "Lord of the Rings\nis a classic"),
+                     Arguments.of("Lord of the Rings\nis a classic", "Lord of the Rings\r\nis a classic"),
+                     Arguments.of("Lord of the Rings\nis a classic", "Lord of the Rings\nis a classic"),
+                     Arguments.of("Lord of the Rings\r\nis a classic", "Lord of the Rings\r\nis a classic"),
+                     Arguments.of("With \n several \r\n new lines", "With \n several \r\n new lines"),
+                     Arguments.of("With \n several \r\n new lines", "With \r\n several \r\n new lines"),
+                     Arguments.of("With \n several \r\n new lines", "With \r\n several \n new lines"),
+                     Arguments.of("With \n several \r\n new lines", "With \n several \n new lines"),
+                     Arguments.of("With \r\n several \r\n new lines", "With \n several \n new lines"),
+                     Arguments.of("With \r\n several \r\n new lines", "With \r\n several \r\n new lines"),
+                     Arguments.of("\n", "\r\n"),
+                     Arguments.of("\r\n", "\n"),
+                     Arguments.of("\r\n", "\r\n"),
+                     Arguments.of("\n", "\n"),
+                     Arguments.of(null, null));
   }
 
   @Test
   void should_fail_if_newlines_are_different_in_both_strings() {
+    // GIVEN
     String actual = "Lord of the Rings\r\n\r\nis cool";
     String expected = "Lord of the Rings\nis cool";
-
-    Throwable error = catchThrowable(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
+    // THEN
     verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, expected),
                              "Lord of the Rings\n\nis cool", expected);
   }
 
+  @Test
+  void should_fail_if_actual_is_null_and_expected_is_not() {
+    // GIVEN
+    String actual = null;
+    String expected = "";
+    // WHEN
+    expectAssertionError(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
+    // THEN
+    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(null, expected), null, expected);
+  }
+
+  @Test
+  void should_fail_if_actual_is_not_null_but_expected_is_null() {
+    // GIVEN
+    String actual = "";
+    String expected = null;
+    // WHEN
+    expectAssertionError(() -> strings.assertIsEqualToNormalizingNewlines(someInfo(), actual, expected));
+    // THEN
+    verify(failures).failure(someInfo(), shouldBeEqualIgnoringNewLineDifferences(actual, null), actual, null);
+  }
 }
