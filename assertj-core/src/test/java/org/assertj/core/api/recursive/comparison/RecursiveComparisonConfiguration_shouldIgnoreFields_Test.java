@@ -26,9 +26,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -44,16 +42,6 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   @BeforeEach
   void setup() {
     recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
-  }
-
-  @Test
-  void should_register_fields_path_to_ignore_without_duplicates() {
-    // GIVEN
-    recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar", "bar");
-    // WHEN
-    Set<String> fields = recursiveComparisonConfiguration.getIgnoredFields();
-    // THEN
-    then(fields).containsExactlyInAnyOrder("foo", "bar", "foo.bar");
   }
 
   @ParameterizedTest(name = "{0} should be ignored")
@@ -124,6 +112,9 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
 
   private static Stream<Arguments> should_ignore_specified_fields() {
     return Stream.of(arguments(dualValueWithPath("name"), list("name")),
+                     arguments(dualValueWithPath("name", "first"), list("name")),
+                     arguments(dualValueWithPath("name", "first", "nickname"), list("name")),
+                     arguments(dualValueWithPath("name", "first", "nickname"), list("name.first")),
                      arguments(dualValueWithPath("name"), list("foo", "name", "foo")),
                      arguments(dualValueWithPath("name", "first"), list("name.first")),
                      arguments(dualValueWithPath("name", "[2]", "first"), list("name.first")),
@@ -132,14 +123,24 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
                      arguments(dualValueWithPath("father", "name", "first"), list("father", "name.first", "father.name.first")));
   }
 
-  @Test
-  void ignoring_fields_with_regex_does_not_replace_previous_regexes() {
+  @ParameterizedTest(name = "{0} should not be ignored with these ignored fields {1}")
+  @MethodSource
+  void should_not_ignore_specified_fields(DualValue dualValue, List<String> ignoredFields) {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreFields(ignoredFields.toArray(new String[0]));
     // WHEN
-    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("foo");
-    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("bar", "baz");
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
     // THEN
-    then(recursiveComparisonConfiguration.getIgnoredFieldsRegexes()).extracting(Pattern::pattern)
-                                                                    .containsExactlyInAnyOrder("foo", "bar", "baz");
+    then(ignored).as("%s should not be ignored with these ignored fields %s", dualValue, ignoredFields).isFalse();
+  }
+
+  private static Stream<Arguments> should_not_ignore_specified_fields() {
+    return Stream.of(arguments(dualValueWithPath("names"), list("name")),
+                     arguments(dualValueWithPath("nickname"), list("name")),
+                     arguments(dualValueWithPath("name"), list("nickname")),
+                     arguments(dualValueWithPath("name"), list("name.first")),
+                     arguments(dualValueWithPath("person", "name"), list("name")),
+                     arguments(dualValueWithPath("first", "nickname"), list("name")));
   }
 
   @ParameterizedTest(name = "{0} should be ignored with these regexes {1}")
@@ -156,6 +157,7 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
   private static Stream<Arguments> should_ignore_fields_matching_given_regexes() {
     return Stream.of(arguments(dualValueWithPath("name"), list(".*name")),
                      arguments(dualValueWithPath("name"), list("foo", "n.m.", "foo")),
+                     arguments(dualValueWithPath("name", "first"), list("name")),
                      arguments(dualValueWithPath("name", "first"), list("name\\.first")),
                      arguments(dualValueWithPath("name", "first"), list(".*first")),
                      arguments(dualValueWithPath("name", "first"), list("name.*")),
@@ -359,40 +361,14 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     then(ignored).isTrue();
   }
 
-  @ParameterizedTest(name = "{0} should be compared: {1}")
-  @MethodSource
-  void should_honor_compared_fields(DualValue dualValue, boolean toCompare) {
-    // GIVEN
-    recursiveComparisonConfiguration.compareOnlyFields("number", "name", "address.street.geolocation", "person.children");
-    // WHEN
-    boolean shoudlBeCompared = !recursiveComparisonConfiguration.shouldIgnore(dualValue);
-    // THEN
-    then(shoudlBeCompared).as("%s should be %s", dualValue, toCompare ? "compared" : "ignored").isEqualTo(toCompare);
-  }
-
-  private static Stream<Arguments> should_honor_compared_fields() {
-    return Stream.of(arguments(dualValueWithPath("name"), true),
-                     arguments(dualValueWithPath("number"), true),
-                     arguments(dualValueWithPath("surname"), false),
-                     arguments(dualValueWithPath("name", "first"), true),
-                     arguments(dualValueWithPath("name", "last"), true),
-                     arguments(dualValueWithPath("address"), true),
-                     arguments(dualValueWithPath("address", "street"), true),
-                     arguments(dualValueWithPath("address", "street", "geolocation"), true),
-                     arguments(dualValueWithPath("street"), false),
-                     arguments(dualValueWithPath("street", "geolocation"), false),
-                     arguments(dualValueWithPath("person", "children", "[0]"), true),
-                     arguments(dualValueWithPath("address", "number"), false));
-  }
-
   @Test
   void should_treat_empty_compared_fields_as_not_restricting_comparison() {
     // GIVEN
     recursiveComparisonConfiguration.compareOnlyFields();
     // WHEN
-    boolean shoudlBeCompared = !recursiveComparisonConfiguration.shouldIgnore(dualValueWithPath("name"));
+    boolean shouldBeCompared = !recursiveComparisonConfiguration.shouldIgnore(dualValueWithPath("name"));
     // THEN
-    then(shoudlBeCompared).isTrue();
+    then(shouldBeCompared).isTrue();
   }
 
   static DualValue dualValue(Object value1, Object value2) {

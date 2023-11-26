@@ -149,7 +149,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(OptionalInt.class);
     recursiveComparisonConfiguration.compareOnlyFields("weight");
     // WHEN
-    compareRecursivelyFailsAsExpected(billie, anotherBillie);
+    AssertionError assertionError = compareRecursivelyFailsAsExpected(billie, anotherBillie);
     // THEN
     ComparisonDifference ageDifference = diff("age", billie.age, anotherBillie.age);
     ComparisonDifference weightDifference = diff("weight", billie.weight, anotherBillie.weight);
@@ -161,7 +161,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     // john and jill have the same age, that's the only field they have in common
     assertThat(john).usingRecursiveComparison()
                     .comparingOnlyFieldsOfTypes(String.class, OptionalInt.class) // name and age fields
-                    .ignoringFields("name")
+                    .ignoringFieldsMatchingRegexes("name", "neighbour")
                     .isEqualTo(jill);
   }
 
@@ -169,7 +169,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
   void should_fail_when_combined_with_ignoringFields() {
     // GIVEN
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class, OptionalLong.class); // name and id fields
-    recursiveComparisonConfiguration.ignoreFields("id");
+    recursiveComparisonConfiguration.ignoreFields("id", "neighbour");
     // WHEN
     compareRecursivelyFailsAsExpected(john, jill);
     // THEN
@@ -181,7 +181,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
   void should_pass_when_combined_with_ignoringFieldsMatchingRegexes() {
     assertThat(john).usingRecursiveComparison()
                     .comparingOnlyFieldsOfTypes(String.class, OptionalInt.class) // name and age fields
-                    .ignoringFieldsMatchingRegexes(".*ame")
+                    .ignoringFieldsMatchingRegexes(".*ame", ".*age")
                     .isEqualTo(jill);
   }
 
@@ -190,7 +190,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     // GIVEN
     // name, age and weight fields
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class, OptionalInt.class, OptionalDouble.class);
-    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("w..ght");
+    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("w..ght", "neighbour");
     // WHEN
     compareRecursivelyFailsAsExpected(john, jill);
     // THEN
@@ -204,6 +204,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     assertThat(john).usingRecursiveComparison()
                     .comparingOnlyFieldsOfTypes(String.class, OptionalInt.class) // name and age fields
                     .ignoringFieldsOfTypes(String.class)
+                    .ignoringFields("neighbour")
                     .isEqualTo(jill);
   }
 
@@ -218,4 +219,63 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     ComparisonDifference weightDifference = diff("weight", billie.weight, anotherBillie.weight);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(billie, anotherBillie, weightDifference);
   }
+
+  @Test
+  void succeeding_javadoc_example_should_pass() {
+    // GIVEN
+    Person sherlock = new Person("Sherlock");
+    sherlock.home.address.number = 221;
+    Person moriarty = new Person("Moriarty");
+    moriarty.home.address.number = 221;
+    // WHEN/THEN
+    assertThat(sherlock).usingRecursiveComparison()
+                        .comparingOnlyFieldsOfTypes(Double.class, Integer.class)
+                        .isEqualTo(moriarty);
+  }
+
+  @Test
+  void failing_javadoc_example_should_fail() {
+    // GIVEN
+    Person sherlock = new Person("Sherlock");
+    sherlock.home.address.number = 221;
+    Person moriarty = new Person("Moriarty");
+    moriarty.home.address.number = 222;
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(Home.class);
+    // WHEN
+    compareRecursivelyFailsAsExpected(sherlock, moriarty);
+    // THEN
+    ComparisonDifference streetNumberDifference = diff("home.address.number", 221, 222);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(sherlock, moriarty, streetNumberDifference);
+
+  }
+
+  @Test
+  void should_compare_fields_of_specified_compared_types_even_if_parent_field_is_not_of_any_compared_types() {
+    // GIVEN
+    Dog lassie = new Dog(new Breed("Collie"));
+    Dog snoopy = new Dog(new Breed("Beagle"));
+    recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class);
+    // WHEN
+    compareRecursivelyFailsAsExpected(lassie, snoopy);
+    // THEN
+    ComparisonDifference weightDifference = diff("breed.name", lassie.breed.name, snoopy.breed.name);
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(lassie, snoopy, weightDifference);
+  }
+
+  static class Dog {
+    Breed breed;
+
+    Dog(Breed breed) {
+      this.breed = breed;
+    }
+  }
+
+  static class Breed {
+    String name;
+
+    Breed(String name) {
+      this.name = name;
+    }
+  }
+
 }

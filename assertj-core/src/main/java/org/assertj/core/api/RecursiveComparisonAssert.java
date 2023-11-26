@@ -494,16 +494,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   /**
    * Makes the recursive comparison to only compare given actual fields of the specified types and their subfields (no other fields will be compared).
    * <p>
-   * Specifying a field of type will make all its subfields to be compared, for example specifying the {@code Person} type will
+   * Specifying a compared type will make any fields of this type and its subfields to be compared, for example specifying the {@code Person} type will
    * lead to compare {@code Person.name}, {@code Person.address} and all other {@code Person} fields.<br>
    * In case actual's field is null, expected's field type will be checked to match one of the given types (we assume actual and expected fields have the same type).
    * <p>
-   * {@code ", "} can be combined with {@link #comparingOnlyFields(String...)} to compare fields of the given types <b>or</b> names (union of both sets of fields).
+   * {@code comparingOnlyFieldsOfTypes} can be combined with {@link #comparingOnlyFields(String...)} to compare fields of the given types <b>or</b> names (union of both sets of fields).
    * <p>
-   * {@code ", "} can be also combined with ignoring fields or compare only fields by name methods to restrict further the fields actually compared,
+   * {@code comparingOnlyFieldsOfTypes} can be also combined with ignoring fields to restrict further the fields actually compared,
    * the resulting compared fields = {specified compared fields of types} {@code -} {specified ignored fields}.<br>
-   * For example if the specified compared fields of types = {@code {String.class, Integer.class, Double.class}}, when there are fields  String foo, {@code Integer baz} and {@code Double bar}
-   * and the ignored fields = {"bar"} set with {@link RecursiveComparisonAssert#ignoringFields(String...)} that will remove {@code bar} field from comparison, then only {@code {foo, baz}} fields will be compared.
+   * For example, we specify the following compared types: {@code {String.class, Integer.class, Double.class}}, and the
+   * object to compare has fields {@code String foo}, {@code Integer baz} and {@code Double bar},
+   * if we ignore the {"bar"} field with {@link RecursiveComparisonAssert#ignoringFields(String...)} the comparison will only report differences on {@code {foo, baz}} fields..
    * <p>
    * Usage example:
    * <pre><code class='java'> class Person {
@@ -532,12 +533,12 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *
    * // assertion succeeds as it only compared fields height and home.address.number since their types match compared types
    * assertThat(sherlock).usingRecursiveComparison()
-   *                     .", "(Integer.class, Double.class)
+   *                     .comparingOnlyFieldsOfTypes(Integer.class, Double.class)
    *                     .isEqualTo(moriarty);
    *
    * // assertion fails as home.address.street fields differ (Home fields and its subfields were compared)
    * assertThat(sherlock).usingRecursiveComparison()
-   *                     .", "(Home.class)
+   *                     .comparingOnlyFieldsOfTypes(Home.class)
    *                     .isEqualTo(moriarty);</code></pre>
    * <p>
    * Note that the recursive comparison checks whether the fields actually exist and throws an {@link IllegalArgumentException} if some of them don't,

@@ -345,7 +345,7 @@ public class Iterables {
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
     final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
-    if (commonCheckThatIterableAssertionSucceeds(info, actualAsCollection, values)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, failures, actualAsCollection, values)) return;
     // check for elements in values that are missing in actual.
     assertIterableContainsGivenValues(actual.getClass(), actualAsCollection, values, info);
   }
@@ -429,7 +429,7 @@ public class Iterables {
    *           {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnlyOnce(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, values)) return;
     // check for elements in values that are missing in actual.
     Set<Object> notFound = new LinkedHashSet<>();
     Set<Object> notOnlyOnce = new LinkedHashSet<>();
@@ -486,7 +486,7 @@ public class Iterables {
     // exhausted. Of course if 'actual' really is infinite then this could take a while :-D
     final Iterator<?> actualIterator = actual.iterator();
     if (!actualIterator.hasNext() && sequence.length == 0) return;
-    failIfEmptySinceActualIsNotEmpty(sequence);
+    failIfEmptySinceActualIsNotEmpty(info, failures, actual, sequence);
     // we only store sequence.length entries from actual in the LIFO, no need for more.
     Lifo lifo = new Lifo(sequence.length);
     while (actualIterator.hasNext()) {
@@ -557,7 +557,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given subsequence of objects.
    */
   public void assertContainsSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, subsequence)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, subsequence)) return;
     if (sizeOf(actual) < subsequence.length) {
       throw failures.failure(info, actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
     }
@@ -736,7 +736,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not start with the given sequence of objects.
    */
   public void assertStartsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, sequence)) return;
     int i = 0;
     for (Object actualCurrentElement : actual) {
       if (i >= sequence.length) break;
@@ -800,11 +800,12 @@ public class Iterables {
     }
   }
 
-  private boolean commonCheckThatIterableAssertionSucceeds(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
+  private boolean commonCheckThatIterableAssertionSucceeds(AssertionInfo info, Failures failures, Iterable<?> actual,
+                                                           Object[] sequence) {
     checkNotNullIterables(info, actual, sequence);
     // if both actual and values are empty, then assertion passes.
     if (!actual.iterator().hasNext() && sequence.length == 0) return true;
-    failIfEmptySinceActualIsNotEmpty(sequence);
+    failIfEmptySinceActualIsNotEmpty(info, failures, actual, sequence);
     return false;
   }
 
@@ -1381,7 +1382,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain any of given {@code values}.
    */
   public void assertContainsAnyOf(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, values))
+    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, values))
       return;
 
     Iterable<Object> valuesToSearchFor = newArrayList(values);

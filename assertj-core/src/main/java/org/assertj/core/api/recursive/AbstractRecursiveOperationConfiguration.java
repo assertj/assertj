@@ -175,12 +175,13 @@ public abstract class AbstractRecursiveOperationConfiguration {
   }
 
   public boolean matchesAnIgnoredFieldRegex(FieldLocation fieldLocation) {
-    return getIgnoredFieldsRegexes().stream()
-                                    .anyMatch(regex -> regex.matcher(fieldLocation.getPathToUseInRules()).matches());
+    // checks parent fields as if a parent field is ignored all subfields (including this field location) should be too.
+    return getIgnoredFieldsRegexes().stream().anyMatch(fieldLocation::hierarchyMatchesRegex);
   }
 
   public boolean matchesAnIgnoredField(FieldLocation fieldLocation) {
-    return getIgnoredFields().stream().anyMatch(fieldLocation::matches);
+    // checks parent fields as if a parent field is ignored all subfields (including this field location) should be too.
+    return getIgnoredFields().stream().anyMatch(fieldLocation::hierarchyMatches);
   }
 
   private String describeIgnoredFields() {
