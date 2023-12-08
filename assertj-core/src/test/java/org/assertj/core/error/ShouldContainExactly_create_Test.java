@@ -255,4 +255,22 @@ class ShouldContainExactly_create_Test {
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 
+  @Test
+  void should_escape_percentage_sign_from_elements_to_build_format() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainExactlyWithIndexes(list("Yoda"), list("%"),
+                                                                  list(new IndexedDiff("Yoda", "%", 1)),
+                                                                  CASE_INSENSITIVE_COMPARISON_STRATEGY);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\"]%n" +
+                                   "to contain exactly (and in same order):%n" +
+                                   "  [\"%%\"]%n" +
+                                   "but there were differences at these indexes:%n" +
+                                   "  - element at index 1: expected \"%%\" but was \"Yoda\"\n"));
+  }
+
 }

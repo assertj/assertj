@@ -28,6 +28,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
  * collection, an array or a {@code String}.
  * 
  * @author Joel Costigliola
+ * @author Yanming Zhou
  */
 public class ShouldContainExactly extends BasicErrorMessageFactory {
 
@@ -165,7 +166,8 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
     }
     sb.append(":%n");
     for (IndexedDiff diff : indexedDiffs) {
-      sb.append(format("  - element at index %d: expected \"%s\" but was \"%s\"%n", diff.index, diff.expected, diff.actual));
+      sb.append(format("  - element at index %d: expected \"%s\" but was \"%s\"%n", diff.index, diff.expected,
+                       diff.actual).replaceAll("%", "%%"));
     }
     return sb.toString();
   }
