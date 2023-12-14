@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.util.Collections.singleton;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
@@ -27,6 +28,7 @@ import static org.assertj.core.util.IterableUtil.toCollection;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -2218,5 +2220,25 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
       else result.add(item);
     }
     return result;
+  }
+
+  /**
+   * <p>Returns an {@link AbstractCollectionAssert} to make assertions on the values of the map</p>
+   *
+   * <p><strong>Example</strong></p>
+   * <pre><code class='java'> TolkienCharacter pippin = new TolkienCharacter("Pippin", 28, HOBBIT);
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter merry = new TolkienCharacter("Merry", 36, HOBBIT);
+   *
+   * Map&lt;String, TolkienCharacter&gt; characters = mapOf(entry("Pippin", pippin),
+   *                                                  entry("Frodo", frodo),
+   *                                                  entry("Merry", merry));
+   * assertThat(characters).values()
+   *                       .contains(frodo, pippin, merry); </code></pre>
+   * @return An {@link AbstractCollectionAssert} to make collections assertion only on map values.
+   */
+  public AbstractCollectionAssert<?, Collection<? extends V>, V, ObjectAssert<V>> values() {
+    requireNonNull(actual, "Can not extract values from a null map.");
+    return assertThat(actual.values());
   }
 }
