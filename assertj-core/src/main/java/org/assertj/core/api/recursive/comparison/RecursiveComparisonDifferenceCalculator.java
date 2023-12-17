@@ -134,7 +134,9 @@ public class RecursiveComparisonDifferenceCalculator {
     }
 
     private void initDualValuesToCompare(Object actual, Object expected, FieldLocation nodeLocation) {
+      // before anything are these values to be compared at all?
       DualValue dualValue = new DualValue(nodeLocation, actual, expected);
+      if (recursiveComparisonConfiguration.shouldNotEvaluate(dualValue)) return;
       boolean mustCompareNodesRecursively = mustCompareNodesRecursively(dualValue);
       if (dualValue.hasNoNullValues() && mustCompareNodesRecursively) {
         // disregard the equals method and start comparing fields

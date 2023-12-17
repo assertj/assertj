@@ -16,10 +16,15 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.newHashSet;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -404,11 +409,11 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
 
     // THEN
     ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
-    ComparisonDifference neighbourdateOfBirthDifference = diff("neighbour.dateOfBirth",
+    ComparisonDifference neighbourDateOfBirthDifference = diff("neighbour.dateOfBirth",
                                                                actual.neighbour.dateOfBirth,
                                                                expected.neighbour.dateOfBirth);
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected,
-                                                              dateOfBirthDifference, neighbourdateOfBirthDifference);
+                                                              dateOfBirthDifference, neighbourDateOfBirthDifference);
   }
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored types={3}")
@@ -490,14 +495,96 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
                                                               addressDifference, neighbourDateOfBirthDifference);
   }
 
+  static class NumberHolder {
+    private final Number number;
+
+    NumberHolder(final Number number) {
+      this.number = number;
+    }
+
+    public Number getNumber() {
+      return number;
+    }
+
+    @Override
+    public String toString() {
+      return number.toString();
+    }
+  }
+
+  @Test
+  void should_pass_when_fields_with_given_types_are_ignored_on_unordered_collections() {
+
+    class WithNumberHolderCollection {
+      private final Collection<NumberHolder> holders;
+
+      WithNumberHolderCollection(Collection<NumberHolder> holders) {
+        this.holders = holders;
+      }
+
+      Collection<NumberHolder> getNumberHolders() {
+        return holders;
+      }
+    }
+
+    // GIVEN
+    final Number intValue = 12;
+    final Double doubleValueA = 12.34;
+    final Double doubleValueB = 56.78;
+    final List<NumberHolder> holdersA = list(new NumberHolder(intValue), new NumberHolder(doubleValueA));
+    final List<NumberHolder> holdersB = list(new NumberHolder(intValue), new NumberHolder(doubleValueB));
+    WithNumberHolderCollection actual = new WithNumberHolderCollection(newHashSet(holdersA));
+    final RecursiveComparisonConfiguration configurationIgnoringNumberHolder = RecursiveComparisonConfiguration.builder()
+                                                                                                               .withIgnoredFieldsOfTypes(NumberHolder.class)
+                                                                                                               .build();
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(configurationIgnoringNumberHolder)
+                .isEqualTo(new WithNumberHolderCollection(newHashSet(holdersB)));
+    // bonus check also ordered collection
+    actual = new WithNumberHolderCollection(new ArrayList<>(holdersA));
+    then(actual).usingRecursiveComparison(configurationIgnoringNumberHolder)
+                .isEqualTo(new WithNumberHolderCollection(new ArrayList<>(holdersB)));
+  }
+
+  @Test
+  void should_pass_when_fields_with_given_types_are_ignored_on_unordered_maps() {
+    class WithNumberHolderMap {
+      private final Map<String, NumberHolder> holders;
+
+      WithNumberHolderMap(NumberHolder... holders) {
+        this.holders = new HashMap<>();
+        for (int i = 0; i < holders.length; i++) {
+          this.holders.put("key " + i, holders[i]);
+        }
+      }
+
+      Map<String, NumberHolder> getNumberHoldersMap() {
+        return holders;
+      }
+    }
+
+    // GIVEN
+    final Number intValue = 12;
+    final Double doubleValueA = 12.34;
+    final Double doubleValueB = 56.78;
+    final NumberHolder[] holdersA = array(new NumberHolder(intValue), new NumberHolder(doubleValueA));
+    final NumberHolder[] holdersB = array(new NumberHolder(intValue), new NumberHolder(doubleValueB));
+    final RecursiveComparisonConfiguration configurationIgnoringNumberHolder = RecursiveComparisonConfiguration.builder()
+                                                                                                               .withIgnoredFieldsOfTypes(NumberHolder.class)
+                                                                                                               .build();
+    // WHEN/THEN
+    then(new WithNumberHolderMap(holdersA)).usingRecursiveComparison(configurationIgnoringNumberHolder)
+                                           .isEqualTo(new WithNumberHolderMap(holdersB));
+  }
+
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource("recursivelyEqualObjectsIgnoringExpectedNullFields")
   void should_pass_when_expected_null_fields_are_ignored(Object actual, Object expected,
                                                          @SuppressWarnings("unused") String testDescription) {
 
-    assertThat(actual).usingRecursiveComparison()
-                      .ignoringExpectedNullFields()
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(expected);
   }
 
   private static Stream<Arguments> recursivelyEqualObjectsIgnoringExpectedNullFields() {
