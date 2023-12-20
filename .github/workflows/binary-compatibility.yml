@@ -45,7 +45,7 @@ jobs:
           cat assertj-core/target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
       - name: Upload reports
         if: success() || failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: japicmp
           path: assertj-core/target/japicmp
@@ -76,7 +76,7 @@ jobs:
           cat assertj-core/target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
       - name: Upload reports
         if: success() || failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: japicmp
           path: assertj-core/target/japicmp
