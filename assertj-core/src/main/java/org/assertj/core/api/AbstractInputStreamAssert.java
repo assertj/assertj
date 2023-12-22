@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -166,12 +167,21 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
    * @throws AssertionError if the content of the actual {@code InputStream} is empty.
-   * @throws InputStreamsException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @since 3.17.0
    */
   public SELF isNotEmpty() {
-    inputStreams.assertIsNotEmpty(info, actual);
+    isNotNull();
+    assertIsNotEmpty();
     return myself;
+  }
+
+  private void assertIsNotEmpty() {
+    try {
+      if (actual.read() == -1) throw assertionError(shouldNotBeEmpty());
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 
   /**
