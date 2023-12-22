@@ -57,7 +57,7 @@ class InputStreams_assertIsNotEmpty_Test extends InputStreamsBaseTest {
     IOException cause = new IOException();
     when(actual.read()).thenThrow(cause);
     // WHEN
-    Throwable error = catchThrowable(() -> inputStreams.assertIsEmpty(someInfo(), actual));
+    Throwable error = catchThrowable(() -> inputStreams.assertIsNotEmpty(someInfo(), actual));
     // THEN
     then(error).isInstanceOf(InputStreamsException.class)
                .hasCause(cause);
