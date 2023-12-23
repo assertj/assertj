@@ -10,8 +10,9 @@
  *
  * Copyright 2012-2023 the original author or authors.
  */
-package org.assertj.core.api
+package org.assertj.core.tests.kotlin.testkit
 
+import org.assertj.core.api.AbstractAssert
 import org.assertj.core.internal.Objects
 import org.assertj.core.util.VisibleForTesting
 import org.opentest4j.AssertionFailedError

@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2023 the original author or authors.
  */
-package org.assertj.core.util
+package org.assertj.core.tests.kotlin.testkit
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable

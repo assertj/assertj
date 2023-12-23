@@ -15,8 +15,8 @@ package org.assertj.core.tests.kotlin
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.BDDAssertions
-import org.assertj.core.api.ConcreteAssert
-import org.assertj.core.util.AssertionsUtil
+import org.assertj.core.tests.kotlin.testkit.AssertionsUtil.expectAssertionError
+import org.assertj.core.tests.kotlin.testkit.ConcreteAssert
 import org.junit.jupiter.api.Test
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.Supplier
@@ -37,7 +37,6 @@ internal class Assertions_describedAs_text_supplier_Test {
     BDDAssertions.then(assertions.descriptionText()).isEqualTo("description")
   }
 
-
   @Test
   fun should_not_evaluate_description_when_assertion_succeeds() {
     // GIVEN
@@ -55,7 +54,7 @@ internal class Assertions_describedAs_text_supplier_Test {
     val evaluated = AtomicBoolean(false)
     val descriptionSupplier = spiedSupplier(evaluated)
     // WHEN
-    AssertionsUtil.expectAssertionError {
+    expectAssertionError {
       assertThat(true).describedAs(descriptionSupplier).isFalse()
     }
     // THEN
