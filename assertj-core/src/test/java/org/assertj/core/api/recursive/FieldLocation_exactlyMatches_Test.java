@@ -24,20 +24,20 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class FieldLocation_matches_Test {
+class FieldLocation_exactlyMatches_Test {
 
-  @ParameterizedTest(name = "{0} matches {1}")
+  @ParameterizedTest(name = "{0} exactly matches {1}")
   @MethodSource
-  void matches_should_match_string_fields(List<String> fieldPath, String matchingFieldPath) {
+  void exactlyMatches_should_match_string_fields(List<String> fieldPath, String matchingFieldPath) {
     // GIVEN
     FieldLocation underTest = new FieldLocation(fieldPath);
     // WHEN
-    boolean match = underTest.matches(matchingFieldPath);
+    boolean match = underTest.exactlyMatches(matchingFieldPath);
     // THEN
-    then(match).as("%s matches %s", underTest, matchingFieldPath).isTrue();
+    then(match).as("%s exactly matches %s", underTest, matchingFieldPath).isTrue();
   }
 
-  private static Stream<Arguments> matches_should_match_string_fields() {
+  private static Stream<Arguments> exactlyMatches_should_match_string_fields() {
     return Stream.of(arguments(list("name"), "name"),
                      arguments(list("name", "first"), "name.first"),
                      arguments(list("name", "[2]", "first"), "name.first"),
@@ -47,18 +47,18 @@ class FieldLocation_matches_Test {
                      arguments(list("father", "name", "first"), "father.name.first"));
   }
 
-  @ParameterizedTest(name = "{0} matches {1}")
+  @ParameterizedTest(name = "{0} exactly matches {1}")
   @MethodSource
-  void matches_should_match_fields(List<String> fieldPath, String matchingFieldPath) {
+  void exactlyMatches_should_match_fields(List<String> fieldPath, String matchingFieldPath) {
     // GIVEN
     FieldLocation underTest = new FieldLocation(fieldPath);
     // WHEN
-    boolean match = underTest.matches(new FieldLocation(matchingFieldPath));
+    boolean match = underTest.exactlyMatches(new FieldLocation(matchingFieldPath));
     // THEN
-    then(match).as("%s matches %s", underTest, matchingFieldPath).isTrue();
+    then(match).as("%s exactly matches %s", underTest, matchingFieldPath).isTrue();
   }
 
-  private static Stream<Arguments> matches_should_match_fields() {
+  private static Stream<Arguments> exactlyMatches_should_match_fields() {
     return Stream.of(arguments(list("name"), "name"),
                      arguments(list("name", "first"), "name.first"),
                      arguments(list("name", "[2]", "first"), "name.first"),

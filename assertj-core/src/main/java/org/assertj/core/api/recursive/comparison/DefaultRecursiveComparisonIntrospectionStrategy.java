@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static org.assertj.core.internal.Objects.getFieldsNames;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 import java.util.HashSet;
@@ -20,6 +19,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.assertj.core.internal.Objects;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 /**
@@ -31,16 +31,14 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 public class DefaultRecursiveComparisonIntrospectionStrategy implements RecursiveComparisonIntrospectionStrategy {
 
   // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
-  private final Map<Class<?>, Set<String>> fieldsNamesPerClass = new ConcurrentHashMap<>();
+  private final Map<Class<?>, Set<String>> fieldNamesPerClass = new ConcurrentHashMap<>();
 
   @Override
   public Set<String> getChildrenNodeNamesOf(Object node) {
     if (node == null) return new HashSet<>();
-    // Caches the node names after getting them for efficiency, a node can be introspected multiple times if for example
+    // Caches the names after getting them for efficiency, a node can be introspected multiple times for example if
     // it belongs to an unordered collection as all actual elements are compared to all expected elements.
-    Class<?> nodeClass = node.getClass();
-    fieldsNamesPerClass.computeIfAbsent(nodeClass, unused -> getFieldsNames(nodeClass));
-    return fieldsNamesPerClass.get(nodeClass);
+    return fieldNamesPerClass.computeIfAbsent(node.getClass(), Objects::getFieldsNames);
   }
 
   @Override

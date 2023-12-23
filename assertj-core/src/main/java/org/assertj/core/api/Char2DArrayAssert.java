@@ -190,7 +190,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
   }
 
   /**
-   * Verifies that the actual {@code char[][]} has the the given dimensions.
+   * Verifies that the actual {@code char[][]} has the given dimensions.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass

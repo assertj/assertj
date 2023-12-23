@@ -18,7 +18,11 @@ import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.counting;
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
@@ -80,11 +84,17 @@ import java.io.LineNumberReader;
 import java.io.StringReader;
 import java.text.Normalizer;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
@@ -97,6 +107,16 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Michal Kordas
  */
 public class Strings {
+
+  private static final Set<Character> NON_BREAKING_SPACES;
+
+  static {
+    Set<Character> nonBreakingSpaces = new HashSet<>();
+    nonBreakingSpaces.add('\u00A0');
+    nonBreakingSpaces.add('\u2007');
+    nonBreakingSpaces.add('\u202F');
+    NON_BREAKING_SPACES = Collections.unmodifiableSet(nonBreakingSpaces);
+  }
 
   private static final String EMPTY_STRING = "";
   private static final Strings INSTANCE = new Strings();
@@ -255,7 +275,8 @@ public class Strings {
   public void assertContainsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence sequence) {
     checkCharSequenceIsNotNull(sequence);
     assertNotNull(info, actual);
-    if (!containsIgnoreCase(actual, sequence)) throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
+    if (!containsIgnoreCase(actual, sequence))
+      throw failures.failure(info, shouldContainIgnoringCase(actual, sequence));
   }
 
   private boolean containsIgnoreCase(CharSequence actual, CharSequence sequence) {
@@ -299,11 +320,13 @@ public class Strings {
   }
 
   public void assertEqualsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (!areEqualIgnoringCase(actual, expected)) throw failures.failure(info, shouldBeEqual(actual, expected), actual, expected);
+    if (!areEqualIgnoringCase(actual, expected))
+      throw failures.failure(info, shouldBeEqual(actual, expected), actual, expected);
   }
 
   public void assertNotEqualsIgnoringCase(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    if (areEqualIgnoringCase(actual, expected)) throw failures.failure(info, shouldNotBeEqualIgnoringCase(actual, expected));
+    if (areEqualIgnoringCase(actual, expected))
+      throw failures.failure(info, shouldNotBeEqualIgnoringCase(actual, expected));
   }
 
   private static boolean areEqualIgnoringCase(CharSequence actual, CharSequence expected) {
@@ -313,15 +336,15 @@ public class Strings {
   }
 
   public void assertIsEqualToNormalizingNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    String actualNormalized = normalizeNewlines(actual);
-    String expectedNormalized = normalizeNewlines(expected);
-    if (!actualNormalized.equals(expectedNormalized))
-      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected), actualNormalized,
-                             expectedNormalized);
+    String normalizedActual = normalizeNewlines(actual);
+    String normalizedExpected = normalizeNewlines(expected);
+    if (!java.util.Objects.equals(normalizedActual, normalizedExpected))
+      throw failures.failure(info, shouldBeEqualIgnoringNewLineDifferences(actual, expected), normalizedActual,
+                             normalizedExpected);
   }
 
-  private static String normalizeNewlines(CharSequence actual) {
-    return actual.toString().replace("\r\n", "\n");
+  private static String normalizeNewlines(CharSequence charSequence) {
+    return charSequence != null ? charSequence.toString().replace("\r\n", "\n") : null;
   }
 
   public void assertEqualsIgnoringWhitespace(AssertionInfo info, CharSequence actual, CharSequence expected) {
@@ -374,7 +397,7 @@ public class Strings {
     boolean lastWasSpace = true;
     for (int i = 0; i < toNormalize.length(); i++) {
       char c = toNormalize.charAt(i);
-      if (isWhitespace(c)) {
+      if (isWhitespace(c) || NON_BREAKING_SPACES.contains(c)) {
         if (!lastWasSpace) result.append(' ');
         lastWasSpace = true;
       } else {
@@ -582,16 +605,8 @@ public class Strings {
   public void assertContainsSubsequence(AssertionInfo info, CharSequence actual, CharSequence[] subsequence) {
     doCommonCheckForCharSequence(info, actual, subsequence);
 
-    Set<CharSequence> notFound = stream(subsequence).filter(value -> !stringContains(actual, value))
-                                                    .collect(toCollection(LinkedHashSet::new));
-
-    if (!notFound.isEmpty()) {
-      // don't bother looking for a subsequence, some of the subsequence elements were not found !
-      if (notFound.size() == 1 && subsequence.length == 1) {
-        throw failures.failure(info, shouldContain(actual, subsequence[0], comparisonStrategy));
-      }
-      throw failures.failure(info, shouldContain(actual, subsequence, notFound, comparisonStrategy));
-    }
+    Map<CharSequence, Integer> notFound = getNotFoundSubsequence(actual, subsequence);
+    handleNotFound(info, actual, subsequence, notFound);
 
     // we have found all the given values but were they in the expected order ?
     if (subsequence.length == 1) return; // no order check needed for a one element subsequence
@@ -608,6 +623,84 @@ public class Strings {
       if (stringContains(actualRest, subsequence[i])) actualRest = removeUpTo(actualRest, subsequence[i]);
       else throw failures.failure(info, shouldContainSubsequence(actual, subsequence, i - 1, comparisonStrategy));
     }
+  }
+
+  /**
+   * Handles the scenario where certain subsequences were not found in the actual CharSequence.
+   * Depending on the exact mismatch details, it throws appropriate assertion failures.
+   *
+   * @param info        Assertion metadata.
+   * @param actual      The actual CharSequence being checked.
+   * @param subsequence The expected subsequence to be found in the actual CharSequence.
+   * @param notFound    A map containing subsequences that were not found (or not found enough times) and their respective counts.
+   */
+  private void handleNotFound(AssertionInfo info, CharSequence actual,
+                              CharSequence[] subsequence, Map<CharSequence, Integer> notFound) {
+
+    // If there are no missing subsequences, there's nothing to handle, so return.
+    if (notFound.isEmpty()) return;
+
+    // Special case: If there's only one missing subsequence, and we were only looking for one,
+    // throw a specific failure for that.
+    if (notFound.size() == 1 && subsequence.length == 1) {
+      throw failures.failure(info, shouldContain(actual, subsequence[0], comparisonStrategy));
+    }
+
+    // Check if all the missing subsequences are due to not finding duplicates.
+    // If every value in 'notFound' map is greater than 0, this indicates that the corresponding
+    // subsequences were found, but not as many times as expected.
+    boolean anyDuplicateSubsequenceFound = notFound.values().stream().allMatch(count -> count > 0);
+
+    // If the above is true, throw a failure specifying the subsequence mismatch details.
+    if (anyDuplicateSubsequenceFound) {
+      throw failures.failure(info, shouldContainSubsequence(actual, subsequence, notFound, comparisonStrategy));
+    }
+
+    // Otherwise, filter the 'notFound' map to get the keys (subsequences) that were not found at all (value is 0).
+    Set<CharSequence> notFoundKeysWithZeroValue = notFound.entrySet().stream()
+                                                          .filter(entry -> entry.getValue() == 0)
+                                                          .map(Map.Entry::getKey)
+                                                          .collect(Collectors.toSet());
+    // Throw a failure specifying the completely missing subsequences.
+    throw failures.failure(info, shouldContain(actual, subsequence, notFoundKeysWithZeroValue, comparisonStrategy));
+  }
+
+  /**
+   * Computes and returns a map of subsequence elements that were not found (or not found enough times) in actual.
+   *
+   * @param actual      The actual CharSequence being checked.
+   * @param subsequence The expected subsequence to be found in the actual CharSequence.
+   * @return A map where the key represents the missing subsequence and the value represents the number of times it appears in 'actual'.
+   */
+  private Map<CharSequence, Integer> getNotFoundSubsequence(CharSequence actual, CharSequence[] subsequence) {
+    // Create a map to store how many times each element appears in the 'actual' sequence.
+    // We use a HashMap for efficient look-ups and modifications.
+    Map<CharSequence, Integer> actualCounts = new HashMap<>();
+
+    // Create a map to store how many times each element appears in the 'subsequence' array.
+    // We use the Java Streams API to group the elements by their identity and then count their occurrences.
+    Map<CharSequence, Long> subseqCounts = stream(subsequence).collect(groupingBy(identity(), counting()));
+
+    // For each element in the 'subsequence', compute its occurrences in the 'actual' sequence.
+    // If the element is not yet in the actualCounts map (v is null), then count its occurrences in 'actual'.
+    // If the element is already in the actualCounts map (v is not null), then keep its current count.
+    for (CharSequence value : subsequence) {
+      actualCounts.compute(value, (k, v) -> v == null ? countOccurrences(k, actual) : v);
+    }
+    // Return a map that contains only the elements from the 'subsequence' that appear more times in 'subsequence' than
+    // in 'actual'. The map's keys are the elements and the values are the number of times they appear in 'actual'.
+    return subseqCounts.entrySet().stream()
+                       .filter(entry -> entry.getValue() > actualCounts.getOrDefault(entry.getKey(), 0))
+                       .collect(toMap(// The key of the output map entry is the same as the subsequence entry key.
+                                      Map.Entry::getKey,
+                                      // The value of the output map entry is the number of times the key appears in
+                                      // 'actual'.
+                                      entry -> actualCounts.get(entry.getKey()),
+                                      // If there are duplicate keys when collecting (which shouldn't happen in this
+                                      // case), prefer the existing key.
+                                      (existing, replacement) -> existing,
+                                      // Use a LinkedHashMap to maintain the insertion order.
+                                      LinkedHashMap::new));
   }
 
   private String removeUpTo(String string, CharSequence toRemove) {

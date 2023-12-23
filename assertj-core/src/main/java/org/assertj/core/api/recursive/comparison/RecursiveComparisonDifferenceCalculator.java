@@ -89,6 +89,22 @@ public class RecursiveComparisonDifferenceCalculator {
     }
 
     void addDifference(DualValue dualValue, String description) {
+      // to evaluate differences on fields of compared types, we have to traverse the whole graph of objects to compare
+      // and decide afterward if differences were relevant, for example if we compare only the Employee type, and we
+      // come across a Company having a list of Employee, we should evaluate the Company but ignore any of its
+      // differences unless the ones on Employees.
+      if (recursiveComparisonConfiguration.hasComparedTypes()) {
+        // the comparison includes the union of fields of compared types and compared fields, if the difference is
+        // reported on a field whose type is not in the compared types, we should ignore the difference unless it was
+        // on a field from the set of compared fields.
+        if (!recursiveComparisonConfiguration.exactlyMatchesAnyComparedFields(dualValue)
+            && !recursiveComparisonConfiguration.matchesOrIsChildOfFieldMatchingAnyComparedTypes(dualValue))
+          // was not a field we had to compared
+          return;
+        // check if the value was meant to be ignored, if it is the case simply skip the difference
+        if (recursiveComparisonConfiguration.shouldIgnore(dualValue)) return;
+      }
+
       String customErrorMessage = getCustomErrorMessage(dualValue);
       ComparisonDifference comparisonDifference = new ComparisonDifference(dualValue, description, customErrorMessage);
       differences.add(comparisonDifference);
@@ -118,7 +134,9 @@ public class RecursiveComparisonDifferenceCalculator {
     }
 
     private void initDualValuesToCompare(Object actual, Object expected, FieldLocation nodeLocation) {
+      // before anything are these values to be compared at all?
       DualValue dualValue = new DualValue(nodeLocation, actual, expected);
+      if (recursiveComparisonConfiguration.shouldNotEvaluate(dualValue)) return;
       boolean mustCompareNodesRecursively = mustCompareNodesRecursively(dualValue);
       if (dualValue.hasNoNullValues() && mustCompareNodesRecursively) {
         // disregard the equals method and start comparing fields
@@ -219,6 +237,12 @@ public class RecursiveComparisonDifferenceCalculator {
     while (comparisonState.hasDualValuesToCompare()) {
 
       final DualValue dualValue = comparisonState.pickDualValueToCompare();
+      if (recursiveComparisonConfiguration.hierarchyMatchesAnyComparedTypes(dualValue)) {
+        // keep track of field locations of type to compare, needed to compare child nodes, for example if we want to
+        // only compare the Person type, we must compare the Person fields too even though they are not of type Person
+        recursiveComparisonConfiguration.registerFieldLocationToCompareBecauseOfTypesToCompare(dualValue.fieldLocation);
+      }
+
       // if we have already visited the dual value, no need to compute the comparison differences again, this also avoid cycles
       Optional<List<ComparisonDifference>> comparisonDifferences = comparisonState.visitedDualValues.registeredComparisonDifferencesOf(dualValue);
       if (comparisonDifferences.isPresent()) {

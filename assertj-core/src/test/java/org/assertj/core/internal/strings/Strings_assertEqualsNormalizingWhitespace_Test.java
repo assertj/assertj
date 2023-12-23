@@ -13,12 +13,14 @@
 package org.assertj.core.internal.strings;
 
 import static java.lang.String.format;
+import static java.util.stream.Stream.concat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
 import static org.assertj.core.test.CharArrays.arrayOf;
 import static org.assertj.core.test.TestData.someInfo;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.stream.Stream;
 
@@ -29,8 +31,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Tests for <code>{@link org.assertj.core.internal.Strings#assertEqualsNormalizingWhitespace(org.assertj.core.api.AssertionInfo, CharSequence, CharSequence)} </code>.
- *
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Alexander Bischof
@@ -69,17 +69,26 @@ class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseTest {
     strings.assertEqualsNormalizingWhitespace(someInfo(), actual, expected);
   }
 
-  public static Stream<Arguments> equalNormalizingWhitespaceGenerator() {
-    return Stream.of(Arguments.of("my   foo bar", "my foo bar"),
-                     Arguments.of("  my foo bar  ", "my foo bar"),
-                     Arguments.of(" my\tfoo bar ", " my foo bar"),
-                     Arguments.of(" my foo    bar ", "my foo bar"),
-                     Arguments.of(" my foo    bar ", "  my foo bar   "),
-                     Arguments.of("       ", " "),
-                     Arguments.of(" my\tfoo bar ", new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b', 'a', 'r'))),
-                     Arguments.of(" my\tfoo bar ", " my\tfoo bar "),   // same
-                     Arguments.of(null, null),   // null
-                     Arguments.of(" \t \t", " "),
-                     Arguments.of(" abc", "abc "));
+  static Stream<Arguments> equalNormalizingWhitespaceGenerator() {
+    Stream<Arguments> regularWhiteSpaces = Stream.of(arguments("my   foo bar", "my foo bar"),
+                                                     arguments("  my foo bar  ", "my foo bar"),
+                                                     arguments(" my\tfoo bar ", " my foo bar"),
+                                                     arguments(" my foo    bar ", "my foo bar"),
+                                                     arguments(" my foo    bar ", "  my foo bar   "),
+                                                     arguments("       ", " "),
+                                                     arguments(" my\tfoo bar ",
+                                                               new String(arrayOf(' ', 'm', 'y', ' ', 'f', 'o', 'o', ' ', 'b',
+                                                                                  'a', 'r'))),
+                                                     arguments(" my\tfoo bar ", " my\tfoo bar "),   // same
+                                                     arguments(null, null),   // null
+                                                     arguments(" \t \t", " "),
+                                                     arguments(" abc", "abc "));
+
+    Stream<Arguments> nonBreakingSpaces = NON_BREAKING_SPACES.stream()
+                                                             .map(nonBreakingSpace -> arguments("my" + nonBreakingSpace
+                                                                                                + "foo bar", "my foo bar"));
+
+    return concat(regularWhiteSpaces, nonBreakingSpaces);
   }
+
 }

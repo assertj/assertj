@@ -10,18 +10,15 @@
  *
  * Copyright 2012-2023 the original author or authors.
  */
-package org.assertj.core.util
+package org.assertj.core.error;
 
-import org.assertj.core.api.Assertions
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable
+public class ActualIsNotEmpty extends BasicErrorMessageFactory {
 
-object AssertionsUtil {
-  fun expectAssertionError(shouldRaiseAssertionError: ThrowingCallable?): AssertionError {
-    val error = Assertions.catchThrowableOfType(
-      shouldRaiseAssertionError,
-      AssertionError::class.java
-    )
-    Assertions.assertThat(error).`as`("The code under test should have raised an AssertionError").isNotNull
-    return error
+  public static ErrorMessageFactory actualIsNotEmpty(Object expected) {
+    return new ActualIsNotEmpty(expected);
+  }
+
+  private ActualIsNotEmpty(Object expected) {
+    super("%nActual:%n  %s%nis not empty while group of values to look for is.", expected);
   }
 }

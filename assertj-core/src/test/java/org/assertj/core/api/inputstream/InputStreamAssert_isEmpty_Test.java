@@ -12,24 +12,63 @@
  */
 package org.assertj.core.api.inputstream;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 
-import org.assertj.core.api.InputStreamAssert;
-import org.assertj.core.api.InputStreamAssertBaseTest;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 
-/**
- * Tests for <code>{@link InputStreamAssert#isEmpty()}</code>.
- */
-class InputStreamAssert_isEmpty_Test extends InputStreamAssertBaseTest {
+import org.junit.jupiter.api.Test;
 
-  @Override
-  protected InputStreamAssert invoke_api_method() {
-    return assertions.isEmpty();
+class InputStreamAssert_isEmpty_Test {
+
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    InputStream actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEmpty());
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(inputStreams).assertIsEmpty(getInfo(assertions), getActual(assertions));
+  @Test
+  void should_fail_if_actual_is_not_empty() {
+    // GIVEN
+    InputStream actual = new ByteArrayInputStream(new byte[] { '1', '2' });
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(actual).isEmpty());
+    // THEN
+    then(error).hasMessage(shouldBeEmpty(actual).create());
+  }
+
+  @Test
+  void should_pass_if_actual_is_empty() {
+    // GIVEN
+    InputStream actual = new ByteArrayInputStream(new byte[0]);
+    // WHEN/THEN
+    assertThat(actual).isEmpty();
+  }
+
+  @SuppressWarnings("resource")
+  @Test
+  void should_rethrow_IOException() throws IOException {
+    // GIVEN
+    InputStream actual = mock();
+    IOException cause = new IOException();
+    given(actual.read()).willThrow(cause);
+    // WHEN
+    Throwable error = catchThrowable(() -> assertThat(actual).isEmpty());
+    // THEN
+    then(error).isInstanceOf(UncheckedIOException.class).hasCauseReference(cause);
   }
 
 }

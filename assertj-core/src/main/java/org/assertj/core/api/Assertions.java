@@ -2621,6 +2621,21 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfies(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SafeVarargs
+  public static <T> ThrowingConsumer<T> allOf(ThrowingConsumer<? super T>... consumers) {
+    return actual -> assertThat(actual).satisfies(consumers);
+  }
+
+  /**
    * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use {@link AnyOf} if you prefer).
    * <p>
@@ -2648,6 +2663,21 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
     return AnyOf.anyOf(conditions);
+  }
+
+  /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfiesAnyOf(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SafeVarargs
+  public static <T> ThrowingConsumer<T> anyOf(ThrowingConsumer<? super T>... consumers) {
+    return actual -> assertThat(actual).satisfiesAnyOf(consumers);
   }
 
   /**

@@ -14,6 +14,7 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
+import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
  * collection, an array or a {@code String}.
  * 
  * @author Joel Costigliola
+ * @author Yanming Zhou
  */
 public class ShouldContainExactly extends BasicErrorMessageFactory {
 
@@ -45,15 +47,12 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldContainExactly(Object actual, Iterable<?> expected,
                                                          Iterable<?> notFound, Iterable<?> notExpected,
                                                          ComparisonStrategy comparisonStrategy) {
-    if (isNullOrEmpty(notExpected) && isNullOrEmpty(notFound)) {
+    if (isNullOrEmpty(notExpected) && isNullOrEmpty(notFound))
       return new ShouldContainExactly(actual, expected, comparisonStrategy);
-    }
-    if (isNullOrEmpty(notExpected)) {
+    if (isNullOrEmpty(notExpected))
       return new ShouldContainExactly(actual, expected, notFound, comparisonStrategy);
-    }
-    if (isNullOrEmpty(notFound)) {
+    if (isNullOrEmpty(notFound))
       return new ShouldContainExactly(actual, expected, comparisonStrategy, notExpected);
-    }
     return new ShouldContainExactly(actual, expected, notFound, notExpected, comparisonStrategy);
   }
 
@@ -165,7 +164,8 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
     }
     sb.append(":%n");
     for (IndexedDiff diff : indexedDiffs) {
-      sb.append(format("  - element at index %d: expected \"%s\" but was \"%s\"%n", diff.index, diff.expected, diff.actual));
+      sb.append(escapePercent(format("  - element at index %d: expected \"%s\" but was \"%s\"%n",
+                                     diff.index, diff.expected, diff.actual)));
     }
     return sb.toString();
   }

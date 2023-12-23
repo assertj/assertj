@@ -70,6 +70,9 @@ public class MapsBaseTest extends WithPlayerData {
                                                                                              MapsBaseTest::persistentMap,
                                                                                              MapsBaseTest::persistentSortedMap);
 
+  protected static final Supplier<Map<String, String>> PERSISTENT_MAP = MapsBaseTest::persistentMap;
+  protected static final Supplier<Map<String, String>> PERSISTENT_SORTED_MAP = MapsBaseTest::persistentSortedMap;
+
   private static <K, V> PersistentMap<K, V> persistentMap() {
     return hibernateMap(PersistentMap::new, HashMap::new);
   }
