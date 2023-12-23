@@ -12,6 +12,18 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
+
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -21,19 +33,6 @@ import static org.assertj.tests.core.api.recursive.comparison.RecursiveCompariso
 import static org.assertj.tests.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test.Type.SECOND;
 import static org.assertj.tests.core.api.recursive.data.FriendlyPerson.friend;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
-
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.api.recursive.comparison.DualValue;
-import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
@@ -91,10 +90,11 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     expected.friends.add(friend("Molly Hooper"));
     expected.friends.add(friend("Dr. John Watson"));
 
+    // WHEN
     recursiveComparisonConfiguration.ignoreCollectionOrder(true);
 
-    // WHEN/THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
+    // THEN
+    ComparisonDifference comparisonDifference = javaTypeDiff("home.address.number", 1, 2);
     compareRecursivelyFailsWithDifferences(actual, expected, comparisonDifference);
   }
 

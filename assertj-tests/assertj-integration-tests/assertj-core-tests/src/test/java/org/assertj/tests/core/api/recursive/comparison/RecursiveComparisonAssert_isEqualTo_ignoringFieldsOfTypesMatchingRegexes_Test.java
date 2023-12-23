@@ -12,13 +12,12 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Sets.newHashSet;
-import static org.assertj.tests.core.testkit.ObjectArrays.arrayOf;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import org.assertj.tests.core.api.recursive.data.Human;
+import org.assertj.tests.core.api.recursive.data.Person;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,12 +29,13 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
-import org.assertj.tests.core.api.recursive.data.Human;
-import org.assertj.tests.core.api.recursive.data.Person;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.newHashSet;
+import static org.assertj.tests.core.testkit.ObjectArrays.arrayOf;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @SuppressWarnings("unused")
 class RecursiveComparisonAssert_isEqualTo_ignoringFieldsOfTypesMatchingRegexes_Test
@@ -107,7 +107,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFieldsOfTypesMatchingRegexes_T
                                                                         "org\\.assertj.*data\\.Address",
                                                                         "java\\.util\\.OptionalI.*");
     // WHEN/THEN
-    compareRecursivelyFailsWithDifferences(actual, expected, diff("id", actual.id, expected.id));
+    compareRecursivelyFailsWithDifferences(actual, expected, javaTypeDiff("id", actual.id, expected.id));
   }
 
   static class NumberHolder {
@@ -199,9 +199,9 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFieldsOfTypesMatchingRegexes_T
     expected.home.address.number = 2;
     recursiveComparisonConfiguration.ignoreFieldsOfTypesMatchingRegexes("int");
     // WHEN/THEN
-    compareRecursivelyFailsWithDifferences(actual, expected, diff("home.address.number",
-                                                                  actual.home.address.number,
-                                                                  expected.home.address.number));
+    compareRecursivelyFailsWithDifferences(actual, expected, javaTypeDiff("home.address.number",
+                                                                          actual.home.address.number,
+                                                                          expected.home.address.number));
   }
 
   @Test

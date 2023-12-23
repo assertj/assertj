@@ -12,18 +12,18 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
-
-import java.util.List;
-import java.util.stream.Stream;
-
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.List;
+import java.util.stream.Stream;
+
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
 
 class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -34,8 +34,8 @@ class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComp
     WithArray<Author> actual = new WithArray<>(authors1);
     WithArray<Author> expected = new WithArray<>(authors2);
     // THEN
-    assertThat(actual).usingRecursiveComparison()
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison()
+                .isEqualTo(expected);
   }
 
   static Stream<Arguments> should_pass_when_comparing_same_array_fields() {
@@ -49,15 +49,13 @@ class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComp
                      Arguments.of(empty, empty));
   }
 
-  @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / path {2} / value 1 {3}/ value 2 {4}")
+  @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / difference {2}")
   @MethodSource
-  void should_fail_when_comparing_different_array_fields(Author[] authors1, Author[] authors2,
-                                                         List<String> path, Object value1, Object value2, String desc) {
+  void should_fail_when_comparing_different_array_fields(Author[] authors1, Author[] authors2, ComparisonDifference difference) {
     // GIVEN
     WithArray<Author> actual = new WithArray<>(authors1);
     WithArray<Author> expected = new WithArray<>(authors2);
     // WHEN/THEN
-    ComparisonDifference difference = desc == null ? diff(path, value1, value2) : diff(path, value1, value2, desc);
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 
@@ -66,17 +64,12 @@ class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComp
     Author georgeMartin = new Author("George Martin");
     Author none = null;
     return Stream.of(Arguments.of(array(pratchett), array(georgeMartin),
-                                  list("group", "[0]", "name"), "Terry Pratchett", "George Martin",
-                                  null),
+                                  javaTypeDiff("group.[0].name", "Terry Pratchett", "George Martin")),
                      Arguments.of(array(pratchett, georgeMartin), array(pratchett),
-                                  list("group"), array(pratchett, georgeMartin), array(pratchett),
-                                  "actual and expected values are arrays of different size, actual size=2 when expected size=1"),
-                     Arguments.of(array(pratchett), array(none),
-                                  list("group", "[0]"), pratchett, null,
-                                  null),
-                     Arguments.of(array(none), array(pratchett),
-                                  list("group", "[0]"), null, pratchett,
-                                  null));
+                                  diff("group", array(pratchett, georgeMartin), array(pratchett),
+                                       "actual and expected values are arrays of different size, actual size=2 when expected size=1")),
+                     Arguments.of(array(pratchett), array(none), diff("group.[0]", pratchett, null, null)),
+                     Arguments.of(array(none), array(pratchett), diff("group.[0]", null, pratchett, null)));
   }
 
   @ParameterizedTest(name = "authors {0} / object {1} / path {2} / value 1 {3}/ value 2 {4}")

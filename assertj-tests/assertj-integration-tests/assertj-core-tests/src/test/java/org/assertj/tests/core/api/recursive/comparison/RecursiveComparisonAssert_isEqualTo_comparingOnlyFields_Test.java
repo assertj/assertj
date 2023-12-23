@@ -12,6 +12,21 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
+import org.assertj.tests.core.api.recursive.data.Human;
+import org.assertj.tests.core.api.recursive.data.Person;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.time.ZonedDateTime;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Stream;
+
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
@@ -21,21 +36,6 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.set;
 import static org.assertj.tests.core.api.recursive.data.FriendlyPerson.friend;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-
-import java.time.ZonedDateTime;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
-import org.assertj.tests.core.api.recursive.data.Human;
-import org.assertj.tests.core.api.recursive.data.Person;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -112,11 +112,11 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     recursiveComparisonConfiguration.compareOnlyFields("name", "home", "dateOfBirth", "neighbour");
 
     // WHEN/THEN
-    ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
-    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
-    ComparisonDifference numberDifference = diff("neighbour.neighbour.home.address.number",
-                                                 actual.neighbour.neighbour.home.address.number,
-                                                 expected.neighbour.neighbour.home.address.number);
+    ComparisonDifference dateOfBirthDifference = javaTypeDiff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
+    ComparisonDifference neighbourNameDifference = javaTypeDiff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
+    ComparisonDifference numberDifference = javaTypeDiff("neighbour.neighbour.home.address.number",
+                                                         actual.neighbour.neighbour.home.address.number,
+                                                         expected.neighbour.neighbour.home.address.number);
     compareRecursivelyFailsWithDifferences(actual, expected, dateOfBirthDifference, neighbourNameDifference, numberDifference);
   }
 
@@ -214,9 +214,9 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     recursiveComparisonConfiguration.compareOnlyFields("deleted");
     // THEN
     compareRecursivelyFailsWithDifferences(staffWithLessFields, staff,
-                                           diff("deleted", staffWithLessFields.deleted, staff.deleted));
+                                           javaTypeDiff("deleted", staffWithLessFields.deleted, staff.deleted));
     compareRecursivelyFailsWithDifferences(staff, staffWithLessFields,
-                                           diff("deleted", staff.deleted, staffWithLessFields.deleted));
+                                           javaTypeDiff("deleted", staff.deleted, staffWithLessFields.deleted));
   }
 
   // https://github.com/assertj/assertj/issues/2610
@@ -228,6 +228,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
       this.b = b;
     }
   }
+
   static class A2 {
     final int a;
 
@@ -243,7 +244,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     A2 expected = new A2(2);
     recursiveComparisonConfiguration.compareOnlyFields("a");
     // WHEN/THEN
-    ComparisonDifference difference = diff("a", actual.a, expected.a);
+    ComparisonDifference difference = javaTypeDiff("a", actual.a, expected.a);
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 
@@ -263,7 +264,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     Student john2 = new Student("John", "math", 1);
     Student rohit = new Student("Rohit", "english", 2);
     Student rohyt = new Student("Rohyt", "english", 2);
-    ComparisonDifference difference = diff("[1].name", "Rohit", "Rohyt");
+    ComparisonDifference difference = javaTypeDiff("[1].name", "Rohit", "Rohyt");
     return Stream.of(arguments(list(john1, rohit), list(john2, rohyt), difference),
                      arguments(array(john1, rohit), array(john2, rohyt), difference),
                      arguments(set(john1, rohit), set(john2, rohyt), difference));
@@ -330,8 +331,8 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     recursiveComparisonConfiguration.compareOnlyFields("neighbour.neighbour.name");
 
     // WHEN/THEN
-    ComparisonDifference difference1 = diff("[0].neighbour.neighbour.name", "John", "Jack");
-    ComparisonDifference difference2 = diff("[1].neighbour.neighbour.name", "Alice", "Joan");
+    ComparisonDifference difference1 = javaTypeDiff("[0].neighbour.neighbour.name", "John", "Jack");
+    ComparisonDifference difference2 = javaTypeDiff("[1].neighbour.neighbour.name", "Alice", "Joan");
     compareRecursivelyFailsWithDifferences(actual, expected, difference1, difference2);
   }
 

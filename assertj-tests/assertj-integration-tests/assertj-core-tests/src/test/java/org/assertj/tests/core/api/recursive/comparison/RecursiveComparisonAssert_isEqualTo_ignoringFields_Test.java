@@ -12,12 +12,16 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Sets.newHashSet;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.tests.core.api.recursive.data.Address;
+import org.assertj.tests.core.api.recursive.data.Giant;
+import org.assertj.tests.core.api.recursive.data.Human;
+import org.assertj.tests.core.api.recursive.data.Person;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,17 +35,12 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.api.recursive.comparison.DualValue;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.assertj.tests.core.api.recursive.data.Address;
-import org.assertj.tests.core.api.recursive.data.Giant;
-import org.assertj.tests.core.api.recursive.data.Human;
-import org.assertj.tests.core.api.recursive.data.Person;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.newHashSet;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @SuppressWarnings("unused")
 class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
@@ -165,7 +164,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
 
     // WHEN/THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
+    ComparisonDifference comparisonDifference = javaTypeDiff("home.address.number", 1, 2);
     compareRecursivelyFailsWithDifferences(actual, expected, comparisonDifference);
   }
 
@@ -180,7 +179,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     expected.home.address.number = 2;
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     // WHEN/THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
+    ComparisonDifference comparisonDifference = javaTypeDiff("home.address.number", 1, 2);
     compareRecursivelyFailsWithDifferences(actual, expected, comparisonDifference);
   }
 
@@ -197,7 +196,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     expected.neighbour = null;
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
     // WHEN/THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
+    ComparisonDifference comparisonDifference = javaTypeDiff("home.address.number", 1, 2);
     compareRecursivelyFailsWithDifferences(actual, expected, comparisonDifference);
   }
 
@@ -301,11 +300,13 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     recursiveComparisonConfiguration.ignoreFields("name", "home.address.number");
 
     // WHEN/THEN
-    ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
-    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
-    ComparisonDifference numberDifference = diff("neighbour.neighbour.home.address.number",
-                                                 actual.neighbour.neighbour.home.address.number,
-                                                 expected.neighbour.neighbour.home.address.number);
+    ComparisonDifference dateOfBirthDifference = javaTypeDiff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
+    ComparisonDifference neighbourNameDifference = javaTypeDiff("neighbour.name",
+                                                                actual.neighbour.name,
+                                                                expected.neighbour.name);
+    ComparisonDifference numberDifference = javaTypeDiff("neighbour.neighbour.home.address.number",
+                                                         actual.neighbour.neighbour.home.address.number,
+                                                         expected.neighbour.neighbour.home.address.number);
     compareRecursivelyFailsWithDifferences(actual, expected, dateOfBirthDifference, neighbourNameDifference, numberDifference);
   }
 
@@ -392,10 +393,10 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*name", ".*home.*number");
 
     // WHEN/THEN
-    ComparisonDifference dateOfBirthDifference = diff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
-    ComparisonDifference neighbourDateOfBirthDifference = diff("neighbour.dateOfBirth",
-                                                               actual.neighbour.dateOfBirth,
-                                                               expected.neighbour.dateOfBirth);
+    ComparisonDifference dateOfBirthDifference = javaTypeDiff("dateOfBirth", actual.dateOfBirth, expected.dateOfBirth);
+    ComparisonDifference neighbourDateOfBirthDifference = javaTypeDiff("neighbour.dateOfBirth",
+                                                                       actual.neighbour.dateOfBirth,
+                                                                       expected.neighbour.dateOfBirth);
     compareRecursivelyFailsWithDifferences(actual, expected,
                                            dateOfBirthDifference, neighbourDateOfBirthDifference);
   }
@@ -469,9 +470,9 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
 
     // WHEN/THEN
     ComparisonDifference addressDifference = diff("home.address", actual.home.address, expected.home.address);
-    ComparisonDifference neighbourDateOfBirthDifference = diff("neighbour.neighbour.dateOfBirth",
-                                                               actual.neighbour.neighbour.dateOfBirth,
-                                                               expected.neighbour.neighbour.dateOfBirth);
+    ComparisonDifference neighbourDateOfBirthDifference = javaTypeDiff("neighbour.neighbour.dateOfBirth",
+                                                                       actual.neighbour.neighbour.dateOfBirth,
+                                                                       expected.neighbour.neighbour.dateOfBirth);
     compareRecursivelyFailsWithDifferences(actual, expected, addressDifference, neighbourDateOfBirthDifference);
   }
 

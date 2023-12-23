@@ -12,21 +12,6 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static com.google.common.collect.Sets.newHashSet;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Maps.newHashMap;
-import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
-
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
-
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.tests.core.api.recursive.data.AlwaysDifferentAddress;
 import org.assertj.tests.core.api.recursive.data.AlwaysDifferentPerson;
@@ -37,6 +22,21 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
+
+import static com.google.common.collect.Sets.newHashSet;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Maps.newHashMap;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest implements PersonData {
@@ -125,10 +125,12 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes("neighb..r", ".*address");
 
     // WHEN/THEN
-    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
-    ComparisonDifference numberDifference = diff("neighbour.home.address.number",
-                                                 actual.neighbour.home.address.number,
-                                                 expected.neighbour.home.address.number);
+    ComparisonDifference neighbourNameDifference = javaTypeDiff("neighbour.name",
+                                                                actual.neighbour.name,
+                                                                expected.neighbour.name);
+    ComparisonDifference numberDifference = javaTypeDiff("neighbour.home.address.number",
+                                                         actual.neighbour.home.address.number,
+                                                         expected.neighbour.home.address.number);
     compareRecursivelyFailsWithDifferences(actual, expected, numberDifference, neighbourNameDifference);
   }
 
@@ -196,10 +198,12 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(AlwaysEqualPerson.class, AlwaysEqualAddress.class);
 
     // WHEN/THEN
-    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
-    ComparisonDifference numberDifference = diff("neighbour.home.address.number",
-                                                 actual.neighbour.home.address.number,
-                                                 expected.neighbour.home.address.number);
+    ComparisonDifference neighbourNameDifference = javaTypeDiff("neighbour.name",
+                                                                actual.neighbour.name,
+                                                                expected.neighbour.name);
+    ComparisonDifference numberDifference = javaTypeDiff("neighbour.home.address.number",
+                                                         actual.neighbour.home.address.number,
+                                                         expected.neighbour.home.address.number);
     compareRecursivelyFailsWithDifferences(actual, expected, numberDifference, neighbourNameDifference);
   }
 
@@ -264,10 +268,12 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("neighbour", "neighbour.home.address");
 
     // WHEN/THEN
-    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
-    ComparisonDifference numberDifference = diff("neighbour.home.address.number",
-                                                 actual.neighbour.home.address.number,
-                                                 expected.neighbour.home.address.number);
+    ComparisonDifference neighbourNameDifference = javaTypeDiff("neighbour.name",
+                                                                actual.neighbour.name,
+                                                                expected.neighbour.name);
+    ComparisonDifference numberDifference = javaTypeDiff("neighbour.home.address.number",
+                                                         actual.neighbour.home.address.number,
+                                                         expected.neighbour.home.address.number);
     compareRecursivelyFailsWithDifferences(actual, expected, numberDifference, neighbourNameDifference);
   }
 

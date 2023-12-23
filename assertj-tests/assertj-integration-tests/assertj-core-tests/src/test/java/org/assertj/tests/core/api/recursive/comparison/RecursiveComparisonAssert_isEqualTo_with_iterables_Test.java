@@ -12,6 +12,19 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.groups.Tuple;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.UnknownFormatConversionException;
+import java.util.stream.Stream;
+
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
@@ -24,19 +37,6 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.api.recursive.comparison.Author.authorsTreeSet;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UnknownFormatConversionException;
-import java.util.stream.Stream;
-
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.groups.Tuple;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest
     implements PersonData {
@@ -87,15 +87,14 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                      Arguments.of(authorsTreeSet(georgeMartin, pratchett), newHashSet(pratchett, georgeMartin)));
   }
 
-  @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / path {2} / value 1 {3} / value 2 {4}")
+  @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / difference {2}")
   @MethodSource
   void should_fail_when_comparing_different_collection_fields(Collection<Author> authors1, Collection<Author> authors2,
-                                                              String path, Object value1, Object value2, String desc) {
+                                                              ComparisonDifference difference) {
     // GIVEN
     WithCollection<Author> actual = new WithCollection<>(authors1);
     WithCollection<Author> expected = new WithCollection<>(authors2);
     // WHEN/THEN
-    ComparisonDifference difference = desc == null ? diff(path, value1, value2) : diff(path, value1, value2, desc);
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 
@@ -105,38 +104,42 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     Author none = null;
     Set<Author> pratchettHashSet = newHashSet(pratchett);
     List<Author> pratchettList = list(pratchett);
-    return Stream.of(Arguments.of(pratchettList, list(georgeMartin), "group[0].name", "Terry Pratchett", "George Martin", null),
-                     Arguments.of(list(pratchett, georgeMartin), pratchettList, "group",
-                                  list(pratchett, georgeMartin), pratchettList,
-                                  "actual and expected values are collections of different size, actual size=2 when expected size=1"),
-                     Arguments.of(pratchettList, list(none), "group[0]", pratchett, null, null),
-                     Arguments.of(list(none), pratchettList, "group[0]", null, pratchett, null),
-                     // actual non ordered vs expected ordered collections
-                     Arguments.of(pratchettHashSet, pratchettList, "group", pratchettHashSet, pratchettList,
-                                  "expected field is an ordered collection but actual field is not (java.util.HashSet), ordered collections are: [java.util.List, java.util.SortedSet, java.util.LinkedHashSet]"),
-                     Arguments.of(authorsTreeSet(pratchett), authorsTreeSet(georgeMartin), "group[0].name",
-                                  "Terry Pratchett", "George Martin", null),
-                     Arguments.of(newHashSet(pratchett, georgeMartin), pratchettHashSet, "group",
-                                  newHashSet(pratchett, georgeMartin), pratchettHashSet,
-                                  "actual and expected values are collections of different size, actual size=2 when expected size=1"),
-                     // hashSet diff is at the collection level, not the element as in ordered collection where we can show the
-                     // pair of different elements, this is why actual and expected are set and not element values.
-                     Arguments.of(pratchettHashSet, newHashSet(none), "group",
-                                  pratchettHashSet, newHashSet(none),
-                                  format("The following expected elements were not matched in the actual HashSet:%n  [null]")),
-                     Arguments.of(newHashSet(none), pratchettHashSet, "group",
-                                  newHashSet(none), pratchettHashSet,
-                                  format("The following expected elements were not matched in the actual HashSet:%n"
-                                         + "  [Author [name=Terry Pratchett]]")),
-                     Arguments.of(pratchettHashSet, newHashSet(georgeMartin), "group",
-                                  pratchettHashSet, newHashSet(georgeMartin),
-                                  format("The following expected elements were not matched in the actual HashSet:%n"
-                                         + "  [Author [name=George Martin]]")),
-                     Arguments.of(authorsTreeSet(pratchett, georgeMartin), authorsTreeSet(pratchett), "group",
-                                  authorsTreeSet(pratchett, georgeMartin), authorsTreeSet(pratchett),
-                                  "actual and expected values are collections of different size, actual size=2 when expected size=1"),
-                     Arguments.of(authorsTreeSet(pratchett), authorsTreeSet(none), "group[0]", pratchett, null, null),
-                     Arguments.of(authorsTreeSet(none), authorsTreeSet(pratchett), "group[0]", null, pratchett, null));
+    return Stream.of(Arguments.of(pratchettList, list(georgeMartin),
+                                  javaTypeDiff("group[0].name", "Terry Pratchett", "George Martin"),
+                                  Arguments.of(list(pratchett, georgeMartin), pratchettList, "group",
+                                               list(pratchett, georgeMartin), pratchettList,
+                                               "actual and expected values are collections of different size, actual size=2 when expected size=1"),
+                                  Arguments.of(pratchettList, list(none), diff("group[0]", pratchett, null, null)),
+                                  Arguments.of(list(none), pratchettList, diff("group[0]", null, pratchett, null)),
+                                  // actual non ordered vs expected ordered collections
+                                  Arguments.of(pratchettHashSet, pratchettList, "group", pratchettHashSet, pratchettList,
+                                               "expected field is an ordered collection but actual field is not (java.util.HashSet), ordered collections are: [java.util.List, java.util.SortedSet, java.util.LinkedHashSet]"),
+                                  Arguments.of(authorsTreeSet(pratchett), authorsTreeSet(georgeMartin),
+                                               javaTypeDiff("group[0].name", "Terry Pratchett", "George Martin")),
+                                  Arguments.of(newHashSet(pratchett, georgeMartin), pratchettHashSet, "group",
+                                               newHashSet(pratchett, georgeMartin), pratchettHashSet,
+                                               "actual and expected values are collections of different size, actual size=2 when expected size=1"),
+                                  // hashSet diff is at the collection level, not the element as in ordered collection where we
+                                  // can show the
+                                  // pair of different elements, this is why actual and expected are set and not element values.
+                                  Arguments.of(pratchettHashSet, newHashSet(none), "group",
+                                               pratchettHashSet, newHashSet(none),
+                                               format("The following expected elements were not matched in the actual HashSet:%n  [null]")),
+                                  Arguments.of(newHashSet(none), pratchettHashSet, "group",
+                                               newHashSet(none), pratchettHashSet,
+                                               format("The following expected elements were not matched in the actual HashSet:%n"
+                                                      + "  [Author [name=Terry Pratchett]]")),
+                                  Arguments.of(pratchettHashSet, newHashSet(georgeMartin), "group",
+                                               pratchettHashSet, newHashSet(georgeMartin),
+                                               format("The following expected elements were not matched in the actual HashSet:%n"
+                                                      + "  [Author [name=George Martin]]")),
+                                  Arguments.of(authorsTreeSet(pratchett, georgeMartin), authorsTreeSet(pratchett), "group",
+                                               authorsTreeSet(pratchett, georgeMartin), authorsTreeSet(pratchett),
+                                               "actual and expected values are collections of different size, actual size=2 when expected size=1"),
+                                  Arguments.of(authorsTreeSet(pratchett), authorsTreeSet(none),
+                                               diff("group[0]", pratchett, null, null)),
+                                  Arguments.of(authorsTreeSet(none), authorsTreeSet(pratchett),
+                                               diff("group[0]", null, pratchett, null))));
   }
 
   @ParameterizedTest(name = "authors {0} / object {1} / path {2} / value 1 {3}/ value 2 {4}")

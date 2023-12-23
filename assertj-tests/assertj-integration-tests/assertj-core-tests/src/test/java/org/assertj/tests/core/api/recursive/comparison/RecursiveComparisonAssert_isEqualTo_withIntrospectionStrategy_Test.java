@@ -12,20 +12,6 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toSet;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.comparison.ComparingFields.COMPARING_FIELDS;
-import static org.assertj.core.api.recursive.comparison.ComparingProperties.COMPARING_PROPERTIES;
-import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
-
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
-
 import org.assertj.core.api.recursive.comparison.ComparingNormalizedFields;
 import org.assertj.core.api.recursive.comparison.ComparingProperties;
 import org.assertj.core.api.recursive.comparison.ComparingSnakeOrCamelCaseFields;
@@ -35,6 +21,20 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.junit.jupiter.api.Test;
+
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
+
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toSet;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.recursive.comparison.ComparingFields.COMPARING_FIELDS;
+import static org.assertj.core.api.recursive.comparison.ComparingProperties.COMPARING_PROPERTIES;
+import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
 class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
@@ -87,10 +87,10 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     recursiveComparisonConfiguration.setIntrospectionStrategy(comparingFieldsNameContaining_o);
 
     // WHEN/THEN
-    ComparisonDifference phoneDifference = diff("phone.value", actual.phone.get(), expected.phone.get());
-    ComparisonDifference neighbourDateOfBirthDifference = diff("neighbour.dateOfBirth",
-                                                               actual.neighbour.dateOfBirth,
-                                                               expected.neighbour.dateOfBirth);
+    ComparisonDifference phoneDifference = javaTypeDiff("phone.value", actual.phone.get(), expected.phone.get());
+    ComparisonDifference neighbourDateOfBirthDifference = javaTypeDiff("neighbour.dateOfBirth",
+                                                                       actual.neighbour.dateOfBirth,
+                                                                       expected.neighbour.dateOfBirth);
     compareRecursivelyFailsWithDifferences(actual, expected, neighbourDateOfBirthDifference, phoneDifference);
   }
 
@@ -314,7 +314,7 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     recursiveComparisonConfiguration.setIntrospectionStrategy(COMPARING_FIELDS);
 
     // WHEN/THEN
-    ComparisonDifference valuesDifference = diff("values[1]", "B", "C");
+    ComparisonDifference valuesDifference = javaTypeDiff("values[1]", "B", "C");
     compareRecursivelyFailsWithDifferences(actual, expected, valuesDifference);
 
     // Note that this succeeds when it should not:

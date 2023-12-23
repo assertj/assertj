@@ -12,18 +12,7 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.lang.String.format;
-import static java.util.Objects.deepEquals;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.StreamSupport.stream;
-import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
-import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
-import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
-import static org.assertj.core.util.IterableUtil.sizeOf;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Sets.newHashSet;
+import org.assertj.core.internal.DeepDifference;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -47,7 +36,18 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
 
-import org.assertj.core.internal.DeepDifference;
+import static java.lang.String.format;
+import static java.util.Objects.deepEquals;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.StreamSupport.stream;
+import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
+import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
+import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
+import static org.assertj.core.util.IterableUtil.sizeOf;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.newHashSet;
 
 /**
  * Based on {@link DeepDifference} but takes a {@link RecursiveComparisonConfiguration}, {@link DeepDifference}
@@ -205,20 +205,20 @@ public class RecursiveComparisonDifferenceCalculator {
    * object (if not .equals() method has been overridden from Object), or it
    * will call the customized .equals() method if it exists.
    * <p>
-   *
+   * <p>
    * This method handles cycles correctly, for example A-&gt;B-&gt;C-&gt;A.
    * Suppose a and a' are two separate instances of the A with the same values
    * for all fields on A, B, and C. Then a.deepEquals(a') will return an empty list. It
    * uses cycle detection storing visited objects in a Set to prevent endless
    * loops.
    *
-   * @param actual Object one to compare
-   * @param expected Object two to compare
+   * @param actual                           Object one to compare
+   * @param expected                         Object two to compare
    * @param recursiveComparisonConfiguration the recursive comparison configuration
    * @return the list of differences found or an empty list if objects are equivalent.
-   *         Equivalent means that all field values of both subgraphs are the same,
-   *         either at the field level or via the respectively encountered overridden
-   *         .equals() methods during traversal.
+   * Equivalent means that all field values of both subgraphs are the same,
+   * either at the field level or via the respectively encountered overridden
+   * .equals() methods during traversal.
    */
   public List<ComparisonDifference> determineDifferences(Object actual, Object expected,
                                                          RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
@@ -364,8 +364,14 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      if (shouldHonorEquals(dualValue, recursiveComparisonConfiguration)) {
-        if (!actualFieldValue.equals(expectedFieldValue)) comparisonState.addDifference(dualValue);
+      boolean shouldHonorJavaTypeEquals = shouldHonorJavaTypeEquals(dualValue);
+      if (shouldHonorJavaTypeEquals || shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration)) {
+        if (!actualFieldValue.equals(expectedFieldValue)) {
+          String description = shouldHonorJavaTypeEquals
+              ? "Compared objects have java types and were thus compared with equals method"
+              : "Compared objects were compared with equals method";
+          comparisonState.addDifference(dualValue, description);
+        }
         continue;
       }
 
@@ -457,8 +463,11 @@ public class RecursiveComparisonDifferenceCalculator {
     // since java 17 we can't introspect java types and get their fields so by default we compare them with equals
     // unless for some container like java types: iterables, array, optional, atomic values where we take the contained values
     // through accessors and register them in the recursive comparison.
-    boolean shouldHonorJavaTypeEquals = dualValue.hasSomeJavaTypeValue() && !dualValue.isExpectedAContainer();
-    return shouldHonorJavaTypeEquals || shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration);
+    return shouldHonorJavaTypeEquals(dualValue) || shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration);
+  }
+
+  private static boolean shouldHonorJavaTypeEquals(DualValue dualValue) {
+    return dualValue.hasSomeJavaTypeValue() && !dualValue.isExpectedAContainer();
   }
 
   private static boolean shouldHonorOverriddenEquals(DualValue dualValue,
@@ -827,7 +836,7 @@ public class RecursiveComparisonDifferenceCalculator {
    *
    * @param c Class to check.
    * @return true, if the passed in Class has a .equals() method somewhere
-   *         between itself and just below Object in it's inheritance.
+   * between itself and just below Object in it's inheritance.
    */
   static boolean hasOverriddenEquals(Class<?> c) {
     if (customEquals.containsKey(c)) {
@@ -855,11 +864,13 @@ public class RecursiveComparisonDifferenceCalculator {
     final Object expectedFieldValue = dualValue.expected;
     // check field comparators as they take precedence over type comparators
     Comparator fieldComparator = recursiveComparisonConfiguration.getComparatorForField(fieldName);
-    if (fieldComparator != null) return areEqualUsingComparator(actualFieldValue, expectedFieldValue, fieldComparator, fieldName);
+    if (fieldComparator != null)
+      return areEqualUsingComparator(actualFieldValue, expectedFieldValue, fieldComparator, fieldName);
     // check if a type comparators exist for the field type
     Class fieldType = actualFieldValue != null ? actualFieldValue.getClass() : expectedFieldValue.getClass();
     Comparator typeComparator = recursiveComparisonConfiguration.getComparatorForType(fieldType);
-    if (typeComparator != null) return areEqualUsingComparator(actualFieldValue, expectedFieldValue, typeComparator, fieldName);
+    if (typeComparator != null)
+      return areEqualUsingComparator(actualFieldValue, expectedFieldValue, typeComparator, fieldName);
     // default comparison using equals
     return deepEquals(actualFieldValue, expectedFieldValue);
   }

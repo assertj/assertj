@@ -12,35 +12,9 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.entry;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Maps.newHashMap;
-import static org.assertj.tests.core.api.recursive.comparison.ColorWithCode.RED;
-import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.tests.core.testkit.Maps.mapOf;
-import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
-
-import java.io.IOException;
-import java.net.InetAddress;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import javax.xml.datatype.DatatypeFactory;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Stopwatch;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
@@ -58,9 +32,33 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Stopwatch;
+import javax.xml.datatype.DatatypeFactory;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.entry;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Maps.newHashMap;
+import static org.assertj.tests.core.api.recursive.comparison.ColorWithCode.RED;
+import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.tests.core.testkit.Maps.mapOf;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -120,7 +118,9 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     expected.name = "John";
     expected.home.address.number = 2;
     // WHEN/THEN
-    ComparisonDifference numberDifference = diff("home.address.number", actual.home.address.number, expected.home.address.number);
+    ComparisonDifference numberDifference = javaTypeDiff("home.address.number",
+                                                         actual.home.address.number,
+                                                         expected.home.address.number);
     compareRecursivelyFailsWithDifferences(actual, expected, numberDifference);
   }
 
@@ -142,7 +142,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     Person actual = new Person("foo");
     Person expected = new Person("%foo");
     // WHEN/THEN
-    ComparisonDifference nameDifference = diff("name", actual.name, expected.name);
+    ComparisonDifference nameDifference = javaTypeDiff("name", actual.name, expected.name);
     compareRecursivelyFailsWithDifferences(actual, expected, nameDifference);
   }
 
@@ -154,8 +154,10 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     Person expected = new Person("Jack");
     expected.home.address.number = 2;
     // WHEN/THEN
-    ComparisonDifference nameDifference = diff("name", actual.name, expected.name);
-    ComparisonDifference numberDifference = diff("home.address.number", actual.home.address.number, expected.home.address.number);
+    ComparisonDifference nameDifference = javaTypeDiff("name", actual.name, expected.name);
+    ComparisonDifference numberDifference = javaTypeDiff("home.address.number",
+                                                         actual.home.address.number,
+                                                         expected.home.address.number);
     compareRecursivelyFailsWithDifferences(actual, expected, numberDifference, nameDifference);
   }
 
@@ -289,7 +291,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     expected.friends = list(expectedFriend);
 
     // WHEN/THEN
-    ComparisonDifference friendNumberDifference = diff("friends[0].home.address.number", 99, 10);
+    ComparisonDifference friendNumberDifference = javaTypeDiff("friends[0].home.address.number", 99, 10);
     compareRecursivelyFailsWithDifferences(actual, expected, friendNumberDifference);
   }
 
@@ -384,8 +386,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     JsonNode actual = om.readTree("{\"someNotImportantValue\":1,\"importantValue\":\"10\"}");
     JsonNode expected = om.readTree("{\"someNotImportantValue\":10,\"importantValue\":\"1\"}");
     // WHEN/THEN
-    ComparisonDifference difference1 = diff("_children.importantValue._value", "10", "1");
-    ComparisonDifference difference2 = diff("_children.someNotImportantValue._value", 1, 10);
+    ComparisonDifference difference1 = javaTypeDiff("_children.importantValue._value", "10", "1");
+    ComparisonDifference difference2 = javaTypeDiff("_children.someNotImportantValue._value", 1, 10);
     compareRecursivelyFailsWithDifferences(actual, expected, difference1, difference2);
   }
 

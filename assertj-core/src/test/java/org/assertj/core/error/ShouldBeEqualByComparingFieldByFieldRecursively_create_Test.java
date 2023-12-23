@@ -12,21 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.Integer.toHexString;
-import static java.lang.String.format;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
-import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
-import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
-import static org.assertj.core.internal.DeepDifference.determineDifferences;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
@@ -38,6 +23,21 @@ import org.assertj.core.presentation.Representation;
 import org.assertj.core.testkit.Jedi;
 import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.Test;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
+
+import static java.lang.Integer.toHexString;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
+import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
+import static org.assertj.core.internal.DeepDifference.determineDifferences;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
 
@@ -225,6 +225,7 @@ class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                    "field/property 'last' differ:%n" +
                                    "- actual value  : \"Johnson\"%n" +
                                    "- expected value: \"Ginobili\"%n" +
+                                   "Compared objects have java types and were thus compared with equals method%n" +
                                    "%n" +
                                    "The recursive comparison was performed with this configuration:%n%s",
                                    CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));

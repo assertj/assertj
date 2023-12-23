@@ -12,7 +12,11 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -20,10 +24,7 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import static org.assertj.core.api.Assertions.assertThat;
 
 class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -43,12 +44,12 @@ class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveCo
                      Arguments.of(new BookWithOptionalCoAuthor(), new BookWithOptionalCoAuthor()));
   }
 
-  @ParameterizedTest(name = "author 1 {0} / author 2 {1} / path {2} / value 1 {3}/ value 2 {4}")
+  @ParameterizedTest(name = "author 1 {0} / author 2 {1} / diff {2}")
   @MethodSource("differentBookWithOptionalCoAuthors")
   void should_fail_when_comparing_different_optional_fields(BookWithOptionalCoAuthor actual,
-                                                            BookWithOptionalCoAuthor expected, String path, Object value1,
-                                                            Object value2) {
-    compareRecursivelyFailsWithDifferences(actual, expected, diff(path, value1, value2));
+                                                            BookWithOptionalCoAuthor expected,
+                                                            ComparisonDifference diff) {
+    compareRecursivelyFailsWithDifferences(actual, expected, diff);
   }
 
   private static Stream<Arguments> differentBookWithOptionalCoAuthors() {
@@ -56,20 +57,20 @@ class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveCo
     BookWithOptionalCoAuthor georgeMartin = new BookWithOptionalCoAuthor("George Martin");
 
     return Stream.of(Arguments.of(pratchett, georgeMartin,
-                                  "coAuthor.value.name", "Terry Pratchett", "George Martin"),
+                                  javaTypeDiff("coAuthor.value.name", "Terry Pratchett", "George Martin")),
                      Arguments.of(pratchett, new BookWithOptionalCoAuthor(null),
-                                  "coAuthor", Optional.of(new Author("Terry Pratchett")), Optional.empty()),
+                                  diff("coAuthor", Optional.of(new Author("Terry Pratchett")), Optional.empty())),
                      Arguments.of(new BookWithOptionalCoAuthor(null), pratchett,
-                                  "coAuthor", Optional.empty(), Optional.of(new Author("Terry Pratchett"))),
+                                  diff("coAuthor", Optional.empty(), Optional.of(new Author("Terry Pratchett")))),
                      Arguments.of(new BookWithOptionalCoAuthor("Terry Pratchett", 1, 2L, 3.0),
                                   new BookWithOptionalCoAuthor("Terry Pratchett", 2, 2L, 3.0),
-                                  "numberOfPages", OptionalInt.of(1), OptionalInt.of(2)),
+                                  javaTypeDiff("numberOfPages", OptionalInt.of(1), OptionalInt.of(2))),
                      Arguments.of(new BookWithOptionalCoAuthor("Terry Pratchett", 1, 2L, 3.0),
                                   new BookWithOptionalCoAuthor("Terry Pratchett", 1, 4L, 3.0),
-                                  "bookId", OptionalLong.of(2L), OptionalLong.of(4L)),
+                                  javaTypeDiff("bookId", OptionalLong.of(2L), OptionalLong.of(4L))),
                      Arguments.of(new BookWithOptionalCoAuthor("Terry Pratchett", 1, 2L, 3.0),
                                   new BookWithOptionalCoAuthor("Terry Pratchett", 1, 2L, 6.0),
-                                  "price", OptionalDouble.of(3.0), OptionalDouble.of(6.0)));
+                                  javaTypeDiff("price", OptionalDouble.of(3.0), OptionalDouble.of(6.0))));
   }
 
   @Test
@@ -81,7 +82,7 @@ class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveCo
     // WHEN/THEN
     compareRecursivelyFailsWithDifferences(actual, expected,
                                            diff("bookId", null, 0l),
-                                           diff("coAuthor", Optional.of(pratchett), pratchett),
+                                           javaTypeDiff("coAuthor", Optional.of(pratchett), pratchett),
                                            diff("numberOfPages", null, 0),
                                            diff("price", null, 0.0));
   }

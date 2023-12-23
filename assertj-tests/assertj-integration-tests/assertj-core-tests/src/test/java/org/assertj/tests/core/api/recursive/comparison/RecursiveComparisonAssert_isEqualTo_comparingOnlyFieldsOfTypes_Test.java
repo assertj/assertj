@@ -12,16 +12,6 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Arrays.array;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
-
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.stream.Stream;
-
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.tests.core.api.recursive.data.Home;
 import org.assertj.tests.core.api.recursive.data.Person;
@@ -30,6 +20,16 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import java.util.OptionalDouble;
+import java.util.OptionalInt;
+import java.util.OptionalLong;
+import java.util.stream.Stream;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Arrays.array;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -122,16 +122,17 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
   }
 
   private static Stream<Arguments> failComparingTopLevelFields() {
-    return Stream.of(arguments(billie, john, types(String.class), "different name", array(diff("name", billie.name, john.name))),
+    return Stream.of(arguments(billie, john, types(String.class), "different name",
+                               array(javaTypeDiff("name", billie.name, john.name))),
                      arguments(billie, anotherBillie, types(OptionalInt.class, OptionalDouble.class), "different age and weight",
-                               array(diff("age", billie.age, anotherBillie.age),
-                                     diff("weight", billie.weight, anotherBillie.weight))),
+                               array(javaTypeDiff("age", billie.age, anotherBillie.age),
+                                     javaTypeDiff("weight", billie.weight, anotherBillie.weight))),
                      arguments(john, jill, types(Person.class),
                                "different neighbour.name, neighbour.age and neighbour.home.address.number",
-                               array(diff("neighbour.age", john.neighbour.age, jill.neighbour.age),
-                                     diff("neighbour.home.address.number", john.neighbour.home.address.number,
-                                          jill.neighbour.home.address.number),
-                                     diff("neighbour.name", john.neighbour.name, jill.neighbour.name))));
+                               array(javaTypeDiff("neighbour.age", john.neighbour.age, jill.neighbour.age),
+                                     javaTypeDiff("neighbour.home.address.number", john.neighbour.home.address.number,
+                                                  jill.neighbour.home.address.number),
+                                     javaTypeDiff("neighbour.name", john.neighbour.name, jill.neighbour.name))));
   }
 
   @Test
@@ -148,8 +149,8 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(OptionalInt.class);
     recursiveComparisonConfiguration.compareOnlyFields("weight");
     // WHEN/THEN
-    ComparisonDifference ageDifference = diff("age", billie.age, anotherBillie.age);
-    ComparisonDifference weightDifference = diff("weight", billie.weight, anotherBillie.weight);
+    ComparisonDifference ageDifference = javaTypeDiff("age", billie.age, anotherBillie.age);
+    ComparisonDifference weightDifference = javaTypeDiff("weight", billie.weight, anotherBillie.weight);
     compareRecursivelyFailsWithDifferences(billie, anotherBillie, ageDifference, weightDifference);
   }
 
@@ -168,7 +169,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class, OptionalLong.class); // name and id fields
     recursiveComparisonConfiguration.ignoreFields("id", "neighbour");
     // WHEN/THEN
-    ComparisonDifference idDifference = diff("name", john.name, jill.name);
+    ComparisonDifference idDifference = javaTypeDiff("name", john.name, jill.name);
     compareRecursivelyFailsWithDifferences(john, jill, idDifference);
   }
 
@@ -187,7 +188,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class, OptionalInt.class, OptionalDouble.class);
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("w..ght", "neighbour");
     // WHEN/THEN
-    ComparisonDifference nameDifference = diff("name", john.name, jill.name);
+    ComparisonDifference nameDifference = javaTypeDiff("name", john.name, jill.name);
     compareRecursivelyFailsWithDifferences(john, jill, nameDifference);
   }
 
@@ -207,7 +208,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(OptionalInt.class, OptionalDouble.class);
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(OptionalInt.class);
     // WHEN/THEN
-    ComparisonDifference weightDifference = diff("weight", billie.weight, anotherBillie.weight);
+    ComparisonDifference weightDifference = javaTypeDiff("weight", billie.weight, anotherBillie.weight);
     compareRecursivelyFailsWithDifferences(billie, anotherBillie, weightDifference);
   }
 
@@ -233,7 +234,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     moriarty.home.address.number = 222;
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(Home.class);
     // WHEN/THEN
-    compareRecursivelyFailsWithDifferences(sherlock, moriarty, diff("home.address.number", 221, 222));
+    compareRecursivelyFailsWithDifferences(sherlock, moriarty, javaTypeDiff("home.address.number", 221, 222));
   }
 
   @Test
@@ -243,7 +244,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     Dog snoopy = new Dog(new Breed("Beagle"));
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class);
     // WHEN/THEN
-    ComparisonDifference weightDifference = diff("breed.name", lassie.breed.name, snoopy.breed.name);
+    ComparisonDifference weightDifference = javaTypeDiff("breed.name", lassie.breed.name, snoopy.breed.name);
     compareRecursivelyFailsWithDifferences(lassie, snoopy, weightDifference);
   }
 
