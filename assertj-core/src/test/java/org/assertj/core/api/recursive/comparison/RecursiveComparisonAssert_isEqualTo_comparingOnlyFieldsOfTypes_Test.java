@@ -20,7 +20,6 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.Home;
 import org.assertj.core.internal.objects.data.Person;
@@ -262,7 +261,10 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     // WHEN
     compareRecursivelyFailsAsExpected(sherlock, moriarty);
     // THEN
-    ComparisonDifference streetNumberDifference = diff("home.address.number", 221, 222);
+    ComparisonDifference streetNumberDifference = diff("home.address.number",
+                                                       221,
+                                                       222,
+                                                       "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(sherlock, moriarty, streetNumberDifference);
 
   }
@@ -276,7 +278,10 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     // WHEN
     compareRecursivelyFailsAsExpected(lassie, snoopy);
     // THEN
-    ComparisonDifference weightDifference = diff("breed.name", lassie.breed.name, snoopy.breed.name);
+    ComparisonDifference weightDifference = diff("breed.name",
+                                                 lassie.breed.name,
+                                                 snoopy.breed.name,
+                                                 "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(lassie, snoopy, weightDifference);
   }
 
