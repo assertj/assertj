@@ -53,7 +53,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * assertThat(&quot;abc&quot;).isLessThan(&quot;bcd&quot;)
    *                  .isLessThan(&quot;b&quot;)
    *                  .isLessThan(&quot;abca&quot;)
-   *                  .usingComparator(CASE_INSENSITIVE)
+   *                  .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isLessThan(&quot;BCD&quot;);
    *
    * // assertions fail
@@ -84,7 +84,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *                  .isLessThanOrEqualTo(&quot;abc&quot;)
    *                  .isLessThanOrEqualTo(&quot;b&quot;)
    *                  .isLessThanOrEqualTo(&quot;abca&quot;)
-   *                  .usingComparator(CASE_INSENSITIVE)
+   *                  .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isLessThanOrEqualTo(&quot;ABC&quot;);
    *
    * // assertions fail
@@ -113,7 +113,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * assertThat(&quot;xyz&quot;).isGreaterThan(&quot;abc&quot;)
    *                  .isGreaterThan(&quot;xy&quot;)
    *                  .isGreaterThan(&quot;ABC&quot;);
-   * assertThat(&quot;XYZ&quot;).usingComparator(CASE_INSENSITIVE)
+   * assertThat(&quot;XYZ&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isGreaterThan(&quot;abc&quot;);
    *
    * // assertions fail
@@ -144,7 +144,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *                  .isGreaterThanOrEqualTo(&quot;xyz&quot;)
    *                  .isGreaterThanOrEqualTo(&quot;xy&quot;)
    *                  .isGreaterThanOrEqualTo(&quot;ABC&quot;);
-   * assertThat(&quot;XYZ&quot;).usingComparator(CASE_INSENSITIVE)
+   * assertThat(&quot;XYZ&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isGreaterThanOrEqualTo(&quot;abc&quot;);
    *
    * // assertions fail
@@ -175,7 +175,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *                 .isBetween(&quot;aa&quot;, &quot;ab&quot;)
    *                 .isBetween(&quot;ab&quot;, &quot;ab&quot;)
    *                 .isBetween(&quot;a&quot;, &quot;c&quot;)
-   *                 .usingComparator(CASE_INSENSITIVE)
+   *                 .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                 .isBetween("AA", "AC");
    *
    * // assertions fail
@@ -206,7 +206,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <pre><code class='java'> // assertions succeed
    * assertThat(&quot;ab&quot;).isStrictlyBetween(&quot;aa&quot;, &quot;ac&quot;)
    *                 .isStrictlyBetween(&quot;a&quot;, &quot;c&quot;)
-   *                 .usingComparator(CASE_INSENSITIVE)
+   *                 .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                 .isStrictlyBetween("AA", "AC");
    *
    * // assertions fail
@@ -314,7 +314,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <p>
    * Examples :
    * <pre><code class='java'> // assertions succeed
-   * assertThat(&quot;abc&quot;).usingComparator(CASE_INSENSITIVE)
+   * assertThat(&quot;abc&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isEqualTo(&quot;Abc&quot;)
    *                  .isEqualTo(&quot;ABC&quot;);
    *
@@ -339,7 +339,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <p>
    * Examples :
    * <pre><code class='java'> // assertions succeed
-   * assertThat(&quot;abc&quot;).usingComparator(CASE_INSENSITIVE, &quot;String case insensitive comparator&quot;)
+   * assertThat(&quot;abc&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER, &quot;String case insensitive comparator&quot;)
    *                  .isEqualTo(&quot;Abc&quot;)
    *                  .isEqualTo(&quot;ABC&quot;);
    *
