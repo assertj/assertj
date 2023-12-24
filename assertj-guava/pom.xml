@@ -195,8 +195,9 @@
           </links>
           <nohelp>true</nohelp>
           <bottom><![CDATA[
+            Copyright &#169; {currentYear} {organizationName}. All rights reserved.
             <link rel="stylesheet" href="./assertj-javadoc.css"">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
             <script>hljs.highlightAll();</script>
         ]]></bottom>
         </configuration>
