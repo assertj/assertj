@@ -10,45 +10,45 @@
  */
 :root {
     /* body, block and code fonts */
-    --body-font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
-    --block-font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
+    --body-font-family: Verdana, Geneva, sans-serif;
+    --block-font-family: Verdana, Geneva, serif;
     --code-font-family: 'DejaVu Sans Mono', monospace;
     /* Base font sizes for body and code elements */
     --body-font-size: 14px;
     --code-font-size: 14px;
     /* Text colors for body and block elements */
-    --body-text-color: #353833;
-    --block-text-color: #474747;
+    --body-text-color: #000000;
+    --block-text-color: #000000;
     /* Background colors for various structural elements */
-    --body-background-color: #ffffff;
-    --section-background-color: #f8f8f8;
-    --detail-background-color: #ffffff;
+    --body-background-color: #edd9a6;
+    --section-background-color: #e9d195;
+    --detail-background-color: #edd9a6;
     /* Colors for navigation bar and table captions */
-    --navbar-background-color: #4D7A97;
-    --navbar-text-color: #ffffff;
+    --navbar-background-color: #232323;
+    --navbar-text-color: #edd9a6;
     /* Background color for subnavigation and various headers */
-    --subnav-background-color: #dee3e9;
+    --subnav-background-color: #e5c880;
     /* Background and text colors for selected tabs and navigation items */
-    --selected-background-color: #f8981d;
-    --selected-text-color: #253441;
-    --selected-link-color: #1f389c;
+    --selected-background-color: #e5c880;
+    --selected-text-color: #000000;
+    --selected-link-color: #861203;
     /* Background colors for generated tables */
-    --even-row-color: #ffffff;
-    --odd-row-color: #eeeeef;
+    --even-row-color: #edd9a6;
+    --odd-row-color: #e7ce8e;
     /* Text color for page title */
-    --title-color: #2c4557;
+    --title-color: #000000;
     /* Text colors for links */
-    --link-color: #4A6782;
-    --link-color-active: #bb7a2a;
+    --link-color: #861203;
+    --link-color-active: #641003;
     /* Snippet colors */
     --snippet-background-color: #ebecee;
     --snippet-text-color: var(--block-text-color);
     --snippet-highlight-color: #f7c590;
     /* Border colors for structural elements and user defined tables */
-    --border-color: #ededed;
+    --border-color: #e5c880;
     --table-border-color: #000000;
     /* Search input colors */
-    --search-input-background-color: #ffffff;
+    --search-input-background-color: #edd9a6;
     --search-input-text-color: #000000;
     --search-input-placeholder-color: #909090;
     /* Highlight color for active search tag target */
@@ -908,7 +908,7 @@ main a[href*="://"]:focus::after {
     background-image:url('data:image/svg+xml; utf8, \
       <svg xmlns="http://www.w3.org/2000/svg" width="768" height="768">\
         <path d="M584 664H104V184h216V80H0v688h688V448H584zM384 0l132 \
-        132-240 240 120 120 240-240 132 132V0z" fill="%23bb7a2a"/>\
+        132-240 240 120 120 240-240 132 132V0z" fill="%23470c03"/>\
       </svg>');
 }
 /*
@@ -1269,4 +1269,113 @@ pre.snippet .bold {
 pre.snippet .highlighted {
     background-color: var(--snippet-highlight-color);
     border-radius: 10%;
+}
+
+/*
+
+Railscasts-like style (c) Visoft, Inc. (Damien White)
+
+*/
+
+.hljs {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: #232323;
+    color: #e6e1dc;
+    /* added by us */
+    border-radius:8px;
+}
+
+.hljs-comment,
+.hljs-quote {
+    color: #bc9458;
+    font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag {
+    color: #c26230;
+}
+
+.hljs-string,
+.hljs-number,
+.hljs-regexp,
+.hljs-variable,
+.hljs-template-variable {
+    color: #a5c261;
+}
+
+.hljs-subst {
+    color: #519f50;
+}
+
+.hljs-tag,
+.hljs-name {
+    color: #e8bf6a;
+}
+
+.hljs-type {
+    color: #ffc66d;
+}
+
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-attr,
+.hljs-link {
+    color: #6d9cbe;
+}
+
+.hljs-params {
+    color: #d0d0ff;
+}
+
+.hljs-attribute {
+    color: #cda869;
+}
+
+.hljs-meta {
+    color: #9b859d;
+}
+
+.hljs-title,
+.hljs-section {
+    color: #ffc66d;
+}
+
+.hljs-addition {
+    background-color: #144212;
+    color: #e6e1dc;
+    display: inline-block;
+    width: 100%;
+}
+
+.hljs-deletion {
+    background-color: #600;
+    color: #e6e1dc;
+    display: inline-block;
+    width: 100%;
+}
+
+.hljs-selector-class {
+    color: #9b703f;
+}
+
+.hljs-selector-id {
+    color: #8b98ab;
+}
+
+.hljs-emphasis {
+    font-style: italic;
+}
+
+.hljs-strong {
+    font-weight: bold;
+}
+
+.hljs-link {
+    text-decoration: underline;
 }
