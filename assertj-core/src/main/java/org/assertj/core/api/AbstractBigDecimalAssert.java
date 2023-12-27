@@ -12,17 +12,18 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Objects.requireNonNull;
-
-import java.math.BigDecimal;
-import java.util.Comparator;
-
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
+
+import java.math.BigDecimal;
+import java.util.Comparator;
+
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldHavePrecision.shouldHavePrecision;
 
 /**
  * Base class for all implementations of assertions for {@link BigDecimal}s.
@@ -276,12 +277,35 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.00&quot;)).hasScaleOf(3);
    * assertThat(new BigDecimal(&quot;8.00&quot;).setScale(4)).hasScaleOf(2);</code></pre>
-   * 
+   *
    * @param expectedScale the expected scale value.
    * @return {@code this} assertion object.
    */
   public SELF hasScaleOf(int expectedScale) {
     bigDecimals.assertHasScale(info, actual, expectedScale);
+    return myself;
+  }
+
+  /**
+   * Verifies the {@code BigDecimal} under test has the given precision.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).hasPrecisionOf(3);
+   * assertThat(new BigDecimal(&quot;0.05&quot;)).hasPrecisionOf(1);
+   *
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;8.00&quot;)).hasPrecisionOf(1);
+   * assertThat(new BigDecimal(&quot;0.05&quot;)).hasPrecisionOf(2);</code></pre>
+   *
+   * @param expectedPrecision the expected precision value.
+   * @return {@code this} assertion object.
+   */
+  public SELF hasPrecisionOf(int expectedPrecision) {
+    isNotNull();
+    if (actual.precision() != expectedPrecision) {
+      throwAssertionError(shouldHavePrecision(actual, expectedPrecision));
+    }
     return myself;
   }
 
@@ -522,5 +546,31 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   public AbstractBigDecimalScaleAssert<SELF> scale() {
     requireNonNull(actual, "Can not perform assertions on the scale of a null BigDecimal");
     return new BigDecimalScaleAssert(myself);
+  }
+
+  /**
+   * Returns an {@code Assert} object that allows performing assertions on the precision of the {@link BigDecimal} under test.
+   * <p>
+   * Once this method is called, the object under test is no longer the {@link BigDecimal} but its precision.
+   * To perform assertions on the {@link BigDecimal}, call {@link AbstractBigDecimalPrecisionAssert#returnToBigDecimal()}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> BigDecimal bgDecimal = new BigDecimal(&quot;9.3231&quot;);
+   *
+   * // assertions succeed
+   * assertThat(bgDecimal).precision().isGreaterThan(1)
+   *                                  .isLessThan(6)
+   *                      .returnToBigDecimal().isPositive();
+   *
+   * // assertions fails
+   * assertThat(bgDecimal).precision().isBetween(6, 8);</code></pre>
+   *
+   * @return AbstractBigDecimalPrecisionAssert built with the {@code BigDecimal}'s precision.
+   * @throws NullPointerException if the given {@code BigDecimal} is {@code null}.
+   */
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  public AbstractBigDecimalPrecisionAssert<SELF> precision() {
+    isNotNull();
+    return (AbstractBigDecimalPrecisionAssert<SELF>) new BigDecimalPrecisionAssert(myself).withAssertionState(myself);
   }
 }
