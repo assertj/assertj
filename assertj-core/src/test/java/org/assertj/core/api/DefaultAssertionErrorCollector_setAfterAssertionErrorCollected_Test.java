@@ -26,9 +26,9 @@ class DefaultAssertionErrorCollector_setAfterAssertionErrorCollected_Test {
     softly.setAfterAssertionErrorCollected(err -> stringList.add(err.getMessage()));
     softly.setAfterAssertionErrorCollected(throwableList::add);
     softly.assertThat(1)
-      .isEqualTo(1_000)
-      .isBetween(7, 15)
-      .isEven();
+          .isEqualTo(1_000)
+          .isBetween(7, 15)
+          .isEven();
     // THEN
     then(stringList).hasSameSizeAs(throwableList).hasSize(3);
   }
