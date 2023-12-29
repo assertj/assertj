@@ -15,9 +15,7 @@ package org.assertj.core.api;
 import static java.util.Collections.synchronizedList;
 import static java.util.Collections.unmodifiableList;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.assertj.core.util.Throwables;
 
@@ -28,12 +26,13 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
   private volatile boolean wasSuccess = true;
   private List<AssertionError> collectedAssertionErrors = synchronizedList(new ArrayList<>());
 
-  private AfterAssertionErrorCollected callback = this;
+  private Set<AfterAssertionErrorCollected> callbacks = new HashSet<>();
 
   private AssertionErrorCollector delegate = null;
 
   public DefaultAssertionErrorCollector() {
     super();
+    callbacks.add(this);
   }
 
   // I think ideally, this would be set in the constructor and made final;
@@ -57,7 +56,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
     } else {
       delegate.collectAssertionError(error);
     }
-    callback.onAssertionErrorCollected(error);
+    callbacks.forEach(callback -> callback.onAssertionErrorCollected(error));
   }
 
   /**
@@ -114,7 +113,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    * @since 3.17.0
    */
   public void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
-    callback = afterAssertionErrorCollected;
+    callbacks.add(afterAssertionErrorCollected);
   }
 
   @Override
