@@ -21,6 +21,16 @@ public class ShouldContainKey extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldContainKey}</code>.
+   * @param actual the actual key in the failed assertion.
+   * @param value the key not found
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldContainKey(Object actual, Object value) {
+    return new ShouldContainKey(actual, value);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldContainKey}</code>.
    *
    * @param actual the actual map in the failed assertion.
    * @param keyCondition key condition.
@@ -28,6 +38,15 @@ public class ShouldContainKey extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldContainKey(Object actual, Condition<?> keyCondition) {
     return new ShouldContainKey(actual, keyCondition);
+  }
+
+  private ShouldContainKey(Object actual, Object value) {
+    super("%n" +
+          "Expecting actual:%n" +
+          "  %s%n" +
+          "to contain key:%n" +
+          "  %s",
+          actual, value);
   }
 
   private ShouldContainKey(Object actual, Condition<?> keyCondition) {

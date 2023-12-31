@@ -13,48 +13,46 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static java.util.Collections.singleton;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
+import static org.assertj.core.error.ShouldNotContainValues.shouldNotContainValues;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.util.Sets.set;
 
-import java.util.Map;
-
-import org.assertj.core.api.TestCondition;
-import org.assertj.core.description.TextDescription;
+import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-class ShouldContainKey_create_Test {
+class ShouldNotContainValues_create_Test {
 
   @Test
   void should_create_error_message() {
     // GIVEN
-    Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-    ErrorMessageFactory factory = shouldContainKey(map, "VeryOld");
+    ErrorMessageFactory factory = shouldNotContainValues(mapOf(entry("name", "Yoda"), entry("color", "green")),
+                                                         singleton("C3PO"));
     // WHEN
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    String message = factory.create(new TestDescription("Test"), StandardRepresentation.STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
                                    "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
-                                   "to contain key:%n" +
-                                   "  \"VeryOld\""));
+                                   "not to contain value:%n" +
+                                   "  \"C3PO\""));
   }
 
   @Test
-  void should_create_error_message_with_key_condition() {
+  void should_create_error_message_multiple_values() {
     // GIVEN
-    Map<?, ?> map = mapOf(entry("name", "Yoda"), entry("color", "green"));
-    ErrorMessageFactory factory = shouldContainKey(map, new TestCondition<>("test condition"));
+    ErrorMessageFactory factory = shouldNotContainValues(mapOf(entry("name", "Yoda"), entry("color", "green")),
+                                                         set("C3PO", "gold"));
     // WHEN
-    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    String message = factory.create(new TestDescription("Test"), StandardRepresentation.STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
                                    "  {\"color\"=\"green\", \"name\"=\"Yoda\"}%n" +
-                                   "to contain a key satisfying:%n" +
-                                   "  test condition"));
+                                   "not to contain values:%n" +
+                                   "  [\"C3PO\", \"gold\"]"));
   }
-
 }

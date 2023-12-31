@@ -31,6 +31,7 @@ import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldContainOnlyKeys.shouldContainOnlyKeys;
+import static org.assertj.core.error.ShouldContainOnlyValues.shouldContainOnlyValues;
 import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
@@ -38,6 +39,7 @@ import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
 import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
 import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
+import static org.assertj.core.error.ShouldNotContainValues.shouldNotContainValues;
 import static org.assertj.core.internal.Arrays.assertIsArray;
 import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
 import static org.assertj.core.internal.CommonValidations.checkSizeGreaterThan;
@@ -49,6 +51,7 @@ import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsEmpty;
+import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -80,6 +83,12 @@ import org.assertj.core.util.VisibleForTesting;
  * @author dorzey
  */
 public class Maps {
+
+  private static final String KEYS_ARRAY = "array of keys";
+  private static final String KEYS_ITERABLE = "keys iterable";
+
+  private static final String VALUES_ARRAY = "array of values";
+  private static final String VALUES_ITERABLE = "values iterable";
 
   private static final Maps INSTANCE = new Maps();
 
@@ -323,18 +332,26 @@ public class Maps {
     if (!found.isEmpty()) throw failures.failure(info, shouldNotContain(actual, entries, found));
   }
 
+  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
+    assertContainsKeys(info, actual, array(key));
+  }
+
   public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
+    assertContainsKeys(info, actual, KEYS_ARRAY, keys);
+  }
+
+  public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, Iterable<? extends K> keys) {
+    assertContainsKeys(info, actual, KEYS_ITERABLE, toArray(keys));
+  }
+
+  private <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, String placeholderForErrorMessages, K[] keys) {
     assertNotNull(info, actual);
-    requireNonNull(keys, keysToLookForIsNull("array of keys"));
+    requireNonNull(keys, keysToLookForIsNull(placeholderForErrorMessages));
     if (actual.isEmpty() && keys.length == 0) return;
-    failIfEmpty(keys, keysToLookForIsEmpty("array of keys"));
+    failIfEmpty(keys, keysToLookForIsEmpty(placeholderForErrorMessages));
 
     Set<K> notFound = getNotFoundKeys(actual, keys);
     if (!notFound.isEmpty()) throw failures.failure(info, shouldContainKeys(actual, notFound));
-  }
-
-  public <K, V> void assertContainsKey(AssertionInfo info, Map<K, V> actual, K key) {
-    assertContainsKeys(info, actual, array(key));
   }
 
   public <K, V> void assertDoesNotContainKey(AssertionInfo info, Map<K, V> actual, K key) {
@@ -343,18 +360,27 @@ public class Maps {
   }
 
   public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
+    assertDoesNotContainKeys(info, actual, KEYS_ARRAY, keys);
+  }
+
+  public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual, Iterable<? extends K> keys) {
+    assertDoesNotContainKeys(info, actual, KEYS_ITERABLE, toArray(keys));
+  }
+
+  private <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual, String placeholderForErrorMessages,
+                                               K[] keys) {
     assertNotNull(info, actual);
-    requireNonNull(keys, keysToLookForIsNull("array of keys"));
+    requireNonNull(keys, keysToLookForIsNull(placeholderForErrorMessages));
     Set<K> found = getFoundKeys(actual, keys);
     if (!found.isEmpty()) throw failures.failure(info, shouldNotContainKeys(actual, found));
   }
 
   public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
-    assertContainsOnlyKeys(info, actual, "array of keys", keys);
+    assertContainsOnlyKeys(info, actual, KEYS_ARRAY, keys);
   }
 
   public <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, Iterable<? extends K> keys) {
-    assertContainsOnlyKeys(info, actual, "keys iterable", toArray(keys));
+    assertContainsOnlyKeys(info, actual, KEYS_ITERABLE, toArray(keys));
   }
 
   private <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, String placeholderForErrorMessages, K[] keys) {
@@ -370,6 +396,31 @@ public class Maps {
 
     if (!notFound.isEmpty() || !notExpected.isEmpty())
       throw failures.failure(info, shouldContainOnlyKeys(actual, keys, notFound, notExpected));
+  }
+
+  public <K, V> void assertContainsOnlyValues(AssertionInfo info, Map<K, V> actual, V[] values) {
+    assertContainsOnlyValues(info, actual, VALUES_ARRAY, values);
+  }
+
+  public <K, V> void assertContainsOnlyValues(AssertionInfo info, Map<K, V> actual, Iterable<? extends V> values) {
+    assertContainsOnlyValues(info, actual, VALUES_ITERABLE, toArray(values));
+  }
+
+  private <K, V> void assertContainsOnlyValues(AssertionInfo info, Map<K, V> actual, String placeholderForErrorMessages,
+                                               V[] values) {
+    assertNotNull(info, actual);
+    requireNonNull(values, valuesToLookForIsNull(placeholderForErrorMessages));
+    if (actual.isEmpty() && values.length == 0) {
+      return;
+    }
+    failIfEmpty(values, valuesToLookForIsEmpty(placeholderForErrorMessages));
+
+    Set<V> notFound = getNotFoundValues(actual, values);
+    Set<V> notExpected = getNotExpectedValues(actual, values);
+
+    if (!notExpected.isEmpty() || !notFound.isEmpty()) {
+      throw failures.failure(info, shouldContainOnlyValues(actual, values, notFound, notExpected));
+    }
   }
 
   private static <K> Set<K> getFoundKeys(Map<K, ?> actual, K[] expectedKeys) {
@@ -473,10 +524,18 @@ public class Maps {
   }
 
   public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual, V[] values) {
+    assertContainsValues(info, actual, VALUES_ARRAY, values);
+  }
+
+  public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual, Iterable<? extends V> values) {
+    assertContainsValues(info, actual, VALUES_ITERABLE, toArray(values));
+  }
+
+  private <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual, String placeholderForErrorMessages, V[] values) {
     assertNotNull(info, actual);
-    requireNonNull(values, "The array of values to look for should not be null");
+    requireNonNull(values, valuesToLookForIsNull(placeholderForErrorMessages));
     if (actual.isEmpty() && values.length == 0) return;
-    failIfEmpty(values, valuesToLookForIsEmpty());
+    failIfEmpty(values, valuesToLookForIsEmpty(placeholderForErrorMessages));
 
     Set<V> notFound = getNotFoundValues(actual, values);
     if (!notFound.isEmpty()) throw failures.failure(info, shouldContainValues(actual, notFound));
@@ -487,6 +546,30 @@ public class Maps {
     if (containsValue(actual, value)) throw failures.failure(info, shouldNotContainValue(actual, value));
   }
 
+  public <K, V> void assertDoesNotContainValues(AssertionInfo info, Map<K, V> actual, V[] values) {
+    assertDoesNotContainValues(info, actual, VALUES_ARRAY, values);
+  }
+
+  public <K, V> void assertDoesNotContainValues(AssertionInfo info, Map<K, V> actual, Iterable<? extends V> values) {
+    assertDoesNotContainValues(info, actual, VALUES_ITERABLE, toArray(values));
+  }
+
+  private <K, V> void assertDoesNotContainValues(AssertionInfo info, Map<K, V> actual, String placeholderForErrorMessages,
+                                                 V[] values) {
+    assertNotNull(info, actual);
+    requireNonNull(values, valuesToLookForIsNull(placeholderForErrorMessages));
+    Set<V> found = getFoundValues(actual, values);
+    if (!found.isEmpty()) throw failures.failure(info, shouldNotContainValues(actual, found));
+  }
+
+  private static <V> Set<V> getFoundValues(Map<?, V> actual, V[] expectedValues) {
+    Set<V> found = new LinkedHashSet<>();
+    for (V expectedValue : expectedValues) {
+      if (containsValue(actual, expectedValue)) found.add(expectedValue);
+    }
+    return found;
+  }
+
   private static <V> Set<V> getNotFoundValues(Map<?, V> actual, V[] expectedValues) {
     // Stream API avoided for performance reasons
     Set<V> notFound = new LinkedHashSet<>();
@@ -494,6 +577,15 @@ public class Maps {
       if (!containsValue(actual, expectedValue)) notFound.add(expectedValue);
     }
     return notFound;
+  }
+
+  private static <V> Set<V> getNotExpectedValues(Map<?, V> actual, V[] expectedValues) {
+    // Stream API avoided for performance reasons
+    Set<V> valuesSet = new LinkedHashSet<>(actual.values());
+    for (V expectedValue : expectedValues) {
+      valuesSet.remove(expectedValue);
+    }
+    return valuesSet;
   }
 
   private static <V> boolean containsValue(Map<?, V> actual, V value) {
@@ -653,8 +745,8 @@ public class Maps {
     return expectedEntries;
   }
 
-  private static <K> void failIfEmpty(K[] keys, String errorMessage) {
-    checkArgument(keys.length > 0, errorMessage);
+  private static <T> void failIfEmpty(T[] array, String errorMessage) {
+    checkArgument(array.length > 0, errorMessage);
   }
 
   private static <K, V> void failIfEmpty(Entry<? extends K, ? extends V>[] entries) {

@@ -19,19 +19,21 @@ import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 
 /**
- * Tests for <code>{@link MapAssert#containsKey(Object)}</code>.
+ * Tests for <code>{@link org.assertj.core.api.MapAssert#containsOnlyValues(Object[])}</code>.
  *
- * @author Nicolas François
+ * @author Ilya Koshaleu
  */
-class MapAssert_containsKey_Test extends MapAssertBaseTest {
+class MapAssert_containsOnlyValues_Test extends MapAssertBaseTest {
+
+  final Object[] values = array("value1", "value2");
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-    return assertions.containsKey("key1");
+    return assertions.containsOnlyValues(values);
   }
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContainsKey(getInfo(assertions), getActual(assertions), "key1");
+    verify(maps).assertContainsOnlyValues(getInfo(assertions), getActual(assertions), values);
   }
 }

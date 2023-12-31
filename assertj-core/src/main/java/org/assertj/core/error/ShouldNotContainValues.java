@@ -12,32 +12,31 @@
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
+import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 
 import java.util.Set;
 
 /**
- * Creates an error message indicating that an assertion that verifies a map contains a key..
+ * Creates an error message indicating that an assertion that verifies a map does not contain a values.
  *
- * @author Nicolas François
- * @author Joel Costigliola
+ * @author Ilya Koshaleu
  */
-public class ShouldContainKeys extends BasicErrorMessageFactory {
+public class ShouldNotContainValues extends BasicErrorMessageFactory {
 
   /**
-   * Creates a new <code>{@link ShouldContainKeys}</code>.
+   * Creates a new <code>{@link ShouldNotContainValues}</code>.
    *
-   * @param <K> key type
+   * @param <V> value type
    * @param actual the actual value in the failed assertion.
-   * @param keys the expected keys
+   * @param values the unexpected values
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static <K> ErrorMessageFactory shouldContainKeys(Object actual, Set<K> keys) {
-    if (keys.size() == 1) return shouldContainKey(actual, keys.iterator().next());
-    return new ShouldContainKeys(actual, keys);
+  public static <V> ErrorMessageFactory shouldNotContainValues(Object actual, Set<V> values) {
+    if (values.size() == 1) return shouldNotContainValue(actual, values.iterator().next());
+    return new ShouldNotContainValues(actual, values);
   }
 
-  private <K> ShouldContainKeys(Object actual, Set<K> key) {
-    super("%nExpecting actual:%n  %s%nto contain keys:%n  %s", actual, key);
+  public <V> ShouldNotContainValues(Object actual, Set<V> values) {
+    super("%nExpecting actual:%n  %s%nnot to contain values:%n  %s", actual, values);
   }
 }

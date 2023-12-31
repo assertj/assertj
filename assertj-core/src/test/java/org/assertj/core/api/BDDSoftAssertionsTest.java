@@ -1665,9 +1665,11 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(map).containsKeys("K1", "K2");
     softly.then(map).containsOnly(entry("op", "OP"), entry("qr", "QR"));
     softly.then(map).containsOnlyKeys("K3", "K4");
+    softly.then(map).containsOnlyValues("V1", "V2");
     softly.then(map).containsValues("V1", "V2");
     softly.then(map).doesNotContain(entry("a", "1"), entry("abc", "ABC"));
     softly.then(map).doesNotContainKeys("a", "b");
+    softly.then(map).doesNotContainValues("1", "2");
     softly.then(map).extracting("a", "b").contains("456");
     softly.then(iterableMap)
           .flatExtracting("name", "job", "city", "rank")
@@ -1686,7 +1688,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .isEqualTo("456");
     // THEN
     List<Throwable> errors = softly.errorsCollected();
-    assertThat(errors).hasSize(16);
+    assertThat(errors).hasSize(18);
     assertThat(errors.get(0)).hasMessageContaining("\"abc\"=\"ABC\"");
     assertThat(errors.get(1)).hasMessageContaining("empty");
     assertThat(errors.get(2)).hasMessageContaining("gh")
@@ -1695,15 +1697,17 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(4)).hasMessageContaining("K2");
     assertThat(errors.get(5)).hasMessageContaining("OP");
     assertThat(errors.get(6)).hasMessageContaining("K4");
-    assertThat(errors.get(7)).hasMessageContaining("V2");
-    assertThat(errors.get(8)).hasMessageContaining("ABC");
-    assertThat(errors.get(9)).hasMessageContaining("b");
-    assertThat(errors.get(10)).hasMessageContaining("456");
-    assertThat(errors.get(11)).hasMessageContaining("Unexpected");
-    assertThat(errors.get(12)).hasMessage("[size()] error message");
-    assertThat(errors.get(13)).hasMessageContaining("\"a\"=\"1\"");
-    assertThat(errors.get(14)).hasMessageContaining("to contain only");
-    assertThat(errors.get(15)).hasMessage("[extracting(\"a\")] error message");
+    assertThat(errors.get(7)).hasMessageContaining("V1");
+    assertThat(errors.get(8)).hasMessageContaining("V2");
+    assertThat(errors.get(9)).hasMessageContaining("ABC");
+    assertThat(errors.get(10)).hasMessageContaining("b");
+    assertThat(errors.get(11)).hasMessageContaining("1");
+    assertThat(errors.get(12)).hasMessageContaining("456");
+    assertThat(errors.get(13)).hasMessageContaining("Unexpected");
+    assertThat(errors.get(14)).hasMessage("[size()] error message");
+    assertThat(errors.get(15)).hasMessageContaining("\"a\"=\"1\"");
+    assertThat(errors.get(16)).hasMessageContaining("to contain only");
+    assertThat(errors.get(17)).hasMessage("[extracting(\"a\")] error message");
   }
 
   @Test
