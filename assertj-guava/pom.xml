@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent</artifactId>
-    <version>3.25.0-SNAPSHOT</version>
+    <version>3.25.0</version>
     <relativePath>../assertj-parent</relativePath>
   </parent>
 
@@ -89,7 +89,7 @@
                     <exclude>*:*:*:jar:compile</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence/>
+                <dependencyConvergence />
               </rules>
             </configuration>
           </execution>
