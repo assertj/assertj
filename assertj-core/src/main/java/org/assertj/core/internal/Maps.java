@@ -554,7 +554,7 @@ public class Maps {
     // Stream API avoided for performance reasons
     for (Entry<? extends K, ? extends V> entry : entries) {
       // must perform deep equals comparison on values as Map.remove(Object, Object) relies on
-      // Objects.equals which does not handle deep equality (e.g. arrays in map entry values)
+      // Objects.equals which does not handle deep equality (e.g., arrays in map entry values)
       if (containsEntry(map, entry)) map.remove(entry.getKey());
     }
   }
@@ -569,7 +569,7 @@ public class Maps {
       // shortcut for any singleton map but specifically for org.apache.commons.collections4.map.SingletonMap that is immutable
       // and fail when we try to remove elements from them in compareActualMapAndExpectedEntries
       // we only have to compare the map unique element
-      if (!actual.containsKey(entries[0].getKey()) || !actual.containsValue(entries[0].getValue())) {
+      if (!containsEntry(actual, entries[0])) {
         throw failures.failure(info, elementsDifferAtIndex(actual.entrySet().iterator().next(), entries[0], 0));
       }
       return;
