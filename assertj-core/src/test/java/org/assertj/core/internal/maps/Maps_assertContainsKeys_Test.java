@@ -32,6 +32,7 @@ import static org.assertj.core.util.Sets.set;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -80,6 +81,27 @@ class Maps_assertContainsKeys_Test extends MapsBaseTest {
     Throwable thrown = catchThrowable(() -> maps.assertContainsKeys(someInfo(), actual, keys));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage(keysToLookForIsEmpty("array of keys"));
+  }
+
+  @Test
+  void should_pass_with_Properties() {
+    // GIVEN
+    Properties actual = mapOf(Properties::new, entry("name", "Yoda"), entry("job", "Jedi"));
+    Object[] expected = array("name", "job");
+    // WHEN/THEN
+    maps.assertContainsKeys(info, actual, expected);
+  }
+
+  @Test
+  void should_fail_with_Properties() {
+    // GIVEN
+    Properties actual = mapOf(Properties::new, entry("name", "Yoda"), entry("job", "Jedi"));
+    Object[] expected = array("name", "color");
+    Set<Object> notFound = set("color");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsKeys(info, actual, expected));
+    // THEN
+    then(assertionError).hasMessage(shouldContainKeys(actual, notFound).create());
   }
 
   @ParameterizedTest
