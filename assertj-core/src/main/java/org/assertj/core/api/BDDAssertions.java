@@ -92,6 +92,7 @@ import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.CronExpression;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
@@ -203,8 +204,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link Predicate}.
    * <p>
-   * Use this over {@link #then(Predicate)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Predicate)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link Predicate}.
@@ -477,8 +478,8 @@ public class BDDAssertions extends Assertions {
    * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with
    * standard comparison semantics.
    * <p>
-   * Use this over {@link #then(Comparable)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Comparable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param <T> the type of actual.
    * @param actual the actual value.
@@ -503,8 +504,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    * <p>
-   * Use this over {@link #then(Iterable)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Iterable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -542,8 +543,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
-   * Use this over {@link #then(Iterator)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Iterator)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -777,8 +778,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of {@link PathAssert}
    * <p>
-   * Use this over {@link #then(Path)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Path)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param actual the path to test
    * @return the created assertion object
@@ -907,8 +908,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    * <p>
-   * Use this over {@link #then(Collection)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Collection)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param <E> the type of elements.
    * @param actual the actual value.
@@ -933,8 +934,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    * <p>
-   * Use this over {@link #then(List)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(List)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -1080,6 +1081,16 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> then(CharSequence actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.CronExpressionAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractCronExpressionAssert<?> then(CronExpression actual) {
     return assertThat(actual);
   }
 
@@ -1746,8 +1757,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * Use this over {@link #then(Stream)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Stream)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    * <p>
    * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
    * Once this is done the {@code Stream} can't reused as it would have been consumed.</b>

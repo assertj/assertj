@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.internal.CronExpression;
+
 import java.io.File;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -399,6 +401,12 @@ public interface InstanceOfAssertFactories {
    * {@link InstanceOfAssertFactory} for a {@code long} or its corresponding boxed type {@link Long}.
    */
   InstanceOfAssertFactory<Long, AbstractLongAssert<?>> LONG = new InstanceOfAssertFactory<>(Long.class,
+                                                                                            Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@code cronExpression} or its corresponding boxed type {@link org.assertj.core.internal.CronExpression}.
+   */
+  InstanceOfAssertFactory<CronExpression, AbstractCronExpressionAssert<?>> CRON_EXPRESSION = new InstanceOfAssertFactory<>(CronExpression.class,
                                                                                             Assertions::assertThat);
 
   /**

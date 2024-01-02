@@ -98,6 +98,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.ZONED_DATE_TIME;
+import static org.assertj.core.api.InstanceOfAssertFactories.CRON_EXPRESSION;
 import static org.assertj.core.api.InstanceOfAssertFactories.array;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicIntegerFieldUpdater;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicLongFieldUpdater;
@@ -173,6 +174,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.internal.CronExpression;
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.Test;
 
@@ -1220,6 +1222,16 @@ class InstanceOfAssertFactoriesTest {
     MapAssert<String, String> result = assertThat(value).asInstanceOf(map(String.class, String.class));
     // THEN
     result.containsExactly(entry("key", "value"));
+  }
+
+  @Test
+  void cron_expression_factory_should_allow_typed_cron_expression_assertions() {
+    // GIVEN
+    Object value = new CronExpression("* * * * * *");
+    // WHEN
+    AbstractCronExpressionAssert<?> result = assertThat(value).asInstanceOf(CRON_EXPRESSION);
+    // THEN
+    result.isValid();
   }
 
   @Test

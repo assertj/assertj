@@ -111,8 +111,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -137,8 +137,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(Iterator)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * Use this over {@link #assertThat(Iterator)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -164,8 +164,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <E> the type of elements.
    * @param actual the actual value.
@@ -190,8 +190,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(List)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * Use this over {@link #assertThat(List)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -236,8 +236,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    * <p>
    * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
    * Once this is done the {@code Stream} can't reused as it would have been consumed.</b>
@@ -407,8 +407,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Creates a new instance of {@link PathAssert}
    * <p>
-   * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param actual the path to test
    * @return the created assertion object
@@ -449,8 +449,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with
    * standard comparison semantics.
    * <p>
-   * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <T> the type of actual.
    * @param actual the actual value.
@@ -531,8 +531,8 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   /**
    * Create assertion for {@link Predicate}.
    * <p>
-   * Use this over {@link #assertThat(Predicate)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * Use this over {@link #assertThat(Predicate)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link Predicate}.
@@ -563,6 +563,17 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
    */
   public static LongPredicateAssert assertThat(LongPredicate actual) {
     return LongPredicateAssert.assertThatLongPredicate(actual);
+  }
+
+  /**
+   * Create assertion for {@link CronExpressionPredicate}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.5.0
+   */
+  public static CronExpressionPredicateAssert assertThat(CronExpressionPredicate actual) {
+    return CronExpressionPredicateAssert.assertThatCronExpressionPredicate(actual);
   }
 
   /**
