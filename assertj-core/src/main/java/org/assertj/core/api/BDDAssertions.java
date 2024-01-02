@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,7 +72,6 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallableWithValue;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.InFilter;
 import org.assertj.core.api.filter.NotFilter;
@@ -92,7 +89,6 @@ import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
@@ -1335,25 +1331,6 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Similar to {@link #thenThrownBy(ThrowingCallable)}, but when the called code returns a value instead of
-   * throwing, the assertion error shows the returned value to help understand what went wrong.
-   *
-   * @param shouldRaiseThrowable The {@link ThrowingCallableWithValue} or lambda with the code that should raise the throwable.
-   * @return the created {@link ThrowableAssert}.
-   * @since 3.25.0
-   */
-  @CanIgnoreReturnValue
-  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallableWithValue shouldRaiseThrowable) {
-    Object value;
-    try {
-      value = shouldRaiseThrowable.call();
-    } catch (Throwable throwable) {
-      return assertThat(throwable);
-    }
-    throw Failures.instance().failure(format("Expecting code to raise a throwable, but it returned [%s] instead", value));
-  }
-
-  /**
    * Allows to capture and then assert on a {@link Throwable} like {@code thenThrownBy(ThrowingCallable)} but this method
    * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
    * <p>
@@ -1388,26 +1365,6 @@ public class BDDAssertions extends Assertions {
   public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                              String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
-  }
-
-  /**
-   * Similar to {@link #thenThrownBy(ThrowingCallable, String, Object...)}, but when the called code returns a value instead of
-   * throwing, the assertion error shows the returned value to help understand what went wrong.
-   *
-   * @param shouldRaiseThrowable The {@link ThrowingCallableWithValue} or lambda with the code that should raise the throwable.
-   * @return the created {@link ThrowableAssert}.
-   * @since 3.25.0
-   */
-  @CanIgnoreReturnValue
-  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallableWithValue shouldRaiseThrowable,
-                                                                             String description, Object... args) {
-    Object value;
-    try {
-      value = shouldRaiseThrowable.call();
-    } catch (Throwable throwable) {
-      return assertThat(throwable).as(description, args);
-    }
-    throw Failures.instance().failure(format("Expecting code to raise a throwable, but it returned [%s] instead", value));
   }
 
   /**

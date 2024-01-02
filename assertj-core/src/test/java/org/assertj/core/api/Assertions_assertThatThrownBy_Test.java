@@ -14,9 +14,8 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.Assertions_catchThrowableOfType_Test.raisingException;
-import static org.assertj.core.api.Assertions_catchThrowable_Test.codeThrowing;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -25,47 +24,63 @@ import org.junit.jupiter.api.Test;
 class Assertions_assertThatThrownBy_Test {
 
   @Test
-  void should_build_ThrowableAssert_with_runtime_exception_thrown() {
+  void should_work_with_runtime_exception_thrown() {
+    // WHEN/THEN
     assertThatThrownBy(codeThrowing(new IllegalArgumentException("boom"))).isInstanceOf(IllegalArgumentException.class)
                                                                           .hasMessage("boom");
   }
 
   @Test
-  void should_build_ThrowableAssert_with_throwable_thrown() {
+  void should_work_with_throwable_thrown() {
+    // WHEN/THEN
     assertThatThrownBy(codeThrowing(new Throwable("boom"))).isInstanceOf(Throwable.class)
                                                            .hasMessage("boom");
   }
 
   @Test
-  void should_be_able_to_pass_a_description_to_assertThatThrownBy() {
+  void should_work_with_method_reference_having_vararg_parameter() {
+    // WHEN/THEN
+    assertThatThrownBy(Assertions_assertThatThrownBy_Test::methodThrowing).isInstanceOf(Exception.class)
+                                                                          .hasMessage("boom");
+  }
+
+  @Test
+  void should_support_description() {
     // GIVEN
-    // make assertThatThrownBy fail to verify the description afterwards
-    ThrowingCallable code = () -> assertThatThrownBy(raisingException("boom"), "Test %s", "code").hasMessage("bam");
+    Throwable throwable = new Exception("boom");
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(codeThrowing(throwable), "Test %s",
+                                                                                  "code").hasMessage("bam"));
     // THEN
     then(assertionError).hasMessageContaining("[Test code]");
   }
 
   @Test
   void should_fail_if_no_throwable_was_thrown() {
-    // GIVEN
-    ThrowingCallable code = () -> {};
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(code).hasMessage("boom ?"));
+    AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(() -> {}).hasMessage("boom ?"));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting code to raise a throwable."));
   }
 
   @Test
-  void should_fail_with_good_message_when_assertion_is_failing() {
+  void should_fail_with_proper_message_when_assertion_is_failing() {
+    // GIVEN
+    Throwable throwable = new Exception("boom");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(raisingException("boom")).hasMessage("bam"));
+    AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(codeThrowing(throwable)).hasMessage("bam"));
     // THEN
-    then(assertionError).hasMessageContainingAll("Expecting message to be:",
-                                                 "\"bam\"",
-                                                 "but was:",
-                                                 "\"boom\"");
+    then(assertionError).hasMessage(shouldHaveMessage(throwable, "bam").create());
+  }
+
+  private static ThrowingCallable codeThrowing(Throwable t) {
+    return () -> {
+      throw t;
+    };
+  }
+
+  private static void methodThrowing(Object... parameters) throws Exception {
+    throw new Exception("boom");
   }
 
 }

@@ -12,10 +12,8 @@
  */
 package org.assertj.core.api.throwable;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
@@ -52,14 +50,7 @@ class ThrowableAssert_built_from_ThrowingCallable_Test {
           // no exception
         }
       });
-    }).withMessage(format("%nExpecting code to raise a throwable."));
+    }).withMessage(String.format("%nExpecting code to raise a throwable."));
   }
 
-  @Test
-  void should_fail_and_show_value_returned_by_callable_code() {
-    // GIVEN
-    ThrowingCallable code = () -> assertThatThrownBy(() -> 42);
-    // WHEN/THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage("Expecting code to raise a throwable, but it returned [42] instead");
-  }
 }
