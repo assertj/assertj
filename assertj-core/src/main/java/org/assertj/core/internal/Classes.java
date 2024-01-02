@@ -155,8 +155,8 @@ public class Classes {
 
   private static Class<?>[] getPermittedSubclasses(Class<?> actual) {
     try {
-      Method isSealed = Class.class.getMethod("getPermittedSubclasses");
-      Class<?>[] permittedSubclasses = (Class<?>[]) isSealed.invoke(actual);
+      Method getPermittedSubclasses = Class.class.getMethod("getPermittedSubclasses");
+      Class<?>[] permittedSubclasses = (Class<?>[]) getPermittedSubclasses.invoke(actual);
       return permittedSubclasses == null ? array() : permittedSubclasses;
     } catch (NoSuchMethodException e) {
       return new Class<?>[0];
