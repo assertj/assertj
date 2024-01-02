@@ -1167,6 +1167,67 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
+   * Verifies that permitted subclasses of the actual {@code Class} has the given {@code Class}es.
+   * <p>
+   * Example:
+   * <pre><code class='java'>  sealed class SuperClass permits Permitted {
+   * }
+   *
+   * final class Permitted extends SuperClass {
+   * }
+   *
+   * final class NotPermitted {
+   * }
+   *
+   * // these assertions succeed:
+   * assertThat(SuperClass.class).hasPermittedSubclasses();
+   * assertThat(SuperClass.class).hasPermittedSubclasses(Permitted.class);
+   *
+   * // these assertions fail:
+   * assertThat(SuperClass.class).hasPermittedSubclasses(NotPermitted.class);
+   * assertThat(SuperClass.class).hasPermittedSubclasses(Permitted.class, NotPermitted.class);</code></pre>
+   *
+   * @param permittedSubclasses classes that must be permitted subclasses of the given class
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} does not have all of given permitted subclasses
+   */
+  public SELF hasPermittedSubclasses(Class<?>... permittedSubclasses) {
+    classes.assertContainsPermittedSubclasses(info, actual, permittedSubclasses);
+    return myself;
+  }
+
+  /**
+   * Verifies that permitted subclasses of the actual {@code Class} does not have any permitted subclasses.
+   * <p>
+   * Example:
+   * <pre><code class='java'>  sealed class SuperClass permits Permitted {
+   * }
+   *
+   * final class Permitted extends SuperClass {
+   * }
+   *
+   * final class NotPermitted {
+   * }
+   *
+   * // these assertions succeed:
+   * assertThat(String.class).hasNoPermittedSubclasses();
+   * assertThat(Permitted.class).hasNoPermittedSubclasses();
+   * assertThat(NotPermitted.class).hasNoPermittedSubclasses();
+   *
+   * // this assertion fails:
+   * assertThat(SuperClass.class).hasNoPermittedSubclasses();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} has any permitted subclasses
+   */
+  public SELF hasNoPermittedSubclasses() {
+    classes.assertHasNoPermittedSubclasses(info, actual);
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code Class} is a primitive type.
    * <p>
    * Example:

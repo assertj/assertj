@@ -18,11 +18,15 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldBeSealed.shouldBeSealed;
 import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
+import static org.assertj.core.error.ShouldHaveNoPermittedSubclasses.shouldHaveNoPermittedSubclasses;
+import static org.assertj.core.error.ShouldHavePermittedSubclasses.shouldHavePermittedSubclasses;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
 import static org.assertj.core.util.Sets.set;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 /**
  * @author Louis Morgan
@@ -101,6 +105,38 @@ class Assertions_assertThat_with_Class_Test {
     void isSealed_should_pass_if_actual_is_sealed() {
       // WHEN/THEN
       assertThat(SealedClass.class).isSealed();
+    }
+
+    @Test
+    void hasPermittedSubclasses_should_pass_if_actual_has_permitted_subclass() {
+      assertThat(SealedClass.class).hasPermittedSubclasses(NonSealedClass.class);
+    }
+
+    @Test
+    void hasPermittedSubclasses_should_fail_if_actual_does_not_have_one_of_given_classes() {
+      // WHEN
+      Throwable thrown = catchThrowable(() -> assertThat(SealedClass.class).hasPermittedSubclasses(NonSealedClass.class,
+                                                                                                   String.class));
+      // THEN
+      then(thrown).isInstanceOf(AssertionError.class)
+                  .hasMessage(shouldHavePermittedSubclasses(
+                                                            SealedClass.class,
+                                                            List.of(NonSealedClass.class, String.class),
+                                                            List.of(String.class)).create());
+    }
+
+    @Test
+    void hasNoPermittedSubclasses_should_pass_if_actual_has_no_permitted_subclasses() {
+      assertThat(NonSealedClass.class).hasNoPermittedSubclasses();
+    }
+
+    @Test
+    void hasNoPermittedSubclasses_should_fail_if_actual_has_a_permitted_subclass() {
+      // WHEN
+      Throwable thrown = catchThrowable(() -> assertThat(SealedClass.class).hasNoPermittedSubclasses());
+      // THEN
+      then(thrown).isInstanceOf(AssertionError.class)
+                  .hasMessage(shouldHaveNoPermittedSubclasses(SealedClass.class, List.of(NonSealedClass.class)).create());
     }
 
     private sealed class SealedClass permits NonSealedClass {
