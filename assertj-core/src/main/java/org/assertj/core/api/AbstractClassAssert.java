@@ -34,6 +34,7 @@ import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
 import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
+import static org.assertj.core.error.ShouldHavePermittedSubclasses.shouldHavePermittedSubclasses;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
 import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
@@ -45,6 +46,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.assertj.core.internal.Classes;
@@ -1193,8 +1195,33 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} does not have all of given permitted subclasses
    */
   public SELF hasPermittedSubclasses(Class<?>... permittedSubclasses) {
-    classes.assertContainsPermittedSubclasses(info, actual, permittedSubclasses);
+    isNotNull();
+    assertHasPermittedSubclasses(permittedSubclasses);
     return myself;
+  }
+
+  private void assertHasPermittedSubclasses(Class<?>[] permittedSubclasses) {
+    Set<Class<?>> expected = newLinkedHashSet(permittedSubclasses);
+    Set<Class<?>> missing = new LinkedHashSet<>();
+    Set<Class<?>> actualPermitted = newLinkedHashSet(getPermittedSubclasses(actual));
+    for (Class<?> other : expected) {
+      classes.classParameterIsNotNull(other);
+      if (!actualPermitted.contains(other)) missing.add(other);
+    }
+
+    if (!missing.isEmpty()) throw assertionError(shouldHavePermittedSubclasses(actual, expected, missing));
+  }
+
+  private static Class<?>[] getPermittedSubclasses(Class<?> actual) {
+    try {
+      Method getPermittedSubclasses = Class.class.getMethod("getPermittedSubclasses");
+      Class<?>[] permittedSubclasses = (Class<?>[]) getPermittedSubclasses.invoke(actual);
+      return permittedSubclasses == null ? array() : permittedSubclasses;
+    } catch (NoSuchMethodException e) {
+      return new Class<?>[0];
+    } catch (ReflectiveOperationException e) {
+      throw new IllegalStateException(e);
+    }
   }
 
   /**

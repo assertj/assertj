@@ -22,10 +22,8 @@ import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoDeclaredFields;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoPublicFields;
-import static org.assertj.core.error.ShouldHavePermittedSubclasses.shouldHavePermittedSubclasses;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveDeclaredFields;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveFields;
-import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -111,41 +109,6 @@ public class Classes {
     }
 
     if (!missing.isEmpty()) throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
-  }
-
-  /**
-   * Verifies that permitted subclasses of the actual {@code Class} contain the given {@code Class}es.
-   *
-   * @param info    contains information about the assertion.
-   * @param actual  the "actual" {@code Class}.
-   * @param classes classes that must be permitted subclasses of the actual class
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} does not have all of these permitted subclasses.
-   */
-  public void assertContainsPermittedSubclasses(AssertionInfo info, Class<?> actual,
-                                                Class<?>[] classes) {
-    assertNotNull(info, actual);
-    Set<Class<?>> expected = newLinkedHashSet(classes);
-    Set<Class<?>> missing = new LinkedHashSet<>();
-    Set<Class<?>> actualPermitted = newLinkedHashSet(getPermittedSubclasses(actual));
-    for (Class<?> other : expected) {
-      classParameterIsNotNull(other);
-      if (!actualPermitted.contains(other)) missing.add(other);
-    }
-
-    if (!missing.isEmpty()) throw failures.failure(info, shouldHavePermittedSubclasses(actual, expected, missing));
-  }
-
-  private static Class<?>[] getPermittedSubclasses(Class<?> actual) {
-    try {
-      Method getPermittedSubclasses = Class.class.getMethod("getPermittedSubclasses");
-      Class<?>[] permittedSubclasses = (Class<?>[]) getPermittedSubclasses.invoke(actual);
-      return permittedSubclasses == null ? array() : permittedSubclasses;
-    } catch (NoSuchMethodException e) {
-      return new Class<?>[0];
-    } catch (ReflectiveOperationException e) {
-      throw new IllegalStateException(e);
-    }
   }
 
   /**
@@ -354,6 +317,17 @@ public class Classes {
     }
   }
 
+  /**
+   * used to check that the class to compare is not null, in that case throws a {@link NullPointerException} with an
+   * explicit message.
+   *
+   * @param clazz the class to check
+   * @throws NullPointerException with an explicit message if the given class is null
+   */
+  public void classParameterIsNotNull(Class<?> clazz) {
+    requireNonNull(clazz, "The class to compare actual with should not be null");
+  }
+
   private static SortedSet<String> getMethodsWithModifier(Set<Method> methods, int modifier) {
     SortedSet<String> methodsWithModifier = newTreeSet();
     for (Method method : methods) {
@@ -425,16 +399,5 @@ public class Classes {
 
   private static void assertNotNull(AssertionInfo info, Class<?> actual) {
     Objects.instance().assertNotNull(info, actual);
-  }
-
-  /**
-   * used to check that the class to compare is not null, in that case throws a {@link NullPointerException} with an
-   * explicit message.
-   * 
-   * @param clazz the date to check
-   * @throws NullPointerException with an explicit message if the given class is null
-   */
-  private static void classParameterIsNotNull(Class<?> clazz) {
-    requireNonNull(clazz, "The class to compare actual with should not be null");
   }
 }
