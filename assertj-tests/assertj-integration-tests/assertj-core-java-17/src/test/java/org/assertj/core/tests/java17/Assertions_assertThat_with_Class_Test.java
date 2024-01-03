@@ -128,6 +128,7 @@ class Assertions_assertThat_with_Class_Test {
 
     @Test
     void hasNoPermittedSubclasses_should_pass_if_actual_has_no_permitted_subclasses() {
+      // WHEN/THEN
       assertThat(NonSealedClass.class).hasNoPermittedSubclasses();
     }
 
