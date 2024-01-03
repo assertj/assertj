@@ -22,12 +22,10 @@ import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoDeclaredFields;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoPublicFields;
-import static org.assertj.core.error.ShouldHaveNoPermittedSubclasses.shouldHaveNoPermittedSubclasses;
 import static org.assertj.core.error.ShouldHavePermittedSubclasses.shouldHavePermittedSubclasses;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveDeclaredFields;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveFields;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Arrays.isArrayEmpty;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -136,21 +134,6 @@ public class Classes {
     }
 
     if (!missing.isEmpty()) throw failures.failure(info, shouldHavePermittedSubclasses(actual, expected, missing));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} has no permitted subclasses.
-   *
-   * @param info    contains information about the assertion.
-   * @param actual  the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} has any permitted subclasses.
-   */
-  public void assertHasNoPermittedSubclasses(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    Class<?>[] permittedSubclasses = getPermittedSubclasses(actual);
-    if (!isArrayEmpty(permittedSubclasses))
-      throw failures.failure(info, shouldHaveNoPermittedSubclasses(actual, newLinkedHashSet(permittedSubclasses)));
   }
 
   private static Class<?>[] getPermittedSubclasses(Class<?> actual) {
