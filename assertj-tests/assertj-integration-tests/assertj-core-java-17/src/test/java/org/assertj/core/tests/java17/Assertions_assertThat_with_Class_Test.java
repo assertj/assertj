@@ -13,12 +13,12 @@
 package org.assertj.core.tests.java17;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldBeSealed.shouldBeSealed;
 import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
+import static org.assertj.core.tests.java17.AssertionUtil.expectAssertionError;
 import static org.assertj.core.util.Sets.set;
 
 import org.junit.jupiter.api.Nested;
@@ -34,40 +34,35 @@ class Assertions_assertThat_with_Class_Test {
 
     @Test
     void hasRecordComponents_should_pass_if_record_has_expected_component() {
-      // WHEN/THEN
       assertThat(MyRecord.class).hasRecordComponents("componentOne");
     }
 
     @Test
     void hasRecordComponents_should_pass_if_record_has_expected_components() {
-      // WHEN/THEN
       assertThat(MyRecord.class).hasRecordComponents("componentOne", "componentTwo");
     }
 
     @Test
     void hasRecordComponents_should_fail_if_record_components_are_missing() {
       // WHEN
-      Throwable thrown = catchThrowable(() -> assertThat(MyRecord.class).hasRecordComponents("componentOne",
-                                                                                             "missing"));
+      AssertionError assertionError = expectAssertionError(() -> assertThat(MyRecord.class).hasRecordComponents("componentOne",
+                                                                                                                "missing"));
       // THEN
-      then(thrown).isInstanceOf(AssertionError.class)
-                  .hasMessage(shouldHaveRecordComponents(MyRecord.class,
-                                                         set("componentOne", "missing"),
-                                                         set("missing")).create());
+      then(assertionError).hasMessage(shouldHaveRecordComponents(MyRecord.class,
+                                                                 set("componentOne", "missing"),
+                                                                 set("missing")).create());
     }
 
     @Test
     void isNotRecord_should_fail_if_actual_is_a_record() {
       // WHEN
-      Throwable thrown = catchThrowable(() -> assertThat(MyRecord.class).isNotRecord());
+      AssertionError assertionError = expectAssertionError(() -> assertThat(MyRecord.class).isNotRecord());
       // THEN
-      then(thrown).isInstanceOf(AssertionError.class)
-                  .hasMessage(shouldNotBeRecord(MyRecord.class).create());
+      then(assertionError).hasMessage(shouldNotBeRecord(MyRecord.class).create());
     }
 
     @Test
     void isRecord_should_pass_if_actual_is_a_record() {
-      // WHEN/THEN
       assertThat(MyRecord.class).isRecord();
     }
 
@@ -82,24 +77,21 @@ class Assertions_assertThat_with_Class_Test {
     @Test
     void isNotSealed_should_fail_if_actual_is_sealed() {
       // WHEN
-      Throwable thrown = catchThrowable(() -> assertThat(SealedClass.class).isNotSealed());
+      AssertionError assertionError = expectAssertionError(() -> assertThat(SealedClass.class).isNotSealed());
       // THEN
-      then(thrown).isInstanceOf(AssertionError.class)
-                  .hasMessage(shouldNotBeSealed(SealedClass.class).create());
+      then(assertionError).hasMessage(shouldNotBeSealed(SealedClass.class).create());
     }
 
     @Test
     void isSealed_should_fail_if_actual_is_not_sealed() {
       // WHEN
-      Throwable thrown = catchThrowable(() -> assertThat(NonSealedClass.class).isSealed());
+      AssertionError assertionError = expectAssertionError(() -> assertThat(NonSealedClass.class).isSealed());
       // THEN
-      then(thrown).isInstanceOf(AssertionError.class)
-                  .hasMessage(shouldBeSealed(NonSealedClass.class).create());
+      then(assertionError).hasMessage(shouldBeSealed(NonSealedClass.class).create());
     }
 
     @Test
     void isSealed_should_pass_if_actual_is_sealed() {
-      // WHEN/THEN
       assertThat(SealedClass.class).isSealed();
     }
 
@@ -108,7 +100,6 @@ class Assertions_assertThat_with_Class_Test {
 
     private non-sealed class NonSealedClass extends SealedClass {
     }
-
   }
 
 }

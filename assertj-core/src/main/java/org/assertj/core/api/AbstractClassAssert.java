@@ -35,6 +35,7 @@ import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
 import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
+import static org.assertj.core.error.ShouldHavePermittedSubclasses.shouldHavePermittedSubclasses;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
 import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
@@ -47,6 +48,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.assertj.core.internal.Classes;
 
@@ -1193,6 +1196,59 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
       return (boolean) isSealed.invoke(actual);
     } catch (NoSuchMethodException e) {
       return false;
+    } catch (ReflectiveOperationException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} permitted subclasses contains the given classes.
+   * <p>
+   * Example:
+   * <pre><code class='java'> sealed class SealedClass permits NonSealedClass, FinalClass {}
+   * non-sealed class NonSealedClass extends SealedClass {}
+   * final class FinalClass extends SealedClass {}
+   *
+   * // these assertions succeed:
+   * assertThat(SealedClass.class).hasPermittedSubclasses(NonSealedClass.class)
+   *                              .hasPermittedSubclasses(FinalClass.class)
+   *                              .hasPermittedSubclasses(NonSealedClass.class, FinalClass.class)
+   *                              .hasPermittedSubclasses();
+   *
+   * // these assertions fail:
+   * assertThat(SealedClass.class).hasPermittedSubclasses(String.class);
+   * assertThat(SealedClass.class).hasPermittedSubclasses(FinalClass.class, String.class);</code></pre>
+   *
+   * @param permittedSubclasses classes that must be permitted subclasses of the given class
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} does not have all of given permitted subclasses
+   */
+  public SELF hasPermittedSubclasses(Class<?>... permittedSubclasses) {
+    isNotNull();
+    assertHasPermittedSubclasses(permittedSubclasses);
+    return myself;
+  }
+
+  private void assertHasPermittedSubclasses(Class<?>[] expectedPermittedSubclasses) {
+    for (Class<?> expectedPermittedSubclass : expectedPermittedSubclasses) {
+      classes.classParameterIsNotNull(expectedPermittedSubclass);
+    }
+    Set<Class<?>> actualPermittedSubclasses = newLinkedHashSet(getPermittedSubclasses(actual));
+    Set<Class<?>> missingPermittedSubclasses = Stream.of(expectedPermittedSubclasses)
+                                                     .filter(expectedPermittedSubclass -> !actualPermittedSubclasses.contains(expectedPermittedSubclass))
+                                                     .collect(Collectors.toSet());
+    if (!missingPermittedSubclasses.isEmpty())
+      throw assertionError(shouldHavePermittedSubclasses(actual, expectedPermittedSubclasses, missingPermittedSubclasses));
+  }
+
+  private static Class<?>[] getPermittedSubclasses(Class<?> actual) {
+    try {
+      Method getPermittedSubclasses = Class.class.getMethod("getPermittedSubclasses");
+      Class<?>[] permittedSubclasses = (Class<?>[]) getPermittedSubclasses.invoke(actual);
+      return permittedSubclasses == null ? array() : permittedSubclasses;
+    } catch (NoSuchMethodException e) {
+      return new Class<?>[0];
     } catch (ReflectiveOperationException e) {
       throw new IllegalStateException(e);
     }
