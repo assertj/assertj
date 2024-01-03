@@ -109,6 +109,7 @@ class Assertions_assertThat_with_Class_Test {
 
     @Test
     void hasPermittedSubclasses_should_pass_if_actual_has_permitted_subclass() {
+      // WHEN/THEN
       assertThat(SealedClass.class).hasPermittedSubclasses(NonSealedClass.class);
     }
 
