@@ -163,40 +163,23 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>yuicompressor-maven-plugin</artifactId>
-        <version>1.5.1</version>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase> <!-- invoked by maven-javadoc-plugin -->
-            <goals>
-              <goal>compress</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <sourceDirectory>src/main/javadoc</sourceDirectory>
-          <outputDirectory>${project.build.directory}/javadoc-stylesheet</outputDirectory>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <!-- Explicitly set Javadoc locale to English -->
-          <locale>en_US</locale>
-          <!-- (1) CSS file location -->
-          <stylesheetfile>${project.build.directory}/javadoc-stylesheet/assertj-javadoc-min.css</stylesheetfile>
-          <!-- init Highlight -->
           <additionalOptions>${javadocAdditionalOptions}</additionalOptions>
+          <addStylesheets>
+            <stylesheet>assertj-theme.css</stylesheet>
+            <stylesheet>hljs-theme.css</stylesheet>
+          </addStylesheets>
           <links>
             <link>https://javadoc.io/doc/com.google.guava/guava/${guava.version}</link>
             <link>https://javadoc.io/doc/org.assertj/assertj-core/${project.version}</link>
           </links>
+          <!-- Explicitly set Javadoc locale to English -->
+          <locale>en_US</locale>
           <nohelp>true</nohelp>
           <bottom><![CDATA[
             Copyright &#169; {currentYear} {organizationName}. All rights reserved.
-            <link rel="stylesheet" href="./assertj-javadoc.css"">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
             <script>hljs.highlightAll();</script>
         ]]></bottom>
