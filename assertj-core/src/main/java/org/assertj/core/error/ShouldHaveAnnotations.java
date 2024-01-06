@@ -13,10 +13,11 @@
 package org.assertj.core.error;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
 import java.util.Collection;
 
 /**
- * Creates an error message indicating that an assertion that verifies that a class has annotations failed.
+ * Creates an error message indicating that an assertion that verifies that an {@code AnnotatedElement} has annotations failed.
  * 
  * @author William Delanoue
  * @author Joel Costigliola
@@ -31,13 +32,31 @@ public class ShouldHaveAnnotations extends BasicErrorMessageFactory {
    * @param missing missing annotations for this class
    * @return the created {@code ErrorMessageFactory}.
    */
+  public static ErrorMessageFactory shouldHaveAnnotations(AnnotatedElement actual,
+                                                          Collection<Class<? extends Annotation>> expected,
+                                                          Collection<Class<? extends Annotation>> missing) {
+    return new ShouldHaveAnnotations(actual, expected, missing);
+  }
+
+  /**
+   * Creates a new <code>{@link ShouldHaveAnnotations}</code>.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @param expected expected annotations for this class
+   * @param missing missing annotations for this class
+   * @return the created {@code ErrorMessageFactory}.
+   *
+   * @deprecated This method is retained for binary compatibility with assertj 3.24.2 and older.
+   *             Use {@link #shouldHaveAnnotations(AnnotatedElement, Collection, Collection)} instead
+   */
+  @Deprecated
   public static ErrorMessageFactory shouldHaveAnnotations(Class<?> actual,
                                                           Collection<Class<? extends Annotation>> expected,
                                                           Collection<Class<? extends Annotation>> missing) {
     return new ShouldHaveAnnotations(actual, expected, missing);
   }
 
-  private ShouldHaveAnnotations(Class<?> actual, Collection<Class<? extends Annotation>> expected,
+  private ShouldHaveAnnotations(AnnotatedElement actual, Collection<Class<? extends Annotation>> expected,
                                 Collection<Class<? extends Annotation>> missing) {
     super("%nExpecting%n  %s%nto have annotations:%n  %s%nbut the following annotations were not found:%n  %s", actual, expected,
           missing);

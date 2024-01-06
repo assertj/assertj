@@ -20,6 +20,11 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
+/**
+ * Tests for <code>{@link ShouldBeAbstract}</code>
+ *
+ * @author William Bakker
+ */
 class ShouldBeAbstract_create_Test {
 
   @Test
@@ -32,6 +37,19 @@ class ShouldBeAbstract_create_Test {
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
                                    "  java.lang.String%n" +
+                                   "to be abstract"));
+  }
+
+  @Test
+  void should_create_error_message_executable() throws NoSuchMethodException {
+    // GIVEN
+    ErrorMessageFactory errorMessageFactory = shouldBeAbstract(String.class.getMethod("toString"));
+    // WHEN
+    String message = errorMessageFactory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  public java.lang.String java.lang.String.toString()%n" +
                                    "to be abstract"));
   }
 }

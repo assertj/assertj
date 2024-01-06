@@ -31,6 +31,9 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.util.Lists.list;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -377,6 +380,24 @@ class BDDAssertions_then_Test {
   @Test
   void then_Duration() {
     then(Duration.ofHours(1)).isNotNull().isPositive();
+  }
+
+  @Test
+  void then_Field() throws NoSuchFieldException {
+    Field field = Math.class.getDeclaredField("PI");
+    then(field).isPublic();
+  }
+
+  @Test
+  void then_Constructor() throws NoSuchMethodException {
+    Constructor<?> constructor = Object.class.getDeclaredConstructor();
+    then(constructor).isPublic();
+  }
+
+  @Test
+  void then_Method() throws NoSuchMethodException {
+    Method method = Math.class.getDeclaredMethod("abs", long.class);
+    then(method).isPublic();
   }
 
   @SuppressWarnings("static-access")
