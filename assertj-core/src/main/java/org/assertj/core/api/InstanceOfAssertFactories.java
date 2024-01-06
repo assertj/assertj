@@ -55,6 +55,7 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.DoublePredicate;
+import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
@@ -65,10 +66,18 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 /**
- * Static {@link InstanceOfAssertFactory InstanceOfAssertFactories} for {@link Assert#asInstanceOf(InstanceOfAssertFactory)}.
+ * {@link InstanceOfAssertFactory} instances for Java types.
  *
  * @author Stefano Cordio
  * @since 3.13.0
+ * @see Assert#asInstanceOf(InstanceOfAssertFactory)
+ * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
+ * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
+ * @see AbstractMapAssert#extractingByKey(Object, InstanceOfAssertFactory)
+ * @see AbstractOptionalAssert#get(InstanceOfAssertFactory)
+ * @see AbstractIterableAssert#first(InstanceOfAssertFactory)
+ * @see AbstractIterableAssert#last(InstanceOfAssertFactory)
+ * @see AbstractIterableAssert#element(int, InstanceOfAssertFactory)
  */
 public interface InstanceOfAssertFactories {
 

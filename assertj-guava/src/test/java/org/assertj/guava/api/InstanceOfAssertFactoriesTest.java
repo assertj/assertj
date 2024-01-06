@@ -67,7 +67,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_multimap_factory_should_allow_typed_multimap_assertions() {
+  void multimap_typed_factory_should_allow_multimap_typed_assertions() {
     // GIVEN
     Object value = ImmutableMultimap.of("key", "value");
     // WHEN
@@ -87,7 +87,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_optional_factory_should_allow_typed_optional_assertions() {
+  void optional_typed_factory_should_allow_optional_typed_assertions() {
     // GIVEN
     Object value = Optional.of("something");
     // WHEN
@@ -137,7 +137,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_table_factory_should_allow_typed_table_assertions() {
+  void table_typed_factory_should_allow_table_typed_assertions() {
     // GIVEN
     Object value = ImmutableTable.of(0, 0.0, "value");
     // WHEN
@@ -158,7 +158,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_multiset_factory_should_allow_typed_multiset_assertions() {
+  void multiset_typed_factory_should_allow_multiset_typed_assertions() {
     // GIVEN
     Object value = ImmutableMultiset.of("value");
     // WHEN

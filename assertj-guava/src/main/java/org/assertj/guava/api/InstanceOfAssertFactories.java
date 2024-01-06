@@ -12,7 +12,6 @@
  */
 package org.assertj.guava.api;
 
-import org.assertj.core.api.Assert;
 import org.assertj.core.api.InstanceOfAssertFactory;
 
 import com.google.common.base.Optional;
@@ -25,10 +24,11 @@ import com.google.common.collect.Table;
 import com.google.common.io.ByteSource;
 
 /**
- * Guava {@link InstanceOfAssertFactory InstanceOfAssertFactories} for {@link Assert#asInstanceOf(InstanceOfAssertFactory)}.
+ * {@link InstanceOfAssertFactory} instances for Guava types.
  *
  * @author Stefano Cordio
  * @since 3.3.0
+ * @see org.assertj.core.api.InstanceOfAssertFactories
  */
 public interface InstanceOfAssertFactories {
 

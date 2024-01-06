@@ -192,7 +192,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_predicate_factory_should_allow_typed_predicate_assertions() {
+  void predicate_typed_factory_should_allow_predicate_typed_assertions() {
     // GIVEN
     Object value = (Predicate<String>) Strings::isNullOrEmpty;
     // WHEN
@@ -242,7 +242,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_completable_future_factory_should_allow_typed_completable_future_assertions() {
+  void completable_future_typed_factory_should_allow_completable_future_typed_assertions() {
     // GIVEN
     Object value = completedFuture("done");
     // WHEN
@@ -262,7 +262,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_completion_stage_factory_should_allow_typed_completable_future_assertions() {
+  void completion_stage_typed_factory_should_allow_completable_future_typed_assertions() {
     // GIVEN
     Object value = completedFuture("done");
     // WHEN
@@ -282,7 +282,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_optional_factory_should_allow_typed_optional_assertions() {
+  void optional_typed_factory_should_allow_optional_typed_assertions() {
     // GIVEN
     Object value = Optional.of("something");
     // WHEN
@@ -512,7 +512,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_future_factory_should_allow_typed_future_assertions() {
+  void future_typed_factory_should_allow_future_typed_assertions() {
     // GIVEN
     Object value = mock(Future.class);
     // WHEN
@@ -622,7 +622,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void type_factory_should_allow_typed_object_assertions() {
+  void type_factory_should_allow_object_typed_assertions() {
     // GIVEN
     Object value = "string";
     // WHEN
@@ -652,7 +652,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_array_factory_should_allow_typed_array_assertions() {
+  void array_typed_factory_should_allow_array_typed_assertions() {
     // GIVEN
     Object value = new Integer[] { 0, 1 };
     // WHEN
@@ -832,7 +832,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_atomic_integer_field_updater_factory_should_allow_typed_atomic_integer_field_updater_assertions() {
+  void atomic_integer_field_updater_typed_factory_should_allow_atomic_integer_field_updater_typed_assertions() {
     // GIVEN
     Object value = AtomicIntegerFieldUpdater.newUpdater(VolatileFieldContainer.class, "intField");
     // WHEN
@@ -882,7 +882,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_atomic_long_field_updater_factory_should_allow_typed_atomic_long_field_updater_assertions() {
+  void atomic_long_field_updater_typed_factory_should_allow_atomic_long_field_updater_typed_assertions() {
     // GIVEN
     Object value = AtomicLongFieldUpdater.newUpdater(VolatileFieldContainer.class, "longField");
     // WHEN
@@ -902,7 +902,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_atomic_reference_factory_should_allow_typed_atomic_reference_assertions() {
+  void atomic_reference_typed_factory_should_allow_atomic_reference_typed_assertions() {
     // GIVEN
     Object value = new AtomicReference<>(0);
     // WHEN
@@ -922,7 +922,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_atomic_reference_array_factory_should_allow_typed_atomic_reference_array_assertions() {
+  void atomic_reference_array_typed_factory_should_allow_atomic_reference_array_typed_assertions() {
     // GIVEN
     Object value = new AtomicReferenceArray<>(new Integer[] { 0, 1 });
     // WHEN
@@ -942,7 +942,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_atomic_reference_field_updater_factory_should_allow_typed_atomic_reference_field_updater_assertions() {
+  void atomic_reference_field_updater_typed_factory_should_allow_atomic_reference_field_updater_typed_assertions() {
     // GIVEN
     Object value = AtomicReferenceFieldUpdater.newUpdater(VolatileFieldContainer.class, String.class, "stringField");
     // WHEN
@@ -963,7 +963,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_atomic_markable_reference_factory_should_allow_typed_atomic_markable_reference_assertions() {
+  void atomic_markable_reference_typed_factory_should_allow_atomic_markable_reference_typed_assertions() {
     // GIVEN
     Object value = new AtomicMarkableReference<>(0, false);
     // WHEN
@@ -983,7 +983,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_atomic_stamped_reference_factory_should_allow_typed_atomic_stamped_reference_assertions() {
+  void atomic_stamped_reference_typed_factory_should_allow_atomic_stamped_reference_typed_assertions() {
     // GIVEN
     Object value = new AtomicStampedReference<>(0, 0);
     // WHEN
@@ -1003,7 +1003,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_throwable_factory_should_allow_typed_throwable_assertions() {
+  void throwable_typed_factory_should_allow_throwable_typed_assertions() {
     // GIVEN
     Object value = new RuntimeException("message");
     // WHEN
@@ -1063,7 +1063,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_iterable_factory_should_allow_typed_iterable_assertions() {
+  void iterable_typed_factory_should_allow_iterable_typed_assertions() {
     // GIVEN
     Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
@@ -1083,7 +1083,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_iterator_factory_should_allow_typed_iterator_assertions() {
+  void iterator_typed_factory_should_allow_iterator_typed_assertions() {
     // GIVEN
     Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
     // WHEN
@@ -1103,7 +1103,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_collection_factory_should_allow_typed_collection_assertions() {
+  void collection_typed_factory_should_allow_collection_typed_assertions() {
     // GIVEN
     Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
@@ -1123,7 +1123,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_list_factory_should_allow_typed_list_assertions() {
+  void list_typed_factory_should_allow_typed_list_assertions() {
     // GIVEN
     Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
@@ -1143,7 +1143,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_stream_factory_should_allow_typed_list_assertions() {
+  void stream_typed_factory_should_allow_typed_list_typed_assertions() {
     // GIVEN
     Object value = Stream.of(1, 2, 3);
     // WHEN
@@ -1213,7 +1213,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void typed_map_factory_should_allow_typed_map_assertions() {
+  void map_typed_factory_should_allow_map_typed_assertions() {
     // GIVEN
     Object value = mapOf(entry("key", "value"));
     // WHEN
