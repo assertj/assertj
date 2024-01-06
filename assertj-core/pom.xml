@@ -212,13 +212,7 @@
   <build>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>net.alchim31.maven</groupId>
-          <artifactId>yuicompressor-maven-plugin</artifactId>
-          <version>1.5.1</version>
-        </plugin>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build
-          itself. -->
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
           <artifactId>lifecycle-mapping</artifactId>
@@ -236,7 +230,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore />
+                    <ignore/>
                   </action>
                 </pluginExecution>
               </pluginExecutions>
@@ -309,7 +303,7 @@
                     <exclude>*:*:*:jar:compile</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence />
+                <dependencyConvergence/>
               </rules>
             </configuration>
           </execution>
@@ -422,37 +416,19 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>yuicompressor-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>generate-sources</phase> <!-- invoked by maven-javadoc-plugin -->
-            <goals>
-              <goal>compress</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <sourceDirectory>src/main/javadoc</sourceDirectory>
-          <outputDirectory>${project.build.directory}/javadoc-stylesheet</outputDirectory>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
+          <additionalOptions>${javadocAdditionalOptions}</additionalOptions>
+          <addStylesheets>
+            <stylesheet>assertj-theme.css</stylesheet>
+            <stylesheet>hljs-theme.css</stylesheet>
+          </addStylesheets>
           <!-- Explicitly set Javadoc locale to English -->
           <locale>en_US</locale>
-          <!-- needed to fix javadoc on java 11+ https://github.com/assertj/assertj/issues/1403 -->
-          <source>8</source>
-          <!-- (1) CSS file location -->
-          <stylesheetfile>${project.build.directory}/javadoc-stylesheet/assertj-javadoc-min.css</stylesheetfile>
-          <!-- init Highlight -->
-          <additionalOptions>${javadocAdditionalOptions}</additionalOptions>
           <nohelp>true</nohelp>
           <bottom><![CDATA[
             Copyright &#169; {currentYear} {organizationName}. All rights reserved.
-            <link rel="stylesheet" href="./assertj-javadoc.css"">
             <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
             <script>hljs.highlightAll();</script>
         ]]></bottom>

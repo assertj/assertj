@@ -1,0 +1,33 @@
+:root {
+    /* body, block and code fonts */
+    --body-font-family: Verdana, Geneva, sans-serif;
+    --block-font-family: Verdana, Geneva, serif;
+    /* Text colors for body and block elements */
+    --body-text-color: #000000;
+    --block-text-color: #000000;
+    /* Background colors for various structural elements */
+    --body-background-color: #edd9a6;
+    --section-background-color: #e9d195;
+    --detail-background-color: #edd9a6;
+    /* Colors for navigation bar and table captions */
+    --navbar-background-color: #232323;
+    --navbar-text-color: #edd9a6;
+    /* Background color for subnavigation and various headers */
+    --subnav-background-color: #e5c880;
+    /* Background and text colors for selected tabs and navigation items */
+    --selected-background-color: #e5c880;
+    --selected-text-color: #000000;
+    --selected-link-color: #861203;
+    /* Background colors for generated tables */
+    --even-row-color: #edd9a6;
+    --odd-row-color: #e7ce8e;
+    /* Text color for page title */
+    --title-color: #000000;
+    /* Text colors for links */
+    --link-color: #861203;
+    --link-color-active: #641003;
+    /* Border colors for structural elements and user defined tables */
+    --border-color: #e5c880;
+    /* Search input colors */
+    --search-input-background-color: #edd9a6;
+}
