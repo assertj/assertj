@@ -22,6 +22,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.security.KeyStore;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -2660,6 +2661,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default AbstractOffsetDateTimeAssert<?> assertThat(final OffsetDateTime offsetDateTime) {
     return Assertions.assertThat(offsetDateTime);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link KeyStoreAssert}</code>.
+   *
+   * @param keyStore the actual value.
+   * @return the created assertion object.
+   */
+  default KeyStoreAssert assertThat(final KeyStore keyStore) {
+    return Assertions.assertThat(keyStore);
   }
 
   /**

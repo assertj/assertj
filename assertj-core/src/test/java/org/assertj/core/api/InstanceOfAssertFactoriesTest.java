@@ -66,6 +66,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.INT_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.INT_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.ITERABLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.ITERATOR;
+import static org.assertj.core.api.InstanceOfAssertFactories.KEY_STORE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LIST;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LOCAL_DATE_TIME;
@@ -173,6 +174,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.test.KeyStores;
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.Test;
 
@@ -789,6 +791,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractPeriodAssert<?> result = assertThat(value).asInstanceOf(PERIOD);
     // THEN
     result.hasDays(1);
+  }
+
+  @Test
+  void key_store_factory_should_allow_keystore_assertions() {
+    // GIVEN
+    Object value = KeyStores.newKeyStore();
+    // WHEN
+    KeyStoreAssert result = assertThat(value).asInstanceOf(KEY_STORE);
+    // THEN
+    result.doesNotContainAlias("foo");
   }
 
   @Test

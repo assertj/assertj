@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.nio.file.Path;
+import java.security.KeyStore;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -414,4 +415,13 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
     return proxy(LongAdderAssert.class, LongAdder.class, actual);
   }
 
+  /**
+   * Creates a new instance of <code>{@link KeyStoreAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default KeyStoreAssert assertThat(KeyStore actual) {
+    return proxy(KeyStoreAssert.class, KeyStore.class, actual);
+  }
 }

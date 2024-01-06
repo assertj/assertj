@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.security.KeyStore;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -557,6 +558,8 @@ public interface InstanceOfAssertFactories {
    */
   InstanceOfAssertFactory<Period, AbstractPeriodAssert<?>> PERIOD = new InstanceOfAssertFactory<>(Period.class,
                                                                                                   Assertions::assertThat);
+
+  InstanceOfAssertFactory<KeyStore, KeyStoreAssert> KEY_STORE = new InstanceOfAssertFactory<>(KeyStore.class, Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicBoolean}.
