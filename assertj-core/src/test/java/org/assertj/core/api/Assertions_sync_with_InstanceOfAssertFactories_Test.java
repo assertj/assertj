@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static java.util.stream.Collectors.toMap;
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -27,6 +28,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -34,19 +36,24 @@ import org.junit.jupiter.api.Test;
 
 class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertionsTest {
 
-  private static final Class<?>[] FIELD_FACTORIES_IGNORED_TYPES = {
-      // There can be no Comparable field factory with a base type.
+  private static final Class<?>[] IGNORED_INPUT_TYPES = {
+      // There is no dedicated `assertThat`.
+      Set.class
+  };
+
+  private static final Class<?>[] IGNORED_ASSERT_TYPES_FOR_FIELD_FACTORIES = {
+      // There cannot be a `Comparable` field factory with a base type.
       AbstractComparableAssert.class,
-      // The comparison of the input GenericArrayTypes will always fail, since it verifies the inner TypeVariable which
-      // returns the defining Method as result of TypeVariable#getGenericDeclaration().
+      // The comparison of the input `GenericArrayTypes` will always fail, since it verifies the inner `TypeVariable`
+      // which returns the defining `Method` as a result of `TypeVariable#getGenericDeclaration()`.
       ObjectArrayAssert.class, Object2DArrayAssert.class,
       // A field factory for an object is pointless.
       ObjectAssert.class,
   };
 
-  private static final Class<?>[] METHOD_FACTORIES_IGNORED_TYPES = {
-      // The comparison of the input GenericArrayTypes will always fail, since it verifies the inner TypeVariable which
-      // returns the defining Method as result of TypeVariable#getGenericDeclaration().
+  private static final Class<?>[] IGNORED_ASSERT_TYPES_FOR_METHOD_FACTORIES = {
+      // The comparison of the input `GenericArrayTypes` will always fail, since it verifies the inner `TypeVariable`
+      // which returns the defining `Method` as a result of `TypeVariable#getGenericDeclaration()`.
       ObjectArrayAssert.class, Object2DArrayAssert.class,
   };
 
@@ -73,7 +80,8 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
   }
 
   private Map<Type, Type> findAssertThatParameterAndReturnTypes() {
-    return Stream.of(findMethodsWithName(Assertions.class, "assertThat", ignoredReturnTypes(FIELD_FACTORIES_IGNORED_TYPES)))
+    return Stream.of(findMethodsWithName(Assertions.class, "assertThat",
+                                         ignoredReturnTypes(IGNORED_ASSERT_TYPES_FOR_FIELD_FACTORIES)))
                  .map(this::toParameterAndReturnTypeEntry)
                  .filter(not(this::isPrimitiveTypeKey))
                  .collect(toMap(Entry::getKey, Entry::getValue));
@@ -87,7 +95,8 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
   }
 
   private Map<Type, Type> findTypedAssertThatParameterAndReturnTypes() {
-    return Stream.of(findMethodsWithName(Assertions.class, "assertThat", ignoredReturnTypes(METHOD_FACTORIES_IGNORED_TYPES)))
+    return Stream.of(findMethodsWithName(Assertions.class, "assertThat",
+                                         ignoredReturnTypes(IGNORED_ASSERT_TYPES_FOR_METHOD_FACTORIES)))
                  .filter(this::hasTypeParameters)
                  .map(this::toParameterAndReturnTypeEntry)
                  .collect(toMap(Entry::getKey, Entry::getValue));
@@ -118,35 +127,40 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
                  .filter(not(Field::isSynthetic)) // Exclude $jacocoData - see #590 and jacoco/jacoco#168
                  .map(Field::getGenericType)
                  .map(this::extractTypeParameters)
+                 .filter(not(this::isIgnoredInputType))
                  .filter(not(this::isIgnoredFieldFactory))
                  .collect(toMap(Entry::getKey, Entry::getValue));
   }
 
   private boolean isIgnoredFieldFactory(Entry<Type, Type> e) {
-    return isIgnoredFactory(e, FIELD_FACTORIES_IGNORED_TYPES);
+    return isIgnoredFactory(e, IGNORED_ASSERT_TYPES_FOR_FIELD_FACTORIES);
   }
 
   private Map<Type, Type> findMethodFactoryTypes() {
     return Stream.of(InstanceOfAssertFactories.class.getMethods())
                  .map(Method::getGenericReturnType)
                  .map(this::extractTypeParameters)
+                 .filter(not(this::isIgnoredInputType))
                  .filter(not(this::isIgnoredMethodFactory))
                  .collect(toMap(Entry::getKey, Entry::getValue));
   }
 
   private boolean isIgnoredMethodFactory(Entry<Type, Type> e) {
-    return isIgnoredFactory(e, METHOD_FACTORIES_IGNORED_TYPES);
+    return isIgnoredFactory(e, IGNORED_ASSERT_TYPES_FOR_METHOD_FACTORIES);
   }
 
-  private boolean isIgnoredFactory(Entry<Type, Type> e, Class<?>... ignoredTypes) {
+  private boolean isIgnoredFactory(Entry<Type, Type> e, Class<?>[] ignoredTypes) {
     return Stream.of(ignoredTypes).anyMatch(type -> e.getValue().equals(type));
+  }
+
+  private boolean isIgnoredInputType(Entry<Type, Type> e) {
+    return Stream.of(IGNORED_INPUT_TYPES).anyMatch(type -> e.getKey().equals(type));
   }
 
   private Entry<Type, Type> extractTypeParameters(Type type) {
     assertThat(type).asInstanceOf(type(ParameterizedType.class))
                     .returns(InstanceOfAssertFactory.class, from(ParameterizedType::getRawType))
-                    .extracting(ParameterizedType::getActualTypeArguments)
-                    .asInstanceOf(ARRAY)
+                    .extracting(ParameterizedType::getActualTypeArguments, as(ARRAY))
                     .hasSize(2);
     Type[] typeArguments = ((ParameterizedType) type).getActualTypeArguments();
     return entry(normalize(typeArguments[0]), normalize(typeArguments[1]));

@@ -85,6 +85,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
 import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
+import static org.assertj.core.api.InstanceOfAssertFactories.SET;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
@@ -99,6 +100,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.ZONED_DATE_TIME;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
 import static org.assertj.core.util.Sets.newHashSet;
+import static org.assertj.core.util.Sets.set;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.io.ByteArrayInputStream;
@@ -261,6 +263,7 @@ class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest 
                      arguments(OptionalLong.empty(), OPTIONAL_LONG),
                      arguments(Paths.get("."), PATH),
                      arguments((Predicate<String>) String::isEmpty, PREDICATE),
+                     arguments(set("foo"), SET),
                      arguments(Short.MIN_VALUE, SHORT),
                      arguments(new short[0], SHORT_ARRAY),
                      arguments(new short[0][0], SHORT_2D_ARRAY),

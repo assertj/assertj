@@ -87,6 +87,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
 import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
+import static org.assertj.core.api.InstanceOfAssertFactories.SET;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
@@ -119,6 +120,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.list;
 import static org.assertj.core.api.InstanceOfAssertFactories.map;
 import static org.assertj.core.api.InstanceOfAssertFactories.optional;
 import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
+import static org.assertj.core.api.InstanceOfAssertFactories.set;
 import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
@@ -176,6 +178,7 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.util.Lists;
+import org.assertj.core.util.Sets;
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.Test;
 
@@ -1131,6 +1134,26 @@ class InstanceOfAssertFactoriesTest {
     Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
     AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = assertThat(value).asInstanceOf(collection(String.class));
+    // THEN
+    result.contains("Bart", "Lisa");
+  }
+
+  @Test
+  void set_factory_should_allow_collection_assertions() {
+    // GIVEN
+    Object value = Sets.set("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    // WHEN
+    AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = assertThat(value).asInstanceOf(SET);
+    // THEN
+    result.contains("Bart", "Lisa");
+  }
+
+  @Test
+  void set_typed_factory_should_allow_collection_typed_assertions() {
+    // GIVEN
+    Object value = Sets.set("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    // WHEN
+    AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = assertThat(value).asInstanceOf(set(String.class));
     // THEN
     result.contains("Bart", "Lisa");
   }
