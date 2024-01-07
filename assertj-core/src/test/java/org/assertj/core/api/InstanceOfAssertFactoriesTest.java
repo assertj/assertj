@@ -77,6 +77,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
+import static org.assertj.core.api.InstanceOfAssertFactories.MATCHER;
 import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
@@ -99,6 +100,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.ZONED_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.array;
+import static org.assertj.core.api.InstanceOfAssertFactories.array2D;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicIntegerFieldUpdater;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicLongFieldUpdater;
 import static org.assertj.core.api.InstanceOfAssertFactories.atomicMarkableReference;
@@ -121,7 +123,6 @@ import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.mock;
 
 import java.io.ByteArrayInputStream;
@@ -168,11 +169,13 @@ import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.util.Lists;
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.Test;
 
@@ -319,6 +322,16 @@ class InstanceOfAssertFactoriesTest {
     OptionalLongAssert result = assertThat(value).asInstanceOf(OPTIONAL_LONG);
     // THEN
     result.isPresent();
+  }
+
+  @Test
+  void matcher_factory_should_allow_matcher_assertions() {
+    // GIVEN
+    Object value = Pattern.compile("a*").matcher("aaa");
+    // WHEN
+    MatcherAssert result = assertThat(value).asInstanceOf(MATCHER);
+    // THEN
+    result.matches();
   }
 
   @Test
@@ -642,6 +655,16 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void array_typed_factory_should_allow_array_typed_assertions() {
+    // GIVEN
+    Object value = new Integer[] { 0, 1 };
+    // WHEN
+    ObjectArrayAssert<Integer> result = assertThat(value).asInstanceOf(array(Integer[].class));
+    // THEN
+    result.containsExactly(0, 1);
+  }
+
+  @Test
   void array_2d_factory_should_allow_2d_array_assertions() {
     // GIVEN
     Object value = new Object[][] { { 0, "" }, { 3.0, 'b' } };
@@ -652,13 +675,13 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
-  void array_typed_factory_should_allow_array_typed_assertions() {
+  void array_2d_typed_factory_should_allow_2d_array_typed_assertions() {
     // GIVEN
-    Object value = new Integer[] { 0, 1 };
+    Object value = new Integer[][] { { 0, 1 }, { 2, 3 } };
     // WHEN
-    ObjectArrayAssert<Integer> result = assertThat(value).asInstanceOf(array(Integer[].class));
+    Object2DArrayAssert<Integer> result = assertThat(value).asInstanceOf(array2D(Integer[][].class));
     // THEN
-    result.containsExactly(0, 1);
+    result.hasDimensions(2, 2);
   }
 
   @Test
@@ -1055,7 +1078,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void iterable_factory_should_allow_iterable_assertions() {
     // GIVEN
-    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
     IterableAssert<Object> result = assertThat(value).asInstanceOf(ITERABLE);
     // THEN
@@ -1065,7 +1088,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void iterable_typed_factory_should_allow_iterable_typed_assertions() {
     // GIVEN
-    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
     IterableAssert<String> result = assertThat(value).asInstanceOf(iterable(String.class));
     // THEN
@@ -1075,7 +1098,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void iterator_factory_should_allow_iterator_assertions() {
     // GIVEN
-    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
+    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
     // WHEN
     IteratorAssert<Object> result = assertThat(value).asInstanceOf(ITERATOR);
     // THEN
@@ -1085,7 +1108,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void iterator_typed_factory_should_allow_iterator_typed_assertions() {
     // GIVEN
-    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
+    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
     // WHEN
     IteratorAssert<String> result = assertThat(value).asInstanceOf(iterator(String.class));
     // THEN
@@ -1095,7 +1118,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void collection_factory_should_allow_collection_assertions() {
     // GIVEN
-    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
     AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = assertThat(value).asInstanceOf(COLLECTION);
     // THEN
@@ -1105,7 +1128,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void collection_typed_factory_should_allow_collection_typed_assertions() {
     // GIVEN
-    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
     AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = assertThat(value).asInstanceOf(collection(String.class));
     // THEN
@@ -1115,7 +1138,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void list_factory_should_allow_list_assertions() {
     // GIVEN
-    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
     ListAssert<Object> result = assertThat(value).asInstanceOf(LIST);
     // THEN
@@ -1125,7 +1148,7 @@ class InstanceOfAssertFactoriesTest {
   @Test
   void list_typed_factory_should_allow_typed_list_assertions() {
     // GIVEN
-    Object value = list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
     // WHEN
     ListAssert<String> result = assertThat(value).asInstanceOf(list(String.class));
     // THEN
