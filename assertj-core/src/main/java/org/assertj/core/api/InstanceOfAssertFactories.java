@@ -913,7 +913,7 @@ public interface InstanceOfAssertFactories {
    * {@link InstanceOfAssertFactory} for a {@link Set}, assuming {@code Object} as element type.
    *
    * @see #set(Class)
-   * @since 3.21.0
+   * @since 3.26.0
    */
   @SuppressWarnings("rawtypes") // rawtypes: using Class instance
   InstanceOfAssertFactory<Set, AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>>> SET = set(Object.class);
