@@ -590,7 +590,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   *  {@inheritDoc}
+   *  @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
+   */
   @Deprecated
   @Override
   @CheckReturnValue
@@ -949,7 +952,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * This allows users to perform <b>OR like assertions</b> since only one the assertions group has to be met.
    * <p>
    * This is the same assertion as {@link #satisfiesAnyOf(Consumer...)} but the given consumers can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * {@link #overridingErrorMessage(String, Object...) Overriding error message} is not supported as it would prevent from
    * getting the error messages of the failing assertions, these are valuable to figure out what went wrong.<br>
@@ -960,10 +963,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * ThrowingConsumer&lt;Reader&gt; hasReachedEOF = reader -&gt; assertThat(reader.read()).isEqualTo(-1);
    * ThrowingConsumer&lt;Reader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
    *
-   * // assertion succeeds as the file is empty (note that if hasReachedEOF was declared as a Consumer&lt;Reader&gt; the following line would not compile): 
+   * // assertion succeeds as the file is empty (note that if hasReachedEOF was declared as a Consumer&lt;Reader&gt; the following line would not compile):
    * assertThat(new FileReader("empty.txt")).satisfiesAnyOf(hasReachedEOF, startsWithZ);
    *
-   * // alphabet.txt contains: abcdefghijklmnopqrstuvwxyz  
+   * // alphabet.txt contains: abcdefghijklmnopqrstuvwxyz
    * // assertion fails as alphabet.txt is not empty and starts with 'a':
    * assertThat(new FileReader("alphabet.txt")).satisfiesAnyOf(hasReachedEOF, startsWithZ);</code></pre>
    *
@@ -971,7 +974,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @return this assertion object.
    *
    * @throws IllegalArgumentException if any given assertions group is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
    * @throws AssertionError rethrown as is by the given {@link ThrowingConsumer}
    * @since 3.21.0
    */
