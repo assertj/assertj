@@ -93,7 +93,7 @@ class ObjectArrays_assertDoesNotHaveDuplicates_Test extends ObjectArraysBaseTest
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-                             shouldNotHaveDuplicates(actual, newLinkedHashSet("Luke", "Yoda"),
+                             shouldNotHaveDuplicates(actual, newLinkedHashSet("LUKE", "Yoda"),
                                                      caseInsensitiveStringComparisonStrategy));
   }
 }

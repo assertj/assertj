@@ -17,6 +17,7 @@ import static java.util.Collections.EMPTY_SET;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import java.lang.reflect.Array;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -39,7 +40,20 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
         noDuplicates.add(element);
       }
     }
-    return duplicates;
+    return duplicatesInOriginalOrder(iterable, duplicates);
+  }
+
+  private Iterable<?> duplicatesInOriginalOrder(Iterable<?> iterable, Set<Object> duplicates) {
+    Set<Object> duplicatesInOriginalOrder  = new LinkedHashSet<>();
+    // for elements of type Set collections, ensure each element is added only once
+    Set<Object> alreadyAddedDuplicates = newSetUsingComparisonStrategy();
+    for (Object element : iterable) {
+      if (duplicates.contains(element)&& !alreadyAddedDuplicates.contains(element)) {
+        duplicatesInOriginalOrder.add(element);
+        alreadyAddedDuplicates.add(element);
+      }
+    }
+    return duplicatesInOriginalOrder;
   }
 
   /**
