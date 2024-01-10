@@ -90,7 +90,9 @@ class RecursiveComparisonAssert_isEqualTo_with_java_types_Test extends Recursive
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, diff("value.value", "test1", "test2"));
+    ComparisonDifference diff = diff("value.value", "test1", "test2",
+                                     "Comparison objects are of Java types and were then compared with equals method");
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, diff);
   }
 
   @Test
@@ -101,7 +103,9 @@ class RecursiveComparisonAssert_isEqualTo_with_java_types_Test extends Recursive
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, diff("value", "test1", "test2"));
+    ComparisonDifference diff = diff("value", "test1", "test2",
+                                     "Comparison objects are of Java types and were then compared with equals method");
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, diff);
   }
 
   @Test
@@ -114,7 +118,9 @@ class RecursiveComparisonAssert_isEqualTo_with_java_types_Test extends Recursive
     // WHEN
     compareRecursivelyFailsAsExpected(actual, expected);
     // THEN
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, diff("value", actualLock, expectedLock));
+    ComparisonDifference diff = diff("value", actualLock, expectedLock,
+                                     "Comparison objects are of Java types and were then compared with equals method");
+    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, diff);
   }
 
   static class Wrapper {

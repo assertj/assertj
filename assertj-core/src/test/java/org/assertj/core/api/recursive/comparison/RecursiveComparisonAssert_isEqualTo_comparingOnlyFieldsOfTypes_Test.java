@@ -20,7 +20,6 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.Home;
 import org.assertj.core.internal.objects.data.Person;
@@ -123,16 +122,19 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
   }
 
   private static Stream<Arguments> failComparingTopLevelFields() {
-    return Stream.of(arguments(billie, john, types(String.class), "different name", array(diff("name", billie.name, john.name))),
+    String javaComparisonInformation = "Comparison objects are of Java types and were then compared with equals method";
+    return Stream.of(arguments(billie, john, types(String.class), "different name",
+                               array(diff("name", billie.name, john.name, javaComparisonInformation))),
                      arguments(billie, anotherBillie, types(OptionalInt.class, OptionalDouble.class), "different age and weight",
-                               array(diff("age", billie.age, anotherBillie.age),
-                                     diff("weight", billie.weight, anotherBillie.weight))),
+                               array(diff("age", billie.age, anotherBillie.age, javaComparisonInformation),
+                                     diff("weight", billie.weight, anotherBillie.weight, javaComparisonInformation))),
                      arguments(john, jill, types(Person.class),
                                "different neighbour.name, neighbour.age and neighbour.home.address.number",
-                               array(diff("neighbour.age", john.neighbour.age, jill.neighbour.age),
+                               array(diff("neighbour.age", john.neighbour.age, jill.neighbour.age, javaComparisonInformation),
                                      diff("neighbour.home.address.number", john.neighbour.home.address.number,
-                                          jill.neighbour.home.address.number),
-                                     diff("neighbour.name", john.neighbour.name, jill.neighbour.name))));
+                                          jill.neighbour.home.address.number, javaComparisonInformation),
+                                     diff("neighbour.name", john.neighbour.name, jill.neighbour.name,
+                                          javaComparisonInformation))));
   }
 
   @Test
@@ -151,8 +153,14 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     // WHEN
     AssertionError assertionError = compareRecursivelyFailsAsExpected(billie, anotherBillie);
     // THEN
-    ComparisonDifference ageDifference = diff("age", billie.age, anotherBillie.age);
-    ComparisonDifference weightDifference = diff("weight", billie.weight, anotherBillie.weight);
+    ComparisonDifference ageDifference = diff("age",
+                                              billie.age,
+                                              anotherBillie.age,
+                                              "Comparison objects are of Java types and were then compared with equals method");
+    ComparisonDifference weightDifference = diff("weight",
+                                                 billie.weight,
+                                                 anotherBillie.weight,
+                                                 "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(billie, anotherBillie, ageDifference, weightDifference);
   }
 
@@ -173,7 +181,10 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     // WHEN
     compareRecursivelyFailsAsExpected(john, jill);
     // THEN
-    ComparisonDifference idDifference = diff("name", john.name, jill.name);
+    ComparisonDifference idDifference = diff("name",
+                                             john.name,
+                                             jill.name,
+                                             "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(john, jill, idDifference);
   }
 
@@ -194,7 +205,10 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     // WHEN
     compareRecursivelyFailsAsExpected(john, jill);
     // THEN
-    ComparisonDifference nameDifference = diff("name", john.name, jill.name);
+    ComparisonDifference nameDifference = diff("name",
+                                               john.name,
+                                               jill.name,
+                                               "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(john, jill, nameDifference);
   }
 
@@ -216,7 +230,10 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     // WHEN
     compareRecursivelyFailsAsExpected(billie, anotherBillie);
     // THEN
-    ComparisonDifference weightDifference = diff("weight", billie.weight, anotherBillie.weight);
+    ComparisonDifference weightDifference = diff("weight",
+                                                 billie.weight,
+                                                 anotherBillie.weight,
+                                                 "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(billie, anotherBillie, weightDifference);
   }
 
@@ -244,7 +261,10 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     // WHEN
     compareRecursivelyFailsAsExpected(sherlock, moriarty);
     // THEN
-    ComparisonDifference streetNumberDifference = diff("home.address.number", 221, 222);
+    ComparisonDifference streetNumberDifference = diff("home.address.number",
+                                                       221,
+                                                       222,
+                                                       "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(sherlock, moriarty, streetNumberDifference);
 
   }
@@ -258,7 +278,10 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     // WHEN
     compareRecursivelyFailsAsExpected(lassie, snoopy);
     // THEN
-    ComparisonDifference weightDifference = diff("breed.name", lassie.breed.name, snoopy.breed.name);
+    ComparisonDifference weightDifference = diff("breed.name",
+                                                 lassie.breed.name,
+                                                 snoopy.breed.name,
+                                                 "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(lassie, snoopy, weightDifference);
   }
 

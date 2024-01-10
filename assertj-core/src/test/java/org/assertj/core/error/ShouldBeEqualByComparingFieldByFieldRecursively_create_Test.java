@@ -225,6 +225,7 @@ class ShouldBeEqualByComparingFieldByFieldRecursively_create_Test {
                                    "field/property 'last' differ:%n" +
                                    "- actual value  : \"Johnson\"%n" +
                                    "- expected value: \"Ginobili\"%n" +
+                                   "Comparison objects are of Java types and were then compared with equals method%n" +
                                    "%n" +
                                    "The recursive comparison was performed with this configuration:%n%s",
                                    CONFIGURATION_PROVIDER.representation().toStringOf(recursiveComparisonConfiguration)));

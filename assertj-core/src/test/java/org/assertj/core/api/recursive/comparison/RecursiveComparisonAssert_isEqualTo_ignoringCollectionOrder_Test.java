@@ -96,7 +96,8 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2));
+    ComparisonDifference comparisonDifference = new ComparisonDifference(new DualValue(list("home.address.number"), 1, 2),
+                                                                         "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, comparisonDifference);
   }
 

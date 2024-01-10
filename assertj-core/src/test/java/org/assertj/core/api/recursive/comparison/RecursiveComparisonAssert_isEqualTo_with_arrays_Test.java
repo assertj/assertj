@@ -69,7 +69,7 @@ class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComp
     Author none = null;
     return Stream.of(Arguments.of(array(pratchett), array(georgeMartin),
                                   list("group", "[0]", "name"), "Terry Pratchett", "George Martin",
-                                  null),
+                                  "Comparison objects are of Java types and were then compared with equals method"),
                      Arguments.of(array(pratchett, georgeMartin), array(pratchett),
                                   list("group"), array(pratchett, georgeMartin), array(pratchett),
                                   "actual and expected values are arrays of different size, actual size=2 when expected size=1"),

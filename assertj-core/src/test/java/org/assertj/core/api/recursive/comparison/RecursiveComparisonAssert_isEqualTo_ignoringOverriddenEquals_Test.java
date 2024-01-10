@@ -126,10 +126,14 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
+    ComparisonDifference neighbourNameDifference = diff("neighbour.name",
+                                                        actual.neighbour.name,
+                                                        expected.neighbour.name,
+                                                        "Comparison objects are of Java types and were then compared with equals method");
     ComparisonDifference numberDifference = diff("neighbour.home.address.number",
                                                  actual.neighbour.home.address.number,
-                                                 expected.neighbour.home.address.number);
+                                                 expected.neighbour.home.address.number,
+                                                 "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, numberDifference, neighbourNameDifference);
   }
 
@@ -200,10 +204,14 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
+    ComparisonDifference neighbourNameDifference = diff("neighbour.name",
+                                                        actual.neighbour.name,
+                                                        expected.neighbour.name,
+                                                        "Comparison objects are of Java types and were then compared with equals method");
     ComparisonDifference numberDifference = diff("neighbour.home.address.number",
                                                  actual.neighbour.home.address.number,
-                                                 expected.neighbour.home.address.number);
+                                                 expected.neighbour.home.address.number,
+                                                 "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, numberDifference, neighbourNameDifference);
   }
 
@@ -271,10 +279,14 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     compareRecursivelyFailsAsExpected(actual, expected);
 
     // THEN
-    ComparisonDifference neighbourNameDifference = diff("neighbour.name", actual.neighbour.name, expected.neighbour.name);
+    ComparisonDifference neighbourNameDifference = diff("neighbour.name",
+                                                        actual.neighbour.name,
+                                                        expected.neighbour.name,
+                                                        "Comparison objects are of Java types and were then compared with equals method");
     ComparisonDifference numberDifference = diff("neighbour.home.address.number",
                                                  actual.neighbour.home.address.number,
-                                                 expected.neighbour.home.address.number);
+                                                 expected.neighbour.home.address.number,
+                                                 "Comparison objects are of Java types and were then compared with equals method");
     verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, numberDifference, neighbourNameDifference);
   }
 
