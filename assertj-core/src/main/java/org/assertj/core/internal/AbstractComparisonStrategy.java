@@ -22,7 +22,7 @@ import java.util.Set;
 
 /**
  * Base implementation of {@link ComparisonStrategy} contract.
- * 
+ *
  * @author Joel Costigliola
  */
 public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
@@ -33,32 +33,22 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
 
     Set<Object> duplicates = newSetUsingComparisonStrategy();
     Set<Object> noDuplicates = newSetUsingComparisonStrategy();
+    Set<Object> duplicatesWithOrderPreserved = new LinkedHashSet<>();
     for (Object element : iterable) {
       if (noDuplicates.contains(element)) {
-        duplicates.add(element);
+        if (duplicates.add(element)) {
+          duplicatesWithOrderPreserved.add(element);
+        }
       } else {
         noDuplicates.add(element);
       }
     }
-    return duplicatesWithOrderPreserved(iterable, duplicates);
-  }
-
-  private Iterable<?> duplicatesWithOrderPreserved(Iterable<?> iterable, Set<Object> duplicates) {
-    Set<Object> duplicatesInOriginalOrder = new LinkedHashSet<>();
-    // for elements of type Set collections, ensure each element is added only once
-    Set<Object> alreadyAddedDuplicates = newSetUsingComparisonStrategy();
-    for (Object element : iterable) {
-      if (duplicates.contains(element) && !alreadyAddedDuplicates.contains(element)) {
-        duplicatesInOriginalOrder.add(element);
-        alreadyAddedDuplicates.add(element);
-      }
-    }
-    return duplicatesInOriginalOrder;
+    return duplicatesWithOrderPreserved;
   }
 
   /**
    * Returns a {@link Set} honoring the comparison strategy used.
-   * 
+   *
    * @return a {@link Set} honoring the comparison strategy used.
    */
   protected abstract Set<Object> newSetUsingComparisonStrategy();

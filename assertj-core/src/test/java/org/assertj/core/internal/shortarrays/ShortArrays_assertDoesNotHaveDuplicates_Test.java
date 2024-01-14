@@ -94,7 +94,7 @@ class ShortArrays_assertDoesNotHaveDuplicates_Test extends ShortArraysBaseTest {
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-                             shouldNotHaveDuplicates(actual, newLinkedHashSet((short) 6, (short) -8),
+                             shouldNotHaveDuplicates(actual, newLinkedHashSet((short) 6, (short) 8),
                                                      absValueComparisonStrategy));
   }
 }

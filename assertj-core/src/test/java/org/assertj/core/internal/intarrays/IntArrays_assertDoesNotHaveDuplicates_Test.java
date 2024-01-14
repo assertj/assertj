@@ -93,6 +93,6 @@ class IntArrays_assertDoesNotHaveDuplicates_Test extends IntArraysBaseTest {
     Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(info, actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(6, -8), absValueComparisonStrategy));
+    verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet(6, 8), absValueComparisonStrategy));
   }
 }
