@@ -44,11 +44,11 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
   }
 
   private Iterable<?> duplicatesWithOrderPreserved(Iterable<?> iterable, Set<Object> duplicates) {
-    Set<Object> duplicatesInOriginalOrder  = new LinkedHashSet<>();
+    Set<Object> duplicatesInOriginalOrder = new LinkedHashSet<>();
     // for elements of type Set collections, ensure each element is added only once
     Set<Object> alreadyAddedDuplicates = newSetUsingComparisonStrategy();
     for (Object element : iterable) {
-      if (duplicates.contains(element)&& !alreadyAddedDuplicates.contains(element)) {
+      if (duplicates.contains(element) && !alreadyAddedDuplicates.contains(element)) {
         duplicatesInOriginalOrder.add(element);
         alreadyAddedDuplicates.add(element);
       }

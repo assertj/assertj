@@ -37,7 +37,7 @@ class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest_Standa
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(list);
 
     assertThat(sizeOf(duplicates)).isEqualTo(3);
-    assertThat(standardComparisonStrategy.areEqual(toArray(duplicates), new Object[]{ "Merry", "Frodo", null })).isTrue();
+    assertThat(standardComparisonStrategy.areEqual(toArray(duplicates), new Object[] { "Merry", "Frodo", null })).isTrue();
   }
 
   @Test
