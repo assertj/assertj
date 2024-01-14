@@ -12,63 +12,70 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
-import static org.assertj.core.util.IterableUtil.sizeOf;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link StandardComparisonStrategy#duplicatesFrom(java.util.Collection)}.<br>
+ * Tests for {@link StandardComparisonStrategy#duplicatesFrom(Iterable)}.<br>
  * 
  * @author Joel Costigliola
  */
 class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest_StandardComparisonStrategy {
 
   @Test
-  void should_return_existing_duplicates() {
-    List<String> list = newArrayList("Merry", "Frodo", null, null, "Merry", "Sam", "Frodo");
-    Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(list);
-
-    assertThat(sizeOf(duplicates)).isEqualTo(3);
-    assertThat(standardComparisonStrategy.iterableContains(duplicates, "Frodo")).isTrue();
-    assertThat(standardComparisonStrategy.iterableContains(duplicates, "Merry")).isTrue();
-    assertThat(standardComparisonStrategy.iterableContains(duplicates, null)).isTrue();
+  void should_return_existing_duplicates_in_order() {
+    // GIVEN
+    List<String> list = list("Merry", "Frodo", null, null, "Merry", "Sam", "Frodo");
+    // WHEN
+    @SuppressWarnings("unchecked")
+    Iterable<Object> duplicates = (Iterable<Object>) standardComparisonStrategy.duplicatesFrom(list);
+    // THEN
+    then(duplicates).containsExactly(null, "Merry", "Frodo");
   }
 
   @Test
   void should_return_existing_duplicates_array() {
-    List<String[]> list = newArrayList(array("Merry"), array("Frodo"), new String[] { null }, new String[] { null },
-                                       array("Merry"), array("Sam"), array("Frodo"));
-    Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(list);
-
-    assertThat(standardComparisonStrategy.iterableContains(duplicates, new String[] { null })).as("must contains null").isTrue();
-    assertThat(standardComparisonStrategy.iterableContains(duplicates, array("Frodo"))).as("must contains Frodo").isTrue();
-    assertThat(standardComparisonStrategy.iterableContains(duplicates, array("Merry"))).as("must contains Merry").isTrue();
-    assertThat(sizeOf(duplicates)).isEqualTo(3);
+    // GIVEN
+    List<String[]> list = list(array("Merry"), array("Frodo"), new String[] { null }, new String[] { null },
+                               array("Merry"), array("Sam"), array("Frodo"));
+    // WHEN
+    @SuppressWarnings("unchecked")
+    Iterable<String[]> duplicates = (Iterable<String[]>) standardComparisonStrategy.duplicatesFrom(list);
+    // THEN
+    then(duplicates).containsExactly(new String[] { null }, array("Merry"), array("Frodo"));
   }
 
   @Test
   void should_not_return_any_duplicates() {
-    Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(newArrayList("Frodo", "Sam", "Gandalf"));
-    assertThat(isNullOrEmpty(duplicates)).isTrue();
+    // GIVEN
+    Iterable<String> hobbits = list("Frodo", "Sam", "Gandalf");
+    // WHEN
+    Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(hobbits);
+    // THEN
+    then(duplicates).isEmpty();
   }
 
   @Test
   void should_not_return_any_duplicates_if_collection_is_empty() {
-    Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(new ArrayList<>());
-    assertThat(isNullOrEmpty(duplicates)).isTrue();
+    // GIVEN
+    Iterable<String> emptyIterable = list();
+    // WHEN
+    Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(emptyIterable);
+    // THEN
+    then(duplicates).isEmpty();
   }
 
   @Test
   void should_not_return_any_duplicates_if_collection_is_null() {
+    // WHEN
     Iterable<?> duplicates = standardComparisonStrategy.duplicatesFrom(null);
-    assertThat(isNullOrEmpty(duplicates)).isTrue();
+    // THEN
+    then(duplicates).isEmpty();
   }
 
 }
