@@ -118,7 +118,7 @@ class Iterables_assertDoesNotHaveDuplicates_Test extends IterablesBaseTest {
                                                                                                                       actual));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotHaveDuplicates(actual, newLinkedHashSet("LUKE", "yoda"), comparisonStrategy));
+    verify(failures).failure(info, shouldNotHaveDuplicates(actual, duplicates, comparisonStrategy));
   }
 
   @Test
