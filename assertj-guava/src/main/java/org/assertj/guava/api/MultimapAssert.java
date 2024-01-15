@@ -369,21 +369,21 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
   protected MultimapAssert<K, V> doesNotContainKeysForProxy(K[] keys) {
     isNotNull();
     requireNonNull(keys, "The array of keys to look for should not be null");
-    Set<K> found = findKeys(actual, keys);
-    if (!found.isEmpty()) {
-      throw assertionError(ShouldNotContainKeys.shouldNotContainKeys(actual, found));
+    Set<K> foundKeys = findKeys(actual, keys);
+    if (!foundKeys.isEmpty()) {
+      throw assertionError(ShouldNotContainKeys.shouldNotContainKeys(actual, foundKeys));
     }
     return this;
   }
 
   private static <K> Set<K> findKeys(Multimap<K, ?> actual, K[] expectedKeys) {
     // Stream API avoided for performance reasons
-    Set<K> found = new LinkedHashSet<>();
+    Set<K> foundKeys = new LinkedHashSet<>();
     for (K expectedKey : expectedKeys) {
       if (actual.containsKey(expectedKey)) {
-        found.add(expectedKey);
+        foundKeys.add(expectedKey);
       }
     }
-    return found;
+    return foundKeys;
   }
 }

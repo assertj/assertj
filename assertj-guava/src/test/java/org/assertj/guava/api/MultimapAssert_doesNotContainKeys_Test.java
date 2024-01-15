@@ -54,10 +54,10 @@ public class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTe
 
     // THEN
     org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(AssertionError.class)
-                                   .hasMessage(format("\n" +
-                                                      "Expecting actual:\n" +
-                                                      "  {null=[apples]}\n" +
-                                                      "not to contain key:\n" +
+                                   .hasMessage(format("%n" +
+                                                      "Expecting actual:%n" +
+                                                      "  {null=[apples]}%n" +
+                                                      "not to contain key:%n" +
                                                       "  null"));
   }
 
@@ -70,10 +70,10 @@ public class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTe
     Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContainKeys("cheese", null));
 
     org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(AssertionError.class)
-                                   .hasMessage(format("\n" +
-                                                      "Expecting actual:\n" +
-                                                      "  {null=[apples]}\n" +
-                                                      "not to contain key:\n" +
+                                   .hasMessage(format("%n" +
+                                                      "Expecting actual:%n" +
+                                                      "  {null=[apples]}%n" +
+                                                      "not to contain key:%n" +
                                                       "  null"));
   }
 
@@ -94,11 +94,11 @@ public class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTe
 
     // THEN
     org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(AssertionError.class)
-                                   .hasMessage(format("\n" +
-                                                      "Expecting actual:\n" +
-                                                      "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}\n"
+                                   .hasMessage(format("%n" +
+                                                      "Expecting actual:%n" +
+                                                      "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n"
                                                       +
-                                                      "not to contain key:\n" +
+                                                      "not to contain key:%n" +
                                                       "  \"Bulls\""));
   }
 
@@ -109,11 +109,11 @@ public class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTe
 
     // THEN
     org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(AssertionError.class)
-                                   .hasMessage(format("\n" +
-                                                      "Expecting actual:\n" +
-                                                      "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}\n"
+                                   .hasMessage(format("%n" +
+                                                      "Expecting actual:%n" +
+                                                      "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n"
                                                       +
-                                                      "not to contain key:\n" +
+                                                      "not to contain key:%n" +
                                                       "  \"Bulls\""));
   }
 
@@ -124,11 +124,11 @@ public class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTe
 
     // THEN
     org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(AssertionError.class)
-                                   .hasMessage(format("\n" +
-                                                      "Expecting actual:\n" +
-                                                      "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}\n"
+                                   .hasMessage(format("%n" +
+                                                      "Expecting actual:%n" +
+                                                      "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n"
                                                       +
-                                                      "not to contain keys:\n" +
+                                                      "not to contain keys:%n" +
                                                       "  [\"Bulls\", \"Spurs\"]"));
   }
 }
