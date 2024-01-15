@@ -23,21 +23,16 @@ import static org.assertj.core.api.recursive.comparison.Author.authorsTreeSet;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Maps.newHashMap;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UnknownFormatConversionException;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.objects.data.PersonDto;
-import org.assertj.core.test.Person;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -45,37 +40,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest
     implements PersonData {
-
-  @ParameterizedTest(name = "actual {0} / expected {1}")
-  @MethodSource
-  void should_fail_as_Person_overridden_equals_should_be_honored(Object actual, Object expected,
-                                                                 ComparisonDifference difference) {
-    // GIVEN
-    recursiveComparisonConfiguration.useOverriddenEquals();
-    // WHEN
-    compareRecursivelyFailsAsExpected(actual, expected);
-    // THEN
-    verifyShouldBeEqualByComparingFieldByFieldRecursivelyCall(actual, expected, difference);
-  }
-
-  static Stream<Arguments> should_fail_as_Person_overridden_equals_should_be_honored() {
-    // sheldon type is Person which overrides equals!
-    Iterable<Person> actualAsIterable = newHashSet(sheldon);
-    Iterable<PersonDto> expectAsIterable = newHashSet(sheldonDto);
-    Person[] actualAsArray = array(sheldon);
-    PersonDto[] expectedAsArray = array(sheldonDto);
-    Optional<Person> actualAsOptional = Optional.of(sheldon);
-    Optional<PersonDto> expectedAsOptional = Optional.of(sheldonDto);
-    Map<String, PersonDto> expectedAsMap = newHashMap("sheldon", sheldonDto);
-    Map<String, Person> actualAsMap = newHashMap("sheldon", sheldon);
-    return Stream.of(Arguments.of(actualAsIterable, expectAsIterable,
-                                  diff("", actualAsIterable, expectAsIterable,
-                                       format("The following expected elements were not matched in the actual HashSet:%n"
-                                              + "  [PersonDto [name=Sheldon, home=HomeDto [address=AddressDto [number=1]]]]"))),
-                     Arguments.of(actualAsArray, expectedAsArray, diff("[0]", sheldon, sheldonDto)),
-                     Arguments.of(actualAsOptional, expectedAsOptional, diff("value", sheldon, sheldonDto)),
-                     Arguments.of(actualAsMap, expectedAsMap, diff("sheldon", sheldon, sheldonDto)));
-  }
 
   @ParameterizedTest(name = "author 1 {0} / author 2 {1}")
   @MethodSource

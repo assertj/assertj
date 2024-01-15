@@ -475,8 +475,8 @@ public class RecursiveComparisonDifferenceCalculator {
 
   private static boolean shouldHonorOverriddenEquals(DualValue dualValue,
                                                      RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    boolean shouldNotIgnoreOverriddenEqualsIfAny = !recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);
-    return shouldNotIgnoreOverriddenEqualsIfAny && dualValue.actual != null && hasOverriddenEquals(dualValue.actual.getClass());
+    boolean shouldHonorOverriddenEqualsIfAny = !recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);
+    return shouldHonorOverriddenEqualsIfAny && dualValue.actual != null && hasOverriddenEquals(dualValue.actual.getClass());
   }
 
   private static void compareArrays(DualValue dualValue, ComparisonState comparisonState) {

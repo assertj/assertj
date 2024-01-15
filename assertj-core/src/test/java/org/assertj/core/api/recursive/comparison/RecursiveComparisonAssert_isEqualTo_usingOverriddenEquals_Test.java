@@ -12,9 +12,13 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Maps.newHashMap;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Objects;
@@ -35,6 +39,42 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource
+  void should_pass_when_using_overridden_equals(Object actual, Object expected, String testDescription) {
+    then(actual).usingRecursiveComparison()
+                .usingOverriddenEquals()
+                .isEqualTo(expected);
+  }
+
+  private static Stream<Arguments> should_pass_when_using_overridden_equals() {
+    Person neighbourJohn = new Person();
+    neighbourJohn.neighbour = new AlwaysEqualPerson("John");
+    Person neighbourJack = new Person();
+    neighbourJack.neighbour = new AlwaysEqualPerson("Jack");
+
+    WithObject withPerson1 = new WithObject(new PersonComparedByName("John", "green", new Pet("Ducky", "Duck")));
+    WithObject withPerson2 = new WithObject(new PersonComparedByName("John", "blue", new Pet("Mia", "Duck")));
+
+    NeverEquals neverEquals1 = new NeverEquals(new PersonComparedByName("John", "green", null));
+    NeverEquals neverEquals2 = new NeverEquals(new PersonComparedByName("John", "red", new Pet("Mia", "Duck")));
+
+    return Stream.of(arguments(withPerson1, withPerson2,
+                               "different pets and colors but equals ignore them"),
+                     arguments(list(withPerson1), list(withPerson2),
+                               "list: different pets and colors but equals ignore them"),
+                     arguments(array(withPerson1), array(withPerson2),
+                               "array: different pets and colors but equals ignore them"),
+                     arguments(newHashMap("person", withPerson1), newHashMap("person", withPerson2),
+                               "maps: different pets and colors but equals ignore them"),
+                     arguments(Optional.of(withPerson1), Optional.of(withPerson2),
+                               "Optional: different pets and colors but equals ignore them"),
+                     arguments(neighbourJohn, neighbourJack,
+                               "neighbour type equals is always true"),
+                     arguments(neverEquals1, neverEquals2,
+                               "root objects are never compared with equals, their fields are"));
+  }
+
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
+  @MethodSource
   void should_fail_when_using_overridden_equals(Object actual, Object expected, String testDescription) {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
@@ -45,53 +85,30 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
   }
 
   private static Stream<Arguments> should_fail_when_using_overridden_equals() {
-    Person person1 = new AlwaysDifferentPerson();
-    person1.neighbour = new Person("John");
-    Person person2 = new AlwaysDifferentPerson();
-    person2.neighbour = new Person("John");
-
-    Person person3 = new Person();
-    person3.neighbour = new AlwaysDifferentPerson();
-    person3.neighbour.name = "John";
-    Person person4 = new Person();
-    person4.neighbour = new AlwaysDifferentPerson();
-    person4.neighbour.name = "John";
-
-    return Stream.of(arguments(person1, person2, "root Person is AlwaysDifferentPerson"),
-                     arguments(person3, person4, "neighbour Person is AlwaysDifferentPerson"));
+    Person neighbourJohn = new Person();
+    neighbourJohn.neighbour = new AlwaysDifferentPerson();
+    neighbourJohn.neighbour.name = "John";
+    Person differentNeighbourJohn = new Person();
+    differentNeighbourJohn.neighbour = new AlwaysDifferentPerson();
+    differentNeighbourJohn.neighbour.name = "John";
+    return Stream.of(arguments(neighbourJohn, differentNeighbourJohn,
+                               "neighbour type is AlwaysDifferentPerson"),
+                     arguments(list(neighbourJohn), list(differentNeighbourJohn),
+                               "list: neighbour type is AlwaysDifferentPerson"),
+                     arguments(array(neighbourJohn), array(differentNeighbourJohn),
+                               "array: neighbour type is AlwaysDifferentPerson"),
+                     arguments(newHashMap("person", neighbourJohn), newHashMap("person", differentNeighbourJohn),
+                               "maps: neighbour type is AlwaysDifferentPerson"),
+                     arguments(Optional.of(neighbourJohn), Optional.of(differentNeighbourJohn),
+                               "Optional: neighbour type is AlwaysDifferentPerson"));
   }
 
-  @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
-  @MethodSource
-  void should_pass_when_using_overridden_equals(Object actual, Object expected, String testDescription) {
-    then(actual).usingRecursiveComparison()
-                .usingOverriddenEquals()
-                .isEqualTo(expected);
-  }
-
-  private static Stream<Arguments> should_pass_when_using_overridden_equals() {
-    Person person1 = new AlwaysEqualPerson();
-    person1.neighbour = new Person("John");
-    Person person2 = new AlwaysEqualPerson();
-    person2.neighbour = new Person("Jack");
-
-    Person person3 = new Person();
-    person3.neighbour = new AlwaysEqualPerson();
-    person3.neighbour.name = "John";
-    Person person4 = new Person();
-    person4.neighbour = new AlwaysEqualPerson();
-    person4.neighbour.name = "Jack";
-
-    return Stream.of(arguments(person1, person2, "root Person is AlwaysEqualPerson"),
-                     arguments(person3, person4, "neighbour Person is AlwaysEqualPerson"));
-  }
-
-  static class PersonWithOverriddenEquals {
+  static class PersonComparedByName {
     String name;
     String color;
     Pet pet;
 
-    public PersonWithOverriddenEquals(String name, String color, Pet pet) {
+    public PersonComparedByName(String name, String color, Pet pet) {
       this.name = name; // only name is used in equals
       this.color = color;
       this.pet = pet;
@@ -99,7 +116,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
 
     @Override
     public boolean equals(Object o) {
-      PersonWithOverriddenEquals person = (PersonWithOverriddenEquals) o;
+      PersonComparedByName person = (PersonComparedByName) o;
       return Objects.equals(name, person.name);
     }
 
@@ -110,7 +127,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
 
     @Override
     public String toString() {
-      return String.format("Person [name=%s, color=%s]", name, color);
+      return format("Person [name=%s, color=%s]", name, color);
     }
   }
 
@@ -135,47 +152,93 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
     }
   }
 
-  static class PersonWrapper {
-    PersonWithOverriddenEquals person;
+  @Test
+  void should_use_equals_on_compared_field_only() {
+    // GIVEN
+    WithObject actual = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
+    WithObject expected = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .usingOverriddenEquals()
+                .comparingOnlyFields("group.name", "group.neverEquals.name")
+                .isEqualTo(expected);
+  }
 
-    public PersonWrapper(PersonWithOverriddenEquals person) {
-      this.person = person;
+  @Test
+  void should_fail_since_the_compared_field_equals_returns_false_even_if_the_outer_field_equals_returns_true() {
+    // GIVEN
+    WithObject actual = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
+    WithObject expected = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+                                                                                 .usingOverriddenEquals()
+                                                                                 .comparingOnlyFields("group.name",
+                                                                                                      "group.neverEquals")
+                                                                                 .isEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessageContaining("- equals methods were used in the comparison");
+  }
+
+  private static class A {
+    private final String name;
+    private final NeverEquals neverEquals;
+    private final AlwaysEquals alwaysEquals;
+
+    public A(String name, NeverEquals neverEquals, AlwaysEquals alwaysEquals) {
+      this.name = name;
+      this.neverEquals = neverEquals;
+      this.alwaysEquals = alwaysEquals;
     }
 
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (!(o instanceof A)) return false;
+      A a = (A) o;
+      return Objects.equals(name, a.name)
+             && Objects.equals(neverEquals, a.neverEquals)
+             && Objects.equals(alwaysEquals, a.alwaysEquals);
+    }
+
+    @Override
+    public String toString() {
+      return format("A[name=%s, neverEquals=%s, alwaysEquals=%s]", this.name, this.neverEquals, this.alwaysEquals);
+    }
   }
 
-  @Test
-  void should_pass_when_comparison_using_overriden_equals_on_root_objects() {
-    // GIVEN
-    PersonWithOverriddenEquals person1 = new PersonWithOverriddenEquals("John", "green", new Pet("Ducky", "Duck"));
-    PersonWithOverriddenEquals person2 = new PersonWithOverriddenEquals("John", "blue", new Pet("Mia", "Duck"));
-    // WHEN/THEN
-    then(person1).usingRecursiveComparison()
-                 .usingOverriddenEquals()
-                 .isEqualTo(person2);
+  private static class NeverEquals {
+    final Object name;
+
+    public NeverEquals(Object name) {
+      this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      return false;
+    }
+
+    @Override
+    public String toString() {
+      return format("NeverEquals[name=%s]", this.name);
+    }
   }
 
-  @Test
-  void should_pass_when_comparison_using_overriden_equals_on_fields() {
-    // GIVEN
-    Optional<PersonWithOverriddenEquals> person1 = Optional.of(new PersonWithOverriddenEquals("John", "green",
-                                                                                              new Pet("Ducky", "Duck")));
-    Optional<PersonWithOverriddenEquals> person2 = Optional.of(new PersonWithOverriddenEquals("John", "green",
-                                                                                              new Pet("Mia", "Duck")));
-    // WHEN/THEN
-    then(person1).usingRecursiveComparison()
-                 .usingOverriddenEquals()
-                 .isEqualTo(person2);
-  }
+  private static class AlwaysEquals {
+    final Object name;
 
-  @Test
-  void should_pass_when_comparison_using_overriden_equals_on_person_wrapper() {
-    // GIVEN
-    PersonWrapper person1 = new PersonWrapper(new PersonWithOverriddenEquals("John", "green", new Pet("Ducky", "Duck")));
-    PersonWrapper person2 = new PersonWrapper(new PersonWithOverriddenEquals("John", "green", new Pet("Mia", "Duck")));
-    // WHEN/THEN
-    then(person1).usingRecursiveComparison()
-                 .usingOverriddenEquals()
-                 .isEqualTo(person2);
+    public AlwaysEquals(Object name) {
+      this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      return true;
+    }
+
+    @Override
+    public String toString() {
+      return format("AlwaysEquals[name=%s]", this.name);
+    }
   }
 }

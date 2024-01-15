@@ -783,12 +783,17 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
+    // root objects are not compared with equals as it makes the recursive comparison pointless (use isEqualsTo instead)
+    if (dualValue.fieldLocation.isRoot()) return true;
     // we must compare java basic types otherwise the recursive comparison loops infinitely!
     if (dualValue.isActualJavaType()) return false;
-    // enums don't have fields, comparing them field by field makes no sense, we need to use equals which is overridden and final
+    // enums don't have fields, comparing them field by field makes no sense; we need to use equals, which is overridden and final
     if (dualValue.isActualAnEnum()) return false;
+    // if there are some compared fields, we must only honor overridden equals on them, if the value is not a compared
+    // field then we treat as usual and ignore its equals method and introspects it
+    if (someComparedFieldsHaveBeenSpecified() && !exactlyMatchesAnyComparedFields(dualValue)) return true;
     return ignoreAllOverriddenEquals
-           || matchesAnIgnoredOverriddenEqualsField(dualValue.fieldLocation)
+           || matchesAnIgnoredOverriddenEqualsField(dualValue)
            || (dualValue.actual != null && shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass()));
   }
 
@@ -902,7 +907,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return ignoredOverriddenEqualsForTypes.contains(clazz);
   }
 
-  private boolean matchesAnIgnoredOverriddenEqualsField(FieldLocation fieldLocation) {
+  private boolean matchesAnIgnoredOverriddenEqualsField(DualValue dualValue) {
+    FieldLocation fieldLocation = dualValue.fieldLocation;
     return ignoredOverriddenEqualsForFields.stream().anyMatch(fieldLocation::exactlyMatches)
            || matchesAnIgnoredOverriddenEqualsRegex(fieldLocation);
   }
@@ -1527,7 +1533,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     }
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings({ "rawtypes", "unchecked", "ComparatorMethodParameterNotUsed" })
   private static Comparator toComparator(BiPredicate equals) {
     requireNonNull(equals, "Expecting a non null BiPredicate");
     return (o1, o2) -> equals.test(o1, o2) ? 0 : 1;

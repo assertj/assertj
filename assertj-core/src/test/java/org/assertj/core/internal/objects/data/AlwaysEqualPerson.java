@@ -14,8 +14,17 @@ package org.assertj.core.internal.objects.data;
 
 public class AlwaysEqualPerson extends Person {
 
+  public AlwaysEqualPerson() {
+    super();
+  }
+
+  public AlwaysEqualPerson(String name) {
+    super(name);
+  }
+
   @Override
   public boolean equals(Object o) {
     return true;
   }
+
 }
