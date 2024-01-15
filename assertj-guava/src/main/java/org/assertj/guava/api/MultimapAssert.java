@@ -15,6 +15,7 @@ package org.assertj.guava.api;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.newLinkedHashSet;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -24,6 +25,7 @@ import static org.assertj.guava.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.guava.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.guava.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +35,7 @@ import org.assertj.core.data.MapEntry;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
+import org.assertj.core.error.ShouldNotContainKeys;
 
 /**
  * Assertions for guava {@link Multimap}.
@@ -313,4 +316,74 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     throw assertionError(shouldContain(actual, other, entriesNotFoundInActual));
   }
 
+  /**
+   * Verifies that the actual multimap does not contain the given key.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Multimap&lt;Ring, TolkienCharacter&gt; elvesRingBearers = HashMultimap.create();
+   * elvesRingBearers.put(nenya, galadriel);
+   * elvesRingBearers.put(narya, gandalf);
+   * elvesRingBearers.put(vilya, elrond);
+   *
+   * // assertion will pass
+   * assertThat(elvesRingBearers).doesNotContainKey(oneRing);
+   *
+   * // assertion will fail
+   * assertThat(elvesRingBearers).doesNotContainKey(vilya);</code></pre>
+   *
+   * @param key the given key
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map contains the given key.
+   */
+  public MultimapAssert<K, V> doesNotContainKey(K key) {
+    return doesNotContainKeys(key);
+  }
+
+  /**
+   * Verifies that the actual multimap does not contain any of the given keys.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> Multimap&lt;Ring, TolkienCharacter&gt; elvesRingBearers = HashMultimap.create();
+   * elvesRingBearers.put(nenya, galadriel);
+   * elvesRingBearers.put(narya, gandalf);
+   * elvesRingBearers.put(vilya, elrond);
+   *
+   * // assertion will pass
+   * assertThat(elvesRingBearers).doesNotContainKeys(oneRing, someManRing);
+   *
+   * // assertions will fail
+   * assertThat(elvesRingBearers).doesNotContainKeys(vilya, nenya);
+   * assertThat(elvesRingBearers).doesNotContainKeys(vilya, oneRing);</code></pre>
+   *
+   * @param keys the given keys
+   * @return {@code this} assertions object
+   * @throws AssertionError if the actual map is {@code null}.
+   * @throws AssertionError if the actual map contains the given key.
+   * @throws NullPointerException if the varargs of keys is null
+   */
+  public MultimapAssert<K, V> doesNotContainKeys(K... keys) {
+    return doesNotContainKeysForProxy(keys);
+  }
+
+  protected MultimapAssert<K, V> doesNotContainKeysForProxy(K[] keys) {
+    isNotNull();
+    requireNonNull(keys, "The array of keys to look for should not be null");
+    Set<K> found = findKeys(actual, keys);
+    if (!found.isEmpty()) {
+      throw assertionError(ShouldNotContainKeys.shouldNotContainKeys(actual, found));
+    }
+    return this;
+  }
+
+  private static <K> Set<K> findKeys(Multimap<K, ?> actual, K[] expectedKeys) {
+    // Stream API avoided for performance reasons
+    Set<K> found = new LinkedHashSet<>();
+    for (K expectedKey : expectedKeys) {
+      if (actual.containsKey(expectedKey)) {
+        found.add(expectedKey);
+      }
+    }
+    return found;
+  }
 }
