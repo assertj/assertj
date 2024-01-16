@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
 import static org.assertj.guava.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.guava.error.ShouldContainValues.shouldContainValues;
 import static org.assertj.guava.util.ExceptionUtils.throwIllegalArgumentExceptionIfTrue;
@@ -35,7 +36,6 @@ import org.assertj.core.data.MapEntry;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.SetMultimap;
-import org.assertj.core.error.ShouldNotContainKeys;
 
 /**
  * Assertions for guava {@link Multimap}.
@@ -366,12 +366,12 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     return doesNotContainKeysForProxy(keys);
   }
 
-  protected MultimapAssert<K, V> doesNotContainKeysForProxy(K[] keys) {
+  private MultimapAssert<K, V> doesNotContainKeysForProxy(K[] keys) {
     isNotNull();
     requireNonNull(keys, "The array of keys to look for should not be null");
     Set<K> foundKeys = findKeys(actual, keys);
     if (!foundKeys.isEmpty()) {
-      throw assertionError(ShouldNotContainKeys.shouldNotContainKeys(actual, foundKeys));
+      throw assertionError(shouldNotContainKeys(actual, foundKeys));
     }
     return this;
   }
