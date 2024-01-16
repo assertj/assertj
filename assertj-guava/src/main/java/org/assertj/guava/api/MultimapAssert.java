@@ -363,17 +363,15 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws NullPointerException if the varargs of keys is null
    */
   public MultimapAssert<K, V> doesNotContainKeys(K... keys) {
-    return assertDoesNotContainKeys(keys);
+    isNotNull();
+    assertDoesNotContainKeys(keys);
+    return this;
   }
 
-  private MultimapAssert<K, V> assertDoesNotContainKeys(K[] keys) {
-    isNotNull();
+  private void assertDoesNotContainKeys(K[] keys) {
     requireNonNull(keys, "The array of keys to look for should not be null");
     Set<K> foundKeys = findKeys(actual, keys);
-    if (!foundKeys.isEmpty()) {
-      throw assertionError(shouldNotContainKeys(actual, foundKeys));
-    }
-    return this;
+    if (!foundKeys.isEmpty()) throw assertionError(shouldNotContainKeys(actual, foundKeys));
   }
 
   private static <K> Set<K> findKeys(Multimap<K, ?> actual, K[] expectedKeys) {
@@ -386,4 +384,5 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
     }
     return foundKeys;
   }
+
 }
