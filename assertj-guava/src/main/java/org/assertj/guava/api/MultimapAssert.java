@@ -363,10 +363,10 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @throws NullPointerException if the varargs of keys is null
    */
   public MultimapAssert<K, V> doesNotContainKeys(K... keys) {
-    return doesNotContainKeysForProxy(keys);
+    return assertDoesNotContainKeys(keys);
   }
 
-  private MultimapAssert<K, V> doesNotContainKeysForProxy(K[] keys) {
+  private MultimapAssert<K, V> assertDoesNotContainKeys(K[] keys) {
     isNotNull();
     requireNonNull(keys, "The array of keys to look for should not be null");
     Set<K> foundKeys = findKeys(actual, keys);
