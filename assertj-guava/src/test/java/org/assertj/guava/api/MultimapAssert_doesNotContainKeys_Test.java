@@ -12,34 +12,39 @@
  */
 package org.assertj.guava.api;
 
-import com.google.common.collect.LinkedHashMultimap;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Sets.set;
+import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
+
 import org.junit.jupiter.api.Test;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.guava.api.Assertions.assertThat;
+import com.google.common.collect.LinkedHashMultimap;
 
-public class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTest {
+class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTest {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContainKeys("Nets", "Bulls", "Knicks"));
+    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("Nets", "Bulls", "Knicks"));
     // THEN
-    org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(AssertionError.class)
-                                   .hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contains_given_key() {
+  void should_pass_if_actual_does_not_contains_given_key() {
+    // WHEN/THEN
     assertThat(actual).doesNotContainKeys("apples");
   }
 
   @Test
-  public void should_pass_if_actual_does_not_contains_given_keys() {
+  void should_pass_if_actual_does_not_contains_given_keys() {
+    // WHEN/THEN
     assertThat(actual).doesNotContainKeys("apples", "oranges");
   }
 
@@ -48,17 +53,11 @@ public class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTe
     // GIVEN
     actual = LinkedHashMultimap.create();
     actual.put(null, "apples");
-
+    String key = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContainKey(null));
-
+    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKey(key));
     // THEN
-    org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(AssertionError.class)
-                                   .hasMessage(format("%n" +
-                                                      "Expecting actual:%n" +
-                                                      "  {null=[apples]}%n" +
-                                                      "not to contain key:%n" +
-                                                      "  null"));
+    then(error).hasMessage(shouldNotContainKeys(actual, set(key)).create());
   }
 
   @Test
@@ -66,69 +65,46 @@ public class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTe
     // GIVEN
     actual = LinkedHashMultimap.create();
     actual.put(null, "apples");
-
-    Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContainKeys("cheese", null));
-
-    org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(AssertionError.class)
-                                   .hasMessage(format("%n" +
-                                                      "Expecting actual:%n" +
-                                                      "  {null=[apples]}%n" +
-                                                      "not to contain key:%n" +
-                                                      "  null"));
+    String key = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("cheese", key));
+    // THEN
+    then(error).hasMessage(shouldNotContainKeys(actual, set(key)).create());
   }
 
   @Test
   void should_fail_with_null_array() {
+    // GIVEN
+    String[] keys = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContainKeys(null));
-
+    Throwable thrown = catchThrowable(() -> assertThat(actual).doesNotContainKeys(keys));
     // THEN
-    org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(NullPointerException.class)
-                                   .hasMessage("The array of keys to look for should not be null");
+    then(thrown).isInstanceOf(NullPointerException.class)
+                .hasMessage("The array of keys to look for should not be null");
   }
 
   @Test
   void should_fail_if_single_key_is_present() {
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContainKey("Bulls"));
-
+    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKey("Bulls"));
     // THEN
-    org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(AssertionError.class)
-                                   .hasMessage(format("%n" +
-                                                      "Expecting actual:%n" +
-                                                      "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n"
-                                                      +
-                                                      "not to contain key:%n" +
-                                                      "  \"Bulls\""));
+    then(error).hasMessage(shouldNotContainKeys(actual, set("Bulls")).create());
   }
 
   @Test
   void should_fail_if_one_key_is_present() {
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContainKeys("Bulls", "Knicks"));
-
+    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("Bulls", "Knicks"));
     // THEN
-    org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(AssertionError.class)
-                                   .hasMessage(format("%n" +
-                                                      "Expecting actual:%n" +
-                                                      "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n"
-                                                      +
-                                                      "not to contain key:%n" +
-                                                      "  \"Bulls\""));
+    then(error).hasMessage(shouldNotContainKeys(actual, set("Bulls")).create());
   }
 
   @Test
   void should_fail_if_multiple_keys_are_present() {
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).doesNotContainKeys("Bulls", "Knicks", "Spurs"));
-
+    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("Bulls", "Knicks", "Spurs"));
     // THEN
-    org.assertj.core.api.Assertions.assertThat(throwable).isInstanceOf(AssertionError.class)
-                                   .hasMessage(format("%n" +
-                                                      "Expecting actual:%n" +
-                                                      "  {Lakers=[Kobe Bryant, Magic Johnson, Kareem Abdul Jabbar], Bulls=[Michael Jordan, Scottie Pippen, Derrick Rose], Spurs=[Tony Parker, Tim Duncan, Manu Ginobili]}%n"
-                                                      +
-                                                      "not to contain keys:%n" +
-                                                      "  [\"Bulls\", \"Spurs\"]"));
+    then(error).hasMessage(shouldNotContainKeys(actual, set("Bulls", "Spurs")).create());
   }
+
 }
