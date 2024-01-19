@@ -13,6 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
+import static java.lang.System.identityHashCode;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
@@ -23,7 +24,6 @@ import java.nio.file.Path;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -61,7 +61,11 @@ public final class DualValue {
     this.fieldLocation = requireNonNull(fieldLocation, "fieldLocation must not be null");
     actual = actualFieldValue;
     expected = expectedFieldValue;
-    hashCode = Objects.hash(actual, expected);
+    hashCode = computeHashCode();
+  }
+
+  private int computeHashCode() {
+    return identityHashCode(actual) + identityHashCode(expected) + fieldLocation.hashCode();
   }
 
   @Override
