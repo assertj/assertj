@@ -23,7 +23,6 @@ import java.nio.file.Path;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -61,7 +60,8 @@ public final class DualValue {
     this.fieldLocation = requireNonNull(fieldLocation, "fieldLocation must not be null");
     actual = actualFieldValue;
     expected = expectedFieldValue;
-    hashCode = Objects.hash(actual, expected);
+    // System.identityHashCode for a null reference is zero
+    hashCode = 31 * (31 * (31 + System.identityHashCode(actual)) + System.identityHashCode(expected)) + fieldLocation.hashCode();
   }
 
   @Override
