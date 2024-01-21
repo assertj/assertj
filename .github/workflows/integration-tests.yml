@@ -1,0 +1,69 @@
+name: Integration Tests
+
+on: [push, pull_request]
+
+env:
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always
+
+jobs:
+
+  spring-boot:
+
+    name: Verify with Spring Boot
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout AssertJ
+        uses: actions/checkout@v4
+        with:
+          path: assertj
+      - name: Set up Java 21 with Maven cache
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+          cache: 'maven'
+          cache-dependency-path: 'assertj/pom.xml'
+      - name: Set AssertJ version
+        run: assertj/mvnw $MAVEN_ARGS -f assertj/pom.xml versions:set -DnewVersion=0.0.0
+      - name: Install AssertJ to local repository
+        run: assertj/mvnw $MAVEN_ARGS -f assertj/pom.xml install -DskipTests
+
+      - name: Checkout Spring Boot
+        uses: actions/checkout@v4
+        with:
+          repository: spring-projects/spring-boot
+          path: spring-boot
+      - name: Set up Java 17 with Gradle cache
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: 'gradle'
+          cache-dependency-path: |
+            spring-boot/*.gradle*
+            spring-boot/**/gradle-wrapper.properties
+      - name: Create init.gradle
+        run: |
+          tee -a spring-boot/init.gradle << END
+          allprojects {
+              repositories {
+                  mavenLocal()
+              }
+          }
+          configurations.all {
+              resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+                  if (details.requested.group == 'org.assertj' && details.requested.name == 'assertj-bom') {
+                      details.useVersion '0.0.0'
+                  }
+              }
+          }
+          END
+      - name: Test Spring Boot
+        run: >
+          spring-boot/gradlew --no-daemon
+          --project-dir spring-boot
+          --init-script init.gradle
+          --project-prop assertjVersion=0.0.0
+          build
