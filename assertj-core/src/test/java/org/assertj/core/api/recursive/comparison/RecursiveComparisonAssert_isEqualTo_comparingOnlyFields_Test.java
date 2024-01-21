@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
+import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -22,6 +23,7 @@ import static org.assertj.core.util.Sets.set;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
@@ -411,4 +413,35 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
       return String.format("Student[name=%s, subject=%s, rollNo=%s]", this.name, this.subject, this.rollNo);
     }
   }
+
+  @Test
+  void should_only_check_compared_fields_existence_at_the_root_level() {
+    // GIVEN
+    Collection<Name> names = newHashSet(new Name("john", "doe"), new Name("jane", "smith"));
+    WithNames actual = new WithNames(newHashSet(names));
+    WithNames expected = new WithNames(newHashSet(names));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .comparingOnlyFields("names")
+                .isEqualTo(expected);
+  }
+
+  class WithNames {
+    Collection<Name> names;
+
+    public WithNames(Collection<Name> names) {
+      this.names = names;
+    }
+  }
+
+  class Name {
+    String first;
+    String last;
+
+    public Name(String first, String last) {
+      this.first = first;
+      this.last = last;
+    }
+  }
+
 }

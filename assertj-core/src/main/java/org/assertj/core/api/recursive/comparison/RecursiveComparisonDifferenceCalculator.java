@@ -140,7 +140,9 @@ public class RecursiveComparisonDifferenceCalculator {
       boolean mustCompareNodesRecursively = mustCompareNodesRecursively(dualValue);
       if (dualValue.hasNoNullValues() && mustCompareNodesRecursively) {
         // disregard the equals method and start comparing fields
-        if (recursiveComparisonConfiguration.someComparedFieldsHaveBeenSpecified()) {
+        if (recursiveComparisonConfiguration.someComparedFieldsHaveBeenSpecified() && dualValue.fieldLocation.isRoot()) {
+          // We must check compared fields existence only once and at the root level, if we don't as we use the recursive
+          // comparison to compare unordered collection elements, we would check the compared fields at the wrong level.
           recursiveComparisonConfiguration.checkComparedFieldsExist(actual);
         }
         // TODO should fail if actual and expected don't have the same fields (taking into account ignored/compared fields)
