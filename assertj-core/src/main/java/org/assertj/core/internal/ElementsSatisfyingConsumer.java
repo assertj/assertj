@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.IntStream.range;
 import static org.assertj.core.internal.Iterables.byPassingAssertions;
 import static org.assertj.core.util.Streams.stream;
 
@@ -28,10 +29,15 @@ import java.util.function.Consumer;
  * @param <E> element type
  */
 class ElementsSatisfyingConsumer<E> {
+
   private final List<E> elements;
 
   ElementsSatisfyingConsumer(Iterable<? extends E> actual, Consumer<? super E> assertions) {
     this(filterByPassingAssertions(actual, assertions));
+  }
+
+  private static <E> List<E> filterByPassingAssertions(Iterable<? extends E> actual, Consumer<? super E> assertions) {
+    return stream(actual).filter(byPassingAssertions(assertions)).collect(toList());
   }
 
   private ElementsSatisfyingConsumer(List<E> elements) {
@@ -43,7 +49,7 @@ class ElementsSatisfyingConsumer<E> {
   }
 
   /**
-   * New <code>ElementsSatisfyingConsumer</code> containing all elements except the (first occurrence of the) given element.
+   * New <code>ElementsSatisfyingConsumer</code> containing all elements except the first occurrence of the given element.
    *
    * <p> This instance is not modified.
    *
@@ -52,11 +58,14 @@ class ElementsSatisfyingConsumer<E> {
    */
   ElementsSatisfyingConsumer<E> withoutElement(E element) {
     ArrayList<E> listWithoutElement = new ArrayList<>(elements);
-    listWithoutElement.remove(element);
+    removeFirstReference(element, listWithoutElement);
     return new ElementsSatisfyingConsumer<>(listWithoutElement);
   }
 
-  private static <E> List<E> filterByPassingAssertions(Iterable<? extends E> actual, Consumer<? super E> assertions) {
-    return stream(actual).filter(byPassingAssertions(assertions)).collect(toList());
+  private static void removeFirstReference(Object element, List<?> elements) {
+    range(0, elements.size()).filter(i -> elements.get(i) == element)
+                             .findFirst()
+                             .ifPresent(elements::remove);
   }
+
 }

@@ -461,7 +461,7 @@ public class Iterables {
     if (sizeOf(actual) == 0) throw failures.failure(info, shouldContainOnlyNulls(actual));
     // look for any non-null elements
     List<Object> nonNullElements = stream(actual).filter(java.util.Objects::nonNull).collect(toList());
-    if (nonNullElements.size() > 0) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
+    if (!nonNullElements.isEmpty()) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
 
   /**
@@ -623,7 +623,7 @@ public class Iterables {
     checkIterableIsNotNull(values);
     List<Object> extra = stream(actual).filter(actualElement -> !iterableContains(values, actualElement))
                                        .collect(toList());
-    if (extra.size() > 0) throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
+    if (!extra.isEmpty()) throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
   }
 
   /**
@@ -1253,7 +1253,7 @@ public class Iterables {
     // recursively test whether we can find any specific matching permutation that can meet the requirements
     if (satisfiedElementsPerConsumer.isEmpty()) return true; // all consumers have been satisfied
 
-    // pop the head (i.e, elements satisfying the current consumer), process the tail (i.e., remaining consumers)...
+    // pop the head (i.e., elements satisfying the current consumer), process the tail (i.e., remaining consumers)...
     ElementsSatisfyingConsumer<E> head = satisfiedElementsPerConsumer.remove();
     List<E> elementsSatisfyingCurrentConsumer = head.getElements();
     if (elementsSatisfyingCurrentConsumer.isEmpty()) return false;   // no element satisfies current consumer
@@ -1335,7 +1335,7 @@ public class Iterables {
                                               .filter(Optional::isPresent)
                                               .map(Optional::get)
                                               .collect(toList());
-    if (erroneousElements.size() > 0) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousElements));
+    if (!erroneousElements.isEmpty()) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousElements));
   }
 
   private <E> Optional<E> failsRestrictions(E element, Consumer<? super E> restrictions) {
