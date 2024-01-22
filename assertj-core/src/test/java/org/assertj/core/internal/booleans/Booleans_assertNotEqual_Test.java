@@ -12,13 +12,10 @@
  */
 package org.assertj.core.internal.booleans;
 
+import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -35,23 +32,33 @@ import org.junit.jupiter.api.Test;
 class Booleans_assertNotEqual_Test extends BooleansBaseTest {
 
   @Test
-  void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> booleans.assertNotEqual(someInfo(), null, false))
-                                                   .withMessage(actualIsNull());
+  void should_pass_if_actual_is_null_since_the_other_argument_cannot_be_null() {
+    booleans.assertNotEqual(INFO, null, false);
+    booleans.assertNotEqual(INFO, null, FALSE);
+    booleans.assertNotEqual(INFO, null, true);
+    booleans.assertNotEqual(INFO, null, TRUE);
   }
 
   @Test
-  void should_pass_if_bytes_are_not_equal() {
-    booleans.assertNotEqual(someInfo(), TRUE, false);
+  void should_pass_if_booleans_are_not_equal() {
+    booleans.assertNotEqual(INFO, true, false);
+    booleans.assertNotEqual(INFO, true, FALSE);
+    booleans.assertNotEqual(INFO, TRUE, false);
+    booleans.assertNotEqual(INFO, TRUE, FALSE);
+    booleans.assertNotEqual(INFO, false, true);
+    booleans.assertNotEqual(INFO, false, TRUE);
+    booleans.assertNotEqual(INFO, FALSE, true);
+    booleans.assertNotEqual(INFO, FALSE, TRUE);
   }
 
   @Test
-  void should_fail_if_bytes_are_equal() {
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> booleans.assertNotEqual(info, TRUE, true));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqual(TRUE, true));
+  void should_fail_if_booleans_are_equal() {
+    // GIVEN
+    boolean actual = TRUE;
+    boolean expected = true;
+    // WHEN
+    expectAssertionError(() -> booleans.assertNotEqual(INFO, actual, expected));
+    // THEN
+    verify(failures).failure(INFO, shouldNotBeEqual(actual, expected));
   }
 }
