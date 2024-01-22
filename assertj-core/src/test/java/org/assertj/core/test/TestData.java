@@ -30,8 +30,7 @@ public final class TestData {
 
   private static final WritableAssertionInfo ASSERTION_INFO = new WritableAssertionInfo();
   private static final WritableAssertionInfo ASSERTION_INFO_AS_HEX = new WritableAssertionInfo();
-  private static final TextDescription DESCRIPTION = new TextDescription(
-                                                                         "who's the more foolish: the fool, or the fool who follows him?");
+  private static final TextDescription DESCRIPTION = new TextDescription("who's the more foolish: the fool, or the fool who follows him?");
   private static final Index INDEX = atIndex(0);
   private static final Pattern MATCH_ANYTHING = Pattern.compile(".*");
 

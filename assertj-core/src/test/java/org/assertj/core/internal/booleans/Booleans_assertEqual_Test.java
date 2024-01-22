@@ -12,13 +12,12 @@
  */
 package org.assertj.core.internal.booleans;
 
+import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static java.lang.String.format;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.test.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -35,24 +34,33 @@ import org.junit.jupiter.api.Test;
 class Booleans_assertEqual_Test extends BooleansBaseTest {
 
   @Test
-  void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> booleans.assertEqual(someInfo(), null, true))
-                                                   .withMessage(actualIsNull());
+  void should_fail_if_actual_is_null_since_the_other_argument_cannot_be_null() {
+    // GIVEN
+    Boolean actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> booleans.assertEqual(INFO, actual, true));
+    // THEN
+    then(assertionError).hasMessage(format("%n" +
+                                           "expected: true%n" +
+                                           " but was: null"));
   }
 
   @Test
   void should_pass_if_booleans_are_equal() {
-    booleans.assertEqual(someInfo(), TRUE, true);
+    booleans.assertEqual(INFO, true, true);
+    booleans.assertEqual(INFO, TRUE, true);
+    booleans.assertEqual(INFO, FALSE, false);
+    booleans.assertEqual(INFO, false, false);
   }
 
   @Test
   void should_fail_if_booleans_are_not_equal() {
-    AssertionInfo info = someInfo();
+    // GIVEN
+    boolean actual = TRUE;
     boolean expected = false;
-
-    Throwable error = catchThrowable(() -> booleans.assertEqual(info, TRUE, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEqual(TRUE, expected, info.representation()));
+    // WHEN
+    expectAssertionError(() -> booleans.assertEqual(INFO, actual, expected));
+    // THEN
+    verify(failures).failure(INFO, shouldBeEqual(actual, expected, INFO.representation()));
   }
 }
