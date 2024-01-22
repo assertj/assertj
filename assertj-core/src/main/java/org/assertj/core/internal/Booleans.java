@@ -62,12 +62,10 @@ public class Booleans {
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param other the value to compare the actual value to.
-   * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is equal to the other one.
    */
   public void assertNotEqual(AssertionInfo info, Boolean actual, boolean other) {
-    assertNotNull(info, actual);
-    if (actual != other) return;
+    if (actual == null || actual != other) return;
     throw failures.failure(info, shouldNotBeEqual(actual, other));
   }
 
