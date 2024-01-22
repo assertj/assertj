@@ -46,14 +46,12 @@ public class Booleans {
    * @param info contains information about the assertion.
    * @param actual the actual value.
    * @param expected the expected value.
-   * @throws AssertionError if the actual value is {@code null}.
    * @throws AssertionError if the actual value is not equal to the expected one. This method will throw a
    *           {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual values are not
    *           equal.
    */
   public void assertEqual(AssertionInfo info, Boolean actual, boolean expected) {
-    assertNotNull(info, actual);
-    if (actual == expected) return;
+    if (actual != null && actual == expected) return;
     throw failures.failure(info, shouldBeEqual(actual, expected, info.representation()));
   }
 
@@ -67,9 +65,5 @@ public class Booleans {
   public void assertNotEqual(AssertionInfo info, Boolean actual, boolean other) {
     if (actual == null || actual != other) return;
     throw failures.failure(info, shouldNotBeEqual(actual, other));
-  }
-
-  private static void assertNotNull(AssertionInfo info, Boolean actual) {
-    Objects.instance().assertNotNull(info, actual);
   }
 }

@@ -36,8 +36,21 @@ class Booleans_assertEqual_Test extends BooleansBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> booleans.assertEqual(someInfo(), null, true))
-                                                   .withMessage(actualIsNull());
+    AssertionInfo info = someInfo();
+    boolean expectedFalse = false;
+    Boolean actual = null;
+
+    Throwable errorOnExpectingFalse = catchThrowable(() -> booleans.assertEqual(someInfo(), actual, expectedFalse));
+
+    assertThat(errorOnExpectingFalse).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(actual, expectedFalse, info.representation()));
+
+    boolean expectedTrue = true;
+
+    Throwable errorOnExpectingTrue = catchThrowable(() -> booleans.assertEqual(someInfo(), actual, expectedTrue));
+
+    assertThat(errorOnExpectingTrue).isInstanceOf(AssertionError.class);
+    verify(failures).failure(info, shouldBeEqual(actual, expectedTrue, info.representation()));
   }
 
   @Test
