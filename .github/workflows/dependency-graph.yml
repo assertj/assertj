@@ -21,4 +21,4 @@ jobs:
           java-version: '21'
           cache: 'maven'
       - name: Update dependency graph
-        uses: advanced-security/maven-dependency-submission-action@v3
+        uses: advanced-security/maven-dependency-submission-action@v4
