@@ -32,6 +32,7 @@ import java.net.InetAddress;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ import java.util.stream.Stream;
 
 import javax.xml.datatype.DatatypeFactory;
 
+import com.google.common.base.Stopwatch;
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
 import org.assertj.core.internal.objects.data.FriendlyPerson;
@@ -538,6 +540,124 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     // config.setIntrospectionStrategy(ComparingFields.COMPARING_FIELDS);
 
     new RecursiveComparisonDifferenceCalculator().determineDifferences(actual, expected, config);
+  }
 
+  @Test
+  void can_compare_deeply_nested_objects_in_reasonable_time() {
+    Person p1a = new Person("Alice");
+    Person p1b = new Person("Alice");
+    Person p2a = new Person("Brian");
+    Person p2b = new Person("Brian");
+    Person p3a = new Person("Christina");
+    Person p3b = new Person("Christina");
+    Person p4a = new Person("David");
+    Person p4b = new Person("David");
+    Person p5a = new Person("Emily");
+    Person p5b = new Person("Emily");
+    Person p6a = new Person("Francisco");
+    Person p6b = new Person("Francisco");
+    Person p7a = new Person("Gabriella");
+    Person p7b = new Person("Gabriella");
+    Person p8a = new Person("Henry");
+    Person p8b = new Person("Henry");
+    Person p9a = new Person("Isabelle");
+    Person p9b = new Person("Isabelle");
+    Person p10a = new Person("Jackson");
+    Person p10b = new Person("Jackson");
+    Person p11a = new Person("Kimberly");
+    Person p11b = new Person("Kimberly");
+    Person p12a = new Person("Lucas");
+    Person p12b = new Person("Lucas");
+    Person p13a = new Person("Melissa");
+    Person p13b = new Person("Melissa");
+    Person p14a = new Person("Nathan");
+    Person p14b = new Person("Nathan");
+    Person p15a = new Person("Olivia");
+    Person p15b = new Person("Olivia");
+    Person p16a = new Person("Penelope");
+    Person p16b = new Person("Penelope");
+    Person p17a = new Person("Quentin");
+    Person p17b = new Person("Quentin");
+    Person p18a = new Person("Rebecca");
+    Person p18b = new Person("Rebecca");
+    Person p19a = new Person("Samuel");
+    Person p19b = new Person("Samuel");
+    Person p20a = new Person("Tanya");
+    Person p20b = new Person("Tanya");
+    Person p21a = new Person("Ursula");
+    Person p21b = new Person("Ursula");
+    Person p22a = new Person("Victor");
+    Person p22b = new Person("Victor");
+    Person p23a = new Person("Whitney");
+    Person p23b = new Person("Whitney");
+    Person p24a = new Person("Xavier");
+    Person p24b = new Person("Xavier");
+    Person p25a = new Person("Yasmine");
+    Person p25b = new Person("Yasmine");
+    Person p26a = new Person("Zachary");
+    Person p26b = new Person("Zachary");
+    p1a.neighbour = p2a;
+    p1b.neighbour = p2b;
+    p2a.neighbour = p3a;
+    p2b.neighbour = p3b;
+    p3a.neighbour = p4a;
+    p3b.neighbour = p4b;
+    p4a.neighbour = p5a;
+    p4b.neighbour = p5b;
+    p5a.neighbour = p6a;
+    p5b.neighbour = p6b;
+    p6a.neighbour = p7a;
+    p6b.neighbour = p7b;
+    p7a.neighbour = p8a;
+    p7b.neighbour = p8b;
+    p8a.neighbour = p9a;
+    p8b.neighbour = p9b;
+    p9a.neighbour = p10a;
+    p9b.neighbour = p10b;
+    p10a.neighbour = p11a;
+    p10b.neighbour = p11b;
+    p11a.neighbour = p12a;
+    p11b.neighbour = p12b;
+    p12a.neighbour = p13a;
+    p12b.neighbour = p13b;
+    p13a.neighbour = p14a;
+    p13b.neighbour = p14b;
+    p14a.neighbour = p15a;
+    p14b.neighbour = p15b;
+    p15a.neighbour = p16a;
+    p15b.neighbour = p16b;
+    p16a.neighbour = p17a;
+    p16b.neighbour = p17b;
+    p17a.neighbour = p18a;
+    p17b.neighbour = p18b;
+    p18a.neighbour = p19a;
+    p18b.neighbour = p19b;
+    p19a.neighbour = p20a;
+    p19b.neighbour = p20b;
+
+    // This fails at 15sec > 10sec on my 2021 Apple M1 Pro.  Uncomment more references below to increase the time. Every
+    // additional link roughly doubles the execution time.
+
+//    p20a.neighbour = p21a;
+//    p20b.neighbour = p21b;
+
+//    p21a.neighbour = p22a;
+//    p21b.neighbour = p22b;
+
+//    p22a.neighbour = p23a;
+//    p22b.neighbour = p23b;
+
+//    p23a.neighbour = p24a;
+//    p23b.neighbour = p24b;
+
+//    p24a.neighbour = p25a;
+//    p24b.neighbour = p25b;
+
+//    p25a.neighbour = p26a;
+//    p25b.neighbour = p26b;
+
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    assertThat(p1a).usingRecursiveComparison().isEqualTo(p1b);
+    assertThat(stopwatch.elapsed()).isLessThan(Duration.ofSeconds(10));
   }
 }
