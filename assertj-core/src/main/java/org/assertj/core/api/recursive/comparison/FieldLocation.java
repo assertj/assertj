@@ -17,7 +17,7 @@ import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Sets.newHashSet;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -266,7 +266,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   }
 
   private Set<String> pathsHierarchyToUseInRules() {
-    Set<String> fieldAndParentFields = newHashSet();
+    Set<String> fieldAndParentFields = newLinkedHashSet();
     String currentPath = this.pathToUseInRules;
     while (!isRootPath(currentPath)) {
       fieldAndParentFields.add(currentPath);
