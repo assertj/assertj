@@ -264,6 +264,8 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   }
 
   private Set<String> pathsHierarchyToUseInRules() {
+    // using LinkedHashSet to maintain leaf to root iteration order so that hierarchyMatchesRegex
+    // can try matching longest to shorted path
     Set<String> fieldAndParentFields = newLinkedHashSet();
     String currentPath = this.pathToUseInRules;
     while (!isRootPath(currentPath)) {
