@@ -16,12 +16,14 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.newHashSet;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -33,7 +35,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   private final String pathToUseInRules;
   private final List<String> decomposedPath;
-  private final List<String> pathsHierarchyToUseInRules;
+  private final Set<String> pathsHierarchyToUseInRules;
 
   public FieldLocation(List<String> path) {
     decomposedPath = unmodifiableList(requireNonNull(path, "path cannot be null"));
@@ -163,7 +165,10 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   @Override
   public int hashCode() {
-    return Objects.hash(pathToUseInRules, decomposedPath, pathsHierarchyToUseInRules);
+    int result = Objects.hashCode(pathToUseInRules);
+    result = 31 * result + Objects.hashCode(decomposedPath);
+    result = 31 * result + Objects.hashCode(pathsHierarchyToUseInRules);
+    return result;
   }
 
   @Override
@@ -195,6 +200,10 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   public boolean isRoot() {
     // root is the top level object compared or in case of the top level is a iterable/array the elements are considered as roots.
     // we don't do it for optional it has a 'value' field so for the moment
+    return isRootPath(pathToUseInRules);
+  }
+
+  private boolean isRootPath(String pathToUseInRules) {
     return pathToUseInRules.isEmpty();
   }
 
@@ -256,21 +265,21 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     return child.hasParent(this);
   }
 
-  private List<String> pathsHierarchyToUseInRules() {
-    List<FieldLocation> fieldAndParentFields = list();
-    FieldLocation currentLocation = this;
-    while (!currentLocation.isRoot()) {
-      fieldAndParentFields.add(currentLocation);
-      currentLocation = currentLocation.parent();
+  private Set<String> pathsHierarchyToUseInRules() {
+    Set<String> fieldAndParentFields = newHashSet();
+    String currentPath = this.pathToUseInRules;
+    while (!isRootPath(currentPath)) {
+      fieldAndParentFields.add(currentPath);
+      currentPath = parent(currentPath);
     }
-    return fieldAndParentFields.stream()
-                               .map(fieldLocation -> fieldLocation.pathToUseInRules)
-                               .collect(toList());
+    return Collections.unmodifiableSet(fieldAndParentFields);
   }
 
-  private FieldLocation parent() {
-    List<String> parentPath = new ArrayList<>(decomposedPath);
-    parentPath.remove(decomposedPath.size() - 1);
-    return new FieldLocation(parentPath);
+  private String parent(String currentPath) {
+    int lastDot = currentPath.lastIndexOf('.');
+    if (lastDot < 0) {
+      return "";
+    }
+    return currentPath.substring(0, lastDot);
   }
 }
