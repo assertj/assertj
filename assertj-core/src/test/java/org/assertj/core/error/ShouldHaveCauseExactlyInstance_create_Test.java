@@ -31,7 +31,8 @@ class ShouldHaveCauseExactlyInstance_create_Test {
     // THEN
     then(message).isEqualTo("%nExpecting a throwable with cause being exactly an instance of:%n" +
                             "  %s%n" +
-                            "but current throwable has no cause.", expected);
+                            "but current throwable has no cause." +
+                            "%nThrowable that failed the check:%n%s", expected, getStackTrace(actual));
   }
 
   @Test
