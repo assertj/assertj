@@ -16,9 +16,11 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.util.Lists.list;
 
+import java.time.Duration;
 import java.util.Date;
 import java.util.Set;
 
+import com.google.common.base.Stopwatch;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.internal.objects.data.PersonDtoWithPersonNeighbour;
 import org.assertj.core.test.Employee;
@@ -92,6 +94,62 @@ class RecursiveComparisonConfiguration_getActualFieldNamesToCompare_Test {
     Set<String> fields = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
     // THEN
     then(fields).containsExactly("name");
+  }
+
+  @Test
+  void should_return_fields_in_a_reasonable_amount_of_time_for_deeply_nested_object() {
+    // GIVEN
+    Person p1 = new Person("Alice");
+    Person p2 = new Person("Brian");
+    Person p3 = new Person("Christina");
+    Person p4 = new Person("David");
+    Person p5 = new Person("Emily");
+    Person p6 = new Person("Francisco");
+    Person p7 = new Person("Gabriella");
+    Person p8 = new Person("Henry");
+    Person p9 = new Person("Isabelle");
+    Person p10 = new Person("Jackson");
+    Person p11 = new Person("Kimberly");
+    Person p12 = new Person("Lucas");
+    Person p13 = new Person("Melissa");
+    Person p14 = new Person("Nathan");
+    Person p15 = new Person("Olivia");
+    Person p16 = new Person("Penelope");
+    Person p17 = new Person("Quentin");
+    Person p18 = new Person("Rebecca");
+    Person p19 = new Person("Samuel");
+    Person p20 = new Person("Tanya");
+    p1.neighbour = p2;
+    p2.neighbour = p3;
+    p3.neighbour = p4;
+    p4.neighbour = p5;
+    p5.neighbour = p6;
+    p6.neighbour = p7;
+    p7.neighbour = p8;
+    p8.neighbour = p9;
+    p9.neighbour = p10;
+    p10.neighbour = p11;
+    p11.neighbour = p12;
+    p12.neighbour = p13;
+    p13.neighbour = p14;
+    p14.neighbour = p15;
+    p15.neighbour = p16;
+    p16.neighbour = p17;
+    p17.neighbour = p18;
+    p18.neighbour = p19;
+    p19.neighbour = p20;
+
+    Person p1b = new Person("Anders");
+    p1b.neighbour = p2;
+
+    DualValue dualValue = new DualValue(rootFieldLocation(), p1, p2);
+    recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes(".*id");
+    // WHEN
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Set<String> fields = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
+    // THEN
+    then(stopwatch.elapsed()).isLessThan(Duration.ofSeconds(10));
+    then(fields).doesNotContain("id");
   }
 
   @Test

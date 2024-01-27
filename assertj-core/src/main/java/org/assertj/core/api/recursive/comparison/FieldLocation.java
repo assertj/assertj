@@ -14,14 +14,16 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableSet;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -33,7 +35,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   private final String pathToUseInRules;
   private final List<String> decomposedPath;
-  private final List<String> pathsHierarchyToUseInRules;
+  private final Set<String> pathsHierarchyToUseInRules;
 
   public FieldLocation(List<String> path) {
     decomposedPath = unmodifiableList(requireNonNull(path, "path cannot be null"));
@@ -43,6 +45,46 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   public FieldLocation(String s) {
     this(list(s.split("\\.")));
+  }
+
+  @Override
+  public int compareTo(final FieldLocation other) {
+    return pathToUseInRules.compareTo(other.pathToUseInRules);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (!(obj instanceof FieldLocation)) return false;
+    FieldLocation that = (FieldLocation) obj;
+    return Objects.equals(pathToUseInRules, that.pathToUseInRules)
+           && Objects.equals(decomposedPath, that.decomposedPath)
+           && Objects.equals(pathsHierarchyToUseInRules, that.pathsHierarchyToUseInRules);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = Objects.hashCode(pathToUseInRules);
+    result = 31 * result + Objects.hashCode(decomposedPath);
+    result = 31 * result + Objects.hashCode(pathsHierarchyToUseInRules);
+    return result;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("<%s>", pathToUseInRules);
+  }
+
+  public String shortDescription() {
+    return pathToUseInRules;
+  }
+
+  private static String pathToUseInRules(List<String> path) {
+    // remove the array sub-path, so person.children.[2].name -> person.children.name
+    // rules for ignoring fields don't apply at the element level (ex: children.[2]) but at the group level (ex: children).
+    return path.stream()
+               .filter(subpath -> !subpath.startsWith("["))
+               .collect(joining("."));
   }
 
   public boolean exactlyMatches(FieldLocation field) {
@@ -126,7 +168,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
    * </code></pre>
    *
    * @param regex the regex to test
-   * @return true this fieldLocation or any of its parent matches the given regex., false otherwise.
+   * @return true, this fieldLocation or any of its parent matches the given regex., false otherwise.
    */
   public boolean hierarchyMatchesRegex(Pattern regex) {
     return pathsHierarchyToUseInRules.stream().anyMatch(path -> regex.matcher(path).matches());
@@ -146,43 +188,6 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     return new FieldLocation(decomposedPathWithField);
   }
 
-  @Override
-  public int compareTo(final FieldLocation other) {
-    return pathToUseInRules.compareTo(other.pathToUseInRules);
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj) return true;
-    if (!(obj instanceof FieldLocation)) return false;
-    FieldLocation that = (FieldLocation) obj;
-    return Objects.equals(pathToUseInRules, that.pathToUseInRules)
-           && Objects.equals(decomposedPath, that.decomposedPath)
-           && Objects.equals(pathsHierarchyToUseInRules, that.pathsHierarchyToUseInRules);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(pathToUseInRules, decomposedPath, pathsHierarchyToUseInRules);
-  }
-
-  @Override
-  public String toString() {
-    return String.format("<%s>", pathToUseInRules);
-  }
-
-  public String shortDescription() {
-    return pathToUseInRules;
-  }
-
-  private static String pathToUseInRules(List<String> path) {
-    // remove the array sub-path, so person.children.[2].name -> person.children.name
-    // rules for ignoring fields don't apply at the element level (ex: children.[2]) but at the group level (ex: children).
-    return path.stream()
-               .filter(subpath -> !subpath.startsWith("["))
-               .collect(joining("."));
-  }
-
   public String getPathToUseInErrorReport() {
     return String.join(".", decomposedPath);
   }
@@ -193,8 +198,13 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   }
 
   public boolean isRoot() {
-    // root is the top level object compared or in case of the top level is a iterable/array the elements are considered as roots.
-    // we don't do it for optional it has a 'value' field so for the moment
+    // Root is the top level object compared or in case of the top level is an iterable/array the elements are
+    // considered as roots.
+    // We don't do it for optional since it has a 'value' field (at least for now)
+    return isRootPath(pathToUseInRules);
+  }
+
+  private boolean isRootPath(String pathToUseInRules) {
     return pathToUseInRules.isEmpty();
   }
 
@@ -256,21 +266,23 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     return child.hasParent(this);
   }
 
-  private List<String> pathsHierarchyToUseInRules() {
-    List<FieldLocation> fieldAndParentFields = list();
-    FieldLocation currentLocation = this;
-    while (!currentLocation.isRoot()) {
-      fieldAndParentFields.add(currentLocation);
-      currentLocation = currentLocation.parent();
+  private Set<String> pathsHierarchyToUseInRules() {
+    // using LinkedHashSet to maintain leaf to root iteration order
+    // so that hierarchyMatchesRegex can try matching from the longest to the shortest path
+    Set<String> fieldAndParentFields = newLinkedHashSet();
+    String currentPath = this.pathToUseInRules;
+    while (!isRootPath(currentPath)) {
+      fieldAndParentFields.add(currentPath);
+      currentPath = parent(currentPath);
     }
-    return fieldAndParentFields.stream()
-                               .map(fieldLocation -> fieldLocation.pathToUseInRules)
-                               .collect(toList());
+    return unmodifiableSet(fieldAndParentFields);
   }
 
-  private FieldLocation parent() {
-    List<String> parentPath = new ArrayList<>(decomposedPath);
-    parentPath.remove(decomposedPath.size() - 1);
-    return new FieldLocation(parentPath);
+  private String parent(String currentPath) {
+    int lastDot = currentPath.lastIndexOf('.');
+    if (lastDot < 0) {
+      return "";
+    }
+    return currentPath.substring(0, lastDot);
   }
 }

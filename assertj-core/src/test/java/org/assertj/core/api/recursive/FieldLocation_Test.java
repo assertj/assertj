@@ -15,11 +15,14 @@ package org.assertj.core.api.recursive;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
+
+import com.google.common.base.Stopwatch;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
@@ -73,4 +76,13 @@ class FieldLocation_Test {
     then(underTest.getDecomposedPath()).isEqualTo(list("name", "first", "second"));
   }
 
+  @Test
+  void should_build_from_long_nested_path_in_reasonable_time() {
+    // WHEN
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    FieldLocation underTest = new FieldLocation("1.2.3.4.5.6.7.8.9.10");
+    // THEN
+    then(stopwatch.elapsed()).isLessThan(Duration.ofSeconds(10));
+    then(underTest.getDecomposedPath()).isEqualTo(list("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"));
+  }
 }
