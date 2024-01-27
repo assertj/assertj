@@ -167,7 +167,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   @Override
   public int hashCode() {
     // cheap hashCode as other fields are effectively derived from pathToUseInRules
-    return pathToUseInRules.hashCode();
+    return Objects.hashCode(pathToUseInRules);
   }
 
   @Override
