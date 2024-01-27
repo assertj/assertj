@@ -14,6 +14,7 @@ package org.assertj.core.api.recursive.comparison;
 
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
+import static java.util.Collections.unmodifiableSet;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
 import static org.assertj.core.util.Lists.list;
@@ -264,15 +265,15 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   }
 
   private Set<String> pathsHierarchyToUseInRules() {
-    // using LinkedHashSet to maintain leaf to root iteration order so that hierarchyMatchesRegex
-    // can try matching longest to shorted path
+    // using LinkedHashSet to maintain leaf to root iteration order
+    // so that hierarchyMatchesRegex can try matching longest to shorted path
     Set<String> fieldAndParentFields = newLinkedHashSet();
     String currentPath = this.pathToUseInRules;
     while (!isRootPath(currentPath)) {
       fieldAndParentFields.add(currentPath);
       currentPath = parent(currentPath);
     }
-    return Collections.unmodifiableSet(fieldAndParentFields);
+    return unmodifiableSet(fieldAndParentFields);
   }
 
   private String parent(String currentPath) {
