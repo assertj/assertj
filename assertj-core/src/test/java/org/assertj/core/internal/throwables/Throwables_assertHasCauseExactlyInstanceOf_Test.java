@@ -45,7 +45,7 @@ class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest
     Throwable actual = null;
     // WHEN
     AssertionError error = expectAssertionError(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, actual,
-      IllegalArgumentException.class));
+                                                                                                 IllegalArgumentException.class));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -58,7 +58,7 @@ class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest
     Throwable throwable = catchThrowable(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, throwableWithCause, type));
     // THEN
     then(throwable).isInstanceOf(NullPointerException.class)
-      .hasMessage("The given type should not be null");
+                   .hasMessage("The given type should not be null");
   }
 
   @Test
@@ -77,11 +77,10 @@ class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest
     Class<NullPointerException> expectedCauseType = NullPointerException.class;
     // WHEN
     expectAssertionError(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, throwableWithCause,
-      expectedCauseType));
+                                                                          expectedCauseType));
     // THEN
     verify(failures).failure(INFO, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));
   }
-
 
   @Test
   void should_fail_if_cause_is_not_exactly_instance_of_expected_type() {
@@ -89,7 +88,7 @@ class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest
     Class<RuntimeException> expectedCauseType = RuntimeException.class;
     // WHEN
     expectAssertionError(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, throwableWithCause,
-      expectedCauseType));
+                                                                          expectedCauseType));
     // THEN
     verify(failures).failure(INFO, shouldHaveCauseExactlyInstance(throwableWithCause, expectedCauseType));
   }
