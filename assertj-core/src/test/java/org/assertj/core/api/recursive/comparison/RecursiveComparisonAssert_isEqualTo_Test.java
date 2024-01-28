@@ -635,26 +635,26 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     p19a.neighbour = p20a;
     p19b.neighbour = p20b;
 
-    // This fails at 15sec > 10sec on my 2021 Apple M1 Pro.  Uncomment more references below to increase the time. Every
+    // This fails at 15sec > 10sec on my 2021 Apple M1 Pro. Uncomment more references below to increase the time. Every
     // additional link roughly doubles the execution time.
 
-//    p20a.neighbour = p21a;
-//    p20b.neighbour = p21b;
+    p20a.neighbour = p21a;
+    p20b.neighbour = p21b;
 
-//    p21a.neighbour = p22a;
-//    p21b.neighbour = p22b;
+    p21a.neighbour = p22a;
+    p21b.neighbour = p22b;
 
-//    p22a.neighbour = p23a;
-//    p22b.neighbour = p23b;
+    p22a.neighbour = p23a;
+    p22b.neighbour = p23b;
 
-//    p23a.neighbour = p24a;
-//    p23b.neighbour = p24b;
+    p23a.neighbour = p24a;
+    p23b.neighbour = p24b;
 
-//    p24a.neighbour = p25a;
-//    p24b.neighbour = p25b;
+    p24a.neighbour = p25a;
+    p24b.neighbour = p25b;
 
-//    p25a.neighbour = p26a;
-//    p25b.neighbour = p26b;
+    p25a.neighbour = p26a;
+    p25b.neighbour = p26b;
 
     Stopwatch stopwatch = Stopwatch.createStarted();
     assertThat(p1a).usingRecursiveComparison().isEqualTo(p1b);
