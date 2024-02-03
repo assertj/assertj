@@ -300,7 +300,6 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     Person alice = new Person("Alice");
     Person jack = new Person("Jack");
     Person joan = new Person("Joan");
-    Person joe = new Person("Joe");
     john.neighbour = jack;
     alice.neighbour = joan;
     jack.neighbour = john;
@@ -318,8 +317,8 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
                      arguments(john, alice, array("name", "neighbour", "number"), "{number}"),
                      arguments(john, alice, array("neighbor"), "{neighbor}"),
                      arguments(john, alice, array("neighbour.neighbor.name"), "{neighbor in <neighbour.neighbor.name>}"),
-                     arguments(sherlockHolmes, drWatson, array("friends.other"), "{other in <friends.other>}"),
-                     arguments(sherlockHolmes, drWatson, array("friends.name"), "{name in <friends.name>}"),
+                     // TODO for https://github.com/assertj/assertj/issues/3354
+                     // arguments(sherlockHolmes, drWatson, array("friends.other"), "{other in <friends.other>}"),
                      arguments(john, alice, array("neighbour.neighbour.name", "neighbour.neighbour.number"),
                                "{number in <neighbour.neighbour.number>}"));
   }
@@ -426,7 +425,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
                 .isEqualTo(expected);
   }
 
-  class WithNames {
+  static class WithNames {
     Collection<Name> names;
 
     public WithNames(Collection<Name> names) {
@@ -434,7 +433,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     }
   }
 
-  class Name {
+  static class Name {
     String first;
     String last;
 
@@ -444,4 +443,17 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends Recur
     }
   }
 
+  // https://github.com/assertj/assertj/issues/3354
+  @Test
+  void checking_compared_fields_existence_should_skip_containers_in_field_location() {
+    // GIVEN
+    FriendlyPerson sherlock1 = new FriendlyPerson("Sherlock Holmes");
+    sherlock1.friends.add(new FriendlyPerson("Dr. John Watson"));
+    FriendlyPerson sherlock2 = new FriendlyPerson("Sherlock Holmes");
+    sherlock2.friends.add(new FriendlyPerson("Dr. John Watson"));
+    // WHEN/THEN
+    then(sherlock1).usingRecursiveComparison()
+                   .comparingOnlyFields("friends.name")
+                   .isEqualTo(sherlock2);
+  }
 }

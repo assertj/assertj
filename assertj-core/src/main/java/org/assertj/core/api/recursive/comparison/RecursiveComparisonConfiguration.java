@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.MapEntry.entry;
+import static org.assertj.core.internal.RecursiveHelper.isContainer;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -1095,9 +1096,14 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private Optional<Entry<FieldLocation, String>> checkComparedFieldExists(Object actual, FieldLocation comparedFieldLocation) {
     Object node = actual;
-    for (int nestingLevel = 0; nestingLevel < comparedFieldLocation.getDecomposedPath().size(); nestingLevel++) {
+    int nestingLevel = 0;
+    while (nestingLevel < comparedFieldLocation.getDecomposedPath().size()) {
       if (node == null) {
         // won't be able to get children nodes, assume the field is known as we can't check it
+        return Optional.empty();
+      }
+      if (isContainer(node)) {
+        // TODO: supported with https://github.com/assertj/assertj/issues/3354
         return Optional.empty();
       }
       String comparedFieldNodeNameElement = comparedFieldLocation.getDecomposedPath().get(nestingLevel);
@@ -1106,6 +1112,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
         return Optional.of(entry(comparedFieldLocation, comparedFieldNodeNameElement));
       }
       node = introspectionStrategy.getChildNodeValue(comparedFieldNodeNameElement, node);
+      nestingLevel++;
     }
     return Optional.empty();
   }

@@ -16,6 +16,7 @@ import static java.lang.String.format;
 import static java.lang.System.identityHashCode;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.internal.RecursiveHelper.isContainer;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
@@ -325,20 +326,6 @@ public final class DualValue {
 
   public boolean hasNoNullValues() {
     return actual != null && expected != null;
-  }
-
-  private static boolean isContainer(Object o) {
-    return o instanceof Iterable ||
-           o instanceof Map ||
-           o instanceof Optional ||
-           o instanceof AtomicReference ||
-           o instanceof AtomicReferenceArray ||
-           o instanceof AtomicBoolean ||
-           o instanceof AtomicInteger ||
-           o instanceof AtomicIntegerArray ||
-           o instanceof AtomicLong ||
-           o instanceof AtomicLongArray ||
-           isArray(o);
   }
 
   public boolean hasPotentialCyclingValues() {
