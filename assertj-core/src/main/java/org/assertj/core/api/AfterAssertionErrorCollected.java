@@ -25,7 +25,7 @@ public interface AfterAssertionErrorCollected {
    * assertion errors collection is implemented.
    * <p>
    * If you just use the standard soft assertions classes provided by AssertJ, you can register your callback with
-   * {@link AbstractSoftAssertions#setAfterAssertionErrorCollected(AfterAssertionErrorCollected)}.
+   * {@link AbstractSoftAssertions#addAfterAssertionErrorCollected(AfterAssertionErrorCollected)}.
    * <p>
    * Example with custom soft assertions:
    * <pre><code class='java'> class TolkienSoftAssertions extends SoftAssertions {
@@ -51,7 +51,7 @@ public interface AfterAssertionErrorCollected {
    * <pre><code class='java'> SoftAssertions softly = new SoftAssertions();
    *
    * // register our callback
-   * softly.setAfterAssertionErrorCollected(error -&gt; System.out.println(error));
+   * softly.addAfterAssertionErrorCollected(error -&gt; System.out.println(error));
    *
    * // the AssertionError corresponding to this failing assertion is printed to the console.
    * softly.assertThat("The Beatles").isEqualTo("The Rolling Stones");</code></pre>

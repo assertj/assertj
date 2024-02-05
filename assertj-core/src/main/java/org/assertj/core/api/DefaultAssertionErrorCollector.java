@@ -16,10 +16,8 @@ import static java.util.Collections.synchronizedList;
 import static java.util.Collections.unmodifiableList;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.assertj.core.util.Throwables;
 
@@ -30,7 +28,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
   private volatile boolean wasSuccess = true;
   private List<AssertionError> collectedAssertionErrors = synchronizedList(new ArrayList<>());
 
-  private Set<AfterAssertionErrorCollected> callbacks = new HashSet<>();
+  private List<AfterAssertionErrorCollected> callbacks = synchronizedList(new ArrayList<>());
 
   private AssertionErrorCollector delegate = null;
 
@@ -78,6 +76,22 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
   }
 
   /**
+   * Same as {@link DefaultAssertionErrorCollector#addAfterAssertionErrorCollected(AfterAssertionErrorCollected)}, but
+   * also removes all previously added callbacks. Please consider using
+   * {@link DefaultAssertionErrorCollector#addAfterAssertionErrorCollected(AfterAssertionErrorCollected)}
+   * instead, because another frameworks and integrations can also use this functionality.
+   *
+   * @param afterAssertionErrorCollected the callback.
+   *
+   * @since 3.17.0
+   * @deprecated
+   */
+  public void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
+    callbacks.clear();
+    addAfterAssertionErrorCollected(afterAssertionErrorCollected);
+  }
+
+  /**
    * Register a callback allowing to react after an {@link AssertionError} is collected by the current soft assertion.
    * <p>
    * The callback is an instance of {@link AfterAssertionErrorCollected} which can be expressed as lambda.
@@ -114,9 +128,9 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    *
    * @param afterAssertionErrorCollected the callback.
    *
-   * @since 3.17.0
+   * @since 3.26.0
    */
-  public void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
+  public void addAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
     callbacks.add(afterAssertionErrorCollected);
   }
 

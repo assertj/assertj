@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -20,52 +20,54 @@ import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
-class DefaultAssertionErrorCollector_setAfterAssertionErrorCollected_Test {
-  private List<String> stringList;
-  private List<Throwable> throwableList;
+class DefaultAssertionErrorCollector_addAfterAssertionErrorCollected_Test {
+  private List<String> errorMessages;
+  private List<Throwable> throwables;
   private SoftAssertions softly;
 
   @BeforeEach
   void given() {
-    stringList = new ArrayList<>();
-    throwableList = new ArrayList<>();
+    errorMessages = new ArrayList<>();
+    throwables = new ArrayList<>();
     softly = new SoftAssertions();
   }
 
   @Test
   void should_perform_both_specified_actions_on_each_assertion_error() {
     // WHEN
-    softly.setAfterAssertionErrorCollected(err -> stringList.add(err.getMessage()));
-    softly.setAfterAssertionErrorCollected(throwableList::add);
+    softly.addAfterAssertionErrorCollected(err -> errorMessages.add(err.getMessage()));
+    softly.addAfterAssertionErrorCollected(throwables::add);
     softly.assertThat(1)
           .isEqualTo(1_000)
           .isBetween(7, 15)
           .isEven();
     // THEN
-    then(stringList).hasSameSizeAs(throwableList).hasSize(3);
+    then(errorMessages).hasSameSizeAs(throwables)
+                       .hasSize(3);
   }
 
   @Test
   void should_execute_both_specified_actions_on_each_manually_added_error() {
     // WHEN
-    softly.setAfterAssertionErrorCollected(err -> stringList.add(err.getMessage()));
-    softly.setAfterAssertionErrorCollected(throwableList::add);
+    softly.addAfterAssertionErrorCollected(err -> errorMessages.add(err.getMessage()));
+    softly.addAfterAssertionErrorCollected(throwables::add);
     softly.collectAssertionError(new AssertionError("hello"));
     softly.collectAssertionError(new AssertionError("world"));
     // THEN
-    then(stringList).hasSameSizeAs(throwableList).hasSize(2);
+    then(errorMessages).hasSameSizeAs(throwables)
+                       .hasSize(2);
   }
 
   @Test
-  void should_pass_if_the_callback_object_can_be_set_only_one_time() {
+  void should_register_the_same_callback_several_times() {
     // GIVEN
-    AfterAssertionErrorCollected callback = throwableList::add;
+    AfterAssertionErrorCollected callback = throwables::add;
     // WHEN
-    for (int i = 0; i < 20; i++) {
-      softly.setAfterAssertionErrorCollected(callback);
+    for (int i = 0; i < 10; i++) {
+      softly.addAfterAssertionErrorCollected(callback);
     }
     softly.collectAssertionError(new AssertionError("hello"));
     // THEN
-    then(throwableList).hasSize(1);
+    then(throwables).hasSize(10);
   }
 }
