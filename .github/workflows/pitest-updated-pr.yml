@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: debug
-        uses: hmarr/debug-action@v2
+        uses: hmarr/debug-action@v3
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
