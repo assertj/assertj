@@ -24,20 +24,21 @@ import org.assertj.core.util.Throwables;
 public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
 
   // Marking this field as volatile doesn't ensure complete thread safety
-  // (mutual exclusion, race-free behaviour), but guarantees eventual visibility
+  // (mutual exclusion, race-free behavior), but guarantees eventual visibility
   private volatile boolean wasSuccess = true;
-  private List<AssertionError> collectedAssertionErrors = synchronizedList(new ArrayList<>());
+  private final List<AssertionError> collectedAssertionErrors = synchronizedList(new ArrayList<>());
 
-  private AfterAssertionErrorCollected callback = this;
+  private final List<AfterAssertionErrorCollected> callbacks = synchronizedList(new ArrayList<>());
 
   private AssertionErrorCollector delegate = null;
 
   public DefaultAssertionErrorCollector() {
     super();
+    callbacks.add(this);
   }
 
   // I think ideally, this would be set in the constructor and made final;
-  // however that would require a new constructor that would not make it
+  // however, that would require a new constructor that would not make it
   // backward compatible with existing SoftAssertionProvider implementations.
   @Override
   public void setDelegate(AssertionErrorCollector delegate) {
@@ -57,7 +58,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
     } else {
       delegate.collectAssertionError(error);
     }
-    callback.onAssertionErrorCollected(error);
+    callbacks.forEach(callback -> callback.onAssertionErrorCollected(error));
   }
 
   /**
@@ -69,30 +70,46 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    */
   @Override
   public List<AssertionError> assertionErrorsCollected() {
-    List<AssertionError> errors = delegate != null ? delegate.assertionErrorsCollected()
+    List<AssertionError> errors = delegate != null
+        ? delegate.assertionErrorsCollected()
         : unmodifiableList(collectedAssertionErrors);
     return decorateErrorsCollected(errors);
   }
 
   /**
-   * Register a callback allowing to react after an {@link AssertionError} is collected by the current soft assertion.
+   * Same as {@link DefaultAssertionErrorCollector#addAfterAssertionErrorCollected(AfterAssertionErrorCollected)}, but
+   * also removes all previously added callbacks.
+   *
+   * @param afterAssertionErrorCollected the callback.
+   *
+   * @since 3.17.0
+   */
+  public void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
+    callbacks.clear();
+    addAfterAssertionErrorCollected(afterAssertionErrorCollected);
+  }
+
+  /**
+   * Register a callback allowing to react after an {@link AssertionError} is collected by the current soft assertions.
    * <p>
-   * The callback is an instance of {@link AfterAssertionErrorCollected} which can be expressed as lambda.
+   * The callback is an instance of {@link AfterAssertionErrorCollected} which can be expressed as a lambda.
    * <p>
    * Example:
    * <pre><code class='java'> SoftAssertions softly = new SoftAssertions();
-   * StringBuilder reportBuilder = new StringBuilder(format("Assertions report:%n"));
-  
-   * // register our callback
-   * softly.setAfterAssertionErrorCollected(error -&gt; reportBuilder.append(String.format("------------------%n%s%n", error.getMessage())));
+   * StringBuilder reportBuilder = new StringBuilder(String.format("Assertion errors report:%n"));
    *
-   * // the AssertionError corresponding to the failing assertions are registered in the report
+   * // register a single callback with:
+   * softly.setAfterAssertionErrorCollected(error -&gt; reportBuilder.append(String.format("------------------%n%s%n", error.getMessage())));
+   * // or as many as needed with:
+   * // softly.addAfterAssertionErrorCollected(error -&gt; reportBuilder.append(String.format("------------------%n%s%n", error.getMessage())));
+   *
+   * // the AssertionErrors corresponding to the failing assertions are registered in the report
    * softly.assertThat("The Beatles").isEqualTo("The Rolling Stones");
    * softly.assertThat(123).isEqualTo(123)
    *                       .isEqualTo(456);</code></pre>
    * <p>
-   * resulting {@code reportBuilder}:
-   * <pre><code class='java'> Assertions report:
+   * Resulting {@code reportBuilder}:
+   * <pre><code class='java'> Assertion errors report:
    * ------------------
    * Expecting:
    *  &lt;"The Beatles"&gt;
@@ -111,10 +128,10 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    *
    * @param afterAssertionErrorCollected the callback.
    *
-   * @since 3.17.0
+   * @since 3.26.0
    */
-  public void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
-    callback = afterAssertionErrorCollected;
+  public void addAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
+    callbacks.add(afterAssertionErrorCollected);
   }
 
   @Override
