@@ -70,4 +70,18 @@ class DefaultAssertionErrorCollector_addAfterAssertionErrorCollected_Test {
     // THEN
     then(throwables).hasSize(10);
   }
+
+  @Test
+  void setAfterAssertionErrorCollected_should_replace_all_registered_callbacks_with_one_specified() {
+    // GIVEN
+    for (int i = 0; i < 3; i++) {
+      softly.addAfterAssertionErrorCollected(err -> errorMessages.add(err.getMessage()));
+    }
+    // WHEN
+    softly.setAfterAssertionErrorCollected(throwables::add);
+    softly.collectAssertionError(new AssertionError("hello"));
+    // THEN
+    then(errorMessages).hasSize(0);
+    then(throwables).hasSize(1);
+  }
 }

@@ -84,7 +84,6 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    * @param afterAssertionErrorCollected the callback.
    *
    * @since 3.17.0
-   * @deprecated
    */
   public void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
     callbacks.clear();
