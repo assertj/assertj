@@ -35,7 +35,7 @@
     <japicmp-maven-plugin.version>0.18.3</japicmp-maven-plugin.version>
     <maven-clean-plugin.version>3.3.2</maven-clean-plugin.version>
     <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
-    <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+    <maven-dependency-plugin.version>3.6.1</maven-dependency-plugin.version>
     <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
     <maven-install-plugin.version>3.1.1</maven-install-plugin.version>
     <maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
@@ -188,6 +188,11 @@
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>${maven-dependency-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>${maven-deploy-plugin.version}</version>
         </plugin>
@@ -317,6 +322,49 @@
   </reporting>
 
   <profiles>
+    <profile>
+      <id>qodana</id>
+      <properties>
+        <intellij.agent.options>${project.basedir}/.qodana/code-coverage/output.ic,true,true,true,false</intellij.agent.options>
+        <jacoco.skip>true</jacoco.skip>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-agent</id>
+                <phase>process-test-classes</phase>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.jetbrains.intellij.deps</groupId>
+                      <artifactId>intellij-coverage-agent</artifactId>
+                      <version>1.0.746</version>
+                      <outputDirectory>${project.build.directory}/agents</outputDirectory>
+                      <destFileName>intellij-coverage-agent.jar</destFileName>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <argLine>-javaagent:${project.build.directory}/agents/intellij-coverage-agent.jar=${intellij.agent.options} @{argLine}</argLine>
+              <forkCount>0</forkCount>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <id>release</id>
       <build>

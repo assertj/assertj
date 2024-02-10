@@ -2,6 +2,9 @@ name: Qodana
 
 on: [push, pull_request, workflow_dispatch]
 
+env:
+  MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always
+
 jobs:
   qodana:
     name: Scan
@@ -15,7 +18,20 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
           fetch-depth: 0  # a full history is required for pull request analysis
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+          cache: 'maven'
+      - name: Test
+        run: ./mvnw $MAVEN_ARGS -Pqodana verify
+      - name: Archive coverage data
+        uses: actions/upload-artifact@v4
+        with:
+          name: maven-coverage-data
+          path: .qodana/code-coverage
       - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@v2023.3
+        uses: JetBrains/qodana-action@v2023.3.1
         env:
           QODANA_TOKEN: ${{ secrets.QODANA_TOKEN }}
