@@ -16,7 +16,6 @@
   <url>${project.organization.url}#${project.artifactId}</url>
 
   <properties>
-    <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
@@ -166,23 +165,10 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <additionalOptions>${javadocAdditionalOptions}</additionalOptions>
-          <addStylesheets>
-            <stylesheet>assertj-theme.css</stylesheet>
-            <stylesheet>hljs-theme.css</stylesheet>
-          </addStylesheets>
           <links>
             <link>https://javadoc.io/doc/com.google.guava/guava/${guava.version}</link>
             <link>https://javadoc.io/doc/org.assertj/assertj-core/${project.version}</link>
           </links>
-          <!-- Explicitly set Javadoc locale to English -->
-          <locale>en_US</locale>
-          <nohelp>true</nohelp>
-          <bottom><![CDATA[
-            Copyright &#169; {currentYear} {organizationName}. All rights reserved.
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-            <script>hljs.highlightAll();</script>
-        ]]></bottom>
         </configuration>
       </plugin>
       <plugin>
