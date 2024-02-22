@@ -47,6 +47,7 @@ import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Set;
 
+import java.util.function.Consumer;
 import org.assertj.core.internal.Classes;
 
 /**
@@ -663,6 +664,49 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    */
   public SELF hasAnnotation(Class<? extends Annotation> annotation) {
     classes.assertContainsAnnotations(info, actual, array(annotation));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} has the given {@code Annotation} satisfying the given requirements expressed as a {@link Consumer}.
+   * <p>
+   * This is useful to perform a group of assertions on an annotation after checking for its presence.
+   * <p>
+   * Example:
+   * <pre><code class='java'> &#64;Target(ElementType.TYPE)
+   * &#64;Retention(RetentionPolicy.RUNTIME)
+   * public &#64;interface Droid {
+   *     String model() default "Unknown";
+   *     String function() default "Unknown";
+   * }
+   *
+   * &#64;Droid(model = "R2 unit", function = "Astromech")
+   * public class R2D2 {}
+   *
+   * // This assertion succeeds:
+   * assertThat(R2D2.class)
+   *     .hasAnnotationSatisfying(Droid.class, a -> assertThat(a)
+   *         .extracting(Droid::model, Droid::function)
+   *         .containsExactly("R2 unit", "Astromech"));
+   *
+   * // This assertion fails:
+   * assertThat(R2D2.class)
+   *     .hasAnnotationSatisfying(Droid.class, a -> assertThat(a)
+   *         .extracting(Droid::function)
+   *         .isEqualTo("Protocol"));
+   *
+   * @param annotation annotations who must be attached to the class
+   * @param requirements the requirements expressed as a {@link Consumer}.
+   * @return {@code this} assertions object
+   * @throws NullPointerException if the given annotation is {@code null}.
+   * @throws NullPointerException if the given Consumer is {@code null}.
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
+   */
+  public <T extends Annotation> SELF hasAnnotationSatisfying(Class<T> annotation, Consumer<T> requirements) {
+    classes.assertContainsAnnotations(info, actual, array(annotation));
+    requireNonNull(requirements, "The Consumer<? extends Annotation> expressing the assertions requirements must not be null");
+    requirements.accept(actual.getAnnotation(annotation));
     return myself;
   }
 
