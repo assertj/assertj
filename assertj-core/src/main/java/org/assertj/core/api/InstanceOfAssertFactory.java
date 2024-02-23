@@ -16,7 +16,7 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 
 /**
- * {@link AssertFactory} decorator which casts the input value to the given type before invoking the decorated {@link AssertFactory}.
+ * {@link AssertFactory} decorator which casts the input value to the given type before invoking the decorated factory.
  *
  * @param <T>      the type to use for the cast.
  * @param <ASSERT> the type of the resulting {@code Assert}.
@@ -27,17 +27,17 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> implements AssertFactory<Object, ASSERT> {
 
   private final Class<T> type;
-  private final AssertFactory<T, ASSERT> assertFactory;
+  private final AssertFactory<T, ASSERT> delegate;
 
   /**
    * Instantiates a new {@code InstanceOfAssertFactory}.
    *
-   * @param type          the {@code Class} instance of the given type.
-   * @param assertFactory the {@code AssertFactory} to decorate.
+   * @param type     the {@code Class} instance of the given type.
+   * @param delegate the {@code AssertFactory} to decorate.
    */
-  public InstanceOfAssertFactory(Class<T> type, AssertFactory<T, ASSERT> assertFactory) {
+  public InstanceOfAssertFactory(Class<T> type, AssertFactory<T, ASSERT> delegate) {
     this.type = requireNonNull(type, shouldNotBeNull("type")::create);
-    this.assertFactory = requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
+    this.delegate = requireNonNull(delegate, shouldNotBeNull("delegate")::create);
   }
 
   Class<T> getType() {
@@ -46,12 +46,13 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
 
   /** {@inheritDoc} */
   @Override
-  public ASSERT createAssert(Object value) {
-    return assertFactory.createAssert(type.cast(value));
+  public ASSERT createAssert(Object actual) {
+    return delegate.createAssert(type.cast(actual));
   }
 
   @Override
   public String toString() {
     return type.getSimpleName() + " InstanceOfAssertFactory";
   }
+
 }

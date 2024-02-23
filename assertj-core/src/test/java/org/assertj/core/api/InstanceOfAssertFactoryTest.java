@@ -58,7 +58,7 @@ class InstanceOfAssertFactoryTest {
 
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage(shouldNotBeNull("assertFactory").create());
+                .hasMessage(shouldNotBeNull("delegate").create());
   }
 
   @Test

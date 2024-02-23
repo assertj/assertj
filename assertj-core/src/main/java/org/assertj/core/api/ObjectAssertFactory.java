@@ -17,9 +17,10 @@ package org.assertj.core.api;
  */
 public class ObjectAssertFactory<T> implements AssertFactory<T, ObjectAssert<T>> {
 
+  /** {@inheritDoc} */
   @Override
-  public ObjectAssert<T> createAssert(T t) {
-    return new ObjectAssert<>(t);
+  public ObjectAssert<T> createAssert(T actual) {
+    return new ObjectAssert<>(actual);
   }
 
 }

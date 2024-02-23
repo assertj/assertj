@@ -14,11 +14,11 @@ package org.assertj.core.api;
 
 /**
  * A single method factory interface to create an {@link Assert} for a given value.
- * This factory method typically wraps a call to <code>assertThat(t)</code> to produce a concrete assert type {@code ASSERT}
- * for the input element of type {@code T}.
+ * This factory method typically wraps a call to <code>assertThat(actual)</code>
+ * to produce a concrete assert type {@code ASSERT} for the input element of type {@code T}.
  * <p>
- * This interface is typically used by navigation assertions on iterable types like {@link AbstractIterableAssert} when calling
- * {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable&lt;E&gt;, AssertFactory&lt;E, ASSERT&gt;)}
+ * This interface is typically used by navigation assertions on iterable types like {@link AbstractIterableAssert}
+ * when calling {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable&lt;E&gt;, AssertFactory&lt;E, ASSERT&gt;)}
  * <p>
  * @param <T> the type of the input to the factory.
  * @param <ASSERT> the type of the resulting {@code Assert}.
@@ -29,11 +29,12 @@ package org.assertj.core.api;
 public interface AssertFactory<T, ASSERT extends Assert<?, ?>> {
 
   /**
-   * Creates the custom Assert object for the given element value.
-   *
-   * Typically this will just invoke <code>assertThat(t)</code>
-   * @param t the type to convert to an Assert object
-   * @return returns the custom Assert object for the given element value
+   * Creates the custom {@link Assert} instance for the given element value.
+   * <p>
+   * Typically, this will just invoke <code>assertThat(actual)</code>
+   * @param actual the input value for the {@code Assert} instance
+   * @return returns the custom {@code Assert} instance for the given element value
    */
-  ASSERT createAssert(T t);
+  ASSERT createAssert(T actual);
+
 }
