@@ -47,7 +47,6 @@ import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Set;
 
-import java.util.function.Consumer;
 import org.assertj.core.internal.Classes;
 
 /**
@@ -668,7 +667,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given {@code Annotation} satisfying the given requirements expressed as a {@link Consumer}.
+   * Verifies that the {@code Class} has the given {@code Annotation} and returns a new {@link Assert} narrowed to that type.
    * <p>
    * This is useful to perform a group of assertions on an annotation after checking for its presence.
    * <p>
@@ -689,7 +688,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *         .extracting(Droid::model, Droid::function)
    *         .containsExactly("R2 unit", "Astromech"));
    *
-   * // These assertion fail:
+   * // These assertions fail:
    * assertThat(R2D2.class)
    *     .annotation(SpaceShip.class);
    *
