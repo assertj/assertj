@@ -265,6 +265,8 @@
             <parameter>
               <excludes>
                 <exclude>org.assertj.core.internal</exclude>
+                <!-- Workaround for https://github.com/siom79/japicmp/issues/384 -->
+                <exclude>org.assertj.core.api.InstanceOfAssertFactory#getType()</exclude>
               </excludes>
               <overrideCompatibilityChangeParameters>
                 <!-- Unlikely that AssertJ users will encounter an IncompatibleClassChangeError (ref: JLS 13.5.6) -->
