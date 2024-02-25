@@ -37,6 +37,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -906,6 +907,32 @@ public interface InstanceOfAssertFactories {
   // IntelliJ can warn that this is redundant when it is not.
   static <ELEMENT> InstanceOfAssertFactory<List, ListAssert<ELEMENT>> list(Class<ELEMENT> elementType) {
     return new InstanceOfAssertFactory<>(List.class, Assertions::<ELEMENT> assertThat);
+  }
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Set}, assuming {@code Object} as element type.
+   *
+   * @see #set(Class)
+   * @since 3.26.0
+   */
+  @SuppressWarnings("rawtypes") // rawtypes: using Class instance
+  InstanceOfAssertFactory<Set, AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>>> SET = set(Object.class);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Set}.
+   *
+   * @param <E>   the {@code Set} element type.
+   * @param elementType the element type instance.
+   * @return the factory instance.
+   *
+   * @see #SET
+   * @since 3.26.0
+   */
+  @SuppressWarnings({ "rawtypes", "unused", "unchecked", "RedundantSuppression" })
+  // rawtypes+unchecked: using Class instance, unused: parameter needed for type inference.
+  // IntelliJ can warn that this is redundant when it is not.
+  static <E> InstanceOfAssertFactory<Set, AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>>> set(Class<E> elementType) {
+    return new InstanceOfAssertFactory<>(Set.class, Assertions::<E> assertThat);
   }
 
   /**
