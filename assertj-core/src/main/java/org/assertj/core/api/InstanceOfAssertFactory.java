@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 
 import java.io.Serializable;
@@ -20,7 +21,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * {@link AssertFactory} decorator which casts the input value to the given type before invoking the decorated factory.
@@ -86,29 +86,29 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
 
   private static final class SyntheticParameterizedType implements ParameterizedType, Serializable {
 
-    private final Class<?> rawType;
+    private final Class<?> rawClass;
     private final Type[] typeArguments;
 
-    public SyntheticParameterizedType(Class<?> rawType, Type[] typeArguments) {
-      this.rawType = rawType;
-      this.typeArguments = typeArguments;
+    public SyntheticParameterizedType(Class<?> rawClass, Type[] typeArguments) {
+      this.rawClass = requireNonNull(rawClass, shouldNotBeNull("rawClass")::create);
+      this.typeArguments = requireNonNull(typeArguments, shouldNotBeNull("typeArguments")::create);
     }
 
     @Override
     public String getTypeName() {
-      return rawType.getTypeName() + Arrays.stream(typeArguments)
-                                           .map(Type::getTypeName)
-                                           .collect(Collectors.joining(", ", "<", ">"));
+      return rawClass.getTypeName() + Arrays.stream(typeArguments)
+                                            .map(Type::getTypeName)
+                                            .collect(joining(", ", "<", ">"));
     }
 
     @Override
     public Type getOwnerType() {
-      return null;
+      return rawClass.getDeclaringClass();
     }
 
     @Override
     public Class<?> getRawType() {
-      return rawType;
+      return rawClass;
     }
 
     @Override
@@ -125,13 +125,13 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
         return false;
       }
       ParameterizedType otherType = (ParameterizedType) other;
-      return (otherType.getOwnerType() == null && rawType.equals(otherType.getRawType()) &&
+      return (otherType.getOwnerType() == null && rawClass.equals(otherType.getRawType()) &&
               Arrays.equals(typeArguments, otherType.getActualTypeArguments()));
     }
 
     @Override
     public int hashCode() {
-      return Objects.hash(rawType, Arrays.hashCode(typeArguments));
+      return Objects.hash(rawClass, Arrays.hashCode(typeArguments));
     }
 
     @Override
