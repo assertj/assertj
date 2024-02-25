@@ -685,29 +685,26 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    *
    * // This assertion succeeds:
    * assertThat(R2D2.class)
-   *     .hasAnnotationSatisfying(Droid.class, a -> assertThat(a)
+   *     .annotation(Droid.class)
    *         .extracting(Droid::model, Droid::function)
    *         .containsExactly("R2 unit", "Astromech"));
    *
-   * // This assertion fails:
+   * // These assertion fail:
    * assertThat(R2D2.class)
-   *     .hasAnnotationSatisfying(Droid.class, a -> assertThat(a)
-   *         .extracting(Droid::function)
-   *         .isEqualTo("Protocol"));
+   *     .annotation(SpaceShip.class);
    *
-   * @param annotation annotations who must be attached to the class
-   * @param requirements the requirements expressed as a {@link Consumer}.
-   * @return {@code this} assertions object
+   * assertThat(R2D2.class)
+   *     .annotation(Droid.class)
+   *         .extracting(Droid::function)
+   *         .isEqualTo("Protocol"));</code></pre>
+   *
+   * @param annotation annotation type which must be attached to the class
+   * @return an {@link Assert} narrowed to the annotation type
    * @throws NullPointerException if the given annotation is {@code null}.
-   * @throws NullPointerException if the given Consumer is {@code null}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
    */
-  public <T extends Annotation> SELF hasAnnotationSatisfying(Class<T> annotation, Consumer<T> requirements) {
+  public <T extends Annotation> AbstractObjectAssert<?, T> annotation(Class<T> annotation) {
     classes.assertContainsAnnotations(info, actual, array(annotation));
-    requireNonNull(requirements, "The Consumer<? extends Annotation> expressing the assertions requirements must not be null");
-    requirements.accept(actual.getAnnotation(annotation));
-    return myself;
+    return new ObjectAssert<>(actual.getAnnotation(annotation)).withAssertionState(myself);
   }
 
   /**
