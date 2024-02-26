@@ -27,7 +27,7 @@ import org.assertj.core.internal.Objects;
  * <p>
  * The class itself does not do much, it delegates the work to {@link ThrowableAssertAlternative} after calling {@link #isThrownBy(ThrowingCallable)}.
  *
- * @param <T> type of throwable to be thrown.
+ * @param <T> expected type of throwable to assert.
  * @see NotThrownAssert
  */
 public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<ThrowableTypeAssert<T>> {
@@ -46,7 +46,7 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
   }
 
   /**
-   * Assert that an exception of type T is thrown by the {@code throwingCallable}
+   * Assert that an exception of type {@link T} is thrown by the {@code throwingCallable}
    * and allow to chain assertions on the thrown exception.
    * <p>
    * Example:
@@ -63,14 +63,39 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
   }
 
   protected Throwable checkThrowableType(Throwable throwable) {
+    if (throwable == null) {
+      throwAssertionError("%nExpecting code to throw a " + expectedThrowableType.getName() + ", but no throwable was thrown.");
+    }
     var info = new WritableAssertionInfo();
     info.description(description);
-    if (throwable == null) {
-      var errorMessageFactory = new BasicErrorMessageFactory("%nExpecting code to throw a %s, but no throwable was thrown.".formatted(expectedThrowableType.getName()));
-      throw Failures.instance().failure(info, errorMessageFactory);
-    }
     Objects.instance().assertIsInstanceOf(info, throwable, expectedThrowableType);
     return throwable;
+  }
+
+  /**
+   * Asserts that the {@code throwingCallable} does not throw an exception of type {@link T} or does not throw any exception.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThatExceptionOfType(IllegalArgumentException.class).isNotThrownBy(() -&gt; { throw new IllegalStateException("boom!"); });</code></pre>
+   *
+   * @param throwingCallable code will not throw the exception of expected type
+   */
+  @SuppressWarnings("CatchMayIgnoreException")
+  public void isNotThrownBy(final ThrowingCallable throwingCallable) {
+    try {
+      throwingCallable.call();
+    } catch (Throwable throwable) {
+      if (expectedThrowableType.isInstance(throwable)) {
+        throwAssertionError("Expecting code not to raise a " + expectedThrowableType.getName());
+      }
+    }
+    // if nothing was thrown, the assertion succeeds
+  }
+
+  private void throwAssertionError(String message) {
+    var info = new WritableAssertionInfo();
+    info.description(description);
+    throw Failures.instance().failure(info, new BasicErrorMessageFactory(message));
   }
 
   protected ThrowableAssertAlternative<T> buildThrowableTypeAssert(T throwable) {
