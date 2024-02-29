@@ -335,6 +335,7 @@ public class MultimapAssert<K, V> extends AbstractAssert<MultimapAssert<K, V>, M
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains the given key.
+   * @since 3.26.0
    */
   public MultimapAssert<K, V> doesNotContainKey(K key) {
     return doesNotContainKeys(key);
