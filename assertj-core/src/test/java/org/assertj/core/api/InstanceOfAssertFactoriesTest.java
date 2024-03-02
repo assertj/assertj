@@ -15,6 +15,8 @@ package org.assertj.core.api;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.BDDAssertions.from;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY_2D;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_BOOLEAN;
@@ -125,10 +127,14 @@ import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.mock;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
@@ -146,12 +152,17 @@ import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Spliterator;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -171,6 +182,7 @@ import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -181,6 +193,9 @@ import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 /**
  * @author Stefano Cordio
@@ -1285,6 +1300,120 @@ class InstanceOfAssertFactoriesTest {
     volatile long longField;
     volatile String stringField;
 
+  }
+
+  @ParameterizedTest
+  @MethodSource({
+      "nonParameterizedFactories",
+      "parameterizedFactories"
+  })
+  void getRawClass(InstanceOfAssertFactory<?, ?> underTest, Class<?> rawClass) {
+    // WHEN
+    Class<?> result = underTest.getRawClass();
+    // THEN
+    then(result).isEqualTo(rawClass);
+  }
+
+  @ParameterizedTest
+  @MethodSource("nonParameterizedFactories")
+  void getType_for_non_parameterized_factories(InstanceOfAssertFactory<?, ?> underTest, Class<?> rawClass) {
+    // WHEN
+    Type type = underTest.getType();
+    // THEN
+    then(type).isEqualTo(rawClass);
+  }
+
+  @ParameterizedTest
+  @MethodSource("parameterizedFactories")
+  void getType_for_parameterized_factories(InstanceOfAssertFactory<?, ?> underTest, Class<?> rawClass, Class<?>[] typeArguments) {
+    // WHEN
+    Type type = underTest.getType();
+    // THEN
+    then(type).asInstanceOf(type(ParameterizedType.class))
+              .returns(typeArguments, from(ParameterizedType::getActualTypeArguments))
+              .returns(rawClass, from(ParameterizedType::getRawType))
+              .returns(null, from(ParameterizedType::getOwnerType));
+  }
+
+  static Stream<Arguments> nonParameterizedFactories() {
+    return Stream.of(arguments(ARRAY, Object[].class),
+                     arguments(ARRAY_2D, Object[][].class),
+                     arguments(ATOMIC_BOOLEAN, AtomicBoolean.class),
+                     arguments(ATOMIC_INTEGER, AtomicInteger.class),
+                     arguments(ATOMIC_INTEGER_ARRAY, AtomicIntegerArray.class),
+                     arguments(ATOMIC_LONG, AtomicLong.class),
+                     arguments(ATOMIC_LONG_ARRAY, AtomicLongArray.class),
+                     arguments(BIG_DECIMAL, BigDecimal.class),
+                     arguments(BIG_INTEGER, BigInteger.class),
+                     arguments(BOOLEAN, Boolean.class),
+                     arguments(BOOLEAN_2D_ARRAY, boolean[][].class),
+                     arguments(BOOLEAN_ARRAY, boolean[].class),
+                     arguments(BYTE, Byte.class),
+                     arguments(BYTE_2D_ARRAY, byte[][].class),
+                     arguments(BYTE_ARRAY, byte[].class),
+                     arguments(CHAR_2D_ARRAY, char[][].class),
+                     arguments(CHAR_ARRAY, char[].class),
+                     arguments(CHAR_SEQUENCE, CharSequence.class),
+                     arguments(CHARACTER, Character.class),
+                     arguments(CLASS, Class.class),
+                     arguments(DATE, Date.class),
+                     arguments(DOUBLE, Double.class),
+                     arguments(DOUBLE_2D_ARRAY, double[][].class),
+                     arguments(DOUBLE_ARRAY, double[].class),
+                     arguments(DOUBLE_PREDICATE, DoublePredicate.class),
+                     arguments(DOUBLE_STREAM, DoubleStream.class),
+                     arguments(DURATION, Duration.class),
+                     arguments(FILE, File.class),
+                     arguments(FLOAT, Float.class),
+                     arguments(FLOAT_2D_ARRAY, float[][].class),
+                     arguments(FLOAT_ARRAY, float[].class),
+                     arguments(INPUT_STREAM, InputStream.class),
+                     arguments(INSTANT, Instant.class),
+                     arguments(INT_2D_ARRAY, int[][].class),
+                     arguments(INT_ARRAY, int[].class),
+                     arguments(INT_PREDICATE, IntPredicate.class),
+                     arguments(INT_STREAM, IntStream.class),
+                     arguments(INTEGER, Integer.class),
+                     arguments(LOCAL_DATE, LocalDate.class),
+                     arguments(LOCAL_DATE_TIME, LocalDateTime.class),
+                     arguments(LOCAL_TIME, LocalTime.class),
+                     arguments(LONG, Long.class),
+                     arguments(LONG_2D_ARRAY, long[][].class),
+                     arguments(LONG_ADDER, LongAdder.class),
+                     arguments(LONG_ARRAY, long[].class),
+                     arguments(LONG_PREDICATE, LongPredicate.class),
+                     arguments(LONG_STREAM, LongStream.class),
+                     arguments(MATCHER, Matcher.class),
+                     arguments(OFFSET_DATE_TIME, OffsetDateTime.class),
+                     arguments(OFFSET_TIME, OffsetTime.class),
+                     arguments(OPTIONAL_DOUBLE, OptionalDouble.class),
+                     arguments(OPTIONAL_INT, OptionalInt.class),
+                     arguments(OPTIONAL_LONG, OptionalLong.class));
+  }
+
+  static Stream<Arguments> parameterizedFactories() {
+    return Stream.of(arguments(ATOMIC_INTEGER_FIELD_UPDATER, AtomicIntegerFieldUpdater.class, classes(Object.class)),
+                     arguments(ATOMIC_LONG_FIELD_UPDATER, AtomicLongFieldUpdater.class, classes(Object.class)),
+                     arguments(ATOMIC_MARKABLE_REFERENCE, AtomicMarkableReference.class, classes(Object.class)),
+                     arguments(ATOMIC_REFERENCE, AtomicReference.class, classes(Object.class)),
+                     arguments(ATOMIC_REFERENCE_ARRAY, AtomicReferenceArray.class, classes(Object.class)),
+                     arguments(ATOMIC_REFERENCE_FIELD_UPDATER, AtomicReferenceFieldUpdater.class,
+                               classes(Object.class, Object.class)),
+                     arguments(ATOMIC_REFERENCE_ARRAY, AtomicReferenceArray.class, classes(Object.class)),
+                     arguments(ATOMIC_STAMPED_REFERENCE, AtomicStampedReference.class, classes(Object.class)),
+                     arguments(COLLECTION, Collection.class, classes(Object.class)),
+                     arguments(COMPLETABLE_FUTURE, CompletableFuture.class, classes(Object.class)),
+                     arguments(COMPLETION_STAGE, CompletionStage.class, classes(Object.class)),
+                     arguments(FUTURE, Future.class, classes(Object.class)),
+                     arguments(ITERABLE, Iterable.class, classes(Object.class)),
+                     arguments(ITERATOR, Iterator.class, classes(Object.class)),
+                     arguments(LIST, List.class, classes(Object.class)),
+                     arguments(MAP, Map.class, classes(Object.class, Object.class)),
+                     arguments(OPTIONAL, Optional.class, classes(Object.class)));
+  }
+
+  private static Class<?>[] classes(Class<?>... classes) {
+    return classes;
   }
 
 }

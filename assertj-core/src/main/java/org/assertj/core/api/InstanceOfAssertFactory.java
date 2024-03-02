@@ -103,7 +103,7 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
 
     @Override
     public Type getOwnerType() {
-      return rawClass.getDeclaringClass();
+      return null;
     }
 
     @Override
