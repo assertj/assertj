@@ -140,6 +140,7 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
@@ -160,6 +161,7 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -1388,11 +1390,24 @@ class InstanceOfAssertFactoriesTest {
                      arguments(OFFSET_TIME, OffsetTime.class),
                      arguments(OPTIONAL_DOUBLE, OptionalDouble.class),
                      arguments(OPTIONAL_INT, OptionalInt.class),
-                     arguments(OPTIONAL_LONG, OptionalLong.class));
+                     arguments(OPTIONAL_LONG, OptionalLong.class),
+                     arguments(PATH, Path.class),
+                     arguments(PERIOD, Period.class),
+                     arguments(SHORT, Short.class),
+                     arguments(SHORT_2D_ARRAY, short[][].class),
+                     arguments(SHORT_ARRAY, short[].class),
+                     arguments(STRING, String.class),
+                     arguments(STRING_BUFFER, StringBuffer.class),
+                     arguments(STRING_BUILDER, StringBuilder.class),
+                     arguments(THROWABLE, Throwable.class),
+                     arguments(URI_TYPE, URI.class),
+                     arguments(URL_TYPE, URL.class),
+                     arguments(ZONED_DATE_TIME, ZonedDateTime.class));
   }
 
   static Stream<Arguments> parameterizedFactories() {
     return Stream.of(arguments(ATOMIC_INTEGER_FIELD_UPDATER, AtomicIntegerFieldUpdater.class, classes(Object.class)),
+                     arguments(ATOMIC_INTEGER_FIELD_UPDATER, AtomicIntegerFieldUpdater.class, classes(Object.class)),
                      arguments(ATOMIC_LONG_FIELD_UPDATER, AtomicLongFieldUpdater.class, classes(Object.class)),
                      arguments(ATOMIC_MARKABLE_REFERENCE, AtomicMarkableReference.class, classes(Object.class)),
                      arguments(ATOMIC_REFERENCE, AtomicReference.class, classes(Object.class)),
@@ -1409,7 +1424,11 @@ class InstanceOfAssertFactoriesTest {
                      arguments(ITERATOR, Iterator.class, classes(Object.class)),
                      arguments(LIST, List.class, classes(Object.class)),
                      arguments(MAP, Map.class, classes(Object.class, Object.class)),
-                     arguments(OPTIONAL, Optional.class, classes(Object.class)));
+                     arguments(OPTIONAL, Optional.class, classes(Object.class)),
+                     arguments(PREDICATE, Predicate.class, classes(Object.class)),
+                     arguments(SET, Set.class, classes(Object.class)),
+                     arguments(SPLITERATOR, Spliterator.class, classes(Object.class)),
+                     arguments(STREAM, Stream.class, classes(Object.class)));
   }
 
   private static Class<?>[] classes(Class<?>... classes) {
