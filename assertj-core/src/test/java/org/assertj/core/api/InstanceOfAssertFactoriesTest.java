@@ -123,6 +123,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.map;
 import static org.assertj.core.api.InstanceOfAssertFactories.optional;
 import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
 import static org.assertj.core.api.InstanceOfAssertFactories.set;
+import static org.assertj.core.api.InstanceOfAssertFactories.spliterator;
 import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
@@ -1402,19 +1403,22 @@ class InstanceOfAssertFactoriesTest {
                      arguments(THROWABLE, Throwable.class),
                      arguments(URI_TYPE, URI.class),
                      arguments(URL_TYPE, URL.class),
-                     arguments(ZONED_DATE_TIME, ZonedDateTime.class));
+                     arguments(ZONED_DATE_TIME, ZonedDateTime.class),
+                     arguments(array(String[].class), String[].class),
+                     arguments(array2D(String[][].class), String[][].class),
+                     arguments(comparable(Integer.class), Integer.class),
+                     arguments(throwable(RuntimeException.class), RuntimeException.class),
+                     arguments(type(String.class), String.class));
   }
 
   static Stream<Arguments> parameterizedFactories() {
     return Stream.of(arguments(ATOMIC_INTEGER_FIELD_UPDATER, AtomicIntegerFieldUpdater.class, classes(Object.class)),
-                     arguments(ATOMIC_INTEGER_FIELD_UPDATER, AtomicIntegerFieldUpdater.class, classes(Object.class)),
                      arguments(ATOMIC_LONG_FIELD_UPDATER, AtomicLongFieldUpdater.class, classes(Object.class)),
                      arguments(ATOMIC_MARKABLE_REFERENCE, AtomicMarkableReference.class, classes(Object.class)),
                      arguments(ATOMIC_REFERENCE, AtomicReference.class, classes(Object.class)),
                      arguments(ATOMIC_REFERENCE_ARRAY, AtomicReferenceArray.class, classes(Object.class)),
                      arguments(ATOMIC_REFERENCE_FIELD_UPDATER, AtomicReferenceFieldUpdater.class,
                                classes(Object.class, Object.class)),
-                     arguments(ATOMIC_REFERENCE_ARRAY, AtomicReferenceArray.class, classes(Object.class)),
                      arguments(ATOMIC_STAMPED_REFERENCE, AtomicStampedReference.class, classes(Object.class)),
                      arguments(COLLECTION, Collection.class, classes(Object.class)),
                      arguments(COMPLETABLE_FUTURE, CompletableFuture.class, classes(Object.class)),
@@ -1428,7 +1432,31 @@ class InstanceOfAssertFactoriesTest {
                      arguments(PREDICATE, Predicate.class, classes(Object.class)),
                      arguments(SET, Set.class, classes(Object.class)),
                      arguments(SPLITERATOR, Spliterator.class, classes(Object.class)),
-                     arguments(STREAM, Stream.class, classes(Object.class)));
+                     arguments(STREAM, Stream.class, classes(Object.class)),
+                     arguments(atomicIntegerFieldUpdater(VolatileFieldContainer.class), AtomicIntegerFieldUpdater.class,
+                               classes(VolatileFieldContainer.class)),
+                     arguments(atomicLongFieldUpdater(VolatileFieldContainer.class), AtomicLongFieldUpdater.class,
+                               classes(VolatileFieldContainer.class)),
+                     arguments(atomicMarkableReference(Integer.class), AtomicMarkableReference.class, classes(Integer.class)),
+                     arguments(atomicReference(Integer.class), AtomicReference.class, classes(Integer.class)),
+                     arguments(atomicReferenceArray(Integer.class), AtomicReferenceArray.class, classes(Integer.class)),
+                     arguments(atomicReferenceFieldUpdater(String.class, VolatileFieldContainer.class),
+                               AtomicReferenceFieldUpdater.class,
+                               classes(String.class, VolatileFieldContainer.class)),
+                     arguments(atomicStampedReference(Integer.class), AtomicStampedReference.class, classes(Integer.class)),
+                     arguments(collection(String.class), Collection.class, classes(String.class)),
+                     arguments(completableFuture(String.class), CompletableFuture.class, classes(String.class)),
+                     arguments(completionStage(String.class), CompletionStage.class, classes(String.class)),
+                     arguments(future(String.class), Future.class, classes(String.class)),
+                     arguments(iterable(String.class), Iterable.class, classes(String.class)),
+                     arguments(iterator(String.class), Iterator.class, classes(String.class)),
+                     arguments(list(String.class), List.class, classes(String.class)),
+                     arguments(map(String.class, String.class), Map.class, classes(String.class, String.class)),
+                     arguments(optional(String.class), Optional.class, classes(String.class)),
+                     arguments(predicate(String.class), Predicate.class, classes(String.class)),
+                     arguments(set(String.class), Set.class, classes(String.class)),
+                     arguments(spliterator(String.class), Spliterator.class, classes(String.class)),
+                     arguments(stream(String.class), Stream.class, classes(String.class)));
   }
 
   private static Class<?>[] classes(Class<?>... classes) {
