@@ -17,11 +17,12 @@ import static java.util.Collections.EMPTY_SET;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 
 import java.lang.reflect.Array;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
  * Base implementation of {@link ComparisonStrategy} contract.
- * 
+ *
  * @author Joel Costigliola
  */
 public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
@@ -30,21 +31,21 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
   public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
     if (isNullOrEmpty(iterable)) return EMPTY_SET;
 
-    Set<Object> duplicates = newSetUsingComparisonStrategy();
     Set<Object> noDuplicates = newSetUsingComparisonStrategy();
+    Set<Object> duplicatesWithOrderPreserved = new LinkedHashSet<>();
     for (Object element : iterable) {
       if (noDuplicates.contains(element)) {
-        duplicates.add(element);
+        duplicatesWithOrderPreserved.add(element);
       } else {
         noDuplicates.add(element);
       }
     }
-    return duplicates;
+    return duplicatesWithOrderPreserved;
   }
 
   /**
    * Returns a {@link Set} honoring the comparison strategy used.
-   * 
+   *
    * @return a {@link Set} honoring the comparison strategy used.
    */
   protected abstract Set<Object> newSetUsingComparisonStrategy();
