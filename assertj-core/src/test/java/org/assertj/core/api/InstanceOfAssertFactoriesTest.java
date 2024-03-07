@@ -1321,18 +1321,18 @@ class InstanceOfAssertFactoriesTest {
   @MethodSource("nonParameterizedFactories")
   void getType_for_non_parameterized_factories(InstanceOfAssertFactory<?, ?> underTest, Class<?> rawClass) {
     // WHEN
-    Type type = underTest.getType();
+    Optional<Type> type = underTest.getType();
     // THEN
-    then(type).isEqualTo(rawClass);
+    then(type).hasValue(rawClass);
   }
 
   @ParameterizedTest
   @MethodSource("parameterizedFactories")
   void getType_for_parameterized_factories(InstanceOfAssertFactory<?, ?> underTest, Class<?> rawClass, Class<?>[] typeArguments) {
     // WHEN
-    Type type = underTest.getType();
+    Optional<Type> type = underTest.getType();
     // THEN
-    then(type).asInstanceOf(type(ParameterizedType.class))
+    then(type).get(type(ParameterizedType.class))
               .returns(typeArguments, from(ParameterizedType::getActualTypeArguments))
               .returns(rawClass, from(ParameterizedType::getRawType))
               .returns(null, from(ParameterizedType::getOwnerType));

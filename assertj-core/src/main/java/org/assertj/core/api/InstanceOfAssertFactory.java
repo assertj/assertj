@@ -21,6 +21,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * {@link AssertFactory} decorator which casts the input value to the given type before invoking the decorated factory.
@@ -65,11 +66,12 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
     this.delegate = requireNonNull(delegate, shouldNotBeNull("delegate")::create);
   }
 
-  public Type getType() {
-    return type;
+  /** {@inheritDoc} */
+  public Optional<Type> getType() {
+    return Optional.of(type);
   }
 
-  public Class<T> getRawClass() {
+  Class<T> getRawClass() {
     return rawClass;
   }
 
