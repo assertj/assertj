@@ -71,14 +71,14 @@ import java.util.stream.Stream;
  *
  * @author Stefano Cordio
  * @since 3.13.0
- * @see Assert#asInstanceOf(InstanceOfAssertFactory)
- * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
- * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
- * @see AbstractMapAssert#extractingByKey(Object, InstanceOfAssertFactory)
- * @see AbstractOptionalAssert#get(InstanceOfAssertFactory)
- * @see AbstractIterableAssert#first(InstanceOfAssertFactory)
- * @see AbstractIterableAssert#last(InstanceOfAssertFactory)
- * @see AbstractIterableAssert#element(int, InstanceOfAssertFactory)
+ * @see Assert#asInstanceOf(TypeBasedAssertFactory)
+ * @see AbstractObjectAssert#extracting(String, TypeBasedAssertFactory)
+ * @see AbstractObjectAssert#extracting(Function, TypeBasedAssertFactory)
+ * @see AbstractMapAssert#extractingByKey(Object, TypeBasedAssertFactory)
+ * @see AbstractOptionalAssert#get(TypeBasedAssertFactory)
+ * @see AbstractIterableAssert#first(TypeBasedAssertFactory)
+ * @see AbstractIterableAssert#last(TypeBasedAssertFactory)
+ * @see AbstractIterableAssert#element(int, TypeBasedAssertFactory)
  */
 public interface InstanceOfAssertFactories {
 

@@ -28,7 +28,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Stefano Cordio
  */
-class AbstractAssert_asInstanceOf_with_InstanceOfAssertFactory_Test extends AbstractAssertBaseTest
+class AbstractAssert_asInstanceOf_with_TypeBasedAssertFactory_Test extends AbstractAssertBaseTest
     implements NavigationMethodBaseTest<ConcreteAssert> {
 
   @Override
@@ -63,7 +63,7 @@ class AbstractAssert_asInstanceOf_with_InstanceOfAssertFactory_Test extends Abst
     Throwable thrown = catchThrowable(() -> assertions.asInstanceOf(null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
+                .hasMessage(shouldNotBeNull("factory").create());
   }
 
   @Test

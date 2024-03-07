@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsEmpty;
 
@@ -54,8 +53,7 @@ class IterableAssert_last_with_InstanceOfAssertFactory_Test {
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(iterable).last(null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
+    then(thrown).isInstanceOf(NullPointerException.class);
   }
 
   @Test

@@ -476,10 +476,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @SuppressWarnings("unchecked")
   @Override
   @CheckReturnValue
-  public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
-    requireNonNull(instanceOfAssertFactory, shouldNotBeNull("instanceOfAssertFactory")::create);
-    objects.assertIsInstanceOf(info, actual, instanceOfAssertFactory.getRawClass());
-    return (ASSERT) instanceOfAssertFactory.createAssert(actual).withAssertionState(myself);
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(TypeBasedAssertFactory<?, ASSERT> factory) {
+    requireNonNull(factory, shouldNotBeNull("factory")::create);
+    objects.assertIsInstanceOf(info, actual, factory.getRawClass());
+    return (ASSERT) factory.createAssert(actual).withAssertionState(myself);
   }
 
   /** {@inheritDoc} */
@@ -592,7 +592,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /**
    *  {@inheritDoc}
-   *  @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
+   *  @deprecated use {@link #asInstanceOf(TypeBasedAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
    */
   @Deprecated
   @Override
@@ -1125,7 +1125,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(String)
-   * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
+   * @see AbstractObjectAssert#extracting(String, TypeBasedAssertFactory)
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
@@ -1153,7 +1153,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(Function)
-   * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
+   * @see AbstractObjectAssert#extracting(Function, TypeBasedAssertFactory)
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue

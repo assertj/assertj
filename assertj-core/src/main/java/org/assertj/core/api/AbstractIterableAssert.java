@@ -3331,7 +3331,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} is empty.
    * @since 2.5.0 / 3.5.0
-   * @see #first(InstanceOfAssertFactory)
+   * @see #first(TypeBasedAssertFactory)
    */
   @CheckReturnValue
   public ELEMENT_ASSERT first() {
@@ -3339,9 +3339,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Navigate and allow to perform assertions on the first element of the {@link Iterable} under test.
+   * Navigate and allow performing assertions on the first element of the {@link Iterable} under test.
    * <p>
-   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * The {@code assertFactory} parameter allows specifying a {@link TypeBasedAssertFactory}, which is used to get the
    * assertions narrowed to the factory type.
    * <p>
    * Example: use of {@code String} assertions after {@code first(as(InstanceOfAssertFactories.STRING)}
@@ -3366,7 +3366,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.14.0
    */
   @CheckReturnValue
-  public <ASSERT extends AbstractAssert<?, ?>> ASSERT first(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT first(TypeBasedAssertFactory<?, ASSERT> assertFactory) {
     return internalFirst().asInstanceOf(assertFactory);
   }
 
@@ -3425,7 +3425,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Navigate and allow to perform assertions on the last element of the {@link Iterable} under test.
    * <p>
-   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * The {@code assertFactory} parameter allows specifying a {@link TypeBasedAssertFactory}, which is used to get the
    * assertions narrowed to the factory type.
    * <p>
    * Example: use of {@code String} assertions after {@code last(as(InstanceOfAssertFactories.STRING)}
@@ -3450,7 +3450,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.14.0
    */
   @CheckReturnValue
-  public <ASSERT extends AbstractAssert<?, ?>> ASSERT last(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT last(TypeBasedAssertFactory<?, ASSERT> assertFactory) {
     return internalLast().asInstanceOf(assertFactory);
   }
 
@@ -3474,9 +3474,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Navigate and allow to perform assertions on the chosen element of the {@link Iterable} under test.
+   * Navigate and allow performing assertions on the chosen element of the {@link Iterable} under test.
    * <p>
-   * By default available assertions after {@code element(index)} are {@code Object} assertions, it is possible though to
+   * By default, available assertions after {@code element(index)} are {@code Object} assertions, it is possible though to
    * get more specific assertions if you create {@code IterableAssert} with either:
    * <ul>
    * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
@@ -3514,7 +3514,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return the assertion on the given element
    * @throws AssertionError if the given index is out of bound.
    * @since 2.5.0 / 3.5.0
-   * @see #element(int, InstanceOfAssertFactory)
+   * @see #element(int, TypeBasedAssertFactory)
    */
   @CheckReturnValue
   public ELEMENT_ASSERT element(int index) {
@@ -3522,7 +3522,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Allow to perform assertions on the elements corresponding to the given indices 
+   * Allow performing assertions on the elements corresponding to the given indices
    * (the iterable {@link Iterable} under test is changed to an iterable with the selected elements).  
    * <p>
    * Example:
@@ -3538,9 +3538,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *                    .containsExactly(frodo, pippin);</code></pre>
    * <p>
    *
-   * @param indices the elements indices
+   * @param indices the elements' indices
    * @return the assertion on the given elements
-   * @throws IllegalArgumentException if indices array is null or empty
+   * @throws IllegalArgumentException if the indices array is null or empty
    * @throws AssertionError if one of the given indices is out of bound or if the actual is empty
    * @since 3.20
    */
@@ -3584,9 +3584,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Navigate and allow to perform assertions on the chosen element of the {@link Iterable} under test.
+   * Navigate and allow performing assertions on the chosen element of the {@link Iterable} under test.
    * <p>
-   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * The {@code assertFactory} parameter allows specifying a {@link TypeBasedAssertFactory}, which is used to get the
    * assertions narrowed to the factory type.
    * <p>
    * Example: use of {@code String} assertions after {@code element(index, as(InstanceOfAssertFactories.STRING)}
@@ -3612,7 +3612,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.14.0
    */
   @CheckReturnValue
-  public <ASSERT extends AbstractAssert<?, ?>> ASSERT element(int index, InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT element(int index, TypeBasedAssertFactory<?, ASSERT> assertFactory) {
     return internalElement(index).asInstanceOf(assertFactory);
   }
 
@@ -3646,7 +3646,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <ul>
    * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
    * <li>an assert factory used that knows how to create elements assertion, see: {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable, element assert factory)}</li>
-   * <li>the general <code>assertThat(Iterable)</code> and narrow down the single element with an assert factory, see: {@link #singleElement(InstanceOfAssertFactory) singleElement(element assert factory)}</li>
+   * <li>the general <code>assertThat(Iterable)</code> and narrow down the single element with an assert factory, see: {@link #singleElement(TypeBasedAssertFactory) singleElement(element assert factory)}</li>
    * </ul>
    * <p>
    * Example:
@@ -3705,7 +3705,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   /**
    * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions on that element, 
-   * the assertions are strongly typed according to the given {@link AssertFactory} parameter.
+   * the assertions are strongly typed according to the given {@link TypeBasedAssertFactory} parameter.
    * <p>
    * This is a shorthand for <code>hasSize(1).first(assertFactory)</code>.
    * <p>
@@ -3743,7 +3743,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.17.0
    */
   @CheckReturnValue
-  public <ASSERT extends AbstractAssert<?, ?>> ASSERT singleElement(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT singleElement(TypeBasedAssertFactory<?, ASSERT> assertFactory) {
     return internalSingleElement().asInstanceOf(assertFactory);
   }
 

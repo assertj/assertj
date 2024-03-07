@@ -1839,7 +1839,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
    *
    * @since 3.14.0
-   * @see #extractingByKey(Object, InstanceOfAssertFactory)
+   * @see #extractingByKey(Object, TypeBasedAssertFactory)
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, V> extractingByKey(K key) {
@@ -1853,10 +1853,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * <p>
    * If a given key is not present in the map under test, the assertion will fail.
    * <p>
-   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * The {@code assertFactory} parameter allows specifying a {@link TypeBasedAssertFactory}, which is used to get the
    * assertions narrowed to the factory type.
    * <p>
-   * Wrapping the given {@link InstanceOfAssertFactory} with {@link Assertions#as(InstanceOfAssertFactory)} makes the
+   * Wrapping the given {@link TypeBasedAssertFactory} with {@link Assertions#as(TypeBasedAssertFactory)} makes the
    * assertion more readable.
    * <p>
    * Example:
@@ -1878,7 +1878,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.14.0
    */
   @CheckReturnValue
-  public <ASSERT extends AbstractAssert<?, ?>> ASSERT extractingByKey(K key, InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT extractingByKey(K key, TypeBasedAssertFactory<?, ASSERT> assertFactory) {
     return internalExtractingByKey(key).asInstanceOf(assertFactory);
   }
 

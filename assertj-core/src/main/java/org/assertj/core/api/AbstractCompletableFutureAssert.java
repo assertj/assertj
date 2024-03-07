@@ -368,7 +368,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <p>
    * If the future's result is not available for any reason an assertion error is thrown.
    * <p>
-   * To get assertions for the future result's type use {@link #succeedsWithin(Duration, InstanceOfAssertFactory)} instead.
+   * To get assertions for the future result's type use {@link #succeedsWithin(Duration, TypeBasedAssertFactory)} instead.
    * <p>
    * Examples:
    * <pre><code class='java'> CompletableFuture&lt;String&gt; future = CompletableFuture.completedFuture("ook!");
@@ -445,10 +445,10 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   /**
-   * Waits if necessary for at most the given time for this future to complete, the {@link InstanceOfAssertFactory}
+   * Waits if necessary for at most the given time for this future to complete, the {@link TypeBasedAssertFactory}
    * parameter is used to return assertions specific to the future's result type.
    * <p>
-   * If the future's result is not available for any reason an assertion error is thrown.
+   * If the future's result is not available for any reason, an assertion error is thrown.
    * <p>
    * Examples:
    * <pre><code class='java'> CompletableFuture&lt;String&gt; future = CompletableFuture.completedFuture("ook!");
@@ -471,12 +471,12 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @throws IllegalStateException if the actual {@code CompletableFuture} does not succeed within the given timeout.
    */
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(Duration timeout,
-                                                                     InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
+                                                                     TypeBasedAssertFactory<RESULT, ASSERT> assertFactory) {
     return internalSucceedsWithin(timeout).asInstanceOf(assertFactory);
   }
 
   /**
-   * Waits if necessary for at most the given time for this future to complete, the {@link InstanceOfAssertFactory}
+   * Waits if necessary for at most the given time for this future to complete, the {@link TypeBasedAssertFactory}
    * parameter is used to return assertions specific to the future's result type.
    * <p>
    * If the future's result is not available for any reason an assertion error is thrown.
@@ -502,7 +502,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
    */
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(long timeout, TimeUnit unit,
-                                                                     InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
+                                                                     TypeBasedAssertFactory<RESULT, ASSERT> assertFactory) {
     return internalSucceedsWithin(timeout, unit).asInstanceOf(assertFactory);
   }
 

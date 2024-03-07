@@ -2521,7 +2521,7 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * A syntax sugar to write fluent assertion with methods having an {@link InstanceOfAssertFactory} parameter.
+   * A syntax sugar to write fluent assertion with methods having a {@link TypeBasedAssertFactory} parameter.
    * <p>
    * Example:
    * <pre><code class="java"> Jedi yoda = new Jedi("Yoda", "Green");
@@ -2534,15 +2534,15 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return same instance of {@code assertFactory}
    *
    * @since 3.14.0
-   * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
-   * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
-   * @see AbstractMapAssert#extractingByKey(Object, InstanceOfAssertFactory)
-   * @see AbstractOptionalAssert#get(InstanceOfAssertFactory)
-   * @see AbstractIterableAssert#first(InstanceOfAssertFactory)
-   * @see AbstractIterableAssert#last(InstanceOfAssertFactory)
-   * @see AbstractIterableAssert#element(int, InstanceOfAssertFactory)
+   * @see AbstractObjectAssert#extracting(String, TypeBasedAssertFactory)
+   * @see AbstractObjectAssert#extracting(Function, TypeBasedAssertFactory)
+   * @see AbstractMapAssert#extractingByKey(Object, TypeBasedAssertFactory)
+   * @see AbstractOptionalAssert#get(TypeBasedAssertFactory)
+   * @see AbstractIterableAssert#first(TypeBasedAssertFactory)
+   * @see AbstractIterableAssert#last(TypeBasedAssertFactory)
+   * @see AbstractIterableAssert#element(int, TypeBasedAssertFactory)
    */
-  public static <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
+  public static <T extends TypeBasedAssertFactory<?, ? extends AbstractAssert<?, ?>>> T as(T assertFactory) {
     return assertFactory;
   }
 

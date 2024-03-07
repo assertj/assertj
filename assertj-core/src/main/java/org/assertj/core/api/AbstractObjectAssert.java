@@ -824,7 +824,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).extracting(&quot;name&quot;)
    *                  .startsWith(&quot;Fro&quot;);
    *
-   * // To get String assertions, use {@link #extracting(String, InstanceOfAssertFactory)}:
+   * // To get String assertions, use {@link #extracting(String, TypeBasedAssertFactory)}:
    * assertThat(frodo).extracting(&quot;name&quot;, as(InstanceOfAssertFactories.STRING))
    *                  .startsWith(&quot;Fro&quot;);</code></pre>
    * <p>
@@ -836,7 +836,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError if one of the given name does not match a field or property
    *
    * @since 3.13.0
-   * @see #extracting(String, InstanceOfAssertFactory)
+   * @see #extracting(String, TypeBasedAssertFactory)
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
@@ -853,10 +853,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
-   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * The {@code assertFactory} parameter allows specifying a {@link TypeBasedAssertFactory}, which is used to get the
    * assertions narrowed to the factory type.
    * <p>
-   * Wrapping the given {@link InstanceOfAssertFactory} with {@link Assertions#as(InstanceOfAssertFactory)} makes the
+   * Wrapping the given {@link TypeBasedAssertFactory} with {@link Assertions#as(TypeBasedAssertFactory)} makes the
    * assertion more readable.
    * <p>
    * Example:
@@ -885,7 +885,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
-                                                                 InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+                                                                 TypeBasedAssertFactory<?, ASSERT> assertFactory) {
     return super.extracting(propertyOrField, this::newObjectAssert).asInstanceOf(assertFactory);
   }
 
@@ -996,7 +996,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, T> extractor,
-                                                                    InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+                                                                    TypeBasedAssertFactory<?, ASSERT> assertFactory) {
     return super.extracting(extractor, this::newObjectAssert).asInstanceOf(assertFactory);
   }
 

@@ -443,7 +443,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @throws AssertionError if the actual {@link Optional} is null.
    * @throws AssertionError if the actual {@link Optional} is empty.
    * @since 3.9.0
-   * @see #get(InstanceOfAssertFactory)
+   * @see #get(TypeBasedAssertFactory)
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, VALUE> get() {
@@ -454,10 +454,10 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns an new assertion instance
    * to chain assertions on the optional value.
    * <p>
-   * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
+   * The {@code assertFactory} parameter allows specifying a {@link TypeBasedAssertFactory}, which is used to get the
    * assertions narrowed to the factory type.
    * <p>
-   * Wrapping the given {@link InstanceOfAssertFactory} with {@link Assertions#as(InstanceOfAssertFactory)} makes the
+   * Wrapping the given {@link TypeBasedAssertFactory} with {@link Assertions#as(TypeBasedAssertFactory)} makes the
    * assertion more readable.
    * <p>
    * Example:
@@ -476,7 +476,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @since 3.14.0
    */
   @CheckReturnValue
-  public <ASSERT extends AbstractAssert<?, ?>> ASSERT get(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
+  public <ASSERT extends AbstractAssert<?, ?>> ASSERT get(TypeBasedAssertFactory<?, ASSERT> assertFactory) {
     return internalGet().asInstanceOf(assertFactory);
   }
 

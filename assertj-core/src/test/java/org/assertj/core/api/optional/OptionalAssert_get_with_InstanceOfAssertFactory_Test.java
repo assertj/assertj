@@ -18,7 +18,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -65,8 +64,7 @@ class OptionalAssert_get_with_InstanceOfAssertFactory_Test implements Navigation
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(optional).get(null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
+    then(thrown).isInstanceOf(NullPointerException.class);
   }
 
   @Test

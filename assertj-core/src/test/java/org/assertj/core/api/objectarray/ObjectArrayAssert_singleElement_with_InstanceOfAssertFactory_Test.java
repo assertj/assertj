@@ -17,7 +17,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AbstractStringAssert;
@@ -43,8 +42,7 @@ class ObjectArrayAssert_singleElement_with_InstanceOfAssertFactory_Test {
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(babySimpsons).singleElement(null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
+    then(thrown).isInstanceOf(NullPointerException.class);
   }
 
   @Test

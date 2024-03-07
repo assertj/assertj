@@ -31,7 +31,7 @@ import java.util.Objects;
  * @author Stefano Cordio
  * @since 3.13.0
  */
-public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> implements AssertFactory<Object, ASSERT> {
+public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> implements TypeBasedAssertFactory<T, ASSERT> {
 
   private final Type type;
   private final Class<T> rawClass;
@@ -65,10 +65,12 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
     this.delegate = requireNonNull(delegate, shouldNotBeNull("delegate")::create);
   }
 
+  @Override
   public Type getType() {
     return type;
   }
 
+  @Override
   public Class<T> getRawClass() {
     return rawClass;
   }

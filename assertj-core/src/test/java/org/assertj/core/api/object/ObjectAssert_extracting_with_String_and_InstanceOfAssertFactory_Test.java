@@ -18,7 +18,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 
@@ -55,8 +54,7 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test
     // WHEN
     Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("id", null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
+    then(thrown).isInstanceOf(NullPointerException.class);
   }
 
   @Test

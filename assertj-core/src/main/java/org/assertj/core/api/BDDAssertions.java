@@ -3058,17 +3058,17 @@ public class BDDAssertions extends Assertions {
    * @return same instance of {@code assertFactory}
    *
    * @since 3.20.0
-   * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
-   * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
-   * @see AbstractMapAssert#extractingByKey(Object, InstanceOfAssertFactory)
-   * @see AbstractOptionalAssert#get(InstanceOfAssertFactory)
-   * @see AbstractIterableAssert#first(InstanceOfAssertFactory)
-   * @see AbstractIterableAssert#last(InstanceOfAssertFactory)
-   * @see AbstractIterableAssert#element(int, InstanceOfAssertFactory)
+   * @see AbstractObjectAssert#extracting(String, TypeBasedAssertFactory)
+   * @see AbstractObjectAssert#extracting(Function, TypeBasedAssertFactory)
+   * @see AbstractMapAssert#extractingByKey(Object, TypeBasedAssertFactory)
+   * @see AbstractOptionalAssert#get(TypeBasedAssertFactory)
+   * @see AbstractIterableAssert#first(TypeBasedAssertFactory)
+   * @see AbstractIterableAssert#last(TypeBasedAssertFactory)
+   * @see AbstractIterableAssert#element(int, TypeBasedAssertFactory)
    *
    * @since 3.20.0
    */
-  public static <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
+  public static <T extends TypeBasedAssertFactory<?, ? extends AbstractAssert<?, ?>>> T as(T assertFactory) {
     return Assertions.as(assertFactory);
   }
   // ------------------------------------------------------------------------------------------------------

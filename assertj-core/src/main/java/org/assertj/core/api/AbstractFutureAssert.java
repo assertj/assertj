@@ -182,7 +182,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * The rationale is that if we collected {@code succeedsWithin} error as a soft assertion error, the chained assertions would be
    * executed against a future value that is actually not available.
    * <p>
-   * To get assertions for the future result's type use {@link #succeedsWithin(Duration, InstanceOfAssertFactory)} instead.
+   * To get assertions for the future result's type use {@link #succeedsWithin(Duration, TypeBasedAssertFactory)} instead.
    * <p>
    * Examples:
    * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -229,7 +229,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * The rationale is that if we collected {@code succeedsWithin} error as a soft assertion error, the chained assertions would be
    * executed against a future value that is actually not available.
    * <p>
-   * To get assertions for the future result's type use {@link #succeedsWithin(long, TimeUnit, InstanceOfAssertFactory)} instead.
+   * To get assertions for the future result's type use {@link #succeedsWithin(long, TimeUnit, TypeBasedAssertFactory)} instead.
    * <p>
    * Examples:
    * <pre><code class='java'> ExecutorService executorService = Executors.newSingleThreadExecutor();
@@ -263,10 +263,10 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
   }
 
   /**
-   * Waits if necessary for at most the given time for this future to complete, the {@link InstanceOfAssertFactory}
+   * Waits if necessary for at most the given time for this future to complete, the {@link TypeBasedAssertFactory}
    * parameter is used to return assertions specific to the future's result type.
    * <p>
-   * If the future's result is not available for any reason an assertion error is thrown.
+   * If the future's result is not available for any reason, an assertion error is thrown.
    * <p>
    * <b>WARNING</b>
    * <p>
@@ -308,7 +308,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @since 3.17.0
    */
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(Duration timeout,
-                                                                     InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
+                                                                     TypeBasedAssertFactory<RESULT, ASSERT> assertFactory) {
     // we don't call succeedsWithin(Duration) to avoid double proxying soft assertions.
     return internalSucceedsWithin(timeout).asInstanceOf(assertFactory);
   }
@@ -317,7 +317,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * Waits if necessary for at most the given time for this future to complete, the {@link InstanceOfAssertFactory}
    * parameter is used to return assertions specific to the future's result type.
    * <p>
-   * If the future's result is not available for any reason an assertion error is thrown.
+   * If the future's result is not available for any reason, an assertion error is thrown.
    * <p>
    * <b>WARNING</b>
    * <p>
@@ -358,7 +358,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @since 3.17.0
    */
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(long timeout, TimeUnit unit,
-                                                                     InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
+                                                                     TypeBasedAssertFactory<RESULT, ASSERT> assertFactory) {
     // we don't call succeedsWithin(Duration) to avoid double proxying soft assertions.
     return internalSucceedsWithin(timeout, unit).asInstanceOf(assertFactory);
   }

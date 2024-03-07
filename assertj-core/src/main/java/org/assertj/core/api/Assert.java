@@ -281,12 +281,13 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   SELF usingDefaultComparator();
 
   /**
-   * Uses an {@link InstanceOfAssertFactory} to verify that the actual value is an instance of a given type and to produce
+   * Uses a {@link TypeBasedAssertFactory} to verify that the actual value is an instance of a given type and to produce
    * a new {@link Assert} narrowed to that type.
    * <p>
    * {@link InstanceOfAssertFactories} provides static factories for all the types supported by {@code Assertions#assertThat}.
    * <p>
-   * Additional factories can be created with custom {@code InstanceOfAssertFactory} instances.
+   * Additional factories can be created with custom {@link InstanceOfAssertFactory} instances or by implementing
+   * {@link TypeBasedAssertFactory directly}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions succeeds
@@ -299,17 +300,18 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * // assertions fails
    * assertThat(&quot;abc&quot;).asInstanceOf(InstanceOfAssertFactories.INTEGER);</code></pre>
    *
-   * @param <ASSERT>                the type of the resulting {@code Assert}.
-   * @param instanceOfAssertFactory the factory which verifies the type and creates the new {@code Assert}.
+   * @param <ASSERT> the type of the resulting {@code Assert}.
+   * @param factory  the factory which verifies the type and creates the new {@code Assert}.
    * @throws NullPointerException if the given factory is {@code null}.
    * @return the narrowed {@code Assert} instance.
    *
+   * @see TypeBasedAssertFactory
    * @see InstanceOfAssertFactory
    * @see InstanceOfAssertFactories
    *
    * @since 3.13.0
    */
-  <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory);
+  <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(TypeBasedAssertFactory<?, ASSERT> factory);
 
   /**
    * Verifies that the actual value is an instance of the given type.
@@ -650,7 +652,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(unsortedListAsObject).asList().isSorted();</code></pre>
    *
    * @return a list assertion object
-   * @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
+   * @deprecated use {@link #asInstanceOf(TypeBasedAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
    */
   @Deprecated
   AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList();

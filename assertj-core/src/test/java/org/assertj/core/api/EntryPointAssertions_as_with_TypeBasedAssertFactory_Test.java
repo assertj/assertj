@@ -18,30 +18,23 @@ import static org.mockito.Mockito.mock;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-/**
- * Tests for <code>{@link Assertions#as(InstanceOfAssertFactory)}</code>.
- *
- * @author Stefano Cordio
- */
-@DisplayName("EntryPoint assertions as(InstanceOfAssertFactory) method")
-class EntryPointAssertions_as_with_InstanceOfAssertFactory_Test extends EntryPointAssertionsBaseTest {
+class EntryPointAssertions_as_with_TypeBasedAssertFactory_Test extends EntryPointAssertionsBaseTest {
 
   @ParameterizedTest
-  @MethodSource("asInstanceOfAssertFactoryFactories")
-  void should_return_the_given_assert_factory(Function<InstanceOfAssertFactory<?, AbstractAssert<?, ?>>, InstanceOfAssertFactory<?, AbstractAssert<?, ?>>> asInstanceOfAssertFactory) {
+  @MethodSource("arguments")
+  void should_return_the_given_assert_factory(Function<TypeBasedAssertFactory<?, AbstractAssert<?, ?>>, TypeBasedAssertFactory<?, AbstractAssert<?, ?>>> underTest) {
     // GIVEN
-    InstanceOfAssertFactory<?, AbstractAssert<?, ?>> assertFactory = mock(InstanceOfAssertFactory.class);
+    TypeBasedAssertFactory<?, AbstractAssert<?, ?>> assertFactory = mock(InstanceOfAssertFactory.class);
     // WHEN
-    InstanceOfAssertFactory<?, AbstractAssert<?, ?>> result = asInstanceOfAssertFactory.apply(assertFactory);
+    TypeBasedAssertFactory<?, AbstractAssert<?, ?>> result = underTest.apply(assertFactory);
     // THEN
     then(result).isSameAs(assertFactory);
   }
 
-  private static Stream<Function<InstanceOfAssertFactory<?, AbstractAssert<?, ?>>, InstanceOfAssertFactory<?, AbstractAssert<?, ?>>>> asInstanceOfAssertFactoryFactories() {
+  private static Stream<Function<TypeBasedAssertFactory<?, AbstractAssert<?, ?>>, TypeBasedAssertFactory<?, AbstractAssert<?, ?>>>> arguments() {
     return Stream.of(Assertions::as, BDDAssertions::as, withAssertions::as);
   }
 

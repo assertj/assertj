@@ -100,12 +100,12 @@ import org.assertj.core.util.CheckReturnValue;
 
 /**
  * A unified entry point to all non-deprecated assertions from both the new Java 8 core API and the pre-Java 8 core API.
- *
+ * <p>
  * As a convenience, the methods are defined in an interface so that no static imports are necessary if the test class
  * implements this interface.
- *
+ * <p>
  * Based on an idea by David Gageot :
- *
+ * <p>
  * http://blog.javabien.net/2014/04/23/what-if-assertj-used-java-8/
  *
  * @author Alan Rothkopf
@@ -1932,7 +1932,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * A syntax sugar to write fluent assertion with methods having an {@link InstanceOfAssertFactory} parameter.
+   * A syntax sugar to write fluent assertion with methods having a {@link TypeBasedAssertFactory} parameter.
    * <p>
    * Example:
    * <pre><code class="java"> Jedi yoda = new Jedi("Yoda", "Green");
@@ -1945,9 +1945,9 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return same instance of {@code assertFactory}
    *
    * @since 3.14.0
-   * @see Assertions#as(InstanceOfAssertFactory)
+   * @see Assertions#as(TypeBasedAssertFactory)
    */
-  default <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
+  default <T extends TypeBasedAssertFactory<?, ? extends AbstractAssert<?, ?>>> T as(T assertFactory) {
     return Assertions.as(assertFactory);
   }
 
