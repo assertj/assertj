@@ -24,14 +24,15 @@ class ShouldHaveCauseInstance_create_Test {
   @Test
   void should_create_error_message_for_no_cause() {
     // GIVEN
-    Throwable actual = new RuntimeException();
+    Throwable actual = new RuntimeException("boom %s");
     Throwable expected = new IllegalStateException();
     // WHEN
     String message = shouldHaveCauseInstance(actual, expected.getClass()).create();
     // THEN
     then(message).isEqualTo("%nExpecting a throwable with cause being an instance of:%n" +
                             "  %s%n" +
-                            "but current throwable has no cause.", expected);
+                            "but current throwable has no cause." +
+                            "%nThrowable that failed the check:%n%s", expected, getStackTrace(actual));
   }
 
   @Test
@@ -50,6 +51,5 @@ class ShouldHaveCauseInstance_create_Test {
                                    "Throwable that failed the check:%n" +
                                    "%n" +
                                    "%s", getStackTrace(actual)));
-
   }
 }
