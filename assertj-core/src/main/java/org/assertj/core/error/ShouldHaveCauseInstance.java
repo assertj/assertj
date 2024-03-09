@@ -33,7 +33,7 @@ public class ShouldHaveCauseInstance extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldHaveCauseInstance(Throwable actual,
                                                             Class<? extends Throwable> expectedCauseType) {
     return actual.getCause() == null
-        ? new ShouldHaveCauseInstance(expectedCauseType)
+        ? new ShouldHaveCauseInstance(expectedCauseType, actual)
         : new ShouldHaveCauseInstance(actual, expectedCauseType);
   }
 
@@ -47,10 +47,8 @@ public class ShouldHaveCauseInstance extends BasicErrorMessageFactory {
           expectedCauseType, actual.getCause().getClass());
   }
 
-  private ShouldHaveCauseInstance(Class<? extends Throwable> expectedCauseType) {
-    super("%nExpecting a throwable with cause being an instance of:%n" +
-          "  %s%n" +
-          "but current throwable has no cause.",
-          expectedCauseType);
+  private ShouldHaveCauseInstance(Class<? extends Throwable> expectedCauseType, Throwable actual) {
+    super("%nExpecting a throwable with cause being an instance of:%n  %s%nbut current throwable has no cause." +
+          "%nThrowable that failed the check:%n" + escapePercent(getStackTrace(actual)), expectedCauseType);
   }
 }
