@@ -12,13 +12,9 @@
  */
 package org.assertj.core.api;
 
-import java.lang.reflect.Type;
-import java.util.Optional;
-
 /**
- * A functional interface to create an {@link Assert} for a given value.
- * <p>
- * The factory typically wraps a call to <code>assertThat(actual)</code>
+ * A single method factory interface to create an {@link Assert} for a given value.
+ * This factory method typically wraps a call to <code>assertThat(actual)</code>
  * to produce a concrete assert type {@code ASSERT} for the input element of type {@code T}.
  * <p>
  * This interface is typically used by navigation assertions on iterable types like {@link AbstractIterableAssert}
@@ -33,28 +29,12 @@ import java.util.Optional;
 public interface AssertFactory<T, ASSERT extends Assert<?, ?>> {
 
   /**
-   * Create the custom {@link Assert} instance for the given element value.
+   * Creates the custom {@link Assert} instance for the given element value.
    * <p>
    * Typically, this will just invoke <code>assertThat(actual)</code>
    * @param actual the input value for the {@code Assert} instance
    * @return returns the custom {@code Assert} instance for the given element value
    */
   ASSERT createAssert(T actual);
-
-  /**
-   * Return the {@link Type} of the input this factory expects, or an empty {@code Optional}
-   * if the information is not available.
-   * 
-   * @implSpec Overriding implementations providing a non-empty optional are required to
-   * return a {@code Type} instance consistent with the value of the factory type parameter {@link T}.
-   * 
-   * @implNote The default implementation always returns an empty {@code Optional}.
-   * 
-   * @return the expected type, or an empty {@code Optional} if the information is not available.
-   * @since 3.26.0
-   */
-  default Optional<Type> getType() {
-    return Optional.empty();
-  }
 
 }

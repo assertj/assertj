@@ -25,7 +25,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -79,9 +78,9 @@ class InstanceOfAssertFactoryTest {
     @Test
     void getType_should_return_given_class() {
       // WHEN
-      Optional<Type> result = underTest.getType();
+      Type result = underTest.getType();
       // THEN
-      then(result).hasValue(Integer.class);
+      then(result).isEqualTo(Integer.class);
     }
 
     @Test
@@ -169,9 +168,9 @@ class InstanceOfAssertFactoryTest {
     @Test
     void getType_should_return_synthetic_ParameterizedType() {
       // WHEN
-      Optional<Type> result = underTest.getType();
+      Type result = underTest.getType();
       // THEN
-      then(result).get(type(ParameterizedType.class))
+      then(result).asInstanceOf(type(ParameterizedType.class))
                   .returns(new Class[] { Integer.class }, from(ParameterizedType::getActualTypeArguments))
                   .returns(List.class, from(ParameterizedType::getRawType))
                   .returns(null, from(ParameterizedType::getOwnerType))
@@ -215,7 +214,7 @@ class InstanceOfAssertFactoryTest {
       // WHEN
       String result = underTest.toString();
       // THEN
-      then(result).isEqualTo("InstanceOfAssertFactory for %s", underTest.getType().get().getTypeName());
+      then(result).isEqualTo("InstanceOfAssertFactory for %s", underTest.getType().getTypeName());
     }
 
   }
