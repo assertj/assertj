@@ -42,6 +42,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
+import static org.assertj.core.api.InstanceOfAssertFactories.CLASS_LOADER;
 import static org.assertj.core.api.InstanceOfAssertFactories.COLLECTION;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
@@ -477,6 +478,17 @@ class InstanceOfAssertFactoriesTest {
     ClassAssert result = assertThat(value).asInstanceOf(CLASS);
     // THEN
     result.hasAnnotations(FunctionalInterface.class);
+  }
+
+  @Test
+  void class_loader_factory_should_allow_class_loader_assertions() {
+    // GIVEN
+    Object value = Assertions.class.getClassLoader();
+    // WHEN
+    AbstractClassLoaderAssert<?> result = assertThat(value).asInstanceOf(CLASS_LOADER);
+    // THEN
+    // FIXME replace with class loader specific assertion
+    result.isSameAs(Assertions.class.getClassLoader());
   }
 
   @Test
