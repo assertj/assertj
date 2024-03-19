@@ -23,6 +23,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -127,6 +128,17 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   @CheckReturnValue
   default MatcherAssert then(Matcher actual) {
     return proxy(MatcherAssert.class, Matcher.class, actual);
+  }
+
+  /**
+  * Creates a new instance of <code>{@link TemporalAssert}</code>.
+  *
+  * @param actual the actual value.
+  * @return the created assertion object.
+  * @since 3.26.0
+  */
+  default TemporalAssert then(Temporal actual) {
+    return proxy(TemporalAssert.class, Temporal.class, actual);
   }
 
   /**

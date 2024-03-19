@@ -40,6 +40,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -1329,6 +1330,17 @@ public class Assumptions {
    */
   public static OptionalLongAssert assumeThat(OptionalLong actual) {
     return asAssumption(OptionalLongAssert.class, OptionalLong.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link TemporalAssert} assumption.
+   *
+   * @param actual the Temporal to test
+   * @return the created assumption for the given object.
+   * @since 3.26.0
+   */
+  public static TemporalAssert assumeThat(Temporal actual) {
+    return asAssumption(TemporalAssert.class, Temporal.class, actual);
   }
 
   /**

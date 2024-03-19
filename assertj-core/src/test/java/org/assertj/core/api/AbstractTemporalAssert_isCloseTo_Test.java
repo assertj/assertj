@@ -45,8 +45,10 @@ import java.time.OffsetTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.UnsupportedTemporalTypeException;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.TemporalUnitOffset;
@@ -292,4 +294,14 @@ class AbstractTemporalAssert_isCloseTo_Test {
     then(assertionError).hasMessage(differenceMessage(args));
   }
 
+  @ParameterizedTest
+  @MethodSource
+  void should_support_base_temporal_type_assertions(Temporal now) {
+    assertThat(now).isCloseTo(now, within(1, ChronoUnit.SECONDS));
+    then(now).isCloseTo(now, within(1, ChronoUnit.SECONDS));
+  }
+
+  public static Stream<Temporal> should_support_base_temporal_type_assertions() {
+    return Stream.of(Instant.now(), ZonedDateTime.now(), OffsetDateTime.now());
+  }
 }

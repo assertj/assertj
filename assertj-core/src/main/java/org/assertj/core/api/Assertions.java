@@ -36,6 +36,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 import java.util.Collection;
 import java.util.Date;
@@ -930,6 +931,17 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractZonedDateTimeAssert<?> assertThat(ZonedDateTime actual) {
     return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link TemporalAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  public static TemporalAssert assertThat(Temporal actual) {
+    return new TemporalAssert(actual);
   }
 
   /**

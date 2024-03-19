@@ -14,6 +14,8 @@ package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.time.temporal.ChronoUnit.HOURS;
+import static java.time.temporal.ChronoUnit.SECONDS;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.as;
@@ -24,6 +26,7 @@ import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
@@ -51,10 +54,14 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
 import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedHashMap;
@@ -105,6 +112,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.MultipleFailuresError;
 
 /**
@@ -2682,7 +2691,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   void soft_assertions_should_work_with_comparable() {
     // GIVEN
     Comparable<Name> name1 = new Name("abc");
-    Comparable<Name> name2 = new Name("abc");
     Name name3 = new Name("bcd");
     Name name4 = new Name("cde");
     // WHEN/THEN
@@ -2708,6 +2716,20 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
                                   .containsExactly(format("[checking A] %nExpecting code to raise a throwable."),
                                                    format("[checking B] %nExpecting code to raise a throwable."));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void should_work_with_temporal_type_assertions(Temporal now) {
+    // WHEN
+    softly.assertThat(now).isCloseTo(now.plus(1, HOURS), within(1, SECONDS));
+    // THEN
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageContaining("within 1 Seconds");
+  }
+
+  public static Stream<Temporal> should_work_with_temporal_type_assertions() {
+    return Stream.of(Instant.now(), ZonedDateTime.now(), OffsetDateTime.now());
   }
 
   private void checkSomething() {}

@@ -29,6 +29,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -501,6 +502,13 @@ public interface InstanceOfAssertFactories {
    */
   InstanceOfAssertFactory<Date, AbstractDateAssert<?>> DATE = new InstanceOfAssertFactory<>(Date.class,
                                                                                             Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link java.time.temporal.Temporal}.
+   * @since 3.26.0
+   */
+  InstanceOfAssertFactory<Temporal, TemporalAssert> TEMPORAL = new InstanceOfAssertFactory<>(Temporal.class,
+                                                                                             Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link ZonedDateTime}.

@@ -23,6 +23,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -41,6 +42,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
 import org.assertj.core.util.CheckReturnValue;
 
 @CheckReturnValue
@@ -423,6 +425,18 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    */
   default LongAdderAssert assertThat(LongAdder actual) {
     return proxy(LongAdderAssert.class, LongAdder.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link TemporalAssert}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  default TemporalAssert assertThat(Temporal actual) {
+    return proxy(TemporalAssert.class, Temporal.class, actual);
   }
 
 }

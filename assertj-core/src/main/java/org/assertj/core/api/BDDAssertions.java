@@ -33,6 +33,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 import java.util.Collection;
 import java.util.Date;
@@ -1459,6 +1460,17 @@ public class BDDAssertions extends Assertions {
   @SafeVarargs
   public static <T> ObjectAssert<T> thenWith(T actual, Consumer<T>... requirements) {
     return then(actual).satisfies(requirements);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.TemporalAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  public static TemporalAssert then(Temporal actual) {
+    return assertThat(actual);
   }
 
   /**
