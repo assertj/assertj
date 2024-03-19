@@ -102,6 +102,17 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
+  void should_show_the_regexes_used_to_ignore_fields_of_types() {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreFieldsOfTypesMatchingRegexes("java\\.util\\.concurrent\\.locks\\.Reentrant.*Lock",
+                                                                        "java\\.util\\.function\\.ToLong.*");
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains(format("- the types matching the following regexes were ignored in the comparison: java\\.util\\.concurrent\\.locks\\.Reentrant.*Lock, java\\.util\\.function\\.ToLong.*%n"));
+  }
+
+  @Test
   void should_show_the_ignored_all_overridden_equals_methods_flag() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();

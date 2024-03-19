@@ -669,7 +669,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     describeComparedTypes(description);
     describeIgnoredFields(description);
     describeIgnoredFieldsRegexes(description);
-    describeIgnoredFieldsForTypes(description);
+    describeIgnoredTypes(description);
+    describeIgnoredTypesRegexes(description);
     describeOverriddenEqualsMethodsUsage(description, representation);
     describeIgnoreCollectionOrder(description);
     describeIgnoredCollectionOrderInFields(description);
@@ -819,9 +820,15 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
       description.append(format("- the comparison was performed on any fields with types: %s%n", describeComparedTypes()));
   }
 
-  private void describeIgnoredFieldsForTypes(StringBuilder description) {
+  private void describeIgnoredTypes(StringBuilder description) {
     if (!getIgnoredTypes().isEmpty())
       description.append(format("- the following types were ignored in the comparison: %s%n", describeIgnoredTypes()));
+  }
+
+  private void describeIgnoredTypesRegexes(StringBuilder description) {
+    if (!getIgnoredTypesRegexes().isEmpty())
+      description.append(format("- the types matching the following regexes were ignored in the comparison: %s%n",
+                                describeRegexes(getIgnoredTypesRegexes())));
   }
 
   protected void describeIgnoreAllActualNullFields(StringBuilder description) {
@@ -926,13 +933,19 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private boolean matchesAnIgnoredFieldType(DualValue dualValue) {
     Object actual = dualValue.actual;
-    if (actual != null) return getIgnoredTypes().contains(actual.getClass());
+    if (actual != null) return matchesAnIgnoredType(actual);
     Object expected = dualValue.expected;
     // actual is null => we can't evaluate its type, we can only reliably check dualValue.expected's type if
     // strictTypeChecking is enabled which guarantees expected is of the same type.
-    if (strictTypeChecking && expected != null) return getIgnoredTypes().contains(expected.getClass());
+    if (strictTypeChecking && expected != null) return matchesAnIgnoredType(expected);
     // if strictTypeChecking is disabled, we can't safely ignore the field (if we did, we would ignore all null fields!).
     return false;
+  }
+
+  private boolean matchesAnIgnoredType(Object actual) {
+    Class<?> actualType = actual.getClass();
+    return getIgnoredTypes().contains(actualType)
+           || getIgnoredTypesRegexes().stream().anyMatch(regex -> regex.matcher(actualType.getName()).matches());
   }
 
   private void registerFieldLocationOfFieldsOfTypesToCompare(DualValue dualValue) {

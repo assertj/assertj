@@ -13,6 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.util.UUID.randomUUID;
+import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.DualValueUtil.dualValueWithPath;
 import static org.assertj.core.api.recursive.comparison.DualValueUtil.randomPath;
@@ -27,6 +28,8 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.UUID;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -280,6 +283,22 @@ class RecursiveComparisonConfiguration_shouldIgnoreFields_Test {
     boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
     // THEN
     then(ignored).isTrue();
+  }
+
+  @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored types={3}")
+  @MethodSource
+  void should_be_able_to_ignore_concurrent_types_by_regex(Object value) {
+    // GIVEN
+    DualValue dualValue = new DualValue(randomPath(), value, null);
+    recursiveComparisonConfiguration.ignoreFieldsOfTypesMatchingRegexes("java\\.util\\.concurrent\\..*");
+    // WHEN
+    boolean ignored = recursiveComparisonConfiguration.shouldIgnore(dualValue);
+    // THEN
+    then(ignored).isTrue();
+  }
+
+  private static Stream<Object> should_be_able_to_ignore_concurrent_types_by_regex() {
+    return Stream.of(new ReentrantReadWriteLock(), new ReentrantLock(), completedFuture("done"));
   }
 
   @Test

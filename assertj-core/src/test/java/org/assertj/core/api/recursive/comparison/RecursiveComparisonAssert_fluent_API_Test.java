@@ -145,6 +145,19 @@ class RecursiveComparisonAssert_fluent_API_Test {
   }
 
   @Test
+  void should_allow_to_ignore_fields_whose_type_matched_the_given_regexes() {
+    // GIVEN
+    String regex1 = "foo.*";
+    String regex2 = ".*bar";
+    // WHEN
+    RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
+                                                                       .ignoringFieldsOfTypesMatchingRegexes(regex1, regex2)
+                                                                       .getRecursiveComparisonConfiguration();
+    // THEN
+    then(configuration.getIgnoredTypesRegexes()).extracting(Pattern::toString).containsExactly(regex1, regex2);
+  }
+
+  @Test
   void should_allow_to_ignore_overridden_equals_for_fields() {
     // GIVEN
     String field1 = "foo";
