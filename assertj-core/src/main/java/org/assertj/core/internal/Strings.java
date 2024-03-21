@@ -343,7 +343,7 @@ public class Strings {
                              normalizedExpected);
   }
 
-  private static String normalizeNewlines(CharSequence charSequence) {
+  public static String normalizeNewlines(CharSequence charSequence) {
     return charSequence != null ? charSequence.toString().replace("\r\n", "\n") : null;
   }
 
