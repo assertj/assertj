@@ -20,7 +20,7 @@ import java.util.Date;
 
 /**
  * 
- * Compares two date by looking at their year and month only, thus 2011-01-01 and 2011-01-31 are considered equal.
+ * Compares two dates by looking at their year and month only, thus 2011-01-01 and 2011-01-31 are considered equal.
  * 
  * @author Joel Costigliola
  * 

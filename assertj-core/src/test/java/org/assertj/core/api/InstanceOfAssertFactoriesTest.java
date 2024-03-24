@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.BDDAssertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
@@ -151,7 +152,9 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -746,6 +749,16 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void temporal_factory_should_allow_temporal_assertions() {
+    // GIVEN
+    Object value = ZonedDateTime.now();
+    // WHEN
+    TemporalAssert result = assertThat(value).asInstanceOf(TEMPORAL);
+    // THEN
+    result.isCloseTo(ZonedDateTime.now(), within(10, ChronoUnit.SECONDS));
+  }
+
+  @Test
   void zoned_date_time_factory_should_allow_zoned_date_time_assertions() {
     // GIVEN
     Object value = ZonedDateTime.now();
@@ -803,6 +816,16 @@ class InstanceOfAssertFactoriesTest {
     AbstractLocalDateAssert<?> result = assertThat(value).asInstanceOf(LOCAL_DATE);
     // THEN
     result.isBeforeOrEqualTo(LocalDate.now());
+  }
+
+  @Test
+  void year_month_factory_should_allow_year_month_assertions() {
+    // GIVEN
+    Object value = YearMonth.now();
+    // WHEN
+    AbstractYearMonthAssert<?> result = assertThat(value).asInstanceOf(YEAR_MONTH);
+    // THEN
+    result.isBeforeOrEqualTo(YearMonth.now());
   }
 
   @Test

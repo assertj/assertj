@@ -93,6 +93,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUILDER;
+import static org.assertj.core.api.InstanceOfAssertFactories.TEMPORAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
@@ -274,7 +275,8 @@ class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest 
                      arguments(new Exception(), THROWABLE),
                      arguments(URI.create("http://localhost"), URI_TYPE),
                      arguments(URI.create("http://localhost").toURL(), URL_TYPE),
-                     arguments(ZonedDateTime.now(), ZONED_DATE_TIME));
+                     arguments(ZonedDateTime.now(), ZONED_DATE_TIME),
+                     arguments(ZonedDateTime.now(), TEMPORAL));
   }
 
   static class Data {

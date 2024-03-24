@@ -21,7 +21,9 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -135,6 +137,17 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    */
   default LocalDateAssert assertThat(LocalDate actual) {
     return proxy(LocalDateAssert.class, LocalDate.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link YearMonthAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  default YearMonthAssert assertThat(YearMonth actual) {
+    return proxy(YearMonthAssert.class, YearMonth.class, actual);
   }
 
   /**
@@ -412,6 +425,18 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    */
   default LongAdderAssert assertThat(LongAdder actual) {
     return proxy(LongAdderAssert.class, LongAdder.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link TemporalAssert}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  default TemporalAssert assertThat(Temporal actual) {
+    return proxy(TemporalAssert.class, Temporal.class, actual);
   }
 
 }

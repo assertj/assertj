@@ -38,7 +38,9 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -1331,6 +1333,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of {@link TemporalAssert} assumption.
+   *
+   * @param actual the Temporal to test
+   * @return the created assumption for the given object.
+   * @since 3.26.0
+   */
+  public static TemporalAssert assumeThat(Temporal actual) {
+    return asAssumption(TemporalAssert.class, Temporal.class, actual);
+  }
+
+  /**
    * Creates a new instance of {@link ZonedDateTimeAssert} assumption.
    *
    * @param actual the ZonedDateTime to test
@@ -1394,6 +1407,17 @@ public class Assumptions {
    */
   public static AbstractLocalDateAssert<?> assumeThat(LocalDate actual) {
     return asAssumption(LocalDateAssert.class, LocalDate.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link YearMonthAssert} assumption.
+   *
+   * @param actual the YearMonth to test
+   * @return the created assumption for assertion object.
+   * @since 3.26.0
+   */
+  public static AbstractYearMonthAssert<?> assumeThat(YearMonth actual) {
+    return asAssumption(YearMonthAssert.class, YearMonth.class, actual);
   }
 
   /**

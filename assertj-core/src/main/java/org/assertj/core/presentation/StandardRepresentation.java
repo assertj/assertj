@@ -36,6 +36,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Collection;
@@ -216,6 +217,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Date) return toStringOf((Date) object);
     if (object instanceof Duration) return toStringOf((Duration) object);
     if (object instanceof LocalDate) return toStringOf((LocalDate) object);
+    if (object instanceof YearMonth) return toStringOf((YearMonth) object);
     if (object instanceof LocalDateTime) return toStringOf((LocalDateTime) object);
     if (object instanceof OffsetDateTime) return toStringOf((OffsetDateTime) object);
     if (object instanceof ZonedDateTime) return toStringOf((ZonedDateTime) object);
@@ -429,6 +431,10 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(LocalDate localDate) {
     return defaultToStringWithClassNameDisambiguation(localDate);
+  }
+
+  protected String toStringOf(YearMonth yearMonth) {
+    return defaultToStringWithClassNameDisambiguation(yearMonth);
   }
 
   protected String classNameDisambiguation(Object o) {
