@@ -131,6 +131,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -206,6 +207,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.AdditionalAnswers;
 
 /**
  * @author Stefano Cordio
@@ -223,6 +225,17 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void predicate_factory_createAssert_with_ValueProvider_should_create_predicate_assertions() {
+    // GIVEN
+    ValueProvider<Predicate<Object>> valueProvider = mockThatDelegatesTo(type -> Objects::isNull);
+    // WHEN
+    PredicateAssert<Object> result = PREDICATE.createAssert(valueProvider);
+    // THEN
+    result.accepts((Object) null);
+    verify(valueProvider).apply(parameterizedType(Predicate.class, Object.class));
+  }
+
+  @Test
   void predicate_typed_factory_createAssert_should_create_predicate_typed_assertions() {
     // GIVEN
     Object value = (Predicate<String>) Strings::isNullOrEmpty;
@@ -233,6 +246,17 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void predicate_typed_factory_createAssert_with_ValueProvider_should_create_predicate_typed_assertions() {
+    // GIVEN
+    ValueProvider<Predicate<String>> valueProvider = mockThatDelegatesTo(type -> Strings::isNullOrEmpty);
+    // WHEN
+    PredicateAssert<String> result = predicate(String.class).createAssert(valueProvider);
+    // THEN
+    result.accepts("");
+    verify(valueProvider).apply(parameterizedType(Predicate.class, String.class));
+  }
+
+  @Test
   void int_predicate_factory_createAssert_should_create_int_predicate_assertions() {
     // GIVEN
     Object value = (IntPredicate) i -> i == 0;
@@ -240,6 +264,17 @@ class InstanceOfAssertFactoriesTest {
     IntPredicateAssert result = INT_PREDICATE.createAssert(value);
     // THEN
     result.accepts(0);
+  }
+
+  @Test
+  void int_predicate_factory_createAssert_with_ValueProvider_should_create_int_predicate_assertions() {
+    // GIVEN
+    ValueProvider<IntPredicate> valueProvider = mockThatDelegatesTo(type -> i -> i == 0);
+    // WHEN
+    IntPredicateAssert result = INT_PREDICATE.createAssert(valueProvider);
+    // THEN
+    result.accepts(0);
+    verify(valueProvider).apply(IntPredicate.class);
   }
 
   @Test
@@ -1214,6 +1249,18 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void list_factory_createAssert_with_ValueProvider_should_create_list_assertions() {
+    // GIVEN
+    ValueProvider<List<Object>> valueProvider = mockThatDelegatesTo(type -> Lists.list("Homer", "Marge", "Bart", "Lisa",
+                                                                                       "Maggie"));
+    // WHEN
+    ListAssert<Object> result = LIST.createAssert(valueProvider);
+    // THEN
+    result.contains("Bart", "Lisa");
+    verify(valueProvider).apply(parameterizedType(List.class, Object.class));
+  }
+
+  @Test
   void list_typed_factory_createAssert_should_create_typed_list_assertions() {
     // GIVEN
     Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
@@ -1221,6 +1268,18 @@ class InstanceOfAssertFactoriesTest {
     ListAssert<String> result = list(String.class).createAssert(value);
     // THEN
     result.contains("Bart", "Lisa");
+  }
+
+  @Test
+  void list_typed_factory_createAssert_with_ValueProvider_should_create_typed_list_assertions() {
+    // GIVEN
+    ValueProvider<List<String>> valueProvider = mockThatDelegatesTo(type -> Lists.list("Homer", "Marge", "Bart", "Lisa",
+                                                                                       "Maggie"));
+    // WHEN
+    ListAssert<String> result = list(String.class).createAssert(valueProvider);
+    // THEN
+    result.contains("Bart", "Lisa");
+    verify(valueProvider).apply(parameterizedType(List.class, classes(String.class)));
   }
 
   @Test
@@ -1502,6 +1561,24 @@ class InstanceOfAssertFactoriesTest {
 
   private static Class<?>[] classes(Class<?>... classes) {
     return classes;
+  }
+
+  @SuppressWarnings("unchecked")
+  @SafeVarargs
+  private static <T> T mockThatDelegatesTo(T delegate, T... reified) {
+    if (reified.length > 0) {
+      throw new IllegalArgumentException("Please don't pass any values here. Java will detect class automagically.");
+    }
+    return mock((Class<T>) reified.getClass().getComponentType(), AdditionalAnswers.delegatesTo(delegate));
+  }
+
+  private static ParameterizedType parameterizedType(Class<?> rawClass, Class<?>... typeArguments) {
+    return argThat(argument -> {
+      then(argument).returns(typeArguments, from(ParameterizedType::getActualTypeArguments))
+                    .returns(rawClass, from(ParameterizedType::getRawType))
+                    .returns(null, from(ParameterizedType::getOwnerType));
+      return true;
+    });
   }
 
 }

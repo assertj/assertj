@@ -65,7 +65,8 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
     this.delegate = requireNonNull(delegate, shouldNotBeNull("delegate")::create);
   }
 
-  public Type getType() {
+  // FIXME delete
+  Type getType() {
     return type;
   }
 
@@ -161,6 +162,7 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
     public String toString() {
       return getTypeName();
     }
+
   }
 
 }

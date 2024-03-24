@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static java.lang.Class.forName;
+import static java.lang.reflect.Modifier.isPrivate;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -20,7 +21,6 @@ import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.mockito.BDDMockito.willReturn;
 
-import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collections;
@@ -231,7 +231,7 @@ class InstanceOfAssertFactoryTest {
       // WHEN
       int modifiers = underTest.getModifiers();
       // THEN
-      then(Modifier.isPrivate(modifiers)).isTrue();
+      then(isPrivate(modifiers)).isTrue();
     }
 
     @Test
