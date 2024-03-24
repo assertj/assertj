@@ -504,7 +504,8 @@ public interface InstanceOfAssertFactories {
                                                                                             Assertions::assertThat);
 
   /**
-   * {@link InstanceOfAssertFactory} for a {@link java.time.temporal.Temporal}.
+   * {@link InstanceOfAssertFactory} for a {@link Temporal}.
+   *
    * @since 3.26.0
    */
   InstanceOfAssertFactory<Temporal, TemporalAssert> TEMPORAL = new InstanceOfAssertFactory<>(Temporal.class,
@@ -547,7 +548,7 @@ public interface InstanceOfAssertFactories {
                                                                                                             Assertions::assertThat);
 
   /**
-   * {@link InstanceOfAssertFactory} for a {@link LocalDate}.
+   * {@link InstanceOfAssertFactory} for a {@link YearMonth}.
    *
    * @since 3.26.0
    */
@@ -569,7 +570,7 @@ public interface InstanceOfAssertFactories {
                                                                                                         Assertions::assertThat);
 
   /**
-   * {@link InstanceOfAssertFactory} for a {@link java.time.Period}.
+   * {@link InstanceOfAssertFactory} for a {@link Period}.
    *
    * @since 3.17.0
    */
