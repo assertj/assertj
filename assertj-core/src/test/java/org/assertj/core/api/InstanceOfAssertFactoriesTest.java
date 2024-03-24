@@ -99,9 +99,11 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUILDER;
+import static org.assertj.core.api.InstanceOfAssertFactories.TEMPORAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
+import static org.assertj.core.api.InstanceOfAssertFactories.YEAR_MONTH;
 import static org.assertj.core.api.InstanceOfAssertFactories.ZONED_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.array;
 import static org.assertj.core.api.InstanceOfAssertFactories.array2D;
@@ -131,6 +133,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -155,6 +158,7 @@ import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -195,6 +199,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.assertj.core.util.Strings;
@@ -1342,6 +1347,17 @@ class InstanceOfAssertFactoriesTest {
 
   @ParameterizedTest
   @MethodSource("nonParameterizedFactories")
+  void createAssert_with_ValueProvider_for_non_parameterized_factories(InstanceOfAssertFactory<?, ?> underTest, Class<?> rawClass) {
+    // GIVEN
+    ValueProvider<?> valueProvider = mock();
+    // WHEN
+    underTest.createAssert(valueProvider);
+    // THEN
+    verify(valueProvider).apply(rawClass);
+  }
+
+  @ParameterizedTest
+  @MethodSource("nonParameterizedFactories")
   void getType_for_non_parameterized_factories(InstanceOfAssertFactory<?, ?> underTest, Class<?> rawClass) {
     // WHEN
     Type type = underTest.getType();
@@ -1423,9 +1439,11 @@ class InstanceOfAssertFactoriesTest {
                      arguments(STRING, String.class),
                      arguments(STRING_BUFFER, StringBuffer.class),
                      arguments(STRING_BUILDER, StringBuilder.class),
+                     arguments(TEMPORAL, Temporal.class),
                      arguments(THROWABLE, Throwable.class),
                      arguments(URI_TYPE, URI.class),
                      arguments(URL_TYPE, URL.class),
+                     arguments(YEAR_MONTH, YearMonth.class),
                      arguments(ZONED_DATE_TIME, ZonedDateTime.class),
                      arguments(array(String[].class), String[].class),
                      arguments(array2D(String[][].class), String[][].class),

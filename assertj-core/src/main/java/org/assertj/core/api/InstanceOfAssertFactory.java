@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * {@link AssertFactory} decorator which casts the input value to the given type before invoking the decorated factory.
+ * {@link AssertFactory} decorator that casts the input value to the given type before invoking the decorated factory.
  *
  * @param <T>      the type to use for the cast.
  * @param <ASSERT> the type of the resulting {@code Assert}.
@@ -69,14 +69,37 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
     return type;
   }
 
-  public Class<T> getRawClass() {
+  Class<T> getRawClass() {
     return rawClass;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * Creates the custom {@link Assert} instance for the given value.
+   * <p>
+   * The factory casts the value to the expected type before invoking the delegate.
+   *
+   * @param actual the input value for the {@code Assert} instance
+   * @return the custom {@code Assert} instance for the given value
+   */
   @Override
   public ASSERT createAssert(Object actual) {
     return delegate.createAssert(rawClass.cast(actual));
+  }
+
+  /**
+   * Creates the custom {@link Assert} instance for the value provided by the
+   * given {@code valueProvider}.
+   * <p>
+   * The factory casts the provided value to the expected type before invoking the delegate.
+   *
+   * @param valueProvider the value provider for the {@code Assert} instance
+   * @return the custom {@code Assert} instance for the provided value
+   * @since 3.26.0
+   */
+  @Override
+  public ASSERT createAssert(ValueProvider<?> valueProvider) {
+    Object actual = valueProvider.apply(type);
+    return createAssert(actual);
   }
 
   @Override
