@@ -46,11 +46,11 @@ public interface AssertFactory<T, ASSERT extends Assert<?, ?>> {
    * Creates the custom {@link Assert} instance for the value provided by the
    * given {@code valueProvider}.
    * <p>
-   * Overriding implementations might provide a {@link Type} instance to express the desired type
-   * of the value returned by the provider. When doing so, the factory is required to be consistent
-   * with type parameter {@link T}.
-   * <p>
    * The default implementation always requests a value compatible with {@code Object}.
+   * <p>
+   * Overriding implementations might provide a more specific {@link Type} instance to express
+   * the desired type of the value returned by the provider. When doing so, the factory is required
+   * to be consistent with type parameter {@link T}.
    *
    * @param valueProvider the value provider for the {@code Assert} instance
    * @return the custom {@code Assert} instance for the value provided by the given value provider
