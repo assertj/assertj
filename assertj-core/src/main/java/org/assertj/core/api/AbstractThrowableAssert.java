@@ -326,6 +326,32 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
+   * Verifies that the message of the actual (@code Throwable) is equal to the given one
+   * after normalizing new line characters (i.e. '\r\n' == '\n').
+   * <p>
+   * Example:
+   * <pre><code class='java'> Throwable invalidArgException = new IllegalArgumentException("Error:\r\ninvalid input");
+   * Throwable throwable = new Throwable(invalidArgException);
+   *
+   * // This assertion succeeds:
+   * assertThat(throwable).hasMessageNormalizingNewlines("Error:\r\ninvalid input");
+   * assertThat(throwable).hasMessageNormalizingNewlines("Error:\ninvalid input");
+   *
+   * // These assertions fail:
+   * assertThat(throwable).hasMessageNormalizingNewlines("Error:\ninvalid input\n");
+   * assertThat(null).hasMessageNormalizingNewlines("Error:\r\ninvalid input");</code></pre>
+   *
+   * @param message the expected message.
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one after normalizing new lines.
+   */
+  public SELF hasMessageNormalizingNewlines(String message) {
+    throwables.assertHasMessageNormalizingNewlines(info, actual, message);
+    return myself;
+  }
+
+  /**
    * Verifies that the message of the actual {@code Throwable} contains the given description, after being formatted using
    * the {@link String#format} method.
    * <p>

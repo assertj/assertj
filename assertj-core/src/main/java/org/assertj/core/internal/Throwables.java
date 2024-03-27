@@ -36,6 +36,7 @@ import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsEmpty;
 import static org.assertj.core.internal.CommonErrors.arrayOfValuesToLookForIsNull;
 import static org.assertj.core.internal.CommonValidations.checkTypeIsNotNull;
+import static org.assertj.core.internal.Strings.normalizeNewlines;
 import static org.assertj.core.util.Throwables.getRootCause;
 
 import java.util.LinkedHashSet;
@@ -222,6 +223,23 @@ public class Throwables {
     assertNotNull(info, actual);
     if (actual.getMessage() != null && actual.getMessage().contains(description)) return;
     throw failures.failure(info, shouldContain(actual, description));
+  }
+
+  /**
+   * Asserts that the given actual {@code Throwable} message is equal to the given one
+   * after normalizing new line characters (i.e. '\r\n' == '\n').
+   *
+   * @param info contains information about the assertion.
+   * @param actual the given {@code Throwable}.
+   * @param expectedMessage the expected message.
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one after normalizing new lines.
+   */
+  public void assertHasMessageNormalizingNewlines(AssertionInfo info, Throwable actual, String expectedMessage) {
+    assertNotNull(info, actual);
+    if (actual.getMessage() != null && normalizeNewlines(actual.getMessage()).equals(normalizeNewlines(expectedMessage))) return;
+
+    throw failures.failure(info, shouldHaveMessage(actual, expectedMessage), actual.getMessage(), expectedMessage);
   }
 
   /**
