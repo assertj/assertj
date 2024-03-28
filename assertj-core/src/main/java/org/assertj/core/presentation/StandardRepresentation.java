@@ -299,14 +299,21 @@ public class StandardRepresentation implements Representation {
    * Returns the {@code String} representation of the given object with its type and hexadecimal identity hash code so that
    * it can be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
    *
-   * @param obj the object to represent.
+   * @param obj                            the object to represent.
+   * @param shouldKeepPackage
    * @return the unambiguous {@code toString} representation of the given object.
    */
   @Override
-  public String unambiguousToStringOf(Object obj) {
+  public String unambiguousToStringOf(Object obj, boolean shouldKeepPackage) {
+    if (obj == null) return null;
     // some types have already an unambiguous toString, no need to double down
     if (hasAlreadyAnUnambiguousToStringOf(obj)) return toStringOf(obj);
-    return obj == null ? null : String.format("%s (%s@%s)", toStringOf(obj), classNameOf(obj), identityHexCodeOf(obj));
+    return obj == null ? null
+        : String.format("%s (%s@%s)", toStringOf(obj), getObject(obj, shouldKeepPackage), identityHexCodeOf(obj));
+  }
+
+  private Object getObject(Object obj, boolean shouldKeepPackage) {
+    return shouldKeepPackage ? packageAndClassNameOf(obj) : classNameOf(obj);
   }
 
   @Override
@@ -744,6 +751,10 @@ public class StandardRepresentation implements Representation {
 
   private static Object classNameOf(Object obj) {
     return obj.getClass().isAnonymousClass() ? obj.getClass().getName() : obj.getClass().getSimpleName();
+  }
+
+  private static Object packageAndClassNameOf(Object obj) {
+    return String.format("%s.%s", obj.getClass().getPackage().getName(), classNameOf(obj));
   }
 
   private String defaultToStringWithClassNameDisambiguation(Object o) {

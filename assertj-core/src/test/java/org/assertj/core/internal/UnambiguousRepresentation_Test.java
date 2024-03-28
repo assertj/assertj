@@ -53,8 +53,8 @@ class UnambiguousRepresentation_Test {
     Object expected = new Object();
     given(representation.toStringOf(actual)).willReturn("representation");
     given(representation.toStringOf(expected)).willReturn("representation");
-    given(representation.unambiguousToStringOf(actual)).willReturn("actual");
-    given(representation.unambiguousToStringOf(expected)).willReturn("expected");
+    given(representation.unambiguousToStringOf(actual, false)).willReturn("actual");
+    given(representation.unambiguousToStringOf(expected, false)).willReturn("expected");
     // WHEN
     UnambiguousRepresentation actualRepresentation = new UnambiguousRepresentation(representation, actual, expected);
     // THEN
