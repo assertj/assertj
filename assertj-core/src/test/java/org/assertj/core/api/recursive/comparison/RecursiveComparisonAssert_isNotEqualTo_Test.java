@@ -14,14 +14,20 @@ package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.recursive.comparison.Color.GREEN;
+import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS_STRING;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isNotEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.Person;
+import org.assertj.core.internal.objects.data.TimeOffset;
+import org.assertj.core.internal.objects.data.TimeOffsetDto;
 import org.assertj.core.test.CartoonCharacter;
 import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 
 @DisplayName("RecursiveComparisonAssert isNotEqualTo")
 class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveComparisonAssert_isNotEqualTo_BaseTest {
@@ -170,6 +176,75 @@ class RecursiveComparisonAssert_isNotEqualTo_Test extends RecursiveComparisonAss
     assertThat(actual).usingRecursiveComparison()
                       .withEqualsForFields((o1, o2) -> false, "lightSaberColor")
                       .isNotEqualTo(other);
+  }
+
+  @Test
+  @SuppressWarnings("AssertBetweenInconvertibleTypes")
+  void should_pass_using_a_BiPredicate_to_compare_fields_with_different_types_and_different_values() {
+    // GIVEN
+    TimeOffset actual = new TimeOffset();
+    actual.time = LocalTime.now();
+    TimeOffsetDto expected = new TimeOffsetDto();
+    expected.time = actual.time.plusHours(1).toString();
+
+    // WHEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForTypes((t, s) -> LocalTime.parse(s).equals(t), LocalTime.class, String.class)
+                      // THEN
+                      .isNotEqualTo(expected);
+  }
+
+  @Test
+  @SuppressWarnings("AssertBetweenInconvertibleTypes")
+  void should_pass_using_a_never_match_BiPredicate_to_compare_fields_with_different_types() {
+    // GIVEN
+    TimeOffset actual = new TimeOffset();
+    actual.time = LocalTime.now();
+    TimeOffsetDto expected = new TimeOffsetDto();
+    expected.time = actual.time.toString();
+
+    // WHEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForTypes((t, s) -> false, LocalTime.class, String.class)
+                      // THEN
+                      .isNotEqualTo(expected);
+  }
+
+  @Test
+  @SuppressWarnings("AssertBetweenInconvertibleTypes")
+  void should_pass_using_at_least_one_BiPredicate_that_not_match_to_compare_fields_with_different_types() {
+    // GIVEN
+    TimeOffset actual = new TimeOffset();
+    actual.time = LocalTime.now();
+    actual.offset = ZoneOffset.UTC;
+    TimeOffsetDto expected = new TimeOffsetDto();
+    expected.time = actual.time.toString();
+    expected.offset = actual.offset.getId();
+    // WHEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForTypes((z, s) -> ZoneOffset.of(s).equals(z), ZoneOffset.class, String.class)
+                      .withEqualsForTypes((t, s) -> false, LocalTime.class, String.class)
+                      // THEN
+                      .isNotEqualTo(expected);
+  }
+
+  @Test
+  @SuppressWarnings("AssertBetweenInconvertibleTypes")
+  void should_pass_having_two_BiPredicate_with_same_left_type_and_one_not_match_to_compare_fields_with_different_types() {
+    // GIVEN
+    LocalTime now = LocalTime.now();
+    TimeOffsetDto actual = new TimeOffsetDto();
+    actual.time = now.toString();
+    actual.offset = "Z";
+    TimeOffset expected = new TimeOffset();
+    expected.time = now;
+    expected.offset = ZoneOffset.UTC;
+    // WHEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForTypes((s, z) -> ZoneOffset.of(s).equals(z), String.class, ZoneOffset.class)
+                      .withEqualsForTypes((s, t) -> false, String.class, LocalTime.class)
+                      // THEN
+                      .isNotEqualTo(expected);
   }
 
 }

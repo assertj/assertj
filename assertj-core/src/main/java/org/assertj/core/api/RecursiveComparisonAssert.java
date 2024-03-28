@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursively;
 import static org.assertj.core.error.ShouldNotBeEqualComparingFieldByFieldRecursively.shouldNotBeEqualComparingFieldByFieldRecursively;
 
@@ -32,6 +33,7 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCa
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.DualClass;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>> extends AbstractAssert<SELF, Object> {
@@ -1530,7 +1532,8 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Allows to register a {@link BiPredicate} to compare the fields with the given type.
    * A typical usage is to compare double/float fields with a given precision.
    * <p>
-   * BiPredicates registered with this method have less precedence than the one registered  with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}
+   * BiPredicates registered with this method have less precedence than the one registered  with {@link #withEqualsForTypes(BiPredicate, Class, Class) withEqualsForTypes(BiPredicate, Class, Class)},
+   * {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}
    * or comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}.
    * <p>
    * Note that registering a {@link BiPredicate} for a given type will override the previously registered BiPredicate/Comparator (if any).
@@ -1567,6 +1570,53 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   @CheckReturnValue
   public <T> SELF withEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
     recursiveComparisonConfiguration.registerEqualsForType(equals, type);
+    return myself;
+  }
+
+  /**
+   * Allows to register a {@link BiPredicate} to compare the fields with the given types.
+   * A typical usage is to compare fields belonging to different types.
+   * <p>
+   * BiPredicates registered with this method have less precedence than the one registered  with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}
+   * or comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}.
+   * <p>
+   * Note that registering a {@link BiPredicate} for a given type will override the previously registered BiPredicate/Comparator (if any).
+   * <p>
+   * Example:
+   * <pre><code class='java'> public class TolkienCharacter {
+   *   LocalDate birthday;
+   * }
+   * public class TolkienCharacterDto {
+   *    String birthday;
+   * }
+   *
+   * TolkienCharacter frodo = new TolkienCharacter(LocalDate.of(2968, Month.SEPTEMBER, 22));
+   * TolkienCharacterDto frodoDto = new TolkienCharacterDto("2968-09-22");
+   * TolkienCharacterDto bilboDto = new TolkienCharacterDto("2890-09-22");
+   *
+   * BiPredicate&lt;LocalDate, String&gt; sameDate = (d, s) -&gt; LocalDate.parse(s).equals(d);
+   *
+   * // assertion succeeds
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForTypes(sameDate, LocalDate.class, String.class)
+   *                  .isEqualTo(frodoDto);
+   *
+   * // assertion fails
+   * assertThat(frodo).usingRecursiveComparison()
+   *                  .withEqualsForTypes(sameDate, LocalDate.class, String.class)
+   *                  .isEqualTo(bilboDto);</code></pre>
+   *
+   * @param <T> the left element's class type to register a BiPredicate for
+   * @param <U> the right element's class type to register a BiPredicate for
+   * @param equals the {@link BiPredicate} to use to compare the given fields
+   * @param type the type of the left element to be compared with the given comparator.
+   * @param otherType the type of the right element to be compared with the given comparator.
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   * @throws NullPointerException if the given BiPredicate is null.
+   */
+  public <T, U> SELF withEqualsForTypes(BiPredicate<? super T, ? super U> equals, Class<T> type, Class<U> otherType) {
+    recursiveComparisonConfiguration.registerEqualsForTypes(equals, type, otherType);
     return myself;
   }
 
@@ -1752,9 +1802,9 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
     return myself;
   }
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  private void registerComparatorForType(Entry<Class<?>, Comparator<?>> entry) {
-    withComparatorForType((Comparator) entry.getValue(), entry.getKey());
+  @SuppressWarnings({ "unchecked" })
+  private void registerComparatorForType(Entry<DualClass<?, ?>, Comparator<?>> entry) {
+    withEqualsForTypes(toBiPredicate(entry.getValue()), entry.getKey().actual(), entry.getKey().expected());
   }
 
   /**
@@ -1768,5 +1818,11 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   private List<ComparisonDifference> determineDifferencesWith(Object expected) {
     return recursiveComparisonDifferenceCalculator.determineDifferences(actual, expected, recursiveComparisonConfiguration);
+  }
+
+  @SuppressWarnings({ "unchecked", "rawtypes" })
+  private BiPredicate toBiPredicate(Comparator comparator) {
+    requireNonNull(comparator, "Expecting a non null Comparator");
+    return (o, o2) -> comparator.compare(o, o2) == 0;
   }
 }

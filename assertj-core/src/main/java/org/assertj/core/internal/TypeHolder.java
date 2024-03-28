@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.util.DualClass.dualClass;
 import static org.assertj.core.util.Strings.join;
 import static org.assertj.core.util.introspection.ClassUtils.getAllInterfaces;
 import static org.assertj.core.util.introspection.ClassUtils.getAllSuperclasses;
@@ -29,6 +30,8 @@ import java.util.TreeMap;
 import java.util.stream.Stream;
 
 import org.assertj.core.util.ClassNameComparator;
+import org.assertj.core.util.DualClass;
+import org.assertj.core.util.DualClassComparator;
 
 /**
  * An abstract type holder which provides to pair a specific entities for types.
@@ -37,15 +40,16 @@ import org.assertj.core.util.ClassNameComparator;
  */
 abstract class TypeHolder<T> {
 
-  private static final Comparator<Class<?>> DEFAULT_CLASS_COMPARATOR = ClassNameComparator.INSTANCE;
+  private static final Comparator<DualClass<?, ?>> DEFAULT_CLASS_COMPARATOR = new DualClassComparator(ClassNameComparator.INSTANCE,
+                                                                                                      ClassNameComparator.INSTANCE);
 
-  protected final Map<Class<?>, T> typeHolder;
+  protected final Map<DualClass<?, ?>, T> typeHolder;
 
   public TypeHolder() {
     this(DEFAULT_CLASS_COMPARATOR);
   }
 
-  public TypeHolder(Comparator<Class<?>> comparator) {
+  public TypeHolder(Comparator<DualClass<?, ?>> comparator) {
     typeHolder = new TreeMap<>(requireNonNull(comparator, "Comparator must not be null"));
   }
 
@@ -61,8 +65,30 @@ abstract class TypeHolder<T> {
    * @return the most relevant entity, or {@code null} if on entity could be found
    */
   public T get(Class<?> clazz) {
+    return get(clazz, null);
+  }
+
+  /**
+   * This method returns the most relevant entity for the given class pair. The most relevant entity is the
+   * entity which is registered for the class pair that is closest in the inheritance chain of the given {@code clazz} and
+   * {@code otherClazz}.
+   * The order of checks is the following:
+   * 1. If there is a registered entity for {@code clazz} and {@code otherClazz} then this one is used
+   * 2. We check if there is a registered entity for a superclass of {@code clazz}
+   * 3. We check if there is a registered entity for an interface of {@code clazz}
+   * 4. Found the closest registered class for {@code clazz},
+   *    We check if there is a registered entity for a superclass of {@code otherClazz}
+   * 5. We check if there is a registered entity for an interface of {@code otherClazz}
+   *
+   * @param clazz the class for which to find a entity
+   * @param otherClazz the additional class for which to find a entity.
+   * This may be {@code null} to find the entity bound only to the {@code clazz}
+   * @return the most relevant entity, or {@code null} if on entity could be found
+   */
+  public T get(Class<?> clazz, Class<?> otherClazz) {
     Class<?> relevantType = getRelevantClass(clazz);
-    return relevantType == null ? null : typeHolder.get(relevantType);
+    if (relevantType == null) return null;
+    return typeHolder.get(dualClass(relevantType, getRelevantClass(relevantType, otherClazz)));
   }
 
   /**
@@ -72,7 +98,19 @@ abstract class TypeHolder<T> {
    * @param entity the entity itself
    */
   public void put(Class<?> clazz, T entity) {
-    typeHolder.put(clazz, entity);
+    put(clazz, null, entity);
+  }
+
+  /**
+   * Puts the {@code entity} for the given {@code clazz} and {@code otherClazz}.
+   *
+   * @param clazz the class for the comparator
+   * @param otherClazz the additional class for the comparator. This may be {@code null} if the entity is bound only to the
+   * {@code clazz}
+   * @param entity the entity itself
+   */
+  public void put(Class<?> clazz, Class<?> otherClazz, T entity) {
+    typeHolder.put(dualClass(clazz, otherClazz), entity);
   }
 
   /**
@@ -82,7 +120,18 @@ abstract class TypeHolder<T> {
    * @return is the giving type associated with any entity
    */
   public boolean hasEntity(Class<?> type) {
-    return get(type) != null;
+    return hasEntity(type, null);
+  }
+
+  /**
+   * Checks, whether an entity is associated with the giving type pair.
+   *
+   * @param type the type for which to check an entity
+   * @param otherType the additional type for which to check an entity
+   * @return is the giving type associated with any entity
+   */
+  public boolean hasEntity(Class<?> type, Class<?> otherType) {
+    return get(type, otherType) != null;
   }
 
   /**
@@ -104,7 +153,7 @@ abstract class TypeHolder<T> {
    *
    * @return sequence of field-entity pairs
    */
-  public Stream<Entry<Class<?>, T>> entityByTypes() {
+  public Stream<Entry<DualClass<?, ?>, T>> entityByTypes() {
     return typeHolder.entrySet().stream();
   }
 
@@ -123,14 +172,29 @@ abstract class TypeHolder<T> {
    * @return the most relevant class.
    */
   private Class<?> getRelevantClass(Class<?> cls) {
-    Set<Class<?>> keys = typeHolder.keySet();
-    if (keys.contains(cls)) return cls;
+    Set<DualClass<?, ?>> keys = typeHolder.keySet();
+    if (keys.stream().map(DualClass::actual).anyMatch(c -> c == cls)) return cls;
 
     for (Class<?> superClass : getAllSuperclasses(cls)) {
-      if (keys.contains(superClass)) return superClass;
+      if (keys.stream().map(DualClass::actual).anyMatch(c -> c == superClass)) return superClass;
     }
     for (Class<?> interfaceClass : getAllInterfaces(cls)) {
-      if (keys.contains(interfaceClass)) return interfaceClass;
+      if (keys.stream().map(DualClass::actual).anyMatch(c -> c == interfaceClass)) return interfaceClass;
+    }
+    return null;
+  }
+
+  private Class<?> getRelevantClass(Class<?> cls, Class<?> otherCls) {
+    if (otherCls == null) return null;
+
+    Set<DualClass<?, ?>> keys = typeHolder.keySet();
+    if (keys.stream().anyMatch(c -> dualClass(cls, otherCls).equals(c))) return otherCls;
+
+    for (Class<?> superClass : getAllSuperclasses(otherCls)) {
+      if (keys.stream().anyMatch(c -> dualClass(cls, superClass).equals(c))) return superClass;
+    }
+    for (Class<?> interfaceClass : getAllInterfaces(otherCls)) {
+      if (keys.stream().anyMatch(c -> dualClass(cls, interfaceClass).equals(c))) return interfaceClass;
     }
     return null;
   }
@@ -156,7 +220,16 @@ abstract class TypeHolder<T> {
     return format("{%s}", join(registeredEntitiesDescription).with(", "));
   }
 
-  private static <T> String formatRegisteredEntity(Entry<Class<?>, T> entry) {
-    return format("%s -> %s", entry.getKey().getSimpleName(), entry.getValue());
+  private static <T> String formatRegisteredEntity(Entry<DualClass<?, ?>, T> entry) {
+    if (entry.getKey().expected() == null) {
+      return format("%s -> %s",
+                    entry.getKey().actual().getSimpleName(),
+                    entry.getValue());
+    } else {
+      return format("[%s - %s] -> %s",
+                    entry.getKey().actual().getSimpleName(),
+                    entry.getKey().expected().getSimpleName(),
+                    entry.getValue());
+    }
   }
 }

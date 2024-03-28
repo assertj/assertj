@@ -865,8 +865,10 @@ public class RecursiveComparisonDifferenceCalculator {
     Comparator fieldComparator = recursiveComparisonConfiguration.getComparatorForField(fieldName);
     if (fieldComparator != null) return areEqualUsingComparator(actualFieldValue, expectedFieldValue, fieldComparator, fieldName);
     // check if a type comparators exist for the field type
-    Class fieldType = actualFieldValue != null ? actualFieldValue.getClass() : expectedFieldValue.getClass();
-    Comparator typeComparator = recursiveComparisonConfiguration.getComparatorForType(fieldType);
+    Class actualFieldType = actualFieldValue != null ? actualFieldValue.getClass() : expectedFieldValue.getClass();
+    Class expectedFieldType = expectedFieldValue != null ? expectedFieldValue.getClass() : null;
+    Comparator typeComparator = recursiveComparisonConfiguration.getComparatorForType(actualFieldType, expectedFieldType);
+    if (typeComparator == null) typeComparator = recursiveComparisonConfiguration.getComparatorForType(actualFieldType);
     if (typeComparator != null) return areEqualUsingComparator(actualFieldValue, expectedFieldValue, typeComparator, fieldName);
     // default comparison using equals
     return deepEquals(actualFieldValue, expectedFieldValue);

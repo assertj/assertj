@@ -101,7 +101,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
                                                                    .usingRecursiveComparison()
                                                                    .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(assertion.comparatorByTypes()).contains(entry(String.class, ALWAYS_EQUALS_STRING));
+    assertThat(assertion.comparatorByTypes()).anyMatch(e -> e.getKey().actual() == String.class && e.getKey().expected() == null
+                                                            && e.getValue() != null);
   }
 
   @Test

@@ -24,6 +24,8 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.sql.Timestamp;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
@@ -33,10 +35,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.RecursiveComparisonAssert_isEqualTo_BaseTest;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.AtPrecisionComparator;
-import org.assertj.core.internal.objects.data.Address;
-import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
-import org.assertj.core.internal.objects.data.Giant;
-import org.assertj.core.internal.objects.data.Person;
+import org.assertj.core.internal.objects.data.*;
 import org.assertj.core.test.AlwaysDifferentComparator;
 import org.assertj.core.test.AlwaysEqualComparator;
 import org.assertj.core.test.CaseInsensitiveStringComparator;
@@ -243,6 +242,59 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     assertThat(actual).usingRecursiveComparison()
                       .withEqualsForType((o1, o2) -> true, AlwaysEqualPerson.class) // fails if commented
                       .ignoringOverriddenEqualsForFields("neighbour")
+                      .isEqualTo(expected);
+  }
+
+  @Test
+  @SuppressWarnings("AssertBetweenInconvertibleTypes")
+  void should_pass_using_a_BiPredicate_to_compare_fields_with_different_types_but_same_values() {
+    // GIVEN
+    TimeOffset actual = new TimeOffset();
+    actual.time = LocalTime.now();
+    TimeOffsetDto expected = new TimeOffsetDto();
+    expected.time = actual.time.toString();
+
+    // WHEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForTypes((t, s) -> LocalTime.parse(s).equals(t), LocalTime.class, String.class)
+                      // THEN
+                      .isEqualTo(expected);
+  }
+
+  @Test
+  @SuppressWarnings("AssertBetweenInconvertibleTypes")
+  void should_pass_using_two_BiPredicates_that_matches_to_compare_fields_with_different_types_but_same_values() {
+    // GIVEN
+    TimeOffset actual = new TimeOffset();
+    actual.time = LocalTime.now();
+    actual.offset = ZoneOffset.UTC;
+    TimeOffsetDto expected = new TimeOffsetDto();
+    expected.time = actual.time.toString();
+    expected.offset = actual.offset.getId();
+    // WHEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForTypes((z, s) -> ZoneOffset.of(s).equals(z), ZoneOffset.class, String.class)
+                      .withEqualsForTypes((t, s) -> LocalTime.parse(s).equals(t), LocalTime.class, String.class)
+                      // THEN
+                      .isEqualTo(expected);
+  }
+
+  @Test
+  @SuppressWarnings("AssertBetweenInconvertibleTypes")
+  void should_pass_having_two_BiPredicate_with_same_left_type_but_same_values_and_every_one_match() {
+    // GIVEN
+    LocalTime now = LocalTime.now();
+    TimeOffsetDto actual = new TimeOffsetDto();
+    actual.time = now.toString();
+    actual.offset = "Z";
+    TimeOffset expected = new TimeOffset();
+    expected.time = now;
+    expected.offset = ZoneOffset.UTC;
+    // WHEN
+    assertThat(actual).usingRecursiveComparison()
+                      .withEqualsForTypes((s, z) -> ZoneOffset.of(s).equals(z), String.class, ZoneOffset.class)
+                      .withEqualsForTypes((s, t) -> LocalTime.parse(s).equals(t), String.class, LocalTime.class)
+                      // THEN
                       .isEqualTo(expected);
   }
 

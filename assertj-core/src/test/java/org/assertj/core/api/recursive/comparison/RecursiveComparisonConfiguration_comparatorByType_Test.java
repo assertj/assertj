@@ -27,6 +27,7 @@ import java.util.function.BiPredicate;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.util.DualClass;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,7 +45,8 @@ class RecursiveComparisonConfiguration_comparatorByType_Test {
     // WHEN
     TypeComparators typeComparators = recursiveComparisonConfiguration.getTypeComparators();
     // THEN
-    List<Entry<Class<?>, Comparator<?>>> defaultComparators = defaultTypeComparators().comparatorByTypes().collect(toList());
+    List<Entry<DualClass<?, ?>, Comparator<?>>> defaultComparators = defaultTypeComparators().comparatorByTypes()
+                                                                                             .collect(toList());
     assertThat(typeComparators.comparatorByTypes()).containsExactlyElementsOf(defaultComparators);
   }
 
