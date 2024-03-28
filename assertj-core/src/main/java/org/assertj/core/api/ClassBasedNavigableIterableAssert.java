@@ -12,7 +12,10 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.internal.Objects;
+
 import java.lang.reflect.Constructor;
+import java.util.Collection;
 
 /**
  * Build the Assert instance by reflection.
@@ -69,5 +72,12 @@ public class ClassBasedNavigableIterableAssert<SELF extends ClassBasedNavigableI
     } catch (Exception e) {
       throw new RuntimeException("Failed to build an assert object with " + value + ": " + e.getMessage(), e);
     }
+  }
+
+  @Override
+  protected <T> T acceptVisitor(CollectionVisitor<? extends T> visitor) {
+    java.util.Objects.requireNonNull(visitor, "visitor can't be null");
+    Objects.instance().assertIsInstanceOf(info, actual, Collection.class);
+    return visitor.visitCollection((Collection<?>) actual);
   }
 }

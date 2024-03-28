@@ -28,11 +28,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.NavigableMap;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -1421,52 +1420,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @Beta
   public SELF isUnmodifiable() {
     isNotNull();
-    assertIsUnmodifiable();
-    return myself;
-  }
 
-  @SuppressWarnings("unchecked")
-  private void assertIsUnmodifiable() {
-    switch (actual.getClass().getName()) {
-    case "java.util.Collections$EmptyNavigableMap":
-    case "java.util.Collections$EmptyMap":
-    case "java.util.Collections$EmptySortedMap":
-    case "java.util.Collections$SingletonMap":
-      // unmodifiable by contract, although not all methods throw UnsupportedOperationException
-      return;
-    }
-
-    expectUnsupportedOperationException(() -> actual.clear(), "Map.clear()");
-    expectUnsupportedOperationException(() -> actual.compute(null, (k, v) -> v), "Map.compute(null, (k, v) -> v)");
-    expectUnsupportedOperationException(() -> actual.computeIfAbsent(null, k -> null), "Map.computeIfAbsent(null, k -> null)");
-    expectUnsupportedOperationException(() -> actual.computeIfPresent(null, (k, v) -> v),
-                                        "Map.computeIfPresent(null, (k, v) -> v)");
-    expectUnsupportedOperationException(() -> actual.merge(null, null, (v1, v2) -> v1), "Map.merge(null, null, (v1, v2) -> v1))");
-    expectUnsupportedOperationException(() -> actual.put(null, null), "Map.put(null, null)");
-    expectUnsupportedOperationException(() -> actual.putAll(new HashMap<>()), "Map.putAll(new HashMap<>())");
-    expectUnsupportedOperationException(() -> actual.putIfAbsent(null, null), "Map.putIfAbsent(null, null)");
-    expectUnsupportedOperationException(() -> actual.replace(null, null, null), "Map.replace(null, null, null)");
-    expectUnsupportedOperationException(() -> actual.replace(null, null), "Map.replace(null, null)");
-    expectUnsupportedOperationException(() -> actual.remove(null), "Map.remove(null)");
-    expectUnsupportedOperationException(() -> actual.remove(null, null), "Map.remove(null, null)");
-    expectUnsupportedOperationException(() -> actual.replaceAll((k, v) -> v), "Map.replaceAll((k, v) -> v)");
-
-    if (actual instanceof NavigableMap) {
-      NavigableMap<K, V> navigableMap = (NavigableMap<K, V>) actual;
-      expectUnsupportedOperationException(() -> navigableMap.pollFirstEntry(), "NavigableMap.pollFirstEntry()");
-      expectUnsupportedOperationException(() -> navigableMap.pollLastEntry(), "NavigableMap.pollLastEntry()");
-    }
-  }
-
-  private void expectUnsupportedOperationException(Runnable runnable, String method) {
     try {
-      runnable.run();
-      throwAssertionError(shouldBeUnmodifiable(method));
-    } catch (UnsupportedOperationException e) {
-      // happy path
-    } catch (RuntimeException e) {
-      throwAssertionError(shouldBeUnmodifiable(method, e));
+      Optional<String> mutatingMethod = new MutatingMethodFinder().visitMap(actual);
+      mutatingMethod.ifPresent(method -> throwAssertionError(shouldBeUnmodifiable(method)));
+    } catch (CollectionVisitor.TargetException e) {
+      throwAssertionError(shouldBeUnmodifiable(e.getMessage(), e.getException()));
     }
+
+    return myself;
   }
 
   /**
@@ -2113,7 +2075,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * <p>The recursive algorithm employs cycle detection, so object graphs with cyclic references can safely be asserted over without causing looping.</p>
    *
-   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the   
+   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>

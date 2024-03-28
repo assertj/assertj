@@ -12,16 +12,20 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.internal.Objects;
+
+import java.util.Collection;
+
 /**
  * Provides helper methods for navigating a list property in a generated assertion class so we can chain assertions
  * through deeply nested models more easily.
- * 
+ *
  * @since 2.5.0 / 3.5.0
  */
 //@format:off
-public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNavigableIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
-                                                 ACTUAL extends Iterable<? extends ELEMENT>, 
-                                                 ELEMENT, 
+public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNavigableIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
+                                                 ACTUAL extends Iterable<? extends ELEMENT>,
+                                                 ELEMENT,
                                                  ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
        extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
 
@@ -33,7 +37,7 @@ public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNaviga
                                                                                  AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     return new FactoryBasedNavigableIterableAssert(actual, FactoryBasedNavigableIterableAssert.class, assertFactory);
   }
-         
+
 // @format:on
 
   public FactoryBasedNavigableIterableAssert(ACTUAL actual, Class<?> selfType,
@@ -45,6 +49,13 @@ public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNaviga
   @Override
   public ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
     return assertFactory.createAssert(value).as(description);
+  }
+
+  @Override
+  protected <T> T acceptVisitor(final CollectionVisitor<? extends T> visitor) {
+    java.util.Objects.requireNonNull(visitor, "visitor can't be null");
+    Objects.instance().assertIsInstanceOf(info, actual, Collection.class);
+    return visitor.visitCollection((Collection<?>) actual);
   }
 
   @SuppressWarnings("unchecked")
