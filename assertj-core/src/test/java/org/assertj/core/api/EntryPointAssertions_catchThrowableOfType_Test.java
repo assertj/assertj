@@ -27,18 +27,18 @@ class EntryPointAssertions_catchThrowableOfType_Test extends EntryPointAssertion
 
   @ParameterizedTest
   @MethodSource("catchThrowableOfTypes")
-  void should_catch_throwable_of_type(BiFunction<ThrowingCallable, Class<RuntimeException>, RuntimeException> catchThrowableOfType) {
+  void should_catch_throwable_of_type(BiFunction<Class<RuntimeException>, ThrowingCallable, RuntimeException> catchThrowableOfType) {
     // GIVEN
     ThrowingCallable throwingCallable = () -> {
       throw RUNTIME_EXCEPTION;
     };
     // WHEN
-    RuntimeException throwable = catchThrowableOfType.apply(throwingCallable, RuntimeException.class);
+    RuntimeException throwable = catchThrowableOfType.apply(RuntimeException.class, throwingCallable);
     // THEN
     then(throwable).isSameAs(RUNTIME_EXCEPTION);
   }
 
-  private static Stream<BiFunction<ThrowingCallable, Class<RuntimeException>, RuntimeException>> catchThrowableOfTypes() {
+  private static Stream<BiFunction<Class<RuntimeException>, ThrowingCallable, RuntimeException>> catchThrowableOfTypes() {
     return Stream.of(Assertions::catchThrowableOfType, BDDAssertions::catchThrowableOfType, withAssertions::catchThrowableOfType);
   }
 
