@@ -13,9 +13,13 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
@@ -43,7 +47,39 @@ class MapAssert_contains_Test extends MapAssertBaseTest {
   }
 
   @Test
-  void invoke_api_like_user() {
+  protected void invoke_api_like_user() {
     assertThat(map("key1", "value1", "key2", "value2")).contains(entry("key2", "value2"));
+
+  }
+
+  @Test
+  protected void should_pass_contains_values() {
+    // GIVEN
+    Map<Object, Object> map = new HashMap<>();
+    map.put("key1", "value1");
+    map.put("key2", "value2");
+    // THEN
+    assertThat(map).values().contains("value1", "value2");
+  }
+
+  @Test
+  protected void should_pass_contains_values_after_casting() {
+    // GIVEN
+    Map<Object, Object> map = new HashMap<>();
+    map.put("key1", "value1");
+    map.put("key2", "value2");
+    // THEN
+    assertThat(map).values(String.class).contains("value1", "value2");
+  }
+
+  @Test
+  protected void should_pass_not_allowed_casting() {
+    // GIVEN
+    Map<Object, Object> map = new HashMap<>();
+    map.put("key1", 1);
+    map.put("key2", 2);
+    // THEN
+    Throwable thrown = catchThrowable(() -> assertThat(map).values(String.class));
+    assertThat(thrown).isInstanceOf(ClassCastException.class);
   }
 }

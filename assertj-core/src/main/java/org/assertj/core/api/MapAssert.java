@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Assertions for {@link Map}s.
@@ -28,12 +29,19 @@ import java.util.Map;
  */
 public class MapAssert<KEY, VALUE> extends AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 
-  public static <K, V> MapAssert<K, V> assertThatMap(Map<K, V> actual) {
-    return new MapAssert<>(actual);
-  }
-
   public MapAssert(Map<KEY, VALUE> actual) {
     super(actual, MapAssert.class);
   }
 
+  public static <K, V> MapAssert<K, V> assertThatMap(Map<K, V> actual) {
+    return new MapAssert<>(actual);
+  }
+
+  public CollectionAssert<Object> values() {
+    return new CollectionAssert<>(actual.values());
+  }
+
+  public <T> CollectionAssert<T> values(Class<T> clazz) {
+    return new CollectionAssert<>(actual.values().stream().map(clazz::cast).collect(Collectors.toSet()));
+  }
 }
