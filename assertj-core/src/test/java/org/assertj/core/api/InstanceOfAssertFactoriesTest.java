@@ -15,6 +15,8 @@ package org.assertj.core.api;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.BDDAssertions.from;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY_2D;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_BOOLEAN;
@@ -123,19 +125,27 @@ import static org.assertj.core.api.InstanceOfAssertFactories.map;
 import static org.assertj.core.api.InstanceOfAssertFactories.optional;
 import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
 import static org.assertj.core.api.InstanceOfAssertFactories.set;
+import static org.assertj.core.api.InstanceOfAssertFactories.spliterator;
 import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
@@ -148,14 +158,21 @@ import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Set;
 import java.util.Spliterator;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -175,16 +192,22 @@ import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.AdditionalAnswers;
 
 /**
  * @author Stefano Cordio
@@ -202,6 +225,17 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void predicate_factory_createAssert_with_ValueProvider_should_create_predicate_assertions() {
+    // GIVEN
+    ValueProvider<Predicate<Object>> valueProvider = mockThatDelegatesTo(type -> Objects::isNull);
+    // WHEN
+    PredicateAssert<Object> result = PREDICATE.createAssert(valueProvider);
+    // THEN
+    result.accepts((Object) null);
+    verify(valueProvider).apply(parameterizedType(Predicate.class, Object.class));
+  }
+
+  @Test
   void predicate_typed_factory_createAssert_should_create_predicate_typed_assertions() {
     // GIVEN
     Object value = (Predicate<String>) Strings::isNullOrEmpty;
@@ -212,6 +246,17 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void predicate_typed_factory_createAssert_with_ValueProvider_should_create_predicate_typed_assertions() {
+    // GIVEN
+    ValueProvider<Predicate<String>> valueProvider = mockThatDelegatesTo(type -> Strings::isNullOrEmpty);
+    // WHEN
+    PredicateAssert<String> result = predicate(String.class).createAssert(valueProvider);
+    // THEN
+    result.accepts("");
+    verify(valueProvider).apply(parameterizedType(Predicate.class, String.class));
+  }
+
+  @Test
   void int_predicate_factory_createAssert_should_create_int_predicate_assertions() {
     // GIVEN
     Object value = (IntPredicate) i -> i == 0;
@@ -219,6 +264,17 @@ class InstanceOfAssertFactoriesTest {
     IntPredicateAssert result = INT_PREDICATE.createAssert(value);
     // THEN
     result.accepts(0);
+  }
+
+  @Test
+  void int_predicate_factory_createAssert_with_ValueProvider_should_create_int_predicate_assertions() {
+    // GIVEN
+    ValueProvider<IntPredicate> valueProvider = mockThatDelegatesTo(type -> i -> i == 0);
+    // WHEN
+    IntPredicateAssert result = INT_PREDICATE.createAssert(valueProvider);
+    // THEN
+    result.accepts(0);
+    verify(valueProvider).apply(IntPredicate.class);
   }
 
   @Test
@@ -1193,6 +1249,18 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Test
+  void list_factory_createAssert_with_ValueProvider_should_create_list_assertions() {
+    // GIVEN
+    ValueProvider<List<Object>> valueProvider = mockThatDelegatesTo(type -> Lists.list("Homer", "Marge", "Bart", "Lisa",
+                                                                                       "Maggie"));
+    // WHEN
+    ListAssert<Object> result = LIST.createAssert(valueProvider);
+    // THEN
+    result.contains("Bart", "Lisa");
+    verify(valueProvider).apply(parameterizedType(List.class, Object.class));
+  }
+
+  @Test
   void list_typed_factory_createAssert_should_create_typed_list_assertions() {
     // GIVEN
     Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
@@ -1200,6 +1268,18 @@ class InstanceOfAssertFactoriesTest {
     ListAssert<String> result = list(String.class).createAssert(value);
     // THEN
     result.contains("Bart", "Lisa");
+  }
+
+  @Test
+  void list_typed_factory_createAssert_with_ValueProvider_should_create_typed_list_assertions() {
+    // GIVEN
+    ValueProvider<List<String>> valueProvider = mockThatDelegatesTo(type -> Lists.list("Homer", "Marge", "Bart", "Lisa",
+                                                                                       "Maggie"));
+    // WHEN
+    ListAssert<String> result = list(String.class).createAssert(valueProvider);
+    // THEN
+    result.contains("Bart", "Lisa");
+    verify(valueProvider).apply(parameterizedType(List.class, classes(String.class)));
   }
 
   @Test
@@ -1309,6 +1389,196 @@ class InstanceOfAssertFactoriesTest {
     volatile long longField;
     volatile String stringField;
 
+  }
+
+  @ParameterizedTest
+  @MethodSource({
+      "nonParameterizedFactories",
+      "parameterizedFactories"
+  })
+  void getRawClass(InstanceOfAssertFactory<?, ?> underTest, Class<?> rawClass) {
+    // WHEN
+    Class<?> result = underTest.getRawClass();
+    // THEN
+    then(result).isEqualTo(rawClass);
+  }
+
+  @ParameterizedTest
+  @MethodSource("nonParameterizedFactories")
+  void createAssert_with_ValueProvider_for_non_parameterized_factories(InstanceOfAssertFactory<?, ?> underTest,
+                                                                       Class<?> rawClass) {
+    // GIVEN
+    ValueProvider<?> valueProvider = mock();
+    // WHEN
+    underTest.createAssert(valueProvider);
+    // THEN
+    verify(valueProvider).apply(rawClass);
+  }
+
+  @ParameterizedTest
+  @MethodSource("nonParameterizedFactories")
+  void getType_for_non_parameterized_factories(InstanceOfAssertFactory<?, ?> underTest, Class<?> rawClass) {
+    // WHEN
+    Type type = underTest.getType();
+    // THEN
+    then(type).isEqualTo(rawClass);
+  }
+
+  @ParameterizedTest
+  @MethodSource("parameterizedFactories")
+  void getType_for_parameterized_factories(InstanceOfAssertFactory<?, ?> underTest, Class<?> rawClass, Class<?>[] typeArguments) {
+    // WHEN
+    Type type = underTest.getType();
+    // THEN
+    then(type).asInstanceOf(type(ParameterizedType.class))
+              .returns(typeArguments, from(ParameterizedType::getActualTypeArguments))
+              .returns(rawClass, from(ParameterizedType::getRawType))
+              .returns(null, from(ParameterizedType::getOwnerType));
+  }
+
+  static Stream<Arguments> nonParameterizedFactories() {
+    return Stream.of(arguments(ARRAY, Object[].class),
+                     arguments(ARRAY_2D, Object[][].class),
+                     arguments(ATOMIC_BOOLEAN, AtomicBoolean.class),
+                     arguments(ATOMIC_INTEGER, AtomicInteger.class),
+                     arguments(ATOMIC_INTEGER_ARRAY, AtomicIntegerArray.class),
+                     arguments(ATOMIC_LONG, AtomicLong.class),
+                     arguments(ATOMIC_LONG_ARRAY, AtomicLongArray.class),
+                     arguments(BIG_DECIMAL, BigDecimal.class),
+                     arguments(BIG_INTEGER, BigInteger.class),
+                     arguments(BOOLEAN, Boolean.class),
+                     arguments(BOOLEAN_2D_ARRAY, boolean[][].class),
+                     arguments(BOOLEAN_ARRAY, boolean[].class),
+                     arguments(BYTE, Byte.class),
+                     arguments(BYTE_2D_ARRAY, byte[][].class),
+                     arguments(BYTE_ARRAY, byte[].class),
+                     arguments(CHAR_2D_ARRAY, char[][].class),
+                     arguments(CHAR_ARRAY, char[].class),
+                     arguments(CHAR_SEQUENCE, CharSequence.class),
+                     arguments(CHARACTER, Character.class),
+                     arguments(CLASS, Class.class),
+                     arguments(DATE, Date.class),
+                     arguments(DOUBLE, Double.class),
+                     arguments(DOUBLE_2D_ARRAY, double[][].class),
+                     arguments(DOUBLE_ARRAY, double[].class),
+                     arguments(DOUBLE_PREDICATE, DoublePredicate.class),
+                     arguments(DOUBLE_STREAM, DoubleStream.class),
+                     arguments(DURATION, Duration.class),
+                     arguments(FILE, File.class),
+                     arguments(FLOAT, Float.class),
+                     arguments(FLOAT_2D_ARRAY, float[][].class),
+                     arguments(FLOAT_ARRAY, float[].class),
+                     arguments(INPUT_STREAM, InputStream.class),
+                     arguments(INSTANT, Instant.class),
+                     arguments(INT_2D_ARRAY, int[][].class),
+                     arguments(INT_ARRAY, int[].class),
+                     arguments(INT_PREDICATE, IntPredicate.class),
+                     arguments(INT_STREAM, IntStream.class),
+                     arguments(INTEGER, Integer.class),
+                     arguments(LOCAL_DATE, LocalDate.class),
+                     arguments(LOCAL_DATE_TIME, LocalDateTime.class),
+                     arguments(LOCAL_TIME, LocalTime.class),
+                     arguments(LONG, Long.class),
+                     arguments(LONG_2D_ARRAY, long[][].class),
+                     arguments(LONG_ADDER, LongAdder.class),
+                     arguments(LONG_ARRAY, long[].class),
+                     arguments(LONG_PREDICATE, LongPredicate.class),
+                     arguments(LONG_STREAM, LongStream.class),
+                     arguments(MATCHER, Matcher.class),
+                     arguments(OFFSET_DATE_TIME, OffsetDateTime.class),
+                     arguments(OFFSET_TIME, OffsetTime.class),
+                     arguments(OPTIONAL_DOUBLE, OptionalDouble.class),
+                     arguments(OPTIONAL_INT, OptionalInt.class),
+                     arguments(OPTIONAL_LONG, OptionalLong.class),
+                     arguments(PATH, Path.class),
+                     arguments(PERIOD, Period.class),
+                     arguments(SHORT, Short.class),
+                     arguments(SHORT_2D_ARRAY, short[][].class),
+                     arguments(SHORT_ARRAY, short[].class),
+                     arguments(STRING, String.class),
+                     arguments(STRING_BUFFER, StringBuffer.class),
+                     arguments(STRING_BUILDER, StringBuilder.class),
+                     arguments(TEMPORAL, Temporal.class),
+                     arguments(THROWABLE, Throwable.class),
+                     arguments(URI_TYPE, URI.class),
+                     arguments(URL_TYPE, URL.class),
+                     arguments(YEAR_MONTH, YearMonth.class),
+                     arguments(ZONED_DATE_TIME, ZonedDateTime.class),
+                     arguments(array(String[].class), String[].class),
+                     arguments(array2D(String[][].class), String[][].class),
+                     arguments(comparable(Integer.class), Integer.class),
+                     arguments(throwable(RuntimeException.class), RuntimeException.class),
+                     arguments(type(String.class), String.class));
+  }
+
+  static Stream<Arguments> parameterizedFactories() {
+    return Stream.of(arguments(ATOMIC_INTEGER_FIELD_UPDATER, AtomicIntegerFieldUpdater.class, classes(Object.class)),
+                     arguments(ATOMIC_LONG_FIELD_UPDATER, AtomicLongFieldUpdater.class, classes(Object.class)),
+                     arguments(ATOMIC_MARKABLE_REFERENCE, AtomicMarkableReference.class, classes(Object.class)),
+                     arguments(ATOMIC_REFERENCE, AtomicReference.class, classes(Object.class)),
+                     arguments(ATOMIC_REFERENCE_ARRAY, AtomicReferenceArray.class, classes(Object.class)),
+                     arguments(ATOMIC_REFERENCE_FIELD_UPDATER, AtomicReferenceFieldUpdater.class,
+                               classes(Object.class, Object.class)),
+                     arguments(ATOMIC_STAMPED_REFERENCE, AtomicStampedReference.class, classes(Object.class)),
+                     arguments(COLLECTION, Collection.class, classes(Object.class)),
+                     arguments(COMPLETABLE_FUTURE, CompletableFuture.class, classes(Object.class)),
+                     arguments(COMPLETION_STAGE, CompletionStage.class, classes(Object.class)),
+                     arguments(FUTURE, Future.class, classes(Object.class)),
+                     arguments(ITERABLE, Iterable.class, classes(Object.class)),
+                     arguments(ITERATOR, Iterator.class, classes(Object.class)),
+                     arguments(LIST, List.class, classes(Object.class)),
+                     arguments(MAP, Map.class, classes(Object.class, Object.class)),
+                     arguments(OPTIONAL, Optional.class, classes(Object.class)),
+                     arguments(PREDICATE, Predicate.class, classes(Object.class)),
+                     arguments(SET, Set.class, classes(Object.class)),
+                     arguments(SPLITERATOR, Spliterator.class, classes(Object.class)),
+                     arguments(STREAM, Stream.class, classes(Object.class)),
+                     arguments(atomicIntegerFieldUpdater(VolatileFieldContainer.class), AtomicIntegerFieldUpdater.class,
+                               classes(VolatileFieldContainer.class)),
+                     arguments(atomicLongFieldUpdater(VolatileFieldContainer.class), AtomicLongFieldUpdater.class,
+                               classes(VolatileFieldContainer.class)),
+                     arguments(atomicMarkableReference(Integer.class), AtomicMarkableReference.class, classes(Integer.class)),
+                     arguments(atomicReference(Integer.class), AtomicReference.class, classes(Integer.class)),
+                     arguments(atomicReferenceArray(Integer.class), AtomicReferenceArray.class, classes(Integer.class)),
+                     arguments(atomicReferenceFieldUpdater(String.class, VolatileFieldContainer.class),
+                               AtomicReferenceFieldUpdater.class,
+                               classes(String.class, VolatileFieldContainer.class)),
+                     arguments(atomicStampedReference(Integer.class), AtomicStampedReference.class, classes(Integer.class)),
+                     arguments(collection(String.class), Collection.class, classes(String.class)),
+                     arguments(completableFuture(String.class), CompletableFuture.class, classes(String.class)),
+                     arguments(completionStage(String.class), CompletionStage.class, classes(String.class)),
+                     arguments(future(String.class), Future.class, classes(String.class)),
+                     arguments(iterable(String.class), Iterable.class, classes(String.class)),
+                     arguments(iterator(String.class), Iterator.class, classes(String.class)),
+                     arguments(list(String.class), List.class, classes(String.class)),
+                     arguments(map(String.class, String.class), Map.class, classes(String.class, String.class)),
+                     arguments(optional(String.class), Optional.class, classes(String.class)),
+                     arguments(predicate(String.class), Predicate.class, classes(String.class)),
+                     arguments(set(String.class), Set.class, classes(String.class)),
+                     arguments(spliterator(String.class), Spliterator.class, classes(String.class)),
+                     arguments(stream(String.class), Stream.class, classes(String.class)));
+  }
+
+  private static Class<?>[] classes(Class<?>... classes) {
+    return classes;
+  }
+
+  @SuppressWarnings("unchecked")
+  @SafeVarargs
+  private static <T> T mockThatDelegatesTo(T delegate, T... reified) {
+    if (reified.length > 0) {
+      throw new IllegalArgumentException("Please don't pass any values here. Java will detect class automagically.");
+    }
+    return mock((Class<T>) reified.getClass().getComponentType(), AdditionalAnswers.delegatesTo(delegate));
+  }
+
+  private static ParameterizedType parameterizedType(Class<?> rawClass, Class<?>... typeArguments) {
+    return argThat(argument -> {
+      then(argument).returns(typeArguments, from(ParameterizedType::getActualTypeArguments))
+                    .returns(rawClass, from(ParameterizedType::getRawType))
+                    .returns(null, from(ParameterizedType::getOwnerType));
+      return true;
+    });
   }
 
 }
