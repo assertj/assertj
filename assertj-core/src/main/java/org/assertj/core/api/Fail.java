@@ -47,6 +47,18 @@ public final class Fail {
   }
 
   /**
+   * Throws an {@link AssertionError} without a message.
+   *
+   * @param <T> dummy return value type
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail()));}.
+   * @throws AssertionError without a message.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T fail() {
+    return fail((String) null);
+  }
+
+  /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
@@ -74,6 +86,19 @@ public final class Fail {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
     throw error;
+  }
+
+  /**
+   * Throws an {@link AssertionError} with the {@link Throwable} that caused the failure.
+   *
+   * @param <T> dummy return value type
+   * @param realCause cause of the error.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
+   * @throws AssertionError with the {@link Throwable} that caused the failure.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T fail(Throwable realCause) {
+    return fail(null, realCause);
   }
 
   /**
