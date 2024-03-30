@@ -596,16 +596,15 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicIntegerFieldUpdater}.
    *
-   * @param <OBJECT>   the {@code AtomicIntegerFieldUpdater} object type.
+   * @param <T>        the {@code AtomicIntegerFieldUpdater} object type.
    * @param objectType the object type instance.
    * @return the factory instance.
    *
    * @see #ATOMIC_INTEGER_FIELD_UPDATER
    */
   @SuppressWarnings("rawtypes")
-  static <OBJECT> InstanceOfAssertFactory<AtomicIntegerFieldUpdater, AtomicIntegerFieldUpdaterAssert<OBJECT>> atomicIntegerFieldUpdater(Class<OBJECT> objectType) {
-    return new InstanceOfAssertFactory<>(AtomicIntegerFieldUpdater.class, new Class[] { objectType },
-                                         Assertions::<OBJECT> assertThat);
+  static <T> InstanceOfAssertFactory<AtomicIntegerFieldUpdater, AtomicIntegerFieldUpdaterAssert<T>> atomicIntegerFieldUpdater(Class<T> objectType) {
+    return new InstanceOfAssertFactory<>(AtomicIntegerFieldUpdater.class, new Class[] { objectType }, Assertions::<T> assertThat);
   }
 
   /**
@@ -637,16 +636,15 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicIntegerFieldUpdater}.
    *
-   * @param <OBJECT>   the {@code AtomicLongFieldUpdater} object type.
+   * @param <T>        the {@code AtomicLongFieldUpdater} object type.
    * @param objectType the object type instance.
    * @return the factory instance.
    *
    * @see #ATOMIC_LONG_FIELD_UPDATER
    */
   @SuppressWarnings("rawtypes")
-  static <OBJECT> InstanceOfAssertFactory<AtomicLongFieldUpdater, AtomicLongFieldUpdaterAssert<OBJECT>> atomicLongFieldUpdater(Class<OBJECT> objectType) {
-    return new InstanceOfAssertFactory<>(AtomicLongFieldUpdater.class, new Class[] { objectType },
-                                         Assertions::<OBJECT> assertThat);
+  static <T> InstanceOfAssertFactory<AtomicLongFieldUpdater, AtomicLongFieldUpdaterAssert<T>> atomicLongFieldUpdater(Class<T> objectType) {
+    return new InstanceOfAssertFactory<>(AtomicLongFieldUpdater.class, new Class[] { objectType }, Assertions::<T> assertThat);
   }
 
   /**
@@ -660,15 +658,15 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicReference}.
    *
-   * @param <VALUE>   the {@code AtomicReference} value type.
+   * @param <V>       the {@code AtomicReference} value type.
    * @param valueType the value type instance.
    * @return the factory instance.
    *
    * @see #ATOMIC_REFERENCE
    */
   @SuppressWarnings("rawtypes")
-  static <VALUE> InstanceOfAssertFactory<AtomicReference, AtomicReferenceAssert<VALUE>> atomicReference(Class<VALUE> valueType) {
-    return new InstanceOfAssertFactory<>(AtomicReference.class, new Class[] { valueType }, Assertions::<VALUE> assertThat);
+  static <V> InstanceOfAssertFactory<AtomicReference, AtomicReferenceAssert<V>> atomicReference(Class<V> valueType) {
+    return new InstanceOfAssertFactory<>(AtomicReference.class, new Class[] { valueType }, Assertions::<V> assertThat);
   }
 
   /**
@@ -682,16 +680,15 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicReferenceArray}.
    *
-   * @param <ELEMENT>   the {@code AtomicReferenceArray} element type.
+   * @param <E>         the {@code AtomicReferenceArray} element type.
    * @param elementType the element type instance.
    * @return the factory instance.
    *
    * @see #ATOMIC_REFERENCE_ARRAY
    */
   @SuppressWarnings("rawtypes")
-  static <ELEMENT> InstanceOfAssertFactory<AtomicReferenceArray, AtomicReferenceArrayAssert<ELEMENT>> atomicReferenceArray(Class<ELEMENT> elementType) {
-    return new InstanceOfAssertFactory<>(AtomicReferenceArray.class, new Class[] { elementType },
-                                         Assertions::<ELEMENT> assertThat);
+  static <E> InstanceOfAssertFactory<AtomicReferenceArray, AtomicReferenceArrayAssert<E>> atomicReferenceArray(Class<E> elementType) {
+    return new InstanceOfAssertFactory<>(AtomicReferenceArray.class, new Class[] { elementType }, Assertions::<E> assertThat);
   }
 
   /**
@@ -706,8 +703,8 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicReferenceFieldUpdater}.
    *
-   * @param <FIELD>    the {@code AtomicReferenceFieldUpdater} field type.
-   * @param <OBJECT>   the {@code AtomicReferenceFieldUpdater} object type.
+   * @param <T>        the {@code AtomicReferenceFieldUpdater} field type.
+   * @param <V>        the {@code AtomicReferenceFieldUpdater} object type.
    * @param fieldType  the field type instance.
    * @param objectType the object type instance.
    * @return the factory instance.
@@ -715,10 +712,10 @@ public interface InstanceOfAssertFactories {
    * @see #ATOMIC_REFERENCE_FIELD_UPDATER
    */
   @SuppressWarnings("rawtypes")
-  static <FIELD, OBJECT> InstanceOfAssertFactory<AtomicReferenceFieldUpdater, AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT>> atomicReferenceFieldUpdater(Class<FIELD> fieldType,
-                                                                                                                                                            Class<OBJECT> objectType) {
+  static <T, V> InstanceOfAssertFactory<AtomicReferenceFieldUpdater, AtomicReferenceFieldUpdaterAssert<T, V>> atomicReferenceFieldUpdater(Class<T> fieldType,
+                                                                                                                                          Class<V> objectType) {
     return new InstanceOfAssertFactory<>(AtomicReferenceFieldUpdater.class, new Class[] { fieldType, objectType },
-                                         Assertions::<FIELD, OBJECT> assertThat);
+                                         Assertions::<T, V> assertThat);
   }
 
   /**
@@ -732,16 +729,15 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicMarkableReference}.
    *
-   * @param <VALUE>   the {@code AtomicMarkableReference} value type.
+   * @param <V>       the {@code AtomicMarkableReference} value type.
    * @param valueType the value type instance.
    * @return the factory instance.
    *
    * @see #ATOMIC_MARKABLE_REFERENCE
    */
   @SuppressWarnings("rawtypes")
-  static <VALUE> InstanceOfAssertFactory<AtomicMarkableReference, AtomicMarkableReferenceAssert<VALUE>> atomicMarkableReference(Class<VALUE> valueType) {
-    return new InstanceOfAssertFactory<>(AtomicMarkableReference.class, new Class[] { valueType },
-                                         Assertions::<VALUE> assertThat);
+  static <V> InstanceOfAssertFactory<AtomicMarkableReference, AtomicMarkableReferenceAssert<V>> atomicMarkableReference(Class<V> valueType) {
+    return new InstanceOfAssertFactory<>(AtomicMarkableReference.class, new Class[] { valueType }, Assertions::<V> assertThat);
   }
 
   /**
@@ -755,15 +751,15 @@ public interface InstanceOfAssertFactories {
   /**
    * {@link InstanceOfAssertFactory} for an {@link AtomicStampedReference}.
    *
-   * @param <VALUE>   the {@code AtomicStampedReference} value type.
+   * @param <V>       the {@code AtomicStampedReference} value type.
    * @param valueType the value type instance.
    * @return the factory instance.
    *
    * @see #ATOMIC_STAMPED_REFERENCE
    */
   @SuppressWarnings("rawtypes")
-  static <VALUE> InstanceOfAssertFactory<AtomicStampedReference, AtomicStampedReferenceAssert<VALUE>> atomicStampedReference(Class<VALUE> valueType) {
-    return new InstanceOfAssertFactory<>(AtomicStampedReference.class, new Class[] { valueType }, Assertions::<VALUE> assertThat);
+  static <V> InstanceOfAssertFactory<AtomicStampedReference, AtomicStampedReferenceAssert<V>> atomicStampedReference(Class<V> valueType) {
+    return new InstanceOfAssertFactory<>(AtomicStampedReference.class, new Class[] { valueType }, Assertions::<V> assertThat);
   }
 
   /**
