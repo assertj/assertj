@@ -14,9 +14,11 @@ package org.assertj.core.api.instant;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -46,6 +48,18 @@ class InstantAssert_isEqualTo_Test extends InstantAssertBaseTest {
     // THEN
     assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the Instant to compare actual with should not be null");
+  }
+
+  // https://github.com/assertj/assertj/issues/3359
+  @Test
+  void should_cover_issue_3359() {
+    // GIVEN
+    final long now = System.currentTimeMillis();
+    final Timestamp timestamp = new Timestamp(now);
+    final Instant instant = Instant.ofEpochMilli(now);
+    // WHEN/THEN
+    then(timestamp).isEqualTo(instant);
+    then(timestamp).isAfterOrEqualTo(instant);
   }
 
 }
