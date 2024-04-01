@@ -12,6 +12,8 @@
  */
 package org.assertj.core.test;
 
+import java.util.List;
+
 /**
  * @author Alex Ruiz
  */
@@ -20,6 +22,10 @@ public final class ObjectArrays {
 
   public static Object[] arrayOf(Object... values) {
     return values;
+  }
+
+  public static String[] arrayOf(List<String> list) {
+    return list.toArray(new String[0]);
   }
 
   public static Object[] emptyArray() {
