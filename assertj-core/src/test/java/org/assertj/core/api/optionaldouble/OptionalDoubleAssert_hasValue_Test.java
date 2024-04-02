@@ -40,6 +40,21 @@ class OptionalDoubleAssert_hasValue_Test {
   }
 
   @Test
+  void should_pass_if_optionalDouble_has_expected_NaN_value() {
+    assertThat(OptionalDouble.of(Double.NaN)).hasValue(Double.NaN);
+  }
+
+  @Test
+  void should_pass_if_optionalDouble_has_expected_positive_infinity_value() {
+    assertThat(OptionalDouble.of(Double.POSITIVE_INFINITY)).hasValue(Double.POSITIVE_INFINITY);
+  }
+
+  @Test
+  void should_pass_if_optionalDouble_has_expected_negative_infinity_value() {
+    assertThat(OptionalDouble.of(Double.NEGATIVE_INFINITY)).hasValue(Double.NEGATIVE_INFINITY);
+  }
+
+  @Test
   void should_fail_if_optionalDouble_does_not_have_expected_value() {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(5.0);

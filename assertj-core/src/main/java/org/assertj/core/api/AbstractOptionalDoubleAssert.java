@@ -115,7 +115,8 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
   }
 
   /**
-   * Verifies that the actual {@link java.util.OptionalDouble} has the value in argument.
+   * Verifies that the actual {@link java.util.OptionalDouble} has the value in argument. The check is consistent
+   * with {@link java.util.OptionalDouble#equals(Object)}
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(OptionalDouble.of(8.0)).hasValue(8.0);
@@ -135,7 +136,7 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
   public SELF hasValue(double expectedValue) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
-    if (expectedValue != actual.getAsDouble())
+    if (Double.compare(expectedValue, actual.getAsDouble()) != 0)
       throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsDouble(), expectedValue);
     return myself;
   }
