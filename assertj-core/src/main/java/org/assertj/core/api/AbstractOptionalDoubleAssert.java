@@ -115,27 +115,30 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
   }
 
   /**
-   * Verifies that the actual {@link java.util.OptionalDouble} has the value in argument.
+   * Verifies that the actual {@link java.util.OptionalDouble} has the value in argument. The check is consistent
+   * with {@link java.util.OptionalDouble#equals(Object)} since 3.26.0.
    * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(OptionalDouble.of(8.0)).hasValue(8.0);
+   * <pre><code class='java'> // assertions succeed:
+   * assertThat(OptionalDouble.of(8.0)).hasValue(8.0);
    * assertThat(OptionalDouble.of(8.0)).hasValue(Double.valueOf(8.0));
-   * assertThat(OptionalDouble.of(Double.NaN)).hasValue(Double.NaN); </code></pre>
-   * <p>
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(OptionalDouble.empty()).hasValue(8.0);
+   * assertThat(OptionalDouble.of(Double.NaN)).hasValue(Double.NaN);
+   * assertThat(OptionalDouble.of(Double.POSITIVE_INFINITY)).hasValue(Double.POSITIVE_INFINITY);
+   * assertThat(OptionalDouble.of(Double.NEGATIVE_INFINITY)).hasValue(Double.NEGATIVE_INFINITY);
+   *
+   * // assertions fail:
+   * assertThat(OptionalDouble.empty()).hasValue(8.0);
    * assertThat(OptionalDouble.of(7)).hasValue(8.0);</code></pre>
    *
    * @param expectedValue the expected value inside the {@link java.util.OptionalDouble}.
    * @return this assertion object.
    * @throws java.lang.AssertionError if actual value is empty.
    * @throws java.lang.AssertionError if actual is null.
-   * @throws java.lang.AssertionError if actual has not the value as expected.
+   * @throws java.lang.AssertionError if actual does not have the expected value.
    */
   public SELF hasValue(double expectedValue) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
-    if (expectedValue != actual.getAsDouble())
+    if (Double.compare(expectedValue, actual.getAsDouble()) != 0)
       throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsDouble(), expectedValue);
     return myself;
   }
