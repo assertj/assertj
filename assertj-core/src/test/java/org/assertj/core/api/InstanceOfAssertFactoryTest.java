@@ -15,14 +15,10 @@ package org.assertj.core.api;
 import static java.lang.Class.forName;
 import static java.lang.reflect.Modifier.isPrivate;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.BDDAssertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.mockito.BDDMockito.willReturn;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.List;
 
@@ -67,20 +63,12 @@ class InstanceOfAssertFactoryTest {
     }
 
     @Test
-    void constructor_should_fail_if_assert_factory_is_null() {
+    void constructor_should_fail_if_delegate_is_null() {
       // WHEN
       Throwable thrown = catchThrowable(() -> new InstanceOfAssertFactory<>(Object.class, null));
       // THEN
       then(thrown).isInstanceOf(NullPointerException.class)
                   .hasMessage(shouldNotBeNull("delegate").create());
-    }
-
-    @Test
-    void getType_should_return_given_class() {
-      // WHEN
-      Type result = underTest.getType();
-      // THEN
-      then(result).isEqualTo(Integer.class);
     }
 
     @Test
@@ -165,19 +153,6 @@ class InstanceOfAssertFactoryTest {
                   .hasMessage(shouldNotBeNull("delegate").create());
     }
 
-    @Test
-    void getType_should_return_synthetic_ParameterizedType() {
-      // WHEN
-      Type result = underTest.getType();
-      // THEN
-      then(result).asInstanceOf(type(ParameterizedType.class))
-                  .returns(new Class[] { Integer.class }, from(ParameterizedType::getActualTypeArguments))
-                  .returns(List.class, from(ParameterizedType::getRawType))
-                  .returns(null, from(ParameterizedType::getOwnerType))
-                  .returns("java.util.List<java.lang.Integer>", from(ParameterizedType::getTypeName))
-                  .returns("java.util.List<java.lang.Integer>", from(ParameterizedType::toString));
-    }
-
     @SuppressWarnings("rawtypes")
     @Test
     void getRawClass_should_return_given_raw_class() {
@@ -214,7 +189,7 @@ class InstanceOfAssertFactoryTest {
       // WHEN
       String result = underTest.toString();
       // THEN
-      then(result).isEqualTo("InstanceOfAssertFactory for %s", underTest.getType().getTypeName());
+      then(result).isEqualTo("InstanceOfAssertFactory for %s<%s>", List.class.getTypeName(), Integer.class.getTypeName());
     }
 
   }
@@ -227,7 +202,7 @@ class InstanceOfAssertFactoryTest {
     SyntheticParameterizedTypeTest() throws ClassNotFoundException {}
 
     @Test
-    void class_should_be_private() {
+    void should_be_private() {
       // WHEN
       int modifiers = underTest.getModifiers();
       // THEN

@@ -65,11 +65,6 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
     this.delegate = requireNonNull(delegate, shouldNotBeNull("delegate")::create);
   }
 
-  // FIXME delete
-  Type getType() {
-    return type;
-  }
-
   Class<T> getRawClass() {
     return rawClass;
   }
