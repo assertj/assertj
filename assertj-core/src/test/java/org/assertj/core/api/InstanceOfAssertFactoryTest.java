@@ -14,14 +14,22 @@ package org.assertj.core.api;
 
 import static java.lang.Class.forName;
 import static java.lang.reflect.Modifier.isPrivate;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.mockito.AdditionalAnswers.delegatesTo;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.BDDMockito.willReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.Collections;
 import java.util.List;
 
+import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -82,10 +90,10 @@ class InstanceOfAssertFactoryTest {
     @Test
     void createAssert_should_return_assert_factory_result_if_actual_is_an_instance_of_given_type() {
       // GIVEN
-      int value = 0;
-      willReturn(abstractAssert).given(delegate).createAssert(value);
+      int actual = 0;
+      willReturn(abstractAssert).given(delegate).createAssert(actual);
       // WHEN
-      Assert<?, ?> result = underTest.createAssert(value);
+      Assert<?, ?> result = underTest.createAssert(actual);
       // THEN
       then(result).isSameAs(abstractAssert);
     }
@@ -93,12 +101,37 @@ class InstanceOfAssertFactoryTest {
     @Test
     void createAssert_should_throw_assertion_error_if_actual_is_not_an_instance_of_given_type() {
       // GIVEN
-      String value = "string";
+      String actual = "string";
       // WHEN
-      Throwable throwable = catchThrowable(() -> underTest.createAssert(value));
+      Throwable throwable = catchThrowable(() -> underTest.createAssert(actual));
       // THEN
       then(throwable).isInstanceOf(ClassCastException.class)
-                     .hasMessage("Cannot cast %s to %s", value.getClass().getName(), underTest.getRawClass().getName());
+                     .hasMessage("Cannot cast %s to %s", actual.getClass().getName(), underTest.getRawClass().getName());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider_should_return_assert_factory_result_if_provided_value_is_an_instance_of_given_type() {
+      // GIVEN
+      int actual = 0;
+      ValueProvider<Integer> valueProvider = mockThatDelegatesTo(type -> actual);
+      willReturn(abstractAssert).given(delegate).createAssert(actual);
+      // WHEN
+      Assert<?, ?> result = underTest.createAssert(valueProvider);
+      // THEN
+      then(result).isSameAs(abstractAssert);
+      verify(valueProvider).apply(Integer.class);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider_should_throw_assertion_error_if_provided_value_is_not_an_instance_of_given_type() {
+      // GIVEN
+      String actual = "string";
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Throwable throwable = catchThrowable(() -> underTest.createAssert(valueProvider));
+      // THEN
+      then(throwable).isInstanceOf(ClassCastException.class)
+                     .hasMessage("Cannot cast %s to %s", actual.getClass().getName(), underTest.getRawClass().getName());
     }
 
     @Test
@@ -165,10 +198,10 @@ class InstanceOfAssertFactoryTest {
     @Test
     void createAssert_should_return_assert_factory_result_if_actual_is_an_instance_of_given_type() {
       // GIVEN
-      List<Integer> list = Collections.emptyList();
-      willReturn(abstractAssert).given(delegate).createAssert(list);
+      List<Integer> actual = Collections.emptyList();
+      willReturn(abstractAssert).given(delegate).createAssert(actual);
       // WHEN
-      Assert<?, ?> result = underTest.createAssert(list);
+      Assert<?, ?> result = underTest.createAssert(actual);
       // THEN
       then(result).isSameAs(abstractAssert);
     }
@@ -176,12 +209,37 @@ class InstanceOfAssertFactoryTest {
     @Test
     void createAssert_should_throw_assertion_error_if_actual_is_not_an_instance_of_given_type() {
       // GIVEN
-      String value = "string";
+      String actual = "string";
       // WHEN
-      Throwable throwable = catchThrowable(() -> underTest.createAssert(value));
+      Throwable throwable = catchThrowable(() -> underTest.createAssert(actual));
       // THEN
       then(throwable).isInstanceOf(ClassCastException.class)
-                     .hasMessage("Cannot cast %s to %s", value.getClass().getName(), underTest.getRawClass().getName());
+                     .hasMessage("Cannot cast %s to %s", actual.getClass().getName(), underTest.getRawClass().getName());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider_should_return_assert_factory_result_if_provided_value_is_an_instance_of_given_type() {
+      // GIVEN
+      List<Integer> actual = Collections.emptyList();
+      ValueProvider<List<Integer>> valueProvider = mockThatDelegatesTo(type -> actual);
+      willReturn(abstractAssert).given(delegate).createAssert(actual);
+      // WHEN
+      Assert<?, ?> result = underTest.createAssert(valueProvider);
+      // THEN
+      then(result).isSameAs(abstractAssert);
+      verify(valueProvider).apply(parameterizedType(List.class, Integer.class));
+    }
+
+    @Test
+    void createAssert_with_ValueProvider_should_throw_assertion_error_if_provided_value_is_not_an_instance_of_given_type() {
+      // GIVEN
+      String actual = "string";
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Throwable throwable = catchThrowable(() -> underTest.createAssert(valueProvider));
+      // THEN
+      then(throwable).isInstanceOf(ClassCastException.class)
+                     .hasMessage("Cannot cast %s to %s", actual.getClass().getName(), underTest.getRawClass().getName());
     }
 
     @Test
@@ -216,6 +274,24 @@ class InstanceOfAssertFactoryTest {
                     .verify();
     }
 
+  }
+
+  @SuppressWarnings("unchecked")
+  @SafeVarargs
+  private static <T> T mockThatDelegatesTo(T delegate, T... reified) {
+    if (reified.length > 0) {
+      throw new IllegalArgumentException("NioJava will detect class automagically.");
+    }
+    return mock((Class<T>) reified.getClass().getComponentType(), delegatesTo(delegate));
+  }
+
+  private static ParameterizedType parameterizedType(Class<?> rawClass, Class<?>... typeArguments) {
+    return argThat(argument -> {
+      assertThat(argument).returns(typeArguments, from(ParameterizedType::getActualTypeArguments))
+                          .returns(rawClass, from(ParameterizedType::getRawType))
+                          .returns(null, from(ParameterizedType::getOwnerType));
+      return true;
+    });
   }
 
 }
