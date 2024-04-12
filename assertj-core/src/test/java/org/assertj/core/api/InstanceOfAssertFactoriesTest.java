@@ -132,6 +132,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.AdditionalAnswers.delegatesTo;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
@@ -141,6 +142,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
@@ -205,11 +207,19 @@ import org.assertj.core.util.Sets;
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.core.ResolvableType;
+import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.core.convert.support.DefaultConversionService;
 
 /**
  * @author Stefano Cordio
  */
 class InstanceOfAssertFactoriesTest {
+
+  private static final DefaultConversionService SPRING_CONVERSION_SERVICE = new DefaultConversionService();
 
   @Nested
   class Predicate_Factory {
@@ -1200,6 +1210,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Nested
+  @TestInstance(PER_CLASS)
   class Double_Factory {
 
     private final Object actual = 0.0;
@@ -1220,15 +1231,21 @@ class InstanceOfAssertFactoriesTest {
       result.isZero();
     }
 
-    @Test
-    void createAssert_with_ValueProvider() {
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
       // GIVEN
-      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
       // WHEN
       AbstractDoubleAssert<?> result = DOUBLE.createAssert(valueProvider);
       // THEN
       result.isZero();
       verify(valueProvider).apply(Double.class);
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert("0.0", type));
     }
 
   }
@@ -1540,6 +1557,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Nested
+  @TestInstance(PER_CLASS)
   class Integer_Factory {
 
     private final Object actual = 0;
@@ -1560,15 +1578,21 @@ class InstanceOfAssertFactoriesTest {
       result.isZero();
     }
 
-    @Test
-    void createAssert_with_ValueProvider() {
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
       // GIVEN
-      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
       // WHEN
       AbstractIntegerAssert<?> result = INTEGER.createAssert(valueProvider);
       // THEN
       result.isZero();
       verify(valueProvider).apply(Integer.class);
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert("0", type));
     }
 
   }
@@ -1778,6 +1802,7 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Nested
+  @TestInstance(PER_CLASS)
   class Array_Factory {
 
     private final Object actual = new Object[] { 0, "" };
@@ -1798,10 +1823,11 @@ class InstanceOfAssertFactoriesTest {
       result.containsExactly(0, "");
     }
 
-    @Test
-    void createAssert_with_ValueProvider() {
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
       // GIVEN
-      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
       // WHEN
       ObjectArrayAssert<Object> result = ARRAY.createAssert(valueProvider);
       // THEN
@@ -1809,9 +1835,15 @@ class InstanceOfAssertFactoriesTest {
       verify(valueProvider).apply(Object[].class);
     }
 
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(Lists.list(0, ""), type));
+    }
+
   }
 
   @Nested
+  @TestInstance(PER_CLASS)
   class Array_Typed_Factory {
 
     private final Object actual = new Integer[] { 0, 1 };
@@ -1832,15 +1864,21 @@ class InstanceOfAssertFactoriesTest {
       result.containsExactly(0, 1);
     }
 
-    @Test
-    void createAssert_with_ValueProvider() {
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
       // GIVEN
-      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
       // WHEN
       ObjectArrayAssert<Integer> result = array(Integer[].class).createAssert(valueProvider);
       // THEN
       result.containsExactly(0, 1);
       verify(valueProvider).apply(Integer[].class);
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert("0,1", type));
     }
 
   }
@@ -3551,9 +3589,10 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Nested
+  @TestInstance(PER_CLASS)
   class Set_Factory {
 
-    private final Object actual = Sets.set("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    private final Object actual = Sets.set(123, 456, 789);
 
     @Test
     void getRawClass() {
@@ -3568,26 +3607,33 @@ class InstanceOfAssertFactoriesTest {
       // WHEN
       AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = SET.createAssert(actual);
       // THEN
-      result.contains("Bart", "Lisa");
+      result.contains(456, 789);
     }
 
-    @Test
-    void createAssert_with_ValueProvider() {
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
       // GIVEN
-      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
       // WHEN
       AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = SET.createAssert(valueProvider);
       // THEN
-      result.contains("Bart", "Lisa");
+      result.contains(456, 789);
       verify(valueProvider).apply(parameterizedType(Set.class, Object.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new int[] { 123, 456, 789 }, type));
     }
 
   }
 
   @Nested
+  @TestInstance(PER_CLASS)
   class Set_Typed_Factory {
 
-    private final Object actual = Sets.set("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    private final Object actual = Sets.set(123, 456, 789);
 
     @Test
     void getRawClass() {
@@ -3600,28 +3646,35 @@ class InstanceOfAssertFactoriesTest {
     @Test
     void createAssert() {
       // WHEN
-      AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = set(String.class).createAssert(actual);
+      AbstractCollectionAssert<?, Collection<? extends Integer>, Integer, ObjectAssert<Integer>> result = set(Integer.class).createAssert(actual);
       // THEN
-      result.contains("Bart", "Lisa");
+      result.contains(456, 789);
     }
 
-    @Test
-    void createAssert_with_ValueProvider() {
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
       // GIVEN
-      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
       // WHEN
-      AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = set(String.class).createAssert(valueProvider);
+      AbstractCollectionAssert<?, Collection<? extends Integer>, Integer, ObjectAssert<Integer>> result = set(Integer.class).createAssert(valueProvider);
       // THEN
-      result.contains("Bart", "Lisa");
-      verify(valueProvider).apply(parameterizedType(Set.class, String.class));
+      result.contains(456, 789);
+      verify(valueProvider).apply(parameterizedType(Set.class, Integer.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new String[] { "123", "456", "789" }, type));
     }
 
   }
 
   @Nested
+  @TestInstance(PER_CLASS)
   class List_Factory {
 
-    private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    private final Object actual = Lists.list(123, 456, 789);
 
     @Test
     void getRawClass() {
@@ -3636,26 +3689,33 @@ class InstanceOfAssertFactoriesTest {
       // WHEN
       ListAssert<Object> result = LIST.createAssert(actual);
       // THEN
-      result.contains("Bart", "Lisa");
+      result.contains(456, 789);
     }
 
-    @Test
-    void createAssert_with_ValueProvider() {
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
       // GIVEN
-      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
       // WHEN
       ListAssert<Object> result = LIST.createAssert(valueProvider);
       // THEN
-      result.contains("Bart", "Lisa");
+      result.contains(456, 789);
       verify(valueProvider).apply(parameterizedType(List.class, Object.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new int[] { 123, 456, 789 }, type));
     }
 
   }
 
   @Nested
+  @TestInstance(PER_CLASS)
   class List_Typed_Factory {
 
-    private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+    private final Object actual = Lists.list(123, 456, 789);
 
     @Test
     void getRawClass() {
@@ -3668,20 +3728,26 @@ class InstanceOfAssertFactoriesTest {
     @Test
     void createAssert() {
       // WHEN
-      ListAssert<String> result = list(String.class).createAssert(actual);
+      ListAssert<Integer> result = list(Integer.class).createAssert(actual);
       // THEN
-      result.contains("Bart", "Lisa");
+      result.contains(456, 789);
     }
 
-    @Test
-    void createAssert_with_ValueProvider() {
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
       // GIVEN
-      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
       // WHEN
-      ListAssert<String> result = list(String.class).createAssert(valueProvider);
+      ListAssert<Integer> result = list(Integer.class).createAssert(valueProvider);
       // THEN
-      result.contains("Bart", "Lisa");
-      verify(valueProvider).apply(parameterizedType(List.class, String.class));
+      result.contains(456, 789);
+      verify(valueProvider).apply(parameterizedType(List.class, Integer.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new String[] { "123", "456", "789" }, type));
     }
 
   }
@@ -3993,14 +4059,15 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Nested
+  @TestInstance(PER_CLASS)
   class Map_Typed_Factory {
 
-    private final Object actual = mapOf(entry("key", "value"));
+    private final Object actual = mapOf(entry(123, 456));
 
     @Test
     void getRawClass() {
       // WHEN
-      Class<?> result = map(String.class, String.class).getRawClass();
+      Class<?> result = map(Integer.class, Integer.class).getRawClass();
       // THEN
       then(result).isEqualTo(Map.class);
     }
@@ -4008,20 +4075,26 @@ class InstanceOfAssertFactoriesTest {
     @Test
     void createAssert() {
       // WHEN
-      MapAssert<String, String> result = map(String.class, String.class).createAssert(actual);
+      MapAssert<Integer, Integer> result = map(Integer.class, Integer.class).createAssert(actual);
       // THEN
-      result.containsExactly(entry("key", "value"));
+      result.containsExactly(entry(123, 456));
     }
 
-    @Test
-    void createAssert_with_ValueProvider() {
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
       // GIVEN
-      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
       // WHEN
-      MapAssert<String, String> result = map(String.class, String.class).createAssert(valueProvider);
+      MapAssert<Integer, Integer> result = map(Integer.class, Integer.class).createAssert(valueProvider);
       // THEN
-      result.containsExactly(entry("key", "value"));
-      verify(valueProvider).apply(parameterizedType(Map.class, String.class, String.class));
+      result.containsExactly(entry(123, 456));
+      verify(valueProvider).apply(parameterizedType(Map.class, Integer.class, Integer.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(mapOf(entry("123", "456")), type));
     }
 
   }
@@ -4076,6 +4149,11 @@ class InstanceOfAssertFactoriesTest {
                           .returns(null, from(ParameterizedType::getOwnerType));
       return true;
     });
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T> T convert(Object instance, Type type) {
+    return (T) SPRING_CONVERSION_SERVICE.convert(instance, new TypeDescriptor(ResolvableType.forType(type), null, null));
   }
 
 }
