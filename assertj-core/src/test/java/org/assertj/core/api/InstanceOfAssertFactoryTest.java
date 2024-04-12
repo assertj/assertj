@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import static java.lang.Class.forName;
-import static java.lang.reflect.Modifier.isPrivate;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.from;
@@ -261,14 +260,13 @@ class InstanceOfAssertFactoryTest {
 
     @Test
     void should_be_private() {
-      // WHEN
-      int modifiers = underTest.getModifiers();
-      // THEN
-      then(isPrivate(modifiers)).isTrue();
+      // WHEN/THEN
+      assertThat(underTest).isPrivate();
     }
 
     @Test
     void should_honor_equals_contract() {
+      // WHEN/THEN
       EqualsVerifier.forClass(underTest)
                     .withNonnullFields("rawClass", "typeArguments")
                     .verify();
