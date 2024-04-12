@@ -828,14 +828,23 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  void should_return_failure_after_fail_without_message() {
+    // WHEN
+    softly.fail();
+    // THEN
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .message().isEmpty();
+  }
+
+  @Test
   void should_return_failure_after_fail() {
     // GIVEN
     String failureMessage = "Should not reach here";
     // WHEN
     softly.fail(failureMessage);
     // THEN
-    assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith(failureMessage);
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith(failureMessage);
   }
 
   @Test
@@ -845,22 +854,33 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.fail(failureMessage, "here", "here");
     // THEN
-    assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith("Should not reach here or here");
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith("Should not reach here or here");
   }
 
   @Test
-  void should_return_failure_after_fail_with_throwable() {
+  void should_return_failure_after_fail_with_cause() {
+    // GIVEN
+    IllegalStateException realCause = new IllegalStateException();
+    // WHEN
+    softly.fail(realCause);
+    // THEN
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessage("")
+                                  .cause().isEqualTo(realCause);
+  }
+
+  @Test
+  void should_return_failure_after_fail_with_message_and_cause() {
     // GIVEN
     String failureMessage = "Should not reach here";
     IllegalStateException realCause = new IllegalStateException();
     // WHEN
     softly.fail(failureMessage, realCause);
     // THEN
-    List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(1);
-    assertThat(errorsCollected.get(0)).hasMessageStartingWith(failureMessage);
-    assertThat(errorsCollected.get(0).getCause()).isEqualTo(realCause);
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith(failureMessage)
+                                  .cause().isEqualTo(realCause);
   }
 
   @Test

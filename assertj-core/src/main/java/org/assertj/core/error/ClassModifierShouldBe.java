@@ -84,6 +84,16 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
   }
 
   /**
+   * Creates a new instance for a positive check of the {@code private} modifier.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBePrivate(Class<?> actual) {
+    return new ClassModifierShouldBe(actual, true, Modifier.toString(Modifier.PRIVATE));
+  }
+
+  /**
    * Creates a new instance for a positive check of the {@code static} modifier.
    *
    * @param actual the actual value in the failed assertion.

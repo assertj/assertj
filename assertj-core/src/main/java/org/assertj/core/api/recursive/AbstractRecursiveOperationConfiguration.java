@@ -36,6 +36,7 @@ public abstract class AbstractRecursiveOperationConfiguration {
   private final Set<String> ignoredFields = new LinkedHashSet<>();
   private final List<Pattern> ignoredFieldsRegexes = new ArrayList<>();
   private final Set<Class<?>> ignoredTypes = new LinkedHashSet<>();
+  private final List<Pattern> ignoredTypesRegexes = new ArrayList<>();
 
   protected AbstractRecursiveOperationConfiguration(AbstractBuilder<?> builder) {
     ignoreFields(builder.ignoredFields);
@@ -76,9 +77,7 @@ public abstract class AbstractRecursiveOperationConfiguration {
    * @param regexes regexes used to ignore fields in the comparison.
    */
   public void ignoreFieldsMatchingRegexes(String... regexes) {
-    List<Pattern> patterns = Stream.of(regexes)
-                                   .map(Pattern::compile)
-                                   .collect(toList());
+    List<Pattern> patterns = toPatterns(regexes);
     ignoredFieldsRegexes.addAll(patterns);
   }
 
@@ -92,35 +91,37 @@ public abstract class AbstractRecursiveOperationConfiguration {
    * <p>
    * If some object under test fields are null it is not possible to evaluate their types and thus these fields are not ignored.
    * <p>
-   * Example:
-   * <pre><code class='java'> public class Person {
-   *   String name;
-   *   String occupation;
-   *   Address address = new Address();
-   * }
-   *
-   * public static class Address {
-   *   int number;
-   *   String street;
-   * }
-   *
-   * Person sherlock = new Person("Sherlock", "Detective");
-   * sherlock.address.street = "Baker Street";
-   * sherlock.address.number = 221;
-   *
-   * // assertion succeeds Person has only String fields except for address
-   * assertThat(sherlock).usingRecursiveAssertion()
-   *                     .ignoringFieldsOfTypes(Address.class)
-   *                     .allFieldsSatisfy(field -> field instanceof String);
-   *
-   * // assertion fails because of address and address.number
-   * assertThat(sherlock).usingRecursiveComparison()
-   *                     .allFieldsSatisfy(field -> field instanceof String);</code></pre>
+   * Example: see {@link RecursiveComparisonAssert#ignoringFieldsOfTypes(Class[])}.
    *
    * @param types the types of the object under test to ignore in the comparison.
    */
   public void ignoreFieldsOfTypes(Class<?>... types) {
     stream(types).map(AbstractRecursiveOperationConfiguration::asWrapperIfPrimitiveType).forEach(ignoredTypes::add);
+  }
+
+  /**
+   * Makes the recursive comparison to ignore the fields of the object under test having types matching one of the given regexes.
+   * The fields are ignored if their types <b>exactly match one of the regexes</b>, if a field is a subtype of a matched type it is not ignored.
+   * <p>
+   * One use case of this method is to ignore types that can't be introspected.
+   * <p>
+   * If {@code strictTypeChecking} mode is enabled and a field of the object under test is null, the recursive
+   * comparison evaluates the corresponding expected field's type (if not null), if it is disabled then the field is evaluated as
+   * usual (i.e. it is not ignored).
+   * <p>
+   * <b>Warning</b>: primitive types are not directly supported because under the hood they are converted to their
+   * corresponding wrapping types, for example {@code int} to {@code java.lang.Integer}. The preferred way to ignore
+   * primitive types is to use {@link #ignoreFieldsOfTypes(Class[])}.
+   * Another way is to ignore the wrapping type, for example ignoring {@code java.lang.Integer} ignores both
+   * {@code java.lang.Integer} and {@code int} fields.
+   * <p>
+   * Example: see {@link RecursiveComparisonAssert#ignoringFieldsOfTypesMatchingRegexes(String...)}.
+   *
+   * @param regexes regexes specifying the types to ignore.
+   */
+  public void ignoreFieldsOfTypesMatchingRegexes(String... regexes) {
+    List<Pattern> patterns = toPatterns(regexes);
+    ignoredTypesRegexes.addAll(patterns);
   }
 
   protected static Class<?> asWrapperIfPrimitiveType(Class<?> type) {
@@ -143,6 +144,15 @@ public abstract class AbstractRecursiveOperationConfiguration {
    */
   public Set<Class<?>> getIgnoredTypes() {
     return ignoredTypes;
+  }
+
+  /**
+   * Returns the regexes that will be used to ignore fields with types matching these regexes in the recursive comparison.
+   *
+   * @return the regexes that will be used to ignore fields with types matching these regexes in the recursive comparison.
+   */
+  public List<Pattern> getIgnoredTypesRegexes() {
+    return ignoredTypesRegexes;
   }
 
   protected void describeIgnoredFields(StringBuilder description) {
@@ -242,4 +252,11 @@ public abstract class AbstractRecursiveOperationConfiguration {
       return thisBuilder;
     }
   }
+
+  private static List<Pattern> toPatterns(String[] regexes) {
+    return Stream.of(regexes)
+                 .map(Pattern::compile)
+                 .collect(toList());
+  }
+
 }

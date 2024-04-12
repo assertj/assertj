@@ -137,10 +137,6 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
 
     Person person4 = new Person("John");
     person4.home.address.number = 1;
-    person4.phone = null;
-    person4.age = null;
-    person4.id = null;
-    person4.weight = null;
 
     return Stream.of(arguments(person1, person2, "same data and same type except for actual empty optional fields"),
                      arguments(person1, person3, "same data, same type, both actual and expected have empty optional fields"),
@@ -534,15 +530,13 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     final List<NumberHolder> holdersA = list(new NumberHolder(intValue), new NumberHolder(doubleValueA));
     final List<NumberHolder> holdersB = list(new NumberHolder(intValue), new NumberHolder(doubleValueB));
     WithNumberHolderCollection actual = new WithNumberHolderCollection(newHashSet(holdersA));
-    final RecursiveComparisonConfiguration configurationIgnoringNumberHolder = RecursiveComparisonConfiguration.builder()
-                                                                                                               .withIgnoredFieldsOfTypes(NumberHolder.class)
-                                                                                                               .build();
+    recursiveComparisonConfiguration.ignoreFieldsOfTypes(NumberHolder.class);
     // WHEN/THEN
-    then(actual).usingRecursiveComparison(configurationIgnoringNumberHolder)
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isEqualTo(new WithNumberHolderCollection(newHashSet(holdersB)));
     // bonus check also ordered collection
     actual = new WithNumberHolderCollection(new ArrayList<>(holdersA));
-    then(actual).usingRecursiveComparison(configurationIgnoringNumberHolder)
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isEqualTo(new WithNumberHolderCollection(new ArrayList<>(holdersB)));
   }
 
@@ -569,11 +563,9 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
     final Double doubleValueB = 56.78;
     final NumberHolder[] holdersA = array(new NumberHolder(intValue), new NumberHolder(doubleValueA));
     final NumberHolder[] holdersB = array(new NumberHolder(intValue), new NumberHolder(doubleValueB));
-    final RecursiveComparisonConfiguration configurationIgnoringNumberHolder = RecursiveComparisonConfiguration.builder()
-                                                                                                               .withIgnoredFieldsOfTypes(NumberHolder.class)
-                                                                                                               .build();
+    recursiveComparisonConfiguration.ignoreFieldsOfTypes(NumberHolder.class);
     // WHEN/THEN
-    then(new WithNumberHolderMap(holdersA)).usingRecursiveComparison(configurationIgnoringNumberHolder)
+    then(new WithNumberHolderMap(holdersA)).usingRecursiveComparison(recursiveComparisonConfiguration)
                                            .isEqualTo(new WithNumberHolderMap(holdersB));
   }
 

@@ -53,7 +53,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue
@@ -64,12 +64,26 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   }
 
   /**
+   * Fails with an empty message to be used in code like:
+   * <pre><code class='java'> doSomething(optional.orElseGet(() -> softly.fail()));</code></pre>
+   *
+   * @param <T> dummy return value type
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail()));}.
+   * @since 3.26.0
+   */
+  @CanIgnoreReturnValue
+  public <T> T fail() {
+    // pass an empty string because passing null results in a "null" error message.
+    return fail("");
+  }
+
+  /**
    * Fails with the given message built like {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue
@@ -83,7 +97,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param realCause cause of the error.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue
@@ -92,6 +106,22 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
     error.initCause(realCause);
     collectAssertionError(error);
     return null;
+  }
+
+  /**
+   * Fails with the {@link Throwable} that caused the failure and an empty message.
+   * <p>
+   * Example:
+   * <pre><code class='java'> doSomething(optional.orElseGet(() -> softly.fail(cause)));</code></pre>
+   *
+   * @param <T> dummy return value type
+   * @param realCause cause of the error.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail(cause)));}.
+   * @since 3.26.0
+   */
+  @CanIgnoreReturnValue
+  public <T> T fail(Throwable realCause) {
+    return fail("", realCause);
   }
 
   /**
