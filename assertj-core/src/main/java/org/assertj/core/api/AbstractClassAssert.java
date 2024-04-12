@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
@@ -508,7 +509,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} is package-private (has no modifier).
+   * Verifies that the actual {@code Class} is package-private (i.e., has no explicit access level modifier).
    * <p>
    * Example:
    * <pre><code class='java'> class MyClass { }
@@ -537,6 +538,37 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
       throw assertionError(shouldBePackagePrivate(actual));
     }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is private (has {@code private} modifier).
+   * <p>
+   * Example:
+   * <pre><code class='java'> class EnclosingClass {
+   *   private static class PrivateClass { }
+   * }
+   *
+   * // these assertions succeed:
+   * assertThat(PrivateClass.class).isPrivate();
+   * assertThat(Class.forName(EnclosingClass.class.getName() + "$PrivateClass")).isPrivate();
+   *
+   * // This assertion fails:
+   * assertThat(String.class).isPrivate();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not private.
+   *
+   * @since 3.26.0
+   */
+  public SELF isPrivate() {
+    isNotNull();
+    assertIsPrivate();
+    return myself;
+  }
+
+  private void assertIsPrivate() {
+    if (!Modifier.isPrivate(actual.getModifiers())) throw assertionError(shouldBePrivate(actual));
   }
 
   /**
