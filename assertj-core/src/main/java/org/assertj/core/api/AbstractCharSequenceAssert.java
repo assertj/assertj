@@ -28,6 +28,8 @@ import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainO
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
+import static org.assertj.core.error.ShouldNotEndWithWhitespace.shouldNotEndWithWhitespace;
+import static org.assertj.core.error.ShouldNotStartWithWhitespace.shouldNotStartWithWhitespace;
 import static org.assertj.core.internal.Strings.doCommonCheckForCharSequence;
 import static org.assertj.core.internal.Strings.removeAllWhitespaces;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -2151,6 +2153,73 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     isNotNull();
     if (!Pattern.matches("\\p{Graph}+", actual)) throwAssertionError(shouldBeVisible(actual));
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is visible by checking it against the {@code \p{Graph}+} regex pattern
+   * POSIX character classes (US-ASCII only).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;2&quot;).isVisible();
+   * assertThat(&quot;a&quot;).isVisible();
+   * assertThat(&quot;.&quot;).isVisible();
+   *
+   * // assertions will fail
+   * assertThat(&quot;\t&quot;).isVisible();
+   * assertThat(&quot;\n&quot;).isVisible();
+   * assertThat(&quot;&quot;).isVisible();
+   * assertThat(&quot; &quot;).isVisible();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not visible.
+   * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
+   */
+  public SELF doesNotStartWithWhitespace() {
+    assertDoesNotStartWithWhitespace(actual);
+    return myself;
+  }
+
+  private void assertDoesNotStartWithWhitespace(CharSequence actual) {
+    char first = actual.charAt(0);
+
+    if (first == ' ') {
+      throwAssertionError(shouldNotStartWithWhitespace(actual));
+    }
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} is visible by checking it against the {@code \p{Graph}+} regex pattern
+   * POSIX character classes (US-ASCII only).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(&quot;2&quot;).isVisible();
+   * assertThat(&quot;a&quot;).isVisible();
+   * assertThat(&quot;.&quot;).isVisible();
+   *
+   * // assertions will fail
+   * assertThat(&quot;\t&quot;).isVisible();
+   * assertThat(&quot;\n&quot;).isVisible();
+   * assertThat(&quot;&quot;).isVisible();
+   * assertThat(&quot; &quot;).isVisible();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} is not visible.
+   * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
+   */
+  public SELF doesNotEndWithWhitespace() {
+    assertDoesNotEndWithWhitespace(actual);
+    return myself;
+  }
+
+  private void assertDoesNotEndWithWhitespace(CharSequence actual) {
+    int length = actual.length();
+    char last = actual.charAt(length - 1);
+
+    if (last == ' ') {
+      throwAssertionError(shouldNotEndWithWhitespace(actual));
+    }
   }
 
   private static boolean isBlank(CharSequence actual) {
