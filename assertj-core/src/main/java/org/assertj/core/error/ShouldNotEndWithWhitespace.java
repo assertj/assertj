@@ -14,7 +14,7 @@ package org.assertj.core.error;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link CharSequence}
- * does not contain whitespace characters.
+ * does not end with whitespace characters.
  */
 public class ShouldNotEndWithWhitespace extends BasicErrorMessageFactory {
 

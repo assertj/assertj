@@ -12,11 +12,11 @@
  */
 package org.assertj.core.api.charsequence;
 
-import org.assertj.core.api.BDDAssertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotEndWithWhitespace.shouldNotEndWithWhitespace;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
@@ -28,6 +28,7 @@ public class CharSequenceAssert_doesNotEndWithWhitespace_Test {
   @ParameterizedTest
   @ValueSource(strings =  {"abc", "  ?", "  ab", "\t\t\""})
   protected void should_pass_if_actual_does_not_end_with_whitespace(String actual) {
+    //When + Then
     assertThat(actual).doesNotEndWithWhitespace();
   }
 
@@ -37,7 +38,7 @@ public class CharSequenceAssert_doesNotEndWithWhitespace_Test {
     //When
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).doesNotEndWithWhitespace());
     //Then
-    BDDAssertions.then(assertionError).hasMessage(shouldNotEndWithWhitespace(actual).create());
+    then(assertionError).hasMessage(shouldNotEndWithWhitespace(actual).create());
   }
 
 }

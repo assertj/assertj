@@ -65,7 +65,6 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas Francois
  * @author Daniel Weber
- * @author Lim Wonjae
  */
 public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends CharSequence>
     extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {
@@ -2164,18 +2163,17 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * // assertions will pass
    * assertThat(&quot;abc&quot;).doesNotStartWithWhitespace();
    * assertThat(&quot;abc  &quot;).doesNotStartWithWhitespace();
-   * assertThat(&quot;\t\t abc&quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;abc\t\t&quot;).doesNotStartWithWhitespace();
    *
    * // assertions will fail
    * assertThat(&quot;  abc&quot;).doesNotStartWithWhitespace();
    * assertThat(&quot;  abc  &quot;).doesNotStartWithWhitespace();
-   * assertThat(&quot;abc \r\n&quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;\r\nabc&quot;).doesNotStartWithWhitespace();
    * </code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} starts with whitespace.
    * @see  Character#isWhitespace(char) to know what are the whitespaces.
-   *
    * @since 3.26.0
    */
   public SELF doesNotStartWithWhitespace() {
@@ -2188,9 +2186,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     isNotEmpty();
     char first = actual.charAt(0);
 
-    if (Character.isWhitespace(first)) {
-      throwAssertionError(shouldNotStartWithWhitespace(actual));
-    }
+    if (Character.isWhitespace(first)) throwAssertionError(shouldNotStartWithWhitespace(actual));
   }
 
   /**
@@ -2199,20 +2195,19 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Example:
    * <pre><code class='java'>
    * // assertions will pass
-   * assertThat(&quot;abc&quot;).doesNotStartWithWhitespace();
-   * assertThat(&quot;  abc&quot;).doesNotStartWithWhitespace();
-   * assertThat(&quot;abc \t\t&quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;abc&quot;).doesNotEndWithWhitespace();
+   * assertThat(&quot;  abc&quot;).doesNotEndWithWhitespace();
+   * assertThat(&quot;\t\tabc&quot;).doesNotEndWithWhitespace();
    *
    * // assertions will fail
-   * assertThat(&quot;abc  &quot;).doesNotStartWithWhitespace();
-   * assertThat(&quot;  abc  &quot;).doesNotStartWithWhitespace();
-   * assertThat(&quot;\r\n abc&quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;abc  &quot;).doesNotEndWithWhitespace();
+   * assertThat(&quot;  abc  &quot;).doesNotEndWithWhitespace();
+   * assertThat(&quot;abc\r\n&quot;).doesNotEndWithWhitespace();
    * </code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} ends with whitespace.
    * @see  Character#isWhitespace(char) to know what are the whitespaces.
-   *
    * @since 3.26.0
    */
   public SELF doesNotEndWithWhitespace() {
