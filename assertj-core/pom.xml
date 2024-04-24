@@ -27,7 +27,7 @@
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <byte-buddy.version>1.14.13</byte-buddy.version>
+    <byte-buddy.version>1.14.14</byte-buddy.version>
     <hamcrest.version>2.2</hamcrest.version>
     <!-- Plugin versions -->
     <cdg.pitest.version>1.1.4</cdg.pitest.version>
@@ -141,7 +141,7 @@
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>6.4.4.Final</version>
+      <version>6.4.5.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
