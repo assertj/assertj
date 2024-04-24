@@ -65,6 +65,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas Francois
  * @author Daniel Weber
+ * @author Lim Wonjae
  */
 public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends CharSequence>
     extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {
@@ -2156,24 +2157,26 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is visible by checking it against the {@code \p{Graph}+} regex pattern
-   * POSIX character classes (US-ASCII only).
+   * Verifies that the actual {@code CharSequence} does not start with whitespace.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
-   * assertThat(&quot;2&quot;).isVisible();
-   * assertThat(&quot;a&quot;).isVisible();
-   * assertThat(&quot;.&quot;).isVisible();
+   * <pre><code class='java'>
+   * // assertions will pass
+   * assertThat(&quot;abc&quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;abc  &quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;\t\t abc&quot;).doesNotStartWithWhitespace();
    *
    * // assertions will fail
-   * assertThat(&quot;\t&quot;).isVisible();
-   * assertThat(&quot;\n&quot;).isVisible();
-   * assertThat(&quot;&quot;).isVisible();
-   * assertThat(&quot; &quot;).isVisible();</code></pre>
+   * assertThat(&quot;  abc&quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;  abc  &quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;abc \r\n&quot;).doesNotStartWithWhitespace();
+   * </code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} is not visible.
-   * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
+   * @throws AssertionError if the actual {@code CharSequence} starts with whitespace.
+   * @see  Character#isWhitespace(char) to know what are the whitespaces.
+   *
+   * @since 3.26.0
    */
   public SELF doesNotStartWithWhitespace() {
     assertDoesNotStartWithWhitespace(actual);
@@ -2181,32 +2184,36 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   private void assertDoesNotStartWithWhitespace(CharSequence actual) {
+    isNotNull();
+    isNotEmpty();
     char first = actual.charAt(0);
 
-    if (first == ' ') {
+    if (Character.isWhitespace(first)) {
       throwAssertionError(shouldNotStartWithWhitespace(actual));
     }
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is visible by checking it against the {@code \p{Graph}+} regex pattern
-   * POSIX character classes (US-ASCII only).
+   * Verifies that the actual {@code CharSequence} does not end with whitespace.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
-   * assertThat(&quot;2&quot;).isVisible();
-   * assertThat(&quot;a&quot;).isVisible();
-   * assertThat(&quot;.&quot;).isVisible();
+   * <pre><code class='java'>
+   * // assertions will pass
+   * assertThat(&quot;abc&quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;  abc&quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;abc \t\t&quot;).doesNotStartWithWhitespace();
    *
    * // assertions will fail
-   * assertThat(&quot;\t&quot;).isVisible();
-   * assertThat(&quot;\n&quot;).isVisible();
-   * assertThat(&quot;&quot;).isVisible();
-   * assertThat(&quot; &quot;).isVisible();</code></pre>
+   * assertThat(&quot;abc  &quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;  abc  &quot;).doesNotStartWithWhitespace();
+   * assertThat(&quot;\r\n abc&quot;).doesNotStartWithWhitespace();
+   * </code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} is not visible.
-   * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
+   * @throws AssertionError if the actual {@code CharSequence} ends with whitespace.
+   * @see  Character#isWhitespace(char) to know what are the whitespaces.
+   *
+   * @since 3.26.0
    */
   public SELF doesNotEndWithWhitespace() {
     assertDoesNotEndWithWhitespace(actual);
@@ -2214,12 +2221,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   private void assertDoesNotEndWithWhitespace(CharSequence actual) {
+    isNotNull();
+    isNotEmpty();
     int length = actual.length();
     char last = actual.charAt(length - 1);
 
-    if (last == ' ') {
-      throwAssertionError(shouldNotEndWithWhitespace(actual));
-    }
+    if (Character.isWhitespace(last)) throwAssertionError(shouldNotEndWithWhitespace(actual));
   }
 
   private static boolean isBlank(CharSequence actual) {
