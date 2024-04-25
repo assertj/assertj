@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 /**
  * author: Lim Wonjae
  */
-public class ShouldNotStartWithWhitespace_create_Test {
+class ShouldNotStartWithWhitespace_create_Test {
 
   @Test
   void should_create_error_message() {

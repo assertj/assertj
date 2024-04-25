@@ -22,7 +22,7 @@ import static org.assertj.core.error.ShouldNotEndWithWhitespace.shouldNotEndWith
 /**
  * author: Lim Wonjae
  */
-public class ShouldNotEndWithWhitespace_create_Test {
+class ShouldNotEndWithWhitespace_create_Test {
 
   @Test
   void should_create_error_message() {

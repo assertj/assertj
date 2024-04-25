@@ -23,7 +23,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 /**
  * @author Lim Wonjae
  */
-public class CharSequenceAssert_doesNotEndWithWhitespace_Test {
+class CharSequenceAssert_doesNotEndWithWhitespace_Test {
 
   @ParameterizedTest
   @ValueSource(strings =  {"abc", "  ?", "  ab", "\t\t\""})
