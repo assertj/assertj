@@ -2182,11 +2182,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   private void assertDoesNotStartWithWhitespace(CharSequence actual) {
-    isNotNull();
-    isNotEmpty();
-    char first = actual.charAt(0);
-
-    if (Character.isWhitespace(first)) throwAssertionError(shouldNotStartWithWhitespace(actual));
+    if (Character.isWhitespace(actual.codePoints().findFirst().getAsInt())) throwAssertionError(shouldNotStartWithWhitespace(actual));
   }
 
   /**
@@ -2216,12 +2212,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   private void assertDoesNotEndWithWhitespace(CharSequence actual) {
-    isNotNull();
-    isNotEmpty();
-    int length = actual.length();
-    char last = actual.charAt(length - 1);
 
-    if (Character.isWhitespace(last)) throwAssertionError(shouldNotEndWithWhitespace(actual));
+    if (Character.isWhitespace(actual.codePoints().reduce((v1, v2) -> v2).getAsInt())) throwAssertionError(shouldNotEndWithWhitespace(actual));
   }
 
   private static boolean isBlank(CharSequence actual) {
