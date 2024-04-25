@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.lang.Character.isWhitespace;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.api.Assertions.contentOf;
@@ -28,6 +29,8 @@ import static org.assertj.core.error.ShouldContainOnlyWhitespaces.shouldContainO
 import static org.assertj.core.error.ShouldNotBeBlank.shouldNotBeBlank;
 import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 import static org.assertj.core.error.ShouldNotContainOnlyWhitespaces.shouldNotContainOnlyWhitespaces;
+import static org.assertj.core.error.ShouldNotEndWithWhitespaces.shouldNotEndWithWhitespaces;
+import static org.assertj.core.error.ShouldNotStartWithWhitespaces.shouldNotStartWithWhitespaces;
 import static org.assertj.core.internal.Strings.doCommonCheckForCharSequence;
 import static org.assertj.core.internal.Strings.removeAllWhitespaces;
 import static org.assertj.core.util.IterableUtil.toArray;
@@ -2150,6 +2153,62 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   public SELF isVisible() {
     isNotNull();
     if (!Pattern.matches("\\p{Graph}+", actual)) throwAssertionError(shouldBeVisible(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not start with whitespaces (as per
+   * {@link Character#isWhitespace(int)} definition), it also checks it is not null as a prerequisite.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed:
+   * assertThat(&quot;abc&quot;).doesNotStartWithWhitespaces();
+   * assertThat(&quot;abc  &quot;).doesNotStartWithWhitespaces();
+   * assertThat(&quot;abc\t\t&quot;).doesNotStartWithWhitespaces();
+   * assertThat(&quot;&quot;).doesNotStartWithWhitespaces();
+   *
+   * // assertions fail:
+   * assertThat(&quot;  abc&quot;).doesNotStartWithWhitespaces();
+   * assertThat(&quot;  abc  &quot;).doesNotStartWithWhitespaces();
+   * assertThat(&quot;\r\nabc&quot;).doesNotStartWithWhitespaces();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} starts with whitespace or is null.
+   * @see Character#isWhitespace(int)
+   * @since 3.26.0
+   */
+  public SELF doesNotStartWithWhitespaces() {
+    isNotNull();
+    if (actual.length() > 0 && isWhitespace(actual.codePoints().findFirst().getAsInt()))
+      throwAssertionError(shouldNotStartWithWhitespaces(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not end with whitespaces (as per
+   * {@link Character#isWhitespace(int)} definition), it also checks it is not null as a prerequisite.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed:
+   * assertThat(&quot;abc&quot;).doesNotEndWithWhitespaces();
+   * assertThat(&quot;  abc&quot;).doesNotEndWithWhitespaces();
+   * assertThat(&quot;\t\tabc&quot;).doesNotEndWithWhitespaces();
+   * assertThat(&quot;&quot;).doesNotEndWithWhitespaces();
+   *
+   * // assertions fail:
+   * assertThat(&quot;abc  &quot;).doesNotEndWithWhitespaces();
+   * assertThat(&quot;  abc  &quot;).doesNotEndWithWhitespaces();
+   * assertThat(&quot;abc\r\n&quot;).doesNotEndWithWhitespaces();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code CharSequence} ends with whitespace or is null.
+   * @see Character#isWhitespace(int)
+   * @since 3.26.0
+   */
+  public SELF doesNotEndWithWhitespaces() {
+    isNotNull();
+    if (actual.length() > 0 && Character.isWhitespace(actual.codePoints().reduce((v1, v2) -> v2).getAsInt()))
+      throwAssertionError(shouldNotEndWithWhitespaces(actual));
     return myself;
   }
 
