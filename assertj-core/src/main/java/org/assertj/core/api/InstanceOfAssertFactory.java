@@ -72,7 +72,8 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
   /**
    * Creates the custom {@link Assert} instance for the given value.
    * <p>
-   * The factory casts the value to the expected type before invoking the delegate.
+   * The factory casts the value to the expected type before invoking the
+   * delegate.
    *
    * @param actual the input value for the {@code Assert} instance
    * @return the custom {@code Assert} instance for the given value
@@ -86,7 +87,12 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
    * Creates the custom {@link Assert} instance for the value provided by the
    * given {@code valueProvider}.
    * <p>
-   * The factory casts the provided value to the expected type before invoking the delegate.
+   * This is typically used by custom assertions that want to leverage existing
+   * factories and need to manipulate the value upfront.
+   * <p>
+   * This implementation requests a value compatible with the {@link Class} or
+   * {@link Type} defined during instantiation and casts the provided value
+   * to it before invoking the delegate.
    *
    * @param valueProvider the value provider for the {@code Assert} instance
    * @return the custom {@code Assert} instance for the provided value

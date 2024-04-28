@@ -4137,7 +4137,7 @@ class InstanceOfAssertFactoriesTest {
   @SafeVarargs
   private static <T> T mockThatDelegatesTo(T delegate, T... reified) {
     if (reified.length > 0) {
-      throw new IllegalArgumentException("NioJava will detect class automagically.");
+      throw new IllegalArgumentException("Leave the vararg parameter empty. That is used to detect the class instance automagically.");
     }
     return mock((Class<T>) reified.getClass().getComponentType(), delegatesTo(delegate));
   }
