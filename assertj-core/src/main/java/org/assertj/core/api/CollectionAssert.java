@@ -39,7 +39,7 @@ public class CollectionAssert<ELEMENT> extends
 
   @Override
   protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
-    return new ObjectAssertFactory<ELEMENT>().createAssert(value).as(description);
+    return new ObjectAssert<>(value).as(description);
   }
 
   @Override
