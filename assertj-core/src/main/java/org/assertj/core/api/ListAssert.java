@@ -65,7 +65,7 @@ public class ListAssert<ELEMENT> extends
   }
 
   public ListAssert(List<? extends ELEMENT> actual) {
-    super(actual, ListAssert.class, new ObjectAssertFactory<>());
+    super(actual, ListAssert.class, ObjectAssert::new);
   }
 
   public ListAssert(Stream<? extends ELEMENT> actual) {

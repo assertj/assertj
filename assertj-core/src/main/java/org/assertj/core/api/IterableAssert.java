@@ -37,7 +37,7 @@ public class IterableAssert<ELEMENT> extends
     FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
   public IterableAssert(Iterable<? extends ELEMENT> actual) {
-    super(actual, IterableAssert.class, new ObjectAssertFactory<>());
+    super(actual, IterableAssert.class, ObjectAssert::new);
   }
 
   @Override
