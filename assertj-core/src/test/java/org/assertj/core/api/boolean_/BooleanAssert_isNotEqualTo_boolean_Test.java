@@ -12,25 +12,46 @@
  */
 package org.assertj.core.api.boolean_;
 
-import static org.mockito.Mockito.verify;
+import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.TRUE;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.BooleanAssert;
-import org.assertj.core.api.BooleanAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link BooleanAssert#isNotEqualTo(boolean)}</code>.
- * 
- * @author Alex Ruiz
- */
-class BooleanAssert_isNotEqualTo_boolean_Test extends BooleanAssertBaseTest {
+class BooleanAssert_isNotEqualTo_boolean_Test {
 
-  @Override
-  protected BooleanAssert invoke_api_method() {
-    return assertions.isNotEqualTo(false);
+  @Test
+  void should_pass_if_actual_is_null_since_the_other_argument_cannot_be_null() {
+    Boolean actual = null;
+    assertThat(actual).isNotEqualTo(false);
+    assertThat(actual).isNotEqualTo(FALSE);
+    assertThat(actual).isNotEqualTo(true);
+    assertThat(actual).isNotEqualTo(TRUE);
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(booleans).assertNotEqual(getInfo(assertions), getActual(assertions), false);
+  @Test
+  void should_pass_if_booleans_are_not_equal() {
+    assertThat(true).isNotEqualTo(FALSE);
+    assertThat(true).isNotEqualTo(false);
+    assertThat(TRUE).isNotEqualTo(FALSE);
+    assertThat(TRUE).isNotEqualTo(false);
+    assertThat(false).isNotEqualTo(true);
+    assertThat(false).isNotEqualTo(TRUE);
+    assertThat(FALSE).isNotEqualTo(true);
+    assertThat(FALSE).isNotEqualTo(TRUE);
+  }
+
+  @Test
+  void should_fail_if_booleans_are_equal() {
+    // GIVEN
+    boolean actual = TRUE;
+    boolean expected = true;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeEqual(actual, expected).create());
   }
 }
