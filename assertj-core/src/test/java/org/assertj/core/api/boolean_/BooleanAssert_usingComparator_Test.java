@@ -12,47 +12,23 @@
  */
 package org.assertj.core.api.boolean_;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
 
 import java.util.Comparator;
 
-import org.assertj.core.api.BooleanAssert;
-import org.assertj.core.api.BooleanAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link BooleanAssert#usingComparator(java.util.Comparator)}</code>.
- *
- * @author Joel Costigliola
- */
-class BooleanAssert_usingComparator_Test extends BooleanAssertBaseTest {
+class BooleanAssert_usingComparator_Test {
 
-  private Comparator<Boolean> comparator = alwaysEqual();
-
-  @Override
   @Test
   @SuppressWarnings("deprecation")
-  public void should_have_internal_effects() {
-    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() ->
-    // in that, we don't care of the comparator, the point to check is that we can't use a comparator
-    assertions.usingComparator(comparator));
-  }
-
-  @Override
-  @Test
-  public void should_return_this() {
-    // Disabled since this method throws an exception
-  }
-
-  @Override
-  protected BooleanAssert invoke_api_method() {
-    // Not used in this test
-    return null;
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    // Not used in this test
+  void should_prevent_using_comparator_for_boolean_assertions() {
+    // GIVEN
+    // we don't care of the comparator, the point to check is that we can't use a comparator
+    Comparator<Boolean> comparator = alwaysEqual();
+    // WHEN/THEN
+    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertThat(true).usingComparator(comparator));
   }
 }

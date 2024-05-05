@@ -13,27 +13,20 @@
 package org.assertj.core.api.boolean_;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import org.assertj.core.api.BooleanAssert;
-import org.assertj.core.api.BooleanAssertBaseTest;
 import org.assertj.core.internal.Objects;
+import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link BooleanAssert#usingComparator(java.util.Comparator)}</code> and
- * <code>{@link BooleanAssert#usingDefaultComparator()}</code>.
- *
- * @author Joel Costigliola
- */
-class BooleanAssert_usingDefaultComparator_Test extends BooleanAssertBaseTest {
+class BooleanAssert_usingDefaultComparator_Test {
 
-  @Override
-  protected BooleanAssert invoke_api_method() {
-    return assertions.usingDefaultComparator();
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    assertThat(getObjects(assertions).getComparator()).isNull();
-    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
+  @Test
+  void should_support_default_comparator() {
+    // WHEN
+    BooleanAssert assertions = (BooleanAssert) assertThat(true).usingDefaultComparator();
+    // THEN
+    then(assertions).extracting("objects").isSameAs(Objects.instance())
+                    .extracting("comparator").isNull();
   }
 }
