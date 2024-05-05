@@ -12,9 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
 import static java.util.concurrent.CompletableFuture.completedFuture;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assertions.within;
+import static org.assertj.core.api.BDDAssertions.from;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY_2D;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_BOOLEAN;
@@ -123,19 +127,28 @@ import static org.assertj.core.api.InstanceOfAssertFactories.map;
 import static org.assertj.core.api.InstanceOfAssertFactories.optional;
 import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
 import static org.assertj.core.api.InstanceOfAssertFactories.set;
+import static org.assertj.core.api.InstanceOfAssertFactories.spliterator;
 import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.test.Maps.mapOf;
+import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
+import static org.mockito.AdditionalAnswers.delegatesTo;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.InputStream;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
@@ -147,15 +160,21 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.Set;
 import java.util.Spliterator;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -175,1140 +194,3966 @@ import java.util.function.Function;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
 import org.assertj.core.util.Strings;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.springframework.core.ResolvableType;
+import org.springframework.core.convert.TypeDescriptor;
+import org.springframework.core.convert.support.DefaultConversionService;
 
 /**
  * @author Stefano Cordio
  */
 class InstanceOfAssertFactoriesTest {
 
-  @Test
-  void predicate_factory_createAssert_should_create_predicate_assertions() {
-    // GIVEN
-    Object value = (Predicate<Object>) Objects::isNull;
-    // WHEN
-    PredicateAssert<Object> result = PREDICATE.createAssert(value);
-    // THEN
-    result.accepts((Object) null);
-  }
-
-  @Test
-  void predicate_typed_factory_createAssert_should_create_predicate_typed_assertions() {
-    // GIVEN
-    Object value = (Predicate<String>) Strings::isNullOrEmpty;
-    // WHEN
-    PredicateAssert<String> result = predicate(String.class).createAssert(value);
-    // THEN
-    result.accepts("");
-  }
-
-  @Test
-  void int_predicate_factory_createAssert_should_create_int_predicate_assertions() {
-    // GIVEN
-    Object value = (IntPredicate) i -> i == 0;
-    // WHEN
-    IntPredicateAssert result = INT_PREDICATE.createAssert(value);
-    // THEN
-    result.accepts(0);
-  }
-
-  @Test
-  void long_predicate_factory_createAssert_should_create_long_predicate_assertions() {
-    // GIVEN
-    Object value = (LongPredicate) l -> l == 0L;
-    // WHEN
-    LongPredicateAssert result = LONG_PREDICATE.createAssert(value);
-    // THEN
-    result.accepts(0L);
-  }
-
-  @Test
-  void double_predicate_factory_createAssert_should_create_double_predicate_assertions() {
-    // GIVEN
-    Object value = (DoublePredicate) d -> d == 0.0;
-    // WHEN
-    DoublePredicateAssert result = DOUBLE_PREDICATE.createAssert(value);
-    // THEN
-    result.accepts(0.0);
-  }
-
-  @Test
-  void completable_future_factory_createAssert_should_create_completable_future_assertions() {
-    // GIVEN
-    Object value = completedFuture("done");
-    // WHEN
-    CompletableFutureAssert<Object> result = COMPLETABLE_FUTURE.createAssert(value);
-    // THEN
-    result.isDone();
-  }
-
-  @Test
-  void completable_future_typed_factory_createAssert_should_create_completable_future_typed_assertions() {
-    // GIVEN
-    Object value = completedFuture("done");
-    // WHEN
-    CompletableFutureAssert<String> result = completableFuture(String.class).createAssert(value);
-    // THEN
-    result.isDone();
-  }
-
-  @Test
-  void completion_stage_factory_createAssert_should_create_completable_future_assertions() {
-    // GIVEN
-    Object value = completedFuture("done");
-    // WHEN
-    CompletableFutureAssert<Object> result = COMPLETION_STAGE.createAssert(value);
-    // THEN
-    result.isDone();
-  }
-
-  @Test
-  void completion_stage_typed_factory_createAssert_should_create_completable_future_typed_assertions() {
-    // GIVEN
-    Object value = completedFuture("done");
-    // WHEN
-    CompletableFutureAssert<String> result = completionStage(String.class).createAssert(value);
-    // THEN
-    result.isDone();
-  }
-
-  @Test
-  void optional_factory_createAssert_should_create_optional_assertions() {
-    // GIVEN
-    Object value = Optional.of("something");
-    // WHEN
-    OptionalAssert<Object> result = OPTIONAL.createAssert(value);
-    // THEN
-    result.isPresent();
-  }
-
-  @Test
-  void optional_typed_factory_createAssert_should_create_optional_typed_assertions() {
-    // GIVEN
-    Object value = Optional.of("something");
-    // WHEN
-    OptionalAssert<String> result = optional(String.class).createAssert(value);
-    // THEN
-    result.isPresent();
-  }
-
-  @Test
-  void optional_double_factory_createAssert_should_create_optional_double_assertions() {
-    // GIVEN
-    Object value = OptionalDouble.of(0.0);
-    // WHEN
-    OptionalDoubleAssert result = OPTIONAL_DOUBLE.createAssert(value);
-    // THEN
-    result.isPresent();
-  }
-
-  @Test
-  void optional_int_factory_createAssert_should_create_optional_int_assertions() {
-    // GIVEN
-    Object value = OptionalInt.of(0);
-    // WHEN
-    OptionalIntAssert result = OPTIONAL_INT.createAssert(value);
-    // THEN
-    result.isPresent();
-  }
-
-  @Test
-  void optional_long_factory_createAssert_should_create_optional_long_assertions() {
-    // GIVEN
-    Object value = OptionalLong.of(0L);
-    // WHEN
-    OptionalLongAssert result = OPTIONAL_LONG.createAssert(value);
-    // THEN
-    result.isPresent();
-  }
-
-  @Test
-  void matcher_factory_createAssert_should_create_matcher_assertions() {
-    // GIVEN
-    Object value = Pattern.compile("a*").matcher("aaa");
-    // WHEN
-    MatcherAssert result = MATCHER.createAssert(value);
-    // THEN
-    result.matches();
-  }
-
-  @Test
-  void big_decimal_factory_createAssert_should_create_big_decimal_assertions() {
-    // GIVEN
-    Object value = BigDecimal.valueOf(0.0);
-    // WHEN
-    AbstractBigDecimalAssert<?> result = BIG_DECIMAL.createAssert(value);
-    // THEN
-    result.isEqualTo("0.0");
-  }
-
-  @Test
-  void big_integer_factory_createAssert_should_create_big_integer_assertions() {
-    // GIVEN
-    Object value = BigInteger.valueOf(0L);
-    // WHEN
-    AbstractBigIntegerAssert<?> result = BIG_INTEGER.createAssert(value);
-    // THEN
-    result.isEqualTo(0L);
-  }
-
-  @Test
-  void uri_type_factory_createAssert_should_create_uri_assertions() {
-    // GIVEN
-    Object value = URI.create("http://localhost");
-    // WHEN
-    AbstractUriAssert<?> result = URI_TYPE.createAssert(value);
-    // THEN
-    result.hasHost("localhost");
-  }
-
-  @Test
-  void url_type_factory_createAssert_should_create_url_assertions() throws MalformedURLException {
-    // GIVEN
-    Object value = new URL("http://localhost");
-    // WHEN
-    AbstractUrlAssert<?> result = URL_TYPE.createAssert(value);
-    // THEN
-    result.hasHost("localhost");
-  }
-
-  @Test
-  void boolean_factory_createAssert_should_create_boolean_assertions() {
-    // GIVEN
-    Object value = true;
-    // WHEN
-    AbstractBooleanAssert<?> result = BOOLEAN.createAssert(value);
-    // THEN
-    result.isTrue();
-  }
-
-  @Test
-  void boolean_array_factory_createAssert_should_create_boolean_array_assertions() {
-    // GIVEN
-    Object value = new boolean[] { true, false };
-    // WHEN
-    AbstractBooleanArrayAssert<?> result = BOOLEAN_ARRAY.createAssert(value);
-    // THEN
-    result.containsExactly(true, false);
-  }
-
-  @Test
-  void boolean_2d_array_factory_createAssert_should_create_boolean_2d_array_assertions() {
-    // GIVEN
-    Object value = new boolean[][] { { true, false }, { false, true } };
-    // WHEN
-    Boolean2DArrayAssert result = BOOLEAN_2D_ARRAY.createAssert(value);
-    // THEN
-    result.hasDimensions(2, 2);
-  }
-
-  @Test
-  void byte_factory_createAssert_should_create_byte_assertions() {
-    // GIVEN
-    Object value = (byte) 0;
-    // WHEN
-    AbstractByteAssert<?> result = BYTE.createAssert(value);
-    // THEN
-    result.isEqualTo((byte) 0);
-  }
-
-  @Test
-  void byte_array_factory_createAssert_should_create_byte_array_assertions() {
-    // GIVEN
-    Object value = new byte[] { 0, 1 };
-    // WHEN
-    AbstractByteArrayAssert<?> result = BYTE_ARRAY.createAssert(value);
-    // THEN
-    result.containsExactly(0, 1);
-  }
-
-  @Test
-  void byte_2d_array_factory_createAssert_should_create_byte_2d_array_assertions() {
-    // GIVEN
-    Object value = new byte[][] { { 0, 1 }, { 2, 3 } };
-    // WHEN
-    Byte2DArrayAssert result = BYTE_2D_ARRAY.createAssert(value);
-    // THEN
-    result.hasDimensions(2, 2);
-  }
-
-  @Test
-  void character_factory_createAssert_should_create_character_assertions() {
-    // GIVEN
-    Object value = 'a';
-    // WHEN
-    AbstractCharacterAssert<?> result = CHARACTER.createAssert(value);
-    // THEN
-    result.isLowerCase();
-  }
-
-  @Test
-  void char_array_factory_createAssert_should_create_char_array_assertions() {
-    // GIVEN
-    Object value = new char[] { 'a', 'b' };
-    // WHEN
-    AbstractCharArrayAssert<?> result = CHAR_ARRAY.createAssert(value);
-    // THEN
-    result.doesNotHaveDuplicates();
-  }
-
-  @Test
-  void char_2d_array_factory_createAssert_should_create_char_2d_array_assertions() {
-    // GIVEN
-    Object value = new char[][] { { 'a', 'b' }, { 'c', 'd' } };
-    // WHEN
-    Char2DArrayAssert result = CHAR_2D_ARRAY.createAssert(value);
-    // THEN
-    result.hasDimensions(2, 2);
-  }
-
-  @Test
-  void class_factory_createAssert_should_create_class_assertions() {
-    // GIVEN
-    Object value = Function.class;
-    // WHEN
-    ClassAssert result = CLASS.createAssert(value);
-    // THEN
-    result.hasAnnotations(FunctionalInterface.class);
-  }
-
-  @Test
-  void double_factory_createAssert_should_create_double_assertions() {
-    // GIVEN
-    Object value = 0.0;
-    // WHEN
-    AbstractDoubleAssert<?> result = DOUBLE.createAssert(value);
-    // THEN
-    result.isZero();
-  }
-
-  @Test
-  void double_array_factory_createAssert_should_create_double_array_assertions() {
-    // GIVEN
-    Object value = new double[] { 0.0, 1.0 };
-    // WHEN
-    AbstractDoubleArrayAssert<?> result = DOUBLE_ARRAY.createAssert(value);
-    // THEN
-    result.containsExactly(0.0, 1.0);
-  }
-
-  @Test
-  void double_2d_array_factory_createAssert_should_create_double_2d_array_assertions() {
-    // GIVEN
-    Object value = new double[][] { { 0.0, 1.0 }, { 2.0, 3.0 } };
-    // WHEN
-    Double2DArrayAssert result = DOUBLE_2D_ARRAY.createAssert(value);
-    // THEN
-    result.hasDimensions(2, 2);
-  }
-
-  @Test
-  void file_factory_createAssert_should_create_file_assertions() {
-    // GIVEN
-    Object value = new File("random-file-which-does-not-exist");
-    // WHEN
-    AbstractFileAssert<?> result = FILE.createAssert(value);
-    // THEN
-    result.doesNotExist();
-  }
-
-  @Test
-  void future_factory_createAssert_should_create_future_assertions() {
-    // GIVEN
-    Object value = mock(Future.class);
-    // WHEN
-    FutureAssert<Object> result = FUTURE.createAssert(value);
-    // THEN
-    result.isNotDone();
-  }
-
-  @Test
-  void future_typed_factory_createAssert_should_create_future_typed_assertions() {
-    // GIVEN
-    Object value = mock(Future.class);
-    // WHEN
-    FutureAssert<String> result = future(String.class).createAssert(value);
-    // THEN
-    result.isNotDone();
-  }
-
-  @Test
-  void input_stream_factory_createAssert_should_create_input_stream_assertions() {
-    // GIVEN
-    Object value = new ByteArrayInputStream("stream".getBytes());
-    // WHEN
-    AbstractInputStreamAssert<?, ?> result = INPUT_STREAM.createAssert(value);
-    // THEN
-    result.hasContent("stream");
-  }
-
-  @Test
-  void float_factory_createAssert_should_create_float_assertions() {
-    // GIVEN
-    Object value = 0.0f;
-    // WHEN
-    AbstractFloatAssert<?> result = FLOAT.createAssert(value);
-    // THEN
-    result.isZero();
-  }
-
-  @Test
-  void float_array_factory_createAssert_should_create_float_array_assertions() {
-    // GIVEN
-    Object value = new float[] { 0.0f, 1.0f };
-    // WHEN
-    AbstractFloatArrayAssert<?> result = FLOAT_ARRAY.createAssert(value);
-    // THEN
-    result.containsExactly(0.0f, 1.0f);
-  }
-
-  @Test
-  void float_2d_array_factory_createAssert_should_create_float_2d_array_assertions() {
-    // GIVEN
-    Object value = new float[][] { { 0.0f, 1.0f }, { 2.0f, 3.0f } };
-    // WHEN
-    Float2DArrayAssert result = FLOAT_2D_ARRAY.createAssert(value);
-    // THEN
-    result.hasDimensions(2, 2);
-  }
-
-  @Test
-  void integer_factory_createAssert_should_create_integer_assertions() {
-    // GIVEN
-    Object value = 0;
-    // WHEN
-    AbstractIntegerAssert<?> result = INTEGER.createAssert(value);
-    // THEN
-    result.isZero();
-  }
-
-  @Test
-  void int_array_factory_createAssert_should_create_int_array_assertions() {
-    // GIVEN
-    Object value = new int[] { 0, 1 };
-    // WHEN
-    AbstractIntArrayAssert<?> result = INT_ARRAY.createAssert(value);
-    // THEN
-    result.containsExactly(0, 1);
-  }
-
-  @Test
-  void int_2d_array_factory_createAssert_should_create_int_2d_array_assertions() {
-    // GIVEN
-    Object value = new int[][] { { 0, 1 }, { 2, 3 } };
-    // WHEN
-    Int2DArrayAssert result = INT_2D_ARRAY.createAssert(value);
-    // THEN
-    result.hasDimensions(2, 2);
-  }
-
-  @Test
-  void long_factory_createAssert_should_create_long_assertions() {
-    // GIVEN
-    Object value = 0L;
-    // WHEN
-    AbstractLongAssert<?> result = LONG.createAssert(value);
-    // THEN
-    result.isZero();
-  }
-
-  @Test
-  void long_array_factory_createAssert_should_create_long_array_assertions() {
-    // GIVEN
-    Object value = new long[] { 0L, 1L };
-    // WHEN
-    AbstractLongArrayAssert<?> result = LONG_ARRAY.createAssert(value);
-    // THEN
-    result.containsExactly(0, 1);
-  }
-
-  @Test
-  void long_2d_array_factory_createAssert_should_create_long_2d_array_assertions() {
-    // GIVEN
-    Object value = new long[][] { { 0L, 1L }, { 2L, 3L } };
-    // WHEN
-    Long2DArrayAssert result = LONG_2D_ARRAY.createAssert(value);
-    // THEN
-    result.hasDimensions(2, 2);
-  }
-
-  @Test
-  void type_factory_createAssert_should_create_object_typed_assertions() {
-    // GIVEN
-    Object value = "string";
-    // WHEN
-    ObjectAssert<String> result = type(String.class).createAssert(value);
-    // THEN
-    result.extracting(String::isEmpty).isEqualTo(false);
-  }
-
-  @Test
-  void array_factory_createAssert_should_create_array_assertions() {
-    // GIVEN
-    Object value = new Object[] { 0, "" };
-    // WHEN
-    ObjectArrayAssert<Object> result = ARRAY.createAssert(value);
-    // THEN
-    result.containsExactly(0, "");
-  }
-
-  @Test
-  void array_typed_factory_createAssert_should_create_array_typed_assertions() {
-    // GIVEN
-    Object value = new Integer[] { 0, 1 };
-    // WHEN
-    ObjectArrayAssert<Integer> result = array(Integer[].class).createAssert(value);
-    // THEN
-    result.containsExactly(0, 1);
-  }
-
-  @Test
-  void array_2d_factory_createAssert_should_create_2d_array_assertions() {
-    // GIVEN
-    Object value = new Object[][] { { 0, "" }, { 3.0, 'b' } };
-    // WHEN
-    Object2DArrayAssert<Object> result = ARRAY_2D.createAssert(value);
-    // THEN
-    result.hasDimensions(2, 2);
-  }
-
-  @Test
-  void array_2d_typed_factory_createAssert_should_create_2d_array_typed_assertions() {
-    // GIVEN
-    Object value = new Integer[][] { { 0, 1 }, { 2, 3 } };
-    // WHEN
-    Object2DArrayAssert<Integer> result = array2D(Integer[][].class).createAssert(value);
-    // THEN
-    result.hasDimensions(2, 2);
-  }
-
-  @Test
-  void short_factory_createAssert_should_create_short_assertions() {
-    // GIVEN
-    Object value = (short) 0;
-    // WHEN
-    AbstractShortAssert<?> result = SHORT.createAssert(value);
-    // THEN
-    result.isZero();
-  }
-
-  @Test
-  void short_array_factory_createAssert_should_create_short_array_assertions() {
-    // GIVEN
-    Object value = new short[] { 0, 1 };
-    // WHEN
-    AbstractShortArrayAssert<?> result = SHORT_ARRAY.createAssert(value);
-    // THEN
-    result.containsExactly((short) 0, (short) 1);
-  }
-
-  @Test
-  void short_2d_array_factory_createAssert_should_create_short_2d_array_assertions() {
-    // GIVEN
-    Object value = new short[][] { { 0, 1 }, { 2, 3 } };
-    // WHEN
-    Short2DArrayAssert result = SHORT_2D_ARRAY.createAssert(value);
-    // THEN
-    result.hasDimensions(2, 2);
-  }
-
-  @Test
-  void date_factory_createAssert_should_create_date_assertions() {
-    // GIVEN
-    Object value = new Date();
-    // WHEN
-    AbstractDateAssert<?> result = DATE.createAssert(value);
-    // THEN
-    result.isBeforeOrEqualTo(new Date());
-  }
-
-  @Test
-  void temporal_factory_createAssert_should_create_temporal_assertions() {
-    // GIVEN
-    Object value = ZonedDateTime.now();
-    // WHEN
-    TemporalAssert result = TEMPORAL.createAssert(value);
-    // THEN
-    result.isCloseTo(ZonedDateTime.now(), within(10, ChronoUnit.SECONDS));
-  }
-
-  @Test
-  void zoned_date_time_factory_createAssert_should_create_zoned_date_time_assertions() {
-    // GIVEN
-    Object value = ZonedDateTime.now();
-    // WHEN
-    AbstractZonedDateTimeAssert<?> result = ZONED_DATE_TIME.createAssert(value);
-    // THEN
-    result.isBeforeOrEqualTo(ZonedDateTime.now());
-  }
-
-  @Test
-  void local_date_time_factory_createAssert_should_create_local_date_time_assertions() {
-    // GIVEN
-    Object value = LocalDateTime.now();
-    // WHEN
-    AbstractLocalDateTimeAssert<?> result = LOCAL_DATE_TIME.createAssert(value);
-    // THEN
-    result.isBeforeOrEqualTo(LocalDateTime.now());
-  }
-
-  @Test
-  void offset_date_time_factory_createAssert_should_create_offset_date_time_assertions() {
-    // GIVEN
-    Object value = OffsetDateTime.now();
-    // WHEN
-    AbstractOffsetDateTimeAssert<?> result = OFFSET_DATE_TIME.createAssert(value);
-    // THEN
-    result.isBeforeOrEqualTo(OffsetDateTime.now());
-  }
-
-  @Test
-  void offset_time_factory_createAssert_should_create_offset_time_assertions() {
-    // GIVEN
-    Object value = OffsetTime.now();
-    // WHEN
-    AbstractOffsetTimeAssert<?> result = OFFSET_TIME.createAssert(value);
-    // THEN
-    result.isBeforeOrEqualTo(OffsetTime.now());
-  }
-
-  @Test
-  void local_time_factory_createAssert_should_create_local_time_assertions() {
-    // GIVEN
-    Object value = LocalTime.now();
-    // WHEN
-    AbstractLocalTimeAssert<?> result = LOCAL_TIME.createAssert(value);
-    // THEN
-    result.isBeforeOrEqualTo(LocalTime.now());
-  }
-
-  @Test
-  void local_date_factory_createAssert_should_create_local_date_assertions() {
-    // GIVEN
-    Object value = LocalDate.now();
-    // WHEN
-    AbstractLocalDateAssert<?> result = LOCAL_DATE.createAssert(value);
-    // THEN
-    result.isBeforeOrEqualTo(LocalDate.now());
-  }
-
-  @Test
-  void year_month_factory_createAssert_should_create_year_month_assertions() {
-    // GIVEN
-    Object value = YearMonth.now();
-    // WHEN
-    AbstractYearMonthAssert<?> result = YEAR_MONTH.createAssert(value);
-    // THEN
-    result.isBeforeOrEqualTo(YearMonth.now());
-  }
-
-  @Test
-  void instant_factory_createAssert_should_create_instant_assertions() {
-    // GIVEN
-    Object value = Instant.now();
-    // WHEN
-    AbstractInstantAssert<?> result = INSTANT.createAssert(value);
-    // THEN
-    result.isBeforeOrEqualTo(Instant.now());
-  }
-
-  @Test
-  void duration_factory_createAssert_should_create_duration_assertions() {
-    // GIVEN
-    Object value = Duration.ofHours(10);
-    // WHEN
-    AbstractDurationAssert<?> result = DURATION.createAssert(value);
-    // THEN
-    result.isPositive();
-  }
-
-  @Test
-  void period_factory_createAssert_should_create_period_assertions() {
-    // GIVEN
-    Object value = Period.of(1, 1, 1);
-    // WHEN
-    AbstractPeriodAssert<?> result = PERIOD.createAssert(value);
-    // THEN
-    result.hasDays(1);
-  }
-
-  @Test
-  void atomic_boolean_factory_createAssert_should_create_atomic_boolean_assertions() {
-    // GIVEN
-    Object value = new AtomicBoolean();
-    // WHEN
-    AtomicBooleanAssert result = ATOMIC_BOOLEAN.createAssert(value);
-    // THEN
-    result.isFalse();
-  }
-
-  @Test
-  void atomic_integer_factory_createAssert_should_create_atomic_integer_assertions() {
-    // GIVEN
-    Object value = new AtomicInteger();
-    // WHEN
-    AtomicIntegerAssert result = ATOMIC_INTEGER.createAssert(value);
-    // THEN
-    result.hasValue(0);
-  }
-
-  @Test
-  void atomic_integer_array_factory_createAssert_should_create_atomic_integer_array_assertions() {
-    // GIVEN
-    Object value = new AtomicIntegerArray(new int[] { 0, 1 });
-    // WHEN
-    AtomicIntegerArrayAssert result = ATOMIC_INTEGER_ARRAY.createAssert(value);
-    // THEN
-    result.containsExactly(0, 1);
-  }
-
-  @Test
-  void atomic_integer_field_updater_factory_createAssert_should_create_atomic_integer_field_updater_assertions() {
-    // GIVEN
-    Object value = AtomicIntegerFieldUpdater.newUpdater(VolatileFieldContainer.class, "intField");
-    // WHEN
-    AtomicIntegerFieldUpdaterAssert<Object> result = ATOMIC_INTEGER_FIELD_UPDATER.createAssert(value);
-    // THEN
-    result.hasValue(0, new VolatileFieldContainer());
-  }
-
-  @Test
-  void atomic_integer_field_updater_typed_factory_createAssert_should_create_atomic_integer_field_updater_typed_assertions() {
-    // GIVEN
-    Object value = AtomicIntegerFieldUpdater.newUpdater(VolatileFieldContainer.class, "intField");
-    // WHEN
-    AtomicIntegerFieldUpdaterAssert<VolatileFieldContainer> result = atomicIntegerFieldUpdater(VolatileFieldContainer.class).createAssert(value);
-    // THEN
-    result.hasValue(0, new VolatileFieldContainer());
-  }
-
-  @Test
-  void long_adder_factory_createAssert_should_create_long_adder_assertions() {
-    // GIVEN
-    Object value = new LongAdder();
-    // WHEN
-    LongAdderAssert result = LONG_ADDER.createAssert(value);
-    // THEN
-    result.hasValue(0L);
-  }
-
-  @Test
-  void atomic_long_factory_createAssert_should_create_atomic_long_assertions() {
-    // GIVEN
-    Object value = new AtomicLong();
-    // WHEN
-    AtomicLongAssert result = ATOMIC_LONG.createAssert(value);
-    // THEN
-    result.hasValue(0L);
-  }
-
-  @Test
-  void atomic_long_array_factory_createAssert_should_create_atomic_long_array_assertions() {
-    // GIVEN
-    Object value = new AtomicLongArray(new long[] { 0L, 1L });
-    // WHEN
-    AtomicLongArrayAssert result = ATOMIC_LONG_ARRAY.createAssert(value);
-    // THEN
-    result.containsExactly(0L, 1L);
-  }
-
-  @Test
-  void atomic_long_field_updater_factory_createAssert_should_create_atomic_long_field_updater_assertions() {
-    // GIVEN
-    Object value = AtomicLongFieldUpdater.newUpdater(VolatileFieldContainer.class, "longField");
-    // WHEN
-    AtomicLongFieldUpdaterAssert<Object> result = ATOMIC_LONG_FIELD_UPDATER.createAssert(value);
-    // THEN
-    result.hasValue(0L, new VolatileFieldContainer());
-  }
-
-  @Test
-  void atomic_long_field_updater_typed_factory_createAssert_should_create_atomic_long_field_updater_typed_assertions() {
-    // GIVEN
-    Object value = AtomicLongFieldUpdater.newUpdater(VolatileFieldContainer.class, "longField");
-    // WHEN
-    AtomicLongFieldUpdaterAssert<VolatileFieldContainer> result = atomicLongFieldUpdater(VolatileFieldContainer.class).createAssert(value);
-    // THEN
-    result.hasValue(0L, new VolatileFieldContainer());
-  }
-
-  @Test
-  void atomic_reference_factory_createAssert_should_create_atomic_reference_assertions() {
-    // GIVEN
-    Object value = new AtomicReference<>();
-    // WHEN
-    AtomicReferenceAssert<Object> result = ATOMIC_REFERENCE.createAssert(value);
-    // THEN
-    result.hasValue(null);
-  }
-
-  @Test
-  void atomic_reference_typed_factory_createAssert_should_create_atomic_reference_typed_assertions() {
-    // GIVEN
-    Object value = new AtomicReference<>(0);
-    // WHEN
-    AtomicReferenceAssert<Integer> result = atomicReference(Integer.class).createAssert(value);
-    // THEN
-    result.hasValue(0);
-  }
-
-  @Test
-  void atomic_reference_array_factory_createAssert_should_create_atomic_reference_array_assertions() {
-    // GIVEN
-    Object value = new AtomicReferenceArray<>(new Object[] { 0, "" });
-    // WHEN
-    AtomicReferenceArrayAssert<Object> result = ATOMIC_REFERENCE_ARRAY.createAssert(value);
-    // THEN
-    result.containsExactly(0, "");
-  }
-
-  @Test
-  void atomic_reference_array_typed_factory_createAssert_should_create_atomic_reference_array_typed_assertions() {
-    // GIVEN
-    Object value = new AtomicReferenceArray<>(new Integer[] { 0, 1 });
-    // WHEN
-    AtomicReferenceArrayAssert<Integer> result = atomicReferenceArray(Integer.class).createAssert(value);
-    // THEN
-    result.containsExactly(0, 1);
-  }
-
-  @Test
-  void atomic_reference_field_updater_factory_createAssert_should_create_atomic_reference_field_updater_assertions() {
-    // GIVEN
-    Object value = AtomicReferenceFieldUpdater.newUpdater(VolatileFieldContainer.class, String.class, "stringField");
-    // WHEN
-    AtomicReferenceFieldUpdaterAssert<Object, Object> result = ATOMIC_REFERENCE_FIELD_UPDATER.createAssert(value);
-    // THEN
-    result.hasValue(null, new VolatileFieldContainer());
-  }
-
-  @Test
-  void atomic_reference_field_updater_typed_factory_createAssert_should_create_atomic_reference_field_updater_typed_assertions() {
-    // GIVEN
-    Object value = AtomicReferenceFieldUpdater.newUpdater(VolatileFieldContainer.class, String.class, "stringField");
-    // WHEN
-    AtomicReferenceFieldUpdaterAssert<String, VolatileFieldContainer> result = atomicReferenceFieldUpdater(String.class,
-                                                                                                           VolatileFieldContainer.class).createAssert(value);
-    // THEN
-    result.hasValue(null, new VolatileFieldContainer());
-  }
-
-  @Test
-  void atomic_markable_reference_factory_createAssert_should_create_atomic_markable_reference_assertions() {
-    // GIVEN
-    Object value = new AtomicMarkableReference<>(null, false);
-    // WHEN
-    AtomicMarkableReferenceAssert<Object> result = ATOMIC_MARKABLE_REFERENCE.createAssert(value);
-    // THEN
-    result.hasReference(null);
-  }
-
-  @Test
-  void atomic_markable_reference_typed_factory_createAssert_should_create_atomic_markable_reference_typed_assertions() {
-    // GIVEN
-    Object value = new AtomicMarkableReference<>(0, false);
-    // WHEN
-    AtomicMarkableReferenceAssert<Integer> result = atomicMarkableReference(Integer.class).createAssert(value);
-    // THEN
-    result.hasReference(0);
-  }
-
-  @Test
-  void atomic_stamped_reference_factory_createAssert_should_create_atomic_stamped_reference_assertions() {
-    // GIVEN
-    Object value = new AtomicStampedReference<>(null, 0);
-    // WHEN
-    AtomicStampedReferenceAssert<Object> result = ATOMIC_STAMPED_REFERENCE.createAssert(value);
-    // THEN
-    result.hasReference(null);
-  }
-
-  @Test
-  void atomic_stamped_reference_typed_factory_createAssert_should_create_atomic_stamped_reference_typed_assertions() {
-    // GIVEN
-    Object value = new AtomicStampedReference<>(0, 0);
-    // WHEN
-    AtomicStampedReferenceAssert<Integer> result = atomicStampedReference(Integer.class).createAssert(value);
-    // THEN
-    result.hasReference(0);
-  }
-
-  @Test
-  void throwable_factory_createAssert_should_create_throwable_assertions() {
-    // GIVEN
-    Object value = new RuntimeException("message");
-    // WHEN
-    AbstractThrowableAssert<?, ? extends Throwable> result = THROWABLE.createAssert(value);
-    // THEN
-    result.hasMessage("message");
-  }
-
-  @Test
-  void throwable_typed_factory_createAssert_should_create_throwable_typed_assertions() {
-    // GIVEN
-    Object value = new RuntimeException("message");
-    // WHEN
-    AbstractThrowableAssert<?, RuntimeException> result = throwable(RuntimeException.class).createAssert(value);
-    // THEN
-    result.hasMessage("message");
-  }
-
-  @Test
-  void char_sequence_factory_createAssert_should_create_char_sequence_assertions() {
-    // GIVEN
-    Object value = "string";
-    // WHEN
-    AbstractCharSequenceAssert<?, ? extends CharSequence> result = CHAR_SEQUENCE.createAssert(value);
-    // THEN
-    result.startsWith("str");
-  }
-
-  @Test
-  void string_builder_factory_createAssert_should_create_char_sequence_assertions() {
-    // GIVEN
-    Object value = new StringBuilder("string");
-    // WHEN
-    AbstractCharSequenceAssert<?, ? extends CharSequence> result = STRING_BUILDER.createAssert(value);
-    // THEN
-    result.startsWith("str");
-  }
-
-  @Test
-  void string_buffer_factory_createAssert_should_create_char_sequence_assertions() {
-    // GIVEN
-    Object value = new StringBuffer("string");
-    // WHEN
-    AbstractCharSequenceAssert<?, ? extends CharSequence> result = STRING_BUFFER.createAssert(value);
-    // THEN
-    result.startsWith("str");
-  }
-
-  @Test
-  void string_factory_createAssert_should_create_string_assertions() {
-    // GIVEN
-    Object value = "string";
-    // WHEN
-    AbstractStringAssert<?> result = STRING.createAssert(value);
-    // THEN
-    result.startsWith("str");
-  }
-
-  @Test
-  void iterable_factory_createAssert_should_create_iterable_assertions() {
-    // GIVEN
-    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
-    // WHEN
-    IterableAssert<Object> result = ITERABLE.createAssert(value);
-    // THEN
-    result.contains("Bart", "Lisa");
-  }
-
-  @Test
-  void iterable_typed_factory_createAssert_should_create_iterable_typed_assertions() {
-    // GIVEN
-    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
-    // WHEN
-    IterableAssert<String> result = iterable(String.class).createAssert(value);
-    // THEN
-    result.contains("Bart", "Lisa");
-  }
-
-  @Test
-  void iterator_factory_createAssert_should_create_iterator_assertions() {
-    // GIVEN
-    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
-    // WHEN
-    IteratorAssert<Object> result = ITERATOR.createAssert(value);
-    // THEN
-    result.hasNext();
-  }
-
-  @Test
-  void iterator_typed_factory_createAssert_should_create_iterator_typed_assertions() {
-    // GIVEN
-    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
-    // WHEN
-    IteratorAssert<String> result = iterator(String.class).createAssert(value);
-    // THEN
-    result.hasNext();
-  }
-
-  @Test
-  void collection_factory_createAssert_should_create_collection_assertions() {
-    // GIVEN
-    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
-    // WHEN
-    AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = COLLECTION.createAssert(value);
-    // THEN
-    result.contains("Bart", "Lisa");
-  }
-
-  @Test
-  void collection_typed_factory_createAssert_should_create_collection_typed_assertions() {
-    // GIVEN
-    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
-    // WHEN
-    AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = collection(String.class).createAssert(value);
-    // THEN
-    result.contains("Bart", "Lisa");
-  }
-
-  @Test
-  void set_factory_createAssert_should_create_collection_assertions() {
-    // GIVEN
-    Object value = Sets.set("Homer", "Marge", "Bart", "Lisa", "Maggie");
-    // WHEN
-    AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = SET.createAssert(value);
-    // THEN
-    result.contains("Bart", "Lisa");
-  }
-
-  @Test
-  void set_typed_factory_createAssert_should_create_collection_typed_assertions() {
-    // GIVEN
-    Object value = Sets.set("Homer", "Marge", "Bart", "Lisa", "Maggie");
-    // WHEN
-    AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = set(String.class).createAssert(value);
-    // THEN
-    result.contains("Bart", "Lisa");
-  }
-
-  @Test
-  void list_factory_createAssert_should_create_list_assertions() {
-    // GIVEN
-    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
-    // WHEN
-    ListAssert<Object> result = LIST.createAssert(value);
-    // THEN
-    result.contains("Bart", "Lisa");
-  }
-
-  @Test
-  void list_typed_factory_createAssert_should_create_typed_list_assertions() {
-    // GIVEN
-    Object value = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
-    // WHEN
-    ListAssert<String> result = list(String.class).createAssert(value);
-    // THEN
-    result.contains("Bart", "Lisa");
-  }
-
-  @Test
-  void stream_factory_createAssert_should_create_list_assertions() {
-    // GIVEN
-    Object value = Stream.of(1, 2, 3);
-    // WHEN
-    ListAssert<Object> result = STREAM.createAssert(value);
-    // THEN
-    result.containsExactly(1, 2, 3);
-  }
-
-  @Test
-  void stream_typed_factory_createAssert_should_create_typed_list_typed_assertions() {
-    // GIVEN
-    Object value = Stream.of(1, 2, 3);
-    // WHEN
-    ListAssert<Integer> result = stream(Integer.class).createAssert(value);
-    // THEN
-    result.containsExactly(1, 2, 3);
-  }
-
-  @Test
-  void double_stream_factory_createAssert_should_create_double_list_assertions() {
-    // GIVEN
-    Object value = DoubleStream.of(1.0, 2.0, 3.0);
-    // WHEN
-    ListAssert<Double> result = DOUBLE_STREAM.createAssert(value);
-    // THEN
-    result.containsExactly(1.0, 2.0, 3.0);
-  }
-
-  @Test
-  void long_stream_factory_createAssert_should_create_long_list_assertions() {
-    // GIVEN
-    Object value = LongStream.of(1L, 2L, 3L);
-    // WHEN
-    ListAssert<Long> result = LONG_STREAM.createAssert(value);
-    // THEN
-    result.containsExactly(1L, 2L, 3L);
-  }
-
-  @Test
-  void int_stream_factory_createAssert_should_create_int_list_assertions() {
-    // GIVEN
-    Object value = IntStream.of(1, 2, 3);
-    // WHEN
-    ListAssert<Integer> result = INT_STREAM.createAssert(value);
-    // THEN
-    result.containsExactly(1, 2, 3);
-  }
-
-  @Test
-  void path_factory_createAssert_should_create_path_assertions() {
-    // GIVEN
-    Object value = Paths.get("random-file-which-does-not-exist");
-    // WHEN
-    AbstractPathAssert<?> result = PATH.createAssert(value);
-    // THEN
-    result.doesNotExist();
-  }
-
-  @Test
-  void spliterator_factory_createAssert_should_create_spliterator_assertions() {
-    // GIVEN
-    Object value = Stream.of(1, 2).spliterator();
-    // WHEN
-    SpliteratorAssert<Object> result = SPLITERATOR.createAssert(value);
-    // THEN
-    result.hasCharacteristics(Spliterator.SIZED);
-  }
-
-  @Test
-  void map_factory_createAssert_should_create_map_assertions() {
-    // GIVEN
-    Object value = mapOf(entry("key", "value"));
-    // WHEN
-    MapAssert<Object, Object> result = MAP.createAssert(value);
-    // THEN
-    result.containsExactly(entry("key", "value"));
-  }
-
-  @Test
-  void map_typed_factory_createAssert_should_create_map_typed_assertions() {
-    // GIVEN
-    Object value = mapOf(entry("key", "value"));
-    // WHEN
-    MapAssert<String, String> result = map(String.class, String.class).createAssert(value);
-    // THEN
-    result.containsExactly(entry("key", "value"));
-  }
-
-  @Test
-  void comparable_factory_createAssert_should_create_comparable_assertions() {
-    // GIVEN
-    Object value = 0;
-    // WHEN
-    AbstractComparableAssert<?, Integer> result = comparable(Integer.class).createAssert(value);
-    // THEN
-    result.isEqualByComparingTo(0);
-  }
-
-  @SuppressWarnings("unused")
-  private static class VolatileFieldContainer {
-
-    volatile int intField;
-    volatile long longField;
-    volatile String stringField;
-
+  private static final DefaultConversionService SPRING_CONVERSION_SERVICE = new DefaultConversionService();
+
+  @Nested
+  class Predicate_Factory {
+
+    private final Object actual = (Predicate<Object>) Objects::isNull;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = PREDICATE.getRawClass();
+      // THEN
+      then(result).isEqualTo(Predicate.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      PredicateAssert<Object> result = PREDICATE.createAssert(actual);
+      // THEN
+      result.accepts((Object) null);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      PredicateAssert<Object> result = PREDICATE.createAssert(valueProvider);
+      // THEN
+      result.accepts((Object) null);
+      verify(valueProvider).apply(parameterizedType(Predicate.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class Predicate_Typed_Factory {
+
+    private final Object actual = (Predicate<String>) Strings::isNullOrEmpty;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = PREDICATE.getRawClass();
+      // THEN
+      then(result).isEqualTo(Predicate.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      PredicateAssert<String> result = predicate(String.class).createAssert(actual);
+      // THEN
+      result.accepts("");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      PredicateAssert<String> result = predicate(String.class).createAssert(valueProvider);
+      // THEN
+      result.accepts("");
+      verify(valueProvider).apply(parameterizedType(Predicate.class, String.class));
+    }
+
+  }
+
+  @Nested
+  class IntPredicate_Factory {
+
+    private final Object actual = (IntPredicate) i -> i == 0;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = INT_PREDICATE.getRawClass();
+      // THEN
+      then(result).isEqualTo(IntPredicate.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      IntPredicateAssert result = INT_PREDICATE.createAssert(actual);
+      // THEN
+      result.accepts(0);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      IntPredicateAssert result = INT_PREDICATE.createAssert(valueProvider);
+      // THEN
+      result.accepts(0);
+      verify(valueProvider).apply(IntPredicate.class);
+    }
+
+  }
+
+  @Nested
+  class LongPredicate_Factory {
+
+    private final Object actual = (LongPredicate) l -> l == 0L;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = LONG_PREDICATE.getRawClass();
+      // THEN
+      then(result).isEqualTo(LongPredicate.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      LongPredicateAssert result = LONG_PREDICATE.createAssert(actual);
+      // THEN
+      result.accepts(0L);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      LongPredicateAssert result = LONG_PREDICATE.createAssert(valueProvider);
+      // THEN
+      result.accepts(0L);
+      verify(valueProvider).apply(LongPredicate.class);
+    }
+
+  }
+
+  @Nested
+  class DoublePredicate_Factory {
+
+    private final Object actual = (DoublePredicate) d -> d == 0.0;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = DOUBLE_PREDICATE.getRawClass();
+      // THEN
+      then(result).isEqualTo(DoublePredicate.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      DoublePredicateAssert result = DOUBLE_PREDICATE.createAssert(actual);
+      // THEN
+      result.accepts(0.0);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      DoublePredicateAssert result = DOUBLE_PREDICATE.createAssert(valueProvider);
+      // THEN
+      result.accepts(0.0);
+      verify(valueProvider).apply(DoublePredicate.class);
+    }
+
+  }
+
+  @Nested
+  class CompletableFuture_Factory {
+
+    private final Object actual = completedFuture("done");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = COMPLETABLE_FUTURE.getRawClass();
+      // THEN
+      then(result).isEqualTo(CompletableFuture.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      CompletableFutureAssert<Object> result = COMPLETABLE_FUTURE.createAssert(actual);
+      // THEN
+      result.isDone();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      CompletableFutureAssert<Object> result = COMPLETABLE_FUTURE.createAssert(valueProvider);
+      // THEN
+      result.isDone();
+      verify(valueProvider).apply(parameterizedType(CompletableFuture.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class CompletableFuture_Typed_Factory {
+
+    private final Object actual = completedFuture("done");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = completableFuture(String.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(CompletableFuture.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      CompletableFutureAssert<String> result = completableFuture(String.class).createAssert(actual);
+      // THEN
+      result.isDone();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      CompletableFutureAssert<String> result = completableFuture(String.class).createAssert(valueProvider);
+      // THEN
+      result.isDone();
+      verify(valueProvider).apply(parameterizedType(CompletableFuture.class, String.class));
+    }
+
+  }
+
+  @Nested
+  class CompletionStage_Factory {
+
+    private final Object actual = completedFuture("done");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = COMPLETION_STAGE.getRawClass();
+      // THEN
+      then(result).isEqualTo(CompletionStage.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      CompletableFutureAssert<Object> result = COMPLETION_STAGE.createAssert(actual);
+      // THEN
+      result.isDone();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      CompletableFutureAssert<Object> result = COMPLETION_STAGE.createAssert(valueProvider);
+      // THEN
+      result.isDone();
+      verify(valueProvider).apply(parameterizedType(CompletionStage.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class CompletionStage_Typed_Factory {
+
+    private final Object actual = completedFuture("done");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = COMPLETION_STAGE.getRawClass();
+      // THEN
+      then(result).isEqualTo(CompletionStage.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      CompletableFutureAssert<String> result = completionStage(String.class).createAssert(actual);
+      // THEN
+      result.isDone();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      CompletableFutureAssert<String> result = completionStage(String.class).createAssert(valueProvider);
+      // THEN
+      result.isDone();
+      verify(valueProvider).apply(parameterizedType(CompletionStage.class, String.class));
+    }
+
+  }
+
+  @Nested
+  class Optional_Factory {
+
+    private final Object actual = Optional.of("something");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = OPTIONAL.getRawClass();
+      // THEN
+      then(result).isEqualTo(Optional.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      OptionalAssert<Object> result = OPTIONAL.createAssert(actual);
+      // THEN
+      result.isPresent();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      OptionalAssert<Object> result = OPTIONAL.createAssert(valueProvider);
+      // THEN
+      result.isPresent();
+      verify(valueProvider).apply(parameterizedType(Optional.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class Optional_Typed_Factory {
+
+    private final Object actual = Optional.of("something");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = optional(String.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Optional.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      OptionalAssert<String> result = optional(String.class).createAssert(actual);
+      // THEN
+      result.isPresent();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      OptionalAssert<String> result = optional(String.class).createAssert(valueProvider);
+      // THEN
+      result.isPresent();
+      verify(valueProvider).apply(parameterizedType(Optional.class, String.class));
+    }
+
+  }
+
+  @Nested
+  class OptionalDouble_Factory {
+
+    private final Object actual = OptionalDouble.of(0.0);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = OPTIONAL_DOUBLE.getRawClass();
+      // THEN
+      then(result).isEqualTo(OptionalDouble.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      OptionalDoubleAssert result = OPTIONAL_DOUBLE.createAssert(actual);
+      // THEN
+      result.isPresent();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      OptionalDoubleAssert result = OPTIONAL_DOUBLE.createAssert(valueProvider);
+      // THEN
+      result.isPresent();
+      verify(valueProvider).apply(OptionalDouble.class);
+    }
+
+  }
+
+  @Nested
+  class OptionalInt_Factory {
+
+    private final Object actual = OptionalInt.of(0);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = OPTIONAL_INT.getRawClass();
+      // THEN
+      then(result).isEqualTo(OptionalInt.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      OptionalIntAssert result = OPTIONAL_INT.createAssert(actual);
+      // THEN
+      result.isPresent();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      OptionalIntAssert result = OPTIONAL_INT.createAssert(valueProvider);
+      // THEN
+      result.isPresent();
+      verify(valueProvider).apply(OptionalInt.class);
+    }
+
+  }
+
+  @Nested
+  class OptionalLong_Factory {
+
+    private final Object actual = OptionalLong.of(0L);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = OPTIONAL_LONG.getRawClass();
+      // THEN
+      then(result).isEqualTo(OptionalLong.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      OptionalLongAssert result = OPTIONAL_LONG.createAssert(actual);
+      // THEN
+      result.isPresent();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      OptionalLongAssert result = OPTIONAL_LONG.createAssert(valueProvider);
+      // THEN
+      result.isPresent();
+      verify(valueProvider).apply(OptionalLong.class);
+    }
+
+  }
+
+  @Nested
+  class Matcher_Factory {
+
+    private final Object actual = Pattern.compile("a*").matcher("aaa");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = MATCHER.getRawClass();
+      // THEN
+      then(result).isEqualTo(Matcher.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      MatcherAssert result = MATCHER.createAssert(actual);
+      // THEN
+      result.matches();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      MatcherAssert result = MATCHER.createAssert(valueProvider);
+      // THEN
+      result.matches();
+      verify(valueProvider).apply(Matcher.class);
+    }
+
+  }
+
+  @Nested
+  class BigDecimal_Factory {
+
+    private final Object actual = BigDecimal.valueOf(0.0);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = BIG_DECIMAL.getRawClass();
+      // THEN
+      then(result).isEqualTo(BigDecimal.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractBigDecimalAssert<?> result = BIG_DECIMAL.createAssert(actual);
+      // THEN
+      result.isEqualTo("0.0");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractBigDecimalAssert<?> result = BIG_DECIMAL.createAssert(valueProvider);
+      // THEN
+      result.isEqualTo("0.0");
+      verify(valueProvider).apply(BigDecimal.class);
+    }
+
+  }
+
+  @Nested
+  class BigInteger_Factory {
+
+    private final Object actual = BigInteger.valueOf(0L);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = BIG_INTEGER.getRawClass();
+      // THEN
+      then(result).isEqualTo(BigInteger.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractBigIntegerAssert<?> result = BIG_INTEGER.createAssert(actual);
+      // THEN
+      result.isEqualTo(0L);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractBigIntegerAssert<?> result = BIG_INTEGER.createAssert(valueProvider);
+      // THEN
+      result.isEqualTo(0L);
+      verify(valueProvider).apply(BigInteger.class);
+    }
+
+  }
+
+  @Nested
+  class URI_Factory {
+
+    private final Object actual = URI.create("http://localhost");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = URI_TYPE.getRawClass();
+      // THEN
+      then(result).isEqualTo(URI.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractUriAssert<?> result = URI_TYPE.createAssert(actual);
+      // THEN
+      result.hasHost("localhost");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractUriAssert<?> result = URI_TYPE.createAssert(valueProvider);
+      // THEN
+      result.hasHost("localhost");
+      verify(valueProvider).apply(URI.class);
+    }
+
+  }
+
+  @Nested
+  class URL_Factory {
+
+    private final Object actual = new URL("http://localhost");
+
+    URL_Factory() throws MalformedURLException {}
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = URL_TYPE.getRawClass();
+      // THEN
+      then(result).isEqualTo(URL.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractUrlAssert<?> result = URL_TYPE.createAssert(actual);
+      // THEN
+      result.hasHost("localhost");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractUrlAssert<?> result = URL_TYPE.createAssert(valueProvider);
+      // THEN
+      result.hasHost("localhost");
+      verify(valueProvider).apply(URL.class);
+    }
+
+  }
+
+  @Nested
+  class Boolean_Factory {
+
+    private final Object actual = true;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = BOOLEAN.getRawClass();
+      // THEN
+      then(result).isEqualTo(Boolean.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractBooleanAssert<?> result = BOOLEAN.createAssert(actual);
+      // THEN
+      result.isTrue();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractBooleanAssert<?> result = BOOLEAN.createAssert(valueProvider);
+      // THEN
+      result.isTrue();
+      verify(valueProvider).apply(Boolean.class);
+    }
+
+  }
+
+  @Nested
+  class Boolean_Array_Factory {
+
+    private final Object actual = new boolean[] { true, false };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = BOOLEAN_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(boolean[].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractBooleanArrayAssert<?> result = BOOLEAN_ARRAY.createAssert(actual);
+      // THEN
+      result.containsExactly(true, false);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractBooleanArrayAssert<?> result = BOOLEAN_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(true, false);
+      verify(valueProvider).apply(boolean[].class);
+    }
+
+  }
+
+  @Nested
+  class Boolean_2D_Array_Factory {
+
+    private final Object actual = new boolean[][] { { true, false }, { false, true } };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = BOOLEAN_2D_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(boolean[][].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      Boolean2DArrayAssert result = BOOLEAN_2D_ARRAY.createAssert(actual);
+      // THEN
+      result.hasDimensions(2, 2);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Boolean2DArrayAssert result = BOOLEAN_2D_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.hasDimensions(2, 2);
+      verify(valueProvider).apply(boolean[][].class);
+    }
+
+  }
+
+  @Nested
+  class Byte_Factory {
+
+    private final Object actual = (byte) 0;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = BYTE.getRawClass();
+      // THEN
+      then(result).isEqualTo(Byte.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractByteAssert<?> result = BYTE.createAssert(actual);
+      // THEN
+      result.isEqualTo((byte) 0);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractByteAssert<?> result = BYTE.createAssert(valueProvider);
+      // THEN
+      result.isEqualTo((byte) 0);
+      verify(valueProvider).apply(Byte.class);
+    }
+
+  }
+
+  @Nested
+  class Byte_Array_Factory {
+
+    private final Object actual = new byte[] { 0, 1 };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = BYTE_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(byte[].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractByteArrayAssert<?> result = BYTE_ARRAY.createAssert(actual);
+      // THEN
+      result.containsExactly(0, 1);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractByteArrayAssert<?> result = BYTE_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(0, 1);
+      verify(valueProvider).apply(byte[].class);
+    }
+
+  }
+
+  @Nested
+  class Byte_2D_Array_Factory {
+
+    private final Object actual = new byte[][] { { 0, 1 }, { 2, 3 } };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = BYTE_2D_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(byte[][].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      Byte2DArrayAssert result = BYTE_2D_ARRAY.createAssert(actual);
+      // THEN
+      result.hasDimensions(2, 2);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Byte2DArrayAssert result = BYTE_2D_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.hasDimensions(2, 2);
+      verify(valueProvider).apply(byte[][].class);
+    }
+
+  }
+
+  @Nested
+  class Character_Factory {
+
+    private final Object actual = 'a';
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = CHARACTER.getRawClass();
+      // THEN
+      then(result).isEqualTo(Character.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractCharacterAssert<?> result = CHARACTER.createAssert(actual);
+      // THEN
+      result.isLowerCase();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractCharacterAssert<?> result = CHARACTER.createAssert(valueProvider);
+      // THEN
+      result.isLowerCase();
+      verify(valueProvider).apply(Character.class);
+    }
+
+  }
+
+  @Nested
+  class Char_Array_Factory {
+
+    private final Object actual = new char[] { 'a', 'b' };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = CHAR_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(char[].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractCharArrayAssert<?> result = CHAR_ARRAY.createAssert(actual);
+      // THEN
+      result.doesNotHaveDuplicates();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractCharArrayAssert<?> result = CHAR_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.doesNotHaveDuplicates();
+      verify(valueProvider).apply(char[].class);
+    }
+
+  }
+
+  @Nested
+  class Char_2D_Array_Factory {
+
+    private final Object actual = new char[][] { { 'a', 'b' }, { 'c', 'd' } };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = CHAR_2D_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(char[][].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      Char2DArrayAssert result = CHAR_2D_ARRAY.createAssert(actual);
+      // THEN
+      result.hasDimensions(2, 2);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Char2DArrayAssert result = CHAR_2D_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.hasDimensions(2, 2);
+      verify(valueProvider).apply(char[][].class);
+    }
+
+  }
+
+  @Nested
+  class Class_Factory {
+
+    private final Object actual = Function.class;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = CLASS.getRawClass();
+      // THEN
+      then(result).isEqualTo(Class.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      ClassAssert result = CLASS.createAssert(actual);
+      // THEN
+      result.hasAnnotations(FunctionalInterface.class);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      ClassAssert result = CLASS.createAssert(valueProvider);
+      // THEN
+      result.hasAnnotations(FunctionalInterface.class);
+      verify(valueProvider).apply(Class.class);
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class Double_Factory {
+
+    private final Object actual = 0.0;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = DOUBLE.getRawClass();
+      // THEN
+      then(result).isEqualTo(Double.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractDoubleAssert<?> result = DOUBLE.createAssert(actual);
+      // THEN
+      result.isZero();
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      AbstractDoubleAssert<?> result = DOUBLE.createAssert(valueProvider);
+      // THEN
+      result.isZero();
+      verify(valueProvider).apply(Double.class);
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert("0.0", type));
+    }
+
+  }
+
+  @Nested
+  class Double_Array_Factory {
+
+    private final Object actual = new double[] { 0.0, 1.0 };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = DOUBLE_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(double[].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractDoubleArrayAssert<?> result = DOUBLE_ARRAY.createAssert(actual);
+      // THEN
+      result.containsExactly(0.0, 1.0);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractDoubleArrayAssert<?> result = DOUBLE_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(0.0, 1.0);
+      verify(valueProvider).apply(double[].class);
+    }
+
+  }
+
+  @Nested
+  class Double_2D_Array_Factory {
+
+    private final Object actual = new double[][] { { 0.0, 1.0 }, { 2.0, 3.0 } };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = DOUBLE_2D_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(double[][].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      Double2DArrayAssert result = DOUBLE_2D_ARRAY.createAssert(actual);
+      // THEN
+      result.hasDimensions(2, 2);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Double2DArrayAssert result = DOUBLE_2D_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.hasDimensions(2, 2);
+      verify(valueProvider).apply(double[][].class);
+    }
+
+  }
+
+  @Nested
+  class File_Factory {
+
+    private final Object actual = new File("non-existing-file");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = FILE.getRawClass();
+      // THEN
+      then(result).isEqualTo(File.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractFileAssert<?> result = FILE.createAssert(actual);
+      // THEN
+      result.doesNotExist();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractFileAssert<?> result = FILE.createAssert(valueProvider);
+      // THEN
+      result.doesNotExist();
+      verify(valueProvider).apply(File.class);
+    }
+
+  }
+
+  @Nested
+  class Future_Factory {
+
+    private final Object actual = mock(Future.class);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = FUTURE.getRawClass();
+      // THEN
+      then(result).isEqualTo(Future.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      FutureAssert<Object> result = FUTURE.createAssert(actual);
+      // THEN
+      result.isNotDone();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      FutureAssert<Object> result = FUTURE.createAssert(valueProvider);
+      // THEN
+      result.isNotDone();
+      verify(valueProvider).apply(parameterizedType(Future.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class Future_Typed_Factory {
+
+    private final Object actual = mock(Future.class);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = future(String.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Future.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      FutureAssert<String> result = future(String.class).createAssert(actual);
+      // THEN
+      result.isNotDone();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      FutureAssert<String> result = future(String.class).createAssert(valueProvider);
+      // THEN
+      result.isNotDone();
+      verify(valueProvider).apply(parameterizedType(Future.class, String.class));
+    }
+
+  }
+
+  @Nested
+  class InputStream_Factory {
+
+    private final Object actual = new ByteArrayInputStream("stream".getBytes());
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = INPUT_STREAM.getRawClass();
+      // THEN
+      then(result).isEqualTo(InputStream.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractInputStreamAssert<?, ?> result = INPUT_STREAM.createAssert(actual);
+      // THEN
+      result.hasContent("stream");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractInputStreamAssert<?, ?> result = INPUT_STREAM.createAssert(valueProvider);
+      // THEN
+      result.hasContent("stream");
+      verify(valueProvider).apply(InputStream.class);
+    }
+
+  }
+
+  @Nested
+  class Float_Factory {
+
+    private final Object actual = 0.0f;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = FLOAT.getRawClass();
+      // THEN
+      then(result).isEqualTo(Float.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractFloatAssert<?> result = FLOAT.createAssert(actual);
+      // THEN
+      result.isZero();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractFloatAssert<?> result = FLOAT.createAssert(valueProvider);
+      // THEN
+      result.isZero();
+      verify(valueProvider).apply(Float.class);
+    }
+
+  }
+
+  @Nested
+  class Float_Array_Factory {
+
+    private final Object actual = new float[] { 0.0f, 1.0f };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = FLOAT_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(float[].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractFloatArrayAssert<?> result = FLOAT_ARRAY.createAssert(actual);
+      // THEN
+      result.containsExactly(0.0f, 1.0f);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractFloatArrayAssert<?> result = FLOAT_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(0.0f, 1.0f);
+      verify(valueProvider).apply(float[].class);
+    }
+
+  }
+
+  @Nested
+  class Float_2D_Array_Factory {
+
+    private final Object actual = new float[][] { { 0.0f, 1.0f }, { 2.0f, 3.0f } };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = FLOAT_2D_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(float[][].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      Float2DArrayAssert result = FLOAT_2D_ARRAY.createAssert(actual);
+      // THEN
+      result.hasDimensions(2, 2);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Float2DArrayAssert result = FLOAT_2D_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.hasDimensions(2, 2);
+      verify(valueProvider).apply(float[][].class);
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class Integer_Factory {
+
+    private final Object actual = 0;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = INTEGER.getRawClass();
+      // THEN
+      then(result).isEqualTo(Integer.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractIntegerAssert<?> result = INTEGER.createAssert(actual);
+      // THEN
+      result.isZero();
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      AbstractIntegerAssert<?> result = INTEGER.createAssert(valueProvider);
+      // THEN
+      result.isZero();
+      verify(valueProvider).apply(Integer.class);
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert("0", type));
+    }
+
+  }
+
+  @Nested
+  class Int_Array_Factory {
+
+    private final Object actual = new int[] { 0, 1 };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = INT_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(int[].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractIntArrayAssert<?> result = INT_ARRAY.createAssert(actual);
+      // THEN
+      result.containsExactly(0, 1);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractIntArrayAssert<?> result = INT_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(0, 1);
+      verify(valueProvider).apply(int[].class);
+    }
+
+  }
+
+  @Nested
+  class Int_2D_Array_Factory {
+
+    private final Object actual = new int[][] { { 0, 1 }, { 2, 3 } };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = INT_2D_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(int[][].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      Int2DArrayAssert result = INT_2D_ARRAY.createAssert(actual);
+      // THEN
+      result.hasDimensions(2, 2);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Int2DArrayAssert result = INT_2D_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.hasDimensions(2, 2);
+      verify(valueProvider).apply(int[][].class);
+    }
+
+  }
+
+  @Nested
+  class Long_Factory {
+
+    private final Object actual = 0L;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = LONG.getRawClass();
+      // THEN
+      then(result).isEqualTo(Long.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractLongAssert<?> result = LONG.createAssert(actual);
+      // THEN
+      result.isZero();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractLongAssert<?> result = LONG.createAssert(valueProvider);
+      // THEN
+      result.isZero();
+      verify(valueProvider).apply(Long.class);
+    }
+
+  }
+
+  @Nested
+  class Long_Array_Factory {
+
+    private final Object actual = new long[] { 0L, 1L };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = LONG_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(long[].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractLongArrayAssert<?> result = LONG_ARRAY.createAssert(actual);
+      // THEN
+      result.containsExactly(0L, 1L);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractLongArrayAssert<?> result = LONG_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(0L, 1L);
+      verify(valueProvider).apply(long[].class);
+    }
+
+  }
+
+  @Nested
+  class Long_2D_Array_Factory {
+
+    private final Object actual = new long[][] { { 0L, 1L }, { 2L, 3L } };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = LONG_2D_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(long[][].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      Long2DArrayAssert result = LONG_2D_ARRAY.createAssert(actual);
+      // THEN
+      result.hasDimensions(2, 2);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Long2DArrayAssert result = LONG_2D_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.hasDimensions(2, 2);
+      verify(valueProvider).apply(long[][].class);
+    }
+
+  }
+
+  @Nested
+  class Type_Factory {
+
+    private final Object actual = "string";
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = type(String.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(String.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      ObjectAssert<String> result = type(String.class).createAssert(actual);
+      // THEN
+      result.extracting(String::isEmpty).isEqualTo(false);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      ObjectAssert<String> result = type(String.class).createAssert(valueProvider);
+      // THEN
+      result.extracting(String::isEmpty).isEqualTo(false);
+      verify(valueProvider).apply(String.class);
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class Array_Factory {
+
+    private final Object actual = new Object[] { 0, "" };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(Object[].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      ObjectArrayAssert<Object> result = ARRAY.createAssert(actual);
+      // THEN
+      result.containsExactly(0, "");
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      ObjectArrayAssert<Object> result = ARRAY.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(0, "");
+      verify(valueProvider).apply(Object[].class);
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(Lists.list(0, ""), type));
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class Array_Typed_Factory {
+
+    private final Object actual = new Integer[] { 0, 1 };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = array(Integer[].class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Integer[].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      ObjectArrayAssert<Integer> result = array(Integer[].class).createAssert(actual);
+      // THEN
+      result.containsExactly(0, 1);
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      ObjectArrayAssert<Integer> result = array(Integer[].class).createAssert(valueProvider);
+      // THEN
+      result.containsExactly(0, 1);
+      verify(valueProvider).apply(Integer[].class);
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert("0,1", type));
+    }
+
+  }
+
+  @Nested
+  class Array_2D_Factory {
+
+    private final Object actual = new Object[][] { { 0, "" }, { 3.0, 'b' } };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ARRAY_2D.getRawClass();
+      // THEN
+      then(result).isEqualTo(Object[][].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      Object2DArrayAssert<Object> result = ARRAY_2D.createAssert(actual);
+      // THEN
+      result.hasDimensions(2, 2);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Object2DArrayAssert<Object> result = ARRAY_2D.createAssert(valueProvider);
+      // THEN
+      result.hasDimensions(2, 2);
+      verify(valueProvider).apply(Object[][].class);
+    }
+
+  }
+
+  @Nested
+  class Array_2D_Typed_Factory {
+
+    private final Object actual = new Integer[][] { { 0, 1 }, { 2, 3 } };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = array2D(Integer[][].class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Integer[][].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      Object2DArrayAssert<Integer> result = array2D(Integer[][].class).createAssert(actual);
+      // THEN
+      result.hasDimensions(2, 2);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Object2DArrayAssert<Integer> result = array2D(Integer[][].class).createAssert(valueProvider);
+      // THEN
+      result.hasDimensions(2, 2);
+      verify(valueProvider).apply(Integer[][].class);
+    }
+
+  }
+
+  @Nested
+  class Short_Factory {
+
+    private final Object actual = (short) 0;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = SHORT.getRawClass();
+      // THEN
+      then(result).isEqualTo(Short.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractShortAssert<?> result = SHORT.createAssert(actual);
+      // THEN
+      result.isZero();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractShortAssert<?> result = SHORT.createAssert(valueProvider);
+      // THEN
+      result.isZero();
+      verify(valueProvider).apply(Short.class);
+    }
+
+  }
+
+  @Nested
+  class Short_Array_Factory {
+
+    private final Object actual = new short[] { 0, 1 };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = SHORT_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(short[].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractShortArrayAssert<?> result = SHORT_ARRAY.createAssert(actual);
+      // THEN
+      result.containsExactly((short) 0, (short) 1);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractShortArrayAssert<?> result = SHORT_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.containsExactly((short) 0, (short) 1);
+      verify(valueProvider).apply(short[].class);
+    }
+
+  }
+
+  @Nested
+  class Short_2D_Array_Factory {
+
+    private final Object actual = new short[][] { { 0, 1 }, { 2, 3 } };
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = SHORT_2D_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(short[][].class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      Short2DArrayAssert result = SHORT_2D_ARRAY.createAssert(actual);
+      // THEN
+      result.hasDimensions(2, 2);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      Short2DArrayAssert result = SHORT_2D_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.hasDimensions(2, 2);
+      verify(valueProvider).apply(short[][].class);
+    }
+
+  }
+
+  @Nested
+  class Date_Factory {
+
+    private final Object actual = new Date();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = DATE.getRawClass();
+      // THEN
+      then(result).isEqualTo(Date.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractDateAssert<?> result = DATE.createAssert(actual);
+      // THEN
+      result.isBeforeOrEqualTo(new Date());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractDateAssert<?> result = DATE.createAssert(valueProvider);
+      // THEN
+      result.isBeforeOrEqualTo(new Date());
+      verify(valueProvider).apply(Date.class);
+    }
+
+  }
+
+  @Nested
+  class Temporal_Factory {
+
+    private final Object actual = ZonedDateTime.now();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = TEMPORAL.getRawClass();
+      // THEN
+      then(result).isEqualTo(Temporal.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      TemporalAssert result = TEMPORAL.createAssert(actual);
+      // THEN
+      result.isCloseTo(ZonedDateTime.now(), within(10, SECONDS));
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      TemporalAssert result = TEMPORAL.createAssert(valueProvider);
+      // THEN
+      result.isCloseTo(ZonedDateTime.now(), within(10, SECONDS));
+      verify(valueProvider).apply(Temporal.class);
+    }
+
+  }
+
+  @Nested
+  class ZonedDateTime_Factory {
+
+    private final Object actual = ZonedDateTime.now();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ZONED_DATE_TIME.getRawClass();
+      // THEN
+      then(result).isEqualTo(ZonedDateTime.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractZonedDateTimeAssert<?> result = ZONED_DATE_TIME.createAssert(actual);
+      // THEN
+      result.isBeforeOrEqualTo(ZonedDateTime.now());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractZonedDateTimeAssert<?> result = ZONED_DATE_TIME.createAssert(valueProvider);
+      // THEN
+      result.isBeforeOrEqualTo(ZonedDateTime.now());
+      verify(valueProvider).apply(ZonedDateTime.class);
+    }
+
+  }
+
+  @Nested
+  class LocalDateTime_Factory {
+
+    private final Object actual = LocalDateTime.now();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = LOCAL_DATE_TIME.getRawClass();
+      // THEN
+      then(result).isEqualTo(LocalDateTime.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractLocalDateTimeAssert<?> result = LOCAL_DATE_TIME.createAssert(actual);
+      // THEN
+      result.isBeforeOrEqualTo(LocalDateTime.now());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractLocalDateTimeAssert<?> result = LOCAL_DATE_TIME.createAssert(valueProvider);
+      // THEN
+      result.isBeforeOrEqualTo(LocalDateTime.now());
+      verify(valueProvider).apply(LocalDateTime.class);
+    }
+
+  }
+
+  @Nested
+  class OffsetDateTime_Factory {
+
+    private final Object actual = OffsetDateTime.now();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = OFFSET_DATE_TIME.getRawClass();
+      // THEN
+      then(result).isEqualTo(OffsetDateTime.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractOffsetDateTimeAssert<?> result = OFFSET_DATE_TIME.createAssert(actual);
+      // THEN
+      result.isBeforeOrEqualTo(OffsetDateTime.now());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractOffsetDateTimeAssert<?> result = OFFSET_DATE_TIME.createAssert(valueProvider);
+      // THEN
+      result.isBeforeOrEqualTo(OffsetDateTime.now());
+      verify(valueProvider).apply(OffsetDateTime.class);
+    }
+
+  }
+
+  @Nested
+  class OffsetTime_Factory {
+
+    private final Object actual = OffsetTime.now();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = OFFSET_TIME.getRawClass();
+      // THEN
+      then(result).isEqualTo(OffsetTime.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractOffsetTimeAssert<?> result = OFFSET_TIME.createAssert(actual);
+      // THEN
+      result.isBeforeOrEqualTo(OffsetTime.now());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractOffsetTimeAssert<?> result = OFFSET_TIME.createAssert(valueProvider);
+      // THEN
+      result.isBeforeOrEqualTo(OffsetTime.now());
+      verify(valueProvider).apply(OffsetTime.class);
+    }
+
+  }
+
+  @Nested
+  class LocalTime_Factory {
+
+    private final Object actual = LocalTime.now();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = LOCAL_TIME.getRawClass();
+      // THEN
+      then(result).isEqualTo(LocalTime.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractLocalTimeAssert<?> result = LOCAL_TIME.createAssert(actual);
+      // THEN
+      result.isBeforeOrEqualTo(LocalTime.now());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractLocalTimeAssert<?> result = LOCAL_TIME.createAssert(valueProvider);
+      // THEN
+      result.isBeforeOrEqualTo(LocalTime.now());
+      verify(valueProvider).apply(LocalTime.class);
+    }
+
+  }
+
+  @Nested
+  class LocalDate_Factory {
+
+    private final Object actual = LocalDate.now();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = LOCAL_DATE.getRawClass();
+      // THEN
+      then(result).isEqualTo(LocalDate.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractLocalDateAssert<?> result = LOCAL_DATE.createAssert(actual);
+      // THEN
+      result.isBeforeOrEqualTo(LocalDate.now());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractLocalDateAssert<?> result = LOCAL_DATE.createAssert(valueProvider);
+      // THEN
+      result.isBeforeOrEqualTo(LocalDate.now());
+      verify(valueProvider).apply(LocalDate.class);
+    }
+
+  }
+
+  @Nested
+  class YearMonth_Factory {
+
+    private final Object actual = YearMonth.now();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = YEAR_MONTH.getRawClass();
+      // THEN
+      then(result).isEqualTo(YearMonth.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractYearMonthAssert<?> result = YEAR_MONTH.createAssert(actual);
+      // THEN
+      result.isBeforeOrEqualTo(YearMonth.now());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractYearMonthAssert<?> result = YEAR_MONTH.createAssert(valueProvider);
+      // THEN
+      result.isBeforeOrEqualTo(YearMonth.now());
+      verify(valueProvider).apply(YearMonth.class);
+    }
+
+  }
+
+  @Nested
+  class Instant_Factory {
+
+    private final Object actual = Instant.now();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = INSTANT.getRawClass();
+      // THEN
+      then(result).isEqualTo(Instant.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractInstantAssert<?> result = INSTANT.createAssert(actual);
+      // THEN
+      result.isBeforeOrEqualTo(Instant.now());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractInstantAssert<?> result = INSTANT.createAssert(valueProvider);
+      // THEN
+      result.isBeforeOrEqualTo(Instant.now());
+      verify(valueProvider).apply(Instant.class);
+    }
+
+  }
+
+  @Nested
+  class Duration_Factory {
+
+    private final Object actual = Duration.ofHours(10);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = DURATION.getRawClass();
+      // THEN
+      then(result).isEqualTo(Duration.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractDurationAssert<?> result = DURATION.createAssert(actual);
+      // THEN
+      result.hasHours(10);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractDurationAssert<?> result = DURATION.createAssert(valueProvider);
+      // THEN
+      result.hasHours(10);
+      verify(valueProvider).apply(Duration.class);
+    }
+
+  }
+
+  @Nested
+  class Period_Factory {
+
+    private final Object actual = Period.ofYears(1);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = PERIOD.getRawClass();
+      // THEN
+      then(result).isEqualTo(Period.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractPeriodAssert<?> result = PERIOD.createAssert(actual);
+      // THEN
+      result.hasYears(1);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractPeriodAssert<?> result = PERIOD.createAssert(valueProvider);
+      // THEN
+      result.hasYears(1);
+      verify(valueProvider).apply(Period.class);
+    }
+
+  }
+
+  @Nested
+  class AtomicBoolean_Factory {
+
+    private final Object actual = new AtomicBoolean();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_BOOLEAN.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicBoolean.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicBooleanAssert result = ATOMIC_BOOLEAN.createAssert(actual);
+      // THEN
+      result.isFalse();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicBooleanAssert result = ATOMIC_BOOLEAN.createAssert(valueProvider);
+      // THEN
+      result.isFalse();
+      verify(valueProvider).apply(AtomicBoolean.class);
+    }
+
+  }
+
+  @Nested
+  class AtomicInteger_Factory {
+
+    private final Object actual = new AtomicInteger();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_INTEGER.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicInteger.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicIntegerAssert result = ATOMIC_INTEGER.createAssert(actual);
+      // THEN
+      result.hasValue(0);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicIntegerAssert result = ATOMIC_INTEGER.createAssert(valueProvider);
+      // THEN
+      result.hasValue(0);
+      verify(valueProvider).apply(AtomicInteger.class);
+    }
+
+  }
+
+  @Nested
+  class AtomicIntegerArray_Factory {
+
+    private final Object actual = new AtomicIntegerArray(new int[] { 0, 1 });
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_INTEGER_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicIntegerArray.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicIntegerArrayAssert result = ATOMIC_INTEGER_ARRAY.createAssert(actual);
+      // THEN
+      result.containsExactly(0, 1);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicIntegerArrayAssert result = ATOMIC_INTEGER_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(0, 1);
+      verify(valueProvider).apply(AtomicIntegerArray.class);
+    }
+
+  }
+
+  @Nested
+  class AtomicIntegerFieldUpdater_Factory {
+
+    private final Object actual = AtomicIntegerFieldUpdater.newUpdater(Container.class, "intField");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_INTEGER_FIELD_UPDATER.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicIntegerFieldUpdater.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicIntegerFieldUpdaterAssert<Object> result = ATOMIC_INTEGER_FIELD_UPDATER.createAssert(actual);
+      // THEN
+      result.hasValue(0, new Container());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicIntegerFieldUpdaterAssert<Object> result = ATOMIC_INTEGER_FIELD_UPDATER.createAssert(valueProvider);
+      // THEN
+      result.hasValue(0, new Container());
+      verify(valueProvider).apply(parameterizedType(AtomicIntegerFieldUpdater.class, Object.class));
+    }
+
+    private class Container {
+
+      volatile int intField;
+
+    }
+
+  }
+
+  @Nested
+  class AtomicIntegerFieldUpdater_Typed_Factory {
+
+    private final Object actual = AtomicIntegerFieldUpdater.newUpdater(Container.class, "intField");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = atomicIntegerFieldUpdater(Container.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicIntegerFieldUpdater.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicIntegerFieldUpdaterAssert<Container> result = atomicIntegerFieldUpdater(Container.class).createAssert(actual);
+      // THEN
+      result.hasValue(0, new Container());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicIntegerFieldUpdaterAssert<Container> result = atomicIntegerFieldUpdater(Container.class).createAssert(valueProvider);
+      // THEN
+      result.hasValue(0, new Container());
+      verify(valueProvider).apply(parameterizedType(AtomicIntegerFieldUpdater.class, Container.class));
+    }
+
+    private class Container {
+
+      volatile int intField;
+
+    }
+
+  }
+
+  @Nested
+  class LongAdder_Factory {
+
+    private final Object actual = new LongAdder();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = LONG_ADDER.getRawClass();
+      // THEN
+      then(result).isEqualTo(LongAdder.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      LongAdderAssert result = LONG_ADDER.createAssert(actual);
+      // THEN
+      result.hasValue(0L);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      LongAdderAssert result = LONG_ADDER.createAssert(valueProvider);
+      // THEN
+      result.hasValue(0L);
+      verify(valueProvider).apply(LongAdder.class);
+    }
+
+  }
+
+  @Nested
+  class AtomicLong_Factory {
+
+    private final Object actual = new AtomicLong();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_LONG.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicLong.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicLongAssert result = ATOMIC_LONG.createAssert(actual);
+      // THEN
+      result.hasValue(0L);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicLongAssert result = ATOMIC_LONG.createAssert(valueProvider);
+      // THEN
+      result.hasValue(0L);
+      verify(valueProvider).apply(AtomicLong.class);
+    }
+
+  }
+
+  @Nested
+  class AtomicLongArray_Factory {
+
+    private final Object actual = new AtomicLongArray(new long[] { 0L, 1L });
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_LONG_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicLongArray.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicLongArrayAssert result = ATOMIC_LONG_ARRAY.createAssert(actual);
+      // THEN
+      result.containsExactly(0L, 1L);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicLongArrayAssert result = ATOMIC_LONG_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(0L, 1L);
+      verify(valueProvider).apply(AtomicLongArray.class);
+    }
+
+  }
+
+  @Nested
+  class AtomicLongFieldUpdater_Factory {
+
+    private final Object actual = AtomicLongFieldUpdater.newUpdater(Container.class, "longField");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_LONG_FIELD_UPDATER.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicLongFieldUpdater.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicLongFieldUpdaterAssert<Object> result = ATOMIC_LONG_FIELD_UPDATER.createAssert(actual);
+      // THEN
+      result.hasValue(0L, new Container());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicLongFieldUpdaterAssert<Object> result = ATOMIC_LONG_FIELD_UPDATER.createAssert(valueProvider);
+      // THEN
+      result.hasValue(0L, new Container());
+      verify(valueProvider).apply(parameterizedType(AtomicLongFieldUpdater.class, Object.class));
+    }
+
+    private class Container {
+
+      volatile long longField;
+
+    }
+
+  }
+
+  @Nested
+  class AtomicLongFieldUpdater_Typed_Factory {
+
+    private final Object actual = AtomicLongFieldUpdater.newUpdater(Container.class, "longField");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = atomicLongFieldUpdater(Container.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicLongFieldUpdater.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicLongFieldUpdaterAssert<Container> result = atomicLongFieldUpdater(Container.class).createAssert(actual);
+      // THEN
+      result.hasValue(0L, new Container());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicLongFieldUpdaterAssert<Container> result = atomicLongFieldUpdater(Container.class).createAssert(valueProvider);
+      // THEN
+      result.hasValue(0L, new Container());
+      verify(valueProvider).apply(parameterizedType(AtomicLongFieldUpdater.class, Container.class));
+    }
+
+    private class Container {
+
+      volatile long longField;
+
+    }
+
+  }
+
+  @Nested
+  class AtomicReference_Factory {
+
+    private final Object actual = new AtomicReference<>();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_REFERENCE.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicReference.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicReferenceAssert<Object> result = ATOMIC_REFERENCE.createAssert(actual);
+      // THEN
+      result.hasValue(null);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicReferenceAssert<Object> result = ATOMIC_REFERENCE.createAssert(valueProvider);
+      // THEN
+      result.hasValue(null);
+      verify(valueProvider).apply(parameterizedType(AtomicReference.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class AtomicReference_Typed_Factory {
+
+    private final Object actual = new AtomicReference<>(0);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = atomicReference(Integer.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicReference.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicReferenceAssert<Integer> result = atomicReference(Integer.class).createAssert(actual);
+      // THEN
+      result.hasValue(0);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicReferenceAssert<Integer> result = atomicReference(Integer.class).createAssert(valueProvider);
+      // THEN
+      result.hasValue(0);
+      verify(valueProvider).apply(parameterizedType(AtomicReference.class, Integer.class));
+    }
+
+  }
+
+  @Nested
+  class AtomicReferenceArray_Factory {
+
+    private final Object actual = new AtomicReferenceArray<>(new Object[] { 0, "" });
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_REFERENCE_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicReferenceArray.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicReferenceArrayAssert<Object> result = ATOMIC_REFERENCE_ARRAY.createAssert(actual);
+      // THEN
+      result.containsExactly(0, "");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicReferenceArrayAssert<Object> result = ATOMIC_REFERENCE_ARRAY.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(0, "");
+      verify(valueProvider).apply(parameterizedType(AtomicReferenceArray.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class AtomicReferenceArray_Typed_Factory {
+
+    private final Object actual = new AtomicReferenceArray<>(new Integer[] { 0, 1 });
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_REFERENCE_ARRAY.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicReferenceArray.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicReferenceArrayAssert<Integer> result = atomicReferenceArray(Integer.class).createAssert(actual);
+      // THEN
+      result.containsExactly(0, 1);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicReferenceArrayAssert<Integer> result = atomicReferenceArray(Integer.class).createAssert(valueProvider);
+      // THEN
+      result.containsExactly(0, 1);
+      verify(valueProvider).apply(parameterizedType(AtomicReferenceArray.class, Integer.class));
+    }
+
+  }
+
+  @Nested
+  class AtomicReferenceFieldUpdater_Factory {
+
+    private final Object actual = AtomicReferenceFieldUpdater.newUpdater(Container.class, String.class, "stringField");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_REFERENCE_FIELD_UPDATER.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicReferenceFieldUpdater.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicReferenceFieldUpdaterAssert<Object, Object> result = ATOMIC_REFERENCE_FIELD_UPDATER.createAssert(actual);
+      // THEN
+      result.hasValue(null, new Container());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicReferenceFieldUpdaterAssert<Object, Object> result = ATOMIC_REFERENCE_FIELD_UPDATER.createAssert(valueProvider);
+      // THEN
+      result.hasValue(null, new Container());
+      verify(valueProvider).apply(parameterizedType(AtomicReferenceFieldUpdater.class, Object.class, Object.class));
+    }
+
+    private class Container {
+
+      volatile String stringField;
+
+    }
+
+  }
+
+  @Nested
+  class AtomicReferenceFieldUpdater_Typed_Factory {
+
+    private final Object actual = AtomicReferenceFieldUpdater.newUpdater(Container.class, String.class, "stringField");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = atomicReferenceFieldUpdater(String.class, Container.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicReferenceFieldUpdater.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicReferenceFieldUpdaterAssert<String, Container> result = atomicReferenceFieldUpdater(String.class,
+                                                                                                Container.class).createAssert(actual);
+      // THEN
+      result.hasValue(null, new Container());
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicReferenceFieldUpdaterAssert<String, Container> result = atomicReferenceFieldUpdater(String.class,
+                                                                                                Container.class).createAssert(valueProvider);
+      // THEN
+      result.hasValue(null, new Container());
+      verify(valueProvider).apply(parameterizedType(AtomicReferenceFieldUpdater.class, String.class,
+                                                    Container.class));
+    }
+
+    private class Container {
+
+      volatile String stringField;
+
+    }
+
+  }
+
+  @Nested
+  class AtomicMarkableReference_Factory {
+
+    private final Object actual = new AtomicMarkableReference<>(null, false);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_MARKABLE_REFERENCE.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicMarkableReference.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicMarkableReferenceAssert<Object> result = ATOMIC_MARKABLE_REFERENCE.createAssert(actual);
+      // THEN
+      result.hasReference(null);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicMarkableReferenceAssert<Object> result = ATOMIC_MARKABLE_REFERENCE.createAssert(valueProvider);
+      // THEN
+      result.hasReference(null);
+      verify(valueProvider).apply(parameterizedType(AtomicMarkableReference.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class AtomicMarkableReference_Typed_Factory {
+
+    private final Object actual = new AtomicMarkableReference<>(0, false);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = atomicMarkableReference(Integer.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicMarkableReference.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicMarkableReferenceAssert<Integer> result = atomicMarkableReference(Integer.class).createAssert(actual);
+      // THEN
+      result.hasReference(0);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicMarkableReferenceAssert<Integer> result = atomicMarkableReference(Integer.class).createAssert(valueProvider);
+      // THEN
+      result.hasReference(0);
+      verify(valueProvider).apply(parameterizedType(AtomicMarkableReference.class, Integer.class));
+    }
+
+  }
+
+  @Nested
+  class AtomicStampedReference_Factory {
+
+    private final Object actual = new AtomicStampedReference<>(null, 0);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_STAMPED_REFERENCE.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicStampedReference.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicStampedReferenceAssert<Object> result = ATOMIC_STAMPED_REFERENCE.createAssert(actual);
+      // THEN
+      result.hasReference(null);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicStampedReferenceAssert<Object> result = ATOMIC_STAMPED_REFERENCE.createAssert(valueProvider);
+      // THEN
+      result.hasReference(null);
+      verify(valueProvider).apply(parameterizedType(AtomicStampedReference.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class AtomicStampedReference_Typed_Factory {
+
+    private final Object actual = new AtomicStampedReference<>(0, 0);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ATOMIC_STAMPED_REFERENCE.getRawClass();
+      // THEN
+      then(result).isEqualTo(AtomicStampedReference.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AtomicStampedReferenceAssert<Integer> result = atomicStampedReference(Integer.class).createAssert(actual);
+      // THEN
+      result.hasReference(0);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AtomicStampedReferenceAssert<Integer> result = atomicStampedReference(Integer.class).createAssert(valueProvider);
+      // THEN
+      result.hasReference(0);
+      verify(valueProvider).apply(parameterizedType(AtomicStampedReference.class, Integer.class));
+    }
+
+  }
+
+  @Nested
+  class Throwable_Factory {
+
+    private final Object actual = new RuntimeException("message");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = THROWABLE.getRawClass();
+      // THEN
+      then(result).isEqualTo(Throwable.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractThrowableAssert<?, Throwable> result = THROWABLE.createAssert(actual);
+      // THEN
+      result.hasMessage("message");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractThrowableAssert<?, Throwable> result = THROWABLE.createAssert(valueProvider);
+      // THEN
+      result.hasMessage("message");
+      verify(valueProvider).apply(Throwable.class);
+    }
+
+  }
+
+  @Nested
+  class Throwable_Typed_Factory {
+
+    private final Object actual = new RuntimeException("message");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = throwable(RuntimeException.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(RuntimeException.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractThrowableAssert<?, RuntimeException> result = throwable(RuntimeException.class).createAssert(actual);
+      // THEN
+      result.hasMessage("message");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractThrowableAssert<?, RuntimeException> result = throwable(RuntimeException.class).createAssert(valueProvider);
+      // THEN
+      result.hasMessage("message");
+      verify(valueProvider).apply(RuntimeException.class);
+    }
+
+  }
+
+  @Nested
+  class CharSequence_Factory {
+
+    private final Object actual = "string";
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = CHAR_SEQUENCE.getRawClass();
+      // THEN
+      then(result).isEqualTo(CharSequence.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractCharSequenceAssert<?, ? extends CharSequence> result = CHAR_SEQUENCE.createAssert(actual);
+      // THEN
+      result.startsWith("str");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractCharSequenceAssert<?, ? extends CharSequence> result = CHAR_SEQUENCE.createAssert(valueProvider);
+      // THEN
+      result.startsWith("str");
+      verify(valueProvider).apply(CharSequence.class);
+    }
+
+  }
+
+  @Nested
+  class StringBuilder_Factory {
+
+    private final Object actual = new StringBuilder("string");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = STRING_BUILDER.getRawClass();
+      // THEN
+      then(result).isEqualTo(StringBuilder.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractCharSequenceAssert<?, ? extends CharSequence> result = STRING_BUILDER.createAssert(actual);
+      // THEN
+      result.startsWith("str");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractCharSequenceAssert<?, ? extends CharSequence> result = STRING_BUILDER.createAssert(valueProvider);
+      // THEN
+      result.startsWith("str");
+      verify(valueProvider).apply(StringBuilder.class);
+    }
+
+  }
+
+  @Nested
+  class StringBuffer_Factory {
+
+    private final Object actual = new StringBuffer("string");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = STRING_BUFFER.getRawClass();
+      // THEN
+      then(result).isEqualTo(StringBuffer.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractCharSequenceAssert<?, ? extends CharSequence> result = STRING_BUFFER.createAssert(actual);
+      // THEN
+      result.startsWith("str");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractCharSequenceAssert<?, ? extends CharSequence> result = STRING_BUFFER.createAssert(valueProvider);
+      // THEN
+      result.startsWith("str");
+      verify(valueProvider).apply(StringBuffer.class);
+    }
+
+  }
+
+  @Nested
+  class String_Factory {
+
+    private final Object actual = "string";
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = STRING.getRawClass();
+      // THEN
+      then(result).isEqualTo(String.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractStringAssert<?> result = STRING.createAssert(actual);
+      // THEN
+      result.startsWith("str");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractStringAssert<?> result = STRING.createAssert(valueProvider);
+      // THEN
+      result.startsWith("str");
+      verify(valueProvider).apply(String.class);
+    }
+
+  }
+
+  @Nested
+  class Iterable_Factory {
+
+    private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ITERABLE.getRawClass();
+      // THEN
+      then(result).isEqualTo(Iterable.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      IterableAssert<Object> result = ITERABLE.createAssert(actual);
+      // THEN
+      result.contains("Bart", "Lisa");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      IterableAssert<Object> result = ITERABLE.createAssert(valueProvider);
+      // THEN
+      result.contains("Bart", "Lisa");
+      verify(valueProvider).apply(parameterizedType(Iterable.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class Iterable_Typed_Factory {
+
+    private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = iterable(String.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Iterable.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      IterableAssert<String> result = iterable(String.class).createAssert(actual);
+      // THEN
+      result.contains("Bart", "Lisa");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      IterableAssert<String> result = iterable(String.class).createAssert(valueProvider);
+      // THEN
+      result.contains("Bart", "Lisa");
+      verify(valueProvider).apply(parameterizedType(Iterable.class, String.class));
+    }
+
+  }
+
+  @Nested
+  class Iterator_Factory {
+
+    private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = ITERATOR.getRawClass();
+      // THEN
+      then(result).isEqualTo(Iterator.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      IteratorAssert<Object> result = ITERATOR.createAssert(actual);
+      // THEN
+      result.hasNext();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      IteratorAssert<Object> result = ITERATOR.createAssert(valueProvider);
+      // THEN
+      result.hasNext();
+      verify(valueProvider).apply(parameterizedType(Iterator.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class Iterator_Typed_Factory {
+
+    private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = iterator(String.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Iterator.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      IteratorAssert<String> result = iterator(String.class).createAssert(actual);
+      // THEN
+      result.hasNext();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      IteratorAssert<String> result = iterator(String.class).createAssert(valueProvider);
+      // THEN
+      result.hasNext();
+      verify(valueProvider).apply(parameterizedType(Iterator.class, String.class));
+    }
+
+  }
+
+  @Nested
+  class Collection_Factory {
+
+    private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = COLLECTION.getRawClass();
+      // THEN
+      then(result).isEqualTo(Collection.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = COLLECTION.createAssert(actual);
+      // THEN
+      result.contains("Bart", "Lisa");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = COLLECTION.createAssert(valueProvider);
+      // THEN
+      result.contains("Bart", "Lisa");
+      verify(valueProvider).apply(parameterizedType(Collection.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class Collection_Typed_Factory {
+
+    private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = collection(String.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Collection.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = collection(String.class).createAssert(actual);
+      // THEN
+      result.contains("Bart", "Lisa");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = collection(String.class).createAssert(valueProvider);
+      // THEN
+      result.contains("Bart", "Lisa");
+      verify(valueProvider).apply(parameterizedType(Collection.class, String.class));
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class Set_Factory {
+
+    private final Object actual = Sets.set(123, 456, 789);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = SET.getRawClass();
+      // THEN
+      then(result).isEqualTo(Set.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = SET.createAssert(actual);
+      // THEN
+      result.contains(456, 789);
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      AbstractCollectionAssert<?, Collection<?>, Object, ObjectAssert<Object>> result = SET.createAssert(valueProvider);
+      // THEN
+      result.contains(456, 789);
+      verify(valueProvider).apply(parameterizedType(Set.class, Object.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new int[] { 123, 456, 789 }, type));
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class Set_Typed_Factory {
+
+    private final Object actual = Sets.set(123, 456, 789);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = set(String.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Set.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractCollectionAssert<?, Collection<? extends Integer>, Integer, ObjectAssert<Integer>> result = set(Integer.class).createAssert(actual);
+      // THEN
+      result.contains(456, 789);
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      AbstractCollectionAssert<?, Collection<? extends Integer>, Integer, ObjectAssert<Integer>> result = set(Integer.class).createAssert(valueProvider);
+      // THEN
+      result.contains(456, 789);
+      verify(valueProvider).apply(parameterizedType(Set.class, Integer.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new String[] { "123", "456", "789" }, type));
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class List_Factory {
+
+    private final Object actual = Lists.list(123, 456, 789);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = LIST.getRawClass();
+      // THEN
+      then(result).isEqualTo(List.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      ListAssert<Object> result = LIST.createAssert(actual);
+      // THEN
+      result.contains(456, 789);
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      ListAssert<Object> result = LIST.createAssert(valueProvider);
+      // THEN
+      result.contains(456, 789);
+      verify(valueProvider).apply(parameterizedType(List.class, Object.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new int[] { 123, 456, 789 }, type));
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class List_Typed_Factory {
+
+    private final Object actual = Lists.list(123, 456, 789);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = list(String.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(List.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      ListAssert<Integer> result = list(Integer.class).createAssert(actual);
+      // THEN
+      result.contains(456, 789);
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      ListAssert<Integer> result = list(Integer.class).createAssert(valueProvider);
+      // THEN
+      result.contains(456, 789);
+      verify(valueProvider).apply(parameterizedType(List.class, Integer.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new String[] { "123", "456", "789" }, type));
+    }
+
+  }
+
+  @Nested
+  class Stream_Factory {
+
+    private final Object actual = Stream.of(1, 2, 3);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = STREAM.getRawClass();
+      // THEN
+      then(result).isEqualTo(Stream.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      ListAssert<Object> result = STREAM.createAssert(actual);
+      // THEN
+      result.containsExactly(1, 2, 3);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      ListAssert<Object> result = STREAM.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(1, 2, 3);
+      verify(valueProvider).apply(parameterizedType(Stream.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class Stream_Typed_Factory {
+
+    private final Object actual = Stream.of(1, 2, 3);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = stream(Integer.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Stream.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      ListAssert<Integer> result = stream(Integer.class).createAssert(actual);
+      // THEN
+      result.containsExactly(1, 2, 3);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      ListAssert<Integer> result = stream(Integer.class).createAssert(valueProvider);
+      // THEN
+      result.containsExactly(1, 2, 3);
+      verify(valueProvider).apply(parameterizedType(Stream.class, Integer.class));
+    }
+
+  }
+
+  @Nested
+  class DoubleStream_Factory {
+
+    private final Object actual = DoubleStream.of(1.0, 2.0, 3.0);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = DOUBLE_STREAM.getRawClass();
+      // THEN
+      then(result).isEqualTo(DoubleStream.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      ListAssert<Double> result = DOUBLE_STREAM.createAssert(actual);
+      // THEN
+      result.containsExactly(1.0, 2.0, 3.0);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      ListAssert<Double> result = DOUBLE_STREAM.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(1.0, 2.0, 3.0);
+      verify(valueProvider).apply(DoubleStream.class);
+    }
+
+  }
+
+  @Nested
+  class LongStream_Factory {
+
+    private final Object actual = LongStream.of(1L, 2L, 3L);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = LONG_STREAM.getRawClass();
+      // THEN
+      then(result).isEqualTo(LongStream.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      ListAssert<Long> result = LONG_STREAM.createAssert(actual);
+      // THEN
+      result.containsExactly(1L, 2L, 3L);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      ListAssert<Long> result = LONG_STREAM.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(1L, 2L, 3L);
+      verify(valueProvider).apply(LongStream.class);
+    }
+
+  }
+
+  @Nested
+  class IntStream_Factory {
+
+    private final Object actual = IntStream.of(1, 2, 3);
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = INT_STREAM.getRawClass();
+      // THEN
+      then(result).isEqualTo(IntStream.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      ListAssert<Integer> result = INT_STREAM.createAssert(actual);
+      // THEN
+      result.containsExactly(1, 2, 3);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      ListAssert<Integer> result = INT_STREAM.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(1, 2, 3);
+      verify(valueProvider).apply(IntStream.class);
+    }
+
+  }
+
+  @Nested
+  class Path_Factory {
+
+    private final Object actual = Paths.get("non-existing");
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = PATH.getRawClass();
+      // THEN
+      then(result).isEqualTo(Path.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractPathAssert<?> result = PATH.createAssert(actual);
+      // THEN
+      result.doesNotExist();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractPathAssert<?> result = PATH.createAssert(valueProvider);
+      // THEN
+      result.doesNotExist();
+      verify(valueProvider).apply(Path.class);
+    }
+
+  }
+
+  @Nested
+  class Spliterator_Factory {
+
+    private final Object actual = Stream.of(1, 2).spliterator();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = SPLITERATOR.getRawClass();
+      // THEN
+      then(result).isEqualTo(Spliterator.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      SpliteratorAssert<Object> result = SPLITERATOR.createAssert(actual);
+      // THEN
+      result.hasCharacteristics(Spliterator.SIZED);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      SpliteratorAssert<Object> result = SPLITERATOR.createAssert(valueProvider);
+      // THEN
+      result.hasCharacteristics(Spliterator.SIZED);
+      verify(valueProvider).apply(parameterizedType(Spliterator.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  class Spliterator_Typed_Factory {
+
+    private final Object actual = Stream.of(1, 2).spliterator();
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = spliterator(Integer.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Spliterator.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      SpliteratorAssert<Integer> result = spliterator(Integer.class).createAssert(actual);
+      // THEN
+      result.hasCharacteristics(Spliterator.SIZED);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      SpliteratorAssert<Integer> result = spliterator(Integer.class).createAssert(valueProvider);
+      // THEN
+      result.hasCharacteristics(Spliterator.SIZED);
+      verify(valueProvider).apply(parameterizedType(Spliterator.class, Integer.class));
+    }
+
+  }
+
+  @Nested
+  class Map_Factory {
+
+    private final Object actual = mapOf(entry("key", "value"));
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = MAP.getRawClass();
+      // THEN
+      then(result).isEqualTo(Map.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      MapAssert<Object, Object> result = MAP.createAssert(actual);
+      // THEN
+      result.containsExactly(entry("key", "value"));
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      MapAssert<Object, Object> result = MAP.createAssert(valueProvider);
+      // THEN
+      result.containsExactly(entry("key", "value"));
+      verify(valueProvider).apply(parameterizedType(Map.class, Object.class, Object.class));
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class Map_Typed_Factory {
+
+    private final Object actual = mapOf(entry(123, 456));
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = map(Integer.class, Integer.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Map.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      MapAssert<Integer, Integer> result = map(Integer.class, Integer.class).createAssert(actual);
+      // THEN
+      result.containsExactly(entry(123, 456));
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      MapAssert<Integer, Integer> result = map(Integer.class, Integer.class).createAssert(valueProvider);
+      // THEN
+      result.containsExactly(entry(123, 456));
+      verify(valueProvider).apply(parameterizedType(Map.class, Integer.class, Integer.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(mapOf(entry("123", "456")), type));
+    }
+
+  }
+
+  @Nested
+  class Comparable_Factory {
+
+    private final Object actual = 0;
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = comparable(Integer.class).getRawClass();
+      // THEN
+      then(result).isEqualTo(Integer.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractComparableAssert<?, Integer> result = comparable(Integer.class).createAssert(actual);
+      // THEN
+      result.isEqualByComparingTo(0);
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractComparableAssert<?, Integer> result = comparable(Integer.class).createAssert(valueProvider);
+      // THEN
+      result.isEqualByComparingTo(0);
+      verify(valueProvider).apply(Integer.class);
+    }
+
+  }
+
+  @SuppressWarnings("unchecked")
+  @SafeVarargs
+  private static <T> T mockThatDelegatesTo(T delegate, T... reified) {
+    if (reified.length > 0) {
+      throw new IllegalArgumentException("Leave the vararg parameter empty. That is used to detect the class instance automagically.");
+    }
+    return mock((Class<T>) reified.getClass().getComponentType(), delegatesTo(delegate));
+  }
+
+  private static ParameterizedType parameterizedType(Class<?> rawClass, Class<?>... typeArguments) {
+    return argThat(argument -> {
+      assertThat(argument).returns(typeArguments, from(ParameterizedType::getActualTypeArguments))
+                          .returns(rawClass, from(ParameterizedType::getRawType))
+                          .returns(null, from(ParameterizedType::getOwnerType));
+      return true;
+    });
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <T> T convert(Object instance, Type type) {
+    return (T) SPRING_CONVERSION_SERVICE.convert(instance, new TypeDescriptor(ResolvableType.forType(type), null, null));
   }
 
 }

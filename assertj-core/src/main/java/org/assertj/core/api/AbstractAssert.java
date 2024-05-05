@@ -478,7 +478,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
     requireNonNull(instanceOfAssertFactory, shouldNotBeNull("instanceOfAssertFactory")::create);
-    objects.assertIsInstanceOf(info, actual, instanceOfAssertFactory.getType());
+    objects.assertIsInstanceOf(info, actual, instanceOfAssertFactory.getRawClass());
     return (ASSERT) instanceOfAssertFactory.createAssert(actual).withAssertionState(myself);
   }
 
