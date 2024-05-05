@@ -16,11 +16,14 @@ import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 
 /**
+ * @deprecated don't use it or favor {@link AssertionErrorCreator} instead.
+ *
  * Factory of <code>{@link AssertionError}</code>s.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
  */
+@Deprecated
 public interface AssertionErrorFactory {
 
   /**
