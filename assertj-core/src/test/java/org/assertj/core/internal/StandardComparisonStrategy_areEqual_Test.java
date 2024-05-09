@@ -16,9 +16,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import java.sql.Timestamp;
-import java.time.Instant;
-import java.util.Date;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -254,29 +251,6 @@ class StandardComparisonStrategy_areEqual_Test {
   void should_return_false_if_array_is_non_null_and_other_is_null(Object actual) {
     // WHEN
     boolean result = underTest.areEqual(actual, null);
-    // THEN
-    then(result).isFalse();
-  }
-
-  @Test
-  void should_return_true_if_date_and_timestamp_are_equal() {
-    // GIVEN
-    Instant now = Instant.now();
-    Date actual = Date.from(now);
-    Timestamp other = Timestamp.from(now);
-    // WHEN
-    boolean result = underTest.areEqual(actual, other);
-    // THEN
-    then(result).isTrue();
-  }
-
-  @Test
-  void should_return_false_if_dates_are_not_equal() {
-    // GIVEN
-    Date actual = Date.from(Instant.parse("2024-03-30T00:00:00.00Z"));
-    Timestamp other = Timestamp.from(Instant.parse("2024-03-30T00:00:00.01Z"));
-    // WHEN
-    boolean result = underTest.areEqual(actual, other);
     // THEN
     then(result).isFalse();
   }

@@ -15,7 +15,6 @@ package org.assertj.core.internal;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Collection;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -106,9 +105,6 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
           return java.util.Arrays.deepEquals((Object[]) actual, (Object[]) other);
       }
     }
-
-    // use compareTo over equals as it deals correctly with java.sql.Timestamp
-    if (actual instanceof Date && other instanceof Date) return ((Date) actual).compareTo((Date) other) == 0;
     return actual.equals(other);
   }
 
