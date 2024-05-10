@@ -798,7 +798,7 @@ public class AssertionsForClassTypes {
 
   /**
    * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
-   * which allows to chain assertions on the thrown exception.
+   * which allows chaining assertions on the thrown exception.
    * <p>
    * Example:
    * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
@@ -822,7 +822,7 @@ public class AssertionsForClassTypes {
    * <pre><code class='java'>assertThatNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
    *
    * This method is more or less the same of {@code assertThatCode(...).doesNotThrowAnyException();} but in a more natural way.
-  
+   *
    * @return the created {@link NotThrownAssert}.
    * @since 3.17.0
    */
@@ -831,7 +831,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
+   * Allows capturing and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
    *
    * <p>
    * Example :
@@ -898,7 +898,7 @@ public class AssertionsForClassTypes {
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see AssertionsForClassTypes#catchThrowableOfType(ThrowableAssert.ThrowingCallable, Class)
+   * @see AssertionsForClassTypes#catchThrowableOfType(Class, ThrowableAssert.ThrowingCallable)
    */
   public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
     return ThrowableAssert.catchThrowable(shouldRaiseThrowable);
@@ -940,12 +940,55 @@ public class AssertionsForClassTypes {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
    * @since 3.9.0
+   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    */
+  @Deprecated
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
                                                                              Class<THROWABLE> type) {
-    return ThrowableAssert.catchThrowableOfType(shouldRaiseThrowable, type);
+    return catchThrowableOfType(type, shouldRaiseThrowable);
   }
 
+  /**
+   * Allows catching a {@link Throwable} of a specific type.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
+   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it,
+   * making it convenient to perform subtype-specific assertions on the result.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class CustomParseException extends Exception {
+   *   int line;
+   *   int column;
+   *
+   *   public CustomParseException(String msg, int l, int c) {
+   *     super(msg);
+   *     line = l;
+   *     column = c;
+   *   }
+   * }
+   *
+   * CustomParseException e = catchThrowableOfType(CustomParseException.class,
+   *                                               () -&gt; { throw new CustomParseException("boom!", 1, 5); });
+   * // assertions pass
+   * assertThat(e).hasMessageContaining("boom");
+   * assertThat(e.line).isEqualTo(1);
+   * assertThat(e.column).isEqualTo(5);
+   *
+   * // fails as CustomParseException is not a RuntimeException
+   * catchThrowableOfType(RuntimeException.class,
+   *                     () -&gt; { throw new CustomParseException("boom!", 1, 5); });</code></pre>
+   *
+   * @param <THROWABLE> the {@link Throwable} type.
+   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
+   * @param type The type of exception that the code is expected to raise.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.26.0
+   */
+  public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
+                                                                             ThrowingCallable shouldRaiseThrowable) {
+    return ThrowableAssert.catchThrowableOfType(type, shouldRaiseThrowable);
+  }
   // -------------------------------------------------------------------------------------------------
   // fail methods : not assertions but here to have a single entry point to all AssertJ features.
   // -------------------------------------------------------------------------------------------------
@@ -1007,7 +1050,7 @@ public class AssertionsForClassTypes {
   /**
    * Only delegate to {@link Fail#failBecauseExceptionWasNotThrown(Class)} so that Assertions offers a full feature
    * entry point to all AssertJ features (but you can use Fail if you prefer).
-   *
+   * <p>
    * {@link Assertions#shouldHaveThrown(Class)} can be used as a replacement.
    *
    * @param throwableClass the Throwable class that was expected to be thrown.
@@ -1875,7 +1918,7 @@ public class AssertionsForClassTypes {
    * User date formats are used before default ones in the order they have been registered (first registered, first
    * used).
    * <p>
-   * AssertJ is gonna use any date formats registered with one of these methods :
+   * AssertJ is going to use any date formats registered with one of these methods :
    * <ul>
    * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(String)}</li>
    * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(java.text.DateFormat)}</li>
@@ -1921,7 +1964,7 @@ public class AssertionsForClassTypes {
    * User date formats are used before default ones in the order they have been registered (first registered, first
    * used).
    * <p>
-   * AssertJ is gonna use any date formats registered with one of these methods :
+   * AssertJ is going to use any date formats registered with one of these methods :
    * <ul>
    * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(String)}</li>
    * <li>{@link org.assertj.core.api.AbstractDateAssert#withDateFormat(java.text.DateFormat)}</li>

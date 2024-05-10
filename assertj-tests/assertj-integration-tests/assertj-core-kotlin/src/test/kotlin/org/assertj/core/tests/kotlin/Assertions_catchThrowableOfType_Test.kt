@@ -12,31 +12,22 @@
  */
 package org.assertj.core.tests.kotlin
 
-import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.catchThrowableOfType
+import org.assertj.core.api.BDDAssertions.then
 import org.junit.jupiter.api.Test
 
-internal class Assertions_assertThat_Test {
+internal class Assertions_catchThrowableOfType_Test {
 
   @Test
-  fun intarray() {
-    val x: IntArray = intArrayOf(1, 2, 3)
-    assertThat(x).contains(1, 2, 3)
-  }
-
-  @Test
-  fun `immutable list`() {
-    val list = listOf("Viserys", "Rhaenyra", "Daemon")
-    assertThat(list).contains("Viserys", "Rhaenyra", "Daemon")
-    assertThat(list).hasSize(3).anySatisfy {
-      assertThat(it).isNotEqualTo("Corlys")
-      assertThat(it).hasSize(6)
+  fun `should work with lambda expressions`() {
+    // GIVEN
+    val exception = Exception("boom!!")
+    // WHEN
+    val thrown = catchThrowableOfType(Exception::class.java) {
+      throw exception
     }
-  }
-
-  @Test
-  fun `mutable list`() {
-    val list = mutableListOf("Viserys", "Rhaenyra", "Daemon")
-    assertThat(list).contains("Viserys", "Rhaenyra", "Daemon")
+    // THEN
+    then(thrown).isSameAs(exception)
   }
 
 }

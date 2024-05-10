@@ -14,7 +14,7 @@ package org.assertj.core.tests.kotlin
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
-import org.assertj.core.api.BDDAssertions
+import org.assertj.core.api.BDDAssertions.then
 import org.assertj.core.tests.kotlin.testkit.AssertionsUtil.expectAssertionError
 import org.assertj.core.tests.kotlin.testkit.ConcreteAssert
 import org.junit.jupiter.api.Test
@@ -28,28 +28,28 @@ import java.util.function.Supplier
 internal class Assertions_describedAs_text_supplier_Test {
 
   @Test
-  fun descriptionText_should_evaluate_lazy_description() {
+  fun `descriptionText should evaluate lazy description`() {
     // GIVEN
     val assertions = ConcreteAssert("foo")
     // WHEN
     assertions.describedAs { "description" }
     // THEN
-    BDDAssertions.then(assertions.descriptionText()).isEqualTo("description")
+    then(assertions.descriptionText()).isEqualTo("description")
   }
 
   @Test
-  fun should_not_evaluate_description_when_assertion_succeeds() {
+  fun `should not evaluate description when assertion succeeds`() {
     // GIVEN
     val evaluated = AtomicBoolean(false)
     val descriptionSupplier = spiedSupplier(evaluated)
     // WHEN
     assertThat(true).describedAs(descriptionSupplier).isTrue
     // THEN
-    BDDAssertions.then(evaluated).isFalse
+    then(evaluated).isFalse
   }
 
   @Test
-  fun should_evaluate_description_when_assertion_fails() {
+  fun `should evaluate description when assertion fails`() {
     // GIVEN
     val evaluated = AtomicBoolean(false)
     val descriptionSupplier = spiedSupplier(evaluated)
@@ -58,21 +58,21 @@ internal class Assertions_describedAs_text_supplier_Test {
       assertThat(true).describedAs(descriptionSupplier).isFalse()
     }
     // THEN
-    BDDAssertions.then(evaluated).isTrue
+    then(evaluated).isTrue
   }
 
   @Test
-  fun should_return_this() {
+  fun `should return this`() {
     // GIVEN
     val assertions = ConcreteAssert("foo")
     // WHEN
     val returnedAssertions = assertions.describedAs { "description" }
     // THEN
-    BDDAssertions.then(returnedAssertions).isSameAs(assertions)
+    then(returnedAssertions).isSameAs(assertions)
   }
 
   @Test
-  fun should_throw_evaluate_lazy_description() {
+  fun `should throw evaluate lazy description`() {
     // GIVEN
     val assertions = ConcreteAssert("foo")
     val descriptionSupplier: Supplier<String>? = null
@@ -83,7 +83,7 @@ internal class Assertions_describedAs_text_supplier_Test {
       ).descriptionText()
     }
     // THEN
-    BDDAssertions.then(throwable).isInstanceOf(IllegalStateException::class.java)
+    then(throwable).isInstanceOf(IllegalStateException::class.java)
       .hasMessage("the descriptionSupplier should not be null")
   }
 

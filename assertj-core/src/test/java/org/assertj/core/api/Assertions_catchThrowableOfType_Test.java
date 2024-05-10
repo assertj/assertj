@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.Assertions_catchThrowable_Test.codeThrowing;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -32,7 +30,7 @@ class Assertions_catchThrowableOfType_Test {
     // GIVEN
     Exception exception = new Exception("boom!!");
     // WHEN
-    Throwable boom = catchThrowable(codeThrowing(exception));
+    Throwable boom = catchThrowableOfType(Exception.class, codeThrowing(exception));
     // THEN
     then(boom).isSameAs(exception);
   }
@@ -40,7 +38,7 @@ class Assertions_catchThrowableOfType_Test {
   @Test
   void catchThrowable_returns_null_when_no_exception_thrown() {
     // WHEN
-    Throwable boom = catchThrowable(() -> {});
+    Throwable boom = catchThrowableOfType(RuntimeException.class, () -> {});
     // THEN
     then(boom).isNull();
   }
@@ -48,11 +46,11 @@ class Assertions_catchThrowableOfType_Test {
   @Test
   void catchThrowableOfType_should_fail_with_good_message_if_wrong_type() {
     // GIVEN
-    ThrowingCallable code = () -> catchThrowableOfType(raisingException("boom!!"), RuntimeException.class);
+    ThrowingCallable code = () -> catchThrowableOfType(RuntimeException.class, raisingException("boom!!"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    AssertionError error = expectAssertionError(code);
     // THEN
-    assertThat(assertionError).hasMessageContainingAll(RuntimeException.class.getName(), Exception.class.getName());
+    then(error).hasMessageContainingAll(RuntimeException.class.getName(), Exception.class.getName());
   }
 
   @Test
@@ -60,7 +58,7 @@ class Assertions_catchThrowableOfType_Test {
     // GIVEN
     final Exception expected = new RuntimeException("boom!!");
     // WHEN
-    Exception actual = catchThrowableOfType(codeThrowing(expected), Exception.class);
+    Exception actual = catchThrowableOfType(Exception.class, codeThrowing(expected));
     // THEN
     then(actual).isSameAs(expected);
   }
@@ -68,7 +66,7 @@ class Assertions_catchThrowableOfType_Test {
   @Test
   void catchThrowableOfType_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    IOException actual = catchThrowableOfType(() -> {}, IOException.class);
+    IOException actual = catchThrowableOfType(IOException.class, () -> {});
     // THEN
     then(actual).isNull();
   }
@@ -78,7 +76,7 @@ class Assertions_catchThrowableOfType_Test {
     // GIVEN
     Throwable throwable = mock(Throwable.class);
     // WHEN
-    Throwable actual = catchThrowableOfType(codeThrowing(throwable), Throwable.class);
+    Throwable actual = catchThrowableOfType(Throwable.class, codeThrowing(throwable));
     // THEN
     then(actual).isSameAs(throwable);
   }
