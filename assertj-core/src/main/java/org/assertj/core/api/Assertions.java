@@ -1345,7 +1345,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * <p>
    * This caught {@link Throwable} can then be asserted.
    * <p>
-   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(Class, ThrowingCallable)}.
+   * If you need to assert on the real type of Throwable caught (e.g. IOException), use
+   * {@link #catchThrowableOfType(Class, ThrowingCallable)}.
    * <p>
    * Example:
    * <pre><code class='java'>{@literal @}Test
@@ -1367,8 +1368,6 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
-   * <p>
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
    * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
@@ -1405,11 +1404,12 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.9.0
+   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    */
   @Deprecated
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
                                                                              Class<THROWABLE> type) {
-    return AssertionsForClassTypes.catchThrowableOfType(type, shouldRaiseThrowable);
+    return catchThrowableOfType(type, shouldRaiseThrowable);
   }
 
   /**
@@ -1448,11 +1448,11 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param type The type of exception that the code is expected to raise.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
-   * @since 3.23.11
+   * @since 3.26.0
    */
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
                                                                              ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowableOfType(type, shouldRaiseThrowable);
+    return ThrowableAssert.catchThrowableOfType(type, shouldRaiseThrowable);
   }
   /**
    * Allows catching an instance of {@link Exception}.

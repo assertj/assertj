@@ -1813,7 +1813,7 @@ public class BDDAssertions extends Assertions {
 
   /**
    * Creates a new instance of <code>{@link SpliteratorAssert}</code> from the given {@link Spliterator}.
-   *
+   * <p>
    * Example:
    * <pre><code class='java'> Spliterator&lt;Integer&gt; spliterator = Stream.of(1, 2, 3).spliterator();
    * then(spliterator).hasCharacteristics(Spliterator.SIZED); </code></pre>
@@ -1856,8 +1856,6 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
-   * <p>
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
    * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
@@ -1893,14 +1891,13 @@ public class BDDAssertions extends Assertions {
    * @param type The type of exception that the code is expected to raise.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
-   *
    * @since 3.20.0
+   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    */
-
   @Deprecated
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
                                                                              Class<THROWABLE> type) {
-    return AssertionsForClassTypes.catchThrowableOfType(type, shouldRaiseThrowable);
+    return catchThrowableOfType(type, shouldRaiseThrowable);
   }
 
   /**
@@ -1939,12 +1936,11 @@ public class BDDAssertions extends Assertions {
    * @param type The type of exception that the code is expected to raise.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
-   *
-   * @since 3.23.11
+   * @since 3.26.0
    */
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
                                                                              ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowableOfType(type, shouldRaiseThrowable);
+    return ThrowableAssert.catchThrowableOfType(type, shouldRaiseThrowable);
   }
 
   /**

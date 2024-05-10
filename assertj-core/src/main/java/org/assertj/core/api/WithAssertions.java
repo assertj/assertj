@@ -2830,8 +2830,6 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
-   * <p>
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
    * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
@@ -2867,11 +2865,12 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.9.0
+   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    */
   @Deprecated
-  default <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(final ThrowingCallable shouldRaiseThrowable,
-                                                                       final Class<THROWABLE> type) {
-    return Assertions.catchThrowableOfType(type, shouldRaiseThrowable);
+  default <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
+                                                                       Class<THROWABLE> type) {
+    return catchThrowableOfType(type, shouldRaiseThrowable);
   }
 
   /**
@@ -2909,12 +2908,13 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param type The type of exception that the code is expected to raise.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
-   * @since 3.23.11
+   * @since 3.26.0
    */
-  default <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(final Class<THROWABLE> type,
-                                                                       final ThrowingCallable shouldRaiseThrowable) {
-    return Assertions.catchThrowableOfType(type, shouldRaiseThrowable);
+  default <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
+                                                                       ThrowingCallable shouldRaiseThrowable) {
+    return ThrowableAssert.catchThrowableOfType(type, shouldRaiseThrowable);
   }
+
   /**
    * Allows catching an instance of {@link Exception}.
    * <p>
@@ -3074,7 +3074,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.22.0
    */
   default ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException, ReflectiveOperationException.class);
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException,
+                                                        ReflectiveOperationException.class);
   }
 
   /**
