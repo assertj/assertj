@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.integers;
 
@@ -19,7 +19,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.internal.IntegersBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.Integers#assertIsNotPositive(org.assertj.core.api.AssertionInfo,
@@ -50,7 +49,8 @@ class Integers_assertIsNotPositive_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1));
+    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                          -1));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(-1, 0, absValueComparisonStrategy).create());
   }
@@ -58,7 +58,8 @@ class Integers_assertIsNotPositive_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1));
+    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                          1));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(1, 0, absValueComparisonStrategy).create());
   }

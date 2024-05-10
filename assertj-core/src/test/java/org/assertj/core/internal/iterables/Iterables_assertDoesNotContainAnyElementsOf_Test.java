@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
@@ -70,7 +70,8 @@ class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesBaseTest
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainAnyElementsOf(someInfo(), null, newArrayList("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertDoesNotContainAnyElementsOf(someInfo(), null,
+                                                                                                                 newArrayList("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -92,13 +93,13 @@ class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesBaseTest
   @Test
   void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual,
-        newArrayList("Han"));
+                                                                                     newArrayList("Han"));
   }
 
   @Test
   void should_pass_if_actual_does_not_contain_any_elements_of_given_iterable_even_if_duplicated_according_to_custom_comparison_strategy() {
     iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(someInfo(), actual,
-        newArrayList("Han", "Han", "Anakin"));
+                                                                                     newArrayList("Han", "Han", "Anakin"));
   }
 
   @Test
@@ -106,11 +107,13 @@ class Iterables_assertDoesNotContainAnyElementsOf_Test extends IterablesBaseTest
     AssertionInfo info = someInfo();
     List<String> expected = newArrayList("LuKe", "YODA", "Han");
 
-    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(info, actual, expected));
+    Throwable error = catchThrowable(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertDoesNotContainAnyElementsOf(info,
+                                                                                                                            actual,
+                                                                                                                            expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info,
-        shouldNotContain(actual, expected.toArray(), newLinkedHashSet("LuKe", "YODA"), comparisonStrategy));
+                             shouldNotContain(actual, expected.toArray(), newLinkedHashSet("LuKe", "YODA"), comparisonStrategy));
   }
 
 }

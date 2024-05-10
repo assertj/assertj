@@ -8,12 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.comparison.ComparingSnakeOrCamelCaseFields.COMPARING_SNAKE_OR_CAMEL_CASE_FIELDS;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -41,9 +40,10 @@ class ComparingSnakeOrCamelCaseFields_getChildNodeValue_Test {
   void getChildNodeValue_should_read_fields_given_their_camel_case_form(String fieldName, String expectedValue) {
     // GIVEN
     Fields node = new Fields();
-    COMPARING_SNAKE_OR_CAMEL_CASE_FIELDS.getChildrenNodeNamesOf(node);
+    ComparingSnakeOrCamelCaseFields comparingSnakeOrCamelCaseFields = new ComparingSnakeOrCamelCaseFields();
+    // comparingSnakeOrCamelCaseFields.getChildrenNodeNamesOf(node);
     // WHEN
-    Object value = COMPARING_SNAKE_OR_CAMEL_CASE_FIELDS.getChildNodeValue(fieldName, node);
+    Object value = comparingSnakeOrCamelCaseFields.getChildNodeValue(fieldName, node);
     // THEN
     then(value).isEqualTo(expectedValue);
   }

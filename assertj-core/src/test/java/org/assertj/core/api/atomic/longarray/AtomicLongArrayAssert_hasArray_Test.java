@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.atomic.longarray;
 
@@ -34,11 +34,11 @@ class AtomicLongArrayAssert_hasArray_Test extends AtomicLongArrayAssertBaseTest 
   protected void verify_internal_effects() {
     verify(arrays).assertContainsExactly(info(), internalArray(), arrayOf(1, 2));
   }
-  
+
   @Test
   void should_honor_the_given_element_comparator() {
-    AtomicLongArray actual = new AtomicLongArray(new long[] { 1, 2, 3});
-    assertThat(actual).usingElementComparator(new AbsValueComparator<Long>()).hasArray(new long[] { -1, 2, 3});
+    AtomicLongArray actual = new AtomicLongArray(new long[] { 1, 2, 3 });
+    assertThat(actual).usingElementComparator(new AbsValueComparator<Long>()).hasArray(new long[] { -1, 2, 3 });
   }
 
 }

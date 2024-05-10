@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -41,7 +41,7 @@ class IterableAssert_containsSubsequence_List_Test extends IterableAssertBaseTes
 
   @Override
   protected void verify_internal_effects() {
-	  verify(iterables).assertContainsSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Leia"));
+    verify(iterables).assertContainsSubsequence(getInfo(assertions), getActual(assertions), array("Luke", "Leia"));
   }
 
   @Test

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -28,7 +28,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link BigDecimals#assertNotEqualByComparison(AssertionInfo, BigDecimal, bigdecimal)}</code>.
@@ -60,7 +59,9 @@ class BigDecimals_assertNotEqualByComparison_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(), null, ONE))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(someInfo(),
+                                                                                                                                      null,
+                                                                                                                                      ONE))
                                                    .withMessage(actualIsNull());
   }
 
@@ -73,7 +74,9 @@ class BigDecimals_assertNotEqualByComparison_Test extends BigDecimalsBaseTest {
   void should_fail_if_big_decimals_are_equal_by_comparison_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(info, ONE_WITH_3_DECIMALS, ONE));
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertNotEqualByComparison(info,
+                                                                                                            ONE_WITH_3_DECIMALS,
+                                                                                                            ONE));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqual(ONE_WITH_3_DECIMALS, ONE));

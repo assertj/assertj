@@ -8,22 +8,33 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
+import static org.assertj.core.error.ShouldBeNumeric.NumericType.BYTE;
+import static org.assertj.core.error.ShouldBeNumeric.NumericType.DOUBLE;
+import static org.assertj.core.error.ShouldBeNumeric.NumericType.FLOAT;
+import static org.assertj.core.error.ShouldBeNumeric.NumericType.INTEGER;
+import static org.assertj.core.error.ShouldBeNumeric.NumericType.LONG;
+import static org.assertj.core.error.ShouldBeNumeric.NumericType.SHORT;
 
 import java.util.Base64;
 import java.util.Comparator;
 
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> extends AbstractCharSequenceAssert<SELF, String> {
+
+  @VisibleForTesting
+  Failures failures = Failures.instance();
 
   protected AbstractStringAssert(String actual, Class<?> selfType) {
     super(actual, selfType);
@@ -42,7 +53,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * assertThat(&quot;abc&quot;).isLessThan(&quot;bcd&quot;)
    *                  .isLessThan(&quot;b&quot;)
    *                  .isLessThan(&quot;abca&quot;)
-   *                  .usingComparator(CASE_INSENSITIVE)
+   *                  .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isLessThan(&quot;BCD&quot;);
    *
    * // assertions fail
@@ -73,7 +84,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *                  .isLessThanOrEqualTo(&quot;abc&quot;)
    *                  .isLessThanOrEqualTo(&quot;b&quot;)
    *                  .isLessThanOrEqualTo(&quot;abca&quot;)
-   *                  .usingComparator(CASE_INSENSITIVE)
+   *                  .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isLessThanOrEqualTo(&quot;ABC&quot;);
    *
    * // assertions fail
@@ -102,7 +113,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * assertThat(&quot;xyz&quot;).isGreaterThan(&quot;abc&quot;)
    *                  .isGreaterThan(&quot;xy&quot;)
    *                  .isGreaterThan(&quot;ABC&quot;);
-   * assertThat(&quot;XYZ&quot;).usingComparator(CASE_INSENSITIVE)
+   * assertThat(&quot;XYZ&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isGreaterThan(&quot;abc&quot;);
    *
    * // assertions fail
@@ -133,7 +144,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *                  .isGreaterThanOrEqualTo(&quot;xyz&quot;)
    *                  .isGreaterThanOrEqualTo(&quot;xy&quot;)
    *                  .isGreaterThanOrEqualTo(&quot;ABC&quot;);
-   * assertThat(&quot;XYZ&quot;).usingComparator(CASE_INSENSITIVE)
+   * assertThat(&quot;XYZ&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isGreaterThanOrEqualTo(&quot;abc&quot;);
    *
    * // assertions fail
@@ -164,7 +175,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *                 .isBetween(&quot;aa&quot;, &quot;ab&quot;)
    *                 .isBetween(&quot;ab&quot;, &quot;ab&quot;)
    *                 .isBetween(&quot;a&quot;, &quot;c&quot;)
-   *                 .usingComparator(CASE_INSENSITIVE)
+   *                 .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                 .isBetween("AA", "AC");
    *
    * // assertions fail
@@ -195,7 +206,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <pre><code class='java'> // assertions succeed
    * assertThat(&quot;ab&quot;).isStrictlyBetween(&quot;aa&quot;, &quot;ac&quot;)
    *                 .isStrictlyBetween(&quot;a&quot;, &quot;c&quot;)
-   *                 .usingComparator(CASE_INSENSITIVE)
+   *                 .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                 .isStrictlyBetween("AA", "AC");
    *
    * // assertions fail
@@ -303,7 +314,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <p>
    * Examples :
    * <pre><code class='java'> // assertions succeed
-   * assertThat(&quot;abc&quot;).usingComparator(CASE_INSENSITIVE)
+   * assertThat(&quot;abc&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isEqualTo(&quot;Abc&quot;)
    *                  .isEqualTo(&quot;ABC&quot;);
    *
@@ -328,7 +339,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <p>
    * Examples :
    * <pre><code class='java'> // assertions succeed
-   * assertThat(&quot;abc&quot;).usingComparator(CASE_INSENSITIVE, &quot;String case insensitive comparator&quot;)
+   * assertThat(&quot;abc&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER, &quot;String case insensitive comparator&quot;)
    *                  .isEqualTo(&quot;Abc&quot;)
    *                  .isEqualTo(&quot;ABC&quot;);
    *
@@ -358,7 +369,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * Verifies that the actual value is equal to expected build using {@link String#format(String stringTemplate, Object... args)}.
    * <p>
    * Note that for this assertion to be called, <b>you must use a format template with parameters</b> otherwise {@link #isEqualTo(Object)} is called which
-   * does not perform any formatting. For example, it you only use {@code %n} in the template they won't be replaced.
+   * does not perform any formatting. For example, if you only use {@code %n} in the template they won't be replaced.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertion succeeds
@@ -401,5 +412,175 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    */
   public SELF isEqualTo(String expected) {
     return super.isEqualTo(expected);
+  }
+
+  /**
+   * Parses the actual value as boolean, the parsed boolean becoming the new value under test.
+   * <p>
+   * Note that only when the string is equal to the string "true", ignoring case, and can have leading and trailing space, the parsed value will be {@code true}.
+   * Otherwise, the value will be {@code false}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> assertThat(&quot;truE&quot;).asBoolean().isTrue();
+   * assertThat(&quot;false&quot;).asBoolean().isFalse();
+   * assertThat(&quot;foo bar&quot;).asBoolean().isFalse();
+   * assertThat((String) null).asBoolean().isFalse(); </code></pre>
+   *
+   * @return a new {@link BooleanAssert} instance whose value under test is the result of the parse.
+   *
+   * @since 3.25.0
+   */
+  public AbstractBooleanAssert<?> asBoolean() {
+    return InstanceOfAssertFactories.BOOLEAN.createAssert(Boolean.parseBoolean(actual)).withAssertionState(myself);
+  }
+
+  /**
+   * Parses the actual value as byte, using radix 10, the parsed byte becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds:
+   * assertThat(&quot;127&quot;).asByte().isEqualTo((byte) 127);
+   *
+   * // assertions fail as the actual value is null or not a valid byte
+   * assertThat((String) null).asByte();
+   * assertThat(&quot;1L&quot;).asByte(); </code></pre>
+   *
+   * @return a new {@link ByteAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a valid byte.
+   *
+   * @since 3.25.0
+   */
+  public AbstractByteAssert<?> asByte() {
+    try {
+      return InstanceOfAssertFactories.BYTE.createAssert(Byte.parseByte(actual)).withAssertionState(myself);
+    } catch (NumberFormatException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, BYTE));
+    }
+  }
+
+  /**
+   * Parses the actual value as short, using radix 10, the parsed short becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds:
+   * assertThat(&quot;32767&quot;).asShort().isEqualTo((short) 32767);
+   *
+   * // assertions fail as the actual value is null or not a valid short:
+   * assertThat((String) null).asShort();
+   * assertThat(&quot;-32769&quot;).asShort(); </code></pre>
+   *
+   * @return a new {@link ShortAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a valid short.
+   *
+   * @since 3.25.0
+   */
+  public AbstractShortAssert<?> asShort() {
+    try {
+      return InstanceOfAssertFactories.SHORT.createAssert(Short.parseShort(actual)).withAssertionState(myself);
+    } catch (NumberFormatException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, SHORT));
+    }
+  }
+
+  /**
+   * Parses the actual value as integer, using radix 10, the parsed integer becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds:
+   * assertThat(&quot;2147483647&quot;).asInt().isEqualTo(2147483647);
+   *
+   * // assertions fail as the actual value is null or not a valid int:
+   * assertThat((String) null).asInt();
+   * assertThat(&quot;1e100&quot;).asInt();</code></pre>
+   *
+   * @return a new {@link IntegerAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a valid int.
+   *
+   * @since 3.25.0
+   */
+  public AbstractIntegerAssert<?> asInt() {
+    try {
+      return InstanceOfAssertFactories.INTEGER.createAssert(Integer.parseInt(actual)).withAssertionState(myself);
+    } catch (NumberFormatException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, INTEGER));
+    }
+  }
+
+  /**
+   * Parses the actual value as long, using radix 10, the parsed long becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds:
+   * assertThat(&quot;1&quot;).asLong().isEqualTo(1L);
+   *
+   * // assertions fail as the actual value is null or not a long:
+   * assertThat((String) null).asLong();
+   * assertThat(&quot;1e100&quot;).asLong();</code></pre>
+   *
+   * @return a new {@link LongAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a valid long.
+   *
+   * @since 3.25.0
+   */
+  public AbstractLongAssert<?> asLong() {
+    try {
+      return InstanceOfAssertFactories.LONG.createAssert(Long.parseLong(actual)).withAssertionState(myself);
+    } catch (NumberFormatException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, LONG));
+    }
+  }
+
+  /**
+   * Parses the actual value as float, the parsed float becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds:
+   * assertThat(&quot;1.2f&quot;).asFloat().isCloseTo(1.2f, withinPercentage(0.01));
+   *
+   * // assertions fail as the actual value is null or not a float:
+   * assertThat((String) null).asFloat();
+   * assertThat(&quot;foo&quot;).asFloat();</code></pre>
+   *
+   * @return a new {@link FloatAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a parseable float.
+   *
+   * @since 3.25.0
+   */
+  public AbstractFloatAssert<?> asFloat() {
+    try {
+      return InstanceOfAssertFactories.FLOAT.createAssert(Float.parseFloat(actual)).withAssertionState(myself);
+    } catch (NumberFormatException | NullPointerException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, FLOAT));
+    }
+  }
+
+  /**
+   * Parses the actual value as double, the parsed double becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>
+   * // assertion succeeds:
+   * assertThat(&quot;1.2e308&quot;).asDouble().isCloseTo(1.2e308, withinPercentage(0.001));
+   *
+   * // assertions fail as the actual value is null or not a double:
+   * assertThat((String) null).asDouble();
+   * assertThat(&quot;foo&quot;).asDouble(); </code></pre>
+   *
+   * @return a new {@link DoubleAssert} instance whose value under test is the result of the parse.
+   * @throws AssertionError if the actual value is null or not a parseable double.
+   *
+   * @since 3.25.0
+   */
+  public AbstractDoubleAssert<?> asDouble() {
+    try {
+      return InstanceOfAssertFactories.DOUBLE.createAssert(Double.parseDouble(actual)).withAssertionState(myself);
+    } catch (NumberFormatException | NullPointerException e) {
+      throw failures.failure(info, shouldBeNumeric(actual, DOUBLE));
+    }
   }
 }

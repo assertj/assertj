@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
@@ -69,7 +69,8 @@ class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
     BigDecimal fiveDotOne = new BigDecimal("5.1");
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotOne, FIVE, within(ONE)));
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotOne, FIVE,
+                                                                                                    within(ONE)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqual(fiveDotOne, FIVE, within(ONE), fiveDotOne.subtract(FIVE)));
@@ -80,7 +81,8 @@ class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
     BigDecimal fiveDotOne = new BigDecimal("5.1");
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotOne, FIVE, byLessThan(ONE)));
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotOne, FIVE,
+                                                                                                    byLessThan(ONE)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqual(fiveDotOne, FIVE, byLessThan(ONE), fiveDotOne.subtract(FIVE)));
@@ -110,7 +112,8 @@ class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotCloseTo(someInfo(), null, ONE,
+                                                                                                byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -133,7 +136,10 @@ class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(someInfo(),
+                                                                                                                              null,
+                                                                                                                              ONE,
+                                                                                                                              byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -142,7 +148,8 @@ class BigDecimals_assertIsNotCloseTo_Test extends BigDecimalsBaseTest {
     BigDecimal fiveDotZero = new BigDecimal("5.0");
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotZero, FIVE, byLessThan(ONE)));
+    Throwable error = catchThrowable(() -> numbersWithAbsValueComparisonStrategy.assertIsNotCloseTo(info, fiveDotZero, FIVE,
+                                                                                                    byLessThan(ONE)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldNotBeEqual(fiveDotZero, FIVE, byLessThan(ONE), fiveDotZero.subtract(FIVE)));

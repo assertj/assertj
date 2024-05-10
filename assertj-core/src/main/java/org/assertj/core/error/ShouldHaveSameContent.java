@@ -8,10 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
-
 
 import java.io.File;
 import java.io.InputStream;
@@ -61,7 +60,7 @@ public class ShouldHaveSameContent extends AbstractShouldHaveTextContent {
   public static ErrorMessageFactory shouldHaveSameContent(InputStream actual, String expected, List<Delta<String>> diffs) {
     return new ShouldHaveSameContent(actual, expected, diffsAsString(diffs));
   }
-  
+
   /**
    * Creates a new <code>{@link ShouldHaveSameContent}</code>.
    * @param actual the actual Path in the failed assertion.
@@ -87,7 +86,7 @@ public class ShouldHaveSameContent extends AbstractShouldHaveTextContent {
     super("%nInputStream does not have same content as String:%n%n", actual, expected);
     this.diffs = diffs;
   }
-  
+
   private ShouldHaveSameContent(Path actual, Path expected, String diffs) {
     super("%nPath:%n  %s%nand path:%n  %s%ndo not have same content:%n%n", actual, expected);
     this.diffs = diffs;

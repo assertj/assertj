@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -16,6 +16,8 @@ import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
+import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
+import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.Instant;
@@ -326,6 +328,44 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   public SELF isNotIn(String... instantsAsString) {
     checkIsNotNullAndNotEmpty(instantsAsString);
     return isNotIn(convertToInstantArray(instantsAsString));
+  }
+
+  /**
+   * Verifies that the actual {@code Instant} is strictly in the past.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(Instant.now().minusSeconds(60)).isInThePast();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Instant} is {@code null}.
+   * @throws AssertionError if the actual {@code Instant} is not in the past.
+   *
+   * @since 3.25.0
+   */
+  public SELF isInThePast() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isBefore(Instant.now())) throw Failures.instance().failure(info, shouldBeInThePast(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Instant} is strictly in the future.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(Instant.now().plusSeconds(60)).isInTheFuture();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code Instant} is {@code null}.
+   * @throws AssertionError if the actual {@code Instant} is not in the future.
+   *
+   * @since 3.25.0
+   */
+  public SELF isInTheFuture() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isAfter(Instant.now())) throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+    return myself;
   }
 
   /**

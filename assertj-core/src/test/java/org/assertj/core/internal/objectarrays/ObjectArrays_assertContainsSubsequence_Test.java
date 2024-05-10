@@ -8,12 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.objectarrays;
 
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ActualIsNotEmpty.actualIsNotEmpty;
 import static org.assertj.core.error.ShouldContainSubsequence.actualDoesNotHaveEnoughElementsToContainSubsequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
@@ -100,9 +101,9 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] subsequence = {};
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
+    expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    then(assertionError).hasMessage("actual is not empty while group of values to look for is.");
+    verify(failures).failure(INFO, actualIsNotEmpty(actual));
   }
 
   @Test
@@ -190,11 +191,9 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] subsequence = {};
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO,
-                                                                                                                            actual,
-                                                                                                                            subsequence));
+    expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
-    then(assertionError).hasMessage("actual is not empty while group of values to look for is.");
+    verify(failures).failure(INFO, actualIsNotEmpty(actual));
   }
 
   @Test

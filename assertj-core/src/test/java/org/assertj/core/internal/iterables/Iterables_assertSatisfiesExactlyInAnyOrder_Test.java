@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
@@ -25,18 +25,13 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
-import org.junit.jupiter.api.DisplayName;
+import org.assertj.core.test.Jedi;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertSatisfiesExactlyInAnyOrder(AssertionInfo, Iterable, Consumer[])}</code>.
- *
  * @author Ting Sun
  */
-@DisplayName("Iterables assertSatisfiesExactlyInAnyOrder")
 class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest {
 
   private List<String> actual = newArrayList("Luke", "Leia", "Yoda");
@@ -50,7 +45,6 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
       assertThat(s).hasSize(4);
       assertThat(s).doesNotContain("L");
     }; // Matches "Yoda"
-
     // WHEN/THEN
     iterables.assertSatisfiesExactlyInAnyOrder(info, actual, array(consumer1, consumer2, consumer3));
   }
@@ -61,7 +55,6 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
     Consumer<String> consumer1 = s -> assertThat(s).contains("Y"); // Matches "Yoda"
     Consumer<String> consumer2 = s -> assertThat(s).contains("L"); // Matches "Luke" and "Leia"
     Consumer<String> consumer3 = s -> assertThat(s).doesNotContain("a"); // Matches "Luke"
-
     // WHEN/THEN
     iterables.assertSatisfiesExactlyInAnyOrder(info, actual, array(consumer1, consumer2, consumer3));
     iterables.assertSatisfiesExactlyInAnyOrder(info, actual, array(consumer1, consumer3, consumer2));
@@ -82,7 +75,6 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
                                                                                                           array(consumer1,
                                                                                                                 consumer2,
                                                                                                                 consumer3)));
-
     // THEN
     then(assertionError).hasMessage(shouldSatisfyExactlyInAnyOrder(actual).create());
   }
@@ -118,12 +110,12 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
   }
 
   @Test
-  void should_pass_if_iterable_contains_multiple_equal_elements() {
+  void should_pass_if_iterable_contains_same_elements() {
     // GIVEN
-    List<String> names = newArrayList("Luke", "Luke");
+    String luke = "Luke";
+    List<String> names = newArrayList(luke, luke);
     Consumer<String> consumer1 = s -> assertThat(s).contains("L");
     Consumer<String> consumer2 = s -> assertThat(s).contains("u");
-
     // WHEN/THEN
     iterables.assertSatisfiesExactlyInAnyOrder(info, names, array(consumer1, consumer2));
   }
@@ -184,6 +176,40 @@ class Iterables_assertSatisfiesExactlyInAnyOrder_Test extends IterablesBaseTest 
                                                                                                                 consumer)));
     // THEN
     then(assertionError).hasMessage(shouldHaveSize(actual, 3, 4).create());
+  }
+
+  @Test
+  void should_pass_without_relying_on_elements_equality() {
+    // GIVEN
+    List<Jedi> actual = newArrayList(new JediOverridingEquals("Luke", "blue"),
+                                     new JediOverridingEquals("Luke", "green"),
+                                     new JediOverridingEquals("Luke", "green"));
+    Consumer<Jedi>[] consumers = array(jedi -> assertThat(jedi.lightSaberColor).isEqualTo("green"),
+                                       jedi -> assertThat(jedi.lightSaberColor).isEqualTo("blue"),
+                                       jedi -> assertThat(jedi.lightSaberColor).isEqualTo("green"));
+    // WHEN/THEN
+    iterables.assertSatisfiesExactlyInAnyOrder(info, actual, consumers);
+  }
+
+  private static class JediOverridingEquals extends Jedi {
+
+    private JediOverridingEquals(String name, String lightSaberColor) {
+      super(name, lightSaberColor);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (this == o) return true;
+      if (o == null || getClass() != o.getClass()) return false;
+      JediOverridingEquals jedi = (JediOverridingEquals) o;
+      return getName().equals(jedi.getName());
+    }
+
+    @Override
+    public int hashCode() {
+      return getName().hashCode();
+    }
+
   }
 
 }

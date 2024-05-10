@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.doubles;
 
@@ -29,9 +29,9 @@ class Doubles_assertIsNotFinite_Test extends DoublesBaseTest {
 
   @ParameterizedTest
   @ValueSource(doubles = {
-    Double.POSITIVE_INFINITY,
-    Double.NEGATIVE_INFINITY,
-    Double.NaN
+      Double.POSITIVE_INFINITY,
+      Double.NEGATIVE_INFINITY,
+      Double.NaN
   })
   void should_succeed_when_actual_is_not_finite(double actual) {
     // WHEN/THEN
@@ -40,12 +40,12 @@ class Doubles_assertIsNotFinite_Test extends DoublesBaseTest {
 
   @ParameterizedTest
   @ValueSource(doubles = {
-    Double.MAX_VALUE,
-    Double.MIN_NORMAL,
-    Double.MIN_VALUE,
-    0.0,
-    1.0,
-    -1.0,
+      Double.MAX_VALUE,
+      Double.MIN_NORMAL,
+      Double.MIN_VALUE,
+      0.0,
+      1.0,
+      -1.0,
   })
   void should_fail_when_actual_is_finite(double actual) {
     // WHEN

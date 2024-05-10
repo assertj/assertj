@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.abstract_;
 
@@ -43,9 +43,9 @@ class AbstractAssert_isSameAs_Test extends AbstractAssertBaseTest {
 
   @Test
   void should_be_loosely_typed1() {
-	  List<String> expected = new ArrayList<>();
-	  List<? extends String> actual = expected;
-	  Assertions.assertThat(actual).isSameAs(expected);
+    List<String> expected = new ArrayList<>();
+    List<? extends String> actual = expected;
+    Assertions.assertThat(actual).isSameAs(expected);
   }
 
   @Test

@@ -1,0 +1,24 @@
+name: Dependency Graph
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  dependency_graph:
+
+    name: Update
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+          cache: 'maven'
+      - name: Update dependency graph
+        uses: advanced-security/maven-dependency-submission-action@v4

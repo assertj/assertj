@@ -11,7 +11,6 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 
 * [AssertJ's goals](#goals)
 * [Quick start](https://assertj.github.io/doc/#assertj-core-quick-start)
-* [Latest releases](https://assertj.github.io/doc/#assertj-core-release-notes)
 * [Documentation](https://assertj.github.io/doc/#assertj-core)
 * [Contributing](#contributing)
 
@@ -29,8 +28,8 @@ Assertion missing? Please [create an issue](https://github.com/assertj/assertj/i
 
 
 AssertJ is composed of several modules:
-* A core module (this one) to provide assertions for JDK types (`String`, `Iterable`, `Stream`, `Path`, `File`, `Map`...) - see [AssertJ Core documentation](https://assertj.github.io/doc/#assertj-core-assertions-guide) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-core/latest/index.html).
-* A **[Guava module](https://github.com/assertj/assertj-guava#readme)** to provide assertions for Guava types (`Multimap`, `Optional`...) - see [AssertJ Guava documentation](https://assertj.github.io/doc/#assertj-guava) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-guava/latest/index.html).
+* A **core module** to provide assertions for JDK types (`String`, `Iterable`, `Stream`, `Path`, `File`, `Map`...) - see [AssertJ Core documentation](https://assertj.github.io/doc/#assertj-core-assertions-guide) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-core/latest/index.html).
+* A **Guava module** to provide assertions for Guava types (`Multimap`, `Optional`...) - see [AssertJ Guava documentation](https://assertj.github.io/doc/#assertj-guava) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-guava/latest/index.html).
 * A **[Joda Time module](https://github.com/assertj/assertj-joda-time#readme)** to provide assertions for Joda Time types (`DateTime`, `LocalDateTime`) - see [AssertJ Joda Time documentation](http://joel-costigliola.github.io/assertj/assertj-joda-time.html) and  [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-joda-time/latest/index.html).
 * A **[Neo4J module](https://github.com/assertj/assertj-neo4j#readme)** to provide assertions for Neo4J types (`Path`, `Node`, `Relationship`...) - see [AssertJ Neo4J documentation](http://joel-costigliola.github.io/assertj/assertj-neo4j.html) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-neo4j/latest/index.html).
 * A **[DB module](https://github.com/assertj/assertj-db#readme)** to provide assertions for relational database types (`Table`, `Row`, `Column`...) - see [AssertJ DB documentation](https://assertj.github.io/doc/#assertj-db) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-db/latest/index.html).

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.floatarray;
 
@@ -20,7 +20,6 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.FloatArrayAssert;
 import org.assertj.core.api.FloatArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link FloatArrayAssert#endsWith(float...)}</code>.

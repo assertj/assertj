@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.bytearrays;
 
@@ -62,12 +62,14 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
 
   @Test
   void should_fail_if_arrays_have_different_sizes() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, IntArrays.arrayOf(6, 8)));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  IntArrays.arrayOf(6, 8)));
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual, IntArrays.emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactly(someInfo(), actual,
+                                                                                                  IntArrays.emptyArray()));
   }
 
   @Test
@@ -91,7 +93,8 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList((byte) 20), newArrayList((byte) 10)), asList(actual), asList(expected));
+                                                        newArrayList((byte) 20), newArrayList((byte) 10)),
+                             asList(actual), asList(expected));
   }
 
   @Test
@@ -103,7 +106,8 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
-                                                        newArrayList((byte) 10), newArrayList()), asList(actual), asList(expected));
+                                                        newArrayList((byte) 10), newArrayList()),
+                             asList(actual), asList(expected));
   }
 
   // ------------------------------------------------------------------------------------------------------------------
@@ -120,15 +124,19 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     AssertionInfo info = someInfo();
     int[] expected = IntArrays.arrayOf(-6, 10, 8);
 
-    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, expected));
+    Throwable error = catchThrowable(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual,
+                                                                                                    expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1, absValueComparisonStrategy), asList(actual), asList(toByteArray(expected)));
+    verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1, absValueComparisonStrategy), asList(actual),
+                             asList(toByteArray(expected)));
   }
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), actual, IntArrays.emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                                              actual,
+                                                                                                                              IntArrays.emptyArray()));
   }
 
   @Test
@@ -141,7 +149,9 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(), null, IntArrays.arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
+                                                                                                                              null,
+                                                                                                                              IntArrays.arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -155,7 +165,8 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList((byte) 20), newArrayList((byte) 10),
-                                                        absValueComparisonStrategy), asList(actual), asList(expected));
+                                                        absValueComparisonStrategy),
+                             asList(actual), asList(expected));
   }
 
   @Test
@@ -168,7 +179,8 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainExactly(actual, asList(expected),
                                                         newArrayList((byte) 10), newArrayList(),
-                                                        absValueComparisonStrategy), asList(actual), asList(expected));
+                                                        absValueComparisonStrategy),
+                             asList(actual), asList(expected));
   }
 
 }

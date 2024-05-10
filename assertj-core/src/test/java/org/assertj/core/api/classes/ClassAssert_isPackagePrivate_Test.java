@@ -8,28 +8,49 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.classes;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link ClassAssert#isPackagePrivate()}</code>.
- */
-class ClassAssert_isPackagePrivate_Test extends ClassAssertBaseTest {
+class ClassAssert_isPackagePrivate_Test {
 
-  @Override
-  protected ClassAssert invoke_api_method() {
-    return assertions.isPackagePrivate();
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Class<?> actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPackagePrivate());
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(classes).assertIsPackagePrivate(getInfo(assertions), getActual(assertions));
+  @Test
+  void should_fail_if_actual_is_not_package_private() {
+    // GIVEN
+    Class<?> actual = String.class;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPackagePrivate());
+    // THEN
+    then(assertionError).hasMessage(shouldBePackagePrivate(actual).create());
+  }
+
+  @Test
+  void should_pass_if_actual_is_package_private() {
+    // GIVEN
+    Class<?> actual = PackagePrivateClass.class;
+    // WHEN/THEN
+    assertThat(actual).isPackagePrivate();
+  }
+
+  static class PackagePrivateClass {
   }
 
 }

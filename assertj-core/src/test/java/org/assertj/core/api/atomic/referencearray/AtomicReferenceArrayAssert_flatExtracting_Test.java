@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.atomic.referencearray;
 
@@ -85,12 +85,14 @@ class AtomicReferenceArrayAssert_flatExtracting_Test {
 
   @Test
   void should_throw_null_pointer_exception_when_extracting_from_null_with_extractor() {
-    assertThatNullPointerException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting(childrenExtractor));
+    assertThatNullPointerException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer,
+                                                                                                  null))).flatExtracting(childrenExtractor));
   }
 
   @Test
   void should_throw_null_pointer_exception_when_extracting_from_null() {
-    assertThatNullPointerException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer, null))).flatExtracting(children));
+    assertThatNullPointerException().isThrownBy(() -> assertThat(new AtomicReferenceArray<>(array(homer,
+                                                                                                  null))).flatExtracting(children));
   }
 
   @Test

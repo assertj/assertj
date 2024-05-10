@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.guava.api;
 
-import org.assertj.core.api.Assert;
 import org.assertj.core.api.InstanceOfAssertFactory;
 
 import com.google.common.base.Optional;
@@ -25,10 +24,11 @@ import com.google.common.collect.Table;
 import com.google.common.io.ByteSource;
 
 /**
- * Guava {@link InstanceOfAssertFactory InstanceOfAssertFactories} for {@link Assert#asInstanceOf(InstanceOfAssertFactory)}.
+ * {@link InstanceOfAssertFactory} instances for Guava types.
  *
  * @author Stefano Cordio
  * @since 3.3.0
+ * @see org.assertj.core.api.InstanceOfAssertFactories
  */
 public interface InstanceOfAssertFactories {
 

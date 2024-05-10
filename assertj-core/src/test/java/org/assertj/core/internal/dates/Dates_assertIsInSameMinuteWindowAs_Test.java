@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.dates;
 
@@ -28,7 +28,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link Dates#assertIsInSameMinuteWindowAs(AssertionInfo, Date, Date)}</code>.
@@ -72,7 +71,8 @@ class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInSameMinuteWindowAs(someInfo(), null, new Date()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsInSameMinuteWindowAs(someInfo(), null,
+                                                                                                        new Date()))
                                                    .withMessage(actualIsNull());
   }
 
@@ -83,8 +83,7 @@ class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
   }
 
   @Test
-  void should_fail_if_actual_is_not_in_same_minute_window_as_given_date_whatever_custom_comparison_strategy_is
-    () {
+  void should_fail_if_actual_is_not_in_same_minute_window_as_given_date_whatever_custom_comparison_strategy_is() {
     AssertionInfo info = someInfo();
     Date other = parseDatetime("2011-01-01T03:13:59");
 
@@ -96,7 +95,9 @@ class Dates_assertIsInSameMinuteWindowAs_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameMinuteWindowAs(someInfo(), null, new Date()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsInSameMinuteWindowAs(someInfo(),
+                                                                                                                                    null,
+                                                                                                                                    new Date()))
                                                    .withMessage(actualIsNull());
   }
 

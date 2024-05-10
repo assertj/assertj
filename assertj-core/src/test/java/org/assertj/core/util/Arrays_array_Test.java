@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -48,7 +48,7 @@ class Arrays_array_Test {
     // THEN
     assertThat(actual).isNull();
   }
-  
+
   @Test
   void should_return_an_long_array_from_AtomicLongArray() {
     // GIVEN
@@ -59,7 +59,7 @@ class Arrays_array_Test {
     // THEN
     assertThat(actual).isEqualTo(expected);
   }
-  
+
   @Test
   void should_return_null_if_given_a_null_AtomicLongArray() {
     // GIVEN

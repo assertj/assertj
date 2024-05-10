@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.comparables;
 
@@ -38,31 +38,36 @@ class Comparables_isStrictlyBetween_Test extends ComparablesBaseTest {
 
   @Test
   void fails_if_actual_is_equal_to_start() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 8, 8, 10, false, false))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 8, 8, 10, false,
+                                                                                                 false))
                                                    .withMessage(format("%nExpecting actual:%n  8%nto be between:%n  ]8, 10[%n"));
   }
 
   @Test
   void fails_if_actual_is_equal_to_end() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 10, 8, 10, false, false))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 10, 8, 10, false,
+                                                                                                 false))
                                                    .withMessage(format("%nExpecting actual:%n  10%nto be between:%n  ]8, 10[%n"));
   }
 
   @Test
   void fails_if_actual_is_less_than_start() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 6, 8, 10, false, false))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 6, 8, 10, false,
+                                                                                                 false))
                                                    .withMessage(format("%nExpecting actual:%n  6%nto be between:%n  ]8, 10[%n"));
   }
 
   @Test
   void fails_if_actual_is_greater_than_end() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 12, 8, 10, false, false))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 12, 8, 10, false,
+                                                                                                 false))
                                                    .withMessage(format("%nExpecting actual:%n  12%nto be between:%n  ]8, 10[%n"));
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), null, 8, 10, false, false))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), null, 8, 10, false,
+                                                                                                 false))
                                                    .withMessage(actualIsNull());
   }
 
@@ -107,7 +112,8 @@ class Comparables_isStrictlyBetween_Test extends ComparablesBaseTest {
   void fails_if_actual_is_is_greater_than_end_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(), -12, 8, 10, false, false));
+    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(), -12, 8, 10, false,
+                                                                                                   false));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeBetween(-12, 8, 10, false, false, customComparisonStrategy));
@@ -117,7 +123,8 @@ class Comparables_isStrictlyBetween_Test extends ComparablesBaseTest {
   void fails_if_actual_is_is_less_than_start_according_to_custom_comparison_strategy() {
     AssertionInfo info = someInfo();
 
-    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(), 6, -8, 10, false, false));
+    Throwable error = catchThrowable(() -> comparablesWithCustomComparisonStrategy.assertIsBetween(someInfo(), 6, -8, 10, false,
+                                                                                                   false));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeBetween(6, -8, 10, false, false, customComparisonStrategy));

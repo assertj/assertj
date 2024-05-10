@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.guava.error;
 
@@ -38,8 +38,8 @@ public class RangeSetShouldNotIntersect_create_Test {
   void should_create_error_message() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotIntersect(of(closed(0, 10)),
-                                                      array(closed(2, 15), open(-5, 0)),
-                                                      iterable(closed(2, 15)));
+                                                     array(closed(2, 15), open(-5, 0)),
+                                                     iterable(closed(2, 15)));
     // WHEN
     String message = factory.create(new TextDescription("Test"), StandardRepresentation.STANDARD_REPRESENTATION);
     // THEN

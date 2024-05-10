@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
@@ -30,8 +30,10 @@ class Maps_assertHasSizeGreaterThanOrEqualTo_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_size_of_actual_is_not_greater_than_or_equal_to_boundary() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual, 6))
-                                                   .withMessage(shouldHaveSizeGreaterThanOrEqualTo(actual, actual.size(), 6).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual,
+                                                                                                            6))
+                                                   .withMessage(shouldHaveSizeGreaterThanOrEqualTo(actual, actual.size(),
+                                                                                                   6).create());
   }
 
   @Test

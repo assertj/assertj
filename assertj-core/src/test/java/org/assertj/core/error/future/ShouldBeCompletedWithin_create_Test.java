@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error.future;
 
@@ -34,13 +34,9 @@ class ShouldBeCompletedWithin_create_Test {
     // WHEN
     String error = shouldBeCompletedWithin(actual, duration, exception).create(new TestDescription("TEST"));
     // THEN
-    then(error).isEqualTo("[TEST] %n" +
-                          "Expecting%n" +
-                          "  <CompletableFuture[Incomplete]>%n" +
-                          "to be completed within 1M10.001S.%n" +
-                          "%n" +
-                          "exception caught while trying to get the future result: %s",
-                          getStackTrace(exception));
+    then(error).isEqualTo("[TEST] %n" + "Expecting%n" + "  <CompletableFuture[Incomplete]>%n"
+                          + "to be completed within 1M10.001S.%n" + "%n"
+                          + "exception caught while trying to get the future result: %s", getStackTrace(exception));
   }
 
   @Test

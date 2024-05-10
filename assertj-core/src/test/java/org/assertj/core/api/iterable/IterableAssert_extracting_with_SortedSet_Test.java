@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -362,12 +362,15 @@ class IterableAssert_extracting_with_SortedSet_Test {
 
   @Test
   void should_use_property_field_names_as_description_when_extracting_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first").isEmpty()).withMessageContaining("[Extracted: name.first]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first").isEmpty())
+                                                   .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test
   void should_use_property_field_names_as_description_when_extracting_typed_simple_value_list() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", String.class).isEmpty()).withMessageContaining("[Extracted: name.first]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).extracting("name.first", String.class)
+                                                                                      .isEmpty())
+                                                   .withMessageContaining("[Extracted: name.first]");
   }
 
   @Test

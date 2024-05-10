@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -35,6 +35,7 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.test.WithPlayerData;
+import org.hibernate.collection.spi.CollectionSemantics;
 import org.hibernate.collection.spi.PersistentMap;
 import org.hibernate.collection.spi.PersistentSortedMap;
 import org.hibernate.engine.spi.SharedSessionContractImplementor;
@@ -83,10 +84,15 @@ public class MapsBaseTest extends WithPlayerData {
     T persistentMap = supplier.apply(session);
 
     CollectionPersister persister = mock(CollectionPersister.class, RETURNS_DEEP_STUBS);
-    when(persister.getCollectionType().instantiate(0)).thenReturn(innerMapSupplier.get());
+    when(getCollectionSemantics(persister).instantiateRaw(0, persister)).thenReturn(innerMapSupplier.get());
 
     persistentMap.initializeEmptyCollection(persister);
     return persistentMap;
+  }
+
+  @SuppressWarnings("unchecked")
+  private static CollectionSemantics<Object, ?> getCollectionSemantics(CollectionPersister persister) {
+    return (CollectionSemantics<Object, ?>) persister.getCollectionSemantics();
   }
 
   protected Map<String, String> actual;

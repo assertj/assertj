@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -34,6 +34,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.YearMonth;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -128,13 +129,15 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
 
   @Test
   void should_return_toString_of_local_Class_with_its_simple_name() {
-    class LocalClass {}
+    class LocalClass {
+    }
     assertThat(STANDARD_REPRESENTATION.toStringOf(LocalClass.class)).isEqualTo("local class LocalClass");
   }
 
   @Test
   void should_return_toString_of_local_Class_array_with_its_simple_name() {
-    class LocalClass {}
+    class LocalClass {
+    }
     assertThat(STANDARD_REPRESENTATION.toStringOf(LocalClass[].class)).isEqualTo("local class LocalClass[]");
   }
 
@@ -242,6 +245,16 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
     String localDateRepresentation = STANDARD_REPRESENTATION.toStringOf(localDate);
     // THEN
     then(localDateRepresentation).isEqualTo("2011-06-18 (java.time.LocalDate)");
+  }
+
+  @Test
+  void should_return_unambiguous_toString_of_YearMonth() {
+    // GIVEN use Object to call toStringOf(Object) and not toStringOf(YearMonth)
+    Object yearMonth = YearMonth.of(2011, 6);
+    // WHEN
+    String localDateRepresentation = STANDARD_REPRESENTATION.toStringOf(yearMonth);
+    // THEN
+    then(localDateRepresentation).isEqualTo("2011-06 (java.time.YearMonth)");
   }
 
   @Test
@@ -555,11 +568,14 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
 
   }
 
+  //@format:off FIXME the formatter profile shouldn't touch this method
   private static Stream<Arguments> durations() {
-    return Stream.of(arguments(Duration.of(1L, MILLIS), "0.001S"),
-                     arguments(Duration.of(1234L, MILLIS), "1.234S"),
-                     arguments(Duration.of(3_661_001L, MILLIS), "1H1M1.001S"));
+    return Stream.of(
+      arguments(Duration.of(1L, MILLIS), "0.001S"),
+      arguments(Duration.of(1234L, MILLIS), "1.234S"),
+      arguments(Duration.of(3_661_001L, MILLIS), "1H1M1.001S"));
   }
+  //@format:on
 
   private String toStringOf(Object o) {
     return STANDARD_REPRESENTATION.toStringOf(o);

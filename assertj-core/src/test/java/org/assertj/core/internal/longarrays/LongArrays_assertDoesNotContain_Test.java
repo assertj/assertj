@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.longarrays;
 
@@ -31,7 +31,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.LongArraysBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link LongArrays#assertDoesNotContain(AssertionInfo, long[], long[])}</code>.
@@ -60,7 +59,7 @@ class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), actual, null))
-                                                         .withMessage(valuesToLookForIsNull());
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -108,7 +107,9 @@ class LongArrays_assertDoesNotContain_Test extends LongArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(), null, arrayOf(-8L)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
+                                                                                                                             null,
+                                                                                                                             arrayOf(-8L)))
                                                    .withMessage(actualIsNull());
   }
 

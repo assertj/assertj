@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -82,7 +82,8 @@ class IterableAssert_flatExtracting_with_String_parameter_Test {
 
   @Test
   void should_throw_exception_when_extracted_value_is_not_an_array_or_an_iterable() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(newArrayList(homer, fred)).flatExtracting("name")).withMessage("Flat extracting expects extracted values to be Iterables or arrays but was a String");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(newArrayList(homer, fred)).flatExtracting("name"))
+                                        .withMessage("Flat extracting expects extracted values to be Iterables or arrays but was a String");
   }
 
   @SuppressWarnings("deprecation")

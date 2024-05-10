@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -18,7 +18,6 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.assertj.core.util.diff.Delta;
-
 
 /**
  * Creates an error message indicating that an assertion that verifies that a file/path has a given text content failed.
@@ -37,7 +36,7 @@ public class ShouldHaveContent extends AbstractShouldHaveTextContent {
   public static ErrorMessageFactory shouldHaveContent(File actual, Charset charset, List<Delta<String>> diffs) {
     return new ShouldHaveContent(actual, charset, diffsAsString(diffs));
   }
-  
+
   /**
    * Creates a new <code>{@link ShouldHaveContent}</code>.
    * @param actual the actual path in the failed assertion.
@@ -53,7 +52,7 @@ public class ShouldHaveContent extends AbstractShouldHaveTextContent {
     super("%nFile:%n  %s%nread with charset %s does not have the expected content:%n%n", actual, charset);
     this.diffs = diffs;
   }
-  
+
   private ShouldHaveContent(Path actual, Charset charset, String diffs) {
     super("%nPath:%n  %s%nread with charset %s does not have the expected content:%n%n", actual, charset);
     this.diffs = diffs;

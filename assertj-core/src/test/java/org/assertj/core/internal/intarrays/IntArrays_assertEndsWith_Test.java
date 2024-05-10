@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.intarrays;
 
@@ -28,7 +28,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.IntArrays;
 import org.assertj.core.internal.IntArraysBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link IntArrays#assertEndsWith(AssertionInfo, int[], int[])}</code>.
@@ -55,7 +54,7 @@ class IntArrays_assertEndsWith_Test extends IntArraysBaseTest {
     actual = emptyArray();
     arrays.assertEndsWith(someInfo(), actual, emptyArray());
   }
-  
+
   @Test
   void should_pass_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     arrays.assertEndsWith(someInfo(), actual, emptyArray());
@@ -113,9 +112,9 @@ class IntArrays_assertEndsWith_Test extends IntArraysBaseTest {
   @Test
   void should_throw_error_if_sequence_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
-                                                                                                                             actual,
-                                                                                                                             null))
-                                                         .withMessage(valuesToLookForIsNull());
+                                                                                                        actual,
+                                                                                                        null))
+                                    .withMessage(valuesToLookForIsNull());
   }
 
   @Test
@@ -125,7 +124,9 @@ class IntArrays_assertEndsWith_Test extends IntArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(), null, arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertEndsWith(someInfo(),
+                                                                                                                       null,
+                                                                                                                       arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 

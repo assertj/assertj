@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.objectarrays;
 
@@ -31,7 +31,6 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ObjectArrays#assertDoesNotContain(AssertionInfo, Object[], Object, Index)}</code>.
  * 
@@ -47,7 +46,8 @@ class ObjectArrays_assertDoesNotContain_at_Index_Test extends ObjectArraysBaseTe
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, "Yoda", someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContain(someInfo(), null, "Yoda",
+                                                                                                 someIndex()))
                                                    .withMessage(actualIsNull());
   }
 

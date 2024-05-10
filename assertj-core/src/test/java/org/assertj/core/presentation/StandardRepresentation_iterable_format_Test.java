@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -18,14 +18,27 @@ import static java.util.stream.Collectors.joining;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
+import static org.mockito.Mockito.RETURNS_SMART_NULLS;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.withSettings;
 
+import java.nio.file.DirectoryStream;
+import java.nio.file.SecureDirectoryStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
+import org.assertj.core.configuration.Configuration;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -96,6 +109,23 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     // formattedAfterNewLine is built to show we align values on the first element.
     String formattedAfterNewLine = "  <" + formatted + ">";
     then(formattedAfterNewLine).isEqualTo(format(expectedDescription));
+  }
+
+  @ParameterizedTest(name = "Iterables derived from {0} should not be iterated across")
+  @ValueSource(classes = { DirectoryStream.class, SecureDirectoryStream.class })
+  <T extends Iterable<?>> void should_use_fallback_toString_if_iterable_is_blacklisted(Class<T> type) {
+    // GIVEN
+    String expectedToString = "defaultToString-" + UUID.randomUUID();
+    T iterable = mock(type, withSettings().name(expectedToString).defaultAnswer(RETURNS_SMART_NULLS));
+
+    // WHEN
+    String formatted = STANDARD_REPRESENTATION.smartFormat(iterable);
+
+    // THEN
+    then(formatted).isEqualTo(expectedToString);
+    // Mockito will not verify the toString call due to internal implementation details, but just
+    // pretend we are verifying that here. The test logic verifies this implicitly anyway.
+    verifyNoMoreInteractions(iterable);
   }
 
   private static Stream<Arguments> should_format_iterable_source() {
@@ -233,6 +263,23 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     String formatted = STANDARD_REPRESENTATION.toStringOf(a);
     // THEN
     then(formatted).isEqualTo("[{\"a\":1}]");
+  }
+
+  @Test
+  @Timeout(value = 4, unit = TimeUnit.SECONDS)
+  void should_format_big_list() {
+    // GIVEN
+    int elementsPerArray = 200;
+    List<int[]> numbers = new ArrayList<>();
+    for (int i = 0; i < 1 << 18; i++) {
+      numbers.add(new int[elementsPerArray]);
+    }
+    // WHEN
+    String formatted = STANDARD_REPRESENTATION.toStringOf(numbers);
+    // THEN
+    then(formatted).contains("...");
+    then(StringUtils.countMatches(formatted, "0")).isEqualTo(
+                                                             Configuration.MAX_ELEMENTS_FOR_PRINTING * elementsPerArray);
   }
 
   private static String stringOfLength(int length) {

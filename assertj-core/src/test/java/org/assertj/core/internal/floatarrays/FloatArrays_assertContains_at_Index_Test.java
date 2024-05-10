@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.floatarrays;
 
@@ -48,7 +48,8 @@ class FloatArrays_assertContains_at_Index_Test extends FloatArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), 8f, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), 8f,
+                                                                                           someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
@@ -85,13 +86,18 @@ class FloatArrays_assertContains_at_Index_Test extends FloatArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, -8f, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                       null, -8f,
+                                                                                                                       someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), -8f, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                       emptyArray(),
+                                                                                                                       -8f,
+                                                                                                                       someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 

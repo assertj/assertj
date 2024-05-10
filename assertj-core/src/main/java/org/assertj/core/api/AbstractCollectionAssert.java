@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -76,14 +76,14 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
   @SuppressWarnings("unchecked")
   private void assertIsUnmodifiable() {
     switch (actual.getClass().getName()) {
-      case "java.util.Collections$EmptyList":
-      case "java.util.Collections$EmptyNavigableSet":
-      case "java.util.Collections$EmptySet":
-      case "java.util.Collections$EmptySortedSet":
-      case "java.util.Collections$SingletonList":
-      case "java.util.Collections$SingletonSet":
-        // immutable by contract, although not all methods throw UnsupportedOperationException
-        return;
+    case "java.util.Collections$EmptyList":
+    case "java.util.Collections$EmptyNavigableSet":
+    case "java.util.Collections$EmptySet":
+    case "java.util.Collections$EmptySortedSet":
+    case "java.util.Collections$SingletonList":
+    case "java.util.Collections$SingletonSet":
+      // immutable by contract, although not all methods throw UnsupportedOperationException
+      return;
     }
 
     expectUnsupportedOperationException(() -> actual.add(null), "Collection.add(null)");

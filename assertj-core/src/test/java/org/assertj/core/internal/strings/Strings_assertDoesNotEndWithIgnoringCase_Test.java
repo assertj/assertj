@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
@@ -51,7 +51,7 @@ class Strings_assertDoesNotEndWithIgnoringCase_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    //WHEN
+    // WHEN
     AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotEndWithIgnoringCase(INFO, null, "Yoda"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());

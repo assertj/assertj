@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.filter;
 
@@ -22,7 +22,6 @@ import org.assertj.core.test.Player;
 import org.assertj.core.test.WithPlayerData;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
-
 
 public abstract class AbstractTest_equals_filter extends WithPlayerData {
 
@@ -52,7 +51,8 @@ public abstract class AbstractTest_equals_filter extends WithPlayerData {
 
   @Test
   public void should_fail_if_property_to_filter_on_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> filterIterable(players, null, 6000L)).withMessage("The property/field name to filter on should not be null or empty");
+    assertThatIllegalArgumentException().isThrownBy(() -> filterIterable(players, null, 6000L))
+                                        .withMessage("The property/field name to filter on should not be null or empty");
   }
 
   @Test

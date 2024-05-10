@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -18,6 +18,8 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgn
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
+import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
+import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveMonth;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -30,6 +32,7 @@ import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.internal.ChronoLocalDateTimeComparator;
 import org.assertj.core.internal.Comparables;
@@ -525,9 +528,11 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code LocalDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code LocalDateTime} is are not equal with second and nanosecond fields
-   *           ignored.
+   * @throws AssertionError if the actual {@code LocalDateTime} is are not equal with second and nanosecond fields ignored.
+   * @deprecated Use {@link #isCloseTo(LocalDateTime, TemporalOffset)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringSeconds(LocalDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertLocalDateTimeParameterIsNotNull(other);
@@ -562,9 +567,11 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code LocalDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code LocalDateTime} is are not equal ignoring minute, second and nanosecond
-   *           fields.
+   * @throws AssertionError if the actual {@code LocalDateTime} is are not equal ignoring minute, second and nanosecond fields.
+   * @deprecated Use {@link #isCloseTo(LocalDateTime, TemporalOffset)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringMinutes(LocalDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertLocalDateTimeParameterIsNotNull(other);
@@ -599,15 +606,55 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code LocalDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code LocalDateTime} is are not equal with second and nanosecond fields
-   *           ignored.
+   * @throws AssertionError if the actual {@code LocalDateTime} is are not equal with second and nanosecond fields ignored.
+   * @deprecated Use {@link #isCloseTo(LocalDateTime, TemporalOffset)} instead, although not exactly the same semantics,
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringHours(LocalDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertLocalDateTimeParameterIsNotNull(other);
     if (!haveSameYearMonthAndDayOfMonth(actual, other)) {
       throw Failures.instance().failure(info, shouldBeEqualIgnoringHours(actual, other));
     }
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code LocalDateTime} is strictly in the past.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(LocalDateTime.now().minusMinutes(1)).isInThePast();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not in the past.
+   *
+   * @since 3.25.0
+   */
+  public SELF isInThePast() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isBefore(LocalDateTime.now())) throw Failures.instance().failure(info, shouldBeInThePast(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code LocalDateTime} is strictly in the future.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(LocalDateTime.now().plusMinutes(1)).isInTheFuture();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not in the future.
+   *
+   * @since 3.25.0
+   */
+  public SELF isInTheFuture() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isAfter(LocalDateTime.now())) throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
     return myself;
   }
 
@@ -945,6 +992,32 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
       throw Failures.instance().failure(info, shouldHaveDateField(actual, "nanosecond", nano));
     }
     return myself;
+  }
+
+  /**
+   * Verifies that the actual {@link LocalDateTime} is close to the other according to the given {@link TemporalOffset}.
+   * <p>
+   * You can build the offset parameter using {@link Assertions#within(long, TemporalUnit)} or {@link Assertions#byLessThan(long, TemporalUnit)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> LocalDateTime localDateTime = LocalDateTime.now();
+   *
+   * // assertion succeeds:
+   * assertThat(localDateTime).isCloseTo(localDateTime.plusHours(1), within(32, ChronoUnit.MINUTES));
+   *
+   * // assertion fails:
+   * assertThat(localDateTime).isCloseTo(localDateTime.plusHours(1), within(10, ChronoUnit.SECONDS));</code></pre>
+   *
+   * @param other the localDateTime to compare actual to
+   * @param offset the offset used for comparison
+   * @return this assertion object
+   * @throws NullPointerException if {@code LocalDateTime} or {@code TemporalOffset} parameter is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code LocalDateTime} is not close to the given one for a provided offset.
+   */
+  @Override
+  public SELF isCloseTo(LocalDateTime other, TemporalOffset<? super LocalDateTime> offset) {
+    return super.isCloseTo(other, offset);
   }
 
   /**

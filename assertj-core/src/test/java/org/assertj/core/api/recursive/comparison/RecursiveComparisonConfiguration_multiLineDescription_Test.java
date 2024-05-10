@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -102,13 +102,24 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
+  void should_show_the_regexes_used_to_ignore_fields_of_types() {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreFieldsOfTypesMatchingRegexes("java\\.util\\.concurrent\\.locks\\.Reentrant.*Lock",
+                                                                        "java\\.util\\.function\\.ToLong.*");
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains(format("- the types matching the following regexes were ignored in the comparison: java\\.util\\.concurrent\\.locks\\.Reentrant.*Lock, java\\.util\\.function\\.ToLong.*%n"));
+  }
+
+  @Test
   void should_show_the_ignored_all_overridden_equals_methods_flag() {
     // GIVEN
     recursiveComparisonConfiguration.ignoreAllOverriddenEquals();
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    then(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)");
+    then(multiLineDescription).contains("- no equals methods were used in the comparison EXCEPT for java JDK types since introspecting JDK types is forbidden in java 17+ (use withEqualsForType to register a specific way to compare a JDK type if you need it)");
   }
 
   @Test
@@ -122,7 +133,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    then(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
+    then(multiLineDescription).contains(format("- equals methods were used in the comparison except for:%n" +
                                                "  - the following fields: foo, bar, foo.bar%n" +
                                                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                                                "  - the fields matching the following regexes: .*oo, .*ar%n"));
@@ -138,7 +149,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    then(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
+    then(multiLineDescription).contains(format("- equals methods were used in the comparison except for:%n" +
                                                "  - the fields matching the following regexes: foo, bar, foo.bar%n"));
     // @format:on
   }
@@ -152,7 +163,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     // @format:off
-    then(multiLineDescription).contains(format("- overridden equals methods were used in the comparison except for:%n" +
+    then(multiLineDescription).contains(format("- equals methods were used in the comparison except for:%n" +
                                                      "  - the following types: java.lang.String, com.google.common.collect.Multimap%n"));
     // @format:on
   }
@@ -165,7 +176,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    then(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)")
+    then(multiLineDescription).contains("- no equals methods were used in the comparison EXCEPT for java JDK types since introspecting JDK types is forbidden in java 17+ (use withEqualsForType to register a specific way to compare a JDK type if you need it)")
                               .doesNotContain("java.lang.String", "com.google.common.collect.Multimap");
   }
 
@@ -179,7 +190,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // THEN
     // @format:off
     then(multiLineDescription).contains(format(
-               "- overridden equals methods were used in the comparison except for:%n" +
+               "- equals methods were used in the comparison except for:%n" +
                "  - the following fields: foo, baz, foo.baz%n"));
     // @format:on
   }
@@ -189,7 +200,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    then(multiLineDescription).contains("- no overridden equals methods were used in the comparison (except for java types)");
+    then(multiLineDescription).contains("- no equals methods were used in the comparison EXCEPT for java JDK types since introspecting JDK types is forbidden in java 17+ (use withEqualsForType to register a specific way to compare a JDK type if you need it)");
   }
 
   @Test
@@ -343,6 +354,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.registerComparatorForType(AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE, Tuple.class);
     recursiveComparisonConfiguration.registerComparatorForFields(ALWAYS_EQUALS_TUPLE, "foo");
     recursiveComparisonConfiguration.registerComparatorForFields(alwaysDifferent(), "bar.baz");
+    recursiveComparisonConfiguration.allowComparingEnumAgainstString(true);
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
@@ -356,7 +368,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
                "- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n" +
-               "- overridden equals methods were used in the comparison except for:%n" +
+               "- equals methods were used in the comparison except for:%n" +
                "  - the following fields: foo, baz, foo.baz%n" +
                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                "  - the fields matching the following regexes: .*oo, .ar, oo.ba%n" +
@@ -374,7 +386,8 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "  - foo -> AlwaysEqualComparator%n" +
                "- field comparators take precedence over type comparators.%n"+
                "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n" +
-               "- the introspection strategy used was: DefaultRecursiveComparisonIntrospectionStrategy%n"));
+               "- the introspection strategy used was: DefaultRecursiveComparisonIntrospectionStrategy%n"+
+               "- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal%n"));
     // @format:on
   }
 
@@ -396,6 +409,16 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     then(multiLineDescription).contains(format("- the comparison was performed on any fields with types: java.lang.String, java.lang.Integer%n"));
+  }
+
+  @Test
+  void should_show_that_enum_can_be_compared_to_string() {
+    // GIVEN
+    recursiveComparisonConfiguration.allowComparingEnumAgainstString(true);
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains(format("- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal"));
   }
 
   // just to test the description does not fail when given a comparator with various String.format reserved flags

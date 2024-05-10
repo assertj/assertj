@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -35,7 +35,7 @@ class ComparatorBasedComparisonStrategy_iterableRemove_Test extends AbstractTest
     caseInsensitiveComparisonStrategy.iterableRemoves(hobbits, null);
     assertThat(caseInsensitiveComparisonStrategy.iterableContains(hobbits, null)).isFalse();
   }
- 
+
   @Test
   void should_not_remove_value_from_collections_since_it_does_not_match_any_collections_elements_according_to_given_comparator() {
     List<String> hobbits = newArrayList("Merry", "Frodo", null, "Merry", "Sam");

@@ -8,18 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.junit.jupiter.api.Test;
+
+import com.google.common.base.Stopwatch;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
@@ -54,7 +57,7 @@ class FieldLocation_Test {
     // WHEN
     String result = underTest.toString();
     // THEN
-    then(result).isEqualTo("FieldLocation [pathToUseInRules=location, decomposedPath=[location]]");
+    then(result).isEqualTo("<location>");
   }
 
   @Test
@@ -73,4 +76,13 @@ class FieldLocation_Test {
     then(underTest.getDecomposedPath()).isEqualTo(list("name", "first", "second"));
   }
 
+  @Test
+  void should_build_from_long_nested_path_in_reasonable_time() {
+    // WHEN
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    FieldLocation underTest = new FieldLocation("1.2.3.4.5.6.7.8.9.10");
+    // THEN
+    then(stopwatch.elapsed()).isLessThan(Duration.ofSeconds(10));
+    then(underTest.getDecomposedPath()).isEqualTo(list("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"));
+  }
 }

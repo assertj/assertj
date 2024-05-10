@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -39,13 +39,14 @@ class ShouldNotContainSubsequence_create_Test {
   void should_create_error_message_with_custom_comparison_strategy() {
     // GIVEN
     ErrorMessageFactory factory = shouldNotContainSubsequence(list("Yoda", "LUke", "LeiA"), list("Luke", "Leia"),
-      new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE), 1);
+                                                              new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE),
+                                                              1);
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %nExpecting actual:%n  [\"Yoda\", \"LUke\", \"LeiA\"]%nto not contain subsequence:%n  [\"Luke\", \"Leia\"]%n"
-      + "but was found starting at index 1%n"
-      + "when comparing values using CaseInsensitiveStringComparator"));
+                                   + "but was found starting at index 1%n"
+                                   + "when comparing values using CaseInsensitiveStringComparator"));
   }
 
 }

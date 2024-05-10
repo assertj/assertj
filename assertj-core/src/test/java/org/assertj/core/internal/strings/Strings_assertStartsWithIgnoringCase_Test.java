@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
@@ -75,7 +75,9 @@ class Strings_assertStartsWithIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     ComparisonStrategy hashCodeComparisonStrategy = new ComparatorBasedComparisonStrategy(new StringHashCodeTestComparator());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> new Strings(hashCodeComparisonStrategy).assertStartsWithIgnoringCase(INFO, "Yoda", "Luke"));
+    AssertionError assertionError = expectAssertionError(() -> new Strings(hashCodeComparisonStrategy).assertStartsWithIgnoringCase(INFO,
+                                                                                                                                    "Yoda",
+                                                                                                                                    "Luke"));
     // THEN
     then(assertionError).hasMessage(shouldStartWithIgnoringCase("Yoda", "Luke", hashCodeComparisonStrategy).create());
   }

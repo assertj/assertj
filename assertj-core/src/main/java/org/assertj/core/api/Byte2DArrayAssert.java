@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -234,7 +234,6 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
     byte2dArrays.assertNumberOfRows(info, actual, expected);
     return myself;
   }
-
 
   /**
    * Verifies that the actual {@code byte[][]} has the same dimensions as the given array.

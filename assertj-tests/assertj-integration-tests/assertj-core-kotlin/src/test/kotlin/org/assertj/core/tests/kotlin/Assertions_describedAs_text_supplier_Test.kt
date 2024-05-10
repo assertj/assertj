@@ -8,15 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.tests.kotlin
 
 import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.BDDAssertions.then
-import org.assertj.core.api.ConcreteAssert
-import org.assertj.core.util.AssertionsUtil
+import org.assertj.core.tests.kotlin.testkit.AssertionsUtil.expectAssertionError
+import org.assertj.core.tests.kotlin.testkit.ConcreteAssert
 import org.junit.jupiter.api.Test
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.Supplier
@@ -54,7 +54,7 @@ internal class Assertions_describedAs_text_supplier_Test {
     val evaluated = AtomicBoolean(false)
     val descriptionSupplier = spiedSupplier(evaluated)
     // WHEN
-    AssertionsUtil.expectAssertionError {
+    expectAssertionError {
       assertThat(true).describedAs(descriptionSupplier).isFalse()
     }
     // THEN

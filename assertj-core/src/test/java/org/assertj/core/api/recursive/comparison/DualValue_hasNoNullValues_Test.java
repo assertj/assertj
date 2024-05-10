@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -31,7 +31,7 @@ class DualValue_hasNoNullValues_Test {
   @ParameterizedTest(name = "actual {0} / expected {1}")
   @MethodSource("values")
   void should_return_false_when_actual_or_expected_is_null_and_true_otherwise(Object actual, Object expected,
-                                                                                          boolean expectedResult) {
+                                                                              boolean expectedResult) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, expected);
     // WHEN

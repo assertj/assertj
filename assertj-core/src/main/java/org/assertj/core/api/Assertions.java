@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -34,7 +34,9 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 import java.util.Collection;
 import java.util.Date;
@@ -169,7 +171,6 @@ public class Assertions implements InstanceOfAssertFactories {
   public static <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
-
 
   /**
    * Create assertion for {@link Predicate}.
@@ -933,6 +934,17 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link TemporalAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  public static TemporalAssert assertThat(Temporal actual) {
+    return new TemporalAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link LocalDateTimeAssert}</code>.
    *
    * @param actual the actual value.
@@ -979,6 +991,17 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static AbstractLocalDateAssert<?> assertThat(LocalDate actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link YearMonthAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  public static AbstractYearMonthAssert<?> assertThat(YearMonth actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -1613,7 +1636,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @since 3.22.0
    */
   public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException, ReflectiveOperationException.class);
+    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException,
+                                                        ReflectiveOperationException.class);
   }
 
   /**
@@ -1755,7 +1779,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<Exception> assertThatException(){
+  public static ThrowableTypeAssert<Exception> assertThatException() {
     return assertThatExceptionOfType(Exception.class);
   }
 
@@ -1766,7 +1790,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<RuntimeException> assertThatRuntimeException(){
+  public static ThrowableTypeAssert<RuntimeException> assertThatRuntimeException() {
     return assertThatExceptionOfType(RuntimeException.class);
   }
 
@@ -1777,7 +1801,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<ReflectiveOperationException> assertThatReflectiveOperationException(){
+  public static ThrowableTypeAssert<ReflectiveOperationException> assertThatReflectiveOperationException() {
     return assertThatExceptionOfType(ReflectiveOperationException.class);
   }
 
@@ -1788,7 +1812,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @since 3.23.0
    */
-  public static ThrowableTypeAssert<IndexOutOfBoundsException> assertThatIndexOutOfBoundsException(){
+  public static ThrowableTypeAssert<IndexOutOfBoundsException> assertThatIndexOutOfBoundsException() {
     return assertThatExceptionOfType(IndexOutOfBoundsException.class);
   }
 
@@ -1821,6 +1845,20 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Throws an {@link AssertionError} with an empty message to be used in code like:
+   * <pre><code class='java'> doSomething(optional.orElseGet(() -> fail()));</code></pre>
+   *
+   * @param <T> dummy return value type
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail()));}.
+   * @throws AssertionError with an empty message.
+   * @since 3.26.0
+   */
+  @CanIgnoreReturnValue
+  public static <T> T fail() {
+    return Fail.fail();
+  }
+
+  /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
@@ -1845,6 +1883,23 @@ public class Assertions implements InstanceOfAssertFactories {
   @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage, Throwable realCause) {
     return Fail.fail(failureMessage, realCause);
+  }
+
+  /**
+   * Throws an {@link AssertionError} with the {@link Throwable} that caused the failure and an empty message.
+   * <p>
+   * Example:
+   * <pre><code class='java'> doSomething(optional.orElseGet(() -> fail(cause)));</code></pre>
+   * 
+   * @param <T> dummy return value type
+   * @param realCause cause of the error.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
+   * @throws AssertionError with the {@link Throwable} that caused the failure.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T fail(Throwable realCause) {
+    // pass an empty string because passing null results in a "null" error message.
+    return fail("", realCause);
   }
 
   /**
@@ -2332,6 +2387,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param unit the {@link TemporalUnit} of the offset
    * @return the created {@code Offset}.
    * @since 3.7.0
+   * @see #byLessThan(long, TemporalUnit)
    */
   public static TemporalUnitOffset within(long value, TemporalUnit unit) {
     return new TemporalUnitWithinOffset(value, unit);
@@ -2539,6 +2595,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param unit the {@link TemporalUnit} of the offset.
    * @return the created {@code Offset}.
    * @since 3.7.0
+   * @see #within(long, TemporalUnit) 
    */
   public static TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
     return new TemporalUnitLessThanOffset(value, unit);
@@ -2621,6 +2678,21 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfies(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SafeVarargs
+  public static <T> ThrowingConsumer<T> allOf(ThrowingConsumer<? super T>... consumers) {
+    return actual -> assertThat(actual).satisfies(consumers);
+  }
+
+  /**
    * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use {@link AnyOf} if you prefer).
    * <p>
@@ -2648,6 +2720,21 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
     return AnyOf.anyOf(conditions);
+  }
+
+  /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfiesAnyOf(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SafeVarargs
+  public static <T> ThrowingConsumer<T> anyOf(ThrowingConsumer<? super T>... consumers) {
+    return actual -> assertThat(actual).satisfiesAnyOf(consumers);
   }
 
   /**
@@ -3212,6 +3299,20 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(CharSequence actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.25.0
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThatCharSequence(CharSequence actual) {
+    return assertThat(actual);
   }
 
   /**

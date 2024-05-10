@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -34,6 +34,8 @@ import org.assertj.core.internal.IndexedDiff;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.test.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 class ShouldContainExactly_create_Test {
 
@@ -91,9 +93,9 @@ class ShouldContainExactly_create_Test {
   @Test
   void should_display_full_expected_and_actual_sets_with_missing_and_unexpected_elements() {
     // GIVEN
-    ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "Han", "Luke", "Anakin"),
-                                                       list("Yoda", "Han", "Anakin", "Anakin"),
-                                                       list("Anakin"), list("Luke"));
+    ErrorMessageFactory factory = shouldContainExactly(list("Yoda", "H%an", "Luk%e", "Anakin"),
+                                                       list("Yoda", "H%an", "Anak%in", "Anakin"),
+                                                       list("Anak%in"), list("Luk%e"));
 
     // WHEN
     final String message = factory.create(new TextDescription("Test"));
@@ -101,13 +103,13 @@ class ShouldContainExactly_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
-                                   "  [\"Yoda\", \"Han\", \"Luke\", \"Anakin\"]%n" +
+                                   "  [\"Yoda\", \"H%%an\", \"Luk%%e\", \"Anakin\"]%n" +
                                    "to contain exactly (and in same order):%n" +
-                                   "  [\"Yoda\", \"Han\", \"Anakin\", \"Anakin\"]%n" +
+                                   "  [\"Yoda\", \"H%%an\", \"Anak%%in\", \"Anakin\"]%n" +
                                    "but some elements were not found:%n" +
-                                   "  [\"Anakin\"]%n" +
+                                   "  [\"Anak%%in\"]%n" +
                                    "and others were not expected:%n" +
-                                   "  [\"Luke\"]%n"));
+                                   "  [\"Luk%%e\"]%n"));
   }
 
   @Test
@@ -164,7 +166,7 @@ class ShouldContainExactly_create_Test {
   @Test
   void should_display_first_wrong_element_when_only_elements_order_differs() {
     // GIVEN
-    ErrorMessageFactory factory = elementsDifferAtIndex("Luke", "Han", 1);
+    ErrorMessageFactory factory = elementsDifferAtIndex("Luke", "H%an", 1);
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -172,7 +174,25 @@ class ShouldContainExactly_create_Test {
                                    + "Actual and expected have the same elements but not in the same order, at index 1 actual element was:%n"
                                    + "  \"Luke\"%n"
                                    + "whereas expected element was:%n"
-                                   + "  \"Han\"%n"));
+                                   + "  \"H%%an\"%n"));
+  }
+
+  @DisabledOnOs(OS.WINDOWS)
+  @Test
+  void should_escape_percentage_sign_from_elements_listed_in_index_differences() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldContainExactlyWithIndexes(list("Yoda"), list("%"),
+                                                                  list(new IndexedDiff("Yoda", "%", 1)));
+    // WHEN
+    String message = factory.create(new TextDescription("Test"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  [\"Yoda\"]%n" +
+                                   "to contain exactly (and in same order):%n" +
+                                   "  [\"%%\"]%n" +
+                                   "but there were differences at these indexes:%n" +
+                                   "  - element at index 1: expected \"%%\" but was \"Yoda\"\n"));
   }
 
   // with custom comparison strategy

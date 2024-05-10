@@ -8,25 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
-import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
-import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
-import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
-import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
-import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
-import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeFinal;
-import static org.assertj.core.error.ClassModifierShouldBe.shouldNotBeStatic;
-import static org.assertj.core.error.ShouldBeAbstract.shouldBeAbstract;
-import static org.assertj.core.error.ShouldBeAnnotation.shouldBeAnnotation;
-import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
-import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
-import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
@@ -34,10 +22,6 @@ import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoDeclaredFields;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoPublicFields;
-import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
-import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
-import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveDeclaredFields;
 import static org.assertj.core.error.ShouldOnlyHaveFields.shouldOnlyHaveFields;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -78,8 +62,8 @@ public class Classes {
     return INSTANCE;
   }
 
-  private Failures failures = Failures.instance();
-  private ComparisonStrategy comparisonStrategy = StandardComparisonStrategy.instance();
+  private final Failures failures = Failures.instance();
+  private final ComparisonStrategy comparisonStrategy = StandardComparisonStrategy.instance();
 
   /**
    * Verifies that the actual {@code Class} is assignable from all the {@code others} classes.
@@ -106,173 +90,6 @@ public class Classes {
   }
 
   /**
-   * Verifies that the actual {@code Class} is not an interface.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is an interface.
-   */
-  public void assertIsNotInterface(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (actual.isInterface()) throw failures.failure(info, shouldNotBeInterface(actual));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is an interface.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not an interface.
-   */
-  public void assertIsInterface(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (!actual.isInterface()) throw failures.failure(info, shouldBeInterface(actual));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is abstract.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not abstract.
-   */
-  public void assertIsAbstract(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (!Modifier.isAbstract(actual.getModifiers())) throw failures.failure(info, shouldBeAbstract(actual));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is not an annotation.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is an annotation.
-   */
-  public void assertIsNotAnnotation(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (actual.isAnnotation()) throw failures.failure(info, shouldNotBeAnnotation(actual));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is an annotation.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not an annotation.
-   */
-  public void assertIsAnnotation(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (!actual.isAnnotation()) throw failures.failure(info, shouldBeAnnotation(actual));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is final.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not final.
-   */
-  public void assertIsFinal(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (!Modifier.isFinal(actual.getModifiers())) throw failures.failure(info, shouldBeFinal(actual));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is public.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not public.
-   */
-  public void assertIsPublic(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (!Modifier.isPublic(actual.getModifiers())) {
-      throw failures.failure(info, shouldBePublic(actual));
-    }
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is protected.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not protected.
-   */
-  public void assertIsProtected(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (!Modifier.isProtected(actual.getModifiers())) {
-      throw failures.failure(info, shouldBeProtected(actual));
-    }
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is package-private.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not package-private.
-   */
-  public void assertIsPackagePrivate(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    final int modifiers = actual.getModifiers();
-    if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
-      throw failures.failure(info, shouldBePackagePrivate(actual));
-    }
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is not final.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is final.
-   */
-  public void assertIsNotFinal(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (Modifier.isFinal(actual.getModifiers())) throw failures.failure(info, shouldNotBeFinal(actual));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is static.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is not static.
-   */
-  public void assertIsStatic(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (!Modifier.isStatic(actual.getModifiers())) {
-      throw failures.failure(info, shouldBeStatic(actual));
-    }
-  }
-
-  /**
-   * Verifies that the actual {@code Class} is not static.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} is static.
-   */
-  public void assertIsNotStatic(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (Modifier.isStatic(actual.getModifiers())) {
-      throw failures.failure(info, shouldNotBeStatic(actual));
-    }
-  }
-
-  /**
    * Verifies that the actual {@code Class} contains the given {@code Annotation}s.
    * 
    * @param info contains information about the assertion.
@@ -292,40 +109,6 @@ public class Classes {
     }
 
     if (!missing.isEmpty()) throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} has the given class as direct {@code superclass}.
-   *
-   * @param info       contains information about the assertion.
-   * @param actual     the "actual" {@code Class}.
-   * @param superclass the direct superclass, which should not be null.
-   * @throws NullPointerException if {@code superclass} is {@code null}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} does not have the expected superclass.
-   */
-  public void assertHasSuperclass(AssertionInfo info, Class<?> actual, Class<?> superclass) {
-    assertNotNull(info, actual);
-    requireNonNull(superclass, shouldNotBeNull("superclass")::create);
-    Class<?> actualSuperclass = actual.getSuperclass();
-    if (actualSuperclass == null || !actualSuperclass.equals(superclass)) {
-      throw failures.failure(info, shouldHaveSuperclass(actual, superclass));
-    }
-  }
-
-  /**
-   * Verifies that the actual {@code Class} has no superclass.
-   *
-   * @param info       contains information about the assertion.
-   * @param actual     the "actual" {@code Class}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} has a superclass.
-   */
-  public void assertHasNoSuperclass(AssertionInfo info, Class<?> actual) {
-    assertNotNull(info, actual);
-    if (actual.getSuperclass() != null) {
-      throw failures.failure(info, shouldHaveNoSuperclass(actual));
-    }
   }
 
   /**
@@ -617,45 +400,4 @@ public class Classes {
   private static void classParameterIsNotNull(Class<?> clazz) {
     requireNonNull(clazz, "The class to compare actual with should not be null");
   }
-
-  /**
-   * Verifies that the actual {@code Class} has the given {@code packageName}.
-   *
-   * @param info        contains information about the assertion.
-   * @param actual      the "actual" {@code Class}.
-   * @param packageName the package that must be declared in the class.
-   * @throws NullPointerException if {@code packageName} is {@code null}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if {@code actual} does not have the given package name.
-   */
-  public void assertHasPackage(AssertionInfo info, Class<?> actual, String packageName) {
-    assertNotNull(info, actual);
-    requireNonNull(packageName, shouldNotBeNull("packageName")::create);
-    Package actualPackage = actual.getPackage();
-
-    if (actualPackage == null || !actualPackage.getName().equals(packageName)) {
-      throw failures.failure(info, shouldHavePackage(actual, packageName));
-    }
-  }
-
-  /**
-   * Verifies that the actual {@code Class} has the given {@code Package}.
-   *
-   * @param info     contains information about the assertion.
-   * @param actual   the "actual" {@code Class}.
-   * @param aPackage the package that must be declared in the class.
-   * @throws NullPointerException if {@code aPackage} is {@code null}.
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if {@code actual} does not have the given package.
-   */
-  public void assertHasPackage(AssertionInfo info, Class<?> actual, Package aPackage) {
-    assertNotNull(info, actual);
-    requireNonNull(aPackage, shouldNotBeNull("aPackage")::create);
-    Package actualPackage = actual.getPackage();
-
-    if (!aPackage.equals(actualPackage)) {
-      throw failures.failure(info, shouldHavePackage(actual, aPackage));
-    }
-  }
-
 }

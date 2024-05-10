@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -69,7 +69,7 @@ class Assertions_assertThat_with_Stream_startsWith_Test {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Stream<Object> names = null;
       assertThat(names).startsWith(emptyArray());
     }).withMessage(actualIsNull());

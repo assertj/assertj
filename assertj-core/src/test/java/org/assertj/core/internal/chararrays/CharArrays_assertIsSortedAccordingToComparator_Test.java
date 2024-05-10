@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.chararrays;
 
@@ -29,7 +29,6 @@ import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.CharArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link CharArrays#assertIsSortedAccordingToComparator(AssertionInfo, char[], Comparator)}</code>
@@ -63,7 +62,8 @@ class CharArrays_assertIsSortedAccordingToComparator_Test extends CharArraysBase
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null, charDescendingOrderComparator))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertIsSortedAccordingToComparator(someInfo(), null,
+                                                                                                                charDescendingOrderComparator))
                                                    .withMessage(actualIsNull());
   }
 
@@ -77,7 +77,8 @@ class CharArrays_assertIsSortedAccordingToComparator_Test extends CharArraysBase
     AssertionInfo info = someInfo();
     actual = new char[] { 'c', 'b', 'a', 'z' };
 
-    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual, charDescendingOrderComparator));
+    Throwable error = catchThrowable(() -> arrays.assertIsSortedAccordingToComparator(info, actual,
+                                                                                      charDescendingOrderComparator));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldBeSortedAccordingToGivenComparator(2, actual, charDescendingOrderComparator));

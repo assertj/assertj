@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.map;
 
@@ -29,7 +29,7 @@ class MapAssert_doesNotContainKeys_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-	return assertions.doesNotContainKeys("key1", "key2");
+    return assertions.doesNotContainKeys("key1", "key2");
   }
 
   @Override

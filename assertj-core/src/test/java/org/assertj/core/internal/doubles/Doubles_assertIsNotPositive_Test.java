@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.doubles;
 
@@ -19,7 +19,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.internal.DoublesBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link org.assertj.core.internal.Doubles#assertIsNotPositive(org.assertj.core.api.AssertionInfo, Comparable)}</code>.
@@ -49,7 +48,8 @@ class Doubles_assertIsNotPositive_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), -1d));
+    AssertionError assertionError = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                         -1d));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(-1d, 0d, absValueComparisonStrategy).create());
   }
@@ -57,7 +57,8 @@ class Doubles_assertIsNotPositive_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(), 1d));
+    AssertionError assertionError = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                                         1d));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(1d, 0d, absValueComparisonStrategy).create());
   }

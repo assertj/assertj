@@ -8,12 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ActualIsNotEmpty.actualIsNotEmpty;
 import static org.assertj.core.error.ShouldHaveLineCount.shouldHaveLinesCount;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
@@ -28,6 +29,7 @@ import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIs
 import static org.assertj.core.internal.CommonErrors.iterableOfValuesToLookForIsNull;
 import static org.assertj.core.internal.ErrorMessages.nullSequence;
 import static org.assertj.core.internal.ErrorMessages.nullSubsequence;
+import static org.assertj.core.util.Arrays.isArrayEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 
 import java.lang.reflect.Array;
@@ -44,7 +46,7 @@ import org.assertj.core.data.Percentage;
  */
 public final class CommonValidations {
 
-  private static Failures failures = Failures.instance();
+  private static final Failures FAILURES = Failures.instance();
 
   private CommonValidations() {}
 
@@ -93,8 +95,9 @@ public final class CommonValidations {
     checkIsNotEmpty(iterable);
   }
 
-  public static void failIfEmptySinceActualIsNotEmpty(Object[] values) {
-    if (values.length == 0) throw new AssertionError("actual is not empty while group of values to look for is.");
+  public static void failIfEmptySinceActualIsNotEmpty(AssertionInfo info, Failures failures, Object actual,
+                                                      Object values) {
+    if (isArrayEmpty(values)) throw failures.failure(info, actualIsNotEmpty(actual));
   }
 
   public static void hasSameSizeAsCheck(AssertionInfo info, Object actual, Object other, int sizeOfActual) {
@@ -113,39 +116,40 @@ public final class CommonValidations {
   }
 
   static void checkOtherIsNotNull(Object other, String otherType) {
-    requireNonNull(other, "The "+ otherType +" to compare actual size with should not be null");
+    requireNonNull(other, "The " + otherType + " to compare actual size with should not be null");
   }
 
   static void checkSameSizes(AssertionInfo info, Object actual, Object other, int sizeOfActual, int sizeOfOther) {
-    if (sizeOfActual != sizeOfOther) throw failures.failure(info, shouldHaveSameSizeAs(actual, other, sizeOfActual, sizeOfOther));
+    if (sizeOfActual != sizeOfOther)
+      throw FAILURES.failure(info, shouldHaveSameSizeAs(actual, other, sizeOfActual, sizeOfOther));
   }
 
   public static void checkSizes(Object actual, int sizeOfActual, int sizeOfOther, AssertionInfo info) {
-    if (sizeOfActual != sizeOfOther) throw failures.failure(info, shouldHaveSize(actual, sizeOfActual, sizeOfOther));
+    if (sizeOfActual != sizeOfOther) throw FAILURES.failure(info, shouldHaveSize(actual, sizeOfActual, sizeOfOther));
   }
 
   public static void checkSizeGreaterThan(Object actual, int boundary, int sizeOfActual,
                                           AssertionInfo info) {
     if (!(sizeOfActual > boundary))
-      throw failures.failure(info, shouldHaveSizeGreaterThan(actual, sizeOfActual, boundary));
+      throw FAILURES.failure(info, shouldHaveSizeGreaterThan(actual, sizeOfActual, boundary));
   }
 
   public static void checkSizeGreaterThanOrEqualTo(Object actual, int boundary, int sizeOfActual,
                                                    AssertionInfo info) {
     if (!(sizeOfActual >= boundary))
-      throw failures.failure(info, shouldHaveSizeGreaterThanOrEqualTo(actual, sizeOfActual, boundary));
+      throw FAILURES.failure(info, shouldHaveSizeGreaterThanOrEqualTo(actual, sizeOfActual, boundary));
   }
 
   public static void checkSizeLessThan(Object actual, int boundary, int sizeOfActual,
                                        AssertionInfo info) {
     if (!(sizeOfActual < boundary))
-      throw failures.failure(info, shouldHaveSizeLessThan(actual, sizeOfActual, boundary));
+      throw FAILURES.failure(info, shouldHaveSizeLessThan(actual, sizeOfActual, boundary));
   }
 
   public static void checkSizeLessThanOrEqualTo(Object actual, int boundary, int sizeOfActual,
                                                 AssertionInfo info) {
     if (!(sizeOfActual <= boundary))
-      throw failures.failure(info, shouldHaveSizeLessThanOrEqualTo(actual, sizeOfActual, boundary));
+      throw FAILURES.failure(info, shouldHaveSizeLessThanOrEqualTo(actual, sizeOfActual, boundary));
   }
 
   public static void checkSizeBetween(Object actual, int lowerBoundary, int higherBoundary,
@@ -155,12 +159,12 @@ public final class CommonValidations {
                                                 higherBoundary, lowerBoundary));
 
     if (!(lowerBoundary <= sizeOfActual && sizeOfActual <= higherBoundary))
-      throw failures.failure(info, shouldHaveSizeBetween(actual, sizeOfActual, lowerBoundary, higherBoundary));
+      throw FAILURES.failure(info, shouldHaveSizeBetween(actual, sizeOfActual, lowerBoundary, higherBoundary));
   }
 
   public static void checkLineCounts(Object actual, int lineCountOfActual, int lineCountOfOther, AssertionInfo info) {
     if (lineCountOfActual != lineCountOfOther)
-      throw failures.failure(info, shouldHaveLinesCount(actual, lineCountOfActual, lineCountOfOther));
+      throw FAILURES.failure(info, shouldHaveLinesCount(actual, lineCountOfActual, lineCountOfOther));
   }
 
   public static void checkTypeIsNotNull(Class<?> expectedType) {

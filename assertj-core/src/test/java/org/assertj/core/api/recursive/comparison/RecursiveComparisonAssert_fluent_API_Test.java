@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -142,6 +142,19 @@ class RecursiveComparisonAssert_fluent_API_Test {
                                                                        .getRecursiveComparisonConfiguration();
     // THEN
     assertThat(configuration.getIgnoredTypes()).containsExactly(type1, type2);
+  }
+
+  @Test
+  void should_allow_to_ignore_fields_whose_type_matched_the_given_regexes() {
+    // GIVEN
+    String regex1 = "foo.*";
+    String regex2 = ".*bar";
+    // WHEN
+    RecursiveComparisonConfiguration configuration = assertThat(ACTUAL).usingRecursiveComparison()
+                                                                       .ignoringFieldsOfTypesMatchingRegexes(regex1, regex2)
+                                                                       .getRecursiveComparisonConfiguration();
+    // THEN
+    then(configuration.getIgnoredTypesRegexes()).extracting(Pattern::toString).containsExactly(regex1, regex2);
   }
 
   @Test

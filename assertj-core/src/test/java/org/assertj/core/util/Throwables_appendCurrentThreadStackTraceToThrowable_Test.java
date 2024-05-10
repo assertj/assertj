@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -55,10 +55,9 @@ class Throwables_appendCurrentThreadStackTraceToThrowable_Test {
     Throwables.appendStackTraceInCurrentThreadToThrowable(thrown, "should_add_stack_trace_of_current_thread");
     StackTraceElement[] stackTrace = thrown.getStackTrace();
     assertThat(asString(stackTrace[0])).isEqualTo(
-        "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test$1.run");
+                                                  "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test$1.run");
     assertThat(asString(stackTrace[1])).isEqualTo(
-        "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test.should_add_stack_trace_of_current_thread"
-    );
+                                                  "org.assertj.core.util.Throwables_appendCurrentThreadStackTraceToThrowable_Test.should_add_stack_trace_of_current_thread");
   }
 
   private String asString(StackTraceElement e) {

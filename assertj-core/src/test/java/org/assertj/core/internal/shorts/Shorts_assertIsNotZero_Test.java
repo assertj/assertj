@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.shorts;
 
@@ -20,7 +20,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
 import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link Shorts#assertIsNotZero(AssertionInfo, Comparable)}</code>.
@@ -48,7 +47,8 @@ class Shorts_assertIsNotZero_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (short) 0))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
+                                                                                                                          (short) 0))
                                                    .withMessage(format("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n"));
   }
 

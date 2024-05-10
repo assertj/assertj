@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -16,7 +16,6 @@ import java.util.Date;
 
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
-
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is not between start - end dates
@@ -37,7 +36,7 @@ public class ShouldNotBeBetween extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotBeBetween(Date actual, Date start, Date end, boolean inclusiveStart,
-      boolean inclusiveEnd, ComparisonStrategy comparisonStrategy) {
+                                                       boolean inclusiveEnd, ComparisonStrategy comparisonStrategy) {
     return new ShouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy);
   }
 
@@ -51,13 +50,13 @@ public class ShouldNotBeBetween extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotBeBetween(Date actual, Date start, Date end, boolean inclusiveStart,
-      boolean inclusiveEnd) {
+                                                       boolean inclusiveEnd) {
     return new ShouldNotBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, StandardComparisonStrategy.instance());
   }
 
   private ShouldNotBeBetween(Date actual, Date start, Date end, boolean inclusiveStart, boolean inclusiveEnd,
-      ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nnot to be in period:%n  "+(inclusiveStart ? '[' : ']') +
-        "%s, %s%s" + (inclusiveEnd ? ']' : '['), actual, start, end, comparisonStrategy);
+                             ComparisonStrategy comparisonStrategy) {
+    super("%nExpecting actual:%n  %s%nnot to be in period:%n  " + (inclusiveStart ? '[' : ']') +
+          "%s, %s%s" + (inclusiveEnd ? ']' : '['), actual, start, end, comparisonStrategy);
   }
 }

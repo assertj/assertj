@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -31,11 +31,11 @@ public class ShouldHaveName extends BasicErrorMessageFactory {
   private ShouldHaveName(File actual, String expectedName) {
     super(SHOULD_HAVE_NAME, actual, expectedName, actual.getName());
   }
-  
+
   public static ShouldHaveName shouldHaveName(Path actual, String expectedName) {
     return new ShouldHaveName(actual, expectedName);
   }
-  
+
   private ShouldHaveName(Path actual, String expectedName) {
     super(SHOULD_HAVE_NAME, actual, expectedName, actual.getFileName());
   }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.byte_;
 
@@ -19,7 +19,6 @@ import org.assertj.core.api.ByteAssert;
 import org.assertj.core.api.ByteAssertBaseTest;
 import org.assertj.core.data.Offset;
 
-
 /**
  * Tests for <code>{@link org.assertj.core.api.ByteAssert#isCloseTo(Byte, org.assertj.core.data.Offset)}</code>.
  *
@@ -27,8 +26,8 @@ import org.assertj.core.data.Offset;
  */
 class ByteAssert_isCloseTo_byte_Test extends ByteAssertBaseTest {
 
-  private final Offset<Byte> offset = offset((byte)5);
-  private final Byte value = (byte)8;
+  private final Offset<Byte> offset = offset((byte) 5);
+  private final Byte value = (byte) 8;
 
   @Override
   protected ByteAssert invoke_api_method() {

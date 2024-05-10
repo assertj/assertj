@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -16,14 +16,18 @@ import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgn
 import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
 import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
 import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
+import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
+import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.ZonedDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.time.temporal.TemporalUnit;
 import java.util.Comparator;
 
+import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -346,6 +350,8 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
    * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal with nanoseconds ignored.
+   * @deprecated Use {@link #isCloseTo(ZonedDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
+   * this is the right way to compare with a given precision.
    */
   public SELF isEqualToIgnoringNanos(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
@@ -384,9 +390,11 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @return this assertion object.
    * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal with second and nanosecond fields
-   *           ignored.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal with second and nanosecond fields ignored.
+   * @deprecated Use {@link #isCloseTo(ZonedDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
+   * this is the right way to compare with a given precision.
    */
+  @Deprecated
   public SELF isEqualToIgnoringSeconds(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);
@@ -424,8 +432,9 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @return this assertion object.
    * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal ignoring minute, second and nanosecond
-   *           fields.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal ignoring minute, second and nanosecond fields.
+   * @deprecated Use {@link #isCloseTo(ZonedDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
+   * this is the right way to compare with a given precision.
    */
   public SELF isEqualToIgnoringMinutes(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
@@ -464,8 +473,9 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @return this assertion object.
    * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
    * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal with second and nanosecond fields
-   *           ignored.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal with second and nanosecond fields ignored.
+   * @deprecated Use {@link #isCloseTo(ZonedDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
+   * this is the right way to compare with a given precision.
    */
   public SELF isEqualToIgnoringHours(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
@@ -700,6 +710,46 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   /**
+   * Verifies that the actual {@code ZonedDateTime} is strictly in the past.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(ZonedDateTime.now().minusMinutes(1)).isInThePast();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is not in the past.
+   *
+   * @since 3.25.0
+   */
+  public SELF isInThePast() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isBefore(ZonedDateTime.now(actual.getZone())))
+      throw Failures.instance().failure(info, shouldBeInThePast(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code ZonedDateTime} is strictly in the future.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(ZonedDateTime.now().plusMinutes(1)).isInTheFuture();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is not in the future.
+   *
+   * @since 3.25.0
+   */
+  public SELF isInTheFuture() {
+    Objects.instance().assertNotNull(info, actual);
+    if (!actual.isAfter(ZonedDateTime.now(actual.getZone())))
+      throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@link ZonedDateTime} is in the [start, end] period (start and end included) according to
    * the comparator in use.
    * <p>
@@ -862,6 +912,32 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    */
   public SELF isStrictlyBetween(String startExclusive, String endExclusive) {
     return isStrictlyBetween(parse(startExclusive), parse(endExclusive));
+  }
+
+  /**
+   * Verifies that the actual {@link ZonedDateTime} is close to the other according to the given {@link TemporalOffset}.
+   * <p>
+   * You can build the offset parameter using {@link Assertions#within(long, TemporalUnit)} or {@link Assertions#byLessThan(long, TemporalUnit)}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> ZonedDateTime zonedDateTime = ZonedDateTime.parse("2000-01-01T00:00:00Z");
+   *
+   * // assertions succeeds:
+   * assertThat(zonedDateTime).isCloseTo(zonedDateTime.plusHours(1), within(90, ChronoUnit.MINUTES));
+   *
+   * // assertions fails:
+   * assertThat(zonedDateTime).isCloseTo(zonedDateTime.plusHours(1), within(30, ChronoUnit.MINUTES));</code></pre>
+   * @param other the ZonedDateTime to compare actual to
+   * @param offset the offset used for comparison
+   * @return this assertion object
+   * @throws NullPointerException if {@code ZonedDateTime} or {@code TemporalOffset} parameter is {@code null}.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
+   * @throws AssertionError if the actual {@code ZonedDateTime} is not close to the given one for a provided offset.
+   */
+  @Override
+  public SELF isCloseTo(ZonedDateTime other, TemporalOffset<? super ZonedDateTime> offset) {
+    // overridden for javadoc
+    return super.isCloseTo(other, offset);
   }
 
   /** {@inheritDoc} */

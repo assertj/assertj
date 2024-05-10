@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -30,12 +30,12 @@ public class ShouldBeAssignableFrom extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeAssignableFrom(Class<?> actual, Set<Class<?>> expectedAssignableFrom,
-      Set<Class<?>> missingAssignableFrom) {
+                                                           Set<Class<?>> missingAssignableFrom) {
     return new ShouldBeAssignableFrom(actual, expectedAssignableFrom, missingAssignableFrom);
   }
 
   private ShouldBeAssignableFrom(Class<?> actual, Set<Class<?>> expectedAssignableFrom,
-      Set<Class<?>> missingAssignableFrom) {
+                                 Set<Class<?>> missingAssignableFrom) {
     super("%nExpecting%n  %s%nto be assignable from:%n  %s%nbut was not assignable from:%n  %s", actual,
           expectedAssignableFrom, missingAssignableFrom);
   }

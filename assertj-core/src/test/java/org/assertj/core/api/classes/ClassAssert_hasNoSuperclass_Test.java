@@ -8,30 +8,63 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.classes;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest;
+import java.util.stream.Stream;
 
-/**
- * Tests for <code>{@link ClassAssert#hasNoSuperclass()}</code>.
- * 
- * @author Stefano Cordio
- */
-class ClassAssert_hasNoSuperclass_Test extends ClassAssertBaseTest {
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
-  @Override
-  protected ClassAssert invoke_api_method() {
-    return assertions.hasNoSuperclass();
+class ClassAssert_hasNoSuperclass_Test {
+
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Class<?> actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasNoSuperclass());
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(classes).assertHasNoSuperclass(getInfo(assertions), getActual(assertions));
+  @Test
+  void should_fail_if_actual_has_a_superclass() {
+    // GIVEN
+    Class<?> actual = Integer.class;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasNoSuperclass());
+    // THEN
+    then(assertionError).hasMessage(shouldHaveNoSuperclass(actual).create());
+  }
+
+  @ParameterizedTest
+  @MethodSource("nullSuperclassTypes")
+  void should_pass_if_actual_has_no_superclass(Class<?> actual) {
+    // WHEN/THEN
+    assertThat(actual).hasNoSuperclass();
+  }
+
+  private static Stream<Class<?>> nullSuperclassTypes() {
+    return Stream.of(Object.class,
+                     Cloneable.class, // any interface
+                     Boolean.TYPE,
+                     Byte.TYPE,
+                     Character.TYPE,
+                     Double.TYPE,
+                     Float.TYPE,
+                     Integer.TYPE,
+                     Long.TYPE,
+                     Short.TYPE,
+                     Void.TYPE);
   }
 
 }

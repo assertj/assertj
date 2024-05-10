@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
@@ -72,7 +72,8 @@ class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
     AssertionInfo info = someInfo();
     String key = "id";
 
-    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key, s -> assertThat(s).containsPattern(IS_DIGITS)));
+    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key,
+                                                                         s -> assertThat(s).containsPattern(IS_DIGITS)));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
@@ -80,13 +81,15 @@ class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_actual_contains_key_with_value_not_matching_condition() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), actual, "name", s -> assertThat(s).containsPattern(IS_DIGITS)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), actual, "name",
+                                                                                                   s -> assertThat(s).containsPattern(IS_DIGITS)))
                                                    .withMessage(shouldContainPattern("Yoda", IS_DIGITS.pattern()).create());
   }
 
   @Test
   void should_fail_if_actual_contains_null_key_with_value_does_not_matching_condition() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), actual, null, s -> assertThat(s).isNotNull()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), actual, null,
+                                                                                                   s -> assertThat(s).isNotNull()))
                                                    .withMessage(actualIsNull());
   }
 }

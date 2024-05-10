@@ -8,30 +8,49 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.classes;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.ClassAssert#isNotInterface()}</code>.
- * 
  * @author William Delanoue
  */
-class ClassAssert_isNotInterface_Test extends ClassAssertBaseTest {
+class ClassAssert_isNotInterface_Test {
 
-  @Override
-  protected ClassAssert invoke_api_method() {
-    return assertions.isNotInterface();
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Class<?> actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotInterface());
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeNull().create());
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(classes).assertIsNotInterface(getInfo(assertions), getActual(assertions));
+  @Test
+  void should_fail_if_actual_is_interface() {
+    // GIVEN
+    Class<?> actual = CharSequence.class;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotInterface());
+    // THEN
+    then(assertionError).hasMessage(shouldNotBeInterface(actual).create());
+  }
+
+  @Test
+  void should_pass_if_actual_is_not_interface() {
+    // GIVEN
+    Class<?> actual = String.class;
+    // WHEN/THEN
+    assertThat(actual).isNotInterface();
   }
 
 }

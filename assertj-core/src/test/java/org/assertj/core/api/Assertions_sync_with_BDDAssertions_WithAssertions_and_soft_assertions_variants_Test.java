@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -145,11 +145,15 @@ class Assertions_sync_with_BDDAssertions_WithAssertions_and_soft_assertions_vari
   }
 
   private static Set<Method> non_assertThat_methodsOf(Method[] declaredMethods) {
-    return stream(declaredMethods).filter(method -> !method.getName().startsWith("assert")).collect(toSet());
+    return stream(declaredMethods).filter(method -> !method.getName().startsWith("assert"))
+                                  .filter(method -> !method.isSynthetic())
+                                  .collect(toSet());
   }
 
   private static Set<Method> non_then_methodsOf(Method[] declaredMethods) {
-    return stream(declaredMethods).filter(method -> !method.getName().startsWith("then")).collect(toSet());
+    return stream(declaredMethods).filter(method -> !method.getName().startsWith("then"))
+                                  .filter(method -> !method.isSynthetic())
+                                  .collect(toSet());
   }
 
   private static Set<Method> removeMethods(Set<Method> methods, List<String> methodsToRemove) {

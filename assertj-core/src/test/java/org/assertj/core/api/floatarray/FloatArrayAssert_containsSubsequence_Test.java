@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.floatarray;
 
@@ -50,7 +50,7 @@ class FloatArrayAssert_containsSubsequence_Test extends FloatArrayAssertBaseTest
   void should_pass_with_precision_specified_as_last_argument_using_Float() {
     // GIVEN
     float[] actual = arrayOf(1.0f, 2.0f, 3.0f);
-    Float[] expected = {0.91f, 3.09f};
+    Float[] expected = { 0.91f, 3.09f };
     // THEN
     assertThat(actual).containsSubsequence(expected, withPrecision(0.1f));
   }

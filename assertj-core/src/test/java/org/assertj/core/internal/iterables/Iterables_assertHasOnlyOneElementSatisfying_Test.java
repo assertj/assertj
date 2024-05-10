@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
@@ -54,16 +54,15 @@ class Iterables_assertHasOnlyOneElementSatisfying_Test extends IterablesBaseTest
 
   @Test
   void should_throw_error_if_condition_is_null() {
-    assertThatNullPointerException().isThrownBy(() ->
-      iterables.assertHasOnlyOneElementSatisfying(info, actual, null)
-    );
+    assertThatNullPointerException().isThrownBy(() -> iterables.assertHasOnlyOneElementSatisfying(info, actual, null));
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(
-      () -> iterables.assertHasOnlyOneElementSatisfying(info, null, consumer)
-    ).withMessage(actualIsNull());
+                                                               () -> iterables.assertHasOnlyOneElementSatisfying(info, null,
+                                                                                                                 consumer))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test
@@ -71,7 +70,8 @@ class Iterables_assertHasOnlyOneElementSatisfying_Test extends IterablesBaseTest
     actual.add(new Jedi("Luke", "Blue"));
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(
-      () -> iterables.assertHasOnlyOneElementSatisfying(info, actual, null)
-    ).withMessage(shouldHaveSize(actual, actual.size(), 1).create());
+                                                               () -> iterables.assertHasOnlyOneElementSatisfying(info, actual,
+                                                                                                                 null))
+                                                   .withMessage(shouldHaveSize(actual, actual.size(), 1).create());
   }
 }

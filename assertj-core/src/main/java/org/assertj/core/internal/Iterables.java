@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -345,7 +345,7 @@ public class Iterables {
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
     final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
-    if (commonCheckThatIterableAssertionSucceeds(info, actualAsCollection, values)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, failures, actualAsCollection, values)) return;
     // check for elements in values that are missing in actual.
     assertIterableContainsGivenValues(actual.getClass(), actualAsCollection, values, info);
   }
@@ -429,7 +429,7 @@ public class Iterables {
    *           {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnlyOnce(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, values)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, values)) return;
     // check for elements in values that are missing in actual.
     Set<Object> notFound = new LinkedHashSet<>();
     Set<Object> notOnlyOnce = new LinkedHashSet<>();
@@ -461,7 +461,7 @@ public class Iterables {
     if (sizeOf(actual) == 0) throw failures.failure(info, shouldContainOnlyNulls(actual));
     // look for any non-null elements
     List<Object> nonNullElements = stream(actual).filter(java.util.Objects::nonNull).collect(toList());
-    if (nonNullElements.size() > 0) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
+    if (!nonNullElements.isEmpty()) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
 
   /**
@@ -486,7 +486,7 @@ public class Iterables {
     // exhausted. Of course if 'actual' really is infinite then this could take a while :-D
     final Iterator<?> actualIterator = actual.iterator();
     if (!actualIterator.hasNext() && sequence.length == 0) return;
-    failIfEmptySinceActualIsNotEmpty(sequence);
+    failIfEmptySinceActualIsNotEmpty(info, failures, actual, sequence);
     // we only store sequence.length entries from actual in the LIFO, no need for more.
     Lifo lifo = new Lifo(sequence.length);
     while (actualIterator.hasNext()) {
@@ -557,7 +557,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given subsequence of objects.
    */
   public void assertContainsSubsequence(AssertionInfo info, Iterable<?> actual, Object[] subsequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, subsequence)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, subsequence)) return;
     if (sizeOf(actual) < subsequence.length) {
       throw failures.failure(info, actualDoesNotHaveEnoughElementsToContainSubsequence(actual, subsequence));
     }
@@ -623,7 +623,7 @@ public class Iterables {
     checkIterableIsNotNull(values);
     List<Object> extra = stream(actual).filter(actualElement -> !iterableContains(values, actualElement))
                                        .collect(toList());
-    if (extra.size() > 0) throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
+    if (!extra.isEmpty()) throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
   }
 
   /**
@@ -736,7 +736,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not start with the given sequence of objects.
    */
   public void assertStartsWith(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, sequence)) return;
+    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, sequence)) return;
     int i = 0;
     for (Object actualCurrentElement : actual) {
       if (i >= sequence.length) break;
@@ -800,11 +800,12 @@ public class Iterables {
     }
   }
 
-  private boolean commonCheckThatIterableAssertionSucceeds(AssertionInfo info, Iterable<?> actual, Object[] sequence) {
+  private boolean commonCheckThatIterableAssertionSucceeds(AssertionInfo info, Failures failures, Iterable<?> actual,
+                                                           Object[] sequence) {
     checkNotNullIterables(info, actual, sequence);
     // if both actual and values are empty, then assertion passes.
     if (!actual.iterator().hasNext() && sequence.length == 0) return true;
-    failIfEmptySinceActualIsNotEmpty(sequence);
+    failIfEmptySinceActualIsNotEmpty(info, failures, actual, sequence);
     return false;
   }
 
@@ -1252,7 +1253,7 @@ public class Iterables {
     // recursively test whether we can find any specific matching permutation that can meet the requirements
     if (satisfiedElementsPerConsumer.isEmpty()) return true; // all consumers have been satisfied
 
-    // pop the head (i.e, elements satisfying the current consumer), process the tail (i.e., remaining consumers)...
+    // pop the head (i.e., elements satisfying the current consumer), process the tail (i.e., remaining consumers)...
     ElementsSatisfyingConsumer<E> head = satisfiedElementsPerConsumer.remove();
     List<E> elementsSatisfyingCurrentConsumer = head.getElements();
     if (elementsSatisfyingCurrentConsumer.isEmpty()) return false;   // no element satisfies current consumer
@@ -1334,7 +1335,7 @@ public class Iterables {
                                               .filter(Optional::isPresent)
                                               .map(Optional::get)
                                               .collect(toList());
-    if (erroneousElements.size() > 0) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousElements));
+    if (!erroneousElements.isEmpty()) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousElements));
   }
 
   private <E> Optional<E> failsRestrictions(E element, Consumer<? super E> restrictions) {
@@ -1352,9 +1353,9 @@ public class Iterables {
                                  PredicateDescription predicateDescription) {
     assertNotNull(info, actual);
     predicates.assertIsNotNull(predicate);
-    stream(actual).filter(predicate)
-                  .findFirst()
-                  .orElseThrow(() -> failures.failure(info, anyElementShouldMatch(actual, predicateDescription)));
+    if (stream(actual).noneMatch(predicate)) {
+      throw failures.failure(info, anyElementShouldMatch(actual, predicateDescription));
+    }
   }
 
   public <E> void assertNoneMatch(AssertionInfo info, Iterable<? extends E> actual, Predicate<? super E> predicate,
@@ -1381,7 +1382,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain any of given {@code values}.
    */
   public void assertContainsAnyOf(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, actual, values))
+    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, values))
       return;
 
     Iterable<Object> valuesToSearchFor = newArrayList(values);

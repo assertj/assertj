@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.bytes;
 
@@ -24,7 +24,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
 import org.assertj.core.internal.BytesBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link Bytes#assertGreaterThan(AssertionInfo, Byte, byte)}</code>.
@@ -74,7 +73,8 @@ class Bytes_assertGreaterThan_Test extends BytesBaseTest {
 
   @Test
   void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
-    Throwable error = catchThrowable(() -> bytesWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), (byte) -6, (byte) 6));
+    Throwable error = catchThrowable(() -> bytesWithAbsValueComparisonStrategy.assertGreaterThan(someInfo(), (byte) -6,
+                                                                                                 (byte) 6));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(someInfo(), shouldBeGreater((byte) -6, (byte) 6, absValueComparisonStrategy));

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.guava.api;
 
@@ -95,8 +95,8 @@ class RangeSetAssert_intersectsAll_with_Iterable_Test {
     // GIVEN
     RangeSet<Integer> rangeSet = ImmutableRangeSet.of(closed(0, 100));
     Iterable<Range<Integer>> ranges = list(closed(-10, 10),
-                                       open(50, 60),
-                                       open(90, 170));
+                                           open(50, 60),
+                                           open(90, 170));
     // WHEN/THEN
     assertThat(rangeSet).intersectsAll(ranges);
   }

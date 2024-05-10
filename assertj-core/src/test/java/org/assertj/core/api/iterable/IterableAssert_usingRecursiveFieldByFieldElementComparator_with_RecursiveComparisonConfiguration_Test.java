@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -25,7 +25,8 @@ import org.assertj.core.internal.Iterables;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class IterableAssert_usingRecursiveFieldByFieldElementComparator_with_RecursiveComparisonConfiguration_Test extends IterableAssertBaseTest {
+class IterableAssert_usingRecursiveFieldByFieldElementComparator_with_RecursiveComparisonConfiguration_Test
+    extends IterableAssertBaseTest {
 
   private Iterables iterablesBefore;
   private RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();

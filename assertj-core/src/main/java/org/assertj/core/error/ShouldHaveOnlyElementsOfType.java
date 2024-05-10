@@ -8,10 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
-
 
 /**
  * Creates an error message indicating that a group does not have an element of the given type.
@@ -25,11 +24,13 @@ public class ShouldHaveOnlyElementsOfType extends BasicErrorMessageFactory {
    * @param unexpectedType the type of one element that is not expectedType or it subclasses.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ShouldHaveOnlyElementsOfType shouldHaveOnlyElementsOfType(Object actual, Class<?> expectedType, Class<?> unexpectedType) {
+  public static ShouldHaveOnlyElementsOfType shouldHaveOnlyElementsOfType(Object actual, Class<?> expectedType,
+                                                                          Class<?> unexpectedType) {
     return new ShouldHaveOnlyElementsOfType(actual, expectedType, unexpectedType);
   }
 
   private ShouldHaveOnlyElementsOfType(Object actual, Class<?> expectedType, Class<?> unexpectedType) {
-    super("%nExpecting actual:%n  %s%nto only have elements of type:%n  %s%nbut found:%n  %s", actual, expectedType, unexpectedType);
+    super("%nExpecting actual:%n  %s%nto only have elements of type:%n  %s%nbut found:%n  %s", actual, expectedType,
+          unexpectedType);
   }
 }

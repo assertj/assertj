@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -41,6 +42,9 @@ public abstract class ComparingNormalizedFields implements RecursiveComparisonIn
   // original field name <-> normalized field name by node
   private final Map<Object, Map<String, String>> originalFieldNamesByNormalizedFieldNameByNode = new IdentityHashMap<>();
 
+  // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
+  private final Map<Class<?>, Set<String>> fieldNamesPerClass = new ConcurrentHashMap<>();
+
   /**
    * Returns the <b>normalized</b> names of the children nodes of the given object that will be used in the recursive comparison.
    * <p>
@@ -55,7 +59,10 @@ public abstract class ComparingNormalizedFields implements RecursiveComparisonIn
     Set<String> fieldsNames = Objects.getFieldsNames(node.getClass());
     // we normalize fields so that we can compare actual and expected, for example if actual has a firstName field and expected
     // a first_name field, we won't find firstName in expected unless we normalize it
-    return fieldsNames.stream().map(fieldsName -> normalize(node, fieldsName)).collect(toSet());
+    return fieldNamesPerClass.computeIfAbsent(node.getClass(),
+                                              unused -> fieldsNames.stream()
+                                                                   .map(fieldsName -> normalize(node, fieldsName))
+                                                                   .collect(toSet()));
   }
 
   /**
@@ -124,13 +131,20 @@ public abstract class ComparingNormalizedFields implements RecursiveComparisonIn
     try {
       return COMPARISON.getSimpleValue(fieldName, instance);
     } catch (Exception e) {
-      String originalFieldName = originalFieldNamesByNormalizedFieldNameByNode.get(instance).get(fieldName);
+      String originalFieldName = getOriginalFieldName(fieldName, instance);
       try {
         return COMPARISON.getSimpleValue(originalFieldName, instance);
       } catch (Exception ex) {
-        throw new IntrospectionError(format(NO_FIELD_FOUND, instance, fieldName, originalFieldName, ex));
+        throw new IntrospectionError(format(NO_FIELD_FOUND, instance, fieldName, originalFieldName), ex);
       }
     }
+  }
+
+  private String getOriginalFieldName(String fieldName, Object instance) {
+    // call getChildrenNodeNamesOf to populate originalFieldNamesByNormalizedFieldNameByNode, the recursive comparison
+    // should already do this if this is used outside then getChildNodeValue would fail
+    if (!originalFieldNamesByNormalizedFieldNameByNode.containsKey(instance)) getChildrenNodeNamesOf(instance);
+    return originalFieldNamesByNormalizedFieldNameByNode.get(instance).get(fieldName);
   }
 
   @Override

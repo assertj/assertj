@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -18,10 +18,10 @@ import org.assertj.core.util.CheckReturnValue;
 public class IterableSizeAssert<T> extends AbstractIterableSizeAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> {
 //@format:on
 
-
   private AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> source;
 
-  public IterableSizeAssert(AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> source, Integer i) {
+  public IterableSizeAssert(AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> source,
+                            Integer i) {
     super(i, IterableSizeAssert.class);
     this.source = source;
   }

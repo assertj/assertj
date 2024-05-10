@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.optionaldouble;
 
@@ -29,7 +29,8 @@ class OptionalDoubleAssert_hasValueCloseToOffset_Test {
 
   @Test
   void should_fail_when_optionaldouble_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalDouble) null).hasValueCloseTo(10.0, within(2.0)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalDouble) null).hasValueCloseTo(10.0,
+                                                                                                                       within(2.0)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -37,7 +38,8 @@ class OptionalDoubleAssert_hasValueCloseToOffset_Test {
   void should_fail_if_optionaldouble_is_empty() {
     double expectedValue = 10.0;
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalDouble.empty()).hasValueCloseTo(expectedValue, within(2.0)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalDouble.empty()).hasValueCloseTo(expectedValue,
+                                                                                                                        within(2.0)))
                                                    .withMessage(shouldHaveValueCloseToOffset(expectedValue).create());
   }
 
@@ -50,8 +52,8 @@ class OptionalDoubleAssert_hasValueCloseToOffset_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).hasValueCloseTo(expectedValue,
                                                                                                         offset))
                                                    .withMessage(shouldHaveValueCloseToOffset(actual, expectedValue, offset,
-                                                                                       abs(expectedValue
-                                                                                           - actual.getAsDouble())).create());
+                                                                                             abs(expectedValue
+                                                                                                 - actual.getAsDouble())).create());
   }
 
   @Test

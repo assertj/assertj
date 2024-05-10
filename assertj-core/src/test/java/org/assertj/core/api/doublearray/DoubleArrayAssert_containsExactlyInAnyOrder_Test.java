@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.doublearray;
 
@@ -37,7 +37,7 @@ class DoubleArrayAssert_containsExactlyInAnyOrder_Test extends DoubleArrayAssert
 
   @Test
   void invoke_api_like_user() {
-     assertThat(new double[] { 1.0, 2.0, 2.0 }).containsExactlyInAnyOrder(2.0, 2.0, 1.0);
+    assertThat(new double[] { 1.0, 2.0, 2.0 }).containsExactlyInAnyOrder(2.0, 2.0, 1.0);
   }
 
 }

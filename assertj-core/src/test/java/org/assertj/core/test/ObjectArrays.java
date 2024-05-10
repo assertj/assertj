@@ -8,9 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.test;
+
+import java.util.List;
 
 /**
  * @author Alex Ruiz
@@ -20,6 +22,10 @@ public final class ObjectArrays {
 
   public static Object[] arrayOf(Object... values) {
     return values;
+  }
+
+  public static String[] arrayOf(List<String> list) {
+    return list.toArray(new String[0]);
   }
 
   public static Object[] emptyArray() {

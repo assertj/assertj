@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -38,7 +38,9 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -337,6 +339,20 @@ public class Assumptions {
    */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThat(CharSequence actual) {
     return asAssumption(CharSequenceAssert.class, CharSequence.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code> assumption.
+   * <p>
+   * Use this over {@link #assumeThat(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assumeThat</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.25.0
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assumeThatCharSequence(CharSequence actual) {
+    return assumeThat(actual);
   }
 
   /**
@@ -1317,6 +1333,17 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of {@link TemporalAssert} assumption.
+   *
+   * @param actual the Temporal to test
+   * @return the created assumption for the given object.
+   * @since 3.26.0
+   */
+  public static TemporalAssert assumeThat(Temporal actual) {
+    return asAssumption(TemporalAssert.class, Temporal.class, actual);
+  }
+
+  /**
    * Creates a new instance of {@link ZonedDateTimeAssert} assumption.
    *
    * @param actual the ZonedDateTime to test
@@ -1380,6 +1407,17 @@ public class Assumptions {
    */
   public static AbstractLocalDateAssert<?> assumeThat(LocalDate actual) {
     return asAssumption(LocalDateAssert.class, LocalDate.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link YearMonthAssert} assumption.
+   *
+   * @param actual the YearMonth to test
+   * @return the created assumption for assertion object.
+   * @since 3.26.0
+   */
+  public static AbstractYearMonthAssert<?> assumeThat(YearMonth actual) {
+    return asAssumption(YearMonthAssert.class, YearMonth.class, actual);
   }
 
   /**

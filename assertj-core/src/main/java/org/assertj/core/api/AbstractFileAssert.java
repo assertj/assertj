@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -740,7 +740,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @return {@code this} assertion object.
    * @throws NullPointerException if the expected extension is {@code null}.
    * @throws AssertionError if the actual {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code File} is not a file (ie a directory).
+   * @throws AssertionError if the actual {@code File} is not a file (i.e., a directory).
    * @throws AssertionError if the actual {@code File} does not have the expected extension.
    *
    * @see <a href="http://en.wikipedia.org/wiki/Filename_extension">Filename extension</a>
@@ -1433,7 +1433,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code File} is not a file (ie a directory or does not exist).
+   * @throws AssertionError if the actual {@code File} is not a file (i.e., a directory or does not exist).
    * @throws AssertionError if the actual {@code File} does have an extension.
    */
   public SELF hasNoExtension() {

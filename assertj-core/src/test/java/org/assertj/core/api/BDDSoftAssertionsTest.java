@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -828,14 +828,23 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  void should_return_failure_after_fail_without_message() {
+    // WHEN
+    softly.fail();
+    // THEN
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .message().isEmpty();
+  }
+
+  @Test
   void should_return_failure_after_fail() {
     // GIVEN
     String failureMessage = "Should not reach here";
     // WHEN
     softly.fail(failureMessage);
     // THEN
-    assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith(failureMessage);
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith(failureMessage);
   }
 
   @Test
@@ -845,22 +854,33 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.fail(failureMessage, "here", "here");
     // THEN
-    assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith("Should not reach here or here");
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith("Should not reach here or here");
   }
 
   @Test
-  void should_return_failure_after_fail_with_throwable() {
+  void should_return_failure_after_fail_with_cause() {
+    // GIVEN
+    IllegalStateException realCause = new IllegalStateException();
+    // WHEN
+    softly.fail(realCause);
+    // THEN
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessage("")
+                                  .cause().isEqualTo(realCause);
+  }
+
+  @Test
+  void should_return_failure_after_fail_with_message_and_cause() {
     // GIVEN
     String failureMessage = "Should not reach here";
     IllegalStateException realCause = new IllegalStateException();
     // WHEN
     softly.fail(failureMessage, realCause);
     // THEN
-    List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(1);
-    assertThat(errorsCollected.get(0)).hasMessageStartingWith(failureMessage);
-    assertThat(errorsCollected.get(0).getCause()).isEqualTo(realCause);
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith(failureMessage)
+                                  .cause().isEqualTo(realCause);
   }
 
   @Test
@@ -1608,6 +1628,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
+  @SuppressWarnings("deprecation")
   @Test
   void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN

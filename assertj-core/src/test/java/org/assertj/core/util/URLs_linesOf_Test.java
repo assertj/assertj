@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -29,6 +29,7 @@ import org.junit.jupiter.api.Test;
  * Tests for {@link URLs#linesOf(File, Charset)} and {@link URLs#linesOf(File, String)}.
  *
  * @author Turbo87
+ * 
  * @author dorzey
  */
 class URLs_linesOf_Test {
@@ -42,7 +43,8 @@ class URLs_linesOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> URLs.linesOf(missingFile.toURI().toURL(), Charset.defaultCharset()));
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> URLs.linesOf(missingFile.toURI().toURL(),
+                                                                                        Charset.defaultCharset()));
   }
 
   @Test

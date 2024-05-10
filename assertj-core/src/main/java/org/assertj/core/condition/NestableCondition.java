@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.condition;
 
@@ -125,7 +125,8 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
    * @param <NESTED> the type of object nested into {@literal K}
    */
   @SafeVarargs
-  public static <ACTUAL, NESTED> Condition<ACTUAL> nestable(String descriptionPrefix, Function<? super ACTUAL, ? extends NESTED> extractor,
+  public static <ACTUAL, NESTED> Condition<ACTUAL> nestable(String descriptionPrefix,
+                                                            Function<? super ACTUAL, ? extends NESTED> extractor,
                                                             Condition<? super NESTED>... conditions) {
     return new NestableCondition<>(descriptionPrefix, stream(conditions), extractor);
   }
@@ -142,7 +143,8 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
     return new NestableCondition<ACTUAL, ACTUAL>(descriptionPrefix, stream(conditions));
   }
 
-  private NestableCondition(String descriptionPrefix, Stream<? extends Condition<? super NESTED>> conditions, Function<? super ACTUAL, ? extends NESTED> extractor) {
+  private NestableCondition(String descriptionPrefix, Stream<? extends Condition<? super NESTED>> conditions,
+                            Function<? super ACTUAL, ? extends NESTED> extractor) {
     super(compose(conditions, extractor));
     this.descriptionPrefix = descriptionPrefix;
   }
@@ -163,11 +165,12 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
   }
 
   private static <ACTUAL, NESTED> List<Condition<? super ACTUAL>> compose(Stream<? extends Condition<? super NESTED>> conditions,
-                                                                  Function<? super ACTUAL, ? extends NESTED> extractor) {
+                                                                          Function<? super ACTUAL, ? extends NESTED> extractor) {
     return conditions.map(condition -> compose(condition, extractor)).collect(toList());
   }
 
-  private static <ACTUAL, NESTED> Condition<ACTUAL> compose(Condition<? super NESTED> condition, Function<? super ACTUAL, ? extends NESTED> extractor) {
+  private static <ACTUAL, NESTED> Condition<ACTUAL> compose(Condition<? super NESTED> condition,
+                                                            Function<? super ACTUAL, ? extends NESTED> extractor) {
     return new Condition<ACTUAL>(condition.description()) {
       @Override
       public boolean matches(ACTUAL value) {

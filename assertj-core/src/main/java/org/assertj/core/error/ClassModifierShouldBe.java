@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -81,6 +81,16 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
    */
   public static ErrorMessageFactory shouldBePackagePrivate(Class<?> actual) {
     return new ClassModifierShouldBe(actual, true, PACKAGE_PRIVATE);
+  }
+
+  /**
+   * Creates a new instance for a positive check of the {@code private} modifier.
+   *
+   * @param actual the actual value in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBePrivate(Class<?> actual) {
+    return new ClassModifierShouldBe(actual, true, Modifier.toString(Modifier.PRIVATE));
   }
 
   /**

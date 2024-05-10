@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
@@ -28,7 +28,7 @@ public class MethodSupport {
 
   private static final String METHOD_HAS_NO_RETURN_VALUE = "Method '%s' in class %s.class has to return a value!";
   private static final String METHOD_NOT_FOUND = "Can't find method '%s' in class %s.class. Make sure public method " +
-                                                   "exists and accepts no arguments!";
+                                                 "exists and accepts no arguments!";
 
   /**
    * Returns result of given method invocation on provided object.
@@ -72,8 +72,8 @@ public class MethodSupport {
   }
 
   private static IllegalArgumentException prepareMethodNotFoundException(String methodName,
-                                                                          Class<?> itemClass,
-                                                                          Exception cause) {
+                                                                         Class<?> itemClass,
+                                                                         Exception cause) {
     String message = format(METHOD_NOT_FOUND, methodName, itemClass.getSimpleName());
     return new IllegalArgumentException(message, cause);
   }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.doublearrays;
 
@@ -24,14 +24,17 @@ class DoubleArrays_assertHasSizeGreaterThanOrEqualTo_Test extends DoubleArraysBa
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeGreaterThanOrEqualTo(someInfo(), null, 6))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeGreaterThanOrEqualTo(someInfo(), null,
+                                                                                                              6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_size_of_actual_is_not_greater_than_or_equal_to_boundary() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual, 6))
-                                                   .withMessage(shouldHaveSizeGreaterThanOrEqualTo(actual, actual.length, 6).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual,
+                                                                                                              6))
+                                                   .withMessage(shouldHaveSizeGreaterThanOrEqualTo(actual, actual.length,
+                                                                                                   6).create());
   }
 
   @Test

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -29,9 +29,9 @@ class Assertions_assertThat_with_AssertProvider_Test {
 
   @BeforeEach
   void setup() {
-	object = new TestedObject("Test");
+    object = new TestedObject("Test");
   }
-  
+
   @Test
   void should_allow_assert_provider_within_assertThat() {
     assertThat(object).containsText("es");
@@ -39,9 +39,9 @@ class Assertions_assertThat_with_AssertProvider_Test {
 
   @Test
   void should_use_assert_provider_directly() {
-	object.assertThat().containsText("es");
+    object.assertThat().containsText("es");
   }
-  
+
   private static class TestedObject implements AssertProvider<TestedObjectAssert> {
     private final String text;
 
@@ -56,7 +56,7 @@ class Assertions_assertThat_with_AssertProvider_Test {
 
   private static class TestedObjectAssert extends AbstractAssert<TestedObjectAssert, TestedObject> {
     private Strings strings = Strings.instance();
-    
+
     public TestedObjectAssert(TestedObject testedObject) {
       super(testedObject, TestedObjectAssert.class);
     }

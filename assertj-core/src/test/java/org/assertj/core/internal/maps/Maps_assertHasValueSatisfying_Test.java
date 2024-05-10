@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
@@ -59,7 +59,6 @@ class Maps_assertHasValueSatisfying_Test extends MapsBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasValueSatisfying(someInfo(), null, isGreen))
                                                    .withMessage(actualIsNull());
   }
-
 
   @Test
   void should_fail_if_actual_does_not_contain_value_matching_condition() {

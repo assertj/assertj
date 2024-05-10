@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -25,24 +25,21 @@ import org.assertj.core.util.VisibleForTesting;
 public class ShouldHaveParent extends BasicErrorMessageFactory {
 
   @VisibleForTesting
-  public static final String PATH_NO_PARENT
-      = "%nExpecting path%n  %s%nto have parent:%n  %s%nbut did not have one.";
+  public static final String PATH_NO_PARENT = "%nExpecting path%n  %s%nto have parent:%n  %s%nbut did not have one.";
 
   @VisibleForTesting
-  public static final String PATH_NOT_EXPECTED_PARENT
-      = "%nExpecting path%n  %s%nto have parent:%n  %s%nbut had:%n  %s.";
+  public static final String PATH_NOT_EXPECTED_PARENT = "%nExpecting path%n  %s%nto have parent:%n  %s%nbut had:%n  %s.";
 
   @VisibleForTesting
-  public static final String FILE_NO_PARENT
-      = "%nExpecting file%n  %s%nto have parent:%n  %s%nbut did not have one.";
+  public static final String FILE_NO_PARENT = "%nExpecting file%n  %s%nto have parent:%n  %s%nbut did not have one.";
 
   @VisibleForTesting
-  public static final String FILE_NOT_EXPECTED_PARENT
-      = "%nExpecting file%n  %s%nto have parent:%n  %s%nbut had:%n  %s.";
+  public static final String FILE_NOT_EXPECTED_PARENT = "%nExpecting file%n  %s%nto have parent:%n  %s%nbut had:%n  %s.";
 
   public static ShouldHaveParent shouldHaveParent(File actual, File expected) {
-    return actual.getParentFile() == null ? new ShouldHaveParent(actual, expected) : new ShouldHaveParent(actual,
-        actual.getParentFile(), expected);
+    return actual.getParentFile() == null ? new ShouldHaveParent(actual, expected)
+        : new ShouldHaveParent(actual,
+                               actual.getParentFile(), expected);
   }
 
   public static ShouldHaveParent shouldHaveParent(Path actual, Path expected) {

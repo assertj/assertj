@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.dates;
 
@@ -29,7 +29,6 @@ import org.assertj.core.error.ShouldBeBeforeOrEqualTo;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.internal.DatesBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link Dates#assertIsBeforeOrEqualTo(AssertionInfo, Date, Date)}</code>.
@@ -57,7 +56,8 @@ class Dates_assertIsBeforeOrEqualTo_Test extends DatesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsBeforeOrEqualTo(someInfo(), null, parseDate("2010-01-01")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> dates.assertIsBeforeOrEqualTo(someInfo(), null,
+                                                                                                   parseDate("2010-01-01")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -79,20 +79,23 @@ class Dates_assertIsBeforeOrEqualTo_Test extends DatesBaseTest {
     Throwable error = catchThrowable(() -> datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(info, actual, other));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo(actual, other, yearAndMonthComparisonStrategy));
+    verify(failures).failure(info,
+                             ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo(actual, other, yearAndMonthComparisonStrategy));
   }
 
   @Test
   void should_throw_error_if_given_date_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(someInfo(),
-                                                                                                                 actual,
-                                                                                                                 null))
+                                                                                                                actual,
+                                                                                                                null))
                                     .withMessage(dateToCompareActualWithIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(someInfo(), null, parseDate("2010-01-01")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> datesWithCustomComparisonStrategy.assertIsBeforeOrEqualTo(someInfo(),
+                                                                                                                               null,
+                                                                                                                               parseDate("2010-01-01")))
                                                    .withMessage(actualIsNull());
   }
 

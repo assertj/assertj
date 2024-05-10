@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -346,7 +346,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
@@ -391,7 +391,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
@@ -559,7 +559,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more than once these values.
@@ -602,6 +602,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array does not contain the given values with same order, i.e. the actual array
    *           contains some or none of the given values, or the actual array contains more values than the given ones
    *           or values are the same but the order is not.
@@ -637,6 +638,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual arrray does not contain the given values, i.e. the actual array
    *           contains some or none of the given values, or the actual array contains more values than the given ones.
    */
@@ -702,6 +704,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return this assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   @Override
@@ -738,6 +741,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @return this assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given argument is an empty iterable and the actual array is not empty.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   @Override
@@ -1152,7 +1156,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence of objects.
    */
@@ -3832,7 +3836,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the array of values is {@code null}.
-   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array of values is empty and the array under test is not empty.
    * @throws AssertionError if the array under test is {@code null}.
    * @throws AssertionError if the array under test does not contain any of the given {@code values}.
    * @since 2.9.0 / 3.9.0
@@ -3871,7 +3875,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param iterable the iterable whose at least one element is expected to be in the array under test.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the iterable of expected values is {@code null}.
-   * @throws IllegalArgumentException if the iterable of expected values is empty and the array under test is not empty.
+   * @throws AssertionError if the iterable of expected values is empty and the array under test is not empty.
    * @throws AssertionError if the array under test is {@code null}.
    * @throws AssertionError if the array under test does not contain any of elements from the given {@code Iterable}.
    * @since 2.9.0 / 3.9.0
@@ -4015,9 +4019,15 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
-   *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Collection} and array elements (but the collection/array itself)</li>
+   *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Collection} and array elements (but not the collection/array itself)</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Map} values but not the map itself or its keys</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Optional} and primitive optional values</li>
+   * </ul>
+   * <p>You can change how the recursive assertion deals with arrays, collections, maps and optionals, see:</p>
+   * <ul>
+   *   <li>{@link RecursiveAssertionAssert#withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy)} for collections and arrays</li>
+   *   <li>{@link RecursiveAssertionAssert#withMapAssertionPolicy(RecursiveAssertionConfiguration.MapAssertionPolicy)} for maps</li>
+   *   <li>{@link RecursiveAssertionAssert#withOptionalAssertionPolicy(RecursiveAssertionConfiguration.OptionalAssertionPolicy)} for optionals</li>
    * </ul>
    *
    * <p>It is possible to assert several predicates over the object graph in a row.</p>
@@ -4098,7 +4108,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   public RecursiveAssertionAssert usingRecursiveAssertion(RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
     return super.usingRecursiveAssertion(recursiveAssertionConfiguration);
   }
-  
+
   /**
    * Verifies that the array under test contains a single element and allows to perform assertions on that element.
    * <p>

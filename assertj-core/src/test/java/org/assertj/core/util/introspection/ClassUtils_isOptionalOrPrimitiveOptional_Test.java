@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
@@ -19,15 +19,14 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 class ClassUtils_isOptionalOrPrimitiveOptional_Test {
 
   @ParameterizedTest
-  @MethodSource
+  @ValueSource(classes = { Optional.class, OptionalLong.class, OptionalDouble.class, OptionalInt.class })
   void should_detect_Optional_and_primitive_Optional_types(Class<?> clazz) {
     // WHEN
     boolean isPrimitive = isOptionalOrPrimitiveOptional(clazz);
@@ -36,19 +35,11 @@ class ClassUtils_isOptionalOrPrimitiveOptional_Test {
   }
 
   @ParameterizedTest
-  @MethodSource
+  @ValueSource(classes = { String.class, com.google.common.base.Optional.class })
   void should_detect_as_not_from_the_Optional_family(Class<?> clazz) {
     // WHEN
     boolean isPrimitive = isOptionalOrPrimitiveOptional(clazz);
     // THEN
     then(isPrimitive).isFalse();
-  }
-
-  private static Stream<Class<?>> should_detect_Optional_and_primitive_Optional_types() {
-    return Stream.of(Optional.class, OptionalLong.class, OptionalDouble.class, OptionalInt.class);
-  }
-
-  private static Stream<Class<?>> should_detect_as_not_from_the_Optional_family() {
-    return Stream.of(String.class, com.google.common.base.Optional.class);
   }
 }

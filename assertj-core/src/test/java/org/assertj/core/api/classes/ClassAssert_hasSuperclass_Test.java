@@ -8,30 +8,71 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.classes;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.assertj.core.api.ClassAssert;
-import org.assertj.core.api.ClassAssertBaseTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
-/**
- * Tests for <code>{@link ClassAssert#hasSuperclass(Class)}</code>.
- * 
- * @author Stefano Cordio
- */
-class ClassAssert_hasSuperclass_Test extends ClassAssertBaseTest {
+class ClassAssert_hasSuperclass_Test {
 
-  @Override
-  protected ClassAssert invoke_api_method() {
-    return assertions.hasSuperclass(Object.class);
+  @Test
+  void should_fail_if_actual_is_null() {
+    // GIVEN
+    Class<?> actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSuperclass(Object.class));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(classes).assertHasSuperclass(getInfo(assertions), getActual(assertions), Object.class);
+  @Test
+  void should_fail_if_null_class_is_given() {
+    // GIVEN
+    Class<?> actual = Integer.class;
+    Class<?> superclass = null;
+    // WHEN
+    Throwable thrown = catchThrowable(() -> assertThat(actual).hasSuperclass(superclass));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class).hasMessage(shouldNotBeNull("superclass").create());
+  }
+
+  @Test
+  void should_pass_if_actual_has_given_class_as_direct_superclass() {
+    // GIVEN
+    Class<?> actual = Integer.class;
+    Class<?> superclass = Number.class;
+    // WHEN/THEN
+    assertThat(actual).hasSuperclass(superclass);
+  }
+
+  @ParameterizedTest
+  @ValueSource(classes = { Object.class, Comparable.class, String.class })
+  void should_fail_if_actual_has_not_given_class_as_direct_superclass(Class<?> superclass) {
+    // GIVEN
+    Class<?> actual = Integer.class;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSuperclass(superclass));
+    // THEN
+    then(assertionError).hasMessage(shouldHaveSuperclass(actual, superclass).create());
+  }
+
+  @Test
+  void should_pass_if_actual_is_an_array_class_and_object_class_is_given() {
+    // GIVEN
+    Class<?> actual = Integer[].class;
+    // WHEN/THEN
+    assertThat(actual).hasSuperclass(Object.class);
   }
 
 }

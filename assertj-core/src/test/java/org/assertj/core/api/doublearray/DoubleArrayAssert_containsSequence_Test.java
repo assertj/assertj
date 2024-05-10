@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.doublearray;
 
@@ -21,7 +21,6 @@ import org.assertj.core.api.DoubleArrayAssert;
 import org.assertj.core.api.DoubleArrayAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 class DoubleArrayAssert_containsSequence_Test extends DoubleArrayAssertBaseTest {
 
   @Override
@@ -33,7 +32,7 @@ class DoubleArrayAssert_containsSequence_Test extends DoubleArrayAssertBaseTest 
   protected void verify_internal_effects() {
     verify(arrays).assertContainsSequence(getInfo(assertions), getActual(assertions), arrayOf(6d, 8d));
   }
-  
+
   @Test
   void should_pass_with_precision_specified_as_last_argument() {
     // GIVEN

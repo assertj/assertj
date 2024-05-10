@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.objectarray;
 
@@ -39,7 +39,7 @@ class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
 
   @Test
   void fails_if_arry_has_only_one_element_and_that_element_does_not_satisfy_the_given_assertion() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Jedi[] jedis = { new Jedi("Yoda", "red") };
       assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("L"));
     }).withMessage(format("%nExpecting actual:%n  \"Yoda\"%nto start with:%n  \"L\"%n"));

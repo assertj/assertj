@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.abstract_;
 
@@ -24,11 +24,10 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Alex Ruiz
  */
-public class AbstractAssert_isNull_Test extends AbstractAssertBaseTest{
+public class AbstractAssert_isNull_Test extends AbstractAssertBaseTest {
 
   @Test
-  public void should_verify_that_actual_value_is_null() {
-  }
+  public void should_verify_that_actual_value_is_null() {}
 
   @Override
   protected ConcreteAssert invoke_api_method() {
@@ -40,7 +39,7 @@ public class AbstractAssert_isNull_Test extends AbstractAssertBaseTest{
   protected void verify_internal_effects() {
     verify(objects).assertNull(getInfo(assertions), getActual(assertions));
   }
-  
+
   @Override
   @Test
   public void should_return_this() {

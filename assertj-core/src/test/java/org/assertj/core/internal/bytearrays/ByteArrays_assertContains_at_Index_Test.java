@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.bytearrays;
 
@@ -32,7 +32,6 @@ import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ByteArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
-
 /**
  * Tests for <code>{@link ByteArrays#assertContains(AssertionInfo, byte[], byte, Index)}</code>.
  * 
@@ -43,13 +42,15 @@ class ByteArrays_assertContains_at_Index_Test extends ByteArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, (byte) 8, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), null, (byte) 8,
+                                                                                           someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), (byte) 8, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContains(someInfo(), emptyArray(), (byte) 8,
+                                                                                           someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
@@ -87,23 +88,29 @@ class ByteArrays_assertContains_at_Index_Test extends ByteArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), null, (byte) -8, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                       null,
+                                                                                                                       (byte) -8,
+                                                                                                                       someIndex()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_empty_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(), emptyArray(), (byte) -8, someIndex()))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
+                                                                                                                       emptyArray(),
+                                                                                                                       (byte) -8,
+                                                                                                                       someIndex()))
                                                    .withMessage(actualIsEmpty());
   }
 
   @Test
   void should_throw_error_if_Index_is_null_whatever_custom_comparison_strategy_is() {
     assertThatNullPointerException().isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContains(someInfo(),
-                                                                                                                             actual,
-                                                                                                                             (byte) -8,
-                                                                                                                             null))
-                                                         .withMessage("Index should not be null");
+                                                                                                        actual,
+                                                                                                        (byte) -8,
+                                                                                                        null))
+                                    .withMessage("Index should not be null");
   }
 
   @Test

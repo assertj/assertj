@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.strings;
 
@@ -37,7 +37,7 @@ class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(4, 7));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());   
+    assertThat(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -48,7 +48,7 @@ class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
     AssertionError error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(4, 7));
     // THEN
     String errorMessage = shouldHaveSizeBetween(actual, actual.length(), 4, 7).create();
-    assertThat(error).hasMessage(errorMessage);    
+    assertThat(error).hasMessage(errorMessage);
   }
 
   @Test
@@ -59,7 +59,7 @@ class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
     AssertionError error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(1, 2));
     // THEN
     String errorMessage = shouldHaveSizeBetween(actual, actual.length(), 1, 2).create();
-    assertThat(error).hasMessage(errorMessage);    
+    assertThat(error).hasMessage(errorMessage);
   }
 
   @Test

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.objectarrays;
 
@@ -78,7 +78,8 @@ class ObjectArrays_assertDoesNotContainSubsequence_Test extends ObjectArraysBase
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainSubsequence(someInfo(), null, array("Yoda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainSubsequence(someInfo(), null,
+                                                                                                            array("Yoda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -90,7 +91,8 @@ class ObjectArrays_assertDoesNotContainSubsequence_Test extends ObjectArraysBase
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainSubsequence(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertDoesNotContainSubsequence(someInfo(), actual,
+                                                                                                            emptyArray()));
   }
 
   @Test
@@ -113,7 +115,9 @@ class ObjectArrays_assertDoesNotContainSubsequence_Test extends ObjectArraysBase
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSubsequence(someInfo(), null, array("YOda")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSubsequence(someInfo(),
+                                                                                                                                        null,
+                                                                                                                                        array("YOda")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -127,7 +131,9 @@ class ObjectArrays_assertDoesNotContainSubsequence_Test extends ObjectArraysBase
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSubsequence(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSubsequence(someInfo(),
+                                                                                                                                        actual,
+                                                                                                                                        emptyArray()));
   }
 
   @Test

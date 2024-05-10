@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
@@ -24,7 +24,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link Iterables#assertHasSize(org.assertj.core.api.AssertionInfo, Iterable, int)}</code>.
@@ -61,7 +60,9 @@ class Iterables_assertHasSize_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(), null, 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(someInfo(),
+                                                                                                                                  null,
+                                                                                                                                  8))
                                                    .withMessage(actualIsNull());
   }
 
@@ -70,7 +71,9 @@ class Iterables_assertHasSize_Test extends IterablesBaseTest {
     AssertionInfo info = someInfo();
     Collection<String> actual = newArrayList("Yoda");
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(info, actual, 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertHasSize(info,
+                                                                                                                                  actual,
+                                                                                                                                  8))
                                                    .withMessage(shouldHaveSize(actual, actual.size(), 8).create());
   }
 }

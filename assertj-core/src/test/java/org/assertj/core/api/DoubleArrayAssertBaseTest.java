@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -16,7 +16,6 @@ import static org.assertj.core.test.DoubleArrays.emptyArray;
 import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.DoubleArrays;
-
 
 /**
  * Base class for {@link DoubleArrayAssert} tests.
@@ -37,7 +36,7 @@ public abstract class DoubleArrayAssertBaseTest extends BaseTestTemplate<DoubleA
     arrays = mock(DoubleArrays.class);
     assertions.arrays = arrays;
   }
-  
+
   protected DoubleArrays getArrays(DoubleArrayAssert someAssertions) {
     return someAssertions.arrays;
   }

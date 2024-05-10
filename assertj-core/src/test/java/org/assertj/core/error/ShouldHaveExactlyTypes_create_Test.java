@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -27,9 +27,9 @@ class ShouldHaveExactlyTypes_create_Test {
   void should_display_missing_and_unexpected_elements_types() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveTypes(list("Yoda", 123),
-                                                       list(String.class, Double.class),
-                                                       list(Double.class),
-                                                       list(Integer.class));
+                                                  list(String.class, Double.class),
+                                                  list(Double.class),
+                                                  list(Integer.class));
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -48,9 +48,9 @@ class ShouldHaveExactlyTypes_create_Test {
   void should_not_display_missing_elements_types_when_there_are_none() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveTypes(list("Yoda", 123),
-                                                       list(String.class, String.class),
-                                                       list(),
-                                                       list(Integer.class));
+                                                  list(String.class, String.class),
+                                                  list(),
+                                                  list(Integer.class));
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
@@ -67,9 +67,9 @@ class ShouldHaveExactlyTypes_create_Test {
   void should_not_display_unexpected_elements_types_when_there_are_none() {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveTypes(list("Yoda", 123, 456),
-                                                       list(String.class, Integer.class, Double.class),
-                                                       list(Double.class),
-                                                       list());
+                                                  list(String.class, Integer.class, Double.class),
+                                                  list(Double.class),
+                                                  list());
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN

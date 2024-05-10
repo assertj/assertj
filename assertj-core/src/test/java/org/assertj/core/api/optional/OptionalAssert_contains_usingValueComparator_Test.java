@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.optional;
 
@@ -26,11 +26,12 @@ import org.junit.jupiter.api.Test;
 class OptionalAssert_contains_usingValueComparator_Test {
 
   private static Comparator<Foo> FOO_COMPARATOR = (o1, o2) -> o1.getValue().toLowerCase()
-                                                        .compareTo(o2.getValue().toLowerCase());
+                                                                .compareTo(o2.getValue().toLowerCase());
 
   @Test
   void should_fail_when_optional_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<Foo>) null).usingValueComparator(FOO_COMPARATOR).contains(new Foo("something")))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<Foo>) null).usingValueComparator(FOO_COMPARATOR)
+                                                                                                     .contains(new Foo("something")))
                                                    .withMessage(actualIsNull());
   }
 
@@ -51,7 +52,8 @@ class OptionalAssert_contains_usingValueComparator_Test {
     Optional<Foo> actual = Optional.of(new Foo("something"));
     Foo expectedValue = new Foo("something else");
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR).contains(expectedValue))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR)
+                                                                                       .contains(expectedValue))
                                                    .withMessage(shouldContain(actual, expectedValue).create());
   }
 
@@ -59,7 +61,7 @@ class OptionalAssert_contains_usingValueComparator_Test {
   void should_fail_if_optional_is_empty() {
     Foo expectedValue = new Foo("test");
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Optional<Foo> actual = Optional.empty();
       assertThat(actual).usingValueComparator(FOO_COMPARATOR).contains(expectedValue);
     }).withMessage(shouldContain(expectedValue).create());

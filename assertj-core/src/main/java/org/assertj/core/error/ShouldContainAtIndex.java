@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -36,7 +36,7 @@ public class ShouldContainAtIndex extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldContainAtIndex(Object actual, Object expected, Index index, Object found,
-      ComparisonStrategy comparisonStrategy) {
+                                                         ComparisonStrategy comparisonStrategy) {
     return new ShouldContainAtIndex(actual, expected, index, found, comparisonStrategy);
   }
 
@@ -53,6 +53,7 @@ public class ShouldContainAtIndex extends BasicErrorMessageFactory {
   }
 
   private ShouldContainAtIndex(Object actual, Object expected, Index index, Object found, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nat index %s but found:%n  %s%nin:%n  %s%n%s", expected, index.value, found, actual, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nat index %s but found:%n  %s%nin:%n  %s%n%s", expected, index.value, found, actual,
+          comparisonStrategy);
   }
 }

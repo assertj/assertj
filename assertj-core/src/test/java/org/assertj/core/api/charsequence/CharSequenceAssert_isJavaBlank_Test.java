@@ -8,30 +8,53 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.charsequence;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.CharSequenceAssert;
-import org.assertj.core.api.CharSequenceAssertBaseTest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#isJavaBlank()}</code>.
- * 
  * @author Filip Hrisafov
  */
-class CharSequenceAssert_isJavaBlank_Test extends CharSequenceAssertBaseTest {
+@SuppressWarnings("deprecation")
+class CharSequenceAssert_isJavaBlank_Test {
 
-  @SuppressWarnings("deprecation")
-  @Override
-  protected CharSequenceAssert invoke_api_method() {
-    return assertions.isJavaBlank();
+  @ParameterizedTest
+  @ValueSource(strings = {
+      " ",
+      "\t", // tab
+      "\n", // line feed
+      "\r", // carriage return
+      " \n\r  "
+  })
+  void should_pass_if_actual_is_blank(String actual) {
+    // WHEN/THEN
+    assertThat(actual).isJavaBlank();
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(strings).assertJavaBlank(getInfo(assertions), getActual(assertions));
+  @ParameterizedTest
+  @NullSource
+  @ValueSource(strings = {
+      "",
+      "a",
+      " bc ",
+      "\u00A0", // non-breaking space
+      "\u2007", // non-breaking space
+      "\u202F"  // non-breaking space
+  })
+  void should_fail_if_actual_is_not_blank(String actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isJavaBlank());
+    // THEN
+    then(assertionError).hasMessage(shouldBeBlank(actual).create());
   }
+
 }

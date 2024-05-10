@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.longs;
 
@@ -82,7 +82,7 @@ class Longs_assertIsNotCloseTo_Test extends LongsBaseTest {
       "0, 1, 2"
   })
   void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(long actual, long other,
-                                                                                       long offset) {
+                                                                                long offset) {
     AssertionInfo info = someInfo();
 
     Throwable error = catchThrowable(() -> longs.assertIsNotCloseTo(info, actual, other, byLessThan(offset)));
@@ -108,7 +108,8 @@ class Longs_assertIsNotCloseTo_Test extends LongsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsNotCloseTo(someInfo(), null, ONE, byLessThan(ONE)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsNotCloseTo(someInfo(), null, ONE,
+                                                                                              byLessThan(ONE)))
                                                    .withMessage(actualIsNull());
   }
 

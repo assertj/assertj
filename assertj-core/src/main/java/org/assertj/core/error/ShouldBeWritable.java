@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -26,11 +26,11 @@ public class ShouldBeWritable extends BasicErrorMessageFactory {
   static final String SHOULD_BE_WRITABLE = "%nExpecting actual:%n  %s%nto be writable.";
 
   private ShouldBeWritable(File actual) {
-	super(SHOULD_BE_WRITABLE, actual);
+    super(SHOULD_BE_WRITABLE, actual);
   }
 
   private ShouldBeWritable(Path actual) {
-	super(SHOULD_BE_WRITABLE, actual);
+    super(SHOULD_BE_WRITABLE, actual);
   }
 
   /**
@@ -40,11 +40,11 @@ public class ShouldBeWritable extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeWritable(File actual) {
-	return new ShouldBeWritable(actual);
+    return new ShouldBeWritable(actual);
   }
 
   public static ErrorMessageFactory shouldBeWritable(Path actual) {
-	return new ShouldBeWritable(actual);
+    return new ShouldBeWritable(actual);
   }
 
 }

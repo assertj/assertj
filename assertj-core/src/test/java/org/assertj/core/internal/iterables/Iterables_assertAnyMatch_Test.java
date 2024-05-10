@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
@@ -23,6 +23,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import org.assertj.core.internal.IterablesBaseTest;
@@ -35,6 +36,12 @@ class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
   void should_pass_if_an_element_satisfies_predicate() {
     List<String> actual = newArrayList("123", "1234", "12345");
     iterables.assertAnyMatch(someInfo(), actual, s -> s.length() >= 5, PredicateDescription.GIVEN);
+  }
+
+  @Test
+  void should_pass_if_an_element_is_null() {
+    List<String> actual = newArrayList("123", null, "12345");
+    iterables.assertAnyMatch(someInfo(), actual, Objects::isNull, PredicateDescription.GIVEN);
   }
 
   @Test
@@ -53,7 +60,8 @@ class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
     List<String> actual = newArrayList("Luke", "Leia", "Yoda");
     Predicate<String> startsWithM = s -> s.startsWith("M");
 
-    Throwable error = catchThrowable(() -> iterables.assertAnyMatch(info, actual, startsWithM, new PredicateDescription("custom")));
+    Throwable error = catchThrowable(() -> iterables.assertAnyMatch(info, actual, startsWithM,
+                                                                    new PredicateDescription("custom")));
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, anyElementShouldMatch(actual, new PredicateDescription("custom")));
@@ -61,7 +69,7 @@ class Iterables_assertAnyMatch_Test extends IterablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       actual = null;
       iterables.assertAnyMatch(someInfo(), actual, String::isEmpty, PredicateDescription.GIVEN);
     }).withMessage(actualIsNull());

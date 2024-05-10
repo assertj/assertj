@@ -8,14 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.instant;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 public class InstantAssertBaseTest {
-  public static final Instant BEFORE = Instant.now().minusSeconds(1);
+
   public static final Instant REFERENCE = Instant.now();
-  public static final Instant AFTER = Instant.now().plusSeconds(1);
+  public static final Instant BEFORE = REFERENCE.minus(1, ChronoUnit.HOURS);
+  public static final Instant AFTER = REFERENCE.plus(1, ChronoUnit.HOURS);
+
 }

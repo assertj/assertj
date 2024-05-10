@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.objectarray;
 
@@ -102,12 +102,18 @@ class ObjectArrayAssert_flatExtracting_Test {
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_using_property() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array(homer)).as("expected description").flatExtracting("children").isEmpty()).withMessageContaining("[expected description]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array(homer)).as("expected description")
+                                                                                             .flatExtracting("children")
+                                                                                             .isEmpty())
+                                                   .withMessageContaining("[expected description]");
   }
 
   @Test
   void should_keep_existing_description_if_set_when_extracting_using_extractor() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array(homer)).as("expected description").flatExtracting(childrenExtractor).isEmpty()).withMessageContaining("[expected description]");
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(array(homer)).as("expected description")
+                                                                                             .flatExtracting(childrenExtractor)
+                                                                                             .isEmpty())
+                                                   .withMessageContaining("[expected description]");
   }
 
   @Test

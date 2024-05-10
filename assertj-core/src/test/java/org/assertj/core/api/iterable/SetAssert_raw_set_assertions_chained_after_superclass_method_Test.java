@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -37,42 +37,42 @@ class SetAssert_raw_set_assertions_chained_after_superclass_method_Test {
     set.add("Key2");
 
     assertThat(set).as("desc")
-                    .containsOnly("Key1", "Key2");
+                   .containsOnly("Key1", "Key2");
 
     // try all base assertions followed by set specific ones using generics
     assertThat(set).as("desc")
-                    .usingDefaultComparator()
-                    .as(description)
-                    .describedAs(description)
-                    .describedAs("describedAs")
-                    .has(null)
-                    .hasSameClassAs(set)
-                    .hasToString(set.toString())
-                    .is(null)
-                    .isEqualTo(set)
-                    .isExactlyInstanceOf(Map.class)
-                    .isIn(new HashSet<>())
-                    .isIn(Map.class)
-                    .isInstanceOf(Map.class)
-                    .isInstanceOfAny(Map.class, String.class)
-                    .isNot(null)
-                    .isNotEqualTo(null)
-                    .isNotEmpty()
-                    .isNotExactlyInstanceOf(String.class)
-                    .isNotIn(new HashSet<>())
-                    .isNotIn(Map.class)
-                    .isNotInstanceOf(Map.class)
-                    .isNotInstanceOfAny(Map.class, String.class)
-                    .isNotNull()
-                    .isNotOfAnyClassIn(Map.class, String.class)
-                    .isNotSameAs(null)
-                    .isOfAnyClassIn(Map.class, String.class)
-                    .isSameAs("")
-                    .overridingErrorMessage("")
-                    .withFailMessage("")
-                    .withThreadDumpOnError()
-                    .usingDefaultComparator()
-                    .contains("Key1", atIndex(0));
+                   .usingDefaultComparator()
+                   .as(description)
+                   .describedAs(description)
+                   .describedAs("describedAs")
+                   .has(null)
+                   .hasSameClassAs(set)
+                   .hasToString(set.toString())
+                   .is(null)
+                   .isEqualTo(set)
+                   .isExactlyInstanceOf(Map.class)
+                   .isIn(new HashSet<>())
+                   .isIn(Map.class)
+                   .isInstanceOf(Map.class)
+                   .isInstanceOfAny(Map.class, String.class)
+                   .isNot(null)
+                   .isNotEqualTo(null)
+                   .isNotEmpty()
+                   .isNotExactlyInstanceOf(String.class)
+                   .isNotIn(new HashSet<>())
+                   .isNotIn(Map.class)
+                   .isNotInstanceOf(Map.class)
+                   .isNotInstanceOfAny(Map.class, String.class)
+                   .isNotNull()
+                   .isNotOfAnyClassIn(Map.class, String.class)
+                   .isNotSameAs(null)
+                   .isOfAnyClassIn(Map.class, String.class)
+                   .isSameAs("")
+                   .overridingErrorMessage("")
+                   .withFailMessage("")
+                   .withThreadDumpOnError()
+                   .usingDefaultComparator()
+                   .contains("Key1", atIndex(0));
   }
 
   // https://github.com/assertj/assertj/issues/485
@@ -84,10 +84,10 @@ class SetAssert_raw_set_assertions_chained_after_superclass_method_Test {
     set.add("Key2");
 
     assertThat(set).as("")
-                    .contains("Key1", "Key2");
+                   .contains("Key1", "Key2");
 
     assertThat(set).as("")
-                    .containsOnly("Key1", "Key2");
+                   .containsOnly("Key1", "Key2");
   }
 
 }

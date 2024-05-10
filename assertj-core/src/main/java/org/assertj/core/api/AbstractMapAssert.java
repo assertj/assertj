@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -1428,18 +1428,19 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @SuppressWarnings("unchecked")
   private void assertIsUnmodifiable() {
     switch (actual.getClass().getName()) {
-      case "java.util.Collections$EmptyNavigableMap":
-      case "java.util.Collections$EmptyMap":
-      case "java.util.Collections$EmptySortedMap":
-      case "java.util.Collections$SingletonMap":
-        // unmodifiable by contract, although not all methods throw UnsupportedOperationException
-        return;
+    case "java.util.Collections$EmptyNavigableMap":
+    case "java.util.Collections$EmptyMap":
+    case "java.util.Collections$EmptySortedMap":
+    case "java.util.Collections$SingletonMap":
+      // unmodifiable by contract, although not all methods throw UnsupportedOperationException
+      return;
     }
 
     expectUnsupportedOperationException(() -> actual.clear(), "Map.clear()");
     expectUnsupportedOperationException(() -> actual.compute(null, (k, v) -> v), "Map.compute(null, (k, v) -> v)");
     expectUnsupportedOperationException(() -> actual.computeIfAbsent(null, k -> null), "Map.computeIfAbsent(null, k -> null)");
-    expectUnsupportedOperationException(() -> actual.computeIfPresent(null, (k, v) -> v), "Map.computeIfPresent(null, (k, v) -> v)");
+    expectUnsupportedOperationException(() -> actual.computeIfPresent(null, (k, v) -> v),
+                                        "Map.computeIfPresent(null, (k, v) -> v)");
     expectUnsupportedOperationException(() -> actual.merge(null, null, (v1, v2) -> v1), "Map.merge(null, null, (v1, v2) -> v1))");
     expectUnsupportedOperationException(() -> actual.put(null, null), "Map.put(null, null)");
     expectUnsupportedOperationException(() -> actual.putAll(new HashMap<>()), "Map.putAll(new HashMap<>())");
@@ -1451,7 +1452,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     expectUnsupportedOperationException(() -> actual.replaceAll((k, v) -> v), "Map.replaceAll((k, v) -> v)");
 
     if (actual instanceof NavigableMap) {
-      NavigableMap<K, V> navigableMap = (NavigableMap<K, V> ) actual;
+      NavigableMap<K, V> navigableMap = (NavigableMap<K, V>) actual;
       expectUnsupportedOperationException(() -> navigableMap.pollFirstEntry(), "NavigableMap.pollFirstEntry()");
       expectUnsupportedOperationException(() -> navigableMap.pollLastEntry(), "NavigableMap.pollLastEntry()");
     }
@@ -2116,9 +2117,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
-   *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Collection} and array elements (but the collection/array itself)</li>
+   *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Collection} and array elements (but not the collection/array itself)</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Map} values but not the map itself or its keys</li>
    *   <li>The {@link java.util.function.Predicate} is applied to {@link java.util.Optional} and primitive optional values</li>
+   * </ul>
+   * <p>You can change how the recursive assertion deals with arrays, collections, maps and optionals, see:</p>
+   * <ul>
+   *   <li>{@link RecursiveAssertionAssert#withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy)} for collections and arrays</li>
+   *   <li>{@link RecursiveAssertionAssert#withMapAssertionPolicy(RecursiveAssertionConfiguration.MapAssertionPolicy)} for maps</li>
+   *   <li>{@link RecursiveAssertionAssert#withOptionalAssertionPolicy(RecursiveAssertionConfiguration.OptionalAssertionPolicy)} for optionals</li>
    * </ul>
    *
    * <p>It is possible to assert several predicates over the object graph in a row.</p>

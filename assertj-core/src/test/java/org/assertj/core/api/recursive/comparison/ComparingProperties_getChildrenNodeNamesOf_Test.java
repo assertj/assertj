@@ -8,12 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.comparison.ComparingFields.COMPARING_FIELDS;
 import static org.assertj.core.api.recursive.comparison.ComparingProperties.COMPARING_PROPERTIES;
 
 import java.util.Set;
@@ -36,13 +35,37 @@ class ComparingProperties_getChildrenNodeNamesOf_Test {
                              .doesNotContain("privateValue", "packagePrivateValue", "protectedValue", "publicStaticValue");
   }
 
+  @Test
+  void getChildrenNodeNamesOf_returns_inherited_default_properties_names() {
+    // GIVEN
+    PropertiesInterface actual = new PropertiesImpl();
+    // WHEN
+    Set<String> childrenNodeNames = COMPARING_PROPERTIES.getChildrenNodeNamesOf(actual);
+    // THEN
+    then(childrenNodeNames).containsExactlyInAnyOrder("string")
+                           .doesNotContain("staticValue", "invalidValue");
+  }
+
+  @Test
+  void getChildrenNodeNamesOf_caches_all_properties_names() {
+    // GIVEN
+    Properties node = new Properties();
+    // Create new instance to ensure that cache is empty before first getChildrenNodeNamesOf call
+    ComparingProperties comparingProperties = new ComparingProperties();
+    // WHEN
+    Set<String> nodePropertiesNames = comparingProperties.getChildrenNodeNamesOf(node);
+    Set<String> cachedNodePropertiesNames = comparingProperties.getChildrenNodeNamesOf(node);
+    // THEN
+    then(cachedNodePropertiesNames).isSameAs(nodePropertiesNames);
+  }
+
   static class Properties {
 
     // non readable
 
     public static Object getPublicStaticValue() {
       return "public Static value";
-    };
+    }
 
     protected Object getProtectedValue() {
       return "protectedValue value";
@@ -107,39 +130,26 @@ class ComparingProperties_getChildrenNodeNamesOf_Test {
     }
   }
 
-  @Test
-  void getChildrenNodeNamesOf_ignores_synthetic_fields() {
-    // GIVEN
-    Outer.Inner inner = new Outer().new Inner();
-    // WHEN
-    Set<String> childrenNodeNames = COMPARING_FIELDS.getChildrenNodeNamesOf(inner);
-    // THEN
-    then(childrenNodeNames).containsOnly("innerField");
-  }
+  interface PropertiesInterface {
 
-  static class Outer {
-    class Inner {
-      // compiler generates a synthetic field to represent the appropriate instance of the Outer class.
-      private final String innerField = "innerField value";
+    // not readable
+
+    static String getStaticValue() {
+      return "static value";
+    }
+
+    default String invalidValue() {
+      return "";
+    }
+
+    // readable
+
+    default String getString() {
+      return "string value";
     }
   }
 
-  @Test
-  void getChildrenNodeNamesOf_returns_inherited_fields() {
-    // GIVEN
-    SubClass actual = new SubClass();
-    // WHEN
-    Set<String> childrenNodeNames = COMPARING_FIELDS.getChildrenNodeNamesOf(actual);
-    // THEN
-    then(childrenNodeNames).containsExactlyInAnyOrder("superClassField1", "superClassField2", "subClassField");
+  static class PropertiesImpl implements PropertiesInterface {
   }
 
-  static class SuperClass {
-    private final String superClassField1 = "superClassField1 value";
-    private final String superClassField2 = "superClassField2 value";
-
-  }
-  static class SubClass extends SuperClass {
-    private final String subClassField = "subClassField value";
-  }
 }

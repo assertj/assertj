@@ -8,10 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
-
 
 import static org.assertj.core.error.ShouldHaveStamp.shouldHaveStamp;
 
@@ -26,7 +25,8 @@ import java.util.concurrent.atomic.AtomicStampedReference;
  * @author epeee
  * @since 2.7.0 / 3.7.0
  */
-public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicReferenceAssert<AtomicStampedReferenceAssert<VALUE>, VALUE, AtomicStampedReference<VALUE>> {
+public class AtomicStampedReferenceAssert<VALUE>
+    extends AbstractAtomicReferenceAssert<AtomicStampedReferenceAssert<VALUE>, VALUE, AtomicStampedReference<VALUE>> {
 
   public AtomicStampedReferenceAssert(AtomicStampedReference<VALUE> actual) {
     super(actual, AtomicStampedReferenceAssert.class);
@@ -52,7 +52,7 @@ public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicReference
   public AtomicStampedReferenceAssert<VALUE> hasReference(VALUE expectedValue) {
     return super.hasReference(expectedValue);
   }
-  
+
   @Override
   protected VALUE getReference() {
     return actual.getReference();
@@ -72,7 +72,7 @@ public class AtomicStampedReferenceAssert<VALUE> extends AbstractAtomicReference
    * @return this assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  public AtomicStampedReferenceAssert<VALUE> hasStamp(int expectedStamp){
+  public AtomicStampedReferenceAssert<VALUE> hasStamp(int expectedStamp) {
     int timestamp = actual.getStamp();
     if (timestamp != expectedStamp) throwAssertionError(shouldHaveStamp(actual, expectedStamp));
     return this;

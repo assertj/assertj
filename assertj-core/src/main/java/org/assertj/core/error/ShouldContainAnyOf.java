@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -17,10 +17,10 @@ import org.assertj.core.internal.ComparisonStrategy;
 public class ShouldContainAnyOf extends BasicErrorMessageFactory {
 
   private static final String DEFAULT_FORMAT = "%nExpecting actual:%n" +
-                                              "  %s%n" +
-                                              "to contain at least one of the following elements:%n" +
-                                              "  %s%n" +
-                                              "but none were found";
+                                               "  %s%n" +
+                                               "to contain at least one of the following elements:%n" +
+                                               "  %s%n" +
+                                               "but none were found";
 
   private static final String FORMAT_WITH_COMPARISON_STRATEGY = DEFAULT_FORMAT + " %s";
 

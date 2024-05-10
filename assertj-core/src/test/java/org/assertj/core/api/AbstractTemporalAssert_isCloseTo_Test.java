@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -45,8 +45,10 @@ import java.time.OffsetTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.UnsupportedTemporalTypeException;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.TemporalUnitOffset;
@@ -292,4 +294,14 @@ class AbstractTemporalAssert_isCloseTo_Test {
     then(assertionError).hasMessage(differenceMessage(args));
   }
 
+  @ParameterizedTest
+  @MethodSource
+  void should_support_base_temporal_type_assertions(Temporal now) {
+    assertThat(now).isCloseTo(now, within(1, ChronoUnit.SECONDS));
+    then(now).isCloseTo(now, within(1, ChronoUnit.SECONDS));
+  }
+
+  public static Stream<Temporal> should_support_base_temporal_type_assertions() {
+    return Stream.of(Instant.now(), ZonedDateTime.now(), OffsetDateTime.now());
+  }
 }

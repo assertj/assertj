@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.urls;
 
@@ -39,10 +39,10 @@ class Uris_assertHasPath_Test extends UrisBaseTest {
 
   @ParameterizedTest
   @CsvSource({
-    "http://example.com/pages/,   /pages/",
-    "http://example.com,          ''"
+      "http://example.com/pages/,   /pages/",
+      "http://example.com,          ''"
   })
-  void should_pass_if_actual_uri_has_the_given_path(URI uri,  String expectedPath) {
+  void should_pass_if_actual_uri_has_the_given_path(URI uri, String expectedPath) {
     // WHEN/THEN
     uris.assertHasPath(info, uri, expectedPath);
   }

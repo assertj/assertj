@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -20,7 +20,7 @@ import java.util.Date;
 
 /**
  * 
- * Compares two date by looking at their year and month only, thus 2011-01-01 and 2011-01-31 are considered equal.
+ * Compares two dates by looking at their year and month only, thus 2011-01-01 and 2011-01-31 are considered equal.
  * 
  * @author Joel Costigliola
  * 
@@ -31,7 +31,9 @@ public class YearAndMonthComparator implements Comparator<Date> {
 
   @Override
   public int compare(Date date1, Date date2) {
-    if (yearOf(date1) != yearOf(date2)) { return yearOf(date1) - yearOf(date2); }
+    if (yearOf(date1) != yearOf(date2)) {
+      return yearOf(date1) - yearOf(date2);
+    }
     return monthOf(date1) - monthOf(date2);
   }
 }

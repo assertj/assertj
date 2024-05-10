@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.map;
 
@@ -35,9 +35,10 @@ class MapAssert_containsOnly_with_Java_Util_MapEntry_Test extends MapAssertBaseT
   protected void verify_internal_effects() {
     verify(maps).assertContainsOnly(getInfo(assertions), getActual(assertions), entries);
   }
-  
+
   @Test
   void invoke_api_like_user() {
-     assertThat(map("key1", "value1", "key2", "value2")).containsOnly(javaMapEntry("key1", "value1"), javaMapEntry("key2", "value2"));
+    assertThat(map("key1", "value1", "key2", "value2")).containsOnly(javaMapEntry("key1", "value1"),
+                                                                     javaMapEntry("key2", "value2"));
   }
 }

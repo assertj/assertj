@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -32,6 +32,19 @@ class ComparingFields_getChildrenNodeNamesOf_Test {
     then(childrenNodeNames).containsExactlyInAnyOrder("publicField", "protectedField", "packagePrivateField", "privateField",
                                                       "privateBoolean", "privateByte", "privateShort", "privateInt",
                                                       "privateLong", "privateFloat", "privateDouble", "privateChar");
+  }
+
+  @Test
+  void getChildrenNodeNamesOf_caches_instance_fields_names() {
+    // GIVEN
+    Fields node = new Fields();
+    // Create new instance to ensure that cache is empty before first getChildrenNodeNamesOf call
+    ComparingFields comparingFields = new ComparingFields();
+    // WHEN
+    Set<String> childrenNodeNames = comparingFields.getChildrenNodeNamesOf(node);
+    Set<String> cachedChildrenNodeNames = comparingFields.getChildrenNodeNamesOf(node);
+    // THEN
+    then(cachedChildrenNodeNames).isSameAs(childrenNodeNames);
   }
 
   @SuppressWarnings("unused")

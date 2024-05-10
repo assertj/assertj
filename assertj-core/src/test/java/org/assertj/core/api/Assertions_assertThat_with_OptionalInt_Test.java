@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -28,20 +28,20 @@ import org.junit.jupiter.api.Test;
  */
 class Assertions_assertThat_with_OptionalInt_Test {
 
-    private OptionalInt actual;
+  private OptionalInt actual;
 
-    @BeforeEach
-    void before(){
-        actual = OptionalInt.of(10);
-    }
+  @BeforeEach
+  void before() {
+    actual = OptionalInt.of(10);
+  }
 
-    @Test
-    void should_create_Assert() {
-        assertThat(Assertions.assertThat(actual)).isNotNull();
-    }
+  @Test
+  void should_create_Assert() {
+    assertThat(Assertions.assertThat(actual)).isNotNull();
+  }
 
-    @Test
-    void should_pass_actual() {
-      assertThat(actual).isSameAs(Assertions.assertThat(actual).actual);
-    }
+  @Test
+  void should_pass_actual() {
+    assertThat(actual).isSameAs(Assertions.assertThat(actual).actual);
+  }
 }

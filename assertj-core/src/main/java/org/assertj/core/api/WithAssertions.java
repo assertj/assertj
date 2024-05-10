@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -31,7 +31,9 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 import java.util.Collection;
 import java.util.Date;
@@ -172,6 +174,20 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Throws an {@link AssertionError} with an empty message to be used in code like:
+   * <pre><code class='java'> doSomething(optional.orElseGet(() -> fail()));</code></pre>
+   *
+   * @param <T> dummy return value type
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail()));}.
+   * @throws AssertionError with an empty message.
+   * @since 3.26.0
+   */
+  @CanIgnoreReturnValue
+  default <T> T fail() {
+    return Assertions.fail();
+  }
+
+  /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
@@ -198,6 +214,19 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   @CanIgnoreReturnValue
   default <T> T fail(final String failureMessage, final Throwable realCause) {
     return Assertions.fail(failureMessage, realCause);
+  }
+
+  /**
+   * Throws an {@link AssertionError} with the {@link Throwable} that caused the failure.
+   *
+   * @param <T> dummy return value type
+   * @param realCause cause of the error.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
+   * @throws AssertionError with the {@link Throwable} that caused the failure.
+   */
+  @CanIgnoreReturnValue
+  default <T> T fail(final Throwable realCause) {
+    return fail(null, realCause);
   }
 
   /**
@@ -236,6 +265,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   @SuppressWarnings("unchecked") // Heap pollution risk. We accept that as we cannot use @SafeVarargs here.
   default <T> Condition<T> allOf(final Condition<? super T>... conditions) {
     return Assertions.allOf(conditions);
+  }
+
+  /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfies(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SuppressWarnings("unchecked")
+  default <T> ThrowingConsumer<T> allOf(ThrowingConsumer<? super T>... consumers) {
+    return Assertions.allOf(consumers);
   }
 
   /**
@@ -1967,6 +2011,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfiesAnyOf(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SuppressWarnings("unchecked")
+  default <T> ThrowingConsumer<T> anyOf(ThrowingConsumer<? super T>... consumers) {
+    return Assertions.anyOf(consumers);
+  }
+
+  /**
    * Creates a new <code>{@link DoesNotHave}</code>.
    *
    * @param <T> the type of object the given condition accept.
@@ -2550,6 +2609,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link TemporalAssert}</code>.
+   *
+   * @param temporal the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  default TemporalAssert assertThat(final Temporal temporal) {
+    return Assertions.assertThat(temporal);
+  }
+
+  /**
    * Creates a new instance of <code>{@link LocalDateTimeAssert}</code>.
    *
    * @param localDateTime the actual value.
@@ -2567,6 +2637,17 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default AbstractLocalDateAssert<?> assertThat(final LocalDate localDate) {
     return Assertions.assertThat(localDate);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link YearMonthAssert}</code>.
+   *
+   * @param yearMonth the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  default AbstractYearMonthAssert<?> assertThat(final YearMonth yearMonth) {
+    return Assertions.assertThat(yearMonth);
   }
 
   /**

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -19,6 +19,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.DisplayName;
@@ -90,4 +91,34 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
   private void doSomethingWithInt(@SuppressWarnings("unused") int parameter) {
     // just to illustrate the previous test
   }
+
+  @ParameterizedTest
+  @MethodSource
+  void should_fail_without_message(Supplier<Void> supplier) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> supplier.get());
+    // THEN
+    then(assertionError).hasMessage("");
+  }
+
+  private static Stream<Supplier<Void>> should_fail_without_message() {
+    return Stream.of(Assertions::fail, BDDAssertions::fail, withAssertions::fail);
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  <T> void should_fail_without_message_but_with_root_cause(Function<Throwable, T> failWithCauseFunction) {
+    // GIVEN
+    String message = "boom!";
+    Exception cause = new Exception(message);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> failWithCauseFunction.apply(cause));
+    // THEN
+    then(assertionError).hasCause(cause);
+  }
+
+  private static <T> Stream<Function<Throwable, T>> should_fail_without_message_but_with_root_cause() {
+    return Stream.of(Assertions::fail, BDDAssertions::fail, withAssertions::fail);
+  }
+
 }

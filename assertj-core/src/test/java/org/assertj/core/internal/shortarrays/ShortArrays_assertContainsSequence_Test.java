@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.shortarrays;
 
@@ -28,7 +28,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.internal.ShortArraysBaseTest;
 import org.junit.jupiter.api.Test;
-
 
 /**
  * Tests for <code>{@link ShortArrays#assertContainsSequence(AssertionInfo, short[], short[])}</code>.
@@ -63,7 +62,8 @@ class ShortArrays_assertContainsSequence_Test extends ShortArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsSequence(someInfo(), actual,
+                                                                                                   emptyArray()));
   }
 
   @Test
@@ -115,7 +115,9 @@ class ShortArrays_assertContainsSequence_Test extends ShortArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), null, arrayOf(-8)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(),
+                                                                                                                               null,
+                                                                                                                               arrayOf(-8)))
                                                    .withMessage(actualIsNull());
   }
 
@@ -129,7 +131,9 @@ class ShortArrays_assertContainsSequence_Test extends ShortArraysBaseTest {
 
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(), actual, emptyArray()));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsSequence(someInfo(),
+                                                                                                                               actual,
+                                                                                                                               emptyArray()));
   }
 
   @Test

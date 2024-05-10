@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -20,6 +20,8 @@ import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_BOOLEAN;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_INTEGER_FIELD_UPDATER;
+import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_LONG;
+import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_LONG_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_LONG_FIELD_UPDATER;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_MARKABLE_REFERENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_REFERENCE;
@@ -39,6 +41,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
 import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
+import static org.assertj.core.api.InstanceOfAssertFactories.COLLECTION;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
@@ -72,6 +75,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LONG_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
+import static org.assertj.core.api.InstanceOfAssertFactories.MATCHER;
 import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
@@ -81,6 +85,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL_LONG;
 import static org.assertj.core.api.InstanceOfAssertFactories.PATH;
 import static org.assertj.core.api.InstanceOfAssertFactories.PERIOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.PREDICATE;
+import static org.assertj.core.api.InstanceOfAssertFactories.SET;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
@@ -88,12 +93,15 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUILDER;
+import static org.assertj.core.api.InstanceOfAssertFactories.TEMPORAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
+import static org.assertj.core.api.InstanceOfAssertFactories.ZONED_DATE_TIME;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
 import static org.assertj.core.util.Sets.newHashSet;
+import static org.assertj.core.util.Sets.set;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.io.ByteArrayInputStream;
@@ -135,6 +143,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -187,8 +196,8 @@ class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest 
                      arguments(new AtomicInteger(1), ATOMIC_INTEGER),
                      arguments(new AtomicIntegerArray(5), ATOMIC_INTEGER_ARRAY),
                      arguments(AtomicIntegerFieldUpdater.newUpdater(Data.class, "intField"), ATOMIC_INTEGER_FIELD_UPDATER),
-                     arguments(new AtomicLong(5l), InstanceOfAssertFactories.ATOMIC_LONG),
-                     arguments(new AtomicLongArray(5), InstanceOfAssertFactories.ATOMIC_LONG_ARRAY),
+                     arguments(new AtomicLong(5L), ATOMIC_LONG),
+                     arguments(new AtomicLongArray(5), ATOMIC_LONG_ARRAY),
                      arguments(AtomicLongFieldUpdater.newUpdater(Data.class, "longField"), ATOMIC_LONG_FIELD_UPDATER),
                      arguments(new AtomicMarkableReference<>("", false), ATOMIC_MARKABLE_REFERENCE),
                      arguments(new AtomicReference<>("abc"), ATOMIC_REFERENCE),
@@ -210,6 +219,7 @@ class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest 
                      arguments('a', CHARACTER),
                      arguments(Character.valueOf('a'), CHARACTER),
                      arguments(TolkienCharacter.class, CLASS),
+                     arguments(list("foo"), COLLECTION),
                      arguments(completedFuture("foo"), COMPLETABLE_FUTURE),
                      arguments(completionStage, COMPLETION_STAGE),
                      arguments(new Date(), DATE),
@@ -245,6 +255,7 @@ class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest 
                      arguments((LongPredicate) l -> l == 0, LONG_PREDICATE),
                      arguments(LongStream.empty(), LONG_STREAM),
                      arguments(newHashMap("k", "v"), MAP),
+                     arguments(Pattern.compile("a*").matcher("aaa"), MATCHER),
                      arguments(OffsetDateTime.now(), OFFSET_DATE_TIME),
                      arguments(OffsetTime.now(), OFFSET_TIME),
                      arguments(Optional.empty(), OPTIONAL),
@@ -252,7 +263,8 @@ class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest 
                      arguments(OptionalInt.empty(), OPTIONAL_INT),
                      arguments(OptionalLong.empty(), OPTIONAL_LONG),
                      arguments(Paths.get("."), PATH),
-                     arguments((Predicate<String>) s -> s.isEmpty(), PREDICATE),
+                     arguments((Predicate<String>) String::isEmpty, PREDICATE),
+                     arguments(set("foo"), SET),
                      arguments(Short.MIN_VALUE, SHORT),
                      arguments(new short[0], SHORT_ARRAY),
                      arguments(new short[0][0], SHORT_2D_ARRAY),
@@ -263,7 +275,8 @@ class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest 
                      arguments(new Exception(), THROWABLE),
                      arguments(URI.create("http://localhost"), URI_TYPE),
                      arguments(URI.create("http://localhost").toURL(), URL_TYPE),
-                     arguments(ZonedDateTime.now(), InstanceOfAssertFactories.ZONED_DATE_TIME));
+                     arguments(ZonedDateTime.now(), ZONED_DATE_TIME),
+                     arguments(ZonedDateTime.now(), TEMPORAL));
   }
 
   static class Data {

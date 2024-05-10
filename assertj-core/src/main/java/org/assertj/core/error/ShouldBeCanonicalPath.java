@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -21,14 +21,14 @@ import org.assertj.core.util.VisibleForTesting;
  * {@link Path} is canonical has failed.
  */
 public class ShouldBeCanonicalPath extends BasicErrorMessageFactory {
-    @VisibleForTesting
-    public static final String SHOULD_BE_CANONICAL = "%nExpecting actual:%n  %s%nto be a canonical path";
+  @VisibleForTesting
+  public static final String SHOULD_BE_CANONICAL = "%nExpecting actual:%n  %s%nto be a canonical path";
 
-    public static ErrorMessageFactory shouldBeCanonicalPath(final Path actual) {
-        return new ShouldBeCanonicalPath(actual);
-    }
+  public static ErrorMessageFactory shouldBeCanonicalPath(final Path actual) {
+    return new ShouldBeCanonicalPath(actual);
+  }
 
-    private ShouldBeCanonicalPath(final Path actual) {
-        super(SHOULD_BE_CANONICAL, actual);
-    }
+  private ShouldBeCanonicalPath(final Path actual) {
+    super(SHOULD_BE_CANONICAL, actual);
+  }
 }

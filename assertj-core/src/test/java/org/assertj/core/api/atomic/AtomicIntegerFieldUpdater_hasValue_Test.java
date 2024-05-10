@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.atomic;
 
@@ -22,7 +22,6 @@ import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 import org.junit.jupiter.api.Test;
 
-
 class AtomicIntegerFieldUpdater_hasValue_Test {
 
   @SuppressWarnings("unused")
@@ -35,14 +34,16 @@ class AtomicIntegerFieldUpdater_hasValue_Test {
 
   @Test
   void should_fail_when_atomicIntegerFieldUpdater_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((AtomicIntegerFieldUpdater<Person>) null).hasValue(25, person))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((AtomicIntegerFieldUpdater<Person>) null).hasValue(25,
+                                                                                                                                   person))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null_and_does_not_contain_expected_value() {
     AtomicIntegerFieldUpdater<Person> fieldUpdater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fieldUpdater).hasValue(null, person)).withMessage("The expected value should not be <null>.");
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(fieldUpdater).hasValue(null, person))
+                                        .withMessage("The expected value should not be <null>.");
   }
 
   @Test

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -648,6 +648,20 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   default CharSequenceAssert then(CharSequence actual) {
     return proxy(CharSequenceAssert.class, CharSequence.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code>.
+   * <p>
+   * Use this over {@link #then(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.25.0
+   */
+  default CharSequenceAssert thenCharSequence(CharSequence actual) {
+    return then(actual);
   }
 
   /**

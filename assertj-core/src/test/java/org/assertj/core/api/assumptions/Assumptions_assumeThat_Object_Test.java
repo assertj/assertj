@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.assumptions;
 
@@ -33,6 +33,7 @@ class Assumptions_assumeThat_Object_Test {
     assertThatCode(() -> assumeThat(STRING_OBJECT).isNotNull().asString().startsWith("te")).doesNotThrowAnyException();
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   void should_run_test_when_assumption_for_internally_created_list_passes() {
     Object listObject = asList(1, 2, 3);
@@ -52,6 +53,7 @@ class Assumptions_assumeThat_Object_Test {
                                                                    .isEqualTo("other"));
   }
 
+  @SuppressWarnings("deprecation")
   @Test
   void should_ignore_test_when_assumption_for_internally_created_list_assertion_fails() {
     Object listObject = asList(1, 2, 3);

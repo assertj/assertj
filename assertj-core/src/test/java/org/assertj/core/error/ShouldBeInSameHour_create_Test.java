@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -31,10 +31,10 @@ class ShouldBeInSameHour_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-      "Expecting actual:%n" +
-      "  2010-01-01T03:01:02.000 (java.util.Date)%n" +
-      "to have same year, month, day and hour fields values as:%n" +
-      "  2010-01-01T11:01:02.000 (java.util.Date)"));
+                                   "Expecting actual:%n" +
+                                   "  2010-01-01T03:01:02.000 (java.util.Date)%n" +
+                                   "to have same year, month, day and hour fields values as:%n" +
+                                   "  2010-01-01T11:01:02.000 (java.util.Date)"));
   }
 
 }

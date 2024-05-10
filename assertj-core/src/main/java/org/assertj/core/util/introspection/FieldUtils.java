@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
@@ -17,6 +17,8 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Shameless copy from Apache commons lang and then modified to keep only the interesting stuff for AssertJ.
@@ -28,6 +30,9 @@ import java.lang.reflect.Modifier;
  * changed that shouldn't be. This facility should be used with care.
  */
 class FieldUtils {
+
+  // use ConcurrentHashMap as FieldUtils can be used in a multi-thread context
+  private static final Map<Class<?>, Map<String, Field>> fieldsPerClass = new ConcurrentHashMap<>();
 
   /**
    * Gets an accessible <code>Field</code> by name breaking scope if requested. Superclasses/interfaces will be
@@ -60,7 +65,7 @@ class FieldUtils {
     // check up the superclass hierarchy
     for (Class<?> acls = cls; acls != null; acls = acls.getSuperclass()) {
       try {
-        Field field = acls.getDeclaredField(fieldName);
+        Field field = getDeclaredField(fieldName, acls);
         // getDeclaredField checks for non-public scopes as well and it returns accurate results
         if (!Modifier.isPublic(field.getModifiers())) {
           if (forceAccess) {
@@ -89,6 +94,25 @@ class FieldUtils {
       }
     }
     return match;
+  }
+
+  /**
+   * Returns the {@link Field} corresponding to the given fieldName for the specified class.
+   * <p>
+   * Caches the field after getting it for efficiency.
+   *
+   * @param fieldName the name of the field to get
+   * @param acls the class to introspect
+   * @return the {@link Field} corresponding to the given fieldName for the specified class.
+   * @throws NoSuchFieldException bubbled up from the call to {@link Class#getDeclaredField(String)}
+   */
+  private static Field getDeclaredField(String fieldName, Class<?> acls) throws NoSuchFieldException {
+    fieldsPerClass.computeIfAbsent(acls, unused -> new ConcurrentHashMap<>());
+    // can't use computeIfAbsent for fieldName as getDeclaredField throws a checked exception
+    if (fieldsPerClass.get(acls).containsKey(fieldName)) return fieldsPerClass.get(acls).get(fieldName);
+    Field field = acls.getDeclaredField(fieldName);
+    fieldsPerClass.get(acls).put(fieldName, field);
+    return acls.getDeclaredField(fieldName);
   }
 
   /**

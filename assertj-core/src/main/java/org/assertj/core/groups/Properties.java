@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.groups;
 
@@ -21,7 +21,6 @@ import java.util.List;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertySupport;
-
 
 /**
  * Extracts the values of a specified property from the elements of a given <code>{@link Iterable}</code> or array.
@@ -68,7 +67,7 @@ public class Properties<T> {
   public static Properties<Object> extractProperty(String propertyName) {
     return extractProperty(propertyName, Object.class);
   }
-  
+
   private static void checkIsNotNullOrEmpty(String propertyName) {
     requireNonNull(propertyName, "The name of the property to read should not be null");
     checkArgument(propertyName.length() > 0, "The name of the property to read should not be empty");
@@ -96,7 +95,7 @@ public class Properties<T> {
   public <U> Properties<U> ofType(Class<U> propertyType) {
     return extractProperty(this.propertyName, propertyType);
   }
-  
+
   /**
    * Extracts the values of the property (specified previously in <code>{@link #extractProperty(String)}</code>) from the elements
    * of the given <code>{@link Iterable}</code>.

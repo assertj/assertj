@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.doubles;
 
@@ -117,7 +117,7 @@ class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
     // THEN
     verify(failures).failure(INFO, shouldNotBeEqual(actual, other, within(offset), absDiff(actual, other)));
   }
-  
+
   @Test
   void should_fail_if_actual_is_too_close_to_expected_value() {
     // WHEN

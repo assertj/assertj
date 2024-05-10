@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -46,7 +46,7 @@ class SoftAssertionsStatement {
         // failed to throw MultipleFailuresError -> throw MultipleFailureException instead
         // This new ArrayList() is necessary due to the incompatible type signatures between
         // MultipleFailureException.assertEmpty() (takes a List<Throwable>) and errors
-        // (which is a List<AssertionError>). Ideally assertEmpty() should have been a 
+        // (which is a List<AssertionError>). Ideally assertEmpty() should have been a
         // List<? extends Throwable>.
         MultipleFailureException.assertEmpty(new ArrayList<>(errors));
       }

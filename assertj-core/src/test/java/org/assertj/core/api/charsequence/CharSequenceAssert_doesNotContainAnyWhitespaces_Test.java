@@ -8,29 +8,56 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.charsequence;
 
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.CharSequenceAssert;
-import org.assertj.core.api.CharSequenceAssertBaseTest;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#doesNotContainAnyWhitespaces()}</code>.
- * 
  * @author Stephan Windmüller
  */
-class CharSequenceAssert_doesNotContainAnyWhitespaces_Test extends CharSequenceAssertBaseTest {
+class CharSequenceAssert_doesNotContainAnyWhitespaces_Test {
 
-  @Override
-  protected CharSequenceAssert invoke_api_method() {
-    return assertions.doesNotContainAnyWhitespaces();
+  @ParameterizedTest
+  @NullSource
+  @ValueSource(strings = {
+      "",
+      "a",
+      "bc"
+  })
+  void should_pass_if_actual_does_not_contain_any_whitespaces(String actual) {
+    // WHEN/THEN
+    assertThat(actual).doesNotContainAnyWhitespaces();
   }
 
-  @Override
-  protected void verify_internal_effects() {
-    verify(strings).assertDoesNotContainAnyWhitespaces(getInfo(assertions), getActual(assertions));
+  @ParameterizedTest
+  @ValueSource(strings = {
+      " ",
+      "\t", // tab
+      "\n", // line feed
+      "\r", // carriage return
+      " \n\r  ",
+      "a ",
+      "a b",
+      "a  b",
+      "a\tb", // tab
+      "a\nb", // line feed
+      "a\rb", // carriage return
+      "a \n\r  b"
+  })
+  void should_fail_if_actual_contains_whitespaces(String actual) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).doesNotContainAnyWhitespaces());
+    // THEN
+    then(assertionError).hasMessage(shouldNotContainAnyWhitespaces(actual).create());
   }
+
 }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.file;
 
@@ -39,7 +39,7 @@ class FileAssert_usingCharset_null_Test extends FileAssertBaseTest {
   public void should_return_this() {
     // Disable this test since the call fails
   }
-  
+
   @Override
   protected FileAssert invoke_api_method() {
     // not used here

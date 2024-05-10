@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.short2darray;
 
@@ -105,11 +105,11 @@ class Short2DArrayAssert_isDeepEqualTo_Test {
     AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     ErrorMessageFactory subarraysShouldHaveSameSize = subarraysShouldHaveSameSize(actual, expected,
-      actualSubArrayWithDifference,
-      actualSubArrayWithDifference.length,
-      expectedSubArrayWithDifference,
-      expectedSubArrayWithDifference.length,
-      1);
+                                                                                  actualSubArrayWithDifference,
+                                                                                  actualSubArrayWithDifference.length,
+                                                                                  expectedSubArrayWithDifference,
+                                                                                  expectedSubArrayWithDifference.length,
+                                                                                  1);
     then(assertionError).hasMessage(subarraysShouldHaveSameSize.create());
   }
 

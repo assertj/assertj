@@ -8,11 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.recursive.comparison.FieldLocation;
@@ -27,9 +27,9 @@ class FieldLocation_field_Test {
     // WHEN
     FieldLocation childFieldLocation = parentFieldLocation.field("bar");
     // THEN
-    assertThat(childFieldLocation.getDecomposedPath()).isEqualTo(list("foo", "bar"));
-    assertThat(childFieldLocation.getPathToUseInRules()).isEqualTo("foo.bar");
-    assertThat(childFieldLocation.getFieldName()).isEqualTo("bar");
+    then(childFieldLocation.getDecomposedPath()).isEqualTo(list("foo", "bar"));
+    then(childFieldLocation.getPathToUseInRules()).isEqualTo("foo.bar");
+    then(childFieldLocation.getFieldName()).isEqualTo("bar");
   }
 
   @Test
@@ -39,8 +39,8 @@ class FieldLocation_field_Test {
     // WHEN
     FieldLocation childFieldLocation = parentFieldLocation.field("name");
     // THEN
-    assertThat(childFieldLocation.getDecomposedPath()).isEqualTo(list("person", "[0]", "children", "[2]", "name"));
-    assertThat(childFieldLocation.getPathToUseInRules()).isEqualTo("person.children.name");
-    assertThat(childFieldLocation.getFieldName()).isEqualTo("name");
+    then(childFieldLocation.getDecomposedPath()).isEqualTo(list("person", "[0]", "children", "[2]", "name"));
+    then(childFieldLocation.getPathToUseInRules()).isEqualTo("person.children.name");
+    then(childFieldLocation.getFieldName()).isEqualTo("name");
   }
 }

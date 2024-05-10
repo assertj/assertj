@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -38,7 +38,7 @@ class Assertions_assertThatCode_Test {
     ThrowingCallable boom = raisingException(exception);
 
     // Expect
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() ->{
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       // When;
       assertThatCode(boom).doesNotThrowAnyException();
     }).withMessage(shouldNotHaveThrown(exception).create());
@@ -70,8 +70,7 @@ class Assertions_assertThatCode_Test {
   @Test
   void should_succeed_when_asserting_no_exception_raised_and_no_exception_occurs() {
     // Given
-    ThrowingCallable silent = () -> {
-    };
+    ThrowingCallable silent = () -> {};
 
     // Then
     assertThatCode(silent).doesNotThrowAnyException();

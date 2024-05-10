@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -30,6 +30,19 @@ class ComparingSnakeOrCamelCaseFields_getChildrenNodeNamesOf_Test {
     // THEN
     then(childrenNodeNames).containsExactlyInAnyOrder("field", "fieldTwo", "fieldThree", "fieldFour",
                                                       "field5", "field6", "fieldSeven", "fieldDto");
+  }
+
+  @Test
+  void getChildrenNodeNamesOf_caches_all_properties_names() {
+    // GIVEN
+    Fields node = new Fields();
+    // Create new instance to ensure that cache is empty before first getChildrenNodeNamesOf call
+    ComparingSnakeOrCamelCaseFields comparingSnakeOrCamelCaseFields = new ComparingSnakeOrCamelCaseFields();
+    // WHEN
+    Set<String> nodePropertiesNames = comparingSnakeOrCamelCaseFields.getChildrenNodeNamesOf(node);
+    Set<String> cachedNodePropertiesNames = comparingSnakeOrCamelCaseFields.getChildrenNodeNamesOf(node);
+    // THEN
+    then(cachedNodePropertiesNames).isSameAs(nodePropertiesNames);
   }
 
   @SuppressWarnings("unused")

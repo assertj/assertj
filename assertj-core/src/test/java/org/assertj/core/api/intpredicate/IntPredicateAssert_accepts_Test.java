@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.intpredicate;
 
@@ -45,7 +45,8 @@ class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest {
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 3;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(expectedValue))
-                                                   .withMessage(shouldAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+                                                   .withMessage(shouldAccept(wrapPredicate, expectedValue,
+                                                                             PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -54,7 +55,8 @@ class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest {
     Predicate<Integer> wrapPredicate = predicate::test;
     int expectedValue = 3;
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).as("test").accepts(expectedValue))
-                                                   .withMessage("[test] " + shouldAccept(wrapPredicate, expectedValue, PredicateDescription.GIVEN).create());
+                                                   .withMessage("[test] " + shouldAccept(wrapPredicate, expectedValue,
+                                                                                         PredicateDescription.GIVEN).create());
   }
 
   @Test
@@ -69,7 +71,8 @@ class IntPredicateAssert_accepts_Test extends IntPredicateAssertBaseTest {
     IntPredicate predicate = val -> val <= 2;
     int[] matchValues = new int[] { 1, 2, 3 };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(predicate).accepts(matchValues))
-                                                   .withMessage(elementsShouldMatch(matchValues, 3, PredicateDescription.GIVEN).create());
+                                                   .withMessage(elementsShouldMatch(matchValues, 3,
+                                                                                    PredicateDescription.GIVEN).create());
   }
 
   @Test
