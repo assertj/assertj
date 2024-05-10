@@ -822,7 +822,7 @@ public class AssertionsForClassTypes {
    * <pre><code class='java'>assertThatNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
    *
    * This method is more or less the same of {@code assertThatCode(...).doesNotThrowAnyException();} but in a more natural way.
-
+   *
    * @return the created {@link NotThrownAssert}.
    * @since 3.17.0
    */

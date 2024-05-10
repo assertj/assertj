@@ -80,7 +80,7 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
     if (throwable == null) return null;
     // check exception type
     new ThrowableAssert<>(throwable).overridingErrorMessage(shouldBeInstance(throwable, type).create())
-      .isInstanceOf(type);
+                                    .isInstanceOf(type);
     return (THROWABLE) throwable;
   }
 

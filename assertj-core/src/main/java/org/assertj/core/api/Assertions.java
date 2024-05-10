@@ -1477,6 +1477,7 @@ public class Assertions implements InstanceOfAssertFactories {
                                                                              ThrowingCallable shouldRaiseThrowable) {
     return ThrowableAssert.catchThrowableOfType(type, shouldRaiseThrowable);
   }
+
   /**
    * Allows catching an instance of {@link Exception}.
    * <p>
