@@ -38,12 +38,9 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
   private Iterable<Employee> jedis = list(new Employee(1L, new Name("Yoda"), 800),
                                           new Employee(2L, new Name("Luke", "Skywalker"), 26));
 
-  private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = new ThrowingExtractor<Employee, Object, Exception>() {
-    @Override
-    public Object extractThrows(Employee employee) throws Exception {
-      if (employee.getAge() < 20) throw new Exception("age < 20");
-      return employee.getName().getFirst();
-    }
+  private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = employee -> {
+    if (employee.getAge() < 20) throw new Exception("age < 20");
+    return employee.getName().getFirst();
   };
 
   @Test
@@ -61,12 +58,9 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
   @Test
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
     // GIVEN
-    ThrowingExtractor<Employee, Object, Exception> nameThrowingExtractor = new ThrowingExtractor<Employee, Object, Exception>() {
-      @Override
-      public Object extractThrows(Employee employee) throws Exception {
-        if (employee.getAge() < 20) throw new Exception("age < 20");
-        return employee.getName().getFirst();
-      }
+    ThrowingExtractor<Employee, Object, Exception> nameThrowingExtractor = employee -> {
+      if (employee.getAge() < 20) throw new Exception("age < 20");
+      return employee.getName().getFirst();
     };
     // WHEN/THEN
     then(jedis).extracting(nameThrowingExtractor).containsOnly("Yoda", "Luke");
@@ -77,9 +71,9 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
     // GIVEN
     jedis = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(jedis).extracting(throwingFirstNameExtractor));
+    AssertionError error = expectAssertionError(() -> assertThat(jedis).extracting(throwingFirstNameExtractor));
     // THEN
-    then(assertionError).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -90,7 +84,7 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
       return employee.getName().getFirst();
     });
     // WHEN
-    RuntimeException runtimeException = catchThrowableOfType(code, RuntimeException.class);
+    RuntimeException runtimeException = catchThrowableOfType(RuntimeException.class, code);
     // THEN
     then(runtimeException).hasMessage("java.lang.Exception: age > 100");
   }
@@ -103,7 +97,7 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
       return employee.getName().getFirst();
     });
     // WHEN
-    RuntimeException runtimeException = catchThrowableOfType(code, RuntimeException.class);
+    RuntimeException runtimeException = catchThrowableOfType(RuntimeException.class, code);
     // THEN
     then(runtimeException).hasMessage("age > 100");
   }

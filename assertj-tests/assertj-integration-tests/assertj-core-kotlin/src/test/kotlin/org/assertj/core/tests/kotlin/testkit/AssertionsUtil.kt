@@ -12,16 +12,16 @@
  */
 package org.assertj.core.tests.kotlin.testkit
 
-import org.assertj.core.api.Assertions
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.catchThrowableOfType
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable
 
 object AssertionsUtil {
+
   fun expectAssertionError(shouldRaiseAssertionError: ThrowingCallable?): AssertionError {
-    val error = Assertions.catchThrowableOfType(
-      shouldRaiseAssertionError,
-      AssertionError::class.java
-    )
-    Assertions.assertThat(error).`as`("The code under test should have raised an AssertionError").isNotNull
+    val error = catchThrowableOfType(AssertionError::class.java, shouldRaiseAssertionError)
+    assertThat(error).`as`("The code under test should have raised an AssertionError").isNotNull
     return error
   }
+
 }

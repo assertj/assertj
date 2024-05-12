@@ -19,8 +19,8 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 
 public class AssertionErrors {
 
-  public static AssertionError expectAssertionError(ThrowingCallable shouldRaiseAssertionError) {
-    AssertionError error = catchThrowableOfType(shouldRaiseAssertionError, AssertionError.class);
+  public static AssertionError expectAssertionError(ThrowingCallable throwingCallable) {
+    AssertionError error = catchThrowableOfType(AssertionError.class, throwingCallable);
     assertThat(error).as("The code under test should have raised an AssertionError").isNotNull();
     return error;
   }

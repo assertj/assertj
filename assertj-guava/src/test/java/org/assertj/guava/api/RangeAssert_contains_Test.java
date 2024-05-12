@@ -13,11 +13,11 @@
 package org.assertj.guava.api;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
+import static org.assertj.guava.testkit.AssertionErrors.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,71 +26,71 @@ import com.google.common.collect.Range;
 /**
  * @author Marcin Kwaczyński
  */
-public class RangeAssert_contains_Test {
+class RangeAssert_contains_Test {
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     Range<Integer> actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains(1));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).contains(1));
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(actualIsNull());
+    then(thrown).isInstanceOf(AssertionError.class)
+                .hasMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_expected_values_are_null() {
+  void should_fail_if_expected_values_are_null() {
     // GIVEN
     Range<Integer> actual = Range.closedOpen(1, 10);
     Integer[] values = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains(values));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).contains(values));
     // THEN
-    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
-                         .hasMessage("The values to look for should not be null");
+    then(thrown).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("The values to look for should not be null");
   }
 
   @Test
-  public void should_fail_if_expected_values_group_is_empty_and_actual_is_not() {
+  void should_fail_if_expected_values_group_is_empty_and_actual_is_not() {
     // GIVEN
     Range<Integer> actual = Range.openClosed(1, 2);
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).contains());
+    Throwable thrown = catchThrowable(() -> assertThat(actual).contains());
     // THEN
-    assertThat(throwable).isInstanceOf(IllegalArgumentException.class)
-                         .hasMessage("The values to look for should not be empty");
+    then(thrown).isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("The values to look for should not be empty");
   }
 
   @Test
-  public void should_pass_if_both_actual_and_expected_values_are_empty() {
+  void should_pass_if_both_actual_and_expected_values_are_empty() {
     // GIVEN
     Range<Integer> actual = Range.openClosed(1, 1);
-    // THEN
+    // WHEN/THEN
     assertThat(actual).contains();
   }
 
   @Test
-  public void should_fail_when_range_does_not_contain_expected_values() {
+  void should_fail_when_range_does_not_contain_expected_values() {
     // GIVEN
     final Range<Integer> actual = Range.closedOpen(1, 10);
     // when
-    AssertionError assertionError = catchThrowableOfType(() -> assertThat(actual).contains(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
-                                                         AssertionError.class);
+    AssertionError error = expectAssertionError(() -> assertThat(actual).contains(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
     // THEN
-    assertThat(assertionError).hasMessage(format("%nExpecting Range:%n" +
-                                                 "  [1..10)%n" +
-                                                 "to contain:%n" +
-                                                 "  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]%n" +
-                                                 "but could not find the following element(s):%n" +
-                                                 "  [10]%n"));
+    then(error).hasMessage(format("%nExpecting Range:%n" +
+                                  "  [1..10)%n" +
+                                  "to contain:%n" +
+                                  "  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]%n" +
+                                  "but could not find the following element(s):%n" +
+                                  "  [10]%n"));
   }
 
   @Test
-  public void should_pass_if_range_contains_values() throws Exception {
+  void should_pass_if_range_contains_values() {
     // GIVEN
-    final Range<Integer> actual = Range.closed(1, 10);
-    // THEN
+    Range<Integer> actual = Range.closed(1, 10);
+    // WHEN/THEN
     assertThat(actual).contains(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
   }
+
 }
