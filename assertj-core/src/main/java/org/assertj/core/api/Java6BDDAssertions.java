@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.Java6Assertions.assertThat;
 
 import java.io.File;
 import java.io.InputStream;
@@ -1177,4 +1177,5 @@ public class Java6BDDAssertions {
   public static <T> AbstractObjectAssert<?, T> thenObject(T actual) {
     return then(actual);
   }
+
 }

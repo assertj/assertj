@@ -1496,13 +1496,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an Exception
    * catchException(() -&gt; {throw new Throwable("boom!");});</code></pre>
    *
-   * @param shouldRaiseException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static Exception catchException(ThrowingCallable shouldRaiseException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseException, Exception.class);
+  public static Exception catchException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(Exception.class, throwingCallable);
   }
 
   /**
@@ -1523,13 +1523,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not a RuntimeException
    * catchRuntimeException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseRuntimeException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static RuntimeException catchRuntimeException(ThrowingCallable shouldRaiseRuntimeException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseRuntimeException, RuntimeException.class);
+  public static RuntimeException catchRuntimeException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(RuntimeException.class, throwingCallable);
   }
 
   /**
@@ -1550,13 +1550,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not a NullPointerException
    * catchNullPointerException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseNullPointerException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static NullPointerException catchNullPointerException(ThrowingCallable shouldRaiseNullPointerException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseNullPointerException, NullPointerException.class);
+  public static NullPointerException catchNullPointerException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(NullPointerException.class, throwingCallable);
   }
 
   /**
@@ -1577,13 +1577,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an IllegalArgumentException
    * catchIllegalArgumentException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseIllegalArgumentException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IllegalArgumentException catchIllegalArgumentException(ThrowingCallable shouldRaiseIllegalArgumentException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalArgumentException, IllegalArgumentException.class);
+  public static IllegalArgumentException catchIllegalArgumentException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IllegalArgumentException.class, throwingCallable);
   }
 
   /**
@@ -1604,13 +1604,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an IOException
    * catchIOException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseIOException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IOException catchIOException(ThrowingCallable shouldRaiseIOException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIOException, IOException.class);
+  public static IOException catchIOException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IOException.class, throwingCallable);
   }
 
   /**
@@ -1631,14 +1631,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an IOException
    * catchReflectiveOperationException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseReflectiveOperationException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException,
-                                                        ReflectiveOperationException.class);
+  public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(ReflectiveOperationException.class, throwingCallable);
   }
 
   /**
@@ -1659,13 +1658,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an IOException
    * catchIllegalStateException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseIllegalStateException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IllegalStateException catchIllegalStateException(ThrowingCallable shouldRaiseIllegalStateException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalStateException, IllegalStateException.class);
+  public static IllegalStateException catchIllegalStateException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IllegalStateException.class, throwingCallable);
   }
 
   /**
@@ -1686,18 +1685,18 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an IOException
    * catchIndexOutOfBoundsException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseIndexOutOfBoundException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable shouldRaiseIndexOutOfBoundException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIndexOutOfBoundException, IndexOutOfBoundsException.class);
+  public static IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IndexOutOfBoundsException.class, throwingCallable);
   }
 
   /**
    * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
-   * which allows to chain assertions on the thrown exception.
+   * which allows chaining assertions on the thrown exception.
    * <p>
    * Example:
    * <pre><code class='java'> assertThatExceptionOfType(IOException.class)

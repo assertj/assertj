@@ -140,10 +140,9 @@ public class Failures {
 
   protected String assertionErrorMessage(AssertionInfo info, ErrorMessageFactory messageFactory) {
     String overridingErrorMessage = info.overridingErrorMessage();
-    String message = isNullOrEmpty(overridingErrorMessage)
+    return isNullOrEmpty(overridingErrorMessage)
         ? messageFactory.create(info.description(), info.representation())
         : MessageFormatter.instance().format(info.description(), info.representation(), overridingErrorMessage);
-    return message;
   }
 
   public AssertionError failureIfErrorMessageIsOverridden(AssertionInfo info) {
