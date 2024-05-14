@@ -191,37 +191,37 @@ class SoftAssertionsPerfTest {
     softly.assertThat(Boolean.FALSE).isTrue();
     softly.assertThat(false).isTrue();
     softly.assertThat(new boolean[] { false }).isEqualTo(new boolean[] { true });
-    softly.assertThat(new Byte((byte) 0)).isEqualTo((byte) 1);
+    softly.assertThat(Byte.valueOf((byte) 0)).isEqualTo((byte) 1);
     softly.assertThat((byte) 2).inHexadecimal().isEqualTo((byte) 3);
     softly.assertThat(new byte[] { 4 }).isEqualTo(new byte[] { 5 });
-    softly.assertThat(new Character((char) 65)).isEqualTo(new Character((char) 66));
+    softly.assertThat(Character.valueOf((char) 65)).isEqualTo(Character.valueOf((char) 66));
     softly.assertThat((char) 67).isEqualTo((char) 68);
     softly.assertThat(new char[] { 69 }).isEqualTo(new char[] { 70 });
     softly.assertThat(new StringBuilder("a")).isEqualTo(new StringBuilder("b"));
     softly.assertThat(Object.class).isEqualTo(String.class);
     softly.assertThat(parseDatetime("1999-12-31T23:59:59")).isEqualTo(parseDatetime("2000-01-01T00:00:01"));
-    softly.assertThat(new Double(6.0d)).isEqualTo(new Double(7.0d));
+    softly.assertThat(Double.valueOf(6.0)).isEqualTo(Double.valueOf(7.0));
     softly.assertThat(8.0d).isEqualTo(9.0d);
     softly.assertThat(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
     softly.assertThat(new File("a"))
           .overridingErrorMessage(format("%nexpected: File(a)%n but was: File(b)"))
           .isEqualTo(new File("b"));
-    softly.assertThat(new Float(12f)).isEqualTo(new Float(13f));
+    softly.assertThat(Float.valueOf(12)).isEqualTo(Float.valueOf(13));
     softly.assertThat(14f).isEqualTo(15f);
     softly.assertThat(new float[] { 16f }).isEqualTo(new float[] { 17f });
     softly.assertThat(new ByteArrayInputStream(new byte[] { (byte) 65 }))
           .hasSameContentAs(new ByteArrayInputStream(new byte[] { (byte) 66 }));
-    softly.assertThat(new Integer(20)).isEqualTo(new Integer(21));
+    softly.assertThat(Integer.valueOf(20)).isEqualTo(Integer.valueOf(21));
     softly.assertThat(22).isEqualTo(23);
     softly.assertThat(new int[] { 24 }).isEqualTo(new int[] { 25 });
     softly.assertThat((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
     softly.assertThat(Lists.newArrayList("28").iterator()).hasNext();
     softly.assertThat(Lists.newArrayList("30")).isEqualTo(Lists.newArrayList("31"));
-    softly.assertThat(new Long(32L)).isEqualTo(new Long(33L));
+    softly.assertThat(Long.valueOf(32)).isEqualTo(Long.valueOf(33));
     softly.assertThat(34L).isEqualTo(35L);
     softly.assertThat(new long[] { 36L }).isEqualTo(new long[] { 37L });
     softly.assertThat(mapOf(entry("38", "39"))).isEqualTo(mapOf(entry("40", "41")));
-    softly.assertThat(new Short((short) 42)).isEqualTo(new Short((short) 43));
+    softly.assertThat(Short.valueOf((short) 42)).isEqualTo(Short.valueOf((short) 43));
     softly.assertThat((short) 44).isEqualTo((short) 45);
     softly.assertThat(new short[] { (short) 46 }).isEqualTo(new short[] { (short) 47 });
     softly.assertThat("48").isEqualTo("49");
