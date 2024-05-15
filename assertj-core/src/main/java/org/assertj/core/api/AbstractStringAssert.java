@@ -280,6 +280,49 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   }
 
   /**
+   * Verifies that the actual value is a valid Base64 URL encoded string.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(&quot;QXNzZXJ0SiA_&quot;).isBase64Url();
+   *
+   * // assertion fails as it has invalid Base64 URL characters
+   * assertThat(&quot;inv@lid&quot;).isBase64Url();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not a valid Base64 URL encoded string.
+   *
+   * @since 4.0.0
+   */
+  public SELF isBase64Url() {
+    strings.assertIsBase64Url(info, actual);
+    return myself;
+  }
+
+  /**
+   * Decodes the actual value as a Base64 URL encoded string (using {@link Base64#getUrlDecoder()}), the decoded bytes becoming the new array under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(&quot;QXNzZXJ0SiA_&quot;).asBase64UrlDecoded().containsExactly("AssertJ ?".getBytes());
+   *
+   * // assertion fails as it has invalid Base64 URL characters
+   * assertThat(&quot;inv@lid&quot;).asBase64UrlDecoded();</code></pre>
+   *
+   * @return a new {@link ByteArrayAssert} instance whose array under test is the result of the decoding.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not a valid Base64 URL encoded string.
+   *
+   * @since 4.0.0
+   */
+  @CheckReturnValue
+  public AbstractByteArrayAssert<?> asBase64UrlDecoded() {
+    isBase64Url();
+    return new ByteArrayAssert(Base64.getUrlDecoder().decode(actual)).withAssertionState(myself);
+  }
+
+  /**
    * Use the given custom comparator instead of relying on {@link String} natural comparator for the incoming assertions.
    * <p>
    * The custom comparator is bound to an assertion instance, meaning that if a new assertion instance is created
