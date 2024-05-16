@@ -342,7 +342,11 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
 
   /**
    * Verifies that the text content of the actual {@code Path} (which must be a readable file) is <b>exactly</b> equal
-   * to the given one.<br>
+   * to the given one <b>except for newlines wich are ignored</b>.
+   * <p>
+   * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
+   * one can use {@link #content()} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
+   * <p>
    * The charset to use when reading the actual path should be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.

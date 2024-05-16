@@ -185,7 +185,10 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   }
 
   /**
-   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String}.
+   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String} <b>except for newlines wich are ignored</b>.
+   * <p>
+   * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
+   * one can use {@link #asString(Charset)} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
