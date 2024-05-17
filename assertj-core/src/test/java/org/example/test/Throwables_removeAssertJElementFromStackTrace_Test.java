@@ -10,11 +10,15 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.util;
+package org.example.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToAssertJ;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.util.StackTraceUtils.checkNoAssertjStackTraceElementIn;
+import static org.assertj.core.util.StackTraceUtils.hasAssertJStackTraceElement;
+import static org.assertj.core.util.Throwables.removeAssertJRelatedElementsFromStackTrace;
 
+import org.assertj.core.util.Throwables;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -23,15 +27,21 @@ import org.junit.jupiter.api.Test;
  * @author Joel Costigliola
  */
 class Throwables_removeAssertJElementFromStackTrace_Test {
+
   @Test
   void should_add_stack_trace_of_current_thread() {
-    try {
-      throw new AssertJThrowable();
-    } catch (AssertJThrowable throwable) {
-      assertThat(hasStackTraceElementRelatedToAssertJ(throwable)).isTrue();
-      Throwables.removeAssertJRelatedElementsFromStackTrace(throwable);
-      assertThat(hasStackTraceElementRelatedToAssertJ(throwable)).isFalse();
-    }
+    // GIVEN
+    Throwable throwable = catchThrowable(this::throwAssertJThrowable);
+    // THEN
+    assertThat(hasAssertJStackTraceElement(throwable)).isTrue();
+    // WHEN
+    removeAssertJRelatedElementsFromStackTrace(throwable);
+    // THEN
+    checkNoAssertjStackTraceElementIn(throwable);
+  }
+
+  private void throwAssertJThrowable() throws AssertJThrowable {
+    throw new AssertJThrowable();
   }
 
   private static class AssertJThrowable extends Throwable {

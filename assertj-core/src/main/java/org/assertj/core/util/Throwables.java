@@ -18,12 +18,14 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -94,7 +96,10 @@ public final class Throwables {
 
   /**
    * Removes the AssertJ-related elements from the <code>{@link Throwable}</code> stack trace that have little value for
-   * end user. Therefore, instead of seeing this:
+   * end user, that is assertj elements and the ones coming from assertj (for example assertj calling some java jdk
+   * classes to build assertion errors dynamically).
+   * <p>
+   * Therefore, instead of seeing this:
    * <pre><code class='java'> org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
@@ -111,35 +116,33 @@ public final class Throwables {
    *
    * We get this:
    * <pre><code class='java'> org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
-   *   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-   *   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
-   *   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
    *   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:20)</code></pre>
    * @param throwable the {@code Throwable} to filter stack trace.
    */
   public static void removeAssertJRelatedElementsFromStackTrace(Throwable throwable) {
     if (throwable == null) return;
-    List<StackTraceElement> filtered = newArrayList(throwable.getStackTrace());
-    StackTraceElement previous = null;
+    List<StackTraceElement> filtered = list();
+    boolean noAssertjStackTraceElementFoundYet = true;
+    // ignore assertj elements and the one above assertj (i.e. coming from assertj)
     for (StackTraceElement element : throwable.getStackTrace()) {
       if (element.getClassName().contains(ORG_ASSERTJ)) {
-        filtered.remove(element);
-        // Handle the case when AssertJ builds a ComparisonFailure/AssertionFailedError by reflection
-        // (see ShouldBeEqual.newAssertionError method), the stack trace looks like:
-        //
-        // java.lang.reflect.Constructor.newInstance(Constructor.java:501),
-        // org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:34),
-        //
-        // We want to remove java.lang.reflect.Constructor.newInstance element because it is related to AssertJ.
-        if (previous != null && JAVA_LANG_REFLECT_CONSTRUCTOR.equals(previous.getClassName())
-            && element.getClassName().contains(ORG_ASSERTJ_CORE_ERROR_CONSTRUCTOR_INVOKER)) {
-          filtered.remove(previous);
-        }
+        noAssertjStackTraceElementFoundYet = false;
+        continue;
       }
-      previous = element;
+      if (noAssertjStackTraceElementFoundYet) continue; // elements above assertj
+      filtered.add(element);
     }
     StackTraceElement[] newStackTrace = filtered.toArray(new StackTraceElement[0]);
     throwable.setStackTrace(newStackTrace);
+  }
+
+  private static Collection<StackTraceElement> getElementsBeforeAssertJ(StackTraceElement[] stackTraceElements) {
+    Collection<StackTraceElement> elementsBeforeAssertJ = new ArrayList<>();
+    for (StackTraceElement stackTraceElement : stackTraceElements) {
+      if (stackTraceElement.toString().contains(ORG_ASSERTJ)) break;
+      elementsBeforeAssertJ.add(stackTraceElement);
+    }
+    return elementsBeforeAssertJ;
   }
 
   /**

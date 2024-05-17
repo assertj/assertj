@@ -13,16 +13,41 @@
 package org.example.custom;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+
+import java.util.stream.Stream;
 
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 public class CustomAsserts_filter_stacktrace_Test {
+
+  public static final String ORG_ASSERTJ = "org.assertj";
+
+  public static Stream<ThrowingCallable> stacktrace_should_not_include_assertj_elements_nor_elements_coming_from_assertj() {
+    return Stream.of(() -> assertThat(0).isEqualTo(1),
+                     () -> assertThat(0).satisfies(x -> assertThat(x).isEqualTo(1)));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void stacktrace_should_not_include_assertj_elements_nor_elements_coming_from_assertj(ThrowingCallable throwingCallable) {
+    // WHEN
+    AssertionError assertionError = expectAssertionError(throwingCallable);
+    // THEN
+    StackTraceElement[] stackTrace = assertionError.getStackTrace();
+    then(stackTrace).noneSatisfy(stackTraceElement -> assertThat(stackTraceElement.toString()).contains(ORG_ASSERTJ));
+    then(stackTrace[0].toString()).contains("CustomAsserts_filter_stacktrace_Test");
+  }
 
   @Test
   public void should_filter_when_custom_assert_fails_with_message() {
