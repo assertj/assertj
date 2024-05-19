@@ -30,7 +30,7 @@ public class StackTraceUtils {
                  .anyMatch(stackTraceElement -> stackTraceElement.getClassName().contains("org.assertj"));
   }
 
-  public static boolean checkNoAssertjStackTraceElementIn(Throwable throwable) {
+  public static void checkNoAssertjStackTraceElementIn(Throwable throwable) {
     StackTraceElement[] stackTrace = throwable.getStackTrace();
     then(stackTrace).noneSatisfy(stackTraceElement -> assertThat(stackTraceElement.toString()).contains("org.assertj"));
   }

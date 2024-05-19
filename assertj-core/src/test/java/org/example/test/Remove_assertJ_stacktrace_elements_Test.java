@@ -49,15 +49,32 @@ public class Remove_assertJ_stacktrace_elements_Test {
     AssertionError assertionError = expectAssertionError(throwingCallable);
     // THEN
     checkNoAssertjStackTraceElementIn(assertionError);
-    // since we remove assertj elements, there is no easy way to check we have removed elements before/above assertj
-    // -> we check that the first element is the test class itself.
-    then(assertionError.getStackTrace()[0].toString()).contains("Remove_assertJ_stacktrace_elements_Test");
+    checkTestClassStackTraceElementsAreConsecutive(assertionError);
+  }
+
+  private static void checkTestClassStackTraceElementsAreConsecutive(AssertionError assertionError) {
+    // as we removed assertj related elements, first element is the test class and there should not be elements
+    // between the test class elements themselves, i.e. the indexes of the test class elements should be consecutive
+    String testClassName = Remove_assertJ_stacktrace_elements_Test.class.getName();
+    StackTraceElement[] stackTrace = assertionError.getStackTrace();
+    then(stackTrace[0].getClassName()).contains(testClassName);
+    int lastTestClassStackTraceElementIndex = 0;
+    int i = 1; // 0 index is already checked
+    while (i < stackTrace.length) {
+      if (stackTrace[i].getClassName().contains(testClassName))
+        then(i).isEqualTo(lastTestClassStackTraceElementIndex + 1);
+      i++;
+    }
 
   }
 
   static Stream<ThrowingCallable> stacktrace_should_not_include_assertj_elements_nor_elements_coming_from_assertj() {
     return Stream.of(() -> assertThat(0).isEqualTo(1),
-                     () -> assertThat(0).satisfies(x -> assertThat(x).isEqualTo(1)));
+                     () -> assertThat(0).satisfies(x -> assertThat(x).isEqualTo(1)),
+                     () -> assertThat(0).satisfies(x -> {
+                       assertThat(0).satisfies(y -> {
+                         assertThat(2).isEqualTo(1);
+                       });
+                     }));
   }
-
 }

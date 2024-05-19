@@ -14,6 +14,7 @@ package org.assertj.core.util;
 
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
+import static java.util.Collections.reverse;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.extractor.Extractors.byName;
@@ -25,7 +26,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -39,9 +39,10 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Daniel Zlotin
  */
 public final class Throwables {
-  private static final String ORG_ASSERTJ_CORE_ERROR_CONSTRUCTOR_INVOKER = "org.assertj.core.error.ConstructorInvoker";
-  private static final String JAVA_LANG_REFLECT_CONSTRUCTOR = "java.lang.reflect.Constructor";
+
   private static final String ORG_ASSERTJ = "org.assert";
+  private static final String JAVA_BASE = "java.";
+  private static final String JDK_BASE = "jdk.";
 
   private Throwables() {}
 
@@ -121,28 +122,36 @@ public final class Throwables {
    */
   public static void removeAssertJRelatedElementsFromStackTrace(Throwable throwable) {
     if (throwable == null) return;
-    List<StackTraceElement> filtered = list();
-    boolean noAssertjStackTraceElementFoundYet = true;
-    // ignore assertj elements and the one above assertj (i.e. coming from assertj)
-    for (StackTraceElement element : throwable.getStackTrace()) {
-      if (element.getClassName().contains(ORG_ASSERTJ)) {
-        noAssertjStackTraceElementFoundYet = false;
-        continue;
+    List<StackTraceElement> purgedStack = list();
+    boolean firstAssertjStackTraceElementFound = false;
+    StackTraceElement[] stackTrace = throwable.getStackTrace();
+    // traverse stack from the root element (main program) as it makes it easier to identify the first assertj element
+    // then we ignore all assertj and java or jdk elements.
+    for (int i = stackTrace.length - 1; i >= 0; i--) {
+      StackTraceElement stackTraceElement = stackTrace[i];
+      if (isFromAssertJ(stackTraceElement)) {
+        firstAssertjStackTraceElementFound = true;
+        continue; // skip element
       }
-      if (noAssertjStackTraceElementFoundYet) continue; // elements above assertj
-      filtered.add(element);
+      if (!firstAssertjStackTraceElementFound) {
+        // keep everything before first assertj stack trace element
+        purgedStack.add(stackTraceElement);
+      } else {
+        // we already are in assertj stack, so now we also ignore java elements too as they come from assertj
+        if (!isFromJavaOrJdkPackages(stackTraceElement)) purgedStack.add(stackTraceElement);
+      }
     }
-    StackTraceElement[] newStackTrace = filtered.toArray(new StackTraceElement[0]);
-    throwable.setStackTrace(newStackTrace);
+    reverse(purgedStack); // reverse as we traversed the stack in reverse order when purging it.
+    throwable.setStackTrace(purgedStack.toArray(new StackTraceElement[0]));
   }
 
-  private static Collection<StackTraceElement> getElementsBeforeAssertJ(StackTraceElement[] stackTraceElements) {
-    Collection<StackTraceElement> elementsBeforeAssertJ = new ArrayList<>();
-    for (StackTraceElement stackTraceElement : stackTraceElements) {
-      if (stackTraceElement.toString().contains(ORG_ASSERTJ)) break;
-      elementsBeforeAssertJ.add(stackTraceElement);
-    }
-    return elementsBeforeAssertJ;
+  private static boolean isFromAssertJ(StackTraceElement stackTrace) {
+    return stackTrace.getClassName().contains(ORG_ASSERTJ);
+  }
+
+  private static boolean isFromJavaOrJdkPackages(StackTraceElement stackTrace) {
+    String className = stackTrace.getClassName();
+    return className.contains(JAVA_BASE) || className.contains(JDK_BASE);
   }
 
   /**
