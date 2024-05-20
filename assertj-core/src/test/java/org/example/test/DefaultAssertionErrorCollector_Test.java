@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Copyright © 2024 the original author or authors.
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * Copyright 2012-2024 the original author or authors.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.example.test;
 
@@ -18,7 +21,6 @@ import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.List;
-
 import org.assertj.core.api.DefaultAssertionErrorCollector;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,9 +43,9 @@ class DefaultAssertionErrorCollector_Test {
     List<AssertionError> decoratedErrors = defaultAssertionErrorCollector.assertionErrorsCollected();
     // THEN
     then(decoratedErrors.get(0)).hasMessageContainingAll("at DefaultAssertionErrorCollector_Test.lambda",
-                                                         "(DefaultAssertionErrorCollector_Test.java:36)");
+                                                         "(DefaultAssertionErrorCollector_Test.java:38)");
     then(decoratedErrors.get(1)).hasMessageContainingAll("at DefaultAssertionErrorCollector_Test.lambda",
-                                                         "(DefaultAssertionErrorCollector_Test.java:37)");
+                                                         "(DefaultAssertionErrorCollector_Test.java:39)");
   }
 
   @Test
@@ -73,7 +75,7 @@ class DefaultAssertionErrorCollector_Test {
     // THEN
     then(decoratedError).isInstanceOf(AssertionFailedError.class)
                         .hasMessageContainingAll(error.getMessage(),
-                                                 "(DefaultAssertionErrorCollector_Test.java:69)");
+                                                 "(DefaultAssertionErrorCollector_Test.java:71)");
     AssertionFailedError decoratedAssertionFailedError = (AssertionFailedError) decoratedError;
     then(decoratedAssertionFailedError.isActualDefined()).isFalse();
     then(decoratedAssertionFailedError.isExpectedDefined()).isFalse();

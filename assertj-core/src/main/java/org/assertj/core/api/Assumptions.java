@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Copyright © 2024 the original author or authors.
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * Copyright 2012-2024 the original author or authors.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -77,13 +80,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
-import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.assertj.core.configuration.PreferredAssumptionException;
-import org.assertj.core.util.CheckReturnValue;
-
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
@@ -95,6 +91,11 @@ import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.This;
+import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.configuration.PreferredAssumptionException;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Entry point for assumption methods for different types, which allow to skip test execution on failed assumptions.

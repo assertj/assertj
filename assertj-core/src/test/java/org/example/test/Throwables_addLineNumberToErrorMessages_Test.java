@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
+ * Copyright © 2024 the original author or authors.
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- * Copyright 2012-2024 the original author or authors.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.example.test;
 
@@ -18,7 +21,6 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Throwables.addLineNumberToErrorMessages;
 
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 class Throwables_addLineNumberToErrorMessages_Test {
@@ -32,8 +34,8 @@ class Throwables_addLineNumberToErrorMessages_Test {
     // WHEN
     List<Throwable> errorsWithLineNumber = addLineNumberToErrorMessages(errors);
     // THEN
-    then(errorsWithLineNumber.get(0)).hasMessage(format("boom 1%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:29)"));
-    then(errorsWithLineNumber.get(1)).hasMessage(format("boom 2%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:30)"));
+    then(errorsWithLineNumber.get(0)).hasMessage(format("boom 1%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:31)"));
+    then(errorsWithLineNumber.get(1)).hasMessage(format("boom 2%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:32)"));
   }
 
 }
