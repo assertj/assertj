@@ -12,42 +12,125 @@
  */
 package org.assertj.core.api.date;
 
-import static org.mockito.Mockito.verify;
+import static java.time.Instant.parse;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Date;
 
-import org.assertj.core.api.DateAssert;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.opentest4j.AssertionFailedError;
 
 /**
- * Tests for {@link DateAssert#isEqualTo(Date)} and {@link DateAssert#isEqualTo(String)}.
- *
  * @author Joel Costigliola
  */
-class DateAssert_isEqualTo_Test extends AbstractDateAssertWithDateArg_Test {
+class DateAssert_isEqualTo_Test {
 
-  @Override
-  protected DateAssert assertionInvocationWithDateArg() {
-    return assertions.isEqualTo(otherDate);
+  @Nested
+  @TestInstance(PER_CLASS)
+  class With_Object {
+
+    @ParameterizedTest
+    @MethodSource
+    void should_pass(Date actual, Object expected) {
+      // WHEN/THEN
+      assertThat(actual).isEqualTo(expected);
+    }
+
+    Arguments[] should_pass() {
+      return new Arguments[] {
+          arguments(Date.from(parse("1970-01-01T00:00:00.000000001Z")),
+                    Date.from(parse("1970-01-01T00:00:00.000000001Z"))),
+          arguments(Date.from(parse("1970-01-01T00:00:00.000000001Z")),
+                    Timestamp.from(parse("1970-01-01T00:00:00.000000001Z")))
+      };
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void should_fail(Date actual, Object expected) {
+      // WHEN
+      AssertionError error = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
+      // THEN
+      then(error).isInstanceOf(AssertionFailedError.class);
+    }
+
+    Arguments[] should_fail() {
+      return new Arguments[] {
+          arguments(Timestamp.from(parse("1970-01-01T00:00:00.000000001Z")),
+                    Date.from(parse("1970-01-01T00:00:00.000000001Z")))
+      };
+    }
+
   }
 
-  @Override
-  protected DateAssert assertionInvocationWithStringArg(String dateAsString) {
-    return assertions.isEqualTo(dateAsString);
+  @Nested
+  @TestInstance(PER_CLASS)
+  class With_Instant {
+
+    @ParameterizedTest
+    @MethodSource
+    void should_pass(Date actual, Instant expected) {
+      // WHEN/THEN
+      assertThat(actual).isEqualTo(expected);
+    }
+
+    Arguments[] should_pass() {
+      return new Arguments[] {
+          arguments(Date.from(parse("1970-01-01T00:00:00.000000001Z")),
+                    parse("1970-01-01T00:00:00.000000001Z")),
+          arguments(Timestamp.from(parse("1970-01-01T00:00:00.000000001Z")),
+                    parse("1970-01-01T00:00:00.000000001Z"))
+      };
+    }
+
   }
 
-  protected DateAssert assertionInvocationWithInstantArg(Instant instant) {
-    return assertions.isEqualTo(instant);
-  }
+  @Nested
+  @TestInstance(PER_CLASS)
+  class With_String {
 
-  @Override
-  protected void verifyAssertionInvocation(Date date) {
-    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), date);
-  }
+    @ParameterizedTest
+    @MethodSource
+    void should_pass(Date actual, String expected) {
+      // WHEN/THEN
+      assertThat(actual).isEqualTo(expected);
+    }
 
-  @Override
-  protected DateAssert assertionInvocationWithInstantArg() {
-    return assertions.isEqualTo(otherDate.toInstant());
+    Arguments[] should_pass() {
+      return new Arguments[] {
+          arguments(Date.from(parse("1970-01-01T00:00:00.000000001Z")),
+                    "1970-01-01T00:00:00.000Z")
+      };
+    }
+
+    @ParameterizedTest
+    @MethodSource
+    void should_fail(Date actual, String expected) {
+      // WHEN
+      AssertionError error = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
+      // THEN
+      then(error).isInstanceOf(AssertionFailedError.class);
+    }
+
+    Arguments[] should_fail() {
+      return new Arguments[] {
+          arguments(Date.from(parse("1970-01-01T00:00:00.000000001Z")),
+                    "1970-01-01T00:00:00.000000001Z"),
+          arguments(Timestamp.from(parse("1970-01-01T00:00:00.000000001Z")),
+                    "1970-01-01T00:00:00.000000001Z")
+      };
+    }
+
   }
 
 }
