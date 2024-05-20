@@ -24,6 +24,7 @@ import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -42,7 +43,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Joel Costigliola
  */
-class DateAssert_with_string_based_date_representation_Test extends DateAssertBaseTest {
+class DateAssert_isEqualTo_with_string_based_date_representation_Test extends DateAssertBaseTest {
 
   @Override
   @AfterEach
@@ -122,6 +123,14 @@ class DateAssert_with_string_based_date_representation_Test extends DateAssertBa
     Date date = Date.from(localDateTimeWithMillis.atZone(ZoneId.systemDefault()).toInstant());
     // WHEN/THEN
     then(date).isEqualTo("2003-04-26T13:01:02");
+  }
+
+  @Test
+  public void should_support_nanos() {
+    // GIVEN
+    Date date = Date.from(Instant.parse("1970-01-01T00:00:00.000000001Z"));
+    // WHEN/THEN
+    then(date).isEqualTo("1970-01-01T00:00:00.000000001Z");
   }
 
   @Test
