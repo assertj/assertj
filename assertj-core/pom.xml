@@ -203,7 +203,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>5.3.35</version>
+      <version>5.3.36</version>
       <scope>test</scope>
     </dependency>
     <dependency>
