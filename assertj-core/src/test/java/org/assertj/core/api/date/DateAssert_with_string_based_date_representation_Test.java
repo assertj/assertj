@@ -24,17 +24,20 @@ import static org.assertj.core.util.DateUtil.parseDatetimeWithMs;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
 import org.assertj.core.api.DateAssertBaseTest;
 import org.assertj.core.util.DateUtil;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -44,10 +47,20 @@ import org.junit.jupiter.api.Test;
  */
 class DateAssert_with_string_based_date_representation_Test extends DateAssertBaseTest {
 
+  private TimeZone defaultTimeZone;
+
+  @Override
+  @BeforeEach
+  public void setUp() {
+    super.setUp();
+    defaultTimeZone = TimeZone.getDefault();
+  }
+
   @Override
   @AfterEach
   public void tearDown() {
     useDefaultDateFormatsOnly();
+    TimeZone.setDefault(defaultTimeZone);
   }
 
   @Test
@@ -256,4 +269,15 @@ class DateAssert_with_string_based_date_representation_Test extends DateAssertBa
     assertThat(date).isEqualTo("2003 04 26");
   }
 
+  @Test
+  void default_date_formats_should_support_default_timezone_change() {
+    // GIVEN
+    TimeZone.setDefault(TimeZone.getTimeZone("CET"));
+    // need to call a date assertion to initialize the default date formats before changing the timezone.
+    assertThat(Date.from(Instant.parse("2024-03-01T00:00:00.000+01:00"))).as("In CET time zone").isEqualTo("2024-03-01");
+    // WHEN
+    TimeZone.setDefault(TimeZone.getTimeZone("WET"));
+    // THEN
+    then(Date.from(Instant.parse("2024-03-01T00:00:00.000+00:00"))).as("In WET time zone").isEqualTo("2024-03-01");
+  }
 }

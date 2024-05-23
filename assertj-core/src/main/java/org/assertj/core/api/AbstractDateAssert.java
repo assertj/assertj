@@ -38,9 +38,11 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Dates;
@@ -70,19 +72,33 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> extends AbstractAssert<SELF, Date> {
 
+  private static final String DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL = "Given date format pattern should not be null";
+  private static final String DATE_FORMAT_SHOULD_NOT_BE_NULL = "Given date format should not be null";
+
   /**
    * the default DateFormat used to parse any String date representation.
    */
-  @VisibleForTesting
-  static final List<DateFormat> DEFAULT_DATE_FORMATS = list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(),
-                                                            newIsoDateTimeWithMsFormat(),
-                                                            newTimestampDateFormat(),
-                                                            newIsoDateTimeWithIsoTimeZoneFormat(),
-                                                            newIsoDateTimeFormat(),
-                                                            newIsoDateFormat());
+  private static List<DateFormat> DEFAULT_DATE_FORMATS = defaultDateFormats();
+  private static boolean lenientParsing = Configuration.LENIENT_DATE_PARSING;
 
-  private static final String DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL = "Given date format pattern should not be null";
-  private static final String DATE_FORMAT_SHOULD_NOT_BE_NULL = "Given date format should not be null";
+  @VisibleForTesting
+  static List<DateFormat> defaultDateFormats() {
+    if (DEFAULT_DATE_FORMATS == null || defaultDateFormatMustBeRecreated()) {
+      DEFAULT_DATE_FORMATS = list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(lenientParsing),
+                                  newIsoDateTimeWithMsFormat(lenientParsing),
+                                  newTimestampDateFormat(lenientParsing),
+                                  newIsoDateTimeWithIsoTimeZoneFormat(lenientParsing),
+                                  newIsoDateTimeFormat(lenientParsing),
+                                  newIsoDateFormat(lenientParsing));
+    }
+    return DEFAULT_DATE_FORMATS;
+  }
+
+  private static boolean defaultDateFormatMustBeRecreated() {
+    // check default timezone or lenient flag changes, only check one date format since all are configured the same way
+    DateFormat dateFormat = DEFAULT_DATE_FORMATS.get(0);
+    return !dateFormat.getTimeZone().getID().equals(TimeZone.getDefault().getID()) || dateFormat.isLenient() != lenientParsing;
+  }
 
   /**
    * Used in String based Date assertions - like {@link #isAfter(String)} - to convert input date represented as string
@@ -3392,13 +3408,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * To revert to default strict date parsing, call {@code setLenientDateParsing(false)}.
    *
-   * @param value whether lenient parsing mode should be enabled or not
+   * @param lenientDateParsing whether lenient parsing mode should be enabled or not
    */
-  public static void setLenientDateParsing(boolean value) {
-    ConfigurationProvider.loadRegisteredConfiguration();
-    for (DateFormat defaultDateFormat : DEFAULT_DATE_FORMATS) {
-      defaultDateFormat.setLenient(value);
-    }
+  public static void setLenientDateParsing(boolean lenientDateParsing) {
+    lenientParsing = lenientDateParsing;
   }
 
   /**
@@ -3564,7 +3577,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Thread safe utility method to parse a Date with {@link #userDateFormats} first, then {@link #DEFAULT_DATE_FORMATS}.
+   * Thread safe utility method to parse a Date with {@link #userDateFormats} first, then {@link #defaultDateFormats()}.
    * <p>
    * Returns <code>null</code> if dateAsString parameter is <code>null</code>.
    *
@@ -3587,15 +3600,13 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
                                            info.representation().toStringOf(dateFormatsInOrderOfUsage())));
   }
 
-  private Date parseDateWithDefaultDateFormats(final String dateAsString) {
-    synchronized (DEFAULT_DATE_FORMATS) {
-      return parseDateWith(dateAsString, DEFAULT_DATE_FORMATS);
-    }
+  private synchronized Date parseDateWithDefaultDateFormats(final String dateAsString) {
+    return parseDateWith(dateAsString, defaultDateFormats());
   }
 
   private List<DateFormat> dateFormatsInOrderOfUsage() {
     List<DateFormat> allDateFormatsInOrderOfUsage = newArrayList(userDateFormats.get());
-    allDateFormatsInOrderOfUsage.addAll(DEFAULT_DATE_FORMATS);
+    allDateFormatsInOrderOfUsage.addAll(defaultDateFormats());
     return allDateFormatsInOrderOfUsage;
   }
 

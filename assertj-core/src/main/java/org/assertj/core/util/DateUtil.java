@@ -52,7 +52,7 @@ public class DateUtil {
    * @return a {@code yyyy-MM-dd} {@link DateFormat}
    */
   public static DateFormat newIsoDateFormat() {
-    return strictDateFormatForPattern("yyyy-MM-dd");
+    return newIsoDateFormat(false);
   }
 
   /**
@@ -61,7 +61,7 @@ public class DateUtil {
    * @return a {@code yyyy-MM-dd'T'HH:mm:ssX} {@link DateFormat}
    */
   public static DateFormat newIsoDateTimeWithIsoTimeZoneFormat() {
-    return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ssX");
+    return newIsoDateTimeWithIsoTimeZoneFormat(false);
   }
 
   /**
@@ -69,7 +69,7 @@ public class DateUtil {
    * @return a {@code yyyy-MM-dd'T'HH:mm:ss} {@link DateFormat}
    */
   public static DateFormat newIsoDateTimeFormat() {
-    return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss");
+    return newIsoDateTimeFormat(false);
   }
 
   /**
@@ -78,7 +78,7 @@ public class DateUtil {
    * @return a {@code yyyy-MM-dd'T'HH:mm:ss.SSS} {@link DateFormat}
    */
   public static DateFormat newIsoDateTimeWithMsFormat() {
-    return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
+    return newIsoDateTimeWithMsFormat(false);
   }
 
   /**
@@ -87,7 +87,7 @@ public class DateUtil {
    * @return a {@code yyyy-MM-dd'T'HH:mm:ss.SSSX} {@link DateFormat}
    */
   public static DateFormat newIsoDateTimeWithMsAndIsoTimeZoneFormat() {
-    return strictDateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+    return newIsoDateTimeWithMsAndIsoTimeZoneFormat(false);
   }
 
   /**
@@ -96,12 +96,70 @@ public class DateUtil {
    * @return a {@code yyyy-MM-dd HH:mm:ss.SSS} {@link DateFormat}
    */
   public static DateFormat newTimestampDateFormat() {
-    return strictDateFormatForPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    return newTimestampDateFormat(false);
   }
 
-  private static DateFormat strictDateFormatForPattern(String pattern) {
+  /**
+   * ISO 8601 date format (yyyy-MM-dd), example : <code>2003-04-23</code>
+   * @param lenientParsing whether or not parsing the date is lenient
+   * @return a {@code yyyy-MM-dd} {@link DateFormat}
+   */
+  public static DateFormat newIsoDateFormat(boolean lenientParsing) {
+    return dateFormatForPattern("yyyy-MM-dd", lenientParsing);
+  }
+
+  /**
+   * ISO 8601 date-time format with ISO time zone (yyyy-MM-dd'T'HH:mm:ssX), example :
+   * <code>2003-04-26T03:01:02+00:00</code>
+   * @param lenientParsing whether or not parsing the date is lenient
+   * @return a {@code yyyy-MM-dd'T'HH:mm:ssX} {@link DateFormat}
+   */
+  public static DateFormat newIsoDateTimeWithIsoTimeZoneFormat(boolean lenientParsing) {
+    return dateFormatForPattern("yyyy-MM-dd'T'HH:mm:ssX", lenientParsing);
+  }
+
+  /**
+   * ISO 8601 date-time format (yyyy-MM-dd'T'HH:mm:ss), example : <code>2003-04-26T13:01:02</code>
+   * @param lenientParsing whether or not parsing the date is lenient
+   * @return a {@code yyyy-MM-dd'T'HH:mm:ss} {@link DateFormat}
+   */
+  public static DateFormat newIsoDateTimeFormat(boolean lenientParsing) {
+    return dateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss", lenientParsing);
+  }
+
+  /**
+   * ISO 8601 date-time format with millisecond (yyyy-MM-dd'T'HH:mm:ss.SSS), example :
+   * <code>2003-04-26T03:01:02.999</code>
+   * @param lenientParsing whether or not parsing the date is lenient
+   * @return a {@code yyyy-MM-dd'T'HH:mm:ss.SSS} {@link DateFormat}
+   */
+  public static DateFormat newIsoDateTimeWithMsFormat(boolean lenientParsing) {
+    return dateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSS", lenientParsing);
+  }
+
+  /**
+   * ISO 8601 date-time format with millisecond and ISO time zone (yyyy-MM-dd'T'HH:mm:ss.SSSX), example :
+   * <code>2003-04-26T03:01:02.758+00:00</code>
+   * @param lenientParsing whether or not parsing the date is lenient
+   * @return a {@code yyyy-MM-dd'T'HH:mm:ss.SSSX} {@link DateFormat}
+   */
+  public static DateFormat newIsoDateTimeWithMsAndIsoTimeZoneFormat(boolean lenientParsing) {
+    return dateFormatForPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX", lenientParsing);
+  }
+
+  /**
+   * {@link java.sql.Timestamp} date-time format with millisecond (yyyy-MM-dd HH:mm:ss.SSS), example :
+   * <code>2003-04-26 03:01:02.999</code>
+   * @param lenientParsing whether or not parsing the date is lenient
+   * @return a {@code yyyy-MM-dd HH:mm:ss.SSS} {@link DateFormat}
+   */
+  public static DateFormat newTimestampDateFormat(boolean lenientParsing) {
+    return dateFormatForPattern("yyyy-MM-dd HH:mm:ss.SSS", lenientParsing);
+  }
+
+  private static DateFormat dateFormatForPattern(String pattern, boolean lenient) {
     DateFormat dateFormat = new SimpleDateFormat(pattern);
-    dateFormat.setLenient(false);
+    dateFormat.setLenient(lenient);
     return dateFormat;
   }
 

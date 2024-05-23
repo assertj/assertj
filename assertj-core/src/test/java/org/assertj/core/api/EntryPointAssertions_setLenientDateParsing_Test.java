@@ -38,7 +38,7 @@ class EntryPointAssertions_setLenientDateParsing_Test extends EntryPointAssertio
     // WHEN
     setLenientDateParsingFunction.accept(true);
     // THEN
-    then(AbstractDateAssert.DEFAULT_DATE_FORMATS).allMatch(DateFormat::isLenient);
+    then(AbstractDateAssert.defaultDateFormats()).allMatch(DateFormat::isLenient);
   }
 
   private static Stream<Consumer<Boolean>> setLenientDateParsingFunctions() {
