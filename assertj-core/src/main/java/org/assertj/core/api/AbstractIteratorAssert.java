@@ -12,8 +12,11 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
+
 import java.util.Iterator;
 
+import org.assertj.core.annotations.Beta;
 import org.assertj.core.internal.Iterators;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -93,4 +96,50 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
     return new IterableAssert<>(IterableAssert.toIterable(actual));
   }
 
+  /**
+   * Verifies that the actual iterator is unmodifiable, i.e., throws an {@link UnsupportedOperationException} with
+   * any attempt to remove from the iterator.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(List.of().iterator()).isUnmodifiable();
+   * assertThat(Set.of().iterator()).isUnmodifiable();
+   *
+   * // assertions will fail
+   * assertThat(new ArrayList&lt;&gt;().iterator()).isUnmodifiable();
+   * assertThat(new HashSet&lt;&gt;().iterator()).isUnmodifiable();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual iterator is modifiable.
+   * @since 3.26.0
+   */
+  @Beta
+  public SELF isUnmodifiable() {
+    isNotNull();
+    assertIsUnmodifiable();
+    return myself;
+  }
+
+  private void assertIsUnmodifiable() {
+    switch (actual.getClass().getName()) {
+    case "java.util.Collections$EmptyIterator":
+    case "java.util.Collections$EmptyListIterator":
+      // immutable by contract, although not all methods throw UnsupportedOperationException
+      return;
+    }
+
+    expectUnsupportedOperationException(actual::remove, "Iterator.remove()");
+  }
+
+  // Same as AbstractCollectionAssert#expectUnsupportedOperationException
+  private void expectUnsupportedOperationException(Runnable runnable, String method) {
+    try {
+      runnable.run();
+      throwAssertionError(shouldBeUnmodifiable(method));
+    } catch (UnsupportedOperationException e) {
+      // happy path
+    } catch (RuntimeException e) {
+      throwAssertionError(shouldBeUnmodifiable(method, e));
+    }
+  }
 }
