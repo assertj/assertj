@@ -12,10 +12,27 @@
  */
 package org.assertj.core.api.iterator;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.ImmutableSortedSet;
-import com.google.common.collect.Sets;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.Sets.newTreeSet;
+import static org.assertj.core.util.Sets.set;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.stream.Stream;
+
 import org.apache.commons.collections4.collection.UnmodifiableCollection;
 import org.apache.commons.collections4.list.UnmodifiableList;
 import org.apache.commons.collections4.set.UnmodifiableSet;
@@ -27,19 +44,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.*;
-import java.util.stream.Stream;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNoException;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Lists.newArrayList;
-import static org.assertj.core.util.Sets.*;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.ImmutableSortedSet;
+import com.google.common.collect.Sets;
 
 class IteratorAssert_isUnmodifiable_Test {
 
@@ -81,7 +89,7 @@ class IteratorAssert_isUnmodifiable_Test {
                                shouldBeUnmodifiable("Iterator.remove()", new IllegalStateException())));
   }
 
-  // If Iterator.remove() is called Iterator.next(), it doesn't throw exception
+  // No exception thrown if Iterator.remove() is called after Iterator.next()
   private static Stream<Arguments> startedModifiableIterators() {
     Iterator<?> startedIterator = new ArrayList<>(list(1, 2, 3)).iterator();
     startedIterator.next();
@@ -101,8 +109,7 @@ class IteratorAssert_isUnmodifiable_Test {
 
   // Same as CollectionAssert_isUnmodifiable_Test#unmodifiableCollections
   private static Stream<Iterator<?>> unmodifiableIterators() {
-    return Stream.of(
-                     Collections.emptyList(),
+    return Stream.of(Collections.emptyList(),
                      Collections.emptyNavigableSet(),
                      Collections.emptySet(),
                      Collections.emptySortedSet(),
@@ -129,4 +136,5 @@ class IteratorAssert_isUnmodifiable_Test {
                      UnmodifiableSortedSet.unmodifiableSortedSet(newTreeSet("element")))
                  .map(c -> c.iterator());
   }
+
 }

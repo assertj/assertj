@@ -12,13 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
+
 import java.util.Iterator;
 
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.internal.Iterators;
 import org.assertj.core.util.VisibleForTesting;
-
-import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
 
 /**
  * <p>Base class for all implementations of assertions for {@link Iterator}s.</p>
@@ -111,7 +111,7 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual iterator is modifiable.
-   * @since 3.27.0
+   * @since 3.26.0
    */
   @Beta
   public SELF isUnmodifiable() {
@@ -128,7 +128,7 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
       return;
     }
 
-    expectUnsupportedOperationException(() -> actual.remove(), "Iterator.remove()");
+    expectUnsupportedOperationException(actual::remove, "Iterator.remove()");
   }
 
   // Same as AbstractCollectionAssert#expectUnsupportedOperationException
