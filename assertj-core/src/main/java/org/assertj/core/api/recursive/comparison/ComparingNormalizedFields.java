@@ -40,7 +40,7 @@ public abstract class ComparingNormalizedFields implements RecursiveComparisonIn
   private static final String NO_FIELD_FOUND = "Unable to find field in %s, fields tried: %s and %s";
 
   // original field name <-> normalized field name by node
-  private final Map<Object, Map<String, String>> originalFieldNamesByNormalizedFieldNameByNode = new IdentityHashMap<>();
+  private final Map<Class<?>, Map<String, String>> originalFieldNamesByNormalizedFieldNameByNode = new ConcurrentHashMap<>();
 
   // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
   private final Map<Class<?>, Set<String>> fieldNamesPerClass = new ConcurrentHashMap<>();
@@ -95,10 +95,10 @@ public abstract class ComparingNormalizedFields implements RecursiveComparisonIn
    */
   private String normalize(Object node, String fieldName) {
     String normalizedFieldName = normalizeFieldName(fieldName);
-    if (!originalFieldNamesByNormalizedFieldNameByNode.containsKey(node)) {
-      originalFieldNamesByNormalizedFieldNameByNode.put(node, new HashMap<>());
+    if (!originalFieldNamesByNormalizedFieldNameByNode.containsKey(node.getClass())) {
+      originalFieldNamesByNormalizedFieldNameByNode.put(node.getClass(), new HashMap<>());
     }
-    originalFieldNamesByNormalizedFieldNameByNode.get(node).put(normalizedFieldName, fieldName);
+    originalFieldNamesByNormalizedFieldNameByNode.get(node.getClass()).put(normalizedFieldName, fieldName);
     return normalizedFieldName;
   }
 
@@ -143,8 +143,8 @@ public abstract class ComparingNormalizedFields implements RecursiveComparisonIn
   private String getOriginalFieldName(String fieldName, Object instance) {
     // call getChildrenNodeNamesOf to populate originalFieldNamesByNormalizedFieldNameByNode, the recursive comparison
     // should already do this if this is used outside then getChildNodeValue would fail
-    if (!originalFieldNamesByNormalizedFieldNameByNode.containsKey(instance)) getChildrenNodeNamesOf(instance);
-    return originalFieldNamesByNormalizedFieldNameByNode.get(instance).get(fieldName);
+    if (!originalFieldNamesByNormalizedFieldNameByNode.containsKey(instance.getClass())) getChildrenNodeNamesOf(instance);
+    return originalFieldNamesByNormalizedFieldNameByNode.get(instance.getClass()).get(fieldName);
   }
 
   @Override
