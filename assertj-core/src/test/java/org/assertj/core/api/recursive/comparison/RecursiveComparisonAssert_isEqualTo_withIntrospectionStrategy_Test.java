@@ -339,6 +339,8 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
 
   static class ComparingLowercaseNormalizedFields extends ComparingNormalizedFields {
 
+    static final ComparingLowercaseNormalizedFields INSTANCE = new ComparingLowercaseNormalizedFields();
+
     @Override
     public String normalizeFieldName(String name) {
       return name.toLowerCase();
@@ -353,11 +355,27 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     AnimalDto foxDto = new AnimalDto("fox");
     // WHEN/THEN
     then(fox).usingRecursiveComparison()
-             .withIntrospectionStrategy(new ComparingLowercaseNormalizedFields())
+             .withIntrospectionStrategy(ComparingLowercaseNormalizedFields.INSTANCE)
              .isEqualTo(foxDto);
     then(foxDto).usingRecursiveComparison()
-                .withIntrospectionStrategy(new ComparingLowercaseNormalizedFields())
+                .withIntrospectionStrategy(ComparingLowercaseNormalizedFields.INSTANCE)
                 .isEqualTo(fox);
+  }
+
+  @Test
+  void should_pass_with_lowercase_compared_fields_several_times() {
+    // GIVEN
+    Animal fox1 = new Animal("fox");
+    AnimalDto foxDto1 = new AnimalDto("fox");
+    Animal fox2 = new Animal("fox");
+    AnimalDto foxDto2 = new AnimalDto("fox");
+    // WHEN/THEN
+    then(fox1).usingRecursiveComparison()
+              .withIntrospectionStrategy(ComparingLowercaseNormalizedFields.INSTANCE)
+              .isEqualTo(foxDto1);
+    then(fox2).usingRecursiveComparison()
+              .withIntrospectionStrategy(ComparingLowercaseNormalizedFields.INSTANCE)
+              .isEqualTo(foxDto2);
   }
 
   static class Animal {
