@@ -131,7 +131,7 @@
     <maven-gpg-plugin.version>3.2.4</maven-gpg-plugin.version>
     <maven-release-plugin.version>3.0.1</maven-release-plugin.version>
     <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
-    <sonar-maven-plugin.version>3.11.0.3922</sonar-maven-plugin.version>
+    <sonar-maven-plugin.version>4.0.0.4121</sonar-maven-plugin.version>
     <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
   </properties>
 
