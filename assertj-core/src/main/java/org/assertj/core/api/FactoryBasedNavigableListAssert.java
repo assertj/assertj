@@ -31,7 +31,6 @@ public class FactoryBasedNavigableListAssert<SELF extends FactoryBasedNavigableL
          
   private AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
   /**
    * @deprecated
    * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
@@ -54,6 +53,7 @@ public class FactoryBasedNavigableListAssert<SELF extends FactoryBasedNavigableL
    * preferred way to create type-specific assertions in AssertJ API.
    */
   @Deprecated
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                         AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
