@@ -13,7 +13,7 @@
 package org.assertj.core.api.bytearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;

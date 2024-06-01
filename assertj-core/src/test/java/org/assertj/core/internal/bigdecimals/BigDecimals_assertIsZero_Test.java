@@ -13,8 +13,8 @@
 package org.assertj.core.internal.bigdecimals;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.TestData.someInfo;
 
 import java.math.BigDecimal;
 

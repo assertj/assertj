@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
-import org.assertj.core.test.Maps;
+import org.assertj.core.testkit.Maps;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.MapAssert#hasSameSizeAs(java.util.Map)}</code>.

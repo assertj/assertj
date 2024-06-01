@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.int2darray;
 
-import static org.assertj.core.test.TestData.someIndex;
+import static org.assertj.core.testkit.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.Int2DArrayAssert;

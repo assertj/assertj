@@ -13,7 +13,7 @@
 package org.assertj.core.api.atomic.longarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.LongArrays.arrayOf;
+import static org.assertj.core.testkit.LongArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import java.util.concurrent.atomic.AtomicLongArray;

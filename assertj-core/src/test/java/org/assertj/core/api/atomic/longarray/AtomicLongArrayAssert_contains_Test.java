@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.atomic.longarray;
 
-import static org.assertj.core.test.LongArrays.arrayOf;
+import static org.assertj.core.testkit.LongArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AtomicLongArrayAssert;

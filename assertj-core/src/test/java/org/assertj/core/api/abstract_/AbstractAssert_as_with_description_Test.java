@@ -13,7 +13,7 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.TestData.someDescription;
+import static org.assertj.core.testkit.TestData.someDescription;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;

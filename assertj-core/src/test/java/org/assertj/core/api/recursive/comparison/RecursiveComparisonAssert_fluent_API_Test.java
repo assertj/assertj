@@ -17,12 +17,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
-import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
-import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
-import static org.assertj.core.test.BiPredicates.DOUBLE_EQUALS;
-import static org.assertj.core.test.BiPredicates.STRING_EQUALS;
+import static org.assertj.core.testkit.AlwaysDifferentComparator.alwaysDifferent;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
+import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.BiPredicates.DOUBLE_EQUALS;
+import static org.assertj.core.testkit.BiPredicates.STRING_EQUALS;
 
 import java.sql.Timestamp;
 import java.util.Comparator;
@@ -33,8 +33,8 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.test.AlwaysDifferentComparator;
-import org.assertj.core.test.AlwaysEqualComparator;
+import org.assertj.core.testkit.AlwaysDifferentComparator;
+import org.assertj.core.testkit.AlwaysEqualComparator;
 import org.junit.jupiter.api.Test;
 
 class RecursiveComparisonAssert_fluent_API_Test {

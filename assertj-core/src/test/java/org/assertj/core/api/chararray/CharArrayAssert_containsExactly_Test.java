@@ -13,12 +13,12 @@
 package org.assertj.core.api.chararray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.CharArrays.arrayOf;
+import static org.assertj.core.testkit.CharArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.CharArrayAssert;
 import org.assertj.core.api.CharArrayAssertBaseTest;
-import org.assertj.core.test.CaseInsensitiveCharacterComparator;
+import org.assertj.core.testkit.CaseInsensitiveCharacterComparator;
 import org.junit.jupiter.api.Test;
 
 /**

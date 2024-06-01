@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

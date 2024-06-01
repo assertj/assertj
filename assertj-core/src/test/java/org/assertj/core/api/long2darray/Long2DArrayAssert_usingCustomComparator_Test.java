@@ -13,11 +13,11 @@
 package org.assertj.core.api.long2darray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.Long2DArrayAssert;
 import org.assertj.core.api.Long2DArrayAssertBaseTest;
-import org.assertj.core.test.AlwaysEqualComparator;
+import org.assertj.core.testkit.AlwaysEqualComparator;
 import org.junit.jupiter.api.Test;
 
 class Long2DArrayAssert_usingCustomComparator_Test extends Long2DArrayAssertBaseTest {

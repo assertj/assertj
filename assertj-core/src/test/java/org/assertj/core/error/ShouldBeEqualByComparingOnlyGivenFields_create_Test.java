@@ -20,7 +20,7 @@ import static org.assertj.core.util.Lists.list;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
 /**

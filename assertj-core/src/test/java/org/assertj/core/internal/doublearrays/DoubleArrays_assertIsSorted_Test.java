@@ -15,9 +15,9 @@ package org.assertj.core.internal.doublearrays;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSorted;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
-import static org.assertj.core.test.DoubleArrays.arrayOf;
-import static org.assertj.core.test.DoubleArrays.emptyArray;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.DoubleArrays.arrayOf;
+import static org.assertj.core.testkit.DoubleArrays.emptyArray;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;

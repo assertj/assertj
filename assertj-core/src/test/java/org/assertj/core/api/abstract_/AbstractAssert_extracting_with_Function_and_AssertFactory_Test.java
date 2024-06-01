@@ -29,8 +29,8 @@ import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.abstract_.AbstractAssert_extracting_with_Function_and_AssertFactory_Test.TestAssert;
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

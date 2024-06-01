@@ -13,11 +13,11 @@
 package org.assertj.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 
 /**
  * Tests for <code>{@link ObjectAssert#usingDefaultComparator()}</code>.

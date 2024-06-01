@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 
 /**
  * Tests for <code>{@link ObjectAssert#hasOnlyFieldsOrProperties(String...)}</code>.
@@ -25,7 +25,7 @@ import org.assertj.core.test.Jedi;
  */
 class ObjectAssert_hasOnlyFields_Test extends ObjectAssertBaseTest {
 
-  public static final String FIELD_NAME = "name"; // field in org.assertj.core.test.Person
+  public static final String FIELD_NAME = "name"; // field in org.assertj.core.testkit.Person
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {

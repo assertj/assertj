@@ -14,8 +14,8 @@ package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
-import static org.assertj.core.test.BiPredicates.STRING_EQUALS;
+import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.BiPredicates.STRING_EQUALS;
 
 import java.util.Comparator;
 import java.util.Set;
@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.RandomUtils;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration.Builder;
-import org.assertj.core.test.AlwaysEqualComparator;
+import org.assertj.core.testkit.AlwaysEqualComparator;
 import org.junit.jupiter.api.Test;
 
 class RecursiveComparisonConfiguration_builder_Test {

@@ -39,7 +39,7 @@ import org.apache.commons.collections4.set.UnmodifiableNavigableSet;
 import org.apache.commons.collections4.set.UnmodifiableSet;
 import org.apache.commons.collections4.set.UnmodifiableSortedSet;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.test.jdk11.Jdk11;
+import org.assertj.core.testkit.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

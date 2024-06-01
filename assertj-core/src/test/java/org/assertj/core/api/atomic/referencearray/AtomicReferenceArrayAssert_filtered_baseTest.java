@@ -14,8 +14,8 @@ package org.assertj.core.api.atomic.referencearray;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.BeforeEach;
 
 class AtomicReferenceArrayAssert_filtered_baseTest {

@@ -14,7 +14,7 @@ package org.assertj.core.util.introspection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.test.Person;
+import org.assertj.core.testkit.Person;
 import org.assertj.core.util.introspection.beans.SuperHero;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

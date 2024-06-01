@@ -13,11 +13,11 @@
 package org.assertj.core.api.float2darray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 
 import org.assertj.core.api.Float2DArrayAssert;
 import org.assertj.core.api.Float2DArrayAssertBaseTest;
-import org.assertj.core.test.AlwaysEqualComparator;
+import org.assertj.core.testkit.AlwaysEqualComparator;
 import org.junit.jupiter.api.Test;
 
 class Float2DArrayAssert_usingCustomComparator_Test extends Float2DArrayAssertBaseTest {

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.map;
 
-import org.assertj.core.test.jdk11.Jdk11;
+import org.assertj.core.testkit.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;

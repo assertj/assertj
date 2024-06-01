@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,8 +27,8 @@ import org.junit.jupiter.api.Test;
  */
 class ObjectAssert_hasFieldOrPropertyWithValue_Test extends ObjectAssertBaseTest {
 
-  public static final String FIELD_NAME = "name"; // field in org.assertj.core.test.Person
-  public static final String FIELD_VALUE = "Yoda"; // field value in org.assertj.core.test.Person
+  public static final String FIELD_NAME = "name"; // field in org.assertj.core.testkit.Person
+  public static final String FIELD_VALUE = "Yoda"; // field value in org.assertj.core.testkit.Person
 
   @Override
   protected ObjectAssert<Jedi> invoke_api_method() {

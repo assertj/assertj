@@ -18,7 +18,7 @@ import static org.assertj.core.error.ShouldNotHaveSameHashCode.shouldNotHaveSame
 
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
 class ShouldNotHaveSameHashCode_create_Test {

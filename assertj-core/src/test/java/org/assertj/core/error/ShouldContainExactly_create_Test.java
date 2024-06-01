@@ -32,7 +32,7 @@ import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.IndexedDiff;
 import org.assertj.core.internal.StandardComparisonStrategy;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.OS;

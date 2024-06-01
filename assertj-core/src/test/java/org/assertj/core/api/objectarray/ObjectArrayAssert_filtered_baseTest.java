@@ -16,8 +16,8 @@ import static java.util.Arrays.asList;
 import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
 
 import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.BeforeEach;
 
 public class ObjectArrayAssert_filtered_baseTest {

@@ -14,12 +14,12 @@ package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.recursive.comparison.Color.GREEN;
-import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS_STRING;
+import static org.assertj.core.testkit.NeverEqualComparator.NEVER_EQUALS_STRING;
 
 import org.assertj.core.api.RecursiveComparisonAssert_isNotEqualTo_BaseTest;
 import org.assertj.core.internal.objects.data.Person;
-import org.assertj.core.test.CartoonCharacter;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.CartoonCharacter;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

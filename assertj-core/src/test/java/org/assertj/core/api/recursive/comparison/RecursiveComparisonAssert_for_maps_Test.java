@@ -16,13 +16,13 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Map;
 
 import org.assertj.core.internal.objects.data.PersonDto;
-import org.assertj.core.test.Person;
+import org.assertj.core.testkit.Person;
 import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableMap;

@@ -19,7 +19,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
-import org.assertj.core.test.CaseInsensitiveStringComparator;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

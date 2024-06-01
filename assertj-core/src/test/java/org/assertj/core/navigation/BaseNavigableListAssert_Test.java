@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.atIndex;
 import java.util.List;
 
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.test.Vehicle;
-import org.assertj.core.test.VehicleAssert;
+import org.assertj.core.testkit.Vehicle;
+import org.assertj.core.testkit.VehicleAssert;
 import org.junit.jupiter.api.Test;
 
 abstract class BaseNavigableListAssert_Test

@@ -15,7 +15,7 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;

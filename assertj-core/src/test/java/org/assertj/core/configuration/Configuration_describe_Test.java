@@ -18,7 +18,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import java.util.function.Consumer;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.test.MutatesGlobalConfiguration;
+import org.assertj.core.testkit.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 

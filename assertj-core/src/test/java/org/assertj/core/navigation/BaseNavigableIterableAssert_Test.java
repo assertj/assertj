@@ -13,8 +13,8 @@
 package org.assertj.core.navigation;
 
 import org.assertj.core.api.AbstractIterableAssert;
-import org.assertj.core.test.Vehicle;
-import org.assertj.core.test.VehicleAssert;
+import org.assertj.core.testkit.Vehicle;
+import org.assertj.core.testkit.VehicleAssert;
 
 public abstract class BaseNavigableIterableAssert_Test
     extends GenericNavigableAssert_Test<Iterable<Vehicle>, AbstractIterableAssert<?, Iterable<Vehicle>, Vehicle, VehicleAssert>> {

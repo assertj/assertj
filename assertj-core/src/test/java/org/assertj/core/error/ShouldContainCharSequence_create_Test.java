@@ -26,7 +26,7 @@ import static org.mockito.internal.util.collections.Sets.newSet;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**

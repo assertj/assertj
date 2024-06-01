@@ -13,7 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.TestData.someTextDescription;
+import static org.assertj.core.testkit.TestData.someTextDescription;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

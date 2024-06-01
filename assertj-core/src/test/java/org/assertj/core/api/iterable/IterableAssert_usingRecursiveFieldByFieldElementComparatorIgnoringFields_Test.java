@@ -22,8 +22,8 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.IterableElementComparisonStrategy;
 import org.assertj.core.internal.Iterables;
-import org.assertj.core.test.Name;
-import org.assertj.core.test.Player;
+import org.assertj.core.testkit.Name;
+import org.assertj.core.testkit.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -15,7 +15,7 @@ package org.assertj.core.api.chararray;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.test.CharArrays.arrayOf;
+import static org.assertj.core.testkit.CharArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.CharArrayAssert;

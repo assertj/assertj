@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 
 import org.assertj.core.util.BigDecimalComparator;
 import org.junit.jupiter.api.BeforeEach;

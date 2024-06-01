@@ -23,7 +23,7 @@ import java.util.Set;
 import com.google.common.base.Stopwatch;
 import org.assertj.core.internal.objects.data.Person;
 import org.assertj.core.internal.objects.data.PersonDtoWithPersonNeighbour;
-import org.assertj.core.test.Employee;
+import org.assertj.core.testkit.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

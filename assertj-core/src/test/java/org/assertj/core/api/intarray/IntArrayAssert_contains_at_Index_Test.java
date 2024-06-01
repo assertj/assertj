@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.intarray;
 
-import static org.assertj.core.test.TestData.someIndex;
+import static org.assertj.core.testkit.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.IntArrayAssert;

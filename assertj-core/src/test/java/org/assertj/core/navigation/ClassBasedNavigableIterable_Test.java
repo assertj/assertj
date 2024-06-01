@@ -16,10 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.assertj.core.api.ClassBasedNavigableIterableAssert;
-import org.assertj.core.test.IllegalVehicleAssert;
-import org.assertj.core.test.Vehicle;
-import org.assertj.core.test.VehicleAssert;
-import org.assertj.core.test.VehicleFactory;
+import org.assertj.core.testkit.IllegalVehicleAssert;
+import org.assertj.core.testkit.Vehicle;
+import org.assertj.core.testkit.VehicleAssert;
+import org.assertj.core.testkit.VehicleFactory;
 import org.junit.jupiter.api.Test;
 
 class ClassBasedNavigableIterable_Test extends BaseNavigableIterableAssert_Test {
@@ -35,7 +35,7 @@ class ClassBasedNavigableIterable_Test extends BaseNavigableIterableAssert_Test 
                                                                                   IllegalVehicleAssert.class)
                                                                                                              .toAssert(new VehicleFactory.Car("car"),
                                                                                                                        "unused"))
-                                                     .withMessageContaining("not access a member of class org.assertj.core.test.IllegalVehicleAssert");
+                                                     .withMessageContaining("not access a member of class org.assertj.core.testkit.IllegalVehicleAssert");
   }
 
 }

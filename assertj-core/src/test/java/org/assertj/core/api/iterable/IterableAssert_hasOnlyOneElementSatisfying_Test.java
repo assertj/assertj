@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import java.util.List;
 
 import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("deprecation")

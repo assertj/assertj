@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.test.LongArrays.emptyArray;
+import static org.assertj.core.testkit.LongArrays.emptyArray;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.mock;
 

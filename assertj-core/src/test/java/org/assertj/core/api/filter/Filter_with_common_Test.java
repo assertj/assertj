@@ -19,8 +19,8 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
-import org.assertj.core.test.Player;
-import org.assertj.core.test.WithPlayerData;
+import org.assertj.core.testkit.Player;
+import org.assertj.core.testkit.WithPlayerData;
 import org.junit.jupiter.api.Test;
 
 class Filter_with_common_Test extends WithPlayerData {

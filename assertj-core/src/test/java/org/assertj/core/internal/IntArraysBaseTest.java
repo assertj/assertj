@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.IntArrays.arrayOf;
+import static org.assertj.core.testkit.IntArrays.arrayOf;
 import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;

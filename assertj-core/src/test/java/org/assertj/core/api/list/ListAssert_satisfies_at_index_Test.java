@@ -13,7 +13,7 @@
 package org.assertj.core.api.list;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.TestData.someIndex;
+import static org.assertj.core.testkit.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import java.util.function.Consumer;

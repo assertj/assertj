@@ -15,9 +15,9 @@ package org.assertj.core.api.recursive.comparison;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
-import static org.assertj.core.test.BiPredicates.DOUBLE_EQUALS;
-import static org.assertj.core.test.BiPredicates.STRING_EQUALS;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
+import static org.assertj.core.testkit.BiPredicates.DOUBLE_EQUALS;
+import static org.assertj.core.testkit.BiPredicates.STRING_EQUALS;
 
 import java.util.Comparator;
 import java.util.function.BiPredicate;

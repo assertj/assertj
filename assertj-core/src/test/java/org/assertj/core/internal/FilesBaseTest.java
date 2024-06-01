@@ -13,7 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.util.regex.Pattern.CASE_INSENSITIVE;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;

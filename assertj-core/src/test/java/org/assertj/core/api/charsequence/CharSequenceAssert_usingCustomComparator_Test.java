@@ -18,7 +18,7 @@ import java.util.Comparator;
 
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.assertj.core.test.CaseInsensitiveCharSequenceComparator;
+import org.assertj.core.testkit.CaseInsensitiveCharSequenceComparator;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#usingComparator(Comparator)}</code>.

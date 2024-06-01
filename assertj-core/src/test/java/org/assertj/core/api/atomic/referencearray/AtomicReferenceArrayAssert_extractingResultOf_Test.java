@@ -19,8 +19,8 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
-import org.assertj.core.test.FluentJedi;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.FluentJedi;
+import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

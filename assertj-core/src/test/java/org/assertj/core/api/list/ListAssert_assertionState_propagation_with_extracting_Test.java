@@ -22,9 +22,9 @@ import static org.assertj.core.api.GroupAssertTestHelper.lastNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.throwingFirstNameExtractor;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.sql.Timestamp;
@@ -32,8 +32,8 @@ import java.util.List;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

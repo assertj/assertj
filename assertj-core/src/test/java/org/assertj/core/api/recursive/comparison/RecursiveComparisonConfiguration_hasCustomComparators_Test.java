@@ -13,7 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
 
 import java.util.function.BiPredicate;
 

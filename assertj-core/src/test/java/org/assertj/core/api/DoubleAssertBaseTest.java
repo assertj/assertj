@@ -16,7 +16,7 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Doubles;
-import org.assertj.core.test.AlwaysEqualComparator;
+import org.assertj.core.testkit.AlwaysEqualComparator;
 
 /**
  * Base class for {@link DoubleAssert} tests.

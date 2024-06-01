@@ -17,7 +17,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainEntry.shouldContainEntry;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.Maps.mapOf;
 
 import java.util.Map;
 

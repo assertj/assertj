@@ -15,7 +15,7 @@ package org.assertj.core.api.map;
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 

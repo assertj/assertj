@@ -23,7 +23,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.Object2DArrayAssert;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.test.Person;
+import org.assertj.core.testkit.Person;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

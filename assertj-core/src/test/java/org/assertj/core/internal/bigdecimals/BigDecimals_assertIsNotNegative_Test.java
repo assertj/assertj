@@ -14,7 +14,7 @@ package org.assertj.core.internal.bigdecimals;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 
 import java.math.BigDecimal;
 

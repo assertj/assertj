@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.test.MutatesGlobalConfiguration;
+import org.assertj.core.testkit.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;

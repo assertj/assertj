@@ -14,8 +14,8 @@ package org.assertj.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.AlwaysDifferentComparator.ALWAY_DIFFERENT;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.core.testkit.AlwaysDifferentComparator.ALWAY_DIFFERENT;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
 import static org.assertj.core.util.Arrays.array;
 
 import org.junit.jupiter.api.BeforeEach;

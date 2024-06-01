@@ -22,7 +22,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
 class ObjectAssert_doesNotReturn_Test {

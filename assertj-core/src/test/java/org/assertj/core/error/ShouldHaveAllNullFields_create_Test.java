@@ -21,8 +21,8 @@ import static org.assertj.core.util.Lists.list;
 import java.util.List;
 
 import org.assertj.core.internal.TestDescription;
-import org.assertj.core.test.Jedi;
-import org.assertj.core.test.Person;
+import org.assertj.core.testkit.Jedi;
+import org.assertj.core.testkit.Person;
 import org.junit.jupiter.api.Test;
 
 /**

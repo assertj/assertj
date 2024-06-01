@@ -13,7 +13,7 @@
 package org.assertj.core.api.intarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.IntArrays.arrayOf;
+import static org.assertj.core.testkit.IntArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.IntArrayAssert;

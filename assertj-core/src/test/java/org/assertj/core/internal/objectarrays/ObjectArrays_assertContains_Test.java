@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.objectarrays;
 
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

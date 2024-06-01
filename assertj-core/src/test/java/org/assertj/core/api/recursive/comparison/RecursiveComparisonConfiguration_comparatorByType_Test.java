@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
 
 import java.util.Comparator;
 import java.util.List;

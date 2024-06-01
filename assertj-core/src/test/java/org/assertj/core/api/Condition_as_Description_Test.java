@@ -15,7 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
-import static org.assertj.core.test.TestData.someTextDescription;
+import static org.assertj.core.testkit.TestData.someTextDescription;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;

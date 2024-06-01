@@ -23,7 +23,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Set;
 
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

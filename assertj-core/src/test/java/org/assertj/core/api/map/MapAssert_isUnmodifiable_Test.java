@@ -33,7 +33,7 @@ import java.util.stream.Stream;
 import org.apache.commons.collections4.map.UnmodifiableMap;
 import org.apache.commons.collections4.map.UnmodifiableSortedMap;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.test.jdk11.Jdk11;
+import org.assertj.core.testkit.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

@@ -14,7 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 
 import org.junit.jupiter.api.Test;
 

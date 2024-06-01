@@ -24,7 +24,7 @@ import java.util.function.Consumer;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
-import org.assertj.core.test.jdk11.Jdk11.List;
+import org.assertj.core.testkit.jdk11.Jdk11.List;
 import org.junit.jupiter.api.Test;
 
 /**

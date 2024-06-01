@@ -14,7 +14,7 @@ package org.assertj.core.api.double_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleAssert;

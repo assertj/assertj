@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
@@ -28,12 +28,12 @@ import java.util.List;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.internal.ObjectsBaseTest;
-import org.assertj.core.test.CartoonCharacter;
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Jedi;
-import org.assertj.core.test.Name;
-import org.assertj.core.test.Person;
-import org.assertj.core.test.Player;
+import org.assertj.core.testkit.CartoonCharacter;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Jedi;
+import org.assertj.core.testkit.Name;
+import org.assertj.core.testkit.Person;
+import org.assertj.core.testkit.Player;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
@@ -176,7 +176,7 @@ class Objects_assertIsEqualToComparingOnlyGivenFields_Test extends ObjectsBaseTe
                                                       defaultTypeComparators(), "age");
     }).withMessage(format("%nCan't find any field or property with name 'age'.%n" +
                           "Error when introspecting properties was :%n" +
-                          "- No getter for property 'age' in org.assertj.core.test.Jedi %n" +
+                          "- No getter for property 'age' in org.assertj.core.testkit.Jedi %n" +
                           "Error when introspecting fields was :%n" +
                           "- Unable to obtain the value of the field <'age'> from <Yoda the Jedi>"));
   }

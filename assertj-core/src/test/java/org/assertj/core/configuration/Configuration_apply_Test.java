@@ -21,7 +21,7 @@ import java.util.Date;
 import org.assertj.core.api.AssumptionExceptionFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.test.MutatesGlobalConfiguration;
+import org.assertj.core.testkit.MutatesGlobalConfiguration;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.Introspection;
 import org.junit.jupiter.api.AfterEach;

@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.charsequence;
 
-import static org.assertj.core.test.TestData.matchAnything;
+import static org.assertj.core.testkit.TestData.matchAnything;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.CharSequenceAssert;

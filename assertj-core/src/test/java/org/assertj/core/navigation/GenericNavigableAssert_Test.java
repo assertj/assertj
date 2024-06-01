@@ -15,10 +15,10 @@ package org.assertj.core.navigation;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.assertj.core.api.AbstractIterableAssert;
-import org.assertj.core.test.Vehicle;
-import org.assertj.core.test.VehicleAssert;
-import org.assertj.core.test.VehicleFactory;
-import org.assertj.core.test.VehicleFactory.Car;
+import org.assertj.core.testkit.Vehicle;
+import org.assertj.core.testkit.VehicleAssert;
+import org.assertj.core.testkit.VehicleFactory;
+import org.assertj.core.testkit.VehicleFactory.Car;
 import org.assertj.core.util.Streams;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

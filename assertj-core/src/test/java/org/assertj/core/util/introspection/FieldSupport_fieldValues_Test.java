@@ -20,8 +20,8 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
-import static org.assertj.core.test.CharArrays.arrayOf;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.CharArrays.arrayOf;
+import static org.assertj.core.testkit.TestData.someInfo;
 
 import java.util.stream.Stream;
 

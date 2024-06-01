@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.test.BooleanArrays.emptyArray;
+import static org.assertj.core.testkit.BooleanArrays.emptyArray;
 import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.BooleanArrays;

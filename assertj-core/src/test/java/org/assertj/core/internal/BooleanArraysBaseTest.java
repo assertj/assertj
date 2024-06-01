@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.test.BooleanArrays.arrayOf;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.BooleanArrays.arrayOf;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.WritableAssertionInfo;

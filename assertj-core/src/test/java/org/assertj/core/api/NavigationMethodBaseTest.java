@@ -14,7 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
 
 import java.util.UUID;
 

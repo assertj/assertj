@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
-import org.assertj.core.test.CaseInsensitiveStringComparator;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 class Assumptions_assumeThat_Test {

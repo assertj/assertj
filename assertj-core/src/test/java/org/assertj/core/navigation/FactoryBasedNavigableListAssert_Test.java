@@ -18,8 +18,8 @@ import java.util.List;
 
 import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.FactoryBasedNavigableListAssert;
-import org.assertj.core.test.Vehicle;
-import org.assertj.core.test.VehicleAssert;
+import org.assertj.core.testkit.Vehicle;
+import org.assertj.core.testkit.VehicleAssert;
 
 class FactoryBasedNavigableListAssert_Test extends BaseNavigableListAssert_Test {
 

@@ -12,8 +12,8 @@
  */
 package org.assertj.core.internal.doublearrays;
 
-import static org.assertj.core.test.DoubleArrays.arrayOf;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.DoubleArrays.arrayOf;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 

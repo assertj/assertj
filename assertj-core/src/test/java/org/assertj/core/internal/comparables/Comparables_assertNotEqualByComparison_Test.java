@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
@@ -26,8 +26,8 @@ import java.util.Comparator;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparablesBaseTest;
-import org.assertj.core.test.Person;
-import org.assertj.core.test.PersonCaseInsensitiveNameComparator;
+import org.assertj.core.testkit.Person;
+import org.assertj.core.testkit.PersonCaseInsensitiveNameComparator;
 import org.junit.jupiter.api.Test;
 
 /**

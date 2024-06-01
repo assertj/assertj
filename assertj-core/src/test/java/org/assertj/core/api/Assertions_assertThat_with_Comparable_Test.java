@@ -15,7 +15,7 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.Test;
 
 class Assertions_assertThat_with_Comparable_Test {

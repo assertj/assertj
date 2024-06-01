@@ -19,7 +19,7 @@ import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyExactly;
 import static org.assertj.core.error.ElementsShouldSatisfy.unsatisfiedRequirement;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;

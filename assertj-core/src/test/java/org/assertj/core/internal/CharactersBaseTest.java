@@ -14,7 +14,7 @@ package org.assertj.core.internal;
 
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.test.CaseInsensitiveCharacterComparator;
+import org.assertj.core.testkit.CaseInsensitiveCharacterComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**

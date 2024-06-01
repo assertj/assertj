@@ -14,7 +14,7 @@ package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 

@@ -14,7 +14,7 @@ package org.assertj.core.api.doublearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.withPrecision;
-import static org.assertj.core.test.DoubleArrays.arrayOf;
+import static org.assertj.core.testkit.DoubleArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleArrayAssert;

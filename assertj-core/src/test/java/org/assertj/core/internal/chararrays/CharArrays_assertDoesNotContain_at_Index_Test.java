@@ -18,9 +18,9 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotContainAtIndex.shouldNotContainAtIndex;
-import static org.assertj.core.test.CharArrays.emptyArray;
-import static org.assertj.core.test.TestData.someIndex;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.CharArrays.emptyArray;
+import static org.assertj.core.testkit.TestData.someIndex;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 

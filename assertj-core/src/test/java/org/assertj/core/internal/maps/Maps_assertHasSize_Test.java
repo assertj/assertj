@@ -15,8 +15,8 @@ package org.assertj.core.internal.maps;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
-import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.Map;

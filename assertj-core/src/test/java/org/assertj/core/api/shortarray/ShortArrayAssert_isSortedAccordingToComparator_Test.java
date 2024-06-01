@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api.shortarray;
 
-import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;

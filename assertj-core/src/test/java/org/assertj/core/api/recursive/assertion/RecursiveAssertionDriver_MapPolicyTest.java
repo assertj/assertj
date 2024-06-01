@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.assertj.core.api.recursive.comparison.FieldLocation;
-import org.assertj.core.test.jdk11.Jdk11;
+import org.assertj.core.testkit.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 
 class RecursiveAssertionDriver_MapPolicyTest extends AbstractRecursiveAssertionDriverTestBase {

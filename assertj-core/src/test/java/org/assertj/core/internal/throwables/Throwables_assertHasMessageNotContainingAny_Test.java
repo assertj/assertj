@@ -14,7 +14,7 @@ package org.assertj.core.internal.throwables;
 
 import static java.util.Collections.singleton;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;

@@ -16,7 +16,7 @@ import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Floats;
-import org.assertj.core.test.AlwaysEqualComparator;
+import org.assertj.core.testkit.AlwaysEqualComparator;
 
 /**
  * Base class for {@link FloatAssert} tests.

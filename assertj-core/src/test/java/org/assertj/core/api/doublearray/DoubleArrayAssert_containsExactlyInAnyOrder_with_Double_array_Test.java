@@ -15,7 +15,7 @@ package org.assertj.core.api.doublearray;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.test.DoubleArrays.arrayOf;
+import static org.assertj.core.testkit.DoubleArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.DoubleArrayAssert;

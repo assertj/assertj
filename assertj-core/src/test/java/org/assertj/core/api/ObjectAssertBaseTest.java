@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 
 /**
  * Base class for {@link ObjectAssert} tests.

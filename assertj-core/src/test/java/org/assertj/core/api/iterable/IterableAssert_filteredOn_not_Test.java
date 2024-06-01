@@ -20,11 +20,11 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.Name.lastNameComparator;
-import static org.assertj.core.test.Name.name;
+import static org.assertj.core.testkit.Name.lastNameComparator;
+import static org.assertj.core.testkit.Name.name;
 
 import org.assertj.core.api.IterableAssert;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 

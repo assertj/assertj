@@ -15,7 +15,7 @@ package org.assertj.core.api.abstract_;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;

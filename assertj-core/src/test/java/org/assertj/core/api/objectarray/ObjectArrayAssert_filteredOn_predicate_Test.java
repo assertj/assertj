@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 
 import java.util.function.Predicate;
 
-import org.assertj.core.test.Employee;
+import org.assertj.core.testkit.Employee;
 import org.junit.jupiter.api.Test;
 
 class ObjectArrayAssert_filteredOn_predicate_Test extends ObjectArrayAssert_filtered_baseTest {

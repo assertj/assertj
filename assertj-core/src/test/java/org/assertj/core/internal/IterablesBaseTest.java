@@ -13,7 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.spy;
 

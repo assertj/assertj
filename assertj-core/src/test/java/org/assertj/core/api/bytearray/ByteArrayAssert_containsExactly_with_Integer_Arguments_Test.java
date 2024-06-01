@@ -13,13 +13,13 @@
 package org.assertj.core.api.bytearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ByteArrays.arrayOf;
+import static org.assertj.core.testkit.ByteArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
-import org.assertj.core.test.IntArrays;
+import org.assertj.core.testkit.IntArrays;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 

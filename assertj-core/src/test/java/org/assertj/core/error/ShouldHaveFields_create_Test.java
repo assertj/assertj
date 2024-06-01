@@ -20,7 +20,7 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.test.Person;
+import org.assertj.core.testkit.Person;
 import org.junit.jupiter.api.Test;
 
 class ShouldHaveFields_create_Test {
@@ -35,7 +35,7 @@ class ShouldHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting%n"
-                                   + "  org.assertj.core.test.Person%n"
+                                   + "  org.assertj.core.testkit.Person%n"
                                    + "to have the following public accessible fields:%n"
                                    + "  [\"name\", \"address\"]%n"
                                    + "but it doesn't have:%n"
@@ -52,7 +52,7 @@ class ShouldHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n"
                                    + "Expecting%n"
-                                   + "  org.assertj.core.test.Person%n"
+                                   + "  org.assertj.core.testkit.Person%n"
                                    + "to have the following declared fields:%n"
                                    + "  [\"name\", \"address\"]%n"
                                    + "but it doesn't have:%n"

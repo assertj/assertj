@@ -18,8 +18,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldBeEqualNormalizingWhitespace.shouldBeEqualNormalizingWhitespace;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
-import static org.assertj.core.test.CharArrays.arrayOf;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.CharArrays.arrayOf;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.stream.Stream;

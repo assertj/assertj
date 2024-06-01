@@ -15,8 +15,8 @@ package org.assertj.core.api.floatarray;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
 import static org.assertj.core.api.Assertions.withPrecision;
-import static org.assertj.core.test.FloatArrays.arrayOf;
-import static org.assertj.core.test.TestData.someIndex;
+import static org.assertj.core.testkit.FloatArrays.arrayOf;
+import static org.assertj.core.testkit.TestData.someIndex;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FloatArrayAssert;

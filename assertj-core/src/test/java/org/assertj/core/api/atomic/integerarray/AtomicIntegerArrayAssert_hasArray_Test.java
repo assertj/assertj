@@ -13,7 +13,7 @@
 package org.assertj.core.api.atomic.integerarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.IntArrays.arrayOf;
+import static org.assertj.core.testkit.IntArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import java.util.concurrent.atomic.AtomicIntegerArray;

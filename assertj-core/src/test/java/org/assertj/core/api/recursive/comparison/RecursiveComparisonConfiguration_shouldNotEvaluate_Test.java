@@ -30,8 +30,8 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Person;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

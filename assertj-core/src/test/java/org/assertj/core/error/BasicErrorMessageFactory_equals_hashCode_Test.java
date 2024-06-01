@@ -13,10 +13,10 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
-import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
-import static org.assertj.core.test.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
-import static org.assertj.core.test.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
+import static org.assertj.core.testkit.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
+import static org.assertj.core.testkit.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
+import static org.assertj.core.testkit.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
+import static org.assertj.core.testkit.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

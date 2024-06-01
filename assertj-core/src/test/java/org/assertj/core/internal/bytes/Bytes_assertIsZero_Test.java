@@ -13,9 +13,9 @@
 package org.assertj.core.internal.bytes;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.test.TestData.someHexInfo;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.TestData.someHexInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;

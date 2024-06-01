@@ -17,7 +17,7 @@ import static org.mockito.Mockito.mock;
 import java.util.Spliterator;
 
 import org.assertj.core.internal.Spliterators;
-import org.assertj.core.test.StringSpliterator;
+import org.assertj.core.testkit.StringSpliterator;
 
 public abstract class SpliteratorAssertBaseTest extends BaseTestTemplate<SpliteratorAssert<String>, Spliterator<String>> {
 

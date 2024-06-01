@@ -12,7 +12,7 @@
  */
 package org.assertj.core.util.introspection.beans;
 
-import org.assertj.core.test.Person;
+import org.assertj.core.testkit.Person;
 
 public class SuperHero extends Person {
 

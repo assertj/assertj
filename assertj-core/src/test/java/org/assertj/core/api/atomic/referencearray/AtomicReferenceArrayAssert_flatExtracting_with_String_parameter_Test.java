@@ -18,7 +18,7 @@ import static org.assertj.core.util.Arrays.array;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
 
-import org.assertj.core.test.CartoonCharacter;
+import org.assertj.core.testkit.CartoonCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

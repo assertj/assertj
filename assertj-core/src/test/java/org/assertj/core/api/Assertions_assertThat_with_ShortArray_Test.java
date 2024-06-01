@@ -13,7 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ShortArrays.emptyArray;
+import static org.assertj.core.testkit.ShortArrays.emptyArray;
 
 import org.junit.jupiter.api.Test;
 

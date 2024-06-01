@@ -15,7 +15,7 @@ package org.assertj.core.error;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainValues.shouldContainValues;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Map;

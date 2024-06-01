@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.not;
 
 import org.assertj.core.api.Condition;
-import org.assertj.core.test.Employee;
+import org.assertj.core.testkit.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

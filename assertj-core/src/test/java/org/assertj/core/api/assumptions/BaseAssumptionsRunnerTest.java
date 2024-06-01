@@ -21,7 +21,7 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.data.TolkienCharacter.Race;
-import org.assertj.core.test.CartoonCharacter;
+import org.assertj.core.testkit.CartoonCharacter;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 

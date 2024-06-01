@@ -15,17 +15,17 @@ package org.assertj.core.api.recursive.comparison;
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.test.AlwaysDifferentComparator.alwaysDifferent;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
-import static org.assertj.core.test.BiPredicates.DOUBLE_EQUALS;
-import static org.assertj.core.test.BiPredicates.STRING_EQUALS;
+import static org.assertj.core.testkit.AlwaysDifferentComparator.alwaysDifferent;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
+import static org.assertj.core.testkit.BiPredicates.DOUBLE_EQUALS;
+import static org.assertj.core.testkit.BiPredicates.STRING_EQUALS;
 
 import java.time.ZonedDateTime;
 import java.util.Comparator;
 import java.util.UUID;
 
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.test.AlwaysEqualComparator;
+import org.assertj.core.testkit.AlwaysEqualComparator;
 import org.assertj.core.util.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

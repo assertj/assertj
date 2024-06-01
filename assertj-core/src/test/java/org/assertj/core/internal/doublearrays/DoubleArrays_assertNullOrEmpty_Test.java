@@ -14,8 +14,8 @@ package org.assertj.core.internal.doublearrays;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
-import static org.assertj.core.test.DoubleArrays.emptyArray;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.DoubleArrays.emptyArray;
+import static org.assertj.core.testkit.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.DoubleArrays;

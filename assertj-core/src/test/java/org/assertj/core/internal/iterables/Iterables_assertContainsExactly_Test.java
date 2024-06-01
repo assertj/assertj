@@ -22,7 +22,7 @@ import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactlyWithIndexes;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
-import static org.assertj.core.test.ObjectArrays.emptyArray;
+import static org.assertj.core.testkit.ObjectArrays.emptyArray;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;

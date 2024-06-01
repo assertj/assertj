@@ -19,17 +19,17 @@ import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFie
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.util.Arrays.array;
 
 import java.sql.Timestamp;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.ObjectArrayAssert;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
-import org.assertj.core.test.FluentJedi;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.core.testkit.FluentJedi;
+import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

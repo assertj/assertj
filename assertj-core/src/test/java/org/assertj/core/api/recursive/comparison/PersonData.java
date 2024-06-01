@@ -13,7 +13,7 @@
 package org.assertj.core.api.recursive.comparison;
 
 import org.assertj.core.internal.objects.data.PersonDto;
-import org.assertj.core.test.Person;
+import org.assertj.core.testkit.Person;
 
 public interface PersonData {
 

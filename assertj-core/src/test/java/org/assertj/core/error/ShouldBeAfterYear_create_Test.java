@@ -16,7 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeAfterYear.shouldBeAfterYear;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
+import static org.assertj.core.testkit.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.util.DateUtil.parse;
 
 import org.assertj.core.description.TextDescription;

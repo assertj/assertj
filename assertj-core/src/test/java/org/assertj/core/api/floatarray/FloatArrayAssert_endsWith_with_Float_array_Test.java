@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.withPrecision;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.test.FloatArrays.arrayOf;
+import static org.assertj.core.testkit.FloatArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.FloatArrayAssert;

@@ -14,7 +14,7 @@ package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.filter.Filters.filter;
 
-import org.assertj.core.test.Player;
+import org.assertj.core.testkit.Player;
 
 class Filter_with_property_equals_to_given_value_short_version_Test extends AbstractTest_equals_filter {
 

@@ -16,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.FactoryBasedNavigableIterableAssert;
-import org.assertj.core.test.Vehicle;
-import org.assertj.core.test.VehicleAssert;
+import org.assertj.core.testkit.Vehicle;
+import org.assertj.core.testkit.VehicleAssert;
 
 class FactoryBasedNavigableIterableAssert_Test extends BaseNavigableIterableAssert_Test {
 

@@ -15,7 +15,7 @@ package org.assertj.core.api.longarray;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.test.LongArrays.arrayOf;
+import static org.assertj.core.testkit.LongArrays.arrayOf;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.LongArrayAssert;

@@ -13,7 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
-import static org.assertj.core.test.TypeCanonizer.canonize;
+import static org.assertj.core.testkit.TypeCanonizer.canonize;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 

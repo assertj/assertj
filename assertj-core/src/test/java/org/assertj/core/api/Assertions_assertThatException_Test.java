@@ -15,7 +15,7 @@ package org.assertj.core.api;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatException;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.ThrowingCallableFactory.codeThrowing;
+import static org.assertj.core.testkit.ThrowingCallableFactory.codeThrowing;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;

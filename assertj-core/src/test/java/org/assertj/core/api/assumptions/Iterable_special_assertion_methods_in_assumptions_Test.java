@@ -24,7 +24,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.IterableAssert;
 import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.test.CartoonCharacter;
+import org.assertj.core.testkit.CartoonCharacter;
 
 /**
  * verify that assertions final methods or methods changing the object under test in {@link IterableAssert} work with assumptions

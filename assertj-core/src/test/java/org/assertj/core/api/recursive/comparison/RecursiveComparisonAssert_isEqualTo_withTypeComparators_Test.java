@@ -16,10 +16,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
-import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
+import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.testkit.NeverEqualComparator.NEVER_EQUALS;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -37,10 +37,10 @@ import org.assertj.core.internal.objects.data.Address;
 import org.assertj.core.internal.objects.data.AlwaysEqualPerson;
 import org.assertj.core.internal.objects.data.Giant;
 import org.assertj.core.internal.objects.data.Person;
-import org.assertj.core.test.AlwaysDifferentComparator;
-import org.assertj.core.test.AlwaysEqualComparator;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
-import org.assertj.core.test.Patient;
+import org.assertj.core.testkit.AlwaysDifferentComparator;
+import org.assertj.core.testkit.AlwaysEqualComparator;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.core.testkit.Patient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -192,7 +192,7 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
                                                                                                         Timestamp.class)
                                                                                  .isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessageContaining("- java.sql.Timestamp -> org.assertj.core.test.NeverEqualComparator");
+    then(assertionError).hasMessageContaining("- java.sql.Timestamp -> org.assertj.core.testkit.NeverEqualComparator");
   }
 
   @Test

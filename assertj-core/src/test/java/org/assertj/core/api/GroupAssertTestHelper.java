@@ -17,7 +17,7 @@ import java.util.function.Function;
 
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.internal.TypeComparators;
-import org.assertj.core.test.Employee;
+import org.assertj.core.testkit.Employee;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 public class GroupAssertTestHelper {

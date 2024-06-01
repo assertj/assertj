@@ -22,7 +22,7 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.assertj.core.test.StringStream;
+import org.assertj.core.testkit.StringStream;
 import org.junit.jupiter.api.Test;
 
 class Assertions_assertThat_with_Stream_Test {

@@ -14,7 +14,7 @@ package org.assertj.core.util.introspection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
 class FieldSupport_isAllowedToReadField_Test {

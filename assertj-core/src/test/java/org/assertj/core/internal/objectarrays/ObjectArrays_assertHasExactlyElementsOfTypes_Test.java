@@ -15,7 +15,7 @@ package org.assertj.core.internal.objectarrays;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveExactlyTypes.elementsTypesDifferAtIndex;
 import static org.assertj.core.error.ShouldHaveExactlyTypes.shouldHaveTypes;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;

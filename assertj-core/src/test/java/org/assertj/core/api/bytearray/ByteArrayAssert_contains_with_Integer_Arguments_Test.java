@@ -17,7 +17,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
-import org.assertj.core.test.IntArrays;
+import org.assertj.core.testkit.IntArrays;
 import org.junit.jupiter.api.Test;
 
 /**

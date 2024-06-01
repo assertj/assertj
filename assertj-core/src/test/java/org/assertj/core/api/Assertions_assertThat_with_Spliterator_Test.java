@@ -18,7 +18,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import java.util.Spliterator;
 import java.util.stream.Stream;
 
-import org.assertj.core.test.StringSpliterator;
+import org.assertj.core.testkit.StringSpliterator;
 import org.junit.jupiter.api.Test;
 
 /**

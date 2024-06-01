@@ -16,7 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
-import org.assertj.core.test.CaseInsensitiveCharSequenceComparator;
+import org.assertj.core.testkit.CaseInsensitiveCharSequenceComparator;
 
 class StringAssert_usingCustomComparator_Test extends StringAssertBaseTest {
 

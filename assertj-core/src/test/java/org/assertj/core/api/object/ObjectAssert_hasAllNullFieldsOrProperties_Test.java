@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.ObjectAssertBaseTest;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 
 /**
  * Tests for <code>{@link ObjectAssert#hasAllNullFieldsOrProperties()}</code>.

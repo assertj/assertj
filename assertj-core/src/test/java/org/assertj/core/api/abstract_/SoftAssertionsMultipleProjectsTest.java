@@ -13,7 +13,7 @@
 package org.assertj.core.api.abstract_; // Make sure that package-private access is lost
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 
 import java.util.List;
 
