@@ -34,7 +34,7 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   // - d+ any number
   // - \] represents ] in a regex
   // - $ represents the end of the string in a regex
-  private static final String TOP_LEVEL_ELEMENT_PATTERN = "^\\[\\d+\\]$";
+  private static final String TOP_LEVEL_ELEMENT_PATTERN = "^\\[\\d+]$";
   private static final String FIELD = "field/property '%s'";
   private static final String TOP_LEVEL_OBJECTS = "Top level actual and expected objects";
   private static final String TOP_LEVEL_ELEMENTS = "Top level actual and expected objects element at index %s";
@@ -98,11 +98,10 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
 
   @Override
   public String toString() {
-    return additionalInformation.isPresent()
-        ? format("ComparisonDifference [path=%s, actual=%s, expected=%s, template=%s, additionalInformation=%s]",
-                 concatenatedPath, actual, expected, template, additionalInformation.get())
-        : format("ComparisonDifference [path=%s, actual=%s, template=%s, expected=%s]",
-                 concatenatedPath, actual, template, expected);
+    return additionalInformation.map(s -> format("ComparisonDifference [path=%s, actual=%s, expected=%s, template=%s, additionalInformation=%s]",
+                                                 concatenatedPath, actual, expected, template, s))
+                                .orElseGet(() -> format("ComparisonDifference [path=%s, actual=%s, template=%s, expected=%s]",
+                                                        concatenatedPath, actual, template, expected));
   }
 
   public String multiLineDescription() {
@@ -129,10 +128,8 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
 
   private static String extractIndex(String path) {
     // path looks like [12]
-    // index = 12]
     String index = path.substring(1);
-    // index = 12
-    return index.replaceFirst("\\]", "");
+    return index.replaceFirst("]", "");
   }
 
   private static String formatOnNewline(String info) {

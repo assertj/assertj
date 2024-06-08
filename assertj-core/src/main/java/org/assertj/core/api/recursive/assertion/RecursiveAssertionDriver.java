@@ -243,9 +243,8 @@ public class RecursiveAssertionDriver {
   }
 
   private void evaluateFieldsOfCurrentNodeRecursively(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
-    configuration.getIntrospectionStrategy().getChildNodesOf(node).forEach(field -> {
-      assertRecursively(predicate, field.value, field.type, fieldLocation.field(field.name));
-    });
+    configuration.getIntrospectionStrategy().getChildNodesOf(node)
+                 .forEach(field -> assertRecursively(predicate, field.value, field.type, fieldLocation.field(field.name)));
   }
 
   private boolean markNodeAsVisited(Object node) {

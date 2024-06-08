@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -82,7 +83,7 @@ public class FieldComparators extends FieldHolder<Comparator<?>> {
     // no comparator for exact location, check if there is a regex that matches the field location
     return comparatorByPatterns.stream()
                                .map(comparatorForPatterns -> comparatorForPatterns.getComparatorForField(fieldLocation))
-                               .filter(comparator -> comparator != null)
+                               .filter(Objects::nonNull)
                                .findFirst()
                                .orElse(null);
   }

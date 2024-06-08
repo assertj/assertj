@@ -18,9 +18,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 // special deque that can ignore DualKey according to RecursiveComparisonConfiguration.
-@SuppressWarnings("serial")
 class DualValueDeque extends LinkedList<DualValue> {
-  private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
+  private final RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   public DualValueDeque(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;

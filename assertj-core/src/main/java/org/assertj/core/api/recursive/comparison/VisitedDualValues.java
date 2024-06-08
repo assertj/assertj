@@ -20,7 +20,7 @@ import static java.lang.String.format;
 
 class VisitedDualValues {
 
-  private List<VisitedDualValue> dualValues;
+  private final List<VisitedDualValue> dualValues;
 
   VisitedDualValues() {
     this.dualValues = new ArrayList<>();

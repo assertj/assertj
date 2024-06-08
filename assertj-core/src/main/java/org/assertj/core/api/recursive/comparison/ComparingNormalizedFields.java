@@ -94,7 +94,7 @@ public abstract class ComparingNormalizedFields implements RecursiveComparisonIn
    * @param fieldName the field name to normalize
    * @return the normalized field name
    */
-  private String normalize(Class nodeClass, String fieldName) {
+  private String normalize(Class<?> nodeClass, String fieldName) {
     if (!originalFieldNameByNormalizedFieldNameByType.containsKey(nodeClass)) {
       originalFieldNameByNormalizedFieldNameByType.put(nodeClass, new HashMap<>());
     }

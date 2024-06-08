@@ -1257,9 +1257,9 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
     /**
      * Adds the given types to the set of fields from the object under test to compare in the recursive comparison.
-     * See {@link RecursiveComparisonAssert#comparingOnlyFieldsOfTypes(Class[])} (String...)} for examples.
+     * See {@link RecursiveComparisonAssert#comparingOnlyFieldsOfTypes(Class[])} for examples.
      *
-     * @param comparedTypes the types to compare in the recursive comparison..
+     * @param comparedTypes the types to compare in the recursive comparison.
      * @return this builder.
      */
     public Builder withComparedTypes(Class<?>... comparedTypes) {

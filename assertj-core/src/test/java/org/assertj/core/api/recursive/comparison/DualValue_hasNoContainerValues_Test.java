@@ -28,20 +28,18 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayName("DualValue hasNoContainerType")
 class DualValue_hasNoContainerValues_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 
   @ParameterizedTest(name = "actual {0} / expected {1}")
   @MethodSource("values")
-  void should_return_false_when_actual_or_expected_is_a_container_type_and_true_otherwise(Object actual, Object expected,
-                                                                                          boolean expectedResult) {
+  void should_return_false_when_actual_or_expected_is_a_container_value_and_true_otherwise(Object actual, Object expected,
+                                                                                           boolean expectedResult) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, expected);
     // WHEN

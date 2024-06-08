@@ -16,8 +16,8 @@ import static java.lang.String.format;
 import static java.lang.System.identityHashCode;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.internal.RecursiveHelper.isContainer;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
+import static org.assertj.core.internal.RecursiveHelper.isContainer;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 
@@ -319,7 +319,6 @@ public final class DualValue {
     return !isContainer(actual) && !isExpectedAContainer();
   }
 
-  // TODO test
   public boolean isExpectedAContainer() {
     return isContainer(expected);
   }

@@ -410,20 +410,6 @@ public class RecursiveComparisonDifferenceCalculator {
     return comparisonState.getDifferences();
   }
 
-  private static boolean isChildOfSpecifiedComparatorField(DualValue dualValue, FieldLocation field) {
-
-    return field.getPathToUseInRules()
-                // Check if the comparator field is relevant by checking if the path validated so far matches
-                // &&
-                // Check if it has a child field still waiting to be validated.
-                .startsWith(dualValue.fieldLocation.getPathToUseInRules())
-           && field.getDecomposedPath().size() > dualValue.fieldLocation.getDecomposedPath().size();
-  }
-
-  private static String getChildFieldForValidation(FieldLocation field, FieldLocation fieldValue) {
-    return field.getDecomposedPath().get(fieldValue.getDecomposedPath().size());
-  }
-
   // avoid comparing enum recursively since they contain static fields which are ignored in recursive comparison
   // this would make different field enum value to be considered the same!
   private static void compareAsEnums(final DualValue dualValue, ComparisonState comparisonState,
