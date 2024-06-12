@@ -65,16 +65,17 @@ public interface Representation {
   String toStringOf(Object object);
 
   /**
-   * Override this method to return a {@code String} representation of the given object that is unambigous so that it can 
+   * Override this method to return a {@code String} representation of the given object that is unambigous so that it can
    * be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
    * <p>
-   * The default implementation calls {@link #toStringOf(Object)} but the {@link StandardRepresentation} adds 
-   * the object hexadecimal identity hash code.   
+   * The default implementation calls {@link #toStringOf(Object)} but the {@link StandardRepresentation} adds
+   * the object hexadecimal identity hash code.
    *
-   * @param object the object to represent.
+   * @param object                         the object to represent.
+   * @param shouldKeepPackage              if we should display the object's package
    * @return the unambiguous {@code toString} representation of the given object.
    */
-  default String unambiguousToStringOf(Object object) {
+  default String unambiguousToStringOf(Object object, boolean shouldKeepPackage) {
     return toStringOf(object);
   }
 

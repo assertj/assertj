@@ -19,7 +19,7 @@ import org.assertj.core.presentation.Representation;
 /**
  * Utility class around {@link Representation} to provide the {@link Representation#toStringOf(Object) toStringOf}
  * representations of {@code actual} and {@code expected} when they are different, and their
- * {@link Representation#unambiguousToStringOf(Object) unambiguousToStringOf} representations if not.
+ * {@link Representation#unambiguousToStringOf(Object, boolean) unambiguousToStringOf} representations if not.
  */
 public class UnambiguousRepresentation {
 
@@ -33,10 +33,10 @@ public class UnambiguousRepresentation {
 
     boolean sameRepresentation = Objects.equals(actualRepresentation, expectedRepresentation);
     this.actual = sameRepresentation
-        ? representation.unambiguousToStringOf(actual)
+        ? representation.unambiguousToStringOf(actual, false)
         : actualRepresentation;
     this.expected = sameRepresentation
-        ? representation.unambiguousToStringOf(expected)
+        ? representation.unambiguousToStringOf(expected, false)
         : expectedRepresentation;
   }
 
