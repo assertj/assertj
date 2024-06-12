@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import org.assertj.core.data.Index;
@@ -397,4 +398,9 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
     return super.withThreadDumpOnError();
   }
 
+  @Override
+  protected final <T> T acceptVisitor(CollectionVisitor<? extends T> visitor) {
+    Objects.requireNonNull(visitor, "visitor can't be null");
+    return visitor.visitList(actual);
+  }
 }
