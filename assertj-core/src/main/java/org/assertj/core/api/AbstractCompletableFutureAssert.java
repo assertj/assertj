@@ -243,6 +243,35 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   /**
+   * Verifies that the {@link CompletableFuture} will complete normally withing given {@link Duration} with a value
+   * that matches the given {@link Predicate}.
+   * <p>
+   * Assertion succeeds:
+   * <pre><code class='java'> assertThat(completedFuture("something")).isCompletedWithValueMatchingWithin(result -&gt; result.equals("something"),
+   *                                                                            Duration.ofSeconds(10));</code></pre>
+   * <p>
+   * Assertions fail:
+   * <pre><code class='java'> assertThat(failedFuture("something")).isCompletedWithValueMatchingWithin(result -&gt; result.equals("something"),
+   *                                                                         Duration.ofSeconds(10));
+   * Future futureCompletedAfterFiveSeconds = ... ;
+   * assertThat(futureCompletedAfterFiveSeconds).isCompletedWithValueMatchingWithin(result -&gt; result.equals("something"),
+   *                                                                                Duration.ofSeconds(10));</code></pre>
+   *
+   * @param resultPredicate    the {@link Predicate} to apply.
+   * @param completionDuration the maximum time to wait
+   * @return a new assertion object on the future's result.
+   * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
+   * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout with the satisfying value.
+   */
+  public SELF isCompletedWithValueMatchingWithin(Predicate<RESULT> resultPredicate, Duration completionDuration) {
+    RESULT actualResult = futures.assertSucceededWithin(info, actual, completionDuration);
+    if (!resultPredicate.test(actualResult)) {
+      throw Failures.instance().failure(info, shouldMatch(actualResult, resultPredicate, PredicateDescription.GIVEN));
+    }
+    return myself;
+  }
+
+  /**
    * Verifies that the {@link CompletableFuture} is completed normally with a result matching the {@code predicate}.
    * <p>
    * Assertion will pass :
