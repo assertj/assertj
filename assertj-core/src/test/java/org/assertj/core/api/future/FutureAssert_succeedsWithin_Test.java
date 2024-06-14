@@ -98,15 +98,4 @@ class FutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
-
-  private static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration, ExecutorService service) {
-    CompletableFuture<U> completableFuture = new CompletableFuture<>();
-    service.submit(() -> {
-      Thread.sleep(sleepDuration);
-      completableFuture.complete(value);
-      return null;
-    });
-    return completableFuture;
-  }
-
 }
