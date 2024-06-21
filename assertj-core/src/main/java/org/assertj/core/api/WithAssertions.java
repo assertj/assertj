@@ -102,13 +102,13 @@ import org.assertj.core.util.CheckReturnValue;
 
 /**
  * A unified entry point to all non-deprecated assertions from both the new Java 8 core API and the pre-Java 8 core API.
- *
+ * <p>
  * As a convenience, the methods are defined in an interface so that no static imports are necessary if the test class
  * implements this interface.
- *
+ * <p>
  * Based on an idea by David Gageot :
- *
- * http://blog.javabien.net/2014/04/23/what-if-assertj-used-java-8/
+ * <p>
+ * <a href="http://blog.javabien.net/2014/04/23/what-if-assertj-used-java-8/">http://blog.javabien.net/2014/04/23/what-if-assertj-used-java-8/</a>
  *
  * @author Alan Rothkopf
  *
@@ -1811,6 +1811,23 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
+   * Assertions entry point for {@link Duration} with less than or equal condition to use with isCloseTo temporal assertions.
+   * <p>
+   * Typical usage:
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12);
+   * assertThat(_07_10).isCloseTo(_07_12, within(Duration.ofMinutes(5)));</code></pre>
+   *
+   * @param duration the {@link Duration} of the offset
+   * @return the created {@code Offset}.
+   * @since 3.27.0
+   * @see #byLessThan(Duration)
+   */
+  default TemporalUnitOffset within(Duration duration) {
+    return Assertions.within(duration);
+  }
+
+  /**
    * Syntactic sugar method to use with {@link AbstractDurationAssert#isCloseTo(Duration, Duration)} assertion.
    * <p>
    * Example:
@@ -2018,6 +2035,23 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
     return Assertions.byLessThan(value, unit);
+  }
+
+  /**
+   * Assertions entry point for {@link Duration} with strict less than condition to use with {@code isCloseTo} temporal assertions.
+   * <p>
+   * Typical usage:
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12);
+   * assertThat(_07_10).isCloseTo(_07_12, byLessThan(Duration.ofMinutes(5)));</code></pre>
+   *
+   * @param duration the {@link Duration} of the offset.
+   * @return the created {@code Offset}.
+   * @since 3.27.0
+   * @see #within(Duration)
+   */
+  default TemporalUnitOffset byLessThan(Duration duration) {
+    return Assertions.byLessThan(duration);
   }
 
   /**

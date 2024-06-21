@@ -2966,6 +2966,23 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Assertions entry point for {@link Duration} with less than or equal condition to use with isCloseTo temporal assertions.
+   * <p>
+   * Typical usage:
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12);
+   * then(_07_10).isCloseTo(_07_12, within(Duration.ofMinutes(5)));</code></pre>
+   *
+   * @param duration the {@link Duration} of the offset
+   * @return the created {@code Offset}.
+   * @since 3.27.0
+   * @see #byLessThan(Duration)
+   */
+  public static TemporalUnitOffset within(Duration duration) {
+    return Assertions.within(duration);
+  }
+
+  /**
    * Syntactic sugar method to use with {@link AbstractDurationAssert#isCloseTo(Duration, Duration)} assertion.
    * <p>
    * Example:
@@ -3194,6 +3211,23 @@ public class BDDAssertions extends Assertions {
    */
   public static TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
     return Assertions.byLessThan(value, unit);
+  }
+
+  /**
+   * Assertions entry point for {@link Duration} with strict less than condition to use with {@code isCloseTo} temporal assertions.
+   * <p>
+   * Typical usage:
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12);
+   * then(_07_10).isCloseTo(_07_12, byLessThan(Duration.ofMinutes(5)));</code></pre>
+   *
+   * @param duration the {@link Duration} of the offset.
+   * @return the created {@code Offset}.
+   * @since 3.27.0
+   * @see #within(Duration)
+   */
+  public static TemporalUnitOffset byLessThan(Duration duration) {
+    return Assertions.byLessThan(duration);
   }
 
   /**

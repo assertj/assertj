@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.Percentage.withPercentage;
 
@@ -36,6 +37,7 @@ import java.time.OffsetTime;
 import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 import java.util.Collection;
@@ -2455,6 +2457,24 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Assertions entry point for {@link Duration} with less than or equal condition to use with isCloseTo temporal assertions.
+   * <p>
+   * Typical usage:
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12);
+   * assertThat(_07_10).isCloseTo(_07_12, within(Duration.ofMinutes(5)));</code></pre>
+   *
+   * @param duration the {@link Duration} of the offset
+   * @return the created {@code Offset}.
+   * @since 3.27.0
+   * @see #byLessThan(Duration)
+   */
+  public static TemporalUnitOffset within(Duration duration) {
+    requireNonNull(duration, "non null duration expected");
+    return new TemporalUnitWithinOffset(duration.toNanos(), ChronoUnit.NANOS);
+  }
+
+  /**
    * Assertions entry point for {@link TemporalUnitOffset} with less than or equal condition
    * to use with isCloseTo temporal assertions.
    * <p>
@@ -2660,6 +2680,24 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static Offset<Long> byLessThan(Long value) {
     return Offset.strictOffset(value);
+  }
+
+  /**
+   * Assertions entry point for {@link Duration} with strict less than condition to use with {@code isCloseTo} temporal assertions.
+   * <p>
+   * Typical usage:
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12);
+   * assertThat(_07_10).isCloseTo(_07_12, byLessThan(Duration.ofMinutes(5)));</code></pre>
+   *
+   * @param duration the {@link Duration} of the offset.
+   * @return the created {@code Offset}.
+   * @since 3.27.0
+   * @see #within(Duration)
+   */
+  public static TemporalUnitOffset byLessThan(Duration duration) {
+    requireNonNull(duration, "non null duration expected");
+    return new TemporalUnitLessThanOffset(duration.toNanos(), ChronoUnit.NANOS);
   }
 
   /**
