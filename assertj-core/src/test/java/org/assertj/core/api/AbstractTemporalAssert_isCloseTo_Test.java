@@ -35,15 +35,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
@@ -52,8 +44,10 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.TemporalUnitOffset;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class AbstractTemporalAssert_isCloseTo_Test {
@@ -304,4 +298,23 @@ class AbstractTemporalAssert_isCloseTo_Test {
   public static Stream<Temporal> should_support_base_temporal_type_assertions() {
     return Stream.of(Instant.now(), ZonedDateTime.now(), OffsetDateTime.now());
   }
+
+  @Test
+  void should_support_within_with_duration() {
+    assertThat(_07_10).isCloseTo(_07_12, within(Duration.ofMinutes(2)));
+    // AND
+    AssertionError assertionError = expectAssertionError(() -> assertThat(_07_10).isCloseTo(_07_12,
+                                                                                            within(Duration.ofMinutes(1))));
+    then(assertionError).hasMessageContainingAll("Expecting actual", "to be close to", "within", "but difference was");
+  }
+
+  @Test
+  void should_support_less_than_with_duration() {
+    assertThat(_07_10).isCloseTo(_07_12, byLessThan(Duration.ofMinutes(5)));
+    // AND
+    AssertionError assertionError = expectAssertionError(() -> assertThat(_07_10).isCloseTo(_07_12,
+                                                                                            byLessThan(Duration.ofMinutes(1))));
+    then(assertionError).hasMessageContainingAll("Expecting actual", "to be close to", "by less than", "but difference was");
+  }
+
 }
