@@ -499,7 +499,7 @@ public interface InstanceOfAssertFactories {
    * @since 3.26.0
    */
   InstanceOfAssertFactory<Temporal, TemporalAssert> TEMPORAL = new InstanceOfAssertFactory<>(Temporal.class,
-                                                                                             Assertions::assertThat);
+                                                                                             Assertions::assertThatTemporal);
 
   /**
    * {@link InstanceOfAssertFactory} for a {@link ZonedDateTime}.

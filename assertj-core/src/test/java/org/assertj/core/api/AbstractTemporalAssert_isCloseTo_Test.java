@@ -29,9 +29,11 @@ import static java.time.temporal.ChronoUnit.WEEKS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.assertThatTemporal;
 import static org.assertj.core.api.Assertions.byLessThan;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenTemporal;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -297,8 +299,8 @@ class AbstractTemporalAssert_isCloseTo_Test {
   @ParameterizedTest
   @MethodSource
   void should_support_base_temporal_type_assertions(Temporal now) {
-    assertThat(now).isCloseTo(now, within(1, ChronoUnit.SECONDS));
-    then(now).isCloseTo(now, within(1, ChronoUnit.SECONDS));
+    assertThatTemporal(now).isCloseTo(now, within(1, ChronoUnit.SECONDS));
+    thenTemporal(now).isCloseTo(now, within(1, ChronoUnit.SECONDS));
   }
 
   public static Stream<Temporal> should_support_base_temporal_type_assertions() {

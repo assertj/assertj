@@ -433,9 +433,9 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    * @param actual the actual value.
    *
    * @return the created assertion object.
-   * @since 3.26.0
+   * @since 3.26.1
    */
-  default TemporalAssert assertThat(Temporal actual) {
+  default TemporalAssert assertThatTemporal(Temporal actual) {
     return proxy(TemporalAssert.class, Temporal.class, actual);
   }
 

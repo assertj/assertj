@@ -2731,7 +2731,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @MethodSource
   void should_work_with_temporal_type_assertions(Temporal now) {
     // WHEN
-    softly.assertThat(now).isCloseTo(now.plus(1, HOURS), within(1, SECONDS));
+    softly.assertThatTemporal(now).isCloseTo(now.plus(1, HOURS), within(1, SECONDS));
     // THEN
     then(softly.errorsCollected()).singleElement(as(THROWABLE))
                                   .hasMessageContaining("within 1 Seconds");

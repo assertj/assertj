@@ -13,6 +13,7 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatTemporal;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.time.ZonedDateTime;
@@ -24,7 +25,7 @@ class Assertions_assertThat_with_Temporal_Test {
 
   @Test
   void should_create_Assert() {
-    TemporalAssert assertions = assertThat((Temporal) ZonedDateTime.now());
+    TemporalAssert assertions = assertThatTemporal(ZonedDateTime.now());
     then(assertions).isNotNull();
   }
 
@@ -33,7 +34,7 @@ class Assertions_assertThat_with_Temporal_Test {
     // GIVEN
     ZonedDateTime temporal = ZonedDateTime.now();
     // WHEN
-    TemporalAssert assertions = assertThat((Temporal) temporal);
+    TemporalAssert assertions = assertThatTemporal(temporal);
     // THEN
     then(assertions.getActual()).isSameAs(temporal);
   }
@@ -44,7 +45,7 @@ class Assertions_assertThat_with_Temporal_Test {
     ZonedDateTime zonedDateTime = ZonedDateTime.now();
     Temporal temporal = ZonedDateTime.now();
     // WHEN/THEN
-    then(assertThat(temporal)).isExactlyInstanceOf(TemporalAssert.class);
+    then(assertThatTemporal(temporal)).isExactlyInstanceOf(TemporalAssert.class);
     then(assertThat(zonedDateTime)).isExactlyInstanceOf(ZonedDateTimeAssert.class);
   }
 }
