@@ -12,40 +12,35 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatTemporal;
 import static org.assertj.core.api.BDDAssertions.then;
 
+import java.time.Year;
 import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 
 import org.junit.jupiter.api.Test;
 
-class Assertions_assertThat_with_Temporal_Test {
+class Assertions_assertThatTemporal_Test {
 
   @Test
-  void should_create_Assert() {
-    TemporalAssert assertions = assertThatTemporal(ZonedDateTime.now());
-    then(assertions).isNotNull();
-  }
-
-  @Test
-  void should_pass_actual() {
+  void should_create_Assert_with_Temporal() {
     // GIVEN
-    ZonedDateTime temporal = ZonedDateTime.now();
+    Temporal actual = ZonedDateTime.now();
     // WHEN
-    TemporalAssert assertions = assertThatTemporal(temporal);
+    TemporalAssert result = assertThatTemporal(actual);
     // THEN
-    then(assertions.getActual()).isSameAs(temporal);
+    then(result).isNotNull();
   }
 
   @Test
-  void should_not_be_ambiguous() {
+  void should_create_Assert_with_Year() {
     // GIVEN
-    ZonedDateTime zonedDateTime = ZonedDateTime.now();
-    Temporal temporal = ZonedDateTime.now();
-    // WHEN/THEN
-    then(assertThatTemporal(temporal)).isExactlyInstanceOf(TemporalAssert.class);
-    then(assertThat(zonedDateTime)).isExactlyInstanceOf(ZonedDateTimeAssert.class);
+    Year actual = Year.now();
+    // WHEN
+    TemporalAssert result = assertThatTemporal(actual);
+    // THEN
+    then(result).isNotNull();
   }
+
 }

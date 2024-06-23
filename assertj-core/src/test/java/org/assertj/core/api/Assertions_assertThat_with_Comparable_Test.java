@@ -15,19 +15,32 @@ package org.assertj.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 
+import java.time.Year;
+
 import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.Test;
 
 class Assertions_assertThat_with_Comparable_Test {
 
   @Test
-  void should_create_Assert() {
+  void should_create_Assert_with_custom_Comparable() {
     // GIVEN
-    Name comparable = new Name();
+    Name actual = new Name();
     // WHEN
-    AbstractComparableAssert<?, Name> assertions = Assertions.assertThat(comparable);
+    AbstractComparableAssert<?, Name> assertions = assertThat(actual);
     // THEN
     then(assertions).isNotNull();
+  }
+
+  // https://github.com/assertj/assertj/issues/3491
+  @Test
+  void should_create_Assert_with_Year() {
+    // GIVEN
+    Year actual = Year.now();
+    // WHEN
+    AbstractComparableAssert<?, Year> result = assertThat(actual);
+    // THEN
+    then(result).isNotNull();
   }
 
   @Test
@@ -35,7 +48,7 @@ class Assertions_assertThat_with_Comparable_Test {
     // GIVEN
     Name comparable = new Name();
     // WHEN
-    AbstractComparableAssert<?, Name> assertions = Assertions.assertThat(comparable);
+    AbstractComparableAssert<?, Name> assertions = assertThat(comparable);
     // THEN
     then(assertions.actual).isSameAs(comparable);
   }

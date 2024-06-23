@@ -36,6 +36,7 @@ class Assertions_assertThat_with_LocalDateTime_Test {
   void should_pass_actual() {
     LocalDateTime localDateTime = LocalDateTime.now();
     AbstractLocalDateTimeAssert<?> assertions = Assertions.assertThat(localDateTime);
-    assertThat(assertions.getActual()).isSameAs(localDateTime);
+    assertThat(assertions.actual).isSameAs(localDateTime);
   }
+
 }

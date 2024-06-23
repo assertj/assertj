@@ -36,6 +36,7 @@ class Assertions_assertThat_with_ZonedDateTime_Test {
   void should_pass_actual() {
     ZonedDateTime dateTime = ZonedDateTime.now();
     AbstractZonedDateTimeAssert<?> assertions = Assertions.assertThat(dateTime);
-    assertThat(assertions.getActual()).isSameAs(dateTime);
+    assertThat(assertions.actual).isSameAs(dateTime);
   }
+
 }

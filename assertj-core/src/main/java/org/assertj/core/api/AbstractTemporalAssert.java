@@ -47,11 +47,6 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
     comparables = new Comparables();
   }
 
-  @VisibleForTesting
-  protected TEMPORAL getActual() {
-    return actual;
-  }
-
   /**
    * Verifies that the actual {@link Temporal} is close to the other according to the given {@link TemporalOffset}.
    * <p>

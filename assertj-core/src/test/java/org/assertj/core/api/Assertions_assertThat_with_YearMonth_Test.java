@@ -12,26 +12,33 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+
 import java.time.YearMonth;
+
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-/**
- * Tests for <code>{@link Assertions#assertThat(YearMonth)}</code>.
- */
 class Assertions_assertThat_with_YearMonth_Test {
 
   @Test
   void should_create_Assert() {
-    AbstractYearMonthAssert<?> assertions = Assertions.assertThat(YearMonth.now());
-    assertThat(assertions).isNotNull();
+    // GIVEN
+    YearMonth actual = YearMonth.now();
+    // WHEN
+    AbstractYearMonthAssert<?> result = assertThat(actual);
+    // THEN
+    then(result).isNotNull();
   }
 
   @Test
   void should_pass_actual() {
-    YearMonth yearMonth = YearMonth.now();
-    AbstractYearMonthAssert<?> assertions = Assertions.assertThat(yearMonth);
-    assertThat(assertions.getActual()).isSameAs(yearMonth);
+    // GIVEN
+    YearMonth actual = YearMonth.now();
+    // WHEN
+    AbstractYearMonthAssert<?> assertions = assertThat(actual);
+    // THEN
+    then(assertions.actual).isSameAs(actual);
   }
+
 }
