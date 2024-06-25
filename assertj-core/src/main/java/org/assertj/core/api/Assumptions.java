@@ -1337,9 +1337,9 @@ public class Assumptions {
    *
    * @param actual the Temporal to test
    * @return the created assumption for the given object.
-   * @since 3.26.0
+   * @since 3.26.1
    */
-  public static TemporalAssert assumeThat(Temporal actual) {
+  public static TemporalAssert assumeThatTemporal(Temporal actual) {
     return asAssumption(TemporalAssert.class, Temporal.class, actual);
   }
 

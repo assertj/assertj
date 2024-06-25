@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.time.temporal.Temporal;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -38,7 +39,8 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
 
   private static final Class<?>[] IGNORED_INPUT_TYPES = {
       // There is no dedicated `assertThat`.
-      Set.class
+      Set.class,
+      Temporal.class
   };
 
   private static final Class<?>[] IGNORED_ASSERT_TYPES_FOR_FIELD_FACTORIES = {
@@ -64,8 +66,7 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
     // WHEN
     Map<Type, Type> fieldFactories = findFieldFactoryTypes();
     // THEN
-    then(fieldFactories).containsAllEntriesOf(assertThatMethods)
-                        .hasSameSizeAs(assertThatMethods);
+    then(fieldFactories).containsExactlyInAnyOrderEntriesOf(assertThatMethods);
   }
 
   @Test
@@ -75,8 +76,7 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
     // WHEN
     Map<Type, Type> methodFactories = findMethodFactoryTypes();
     // THEN
-    then(methodFactories).containsAllEntriesOf(assertThatMethods)
-                         .hasSameSizeAs(assertThatMethods);
+    then(methodFactories).containsExactlyInAnyOrderEntriesOf(assertThatMethods);
   }
 
   private Map<Type, Type> findAssertThatParameterAndReturnTypes() {
@@ -113,7 +113,7 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
   }
 
   private Entry<Type, Type> toParameterAndReturnTypeEntry(Method method) {
-    return entry(normalize(genericParameterType(method)), normalize(method.getGenericReturnType()));
+    return entry(getRawType(genericParameterType(method)), getRawType(method.getGenericReturnType()));
   }
 
   private Type genericParameterType(Method method) {
@@ -163,16 +163,16 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
                     .extracting(ParameterizedType::getActualTypeArguments, as(ARRAY))
                     .hasSize(2);
     Type[] typeArguments = ((ParameterizedType) type).getActualTypeArguments();
-    return entry(normalize(typeArguments[0]), normalize(typeArguments[1]));
+    return entry(getRawType(typeArguments[0]), getRawType(typeArguments[1]));
   }
 
-  private Type normalize(Type type) {
+  private Type getRawType(Type type) {
     if (type instanceof ParameterizedType) {
       return ((ParameterizedType) type).getRawType();
     } else if (type instanceof TypeVariable) {
       Type[] bounds = ((TypeVariable<?>) type).getBounds();
       assertThat(bounds).hasSize(1);
-      return normalize(bounds[0]);
+      return getRawType(bounds[0]);
     }
     return type;
   }

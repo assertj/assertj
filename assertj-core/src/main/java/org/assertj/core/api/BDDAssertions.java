@@ -1547,10 +1547,10 @@ public class BDDAssertions extends Assertions {
    *
    * @param actual the actual value.
    * @return the created assertion object.
-   * @since 3.26.0
+   * @since 3.26.1
    */
-  public static TemporalAssert then(Temporal actual) {
-    return assertThat(actual);
+  public static TemporalAssert thenTemporal(Temporal actual) {
+    return assertThatTemporal(actual);
   }
 
   /**

@@ -135,9 +135,9 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   *
   * @param actual the actual value.
   * @return the created assertion object.
-  * @since 3.26.0
+  * @since 3.26.1
   */
-  default TemporalAssert then(Temporal actual) {
+  default TemporalAssert thenTemporal(Temporal actual) {
     return proxy(TemporalAssert.class, Temporal.class, actual);
   }
 

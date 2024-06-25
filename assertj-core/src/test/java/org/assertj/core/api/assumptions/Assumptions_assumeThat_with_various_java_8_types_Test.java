@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.Assumptions.assumeThatCode;
+import static org.assertj.core.api.Assumptions.assumeThatTemporal;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.time.Duration;
@@ -296,13 +297,13 @@ class Assumptions_assumeThat_with_various_java_8_types_Test {
                      new AssumptionRunner<Temporal>(ZonedDateTime.now()) {
                        @Override
                        public void runFailingAssumption() {
-                         assumeThat(actual).isNotNull().isCloseTo(ZonedDateTime.now().plusMinutes(5),
-                                                                  within(1, ChronoUnit.MINUTES));
+                         assumeThatTemporal(actual).isNotNull().isCloseTo(ZonedDateTime.now().plusMinutes(5),
+                                                                          within(1, ChronoUnit.MINUTES));
                        }
 
                        @Override
                        public void runPassingAssumption() {
-                         assumeThat(actual).isNotNull().isCloseTo(ZonedDateTime.now(), within(10, ChronoUnit.MINUTES));
+                         assumeThatTemporal(actual).isNotNull().isCloseTo(ZonedDateTime.now(), within(10, ChronoUnit.MINUTES));
                        }
                      });
   }

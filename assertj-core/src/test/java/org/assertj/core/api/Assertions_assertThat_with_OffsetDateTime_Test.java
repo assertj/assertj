@@ -42,6 +42,7 @@ class Assertions_assertThat_with_OffsetDateTime_Test {
   @Test
   void should_pass_actual() {
     AbstractOffsetDateTimeAssert<?> assertions = assertThat(actual);
-    assertThat(assertions.getActual()).isSameAs(actual);
+    assertThat(assertions.actual).isSameAs(actual);
   }
+
 }

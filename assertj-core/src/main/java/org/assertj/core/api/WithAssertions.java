@@ -2693,10 +2693,10 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param temporal the actual value.
    * @return the created assertion object.
-   * @since 3.26.0
+   * @since 3.26.1
    */
-  default TemporalAssert assertThat(final Temporal temporal) {
-    return Assertions.assertThat(temporal);
+  default TemporalAssert assertThatTemporal(final Temporal temporal) {
+    return Assertions.assertThatTemporal(temporal);
   }
 
   /**
