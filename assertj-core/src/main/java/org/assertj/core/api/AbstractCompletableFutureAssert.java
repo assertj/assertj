@@ -36,7 +36,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.function.Predicate;
-
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Futures;
 import org.assertj.core.presentation.PredicateDescription;
@@ -238,6 +237,34 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
     RESULT actualResult = actual.join();
     if (!Objects.equals(actualResult, expected))
       throw Failures.instance().failure(info, shouldBeEqual(actualResult, expected, info.representation()));
+
+    return myself;
+  }
+
+  /**
+   * Verifies that the {@link CompletableFuture} will complete normally withing given {@link Duration} with value,
+   * tha matches the given {@link Predicate}
+   * <p>
+   * Assertion will pass :
+   * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
+   *           .willCompleteWithValueMatching(Duration.ofSeconds(10), result -&gt; result.equals("something"));</code></pre>
+   *
+   * Assertion will fail :
+   * <pre><code class='java'> assertThat(CompletableFuture.failedFuture("something"))
+   *           .willCompleteWithValueMatching(Duration.ofSeconds(10), result -&gt; result.equals("something"));</code></pre>
+   *
+   * @param completionDuration the maximum time to wait
+   * @param resultPredicate the {@link Predicate} to apply.
+   * @return a new assertion object on the future's result.
+   * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
+   * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout with the satisfying value.
+   */
+  public SELF willCompleteWithValueMatching(Duration completionDuration, Predicate<RESULT> resultPredicate) {
+    RESULT actualResult = futures.assertSucceededWithin(info, actual, completionDuration);
+
+    if (!resultPredicate.test(actualResult)) {
+      throw Failures.instance().failure(info, shouldMatch(actualResult, resultPredicate, PredicateDescription.GIVEN));
+    }
 
     return myself;
   }

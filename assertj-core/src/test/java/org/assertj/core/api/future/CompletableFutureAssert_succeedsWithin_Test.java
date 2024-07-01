@@ -110,15 +110,4 @@ class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n"))
                         .hasMessageContaining("to be completed within 1L Millis.");
   }
-
-  private static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration, ExecutorService service) {
-    CompletableFuture<U> completableFuture = new CompletableFuture<>();
-    service.submit(() -> {
-      Thread.sleep(sleepDuration);
-      completableFuture.complete(value);
-      return null;
-    });
-    return completableFuture;
-  }
-
 }

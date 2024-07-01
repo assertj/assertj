@@ -15,6 +15,8 @@ package org.assertj.core.api.future;
 import static java.lang.String.format;
 
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -69,5 +71,19 @@ abstract class AbstractFutureTest {
                   ex,
                   () -> format("Thread %s [%s] threw an exception", thread.getName(), thread.getId()));
     }
+  }
+
+  protected static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration, ExecutorService service) {
+    CompletableFuture<U> completableFuture = new CompletableFuture<>();
+    service.submit(() -> {
+      Thread.sleep(sleepDuration);
+      completableFuture.complete(value);
+      return null;
+    });
+    return completableFuture;
+  }
+
+  protected static <U> CompletableFuture<U> completedFutureAfter(U value, Duration sleepDuration, ExecutorService service) {
+    return completedFutureAfter(value, sleepDuration.toMillis(), service);
   }
 }
