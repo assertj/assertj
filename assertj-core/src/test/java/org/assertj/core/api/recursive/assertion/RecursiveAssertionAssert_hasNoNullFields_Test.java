@@ -187,4 +187,36 @@ class RecursiveAssertionAssert_hasNoNullFields_Test {
     then(error).hasMessageContainingAll("optionalOuter", "inner.optional");
   }
 
+  interface I {
+  }
+
+  class O {
+    public I i;
+  }
+
+  @Test
+  public void should_support_anonymous_classes() {
+    // GIVEN
+    O o = new O();
+    o.i = new I() {}; // anonymous class
+    // WHEN/THEN
+    then(o).usingRecursiveAssertion()
+           .hasNoNullFields();
+  }
+
+  @Test
+  public void should_support_local_classes() {
+    // GIVEN
+    class PhoneNumber {
+    }
+    class WithPhoneNumber {
+      PhoneNumber phoneNumber = new PhoneNumber();
+    }
+    WithPhoneNumber withPhoneNumber = new WithPhoneNumber();
+    withPhoneNumber.phoneNumber = new PhoneNumber();
+    // WHEN/THEN
+    then(withPhoneNumber).usingRecursiveAssertion()
+                         .hasNoNullFields();
+  }
+
 }

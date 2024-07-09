@@ -237,8 +237,10 @@ public class RecursiveAssertionDriver {
   }
 
   private boolean nodeIsJavaTypeToIgnore(Object node) {
-    String canonicalName = node.getClass().getCanonicalName();
-    boolean isJCLType = canonicalName.startsWith("java.") || canonicalName.startsWith("javax.");
+    String name = node.getClass().getCanonicalName();
+    // best effort if canonical name is null
+    if (name == null) name = node.getClass().getName();
+    boolean isJCLType = name.startsWith("java.") || name.startsWith("javax.");
     return isJCLType && configuration.shouldSkipJavaLibraryTypeObjects();
   }
 
