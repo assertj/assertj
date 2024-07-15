@@ -526,6 +526,8 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
     return new BigDecimalScaleAssert(myself);
   }
 
+
+
   /**
    * Verifies that the actual BigDecimal is in floating point format.
    * <p>
@@ -538,6 +540,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual BigDecimal is not in floating point format.
+   * @since 3.26.0
    */
   public SELF isInFloatingPointFormat() {
     isNotNull();
@@ -559,6 +562,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual BigDecimal is not in integer format.
+   * @since 3.26.0
    */
   public SELF isInIntegerFormat() {
     isNotNull();
