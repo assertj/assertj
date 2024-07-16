@@ -1,11 +1,11 @@
 package org.assertj.core.error;
 
-public class ShouldBeInFloatingPointFormat extends BasicErrorMessageFactory{
+public class ShouldBeInFloatingPointFormat extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldBeInFloatingPointFormat}</code>.
    *
    */
-  public static ErrorMessageFactory shouldBeInFloatingPointFormat(Object actual){
+  public static ErrorMessageFactory shouldBeInFloatingPointFormat(Object actual) {
     return new ShouldBeInFloatingPointFormat(actual);
   }
 

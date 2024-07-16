@@ -526,8 +526,6 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
     return new BigDecimalScaleAssert(myself);
   }
 
-
-
   /**
    * Verifies that the actual BigDecimal is in floating point format.
    * <p>
