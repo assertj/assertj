@@ -19,7 +19,7 @@
     <module>assertj-core-kotlin</module>
     <module>assertj-core-osgi</module>
     <module>assertj-core-testng-with-junit4</module>
-    <module>assertj-guava-java-17</module>
+    <module>assertj-guava-java-8</module>
   </modules>
 
   <profiles>

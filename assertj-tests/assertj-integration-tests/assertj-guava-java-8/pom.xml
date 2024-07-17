@@ -8,12 +8,11 @@
     <version>3.26.4-SNAPSHOT</version>
   </parent>
 
-  <artifactId>assertj-guava-java-17</artifactId>
+  <artifactId>assertj-guava-java-8</artifactId>
 
   <name>AssertJ Guava Integration Tests - Java 17</name>
 
   <properties>
-    <java.version>17</java.version>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
     <spotless.skip>false</spotless.skip>
   </properties>
