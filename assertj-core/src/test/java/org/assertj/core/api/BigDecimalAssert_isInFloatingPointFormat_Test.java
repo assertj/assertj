@@ -1,17 +1,12 @@
 package org.assertj.core.api;
 
 import org.assertj.core.error.ShouldBeInFloatingPointFormat;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeInFloatingPointFormat.shouldBeInFloatingPointFormat;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 public class BigDecimalAssert_isInFloatingPointFormat_Test {
 
