@@ -27,7 +27,7 @@
     <profile>
       <id>it-groovy</id>
       <activation>
-        <jdk>(,22)</jdk>
+        <jdk>(,24)</jdk>
       </activation>
       <modules>
         <module>assertj-core-groovy</module>
