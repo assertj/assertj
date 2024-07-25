@@ -44,12 +44,12 @@ import org.assertj.core.util.CheckReturnValue;
 /**
  * Assertions for {@link LocalDateTime} type from new Date &amp; Time API introduced in Java 8.
  *
- * @param <SELF> the "self" type of this assertion class.
- *
  * @author Paweł Stawicki
  * @author Joel Costigliola
  * @author Marcin Zajączkowski
  * @author Nikolaos Georgiou
+ *
+ * @param <SELF> the "self" type of this assertion class.
  */
 public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, LocalDateTime> {

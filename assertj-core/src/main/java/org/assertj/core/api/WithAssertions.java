@@ -1569,8 +1569,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
-   * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
+   * @throws NullPointerException if the given property name is {@code null}.
    * @return the created {@code Properties}.
    */
   default Properties<Object> extractProperty(final String propertyName) {
@@ -1602,8 +1602,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *          property (e.g. "address.street.number").
    * @param propertyType the type of property to extract
    * @return the created {@code Properties}.
-   * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
+   * @throws NullPointerException if the given property name is {@code null}.
    */
   default <T> Properties<T> extractProperty(final String propertyName, final Class<T> propertyType) {
     return Assertions.extractProperty(propertyName, propertyType);
@@ -1644,8 +1644,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    */
   default Offset<Double> within(final Double value) {
     return Assertions.within(value);
@@ -1659,8 +1659,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    */
   default Offset<BigDecimal> within(final BigDecimal value) {
     return Assertions.within(value);
@@ -1674,8 +1674,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    */
   default Offset<Float> within(final Float value) {
     return Assertions.within(value);
@@ -1688,8 +1688,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * <pre><code class='java'> assertThat(8.1).isEqualTo(8.0, offset(0.1));</code></pre>
    * @param value the allowed offset
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Double> withPrecision(Double value) {
@@ -1704,8 +1704,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the allowed offset
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Float> withPrecision(Float value) {
@@ -1720,8 +1720,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<BigInteger> within(BigInteger value) {
@@ -1736,8 +1736,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Byte> within(Byte value) {
@@ -1752,8 +1752,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Integer> within(Integer value) {
@@ -1768,8 +1768,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Short> within(Short value) {
@@ -1784,8 +1784,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Long> within(Long value) {
@@ -1832,8 +1832,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Percentage withinPercentage(Double value) {
@@ -1849,8 +1849,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Percentage withinPercentage(Integer value) {
@@ -1866,8 +1866,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Percentage withinPercentage(Long value) {
@@ -1882,8 +1882,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Double> byLessThan(Double value) {
@@ -1898,8 +1898,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Float> byLessThan(Float value) {
@@ -1914,8 +1914,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<BigDecimal> byLessThan(BigDecimal value) {
@@ -1930,8 +1930,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<BigInteger> byLessThan(BigInteger value) {
@@ -1946,8 +1946,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Byte> byLessThan(Byte value) {
@@ -1962,8 +1962,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Integer> byLessThan(Integer value) {
@@ -1978,8 +1978,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Short> byLessThan(Short value) {
@@ -1994,8 +1994,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
+   * @throws NullPointerException if the given value is {@code null}.
    * @since 3.9.0
    */
   default Offset<Long> byLessThan(Long value) {
@@ -2053,8 +2053,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param <ASSERT>      the type of the resulting {@code Assert}
    * @return same instance of {@code assertFactory}
    *
-   * @since 3.14.0
    * @see Assertions#as(InstanceOfAssertFactory)
+   * @since 3.14.0
    */
   default <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
     return Assertions.as(assertFactory);
@@ -2372,8 +2372,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *  ...(69 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)org.assertj.core.util.Throwables_Description_Test$test1.exception_layer_1(Throwables_Description_Test.java:30)</code></pre>
    *
    * @param maxStackTraceElementsDisplayed  the maximum number of lines for a stacktrace to be displayed on one throw.
-   * @since 3.19.0
    * @see Configuration
+   * @since 3.19.0
    */
   default void setMaxStackTraceElementsDisplayed(int maxStackTraceElementsDisplayed) {
     StandardRepresentation.setMaxStackTraceElementsDisplayed(maxStackTraceElementsDisplayed);

@@ -17,15 +17,15 @@ import java.util.Comparator;
 /**
  * Assertions applicable to groups of values that can be enumerated (e.g. arrays, collections or strings.)
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating
- *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <ELEMENT> the type of elements of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Mikhail Mazursky
  * @author Nicolas François
+ *
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *          target="_blank">Emulating
+ *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
+ * @param <ELEMENT> the type of elements of the "actual" value.
  */
 public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, ELEMENT> {
 

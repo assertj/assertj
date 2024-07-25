@@ -18,10 +18,11 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 /**
  * Base class for all array assertions.
  *
+ * @author Joel Costigliola
+ *
  * @param <SELF> the "self" type of this assertion class.
  * @param <ACTUAL> the type of the "actual" value which is an Array of ELEMENT.
  * @param <ELEMENT> the type of the "actual" array element.
- * @author Joel Costigliola
  */
 public abstract class AbstractArrayAssert<SELF extends AbstractArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
     extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>

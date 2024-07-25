@@ -17,8 +17,8 @@ import java.util.Optional;
 /**
  * Assertions for {@link java.util.Optional}.
  *
- * @param <VALUE> type of the value contained in the {@link java.util.Optional}.
  * @author Jean-Christophe Gay
+ * @param <VALUE> type of the value contained in the {@link java.util.Optional}.
  */
 public class OptionalAssert<VALUE> extends AbstractOptionalAssert<OptionalAssert<VALUE>, VALUE> {
 

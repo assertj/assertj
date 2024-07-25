@@ -74,6 +74,8 @@ import org.assertj.core.util.VisibleForTesting;
  * accessing the filesystem, these assertions will throw a {@link PathsException}.</li>
  * </ul>
  *
+ * @author Valeriy Vyrva
+ *
  * @param <SELF> self type
  *
  * @see Path
@@ -82,8 +84,6 @@ import org.assertj.core.util.VisibleForTesting;
  * @see FileSystem#getPath(String, String...)
  * @see java.nio.file.FileSystems#getDefault()
  * @see Files
- *
- * @author Valeriy Vyrva
  */
 public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> extends AbstractComparableAssert<SELF, Path> {
 

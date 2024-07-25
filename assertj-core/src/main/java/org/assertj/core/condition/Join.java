@@ -29,10 +29,11 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Join of two or more <code>{@link Condition}</code>s.
- * @param <T> the type of object this condition accepts.
  *
  * @author Yvonne Wang
  * @author Mikhail Mazursky
+ *
+ * @param <T> the type of object this condition accepts.
  */
 public abstract class Join<T> extends Condition<T> {
 

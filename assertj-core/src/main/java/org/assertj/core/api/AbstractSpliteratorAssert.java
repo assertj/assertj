@@ -20,10 +20,10 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Assertions for {@link Spliterator} type.
  *
+ * @author William Bakker
+ *
  * @param <SELF> the "self" type of this assertion class.
  * @param <ELEMENT> the type of elements.
- *
- * @author William Bakker
  */
 public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SELF, ELEMENT>, ELEMENT> extends
     AbstractAssert<SELF, Spliterator<ELEMENT>> {

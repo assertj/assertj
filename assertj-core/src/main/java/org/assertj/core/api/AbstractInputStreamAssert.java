@@ -31,14 +31,15 @@ import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link InputStream}s.
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
- * @param <ACTUAL> the type of the "actual" value.
  *
  * @author Matthieu Baechler
  * @author Mikhail Mazursky
  * @author Stefan Birkner
+ *
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
+ * @param <ACTUAL> the type of the "actual" value.
  */
 public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStreamAssert<SELF, ACTUAL>, ACTUAL extends InputStream>
     extends AbstractAssert<SELF, ACTUAL> {

@@ -54,11 +54,6 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
- * @param <ACTUAL> the type of the "actual" value.
- *
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Alex Ruiz
@@ -66,6 +61,11 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Mikhail Mazursky
  * @author Nicolas Francois
  * @author Daniel Weber
+ *
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
+ * @param <ACTUAL> the type of the "actual" value.
  */
 public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends CharSequence>
     extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {

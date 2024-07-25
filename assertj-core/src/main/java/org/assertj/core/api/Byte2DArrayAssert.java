@@ -279,10 +279,10 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
    * @param index the index where the value should be stored in the actual {@code byte[][]}.
    * @return myself assertion object.
    * @throws AssertionError            if the actual {@code byte[][]} is {@code null} or empty.
-   * @throws NullPointerException      if the given {@code Index} is {@code null}.
+   * @throws AssertionError            if the actual {@code byte[][]} does not contain the given value at the given index.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
    *                                   the actual {@code byte[][]}.
-   * @throws AssertionError            if the actual {@code byte[][]} does not contain the given value at the given index.
+   * @throws NullPointerException      if the given {@code Index} is {@code null}.
    */
   public Byte2DArrayAssert contains(byte[] value, Index index) {
     byte2dArrays.assertContains(info, actual, value, index);
@@ -304,8 +304,8 @@ public class Byte2DArrayAssert extends Abstract2DArrayAssert<Byte2DArrayAssert, 
    * @param index the index where the value should be stored in the actual {@code byte[][]}.
    * @return myself assertion object.
    * @throws AssertionError       if the actual {@code byte[][]} is {@code null}.
-   * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError       if the actual {@code byte[][]} contains the given value at the given index.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
    */
   public Byte2DArrayAssert doesNotContain(byte[] value, Index index) {
     byte2dArrays.assertDoesNotContain(info, actual, value, index);

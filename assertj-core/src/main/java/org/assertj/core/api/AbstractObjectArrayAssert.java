@@ -80,8 +80,6 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[])}</code>.
  * </p>
  *
- * @param <ELEMENT> the type of elements of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -89,6 +87,8 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Mikhail Mazursky
  * @author Mateusz Haligowski
  * @author Lovro Pandzic
+ *
+ * @param <ELEMENT> the type of elements of the "actual" value.
  */
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 // IntelliJ thinks this is redundant when it is not.

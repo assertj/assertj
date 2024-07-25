@@ -43,10 +43,10 @@ import org.junit.jupiter.api.Test;
  * of the assertion that need to be verified in the tests.
  * </p>
  *
+ * @author Olivier Michallat
+ *
  * @param <S> the "self" type of the assertion under test.
  * @param <A> the type of the "actual" value.
- *
- * @author Olivier Michallat
  */
 public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
   protected S assertions;

@@ -17,8 +17,8 @@ import java.util.function.Predicate;
 /**
  * Assertions for {@link Predicate}.
  *
- * @param <T> type of the value contained in the {@link Predicate}.
  * @author Filip Hrisafov
+ * @param <T> type of the value contained in the {@link Predicate}.
  *
  * @since 3.5.0
  */

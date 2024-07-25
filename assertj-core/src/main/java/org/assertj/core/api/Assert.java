@@ -23,15 +23,15 @@ import org.assertj.core.presentation.StandardRepresentation;
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating
- *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
- * @param <ACTUAL> the type of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
  * @author Mikhail Mazursky
+ *
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *          target="_blank">Emulating
+ *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
+ * @param <ACTUAL> the type of the "actual" value.
  */
 public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descriptable<SELF>, ExtensionPoints<SELF, ACTUAL> {
 

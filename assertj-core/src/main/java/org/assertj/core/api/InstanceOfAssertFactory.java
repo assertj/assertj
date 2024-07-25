@@ -25,10 +25,11 @@ import java.util.Objects;
 /**
  * {@link AssertFactory} decorator that casts the input value to the given type before invoking the decorated factory.
  *
+ * @author Stefano Cordio
+ *
  * @param <T>      the type to use for the cast.
  * @param <ASSERT> the type of the resulting {@code Assert}.
  *
- * @author Stefano Cordio
  * @since 3.13.0
  */
 public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> implements AssertFactory<Object, ASSERT> {

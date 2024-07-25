@@ -190,10 +190,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
+   * @throws NullPointerException if the given argument is {@code null}.
    */
   public SELF contains(short... values) {
     arrays.assertContains(info, actual, values);
@@ -215,10 +215,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.19.0
    */
   public SELF contains(Short[] values) {
@@ -242,10 +242,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.16.0
    */
   public SELF contains(int... values) {
@@ -268,10 +268,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
+   * @throws NullPointerException if the given argument is {@code null}.
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
   public SELF containsOnly(short... values) {
@@ -294,11 +294,11 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.19.0
    */
   public SELF containsOnly(Short[] values) {
@@ -322,11 +322,11 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.16.0
    */
   public SELF containsOnly(int... values) {
@@ -348,11 +348,11 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
+   * @throws NullPointerException if the given argument is {@code null}.
    */
   public SELF containsOnlyOnce(short... values) {
     arrays.assertContainsOnlyOnce(info, actual, values);
@@ -373,11 +373,11 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.19.0
    */
   public SELF containsOnlyOnce(Short[] values) {
@@ -400,11 +400,11 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.16.0
    */
   public SELF containsOnlyOnce(int... values) {
@@ -572,10 +572,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null} or empty.
-   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given value at the given index.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
    *           the actual array.
-   * @throws AssertionError if the actual array does not contain the given value at the given index.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
    */
   public SELF contains(short value, Index index) {
     arrays.assertContains(info, actual, value, index);
@@ -598,10 +598,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null} or empty.
-   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws AssertionError if the actual array does not contain the given value at the given index.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of
    *           the actual array.
-   * @throws AssertionError if the actual array does not contain the given value at the given index.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @since 3.16.0
    */
   public SELF contains(int value, Index index) {
@@ -621,10 +621,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws NullPointerException if the given argument is {@code null}.
    */
   public SELF doesNotContain(short... values) {
     arrays.assertDoesNotContain(info, actual, values);
@@ -643,10 +643,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.19.0
    */
   public SELF doesNotContain(Short[] values) {
@@ -667,10 +667,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array contains any of the given values.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.16.0
    */
   public SELF doesNotContain(int... values) {
@@ -694,8 +694,8 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
-   * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
    */
   public SELF doesNotContain(short value, Index index) {
     arrays.assertDoesNotContain(info, actual, value, index);
@@ -718,8 +718,8 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    * @param index the index where the value should be stored in the actual array.
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
-   * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @throws AssertionError if the actual array contains the given value at the given index.
+   * @throws NullPointerException if the given {@code Index} is {@code null}.
    * @since 3.16.0
    */
   public SELF doesNotContain(int value, Index index) {
@@ -760,10 +760,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
+   * @throws NullPointerException if the given argument is {@code null}.
    */
   public SELF startsWith(short... sequence) {
     arrays.assertStartsWith(info, actual, sequence);
@@ -784,10 +784,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.19.0
    */
   public SELF startsWith(Short[] sequence) {
@@ -810,10 +810,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.16.0
    */
   public SELF startsWith(int... sequence) {
@@ -835,9 +835,9 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
+   * @throws NullPointerException if the given argument is {@code null}.
    */
   public SELF endsWith(short... sequence) {
     arrays.assertEndsWith(info, actual, sequence);
@@ -858,9 +858,9 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.19.0
    */
   public SELF endsWith(Short[] sequence) {
@@ -883,9 +883,9 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.16.0
    */
   public SELF endsWith(int... sequence) {
@@ -937,12 +937,12 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
+   * @throws NullPointerException if the given argument is {@code null}.
    */
   public SELF containsExactly(short... values) {
     arrays.assertContainsExactly(info, actual, values);
@@ -963,12 +963,12 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.19.0
    */
   public SELF containsExactly(Short[] values) {
@@ -991,12 +991,12 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.16.0
    */
   public SELF containsExactly(int... values) {
@@ -1019,11 +1019,11 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsExactlyInAnyOrder(short... values) {
@@ -1046,11 +1046,11 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.19.0
    */
   public SELF containsExactlyInAnyOrder(Short[] values) {
@@ -1074,11 +1074,11 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @throws NullPointerException if the given argument is {@code null}.
    * @since 3.16.0
    */
   public SELF containsExactlyInAnyOrder(int... values) {
@@ -1105,10 +1105,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the array of values is {@code null}.
    * @throws AssertionError if the array of values is empty and the array under test is not empty.
    * @throws AssertionError if the array under test is {@code null}.
    * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @throws NullPointerException if the array of values is {@code null}.
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsAnyOf(short... values) {
@@ -1135,10 +1135,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the array of values is {@code null}.
    * @throws AssertionError if the array of values is empty and the array under test is not empty.
    * @throws AssertionError if the array under test is {@code null}.
    * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @throws NullPointerException if the array of values is {@code null}.
    * @since 3.19.0
    */
   public SELF containsAnyOf(Short[] values) {
@@ -1166,10 +1166,10 @@ public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAs
    *
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the array of values is {@code null}.
    * @throws AssertionError if the array of values is empty and the array under test is not empty.
    * @throws AssertionError if the array under test is {@code null}.
    * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @throws NullPointerException if the array of values is {@code null}.
    * @since 3.16.0
    */
   public SELF containsAnyOf(int... values) {

@@ -18,11 +18,12 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 /**
  * Base class for all fieldupdater assertions.
  *
+ * @author epeee
+ *
  * @param <SELF> the "self" type of this assertion class.
  * @param <VALUE> the type of the "actual" value.
  * @param <ATOMIC> the type of the "actual" atomic.
  * @param <OBJECT> the type of the object holding the updatable field.
- * @author epeee
  * @since 2.7.0 / 3.7.0
  */
 public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtomicFieldUpdaterAssert<SELF, VALUE, ATOMIC, OBJECT>, VALUE, ATOMIC, OBJECT>

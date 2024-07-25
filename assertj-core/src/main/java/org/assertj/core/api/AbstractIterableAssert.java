@@ -82,13 +82,6 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * Base class for implementations of <code>{@link ObjectEnumerableAssert}</code> whose actual value type is
  * <code>{@link Collection}</code>.
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
- * @param <ACTUAL> the type of the "actual" value.
- * @param <ELEMENT> the type of elements of the "actual" value.
- * @param <ELEMENT_ASSERT> used for navigational assertions to return the right assert type.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Mathieu Baechler
@@ -99,6 +92,13 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Mateusz Haligowski
  * @author Lovro Pandzic
  * @author Marko Bekhta
+ *
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
+ * @param <ACTUAL> the type of the "actual" value.
+ * @param <ELEMENT> the type of elements of the "actual" value.
+ * @param <ELEMENT_ASSERT> used for navigational assertions to return the right assert type.
  */
 //@format:off
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports

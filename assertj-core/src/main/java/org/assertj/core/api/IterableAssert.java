@@ -24,14 +24,14 @@ import org.assertj.core.util.Streams;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Iterable)}</code>.
  * </p>
  *
- * @param <ELEMENT> the type of elements of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Matthieu Baechler
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  * @author Julien Meddah
+ *
+ * @param <ELEMENT> the type of elements of the "actual" value.
  */
 public class IterableAssert<ELEMENT> extends
     FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {

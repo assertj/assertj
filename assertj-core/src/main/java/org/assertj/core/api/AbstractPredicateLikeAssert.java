@@ -24,10 +24,10 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Assertions for {@link Predicate}.
  *
+ * @author Filip Hrisafov
+ *
  * @param <PRIMITIVE_PREDICATE> the actual type
  * @param <PRIMITIVE> the type of the wrapped variable in one of the special predicates
- *
- * @author Filip Hrisafov
  */
 abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAssert<SELF, PRIMITIVE_PREDICATE, PRIMITIVE>, PRIMITIVE_PREDICATE, PRIMITIVE>
     extends AbstractAssert<SELF, PRIMITIVE_PREDICATE> {

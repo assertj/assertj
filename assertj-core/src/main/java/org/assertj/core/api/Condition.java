@@ -25,10 +25,10 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * A condition to be met by an object.
  *
- * @param <T> the type of object this condition accepts.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
+ *
+ * @param <T> the type of object this condition accepts.
  */
 public class Condition<T> implements Descriptable<Condition<T>> {
 

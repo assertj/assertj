@@ -20,10 +20,10 @@ import org.assertj.core.util.CheckReturnValue;
 /**
  * Base implementation for Enumerable class assertions.
  *
+ * @author Joel Costigliola
  * @param <SELF> the "self" type of this assertion class.
  * @param <ACTUAL> the type of the "actual" value which is an Array of ELEMENT.
  * @param <ELEMENT> the type of the "actual" array element.
- * @author Joel Costigliola
  */
 public abstract class AbstractEnumerableAssert<SELF extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
     extends AbstractAssert<SELF, ACTUAL>

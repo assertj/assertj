@@ -16,10 +16,11 @@ import org.assertj.core.api.Condition;
 
 /**
  * Returns {@code true} if all of the joined conditions are satisfied.
- * @param <T> the type of object this condition accepts.
  *
  * @author Yvonne Wang
  * @author Mikhail Mazursky
+ *
+ * @param <T> the type of object this condition accepts.
  */
 public class AllOf<T> extends Join<T> {
 

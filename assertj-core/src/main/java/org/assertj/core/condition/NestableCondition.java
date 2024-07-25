@@ -107,10 +107,10 @@ import org.assertj.core.description.Description;
  *   ]</code></pre>
  * For an even better assertion error, see <code>{@link VerboseCondition}</code>.
  *
+ * @author Alessandro Ciccimarra
+ *
  * @param <ACTUAL> the type of object this condition accepts ({@literal Customer} in the example)
  * @param <NESTED> the type of object nested into {@literal ACTUAL} ({@literal Address} in the example)
- *
- * @author Alessandro Ciccimarra
  */
 public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
   private final String descriptionPrefix;

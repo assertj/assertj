@@ -22,13 +22,13 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[])}</code>.
  * </p>
  *
- * @param <ELEMENT> the type of elements of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Nicolas François
  * @author Mikhail Mazursky
+ *
+ * @param <ELEMENT> the type of elements of the "actual" value.
  */
 public class ObjectArrayAssert<ELEMENT> extends AbstractObjectArrayAssert<ObjectArrayAssert<ELEMENT>, ELEMENT> {
 

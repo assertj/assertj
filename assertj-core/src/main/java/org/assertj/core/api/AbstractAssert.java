@@ -56,15 +56,15 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all assertions.
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
- * @param <ACTUAL> the type of the "actual" value.
- *
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  * @author Nicolas François
+ *
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
+ * @param <ACTUAL> the type of the "actual" value.
  */
 public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, ACTUAL> implements Assert<SELF, ACTUAL> {
 
@@ -164,9 +164,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param errorMessage the error message to format
    * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @return The generated assertion error.
    * @see #failureWithActualExpected(Object, Object, String, Object...)
    * @see #failWithMessage(String, Object...)
-   * @return The generated assertion error.
    */
   protected AssertionError failure(String errorMessage, Object... arguments) {
     AssertionError assertionError = Failures.instance().failureIfErrorMessageIsOverridden(info);
@@ -1123,9 +1123,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @return the new {@code Assert} instance
    * @throws AssertionError if {@code actual} is {@code null}
    *
-   * @since 3.16.0
    * @see AbstractObjectAssert#extracting(String)
    * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
+   *
+   * @since 3.16.0
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
@@ -1151,9 +1152,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @return the new {@code Assert} instance
    * @throws AssertionError if {@code actual} is {@code null}
    *
-   * @since 3.16.0
    * @see AbstractObjectAssert#extracting(Function)
    * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
+   *
+   * @since 3.16.0
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue

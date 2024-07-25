@@ -49,10 +49,10 @@ import org.assertj.core.api.Condition;
  * to have shorter than 4 but length was 5</code></pre>
  * <p>
  * The {@code objectUnderTestDescriptor} must not be null, if you don't need one this probably means you can simply use {@link Condition#Condition(Predicate, String, Object...)} instead of a {@code VerboseCondition}.
- * 
- * @param <T> the type of object the given condition accept.
  *
  * @author Stefan Bischof
+ *
+ * @param <T> the type of object the given condition accept.
  */
 @Beta
 public final class VerboseCondition<T> extends Condition<T> {

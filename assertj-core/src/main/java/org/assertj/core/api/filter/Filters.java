@@ -49,10 +49,10 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
  * // use filter static method to build Filters
  * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
  *
- * @param <E> the type of element of group to filter.
- *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ *
+ * @param <E> the type of element of group to filter.
  */
 public class Filters<E> {
 

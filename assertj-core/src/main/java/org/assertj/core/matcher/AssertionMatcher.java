@@ -34,10 +34,11 @@ import org.hamcrest.Matcher;
  *     }
  *   })
  * );</code></pre>
- * 
- * @param <T> the type of the object to test
  *
  * @author Tomasz Kalkosiński
+ *
+ * @param <T> the type of the object to test
+ *
  * @since 2.7.0 / 3.7.0
  */
 public abstract class AssertionMatcher<T> extends BaseMatcher<T> {

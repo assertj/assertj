@@ -15,11 +15,12 @@ package org.assertj.core.api;
 /**
  * Base class for all two-dimensional array assertions.
  *
+ * @author Maciej Wajcht
+ *
  * @param <SELF> the "self" type of this assertion class.
  * @param <ACTUAL> the type of the "actual" value which is a two-dimensional Array of ELEMENT.
  * @param <ELEMENT> the type of the "actual" array element.
  *
- * @author Maciej Wajcht
  * @since 3.17.0
  */
 public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>

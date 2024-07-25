@@ -21,14 +21,14 @@ import java.util.Comparator;
  * Note that the contract defined here is can't be totally applied to List (that's why its name is not SortedAssert), the
  * differences being that we can't check that - for empty List - the list parameter is comparable or compatible with given
  * comparator due to type erasure.
- * 
+ *
+ * @author Joel Costigliola
+ * @author Mikhail Mazursky
+ *
  * @param <SELF> the "self" type of this assertion class that must be a array type (e.g. arrays, collections).<br>
  *          Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating 'self types' using Java Generics to
  *          simplify fluent API implementation</a>&quot; for more details.
  * @param <ELEMENT> the array element type.
- * 
- * @author Joel Costigliola
- * @author Mikhail Mazursky
  */
 public interface ArraySortedAssert<SELF extends ArraySortedAssert<SELF, ELEMENT>, ELEMENT> {
 

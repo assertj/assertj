@@ -20,8 +20,8 @@ import java.util.concurrent.atomic.AtomicLongFieldUpdater;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicLongFieldUpdater)}</code>.
  * </p>
  *
- * @param <OBJECT> the type of the object holding the updatable field.
  * @author epeee
+ * @param <OBJECT> the type of the object holding the updatable field.
  * @since 2.7.0 / 3.7.0
  */
 public class AtomicLongFieldUpdaterAssert<OBJECT>

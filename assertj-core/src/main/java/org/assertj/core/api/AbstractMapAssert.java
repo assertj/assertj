@@ -52,13 +52,6 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@link Map}s.
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
- * @param <ACTUAL> the type of the "actual" value.
- * @param <K> the type of keys in the map.
- * @param <V> the type of values in the map.
- *
  * @author David DIDIER
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -66,6 +59,13 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Nicolas François
  * @author dorzey
  * @author Filip Hrisafov
+ *
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
+ * @param <ACTUAL> the type of the "actual" value.
+ * @param <K> the type of keys in the map.
+ * @param <V> the type of values in the map.
  */
 public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends Map<K, V>, K, V>
     extends AbstractObjectAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
@@ -102,9 +102,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param entryRequirements the given requirements that each entry must satisfy.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if one or more entries don't satisfy the given requirements.
+   * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
    * @since 3.9.0
    */
   public SELF allSatisfy(BiConsumer<? super K, ? super V> entryRequirements) {
@@ -135,9 +135,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param entryRequirements the given requirements that at least one entry must satisfy.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if no entries satisfy the given requirements.
+   * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
    * @since 3.12.0
    */
   public SELF anySatisfy(BiConsumer<? super K, ? super V> entryRequirements) {
@@ -170,9 +170,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param entryRequirements the given requirements that each entry must not satisfy.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if one or more entries satisfies the given requirements.
+   * @throws NullPointerException if the given entryRequirements {@link BiConsumer} is {@code null}.
    * @since 3.12.0
    */
   public SELF noneSatisfy(BiConsumer<? super K, ? super V> entryRequirements) {
@@ -484,9 +484,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param other the {@code Map} to compare size with actual map
    * @return {@code this} assertion object
-   * @throws NullPointerException if the other {@code Map} is {@code null}
    * @throws AssertionError if the actual map is {@code null}
    * @throws AssertionError if the actual map and the given {@code Map} don't have the same size
+   * @throws NullPointerException if the other {@code Map} is {@code null}
    */
   public SELF hasSameSizeAs(Map<?, ?> other) {
     maps.assertHasSameSizeAs(info, actual, other);
@@ -516,10 +516,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param entries the given entries.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws NullPointerException if any of the entries in the given array is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given entries.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException if any of the entries in the given array is {@code null}.
    */
   @SafeVarargs
   public final SELF contains(Map.Entry<? extends K, ? extends V>... entries) {
@@ -553,11 +553,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param entries the given entries.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws NullPointerException if any of the entries in the given array is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain any of the given entries.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException if any of the entries in the given array is {@code null}.
    * @since 3.6.0
    */
   @SafeVarargs
@@ -597,10 +597,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param other the map with the given entries.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws NullPointerException if any of the entries in the given map is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given entries.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException if any of the entries in the given map is {@code null}.
    */
   public SELF containsAllEntriesOf(Map<? extends K, ? extends V> other) {
     maps.assertContainsAllEntriesOf(info, actual, other);
@@ -636,12 +636,12 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param map the given {@link Map} with the expected entries to be found in actual.
    * @return {@code this} assertions object
-   * @throws NullPointerException if the given map is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
-   * @throws IllegalArgumentException if the given map is empty.
    * @throws AssertionError if the actual map does not contain the entries of the given map with same order, i.e
    *           the actual map contains some or none of the entries of the given map, or the actual map contains more
    *           entries than the entries of the given map or entries are the same but the order is not.
+   * @throws IllegalArgumentException if the given map is empty.
+   * @throws NullPointerException if the given map is {@code null}.
    * @since 3.12.0
    */
   public SELF containsExactlyEntriesOf(Map<? extends K, ? extends V> map) {
@@ -680,12 +680,12 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param map the given {@link Map} with the expected entries to be found in actual.
    * @return {@code this} assertions object
-   * @throws NullPointerException if the given map is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
-   * @throws IllegalArgumentException if the given map is empty.
    * @throws AssertionError if the actual map does not contain the entries of the given map, i.e the actual map contains
    *           some or none of the entries of the given map, or the actual map contains more entries than the entries of
    *           the given map.
+   * @throws IllegalArgumentException if the given map is empty.
+   * @throws NullPointerException if the given map is {@code null}.
    * @since 3.13.0
    */
   public SELF containsExactlyInAnyOrderEntriesOf(Map<? extends K, ? extends V> map) {
@@ -716,11 +716,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @param key the given key to check.
    * @param value the given value to check.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws NullPointerException if any of the entries in the given array is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map does not contain the given entries.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException if any of the entries in the given array is {@code null}.
    */
   public SELF containsEntry(K key, V value) {
     maps.assertContains(info, actual, array(entry(key, value)));
@@ -752,10 +752,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @param key he given key to check.
    * @param valueCondition the given condition for check value.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given values is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map not contains the given {@code key}.
    * @throws AssertionError if the actual map contains the given key, but value not match the given {@code valueCondition}.
+   * @throws NullPointerException if the given values is {@code null}.
    * @since 2.6.0 / 3.6.0
    */
   public SELF hasEntrySatisfying(K key, Condition<? super V> valueCondition) {
@@ -787,10 +787,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @param key he given key to check.
    * @param valueRequirements the given requirements for check value.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given values is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map not contains the given {@code key}.
    * @throws AssertionError if the actual map contains the given key, but value not pass the given {@code valueRequirements}.
+   * @throws NullPointerException if the given values is {@code null}.
    * @since 3.6.0
    */
   public SELF hasEntrySatisfying(K key, Consumer<? super V> valueRequirements) {
@@ -825,9 +825,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param entryCondition the condition for searching entry.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if there is no entry matching given {@code entryCondition}.
+   * @throws NullPointerException if the given condition is {@code null}.
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasEntrySatisfying(Condition<? super Map.Entry<K, V>> entryCondition) {
@@ -869,9 +869,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @param keyCondition the condition to be matched by the entry's key.
    * @param valueCondition the condition to be matched by the entry's value.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if any of the given conditions is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if there is no entry with a key matching {@code keyCondition} and a value matching {@code valueCondition}.
+   * @throws NullPointerException if any of the given conditions is {@code null}.
    * @since 2.7.0  / 3.7.0
    */
   public SELF hasEntrySatisfying(Condition<? super K> keyCondition, Condition<? super V> valueCondition) {
@@ -909,9 +909,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param keyCondition the condition to be matched by the entry's key.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if there is no key matching the given {@code keyCondition}.
+   * @throws NullPointerException if the given condition is {@code null}.
    * @since 2.7.0  / 3.7.0
    */
   public SELF hasKeySatisfying(Condition<? super K> keyCondition) {
@@ -949,9 +949,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param valueCondition the condition to be matched by the entry's value.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if there is no value matching the given {@code valueCondition}.
+   * @throws NullPointerException if the given condition is {@code null}.
    * @since 2.7.0  / 3.7.0
    */
   public SELF hasValueSatisfying(Condition<? super V> valueCondition) {
@@ -978,10 +978,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param entries the given entries.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains any of the given entries.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws NullPointerException if the given argument is {@code null}.
    */
   @SafeVarargs
   public final SELF doesNotContain(Map.Entry<? extends K, ? extends V>... entries) {
@@ -1015,10 +1015,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @param key key of the entry.
    * @param value value of the entry.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws AssertionError if the actual map contains any of the given entries.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws NullPointerException if the given argument is {@code null}.
    */
   public SELF doesNotContainEntry(K key, V value) {
     maps.assertDoesNotContain(info, actual, array(entry(key, value)));
@@ -1341,10 +1341,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @param entries the entries that should be in the actual map.
    * @return {@code this} assertions object
    * @throws AssertionError if the actual map is {@code null}.
-   * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual map does not contain the given entries, i.e. the actual map contains some or
    *           none of the given entries, or the actual map contains more entries than the given ones.
+   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws NullPointerException if the given argument is {@code null}.
    */
   @SafeVarargs
   public final SELF containsOnly(Map.Entry<? extends K, ? extends V>... entries) {
@@ -1383,12 +1383,12 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @param entries the given entries.
    * @return {@code this} assertions object
-   * @throws NullPointerException if the given entries array is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
-   * @throws IllegalArgumentException if the given entries array is empty.
    * @throws AssertionError if the actual map does not contain the given entries with same order, i.e. the actual map
    *           contains some or none of the given entries, or the actual map contains more entries than the given ones
    *           or entries are the same but the order is not.
+   * @throws IllegalArgumentException if the given entries array is empty.
+   * @throws NullPointerException if the given entries array is {@code null}.
    */
   @SafeVarargs
   public final SELF containsExactly(Map.Entry<? extends K, ? extends V>... entries) {
@@ -1840,8 +1840,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @param key the key used to get value from the map under test
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
    *
-   * @since 3.14.0
    * @see #extractingByKey(Object, InstanceOfAssertFactory)
+   * @since 3.14.0
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, V> extractingByKey(K key) {

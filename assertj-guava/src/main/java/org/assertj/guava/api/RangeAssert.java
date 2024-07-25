@@ -39,8 +39,9 @@ import com.google.common.collect.Range;
  * org.assertj.guava.api.Assertions#assertThat(com.google.common.collect.Range)}</code>
  * <p>
  *
- * @param <T> the type of elements of the tested Range value
  * @author Marcin Kwaczyński
+ *
+ * @param <T> the type of elements of the tested Range value
  */
 public class RangeAssert<T extends Comparable<T>> extends AbstractAssert<RangeAssert<T>, Range<T>> {
 

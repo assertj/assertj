@@ -38,12 +38,12 @@ import org.assertj.core.util.CheckReturnValue;
 /**
  * Assertions for {@link java.util.Optional}.
  *
- * @param <SELF> the "self" type of this assertion class.
- * @param <VALUE> type of the value contained in the {@link java.util.Optional}.
- *
  * @author Jean-Christophe Gay
  * @author Nicolai Parlog
  * @author Grzegorz Piwowarek
+ *
+ * @param <SELF> the "self" type of this assertion class.
+ * @param <VALUE> type of the value contained in the {@link java.util.Optional}.
  */
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
@@ -194,8 +194,8 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @param condition the given condition.
    * @return this assertion object.
    * @throws AssertionError       if the actual {@link Optional} is null or empty.
-   * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError       if the actual value does not satisfy the given condition.
+   * @throws NullPointerException if the given condition is {@code null}.
    * @since 3.6.0
    */
   public SELF hasValueSatisfying(Condition<? super VALUE> condition) {
@@ -442,8 +442,8 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return a new {@link AbstractObjectAssert} for assertions chaining on the value of the Optional.
    * @throws AssertionError if the actual {@link Optional} is null.
    * @throws AssertionError if the actual {@link Optional} is empty.
-   * @since 3.9.0
    * @see #get(InstanceOfAssertFactory)
+   * @since 3.9.0
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, VALUE> get() {
@@ -470,9 +470,9 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @param <ASSERT>      the type of the resulting {@code Assert}
    * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
    * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the Optional
-   * @throws NullPointerException if the given factory is {@code null}
    * @throws AssertionError if the actual {@link Optional} is null
    * @throws AssertionError if the actual {@link Optional} is empty
+   * @throws NullPointerException if the given factory is {@code null}
    * @since 3.14.0
    */
   @CheckReturnValue

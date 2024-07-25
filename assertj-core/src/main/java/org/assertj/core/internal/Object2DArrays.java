@@ -19,9 +19,9 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Reusable assertions for two-dimensional arrays of objects.
  *
- * @param <ELEMENT> the type of elements of the 2D array.
- *
  * @author Maciej Wajcht
+ *
+ * @param <ELEMENT> the type of elements of the 2D array.
  */
 public class Object2DArrays<ELEMENT> {
 

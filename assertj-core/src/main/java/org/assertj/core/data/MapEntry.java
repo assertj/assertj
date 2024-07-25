@@ -20,10 +20,10 @@ import java.util.Objects;
 /**
  * Understands an entry in a <code>{@link Map}</code>.
  *
+ * @author Yvonne Wang
+ *
  * @param <K> the type of the key of this entry.
  * @param <V> the type of the value of this entry.
- *
- * @author Yvonne Wang
  */
 public final class MapEntry<K, V> implements Map.Entry<K, V> {
 

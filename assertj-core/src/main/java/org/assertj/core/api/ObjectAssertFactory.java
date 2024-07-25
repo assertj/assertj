@@ -13,9 +13,9 @@
 package org.assertj.core.api;
 
 /**
- * @deprecated Use {@link Assertions#assertThat(Object)} instead.
- *
  * @since 2.5.0 / 3.5.0
+ *
+ * @deprecated Use {@link Assertions#assertThat(Object)} instead.
  */
 @Deprecated
 public class ObjectAssertFactory<T> implements AssertFactory<T, ObjectAssert<T>> {

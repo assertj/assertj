@@ -20,9 +20,9 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(AtomicReferenceFieldUpdater)}</code>.
  * </p>
  *
+ * @author epeee
  * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
  * @param <OBJECT> the type of the object holding the updatable field.
- * @author epeee
  * @since 2.7.0 / 3.7.0
  */
 public class AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> extends

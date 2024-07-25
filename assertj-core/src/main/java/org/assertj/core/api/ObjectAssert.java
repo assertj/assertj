@@ -20,12 +20,13 @@ import java.util.function.Consumer;
  * <p>
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Object)}</code>.
  * </p>
- * @param <ACTUAL> the type of the "actual" value.
  *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
  * @author Mikhail Mazursky
+ *
+ * @param <ACTUAL> the type of the "actual" value.
  */
 public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTUAL>, ACTUAL> {
 

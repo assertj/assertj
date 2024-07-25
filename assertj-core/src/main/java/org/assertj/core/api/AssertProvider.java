@@ -39,11 +39,11 @@ package org.assertj.core.api;
  *   // Second option
  *   button.assertThat().containsText("Test");
  * }</code></pre>
- * 
+ *
+ * @author Tobias Liefke
+ *
  * @param <A>
  *          the type of the assert (not typed - to allow any kind of assert)
- * 
- * @author Tobias Liefke
  */
 public interface AssertProvider<A> {
 

@@ -17,10 +17,11 @@ import static org.assertj.core.error.ShouldHaveReference.shouldHaveReference;
 /**
  * Base class for atomic assertions.
  *
+ * @author epeee
+ *
  * @param <SELF> the "self" type of this assertion class.
  * @param <VALUE> the type of the "actual" value.
  * @param <ATOMIC> the type of the "actual" atomic.
- * @author epeee
  * @since 2.7.0 / 3.7.0
  */
 public abstract class AbstractAtomicReferenceAssert<SELF extends AbstractAtomicReferenceAssert<SELF, VALUE, ATOMIC>, VALUE, ATOMIC>

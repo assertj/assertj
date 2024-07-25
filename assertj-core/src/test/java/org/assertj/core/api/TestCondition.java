@@ -14,11 +14,12 @@ package org.assertj.core.api;
 
 /**
  * A <code>{@link Condition}</code> for testing.
- * @param <T> the type of object this condition accepts.
- * 
+ *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Mikhail Mazursky
+ *
+ * @param <T> the type of object this condition accepts.
  */
 public class TestCondition<T> extends Condition<T> {
 

@@ -21,11 +21,11 @@ import org.assertj.core.description.TextDescription;
 /**
  * An object that has a description.
  *
- * @param <SELF> the "self" type of this assertion class.
- *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Mikhail Mazursky
+ *
+ * @param <SELF> the "self" type of this assertion class.
  */
 public interface Descriptable<SELF> {
 

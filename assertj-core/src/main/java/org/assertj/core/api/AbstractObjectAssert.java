@@ -40,17 +40,17 @@ import org.assertj.core.util.introspection.IntrospectionError;
 /**
  * Base class for all implementations of assertions for {@link Object}s.
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
- * @param <ACTUAL> the type of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
  * @author Mikhail Mazursky
  * @author Joel Costigliola
  * @author Libor Ondrusek
+ *
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *          for more details.
+ * @param <ACTUAL> the type of the "actual" value.
  */
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 @SuppressWarnings("deprecation")

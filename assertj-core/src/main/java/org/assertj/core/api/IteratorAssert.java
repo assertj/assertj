@@ -20,9 +20,9 @@ import java.util.Iterator;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Iterator)}</code>.
  * </p>
  *
- * @param <ELEMENT> the type of elements of the "actual" value.
- *
  * @author Stephan Windmüller
+ *
+ * @param <ELEMENT> the type of elements of the "actual" value.
  */
 public class IteratorAssert<ELEMENT> extends AbstractIteratorAssert<IteratorAssert<ELEMENT>, ELEMENT> {
 

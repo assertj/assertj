@@ -22,10 +22,10 @@ import java.util.Objects;
 /**
  * A positive offset.
  *
- * @param <T> the type of the offset value.
- *
  * @author Alex Ruiz
  * @author Yvonne Wang
+ *
+ * @param <T> the type of the offset value.
  */
 public final class Offset<T extends Number> {
 

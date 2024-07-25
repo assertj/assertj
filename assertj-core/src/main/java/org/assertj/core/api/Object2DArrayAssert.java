@@ -30,9 +30,9 @@ import org.assertj.core.util.VisibleForTesting;
  * <p>
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(Object[][])}</code>.
  *
+ * @author Maciej Wajcht
  * @param <ELEMENT> the type of elements of the "actual" value.
  *
- * @author Maciej Wajcht
  * @since 3.17.0
  */
 public class Object2DArrayAssert<ELEMENT> extends

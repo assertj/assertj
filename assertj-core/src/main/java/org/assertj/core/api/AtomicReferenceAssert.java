@@ -92,9 +92,9 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
    *
    * @param predicate the {@link Predicate} to apply on the resulting value.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@link Predicate} is null
    * @throws AssertionError if the atomic under test is {@code null}.
    * @throws AssertionError if the atomic under test value does not matches with the given predicate.
+   * @throws NullPointerException if the given {@link Predicate} is null
    *
    * @since 3.18.0
    */
@@ -117,9 +117,9 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
    * @param predicate   the {@link Predicate} to apply on the resulting value.
    * @param description the {@link Predicate} description.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@link Predicate} is null
    * @throws AssertionError if the atomic under test is {@code null}.
    * @throws AssertionError if the atomic under test value does not matches with the given predicate.
+   * @throws NullPointerException if the given {@link Predicate} is null
    *
    * @since 3.18.0
    */
@@ -149,10 +149,9 @@ public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAsse
    *
    * @param requirements to assert on the actual object - must not be null.
    * @return this assertion object.
-   *
-   * @throws NullPointerException if the given {@link Consumer} is null
    * @throws AssertionError if the atomic under test is {@code null}.
    * @throws AssertionError if the atomic under test value does not satisfies with the given requirements.
+   * @throws NullPointerException if the given {@link Consumer} is null
    *
    * @since 3.18.0
    */

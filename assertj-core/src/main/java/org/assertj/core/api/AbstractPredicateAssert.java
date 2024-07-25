@@ -25,9 +25,9 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Assertions for {@link Predicate}.
  *
- * @param <T> type of the value contained in the {@link Predicate}.
- *
  * @author Filip Hrisafov
+ *
+ * @param <T> type of the value contained in the {@link Predicate}.
  */
 public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAssert<SELF, T>, T> extends
     AbstractAssert<SELF, Predicate<T>> {

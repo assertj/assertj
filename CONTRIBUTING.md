@@ -92,10 +92,10 @@ A good Javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`
  *
  * @param values the Strings to look for, in order.
  * @return {@code this} assertion object.
- * @throws NullPointerException if the given values is {@code null}.
- * @throws IllegalArgumentException if the given values is empty.
  * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
- * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given order</b>.
+ * @throws AssertionError if the actual {@code CharSequence} does not contain all the given strings <b>in the given order</b>
+ * @throws IllegalArgumentException if the given values is empty..
+ * @throws NullPointerException if the given values is {@code null}.
  * @since 2.1.0 / 3.1.0
  */
 ```

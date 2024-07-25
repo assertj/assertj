@@ -34,12 +34,12 @@ import org.assertj.core.util.VisibleForTesting;
  * To create an instance of this class, invoke <code>{@link Assertions#assertThat(List)}</code>.
  * <p>
  *
- * @param <ELEMENT> the type of elements of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ *
+ * @param <ELEMENT> the type of elements of the "actual" value.
  */
 public class ListAssert<ELEMENT> extends
     FactoryBasedNavigableListAssert<ListAssert<ELEMENT>, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {

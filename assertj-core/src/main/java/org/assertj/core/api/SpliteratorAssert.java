@@ -19,9 +19,9 @@ import java.util.Spliterator;
  * <p>
  * To create a new instance of this class, invoke <code>{@link Assertions#assertThat(Spliterator)}</code>.
  *
- * @param <ELEMENT> the type of elements.
- *
  * @author William Bakker
+ *
+ * @param <ELEMENT> the type of elements.
  */
 public class SpliteratorAssert<ELEMENT> extends AbstractSpliteratorAssert<SpliteratorAssert<ELEMENT>, ELEMENT> {
 

@@ -41,10 +41,10 @@ import org.assertj.core.description.JoinDescription;
  * // returns false
  * optionalWithLineSeparator.matches(Optional.of("a"));</code></pre>
  *
+ * @author Stefan Bischof
+ *
  * @param <FROM> the type of object this condition accepts.
  * @param <TO> the type of object the nested condition accepts.
- *
- * @author Stefan Bischof
  */
 @Beta
 public class MappedCondition<FROM, TO> extends Condition<FROM> {
