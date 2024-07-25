@@ -21,11 +21,11 @@ import static org.assertj.core.util.Sets.newLinkedHashSet;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.IterableAssert;
-import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.data.TolkienCharacterAssert;
-import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.TolkienCharacter;
+import org.assertj.core.testkit.TolkienCharacterAssert;
+import org.assertj.core.testkit.TolkienCharacterAssertFactory;
 import org.junit.jupiter.api.Test;
 
 class ObjectArrayAssert_filteredOnAssertions_Test extends ObjectArrayAssert_filtered_baseTest {

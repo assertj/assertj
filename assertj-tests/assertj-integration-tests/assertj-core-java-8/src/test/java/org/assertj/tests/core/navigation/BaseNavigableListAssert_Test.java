@@ -10,36 +10,23 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.navigation;
+package org.assertj.tests.core.navigation;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
-import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
+import org.assertj.core.api.AbstractListAssert;
+import org.assertj.tests.core.testkit.Vehicle;
+import org.assertj.tests.core.testkit.VehicleAssert;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests navigating a generated Assert class with a List property
- */
-class ClassBasedNavigableList_withDefault_Test {
-
-  @Test
-  void should_use_ObjectAssert_by_default() {
-    List<String> list = newArrayList("one", "two", "three");
-
-    assertThat(list).first().isEqualTo("one");
-    assertThat(list).last().isEqualTo("three");
-    assertThat(list).element(1).isEqualTo("two");
-  }
+abstract class BaseNavigableListAssert_Test
+    extends GenericNavigableAssert_Test<List<Vehicle>, AbstractListAssert<?, List<Vehicle>, Vehicle, VehicleAssert>> {
 
   @Test
   void should_honor_list_assertions() {
-    List<String> list = newArrayList("one", "two", "three");
-
-    assertThat(list).contains("one", atIndex(0))
-                    .first().isEqualTo("one");
+    vehiclesAssert.contains(expectedVehicles.get(1), atIndex(1));
   }
 
 }

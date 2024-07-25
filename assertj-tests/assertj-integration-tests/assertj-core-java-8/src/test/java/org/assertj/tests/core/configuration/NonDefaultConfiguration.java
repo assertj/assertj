@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.configuration;
+package org.assertj.tests.core.configuration;
 
 import static org.assertj.core.presentation.BinaryRepresentation.BINARY_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
@@ -19,6 +19,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import org.assertj.core.configuration.Configuration;
+import org.assertj.core.configuration.PreferredAssumptionException;
 import org.assertj.core.presentation.Representation;
 
 class NonDefaultConfiguration extends Configuration {

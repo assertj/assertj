@@ -10,57 +10,57 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.data;
+package org.assertj.tests.core.data;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.data.MapEntry.entry;
 
+import org.assertj.core.data.MapEntry;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 
 /**
- * Tests for {@link Index}.
- *
  * @author Alex Ruiz
  */
-class Index_Test {
+class MapEntry_Test {
 
   @Test
   void should_honor_equals_contract() {
     // WHEN/THEN
-    EqualsVerifier.forClass(Index.class)
+    EqualsVerifier.forClass(MapEntry.class)
                   .verify();
   }
 
-  @ParameterizedTest
-  @ValueSource(ints = { 0, 1 })
-  void atIndex_should_succeed(int value) {
-    // WHEN
-    Index index = Index.atIndex(value);
-    // THEN
-    then(index.value).isEqualTo(value);
-  }
-
   @Test
-  void atIndex_should_fail_if_value_is_negative() {
+  void setValue_should_fail() {
+    // GIVEN
+    MapEntry<String, String> underTest = entry("name", "Yoda");
     // WHEN
-    Throwable thrown = catchThrowable(() -> Index.atIndex(-1));
+    Throwable thrown = catchThrowable(() -> underTest.setValue("Luke"));
     // THEN
-    then(thrown).isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("The value of the index should not be negative");
+    then(thrown).isInstanceOf(UnsupportedOperationException.class);
   }
 
   @Test
   void should_implement_toString() {
     // GIVEN
-    Index underTest = Index.atIndex(8);
+    MapEntry<String, String> underTest = entry("name", "Yoda");
     // WHEN
     String result = underTest.toString();
     // THEN
-    then(result).isEqualTo("Index[value=8]");
+    then(result).isEqualTo("\"name\"=\"Yoda\"");
+  }
+
+  @Test
+  void should_implement_toString_using_standard_representation() {
+    // GIVEN
+    MapEntry<String, String[]> underTest = entry("name", new String[] { "Yoda" });
+    // WHEN
+    String result = underTest.toString();
+    // THEN
+    then(result).isEqualTo("\"name\"=[\"Yoda\"]");
   }
 
 }

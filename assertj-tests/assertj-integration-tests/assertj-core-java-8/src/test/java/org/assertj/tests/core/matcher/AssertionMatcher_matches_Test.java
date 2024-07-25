@@ -10,22 +10,22 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.matcher;
+package org.assertj.tests.core.matcher;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.assertj.core.internal.Failures;
+import org.assertj.core.matcher.AssertionMatcher;
 import org.hamcrest.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatcher;
 
 class AssertionMatcher_matches_Test {
   private static final Integer ZERO = 0;
@@ -91,15 +91,10 @@ class AssertionMatcher_matches_Test {
     verify(description).appendText(shouldBeEqualMessage("1", "0"));
     verify(description).appendText(format("%n%nStacktrace was: "));
     // @format:off
-    verify(description).appendText(argThat(new ArgumentMatcher<String>() {
-      @Override
-      public boolean matches(String s) {
-        return s.contains(format("%nexpected: 0%n but was: 1"))
-            && s.contains("at org.assertj.core.matcher.AssertionMatcher_matches_Test$1.assertion(AssertionMatcher_matches_Test.java:")
-            && s.contains("at org.assertj.core.matcher.AssertionMatcher.matches(AssertionMatcher.java:")
-            && s.contains("at org.assertj.core.matcher.AssertionMatcher_matches_Test.matcher_should_fill_description_when_assertion_fails(AssertionMatcher_matches_Test.java:");
-      }
-    }));
+    verify(description).appendText(argThat(s -> s.contains(format("%nexpected: 0%n but was: 1"))
+        && s.contains("at org.assertj.tests.core.matcher.AssertionMatcher_matches_Test$1.assertion(AssertionMatcher_matches_Test.java:")
+        && s.contains("at org.assertj.core.matcher.AssertionMatcher.matches(AssertionMatcher.java:")
+        && s.contains("at org.assertj.tests.core.matcher.AssertionMatcher_matches_Test.matcher_should_fill_description_when_assertion_fails(AssertionMatcher_matches_Test.java:")));
     // @format:on
   }
 }

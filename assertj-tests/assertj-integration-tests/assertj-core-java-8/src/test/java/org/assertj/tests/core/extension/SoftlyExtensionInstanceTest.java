@@ -10,10 +10,10 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.extension;
+package org.assertj.tests.core.extension;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;

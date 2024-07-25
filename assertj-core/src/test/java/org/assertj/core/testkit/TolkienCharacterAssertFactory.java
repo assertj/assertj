@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.data;
+package org.assertj.core.testkit;
 
 import org.assertj.core.api.AssertFactory;
 

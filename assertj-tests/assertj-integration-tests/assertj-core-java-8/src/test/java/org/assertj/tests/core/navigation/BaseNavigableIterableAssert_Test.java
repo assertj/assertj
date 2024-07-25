@@ -10,11 +10,11 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.navigation;
+package org.assertj.tests.core.navigation;
 
 import org.assertj.core.api.AbstractIterableAssert;
-import org.assertj.core.testkit.Vehicle;
-import org.assertj.core.testkit.VehicleAssert;
+import org.assertj.tests.core.testkit.Vehicle;
+import org.assertj.tests.core.testkit.VehicleAssert;
 
 public abstract class BaseNavigableIterableAssert_Test
     extends GenericNavigableAssert_Test<Iterable<Vehicle>, AbstractIterableAssert<?, Iterable<Vehicle>, Vehicle, VehicleAssert>> {

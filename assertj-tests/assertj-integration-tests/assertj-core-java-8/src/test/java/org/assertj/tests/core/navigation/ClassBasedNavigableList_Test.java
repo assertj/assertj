@@ -10,22 +10,24 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.navigation;
+package org.assertj.tests.core.navigation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import org.assertj.core.api.ClassBasedNavigableIterableAssert;
-import org.assertj.core.testkit.IllegalVehicleAssert;
-import org.assertj.core.testkit.Vehicle;
-import org.assertj.core.testkit.VehicleAssert;
-import org.assertj.core.testkit.VehicleFactory;
+import java.util.List;
+
+import org.assertj.core.api.ClassBasedNavigableListAssert;
+import org.assertj.tests.core.testkit.IllegalVehicleAssert;
+import org.assertj.tests.core.testkit.Vehicle;
+import org.assertj.tests.core.testkit.VehicleAssert;
+import org.assertj.tests.core.testkit.VehicleFactory;
 import org.junit.jupiter.api.Test;
 
-class ClassBasedNavigableIterable_Test extends BaseNavigableIterableAssert_Test {
+class ClassBasedNavigableList_Test extends BaseNavigableListAssert_Test {
 
   @Override
-  protected ClassBasedNavigableIterableAssert<?, Iterable<Vehicle>, Vehicle, VehicleAssert> buildNavigableAssert() {
+  protected ClassBasedNavigableListAssert<?, List<Vehicle>, Vehicle, VehicleAssert> buildNavigableAssert() {
     return assertThat(expectedVehicles, VehicleAssert.class);
   }
 
@@ -35,7 +37,7 @@ class ClassBasedNavigableIterable_Test extends BaseNavigableIterableAssert_Test 
                                                                                   IllegalVehicleAssert.class)
                                                                                                              .toAssert(new VehicleFactory.Car("car"),
                                                                                                                        "unused"))
-                                                     .withMessageContaining("not access a member of class org.assertj.core.testkit.IllegalVehicleAssert");
+                                                     .withMessageContaining("not access a member of class org.assertj.tests.core.testkit.IllegalVehicleAssert");
   }
 
 }

@@ -13,14 +13,14 @@
 package org.assertj.core.api.iterable;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
+import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
-import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
+import org.assertj.core.testkit.TolkienCharacter;
 import org.junit.jupiter.api.BeforeEach;
 
 public class IterableAssert_filtered_baseTest {

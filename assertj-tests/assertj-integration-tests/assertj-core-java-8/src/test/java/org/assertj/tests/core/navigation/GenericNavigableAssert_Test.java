@@ -10,16 +10,16 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.navigation;
+package org.assertj.tests.core.navigation;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import org.assertj.core.api.AbstractIterableAssert;
-import org.assertj.core.testkit.Vehicle;
-import org.assertj.core.testkit.VehicleAssert;
-import org.assertj.core.testkit.VehicleFactory;
-import org.assertj.core.testkit.VehicleFactory.Car;
 import org.assertj.core.util.Streams;
+import org.assertj.tests.core.testkit.Vehicle;
+import org.assertj.tests.core.testkit.VehicleAssert;
+import org.assertj.tests.core.testkit.VehicleFactory;
+import org.assertj.tests.core.testkit.VehicleFactory.Car;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

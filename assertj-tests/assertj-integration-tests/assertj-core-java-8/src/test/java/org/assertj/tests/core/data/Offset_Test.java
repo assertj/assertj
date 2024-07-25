@@ -10,13 +10,14 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.data;
+package org.assertj.tests.core.data;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.ErrorMessages.offsetValueIsNotPositive;
 import static org.assertj.core.internal.ErrorMessages.strictOffsetValueIsNotStrictlyPositive;
 
+import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

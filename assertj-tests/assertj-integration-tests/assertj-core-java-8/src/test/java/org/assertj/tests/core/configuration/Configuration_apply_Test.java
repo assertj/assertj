@@ -10,20 +10,22 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.configuration;
+package org.assertj.tests.core.configuration;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.assertj.core.api.AssumptionExceptionFactory;
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.testkit.MutatesGlobalConfiguration;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.Introspection;
+import org.assertj.tests.core.testkit.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -40,7 +42,7 @@ class Configuration_apply_Test {
     then(FieldSupport.extraction().isAllowedToUsePrivateFields()).isEqualTo(configuration.extractingPrivateFieldsEnabled());
     then(FieldSupport.comparison().isAllowedToUsePrivateFields()).isEqualTo(configuration.comparingPrivateFieldsEnabled());
     then(Introspection.canExtractBareNamePropertyMethods()).isEqualTo(configuration.bareNamePropertyExtractionEnabled());
-    then(configuration.hasCustomRepresentation()).isTrue();
+    then(configuration.representation()).isNotSameAs(STANDARD_REPRESENTATION);
     // a bit dodgy but since our custom representation inherits StandardRepresentation, changing maxElementsForPrinting and
     // maxLengthForSingleLineDescription will be effective.
     then(StandardRepresentation.getMaxElementsForPrinting()).isEqualTo(configuration.maxElementsForPrinting());

@@ -10,23 +10,15 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.navigation;
+package org.assertj.tests.core.testkit;
 
-import static org.assertj.core.api.Assertions.atIndex;
+import org.assertj.core.api.AssertFactory;
 
-import java.util.List;
+public class TolkienCharacterAssertFactory implements AssertFactory<TolkienCharacter, TolkienCharacterAssert> {
 
-import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.testkit.Vehicle;
-import org.assertj.core.testkit.VehicleAssert;
-import org.junit.jupiter.api.Test;
-
-abstract class BaseNavigableListAssert_Test
-    extends GenericNavigableAssert_Test<List<Vehicle>, AbstractListAssert<?, List<Vehicle>, Vehicle, VehicleAssert>> {
-
-  @Test
-  void should_honor_list_assertions() {
-    vehiclesAssert.contains(expectedVehicles.get(1), atIndex(1));
+  @Override
+  public TolkienCharacterAssert createAssert(TolkienCharacter character) {
+    return TolkienCharacterAssert.assertThat(character);
   }
 
 }

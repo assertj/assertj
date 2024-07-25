@@ -10,15 +10,16 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.configuration;
+package org.assertj.tests.core.configuration;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.function.Consumer;
 
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.description.Description;
-import org.assertj.core.testkit.MutatesGlobalConfiguration;
+import org.assertj.tests.core.testkit.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,7 +44,7 @@ class Configuration_describe_Test {
     // WHEN
     String description = configuration.describe();
     // THEN
-    then(description).isEqualTo(format("Applying configuration org.assertj.core.configuration.NonDefaultConfiguration%n" +
+    then(description).isEqualTo(format("Applying configuration org.assertj.tests.core.configuration.NonDefaultConfiguration%n" +
                                        "- representation .................................. = BinaryRepresentation%n" +
                                        "- comparingPrivateFieldsEnabled ................... = false%n" +
                                        "- extractingPrivateFieldsEnabled .................. = false%n" +

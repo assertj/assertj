@@ -13,11 +13,11 @@
 package org.assertj.core.api.list;
 
 import static java.util.Arrays.asList;
-import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
+import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
 
 import java.util.List;
 
-import org.assertj.core.data.TolkienCharacter;
+import org.assertj.core.testkit.TolkienCharacter;
 
 public class ListAssert_filteredOn_BaseTest {
 

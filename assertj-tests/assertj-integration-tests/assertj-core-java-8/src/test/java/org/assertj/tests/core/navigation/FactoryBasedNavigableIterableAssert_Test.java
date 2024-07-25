@@ -10,21 +10,19 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.navigation;
+package org.assertj.tests.core.navigation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.List;
-
 import org.assertj.core.api.AssertFactory;
-import org.assertj.core.api.FactoryBasedNavigableListAssert;
-import org.assertj.core.testkit.Vehicle;
-import org.assertj.core.testkit.VehicleAssert;
+import org.assertj.core.api.FactoryBasedNavigableIterableAssert;
+import org.assertj.tests.core.testkit.Vehicle;
+import org.assertj.tests.core.testkit.VehicleAssert;
 
-class FactoryBasedNavigableListAssert_Test extends BaseNavigableListAssert_Test {
+class FactoryBasedNavigableIterableAssert_Test extends BaseNavigableIterableAssert_Test {
 
   @Override
-  protected FactoryBasedNavigableListAssert<?, List<Vehicle>, Vehicle, VehicleAssert> buildNavigableAssert() {
+  protected FactoryBasedNavigableIterableAssert<?, Iterable<Vehicle>, Vehicle, VehicleAssert> buildNavigableAssert() {
     AssertFactory<Vehicle, VehicleAssert> assertFactory = VehicleAssert::assertThat;
     return assertThat(expectedVehicles, assertFactory);
   }

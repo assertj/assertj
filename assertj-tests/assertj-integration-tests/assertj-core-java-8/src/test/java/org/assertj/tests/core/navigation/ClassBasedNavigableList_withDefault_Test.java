@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.navigation;
+package org.assertj.tests.core.navigation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.atIndex;
@@ -18,29 +18,28 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
-import org.assertj.core.api.AssertFactory;
-import org.assertj.core.api.StringAssert;
 import org.junit.jupiter.api.Test;
 
-class FactoryBasedNavigableList_withString_Test {
-
-  private AssertFactory<String, StringAssert> stringAssertFactory = StringAssert::new;
+/**
+ * Tests navigating a generated Assert class with a List property
+ */
+class ClassBasedNavigableList_withDefault_Test {
 
   @Test
-  void should_navigate_to_list_elements_and_perform_specific_string_assertions() {
+  void should_use_ObjectAssert_by_default() {
     List<String> list = newArrayList("one", "two", "three");
 
-    assertThat(list, stringAssertFactory).first().startsWith("o");
-    assertThat(list, stringAssertFactory).last().endsWith("ee");
-    assertThat(list, stringAssertFactory).element(1).contains("w");
+    assertThat(list).first().isEqualTo("one");
+    assertThat(list).last().isEqualTo("three");
+    assertThat(list).element(1).isEqualTo("two");
   }
 
   @Test
   void should_honor_list_assertions() {
     List<String> list = newArrayList("one", "two", "three");
 
-    assertThat(list, stringAssertFactory).contains("one", atIndex(0))
-                                         .first().startsWith("o");
+    assertThat(list).contains("one", atIndex(0))
+                    .first().isEqualTo("one");
   }
 
 }
