@@ -1474,8 +1474,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   /**
    * Do not use this method.
    *
-   * @deprecated Custom element Comparator is not supported for MapEntry comparison.
    * @throws UnsupportedOperationException if this method is called.
+   * @deprecated Custom element Comparator is not supported for MapEntry comparison.
    */
   @Override
   @Deprecated
@@ -1486,8 +1486,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   /**
    * Do not use this method.
    *
-   * @deprecated Custom element Comparator is not supported for MapEntry comparison.
    * @throws UnsupportedOperationException if this method is called.
+   * @deprecated Custom element Comparator is not supported for MapEntry comparison.
    */
   @Override
   @Deprecated

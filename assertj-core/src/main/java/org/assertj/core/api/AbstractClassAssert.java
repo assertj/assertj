@@ -783,9 +783,9 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * @deprecated use {@link #hasPublicFields(String...)} instead.
    * @param fields the fields who must be in the class.
    * @return {@code this} assertions object
+   * @deprecated use {@link #hasPublicFields(String...)} instead.
    */
   @Deprecated
   public SELF hasFields(String... fields) {

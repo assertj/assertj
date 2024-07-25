@@ -1401,8 +1401,6 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * @deprecated
-   *
    * This assertion has some limitations, for example it does not handle tab vs space and would fail if elements are the same but
    * in a different order.<br>
    * The recommended approach is <a href="https://github.com/xmlunit/user-guide/wiki">XML Unit</a> which is able to deal with
@@ -1454,10 +1452,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *           {@code CharSequence}.
    * @see <a href="https://github.com/xmlunit/user-guide/wiki">XML Unit</a>
    * @see <a href="https://github.com/xmlunit/user-guide/wiki/Providing-Input-to-XMLUnit">XML Unit XML source input</a>
+   *
+   * @deprecated
    */
   @Deprecated
   public SELF isXmlEqualTo(CharSequence expectedXml) {
-    strings.assertXmlEqualsTo(info, actual, expectedXml);
+      strings.assertXmlEqualsTo(info, actual, expectedXml);
     return myself;
   }
 
@@ -1486,8 +1486,9 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Do not use this method.
    *
-   * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    * @throws UnsupportedOperationException if this method is called.
+   *
+   * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    */
   @Override
   @Deprecated
@@ -1498,8 +1499,9 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Do not use this method.
    *
-   * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    * @throws UnsupportedOperationException if this method is called.
+   *
+   * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    */
   @Override
   @Deprecated

@@ -1344,7 +1344,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   }
 
   /**
-   * @deprecated use {@link #asBase64Encoded()} instead.
    * <p>
    * Encodes the actual array into a Base64 string, the encoded string becoming the new object under test.
    * <p>
@@ -1356,6 +1355,8 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * @throws AssertionError if the actual value is {@code null}.
    *
    * @since 3.16.0
+   *
+   * @deprecated use {@link #asBase64Encoded()} instead.
    */
   @Deprecated
   @CheckReturnValue

@@ -282,7 +282,6 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   }
 
   /**
-   * @deprecated use {@link #asBase64Decoded()} instead.
    * <p>
    * Decodes the actual value as a Base64 encoded string, the decoded bytes becoming the new array under test.
    * <p>
@@ -301,6 +300,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @throws AssertionError if the actual value is not a valid Base64 encoded string.
    *
    * @since 3.16.0
+   * @deprecated use {@link #asBase64Decoded()} instead.
    */
   @Deprecated
   @CheckReturnValue

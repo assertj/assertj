@@ -184,7 +184,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * @deprecated use {@link #cause()} instead.
    * <p>
    * Returns a new assertion object that uses the cause of the current Throwable as the actual Throwable under test.
    * <p>
@@ -201,6 +200,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the actual {@code Throwable} does not have a cause.
    *
    * @since 3.16.0
+   * @deprecated use {@link #cause()} instead.
    */
   @Deprecated
   public AbstractThrowableAssert<?, ?> getCause() {
@@ -232,7 +232,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * @deprecated use {@link #rootCause()} instead.
    * <p>
    * Returns a new assertion object that uses the root cause of the current Throwable as the actual Throwable under test.
    * <p>
@@ -250,6 +249,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the actual {@code Throwable} does not have a root cause.
    *
    * @since 3.16.0
+   * @deprecated use {@link #rootCause()} instead.
    */
   @Deprecated
   public AbstractThrowableAssert<?, ?> getRootCause() {

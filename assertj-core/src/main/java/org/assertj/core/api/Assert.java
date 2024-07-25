@@ -673,10 +673,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   AbstractCharSequenceAssert<?, String> asString();
 
   /**
-   * @deprecated
-   *             Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
-   *             <code>equals(Object)</code> instead of <code>{@link #isEqualTo(Object)}</code>.
+   * Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
+   * <code>equals(Object)</code> instead of <code>{@link #isEqualTo(Object)}</code>.
+   *
    * @throws UnsupportedOperationException if this method is called.
+   * @deprecated
    */
   @Override
   @Deprecated

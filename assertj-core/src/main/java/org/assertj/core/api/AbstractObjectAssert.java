@@ -77,8 +77,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
-   * {@link RecursiveComparisonAssert#ignoringExpectedNullFields() ignoringExpectedNullFields()}.
    * <p>
    * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
    * fields recursively (only stopping at java types).
@@ -142,6 +140,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws NullPointerException if the actual or other object is {@code null}.
    * @throws AssertionError if the actual and the given object are not lenient equals.
    * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
+   *
+   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
+   * {@link RecursiveComparisonAssert#ignoringExpectedNullFields() ignoringExpectedNullFields()}.
    */
   @Deprecated
   public SELF isEqualToIgnoringNullFields(Object other) {
@@ -150,7 +151,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and specify the fields to ignore.
    * <p>
    * <b>Warning:</b> the recursive comparison does not provide a strictly equivalent feature, instead it provides several ways to ignore
    * fields in the comparison {@link RecursiveComparisonAssert#ignoringFields(String...) by specifying fields to ignore}, or
@@ -218,16 +218,17 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field on given fields.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    * @throws IntrospectionError if a property/field does not exist in actual.
+   *
+   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and specify the fields to ignore.
    */
   @Deprecated
   public SELF isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
     objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType(),
-                                                    propertiesOrFieldsUsedInComparison);
+    propertiesOrFieldsUsedInComparison);
     return myself;
   }
 
   /**
-   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
    * {@link RecursiveComparisonAssert#ignoringFields(String...) ignoringFields(String...)}.
    * <p>
    * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
@@ -290,6 +291,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws NullPointerException if the actual or given object is {@code null}.
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field after ignoring given fields.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
+   *
+   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
    */
   @Deprecated
   public SELF isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
@@ -421,7 +424,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()}.
    * <p>
    * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
    * fields recursively (only stopping at java types).
@@ -478,6 +480,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if the actual and the given objects are not equals property/field by property/field.
    * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
+   *
+   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()}.
    */
   @Deprecated
   public SELF isEqualToComparingFieldByField(Object other) {
@@ -1001,7 +1005,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * @deprecated Prefer calling {@link #usingRecursiveComparison()} for comparing objects field by field as it offers more flexibility, better reporting and an easier to use API.
    *
    * Asserts that the object under test (actual) is equal to the given object based on a recursive property/field by property/field comparison (including
    * inherited ones). This can be useful if actual's {@code equals} implementation does not suit you.
@@ -1070,11 +1073,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if the actual and the given objects are not deeply equal property/field by property/field.
    * @throws IntrospectionError if one property/field to compare can not be found.
+   *
+   * @deprecated Prefer calling {@link #usingRecursiveComparison()} for comparing objects field by field as it offers more flexibility, better reporting and an easier to use API.
    */
   @Deprecated
   public SELF isEqualToComparingFieldByFieldRecursively(Object other) {
-    objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorsByPropertyOrField,
-                                                            getComparatorsByType());
+      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorsByPropertyOrField,
+      getComparatorsByType());
     return myself;
   }
 

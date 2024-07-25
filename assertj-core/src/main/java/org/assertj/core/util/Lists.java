@@ -89,10 +89,10 @@ public final class Lists {
   }
 
   /**
-   * @deprecated use {@link Collections#emptyList()} instead.
-   *
    * @param <T> the generic type of the {@code List}.
    * @return an empty, <em>immutable</em> {@code List}.
+   *
+   * @deprecated use {@link Collections#emptyList()} instead.
    */
   @Deprecated
   public static <T> List<T> emptyList() {

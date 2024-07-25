@@ -98,7 +98,6 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasSameTextualContentAs(Path)} instead
    * <p>
    * Verifies that the content of the actual {@code Path} is the same as the given one (both paths must be a readable
    * files).
@@ -128,6 +127,8 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the actual {@code Path} is {@code null}.
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
    * @throws PathsException if an I/O error occurs.
+   *
+   * @deprecated use {@link #hasSameTextualContentAs(Path)} instead
    */
   @Deprecated
   public SELF hasSameContentAs(Path expected) {
@@ -203,7 +204,6 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasSameTextualContentAs(Path, Charset)} instead
    * <p>
    * Verifies that the content of the actual {@code Path} is the same as the expected one, the expected {@code Path} being read with the given charset while
    * the charset used to read the actual path can be provided with {@link #usingCharset(Charset)} or
@@ -229,6 +229,8 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the actual {@code Path} is {@code null}.
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
    * @throws PathsException if an I/O error occurs.
+   *
+   * @deprecated use {@link #hasSameTextualContentAs(Path, Charset)} instead
    */
   @Deprecated
   public SELF hasSameContentAs(Path expected, Charset expectedCharset) {

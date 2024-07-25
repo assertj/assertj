@@ -133,8 +133,9 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
   /**
    * Do not use this method.
    *
-   * @deprecated Custom Comparator is not supported for Boolean comparison.
    * @throws UnsupportedOperationException if this method is called.
+   *
+   * @deprecated Custom Comparator is not supported for Boolean comparison.
    */
   @Override
   @Deprecated
@@ -145,8 +146,9 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
   /**
    * Do not use this method.
    *
-   * @deprecated Custom Comparator is not supported for Boolean comparison.
    * @throws UnsupportedOperationException if this method is called.
+   *
+   * @deprecated Custom Comparator is not supported for Boolean comparison.
    */
   @Override
   @Deprecated

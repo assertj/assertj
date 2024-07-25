@@ -1991,9 +1991,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasYear(int)} instead.
    * @param year the year to compare actual year to
    * @return this assertion object.
+   * @deprecated use {@link #hasYear(int)} instead.
    */
   @Deprecated
   public SELF isWithinYear(int year) {
@@ -2025,9 +2025,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasMonth(int)} instead.
    * @param month the month to compare actual month to, <b>month value starting at 1</b> (January=1, February=2, ...).
    * @return this assertion object.
+   * @deprecated use {@link #hasMonth(int)} instead.
    */
   @Deprecated
   public SELF isWithinMonth(int month) {
@@ -2058,9 +2058,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasDayOfMonth(int)} instead.
    * @param dayOfMonth the day of month to compare actual day of month to
    * @return this assertion object.
+   * @deprecated use {@link #hasDayOfMonth(int)} instead.
    */
   @Deprecated
   public SELF isWithinDayOfMonth(int dayOfMonth) {
@@ -2092,10 +2092,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasDayOfWeek(int)} instead.
    * @param dayOfWeek the day of week to compare actual day of week to, see {@link Calendar#DAY_OF_WEEK} for valid
    *          values
    * @return this assertion object.
+   * @deprecated use {@link #hasDayOfWeek(int)} instead.
    */
   @Deprecated
   public SELF isWithinDayOfWeek(int dayOfWeek) {
@@ -2125,9 +2125,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasHourOfDay(int)} instead.
    * @param hourOfDay the hour of day to compare actual hour of day to (24-hour clock)
    * @return this assertion object.
+   * @deprecated use {@link #hasHourOfDay(int)} instead.
    */
   @Deprecated
   public SELF isWithinHourOfDay(int hourOfDay) {
@@ -2157,9 +2157,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasMinute(int)} instead.
    * @param minute the minute to compare actual minute to
    * @return this assertion object.
+   * @deprecated use {@link #hasMinute(int)} instead.
    */
   @Deprecated
   public SELF isWithinMinute(int minute) {
@@ -2189,9 +2189,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasSecond(int)} instead.
    * @param second the second to compare actual second to
    * @return this assertion object.
+   * @deprecated use {@link #hasSecond(int)} instead.
    */
   @Deprecated
   public SELF isWithinSecond(int second) {
@@ -2221,9 +2221,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasMillisecond(int)} instead.
    * @param millisecond the millisecond to compare actual millisecond to
    * @return this assertion object.
+   * @deprecated use {@link #hasMillisecond(int)} instead.
    */
   @Deprecated
   public SELF isWithinMillisecond(int millisecond) {

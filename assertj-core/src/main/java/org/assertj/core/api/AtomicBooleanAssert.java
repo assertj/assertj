@@ -70,8 +70,8 @@ public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, Ato
   /**
    * Do not use this method.
    *
-   * @deprecated Custom Comparator is not supported for Boolean comparison.
    * @throws UnsupportedOperationException if this method is called.
+   * @deprecated Custom Comparator is not supported for Boolean comparison.
    */
   @Override
   @Deprecated
@@ -82,8 +82,8 @@ public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, Ato
   /**
    * Do not use this method.
    *
-   * @deprecated Custom Comparator is not supported for Boolean comparison.
    * @throws UnsupportedOperationException if this method is called.
+   * @deprecated Custom Comparator is not supported for Boolean comparison.
    */
   @Override
   @Deprecated

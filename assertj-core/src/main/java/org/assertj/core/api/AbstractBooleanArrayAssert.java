@@ -665,8 +665,9 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
   /**
    * Do not use this method.
    *
-   * @deprecated Custom element Comparator is not supported for Boolean array comparison.
    * @throws UnsupportedOperationException if this method is called.
+   *
+   * @deprecated Custom element Comparator is not supported for Boolean array comparison.
    */
   @Override
   @Deprecated
@@ -677,8 +678,9 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
   /**
    * Do not use this method.
    *
-   * @deprecated Custom element Comparator is not supported for Boolean array comparison.
    * @throws UnsupportedOperationException if this method is called.
+   *
+   * @deprecated Custom element Comparator is not supported for Boolean array comparison.
    */
   @Override
   @Deprecated

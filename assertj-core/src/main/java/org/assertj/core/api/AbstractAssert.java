@@ -744,9 +744,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * {@inheritDoc}
    *
-   * @deprecated use {@link #isEqualTo} instead
-   *
    * @throws UnsupportedOperationException if this method is called.
+   *
+   * @deprecated use {@link #isEqualTo} instead
    */
   @Override
   @Deprecated
