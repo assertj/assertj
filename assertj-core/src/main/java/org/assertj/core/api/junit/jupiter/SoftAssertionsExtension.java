@@ -70,9 +70,9 @@ import org.junit.platform.commons.support.ReflectionSupport;
  * <h2>Scope</h2>
  *
  * Annotated {@code SoftAssertionsProvider} fields become valid from the `@BeforeEach` lifecycle phase.
- * For parameters, they become are valid when the parameter is resolved.<br>
- * In the {@code afterTestExecution} phase (immediately after the test has returned, but before the {@code AfterEach} phase, all
- * collected errors (if any) will wrapped in a single multiple-failures error.<br>
+ * For parameters, they become valid when the parameter is resolved.<br>
+ * In the {@code afterTestExecution} phase (immediately after the test has returned, but before the {@code AfterEach} phase) all
+ * collected errors (if any) will be wrapped in a single multiple-failures error.<br>
  * All {@code SoftAssertionsProvider} instances (fields &amp; parameters) created within the scope of the same test method
  * (including its {@code BeforeEach} phase) will share the same state object to collect the failed assertions, so that all
  * assertion failures from all {@link SoftAssertionsProvider}s will be reported in the order that they failed.
