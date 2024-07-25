@@ -1568,8 +1568,8 @@ public class Java6Assertions {
    *  ...(69 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)org.assertj.core.util.Throwables_Description_Test$test1.exception_layer_1(Throwables_Description_Test.java:30)</code></pre>
    *
    * @param maxStackTraceElementsDisplayed  the maximum number of lines for a stacktrace to be displayed on one throw.
-   * @since 3.19.0
    * @see Configuration
+   * @since 3.19.0
    */
   public static void setMaxStackTraceElementsDisplayed (int maxStackTraceElementsDisplayed ) {
     StandardRepresentation.setMaxStackTraceElementsDisplayed (maxStackTraceElementsDisplayed );

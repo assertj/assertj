@@ -839,8 +839,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted property/field value
    * @throws IntrospectionError if one of the given name does not match a field or property
    *
-   * @since 3.13.0
    * @see #extracting(String, InstanceOfAssertFactory)
+   * @since 3.13.0
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
@@ -958,8 +958,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param extractor the extractor function used to extract the value from the object under test.
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted value
    *
-   * @since 3.11.0
    * @see #extracting(Function, InstanceOfAssertFactory)
+   * @since 3.11.0
    */
   @CheckReturnValue
   public <T> AbstractObjectAssert<?, T> extracting(Function<? super ACTUAL, T> extractor) {
@@ -1134,9 +1134,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws AssertionError if {@code actual} is {@code null}
    * @throws NullPointerException if given {@code from} function is null
+   * @see #usingComparatorForType(Comparator, Class)
    *
    * @since 3.22.0
-   * @see #usingComparatorForType(Comparator, Class)
    */
   public <T> SELF doesNotReturn(T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");

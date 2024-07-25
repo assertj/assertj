@@ -729,8 +729,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't have the given class as direct superclass.
    * @throws NullPointerException if {@code superclass} is {@code null}.
-   * @since 3.15.0
    * @see #hasNoSuperclass()
+   * @since 3.15.0
    */
   public SELF hasSuperclass(Class<?> superclass) {
     isNotNull();
@@ -769,8 +769,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} has a superclass.
-   * @since 3.15.0
    * @see #hasSuperclass(Class)
+   * @since 3.15.0
    */
   public SELF hasNoSuperclass() {
     isNotNull();

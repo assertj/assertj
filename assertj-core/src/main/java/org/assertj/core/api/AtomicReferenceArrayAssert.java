@@ -2201,9 +2201,9 @@ public class AtomicReferenceArrayAssert<T>
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @return {@code this} assertion object.
-   * @since 2.7.0 / 3.7.0 - breaking change in 3.20.0
    * @see RecursiveComparisonConfiguration
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @since 2.7.0 / 3.7.0 - breaking change in 3.20.0
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparator() {
@@ -2291,8 +2291,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param configuration the recursive comparison configuration.
    *
    * @return {@code this} assertion object.
-   * @since 3.20.0
    * @see RecursiveComparisonConfiguration
+   * @since 3.20.0
    */
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration configuration) {
     return usingElementComparator(new ConfigurableRecursiveFieldByFieldComparator(configuration));
@@ -2327,9 +2327,9 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param fields the fields to compare field/property by field/property.
    * @return {@code this} assertion object.
-   * @since 2.7.0 / 3.7.0
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @since 2.7.0 / 3.7.0
    * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are
    * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorOnFields(String...)} instead.
    * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
@@ -2378,9 +2378,9 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
-   * @since 3.20.0
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @since 3.20.0
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparatorOnFields(String... fields) {
@@ -2419,9 +2419,9 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param fields the names of the fields/properties to ignore
    * @return {@code this} assertion object.
-   * @since 2.7.0 / 3.7.0
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @since 2.7.0 / 3.7.0
    * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are
    * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorIgnoringFields(String...)} instead.
    * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
@@ -2471,9 +2471,9 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
-   * @since 3.20.0
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @since 3.20.0
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparatorIgnoringFields(String... fields) {

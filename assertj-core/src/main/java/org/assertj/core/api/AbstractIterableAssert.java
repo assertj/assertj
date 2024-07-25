@@ -2401,9 +2401,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @return {@code this} assertion object.
-   * @since 2.5.0 / 3.5.0 - breaking change in 3.20.0
    * @see RecursiveComparisonConfiguration
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @since 2.5.0 / 3.5.0 - breaking change in 3.20.0
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {
@@ -2507,8 +2507,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param configuration the recursive comparison configuration.
    *
    * @return {@code this} assertion object.
-   * @since 3.17.0
    * @see RecursiveComparisonConfiguration
+   * @since 3.17.0
    */
   public SELF usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration configuration) {
     return usingElementComparator(new ConfigurableRecursiveFieldByFieldComparator(configuration));
@@ -2793,9 +2793,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
-   * @since 3.20.0
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @since 3.20.0
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparatorOnFields(String... fields) {
@@ -2890,9 +2890,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
-   * @since 3.20.0
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @since 3.20.0
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparatorIgnoringFields(String... fields) {
@@ -3330,8 +3330,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} is empty.
-   * @since 2.5.0 / 3.5.0
    * @see #first(InstanceOfAssertFactory)
+   * @since 2.5.0 / 3.5.0
    */
   @CheckReturnValue
   public ELEMENT_ASSERT first() {
@@ -3414,8 +3414,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @return the assertion on the last element
    * @throws AssertionError if the actual {@link Iterable} is empty.
-   * @since 2.5.0 / 3.5.0
    * @see #last(InstanceOfAssertFactory)
+   * @since 2.5.0 / 3.5.0
    */
   @CheckReturnValue
   public ELEMENT_ASSERT last() {
@@ -3513,8 +3513,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param index the element's index
    * @return the assertion on the given element
    * @throws AssertionError if the given index is out of bound.
-   * @since 2.5.0 / 3.5.0
    * @see #element(int, InstanceOfAssertFactory)
+   * @since 2.5.0 / 3.5.0
    */
   @CheckReturnValue
   public ELEMENT_ASSERT element(int index) {
@@ -3695,8 +3695,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} does not contain exactly one element.
-   * @since 3.17.0
    * @see #singleElement(InstanceOfAssertFactory)
+   * @since 3.17.0
    */
   @CheckReturnValue
   public ELEMENT_ASSERT singleElement() {

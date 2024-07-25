@@ -23,8 +23,8 @@ import org.assertj.core.util.CheckReturnValue;
  * <p>
  * The class itself does not do much, it delegates the work to {@link ThrowableAssert} after calling {@link #isThrownBy(ThrowingCallable)}.
  *
- * @since 3.17.0
  * @see ThrowableTypeAssert
+ * @since 3.17.0
  */
 public class NotThrownAssert implements Descriptable<NotThrownAssert> {
 

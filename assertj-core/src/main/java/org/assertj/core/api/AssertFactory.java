@@ -28,8 +28,8 @@ import java.util.function.Function;
  *
  * @param <T> the type of the given value.
  * @param <ASSERT> the type of the resulting {@code Assert}.
- * @since 2.5.0 / 3.5.0
  * @see InstanceOfAssertFactory
+ * @since 2.5.0 / 3.5.0
  */
 @FunctionalInterface
 public interface AssertFactory<T, ASSERT extends Assert<?, ?>> {

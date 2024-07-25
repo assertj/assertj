@@ -72,7 +72,6 @@ import java.util.stream.Stream;
  * {@link InstanceOfAssertFactory} instances for Java types.
  *
  * @author Stefano Cordio
- * @since 3.13.0
  * @see Assert#asInstanceOf(InstanceOfAssertFactory)
  * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
  * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
@@ -81,6 +80,7 @@ import java.util.stream.Stream;
  * @see AbstractIterableAssert#first(InstanceOfAssertFactory)
  * @see AbstractIterableAssert#last(InstanceOfAssertFactory)
  * @see AbstractIterableAssert#element(int, InstanceOfAssertFactory)
+ * @since 3.13.0
  */
 public interface InstanceOfAssertFactories {
 

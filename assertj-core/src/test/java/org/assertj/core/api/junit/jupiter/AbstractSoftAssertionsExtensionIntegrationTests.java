@@ -27,9 +27,9 @@ import org.junit.platform.testkit.engine.EngineTestKit;
  * Abstract base class for integration tests involving the {@link SoftAssertionsExtension}.
  *
  * @author Sam Brannen
- * @since 3.13
  * @see SoftAssertionsExtensionIntegrationTest
  * @see BDDSoftAssertionsExtensionIntegrationTest
+ * @since 3.13
  */
 abstract class AbstractSoftAssertionsExtensionIntegrationTests {
 

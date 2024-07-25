@@ -3230,7 +3230,6 @@ public class BDDAssertions extends Assertions {
    * @param <ASSERT>      the type of the resulting {@code Assert}
    * @return same instance of {@code assertFactory}
    *
-   * @since 3.20.0
    * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
    * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
    * @see AbstractMapAssert#extractingByKey(Object, InstanceOfAssertFactory)
