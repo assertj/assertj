@@ -1077,8 +1077,8 @@ class ImmutableCollections {
  * 
  * A unified serialization proxy class for the immutable collections.
  *
- * @serial
  * @since 9
+ * @serial
  */
 final class CollSer implements Serializable {
   private static final long serialVersionUID = 6309168927139932177L;
@@ -1111,14 +1111,14 @@ final class CollSer implements Serializable {
    * {@code k1, v1, k2, v2, ..., kN, vN.} Nulls are not allowed,
    * and duplicate keys are not allowed.
    *
-   * @serial
    * @since 9
+   * @serial
    */
   private final int tag;
 
   /**
-   * @serial
    * @since 9
+   * @serial
    */
   private transient Object[] array;
 
@@ -1131,15 +1131,16 @@ final class CollSer implements Serializable {
    * Reads objects from the stream and stores them
    * in the transient {@code Object[] array} field.
    *
-   * @serialData
-   * A nonnegative int, indicating the count of objects,
-   * followed by that many objects.
    *
    * @param ois the ObjectInputStream from which data is read
    * @throws IOException if an I/O error occurs
    * @throws ClassNotFoundException if a serialized class cannot be loaded
    * @throws InvalidObjectException if the count is negative
    * @since 9
+   *
+   * @serialData
+   * A nonnegative int, indicating the count of objects,
+   * followed by that many objects.
    */
   private void readObject(ObjectInputStream ois) throws IOException, ClassNotFoundException {
     ois.defaultReadObject();
@@ -1162,13 +1163,13 @@ final class CollSer implements Serializable {
    * Writes objects to the stream from
    * the transient {@code Object[] array} field.
    *
-   * @serialData
-   * A nonnegative int, indicating the count of objects,
-   * followed by that many objects.
-   *
    * @param oos the ObjectOutputStream to which data is written
    * @throws IOException if an I/O error occurs
    * @since 9
+   *
+   * @serialData
+   * A nonnegative int, indicating the count of objects,
+   * followed by that many objects.
    */
   private void writeObject(ObjectOutputStream oos) throws IOException {
     oos.defaultWriteObject();
