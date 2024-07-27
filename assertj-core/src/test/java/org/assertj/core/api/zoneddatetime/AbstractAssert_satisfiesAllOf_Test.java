@@ -32,9 +32,9 @@ public class AbstractAssert_satisfiesAllOf_Test extends AbstractAssertBaseTest {
     Condition<String> conditionB = new Condition<>(text -> text.equalsIgnoreCase("ABC"), "Input not matching");
     Condition<String> allOfIssue = AllOf.allOf(conditionA, conditionB);
     then(allOfIssue.conditionDescriptionWithStatus("PQR").value()).hasToString(String.format("[✗] all of:[%n" +
-      "   [✓] Input not null,%n" +
-      "   [✗] Input not matching%n" +
-      "]"));
+                                                                                             "   [✓] Input not null,%n" +
+                                                                                             "   [✗] Input not matching%n" +
+                                                                                             "]"));
   }
 
   @Test
@@ -45,9 +45,9 @@ public class AbstractAssert_satisfiesAllOf_Test extends AbstractAssertBaseTest {
       assertThat("def").satisfies(AllOf.allOf(condition1, condition2));
     } catch (AssertionError e) {
       String expectedMessage = String.format("%nExpecting actual:%n  \"def\"%nto satisfy:%n  [✗] all of:[%n" +
-        "   [✓] Input not null,%n" +
-        "   [✗] Input not matching%n" +
-        "]");
+                                             "   [✓] Input not null,%n" +
+                                             "   [✗] Input not matching%n" +
+                                             "]");
       then(e).hasMessage(expectedMessage);
     }
   }
