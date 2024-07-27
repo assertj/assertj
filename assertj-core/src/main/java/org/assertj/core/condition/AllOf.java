@@ -13,6 +13,7 @@
 package org.assertj.core.condition;
 
 import org.assertj.core.api.Condition;
+import org.assertj.core.description.Description;
 
 /**
  * Returns {@code true} if all of the joined conditions are satisfied.
@@ -60,7 +61,13 @@ public class AllOf<T> extends Join<T> {
   /** {@inheritDoc} */
   @Override
   public boolean matches(T value) {
+
     return conditions.stream().allMatch(condition -> condition.matches(value));
+  }
+
+  @Override
+  public Description conditionDescriptionWithStatus(T actual) {
+    return super.conditionDescriptionWithStatus(actual);
   }
 
   @Override

@@ -15,6 +15,7 @@ package org.assertj.core.error;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.Condition;
+import org.assertj.core.description.Description;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -45,6 +46,13 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
     return new ShouldSatisfy(actual);
   }
 
+  public static ErrorMessageFactory shouldSatisfyAll(Object actual, Description d) {
+    return new ShouldSatisfy(actual, d);
+  }
+
+  private ShouldSatisfy(Object actual, Description d){
+    super(CONDITION_SHOULD_BE_SATISFIED,actual, d);
+  }
   private ShouldSatisfy(Object actual, Condition<?> condition) {
     super(CONDITION_SHOULD_BE_SATISFIED, actual, condition);
   }

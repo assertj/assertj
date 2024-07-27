@@ -19,9 +19,12 @@ import static org.assertj.core.error.ShouldHave.shouldHave;
 import static org.assertj.core.error.ShouldNotBe.shouldNotBe;
 import static org.assertj.core.error.ShouldNotHave.shouldNotHave;
 import static org.assertj.core.error.ShouldSatisfy.shouldSatisfy;
+import static org.assertj.core.error.ShouldSatisfy.shouldSatisfyAll;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.condition.AllOf;
+import org.assertj.core.description.Description;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -105,7 +108,13 @@ public class Conditions {
 
   public <T> void assertSatisfies(AssertionInfo info, T actual, Condition<? super T> condition) {
     assertIsNotNull(condition);
-    if (!condition.matches(actual)) throw failures.failure(info, shouldSatisfy(actual, condition));
+    if (!condition.matches(actual)){
+      if (condition instanceof AllOf){
+        Description description = condition.conditionDescriptionWithStatus(actual);
+        throw failures.failure(info, shouldSatisfyAll(actual, description));
+      }
+      throw failures.failure(info, shouldSatisfy(actual, condition));
+    }
   }
 
   /**
