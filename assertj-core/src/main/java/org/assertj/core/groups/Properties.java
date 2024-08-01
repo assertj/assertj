@@ -46,9 +46,9 @@ public class Properties<T> {
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
    * @param propertyType the type of property to extract
+   * @return the created {@code Properties}.
    * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
-   * @return the created {@code Properties}.
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
     checkIsNotNullOrEmpty(propertyName);
@@ -60,9 +60,9 @@ public class Properties<T> {
    * 
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
+   * @return the created {@code Properties}.
    * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
-   * @return the created {@code Properties}.
    */
   public static Properties<Object> extractProperty(String propertyName) {
     return extractProperty(propertyName, Object.class);

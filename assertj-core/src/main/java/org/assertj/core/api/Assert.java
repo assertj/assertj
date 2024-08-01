@@ -248,8 +248,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(frodo).usingComparator(raceComparator).isEqualTo(sam);</code></pre>
    *
    * @param customComparator the comparator to use for the incoming assertion checks.
-   * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
+   * @throws NullPointerException if the given comparator is {@code null}.
    */
   SELF usingComparator(Comparator<? super ACTUAL> customComparator);
 
@@ -266,8 +266,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param customComparator the comparator to use for the incoming assertion checks.
    * @param customComparatorDescription comparator description to be used in assertion error messages
-   * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
+   * @throws NullPointerException if the given comparator is {@code null}.
    */
   SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription);
 

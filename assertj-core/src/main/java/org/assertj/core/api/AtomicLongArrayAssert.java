@@ -621,8 +621,8 @@ public class AtomicLongArrayAssert
    * assertThat(invoiceList).usingComparator(absComparator).contains(-1, -2, 3);</code></pre>
    *
    * @param customComparator the comparator to use for incoming assertion checks.
-   * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
+   * @throws NullPointerException if the given comparator is {@code null}.
    */
   @Override
   @CheckReturnValue

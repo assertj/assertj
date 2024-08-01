@@ -13,13 +13,13 @@
 package org.assertj.core.api;
 
 /**
- * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
- * <p>
- * BDD-style Android-compatible soft assertions. Duplicated from {@link BDDSoftAssertions}.
- *
  * @see BDDSoftAssertions
  *
  * @since 2.5.0 / 3.5.0
+ *
+ * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
+ * <p>
+ * BDD-style Android-compatible soft assertions. Duplicated from {@link BDDSoftAssertions}.
  */
 @Deprecated
 public class Java6BDDSoftAssertions extends AbstractSoftAssertions implements Java6BDDSoftAssertionsProvider {

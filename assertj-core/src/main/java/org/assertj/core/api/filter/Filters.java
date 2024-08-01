@@ -96,8 +96,8 @@ public class Filters<E> {
    *
    * @param <E> the iterable elements type.
    * @param iterable the {@code Iterable} to filter.
-   * @throws NullPointerException if the given iterable is {@code null}.
    * @return the created <code>{@link Filters}</code>.
+   * @throws NullPointerException if the given iterable is {@code null}.
    */
   public static <E> Filters<E> filter(Iterable<E> iterable) {
     return new Filters<>(requireNonNull(iterable, "The iterable to filter should not be null"));
@@ -130,8 +130,8 @@ public class Filters<E> {
    *
    * @param <E> the array elements type.
    * @param array the array to filter.
-   * @throws NullPointerException if the given array is {@code null}.
    * @return the created <code>{@link Filters}</code>.
+   * @throws NullPointerException if the given array is {@code null}.
    */
   public static <E> Filters<E> filter(E[] array) {
     return new Filters<>(requireNonNull(array, "The array to filter should not be null"));

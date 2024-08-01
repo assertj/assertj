@@ -304,7 +304,6 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasSameTextualContentAs(File)} instead.
    * <p>
    * Verifies that the content of the actual {@code File} is equal to the content of the given one.
    * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
@@ -335,6 +334,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} is not an existing file.
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
+   * @deprecated use {@link #hasSameTextualContentAs(File)} instead.
    */
   @Deprecated
   public SELF hasSameContentAs(File expected) {

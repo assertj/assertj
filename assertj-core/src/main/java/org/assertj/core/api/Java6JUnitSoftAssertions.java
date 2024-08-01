@@ -18,13 +18,13 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 /**
- * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
- * <p>
- * JUnitSoftAssertions rule compatible with Android. Duplicated from {@link JUnitSoftAssertions}.
- *
  * @see JUnitSoftAssertions
  *
  * @since 2.5.0 / 3.5.0
+ *
+ * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
+ * <p>
+ * JUnitSoftAssertions rule compatible with Android. Duplicated from {@link JUnitSoftAssertions}.
  */
 @Deprecated
 public class Java6JUnitSoftAssertions extends AbstractSoftAssertions

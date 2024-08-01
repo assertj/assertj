@@ -2178,9 +2178,9 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
+   * @return the created {@code Properties}.
    * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
-   * @return the created {@code Properties}.
    */
   public static Properties<Object> extractProperty(String propertyName) {
     return Properties.extractProperty(propertyName);
@@ -2383,7 +2383,6 @@ public class Assertions implements InstanceOfAssertFactories {
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
    *
-   * @since 2.7.0 / 3.7.0
    * @param value the allowed offset
    * @return the created {@code Offset}.
    * @throws NullPointerException if the given value is {@code null}.

@@ -324,8 +324,8 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * assertThat(&quot;abc&quot;).isEqualTo(&quot;ABC&quot;);</code></pre>
    *
    * @param customComparator the comparator to use for the incoming assertions.
-   * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
+   * @throws NullPointerException if the given comparator is {@code null}.
    */
   @Override
   @CheckReturnValue
@@ -350,8 +350,8 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *
    * @param customComparator the comparator to use for the incoming assertions.
    * @param customComparatorDescription comparator description to be used in assertion error messages
-   * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
+   * @throws NullPointerException if the given comparator is {@code null}.
    */
   @Override
   @CheckReturnValue
@@ -388,12 +388,12 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *
    * @param expectedStringTemplate the format template used to build the expected String.
    * @param args the arguments referenced by the format specifiers in the format string.
+   * @return this assertion object.
    * @throws NullPointerException if stringTemplate parameter is {@code null}.
    * @throws AssertionError if the actual value is {@code null} as the template you provide must not be {@code null}.
    * @throws java.util.IllegalFormatException as in {@link String#format(String, Object...)}, see
    *         <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html#detail">Details</a> section of the
    *         formatter class specification.
-   * @return this assertion object.
    *
    * @since 3.12.0
    */

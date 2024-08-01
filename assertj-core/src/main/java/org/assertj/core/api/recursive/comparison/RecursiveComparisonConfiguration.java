@@ -1394,8 +1394,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * @param equals the {@link BiPredicate} to use to compare the given field
      * @param type the type to be compared with the given comparator.
      * @return this builder.
-     * @since 3.17.0
      * @throws NullPointerException if the given BiPredicate is null.
+     * @since 3.17.0
      */
     @SuppressWarnings("unchecked")
     public <T> Builder withEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
@@ -1444,8 +1444,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * @param equals the {@link BiPredicate} to use to compare the given fields
      * @param fields the fields the BiPredicate should be used for
      * @return this builder.
-     * @since 3.17.0
      * @throws NullPointerException if the given BiPredicate is null.
+     * @since 3.17.0
      */
     public Builder withEqualsForFields(BiPredicate<?, ?> equals, String... fields) {
       return withComparatorForFields(toComparator(equals), fields);
@@ -1472,8 +1472,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * @param equals the {@link BiPredicate} to use to compare the fields matching the given regexes
      * @param regexes the regexes to match fields against
      * @return this builder.
-     * @since 3.24.0
      * @throws NullPointerException if the given BiPredicate is null.
+     * @since 3.24.0
      */
     public Builder withEqualsForFieldsMatchingRegexes(BiPredicate<?, ?> equals, String... regexes) {
       fieldComparators.registerComparatorForFieldsMatchingRegexes(regexes, toComparator(equals));

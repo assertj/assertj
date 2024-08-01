@@ -70,6 +70,7 @@ import org.assertj.core.configuration.PreferredAssumptionException;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
+ * @author Gonzalo Müller
  * Behavior-driven development style entry point for assumption methods for different types, which allow to skip test execution when assumptions are not met.
  * <p>
  * The difference with the {@link Assumptions} class is that entry point methods are named <b><code>given</code></b> instead of
@@ -96,7 +97,6 @@ import org.assertj.core.util.CheckReturnValue;
  * }</code></pre>
  *
  * @since 3.14.0
- * @author Gonzalo Müller
  */
 @CheckReturnValue
 public final class BDDAssumptions extends Assumptions {

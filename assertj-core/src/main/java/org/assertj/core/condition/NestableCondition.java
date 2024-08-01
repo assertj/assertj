@@ -120,9 +120,9 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
    * @param descriptionPrefix the prefix to use to build the description
    * @param extractor a function to extract the nested object of type {@literal T} from an object fo type {@literal K}
    * @param conditions conditions to be checked
-   * @return the nestable condition
    * @param <ACTUAL> the type of object the resulting condition accepts
    * @param <NESTED> the type of object nested into {@literal K}
+   * @return the nestable condition
    */
   @SafeVarargs
   public static <ACTUAL, NESTED> Condition<ACTUAL> nestable(String descriptionPrefix,
@@ -135,8 +135,8 @@ public class NestableCondition<ACTUAL, NESTED> extends Join<ACTUAL> {
    * Creates a new <code>{@link NestableCondition}</code>
    * @param descriptionPrefix the prefix to use to build the description
    * @param conditions conditions to be checked
-   * @return the nestable condition
    * @param <ACTUAL> the type of object the resulting condition accepts
+   * @return the nestable condition
    */
   @SafeVarargs
   public static <ACTUAL> Condition<ACTUAL> nestable(String descriptionPrefix, Condition<? super ACTUAL>... conditions) {

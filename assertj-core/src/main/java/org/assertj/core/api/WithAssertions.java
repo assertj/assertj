@@ -1569,9 +1569,9 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
+   * @return the created {@code Properties}.
    * @throws IllegalArgumentException if the given property name is empty.
    * @throws NullPointerException if the given property name is {@code null}.
-   * @return the created {@code Properties}.
    */
   default Properties<Object> extractProperty(final String propertyName) {
     return Assertions.extractProperty(propertyName);

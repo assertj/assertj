@@ -67,11 +67,11 @@ import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
+ * @see Assertions
+ *
  * @deprecated For Android compatible assertions use the latest assertj 2.x version which is based on Java 7 only.
  * <p>
  * Assertions compatible with Android. Duplicated from {@link Assertions}.
- *
- * @see Assertions
  */
 @CheckReturnValue
 @Deprecated
@@ -1603,9 +1603,9 @@ public class Java6Assertions {
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
    * @param propertyType the type of property to extract
+   * @return the created {@code Properties}.
    * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
-   * @return the created {@code Properties}.
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
     return Properties.extractProperty(propertyName, propertyType);
@@ -1633,9 +1633,9 @@ public class Java6Assertions {
    *
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
    *          property (e.g. "address.street.number").
+   * @return the created {@code Properties}.
    * @throws NullPointerException if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
-   * @return the created {@code Properties}.
    */
   public static Properties<Object> extractProperty(String propertyName) {
     return Properties.extractProperty(propertyName);
@@ -2144,8 +2144,8 @@ public class Java6Assertions {
    *
    * @param <E> the array elements type.
    * @param array the array to filter.
-   * @throws NullPointerException if the given array is {@code null}.
    * @return the created <code>{@link Filters}</code>.
+   * @throws NullPointerException if the given array is {@code null}.
    */
   public static <E> Filters<E> filter(E[] array) {
     return Filters.filter(array);
@@ -2167,8 +2167,8 @@ public class Java6Assertions {
    *
    * @param <E> the iterable elements type.
    * @param iterableToFilter the {@code Iterable} to filter.
-   * @throws NullPointerException if the given iterable is {@code null}.
    * @return the created <code>{@link Filters}</code>.
+   * @throws NullPointerException if the given iterable is {@code null}.
    */
   public static <E> Filters<E> filter(Iterable<E> iterableToFilter) {
     return Filters.filter(iterableToFilter);

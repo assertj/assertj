@@ -55,8 +55,8 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    *
    * assertThat(elvesRingBearers).hasNext();</code></pre>
    *
-   * @throws AssertionError if the actual {@code Iterator} is {@code null} or does not have another element.
    * @return this assertion object.
+   * @throws AssertionError if the actual {@code Iterator} is {@code null} or does not have another element.
    * @since 3.12.0
    */
   public SELF hasNext() {
@@ -72,8 +72,8 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    *
    * assertThat(result).isExhausted();</code></pre>
    *
-   * @throws AssertionError if the actual {@code Iterator} is {@code null} or has another element.
    * @return this assertion object.
+   * @throws AssertionError if the actual {@code Iterator} is {@code null} or has another element.
    * @since 3.12.0
    */
   public SELF isExhausted() {

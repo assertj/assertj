@@ -52,8 +52,8 @@ public class MessageFormatter {
    * @param p the Representation used
    * @param format the format string.
    * @param args arguments referenced by the format specifiers in the format string.
-   * @throws NullPointerException if the format string is {@code null}.
    * @return A formatted {@code String}.
+   * @throws NullPointerException if the format string is {@code null}.
    */
   public String format(Description d, Representation p, String format, Object... args) {
     requireNonNull(format);

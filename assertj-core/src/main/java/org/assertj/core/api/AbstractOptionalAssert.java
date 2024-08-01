@@ -304,8 +304,8 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * assertThat(Optional.of(frodo)).usingValueComparator(new FieldByFieldComparator()).contains(frodoClone);</code></pre>
    *
    * @param customComparator the comparator to use for incoming assertion checks.
-   * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
+   * @throws NullPointerException if the given comparator is {@code null}.
    */
   @CheckReturnValue
   public SELF usingValueComparator(Comparator<? super VALUE> customComparator) {

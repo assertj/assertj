@@ -28,8 +28,8 @@ public class OptionalShouldBePresent extends BasicErrorMessageFactory {
   /**
    * Indicates that a value should be present in an empty {@link java.util.Optional}.
    *
-   * @return a error message factory.
    * @param optional the optional instance
+   * @return an error message factory.
    * @throws java.lang.NullPointerException if optional is null.
    */
   public static OptionalShouldBePresent shouldBePresent(Object optional) {
