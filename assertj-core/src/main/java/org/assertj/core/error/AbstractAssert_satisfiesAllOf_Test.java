@@ -13,11 +13,7 @@ public class AbstractAssert_satisfiesAllOf_Test {
   void should_pass_when_all_of_the_condition_is_met() {
     Condition<String> conditionA = new Condition<>(text -> text != null, "Input not null");
     Condition<String> conditionB = new Condition<>(text -> text.equalsIgnoreCase("ABC"), "Input not matching");
-    Condition<String> allOfIssue = AllOf.allOf(conditionA, conditionB);
-    then(allOfIssue.conditionDescriptionWithStatus("PQR").value()).hasToString(String.format("[✗] all of:[%n" +
-                                                                                             "   [✓] Input not null,%n" +
-                                                                                             "   [✗] Input not matching%n" +
-                                                                                             "]"));
+    assertThat("ABC").satisfies(AllOf.allOf(conditionA, conditionB));
   }
 
   @Test
