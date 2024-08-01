@@ -19,6 +19,8 @@ import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
+import org.assertj.core.error.ShouldBeInFloatingPointFormat;
+import org.assertj.core.error.ShouldBeInIntegerFormat;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
@@ -523,4 +525,49 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
     requireNonNull(actual, "Can not perform assertions on the scale of a null BigDecimal");
     return new BigDecimalScaleAssert(myself);
   }
+
+  /**
+   * Verifies that the actual BigDecimal is in floating point format.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new BigDecimal("653.401")).isInFloatingPointFormat();
+   *
+   * // assertion will fail
+   * assertThat(new BigDecimal("12")).isInFloatingPointFormat();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual BigDecimal is not in floating point format.
+   * @since 3.26.0
+   */
+  public SELF isInFloatingPointFormat() {
+    isNotNull();
+    if (actual.scale() == 0 && !actual.toString().contains("e") && !actual.toString().contains("E")) {
+      throwAssertionError(ShouldBeInFloatingPointFormat.shouldBeInFloatingPointFormat(actual));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual BigDecimal is in integer format.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new BigDecimal("12")).isInIntegerFormat();
+   *
+   * // assertion will fail
+   * assertThat(new BigDecimal("653.401")).isInIntegerFormat();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual BigDecimal is not in integer format.
+   * @since 3.26.0
+   */
+  public SELF isInIntegerFormat() {
+    isNotNull();
+    if (actual.scale() != 0 || actual.toString().contains("e") || actual.toString().contains("E")) {
+      throwAssertionError(ShouldBeInIntegerFormat.shouldBeInIntegerFormat(actual));
+    }
+    return myself;
+  }
+
 }
