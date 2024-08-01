@@ -14,9 +14,9 @@ package org.assertj.core.api.list;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.data.TolkienCharacterAssert;
-import org.assertj.core.data.TolkienCharacterAssertFactory;
+import org.assertj.core.testkit.TolkienCharacter;
+import org.assertj.core.testkit.TolkienCharacterAssert;
+import org.assertj.core.testkit.TolkienCharacterAssertFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

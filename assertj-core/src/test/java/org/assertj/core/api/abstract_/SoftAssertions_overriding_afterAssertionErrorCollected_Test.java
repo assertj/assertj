@@ -13,14 +13,14 @@
 package org.assertj.core.api.abstract_; // Make sure that package-private access is lost
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
+import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 
 import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.data.TolkienCharacterAssert;
+import org.assertj.core.testkit.TolkienCharacter;
+import org.assertj.core.testkit.TolkienCharacterAssert;
 import org.junit.jupiter.api.Test;
 
 class SoftAssertions_overriding_afterAssertionErrorCollected_Test {

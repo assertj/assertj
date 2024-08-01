@@ -10,7 +10,7 @@
 
   <artifactId>assertj-guava-java-8</artifactId>
 
-  <name>AssertJ Guava Integration Tests - Java 17</name>
+  <name>AssertJ Guava Integration Tests - Java 8</name>
 
   <properties>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>

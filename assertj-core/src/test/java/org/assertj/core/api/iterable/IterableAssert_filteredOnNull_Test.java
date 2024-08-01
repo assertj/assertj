@@ -15,16 +15,16 @@ package org.assertj.core.api.iterable;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.testkit.Name.name;
+import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
 
 import org.assertj.core.api.IterableAssert;
-import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.data.TolkienCharacterAssert;
-import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.testkit.Name;
+import org.assertj.core.testkit.TolkienCharacter;
+import org.assertj.core.testkit.TolkienCharacterAssert;
+import org.assertj.core.testkit.TolkienCharacterAssertFactory;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 

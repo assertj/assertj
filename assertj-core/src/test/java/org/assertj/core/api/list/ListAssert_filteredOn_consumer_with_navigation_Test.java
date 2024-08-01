@@ -16,9 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.function.Consumer;
 
-import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.data.TolkienCharacterAssert;
-import org.assertj.core.data.TolkienCharacterAssertFactory;
+import org.assertj.core.testkit.TolkienCharacter;
+import org.assertj.core.testkit.TolkienCharacterAssert;
+import org.assertj.core.testkit.TolkienCharacterAssertFactory;
 import org.junit.jupiter.api.Test;
 
 class ListAssert_filteredOn_consumer_with_navigation_Test extends ListAssert_filteredOn_BaseTest {

@@ -14,6 +14,7 @@
   <name>AssertJ Integration Tests</name>
 
   <modules>
+    <module>assertj-core-java-8</module>
     <module>assertj-core-java-17</module>
     <module>assertj-core-junit4-with-opentest4j</module>
     <module>assertj-core-kotlin</module>
@@ -26,7 +27,7 @@
     <profile>
       <id>it-groovy</id>
       <activation>
-        <jdk>(,22)</jdk>
+        <jdk>(,24)</jdk>
       </activation>
       <modules>
         <module>assertj-core-groovy</module>
