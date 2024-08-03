@@ -501,8 +501,9 @@ public class Objects {
   }
 
   private static Set<Field> getDeclaredFieldsIgnoringSyntheticAndStatic(Class<?> clazz) {
-    return stream(clazz.getDeclaredFields()).filter(field -> !(field.isSynthetic() || Modifier.isStatic(field.getModifiers())))
-                                            .collect(toCollection(LinkedHashSet::new));
+    Field[] declaredFields = clazz.getDeclaredFields();
+    return stream(declaredFields).filter(field -> !(field.isSynthetic() || Modifier.isStatic(field.getModifiers())))
+                                 .collect(toCollection(LinkedHashSet::new));
   }
 
   public boolean areEqualToIgnoringGivenFields(Object actual, Object other,
