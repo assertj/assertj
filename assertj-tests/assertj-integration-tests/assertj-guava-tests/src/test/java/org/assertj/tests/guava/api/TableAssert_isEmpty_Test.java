@@ -36,7 +36,7 @@ public class TableAssert_isEmpty_Test extends TableAssertBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).containsValues("Manu Ginobili"));
+    Throwable throwable = catchThrowable(() -> assertThat(actual).isEmpty());
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
                          .hasMessage(actualIsNull());

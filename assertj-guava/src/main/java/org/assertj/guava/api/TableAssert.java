@@ -25,6 +25,7 @@ import java.util.Set;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.error.ShouldBeEmpty;
+import org.assertj.core.error.ShouldNotBeEmpty;
 
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
@@ -299,6 +300,30 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
     if (!actual.isEmpty()) {
       throw assertionError(ShouldBeEmpty.shouldBeEmpty(actual));
     }
+  }
+
+  /**
+   * Verifies that the actual {@link Table} is not empty.
+   *
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   *
+   * assertThat(actual).isNotEmpty();</code></pre>
+   *
+   * @return this {@link TableAssert} for assertion chaining.
+   * @throws AssertionError if the actual {@link Table} is {@code null}.
+   * @throws AssertionError if the actual {@link Table} is empty.
+   */
+  public TableAssert<R, C, V> isNotEmpty() {
+    isNotNull();
+    if (actual.isEmpty()) {
+      throw assertionError(ShouldNotBeEmpty.shouldNotBeEmpty());
+    }
+    return myself;
   }
 
   private void checkExpectedSizeArgument(int expectedSize) {
