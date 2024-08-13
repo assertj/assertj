@@ -3224,20 +3224,20 @@ public class BDDAssertions extends Assertions {
    * assertThat(yoda).extracting(Jedi::getName, as(InstanceOfAssertFactories.STRING))
    *                 .startsWith("Yo");</code></pre>
    *
-   * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
    * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
    * @param <T>           the type to use for the cast.
    * @param <ASSERT>      the type of the resulting {@code Assert}
    * @return same instance of {@code assertFactory}
    *
+   * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
    * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
    * @see AbstractMapAssert#extractingByKey(Object, InstanceOfAssertFactory)
    * @see AbstractOptionalAssert#get(InstanceOfAssertFactory)
    * @see AbstractIterableAssert#first(InstanceOfAssertFactory)
    * @see AbstractIterableAssert#last(InstanceOfAssertFactory)
    * @see AbstractIterableAssert#element(int, InstanceOfAssertFactory)
-   *
    * @since 3.20.0
+   *
    */
   public static <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
     return Assertions.as(assertFactory);

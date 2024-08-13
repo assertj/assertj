@@ -224,7 +224,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @Deprecated
   public SELF isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
     objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType(),
-    propertiesOrFieldsUsedInComparison);
+                                                    propertiesOrFieldsUsedInComparison);
     return myself;
   }
 
@@ -1078,8 +1078,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @Deprecated
   public SELF isEqualToComparingFieldByFieldRecursively(Object other) {
-      objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorsByPropertyOrField,
-      getComparatorsByType());
+    objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorsByPropertyOrField,
+                                                            getComparatorsByType());
     return myself;
   }
 

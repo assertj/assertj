@@ -326,7 +326,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    */
   @Deprecated
   public SELF hasFailed() {
-      isNotNull();
+    isNotNull();
     if (!(actual.isCompletedExceptionally() && !actual.isCancelled())) throwAssertionError(shouldHaveFailed(actual));
     return myself;
   }
@@ -547,9 +547,9 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    */
   @Deprecated
   public AbstractThrowableAssert<?, ? extends Throwable> hasFailedWithThrowableThat() {
-      hasFailed();
+    hasFailed();
     try {
-        actual.join();
+      actual.join();
       return assertThat((Throwable) null);
     } catch (CompletionException e) {
       return assertThat(e.getCause());

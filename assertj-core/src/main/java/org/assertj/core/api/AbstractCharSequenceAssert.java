@@ -1457,7 +1457,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Deprecated
   public SELF isXmlEqualTo(CharSequence expectedXml) {
-      strings.assertXmlEqualsTo(info, actual, expectedXml);
+    strings.assertXmlEqualsTo(info, actual, expectedXml);
     return myself;
   }
 
