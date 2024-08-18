@@ -15,14 +15,12 @@ package org.assertj.tests.core.api;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link org.assertj.core.presentation.HexadecimalRepresentation#toStringOf(Object)}.
- *
  * @author Mariusz Smykula
  */
 class Assertions_assertThat_inHexadecimal_Test {
@@ -153,7 +151,8 @@ class Assertions_assertThat_inHexadecimal_Test {
 
   @Test
   void should_assert_collections_in_hexadecimal() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(list(1, 2)).inHexadecimal().isEqualTo(list(3)))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(List.of(1, 2)).inHexadecimal()
+                                                                                              .isEqualTo(List.of(3)))
                                                    .withMessage(shouldBeEqualMessage("[0x0000_0001, 0x0000_0002]",
                                                                                      "[0x0000_0003]"));
   }

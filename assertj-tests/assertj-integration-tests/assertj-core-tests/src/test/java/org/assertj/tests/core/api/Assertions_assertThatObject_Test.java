@@ -17,13 +17,11 @@ import static org.assertj.core.api.Assertions.assertThatObject;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.LinkedList;
+import java.util.List;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Assertions#assertThatObject(Object)}</code>.
- */
 class Assertions_assertThatObject_Test {
 
   @Test
@@ -39,10 +37,11 @@ class Assertions_assertThatObject_Test {
   @SuppressWarnings("unchecked")
   @Test
   void should_avoid_casting() {
-    LinkedList<String> actual = new LinkedList<>(list("test"));
+    LinkedList<String> actual = new LinkedList<>(List.of("test"));
     // tests against actual require casts when using an overloaded assertThat that does not capture the type of actual
     assertThat(actual).matches(list -> ((LinkedList<String>) list).getFirst().equals("test"));
     // with assertThatObject we can force the generic version, but we lose the specific assertions for iterables
     assertThatObject(actual).matches(list -> list.getFirst().equals("test"));
   }
+
 }

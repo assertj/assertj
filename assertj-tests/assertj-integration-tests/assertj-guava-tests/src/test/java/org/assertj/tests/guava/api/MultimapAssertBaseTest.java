@@ -12,10 +12,9 @@
  */
 package org.assertj.tests.guava.api;
 
-import static com.google.common.collect.Lists.newArrayList;
-
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 
 public class MultimapAssertBaseTest {
@@ -29,9 +28,9 @@ public class MultimapAssertBaseTest {
   @BeforeEach
   public void setUp() {
     actual = LinkedListMultimap.create();
-    actual.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    actual.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-    actual.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+    actual.putAll("Lakers", List.of("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    actual.putAll("Bulls", List.of("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    actual.putAll("Spurs", List.of("Tony Parker", "Tim Duncan", "Manu Ginobili"));
   }
 
 }

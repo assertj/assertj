@@ -12,19 +12,18 @@
  */
 package org.assertj.tests.guava.api;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.list;
 import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Multimap;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class MultimapAssert_containsAllEntriesOf_Test extends MultimapAssertBaseTest {
@@ -34,9 +33,9 @@ class MultimapAssert_containsAllEntriesOf_Test extends MultimapAssertBaseTest {
   @Test
   void should_pass_if_actual_contains_exactly_all_entries_of_given_multimap() {
     // GIVEN
-    other.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    other.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-    other.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+    other.putAll("Lakers", List.of("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    other.putAll("Bulls", List.of("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    other.putAll("Spurs", List.of("Tony Parker", "Tim Duncan", "Manu Ginobili"));
     // WHEN/THEN
     assertThat(actual).containsAllEntriesOf(other);
     assertThat(other).containsAllEntriesOf(actual);
@@ -45,8 +44,8 @@ class MultimapAssert_containsAllEntriesOf_Test extends MultimapAssertBaseTest {
   @Test
   void should_pass_if_actual_contains_all_entries_of_given_multimap_and_additional_ones() {
     // GIVEN
-    other.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    other.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    other.putAll("Lakers", List.of("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    other.putAll("Bulls", List.of("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
     // WHEN/THEN
     assertThat(actual).containsAllEntriesOf(other);
   }
@@ -55,9 +54,9 @@ class MultimapAssert_containsAllEntriesOf_Test extends MultimapAssertBaseTest {
   void should_pass_with_different_multimaps_type_but_compatible_generic_types() {
     // GIVEN
     Multimap<Object, Object> other = HashMultimap.create();
-    other.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    other.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-    other.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+    other.putAll("Lakers", List.of("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    other.putAll("Bulls", List.of("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    other.putAll("Spurs", List.of("Tony Parker", "Tim Duncan", "Manu Ginobili"));
     // WHEN/THEN
     assertThat(other).containsAllEntriesOf(actual);
   }
@@ -94,15 +93,16 @@ class MultimapAssert_containsAllEntriesOf_Test extends MultimapAssertBaseTest {
   @Test
   void should_fail_if_actual_does_not_contain_all_given_multimap_entries() {
     // GIVEN
-    other.putAll("Lakers", newArrayList("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
-    other.putAll("Bulls", newArrayList("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
-    other.putAll("Spurs", newArrayList("Tony Parker", "Tim Duncan", "Manu Ginobili"));
-    other.putAll("Warriors", newArrayList("Stephen Curry", "Klay Thompson"));
+    other.putAll("Lakers", List.of("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
+    other.putAll("Bulls", List.of("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
+    other.putAll("Spurs", List.of("Tony Parker", "Tim Duncan", "Manu Ginobili"));
+    other.putAll("Warriors", List.of("Stephen Curry", "Klay Thompson"));
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(actual).containsAllEntriesOf(other));
     // THEN
     then(error).hasMessage(shouldContain(actual, other,
-                                         list(entry("Warriors", "Stephen Curry"), entry("Warriors", "Klay Thompson"))).create());
+                                         List.of(entry("Warriors", "Stephen Curry"), entry("Warriors", "Klay Thompson")))
+                                                                                                                         .create());
   }
 
 }

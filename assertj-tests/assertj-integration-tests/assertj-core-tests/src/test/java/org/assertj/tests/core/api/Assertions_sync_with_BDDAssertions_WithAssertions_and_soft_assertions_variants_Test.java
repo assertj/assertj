@@ -15,7 +15,6 @@ package org.assertj.tests.core.api;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.lang.reflect.Method;
@@ -54,7 +53,7 @@ class Assertions_sync_with_BDDAssertions_WithAssertions_and_soft_assertions_vari
   @Test
   void standard_assertions_and_bdd_assertions_should_have_the_same_non_assertions_methods() {
     // GIVEN
-    List<String> methodsToIgnore = list("failBecauseExceptionWasNotThrown", "filter", "offset");
+    List<String> methodsToIgnore = List.of("failBecauseExceptionWasNotThrown", "filter", "offset");
     Set<Method> non_assertThat_methods = non_assertThat_methodsOf(Assertions.class.getDeclaredMethods());
     non_assertThat_methods = removeMethods(non_assertThat_methods, methodsToIgnore);
     Set<Method> non_then_methods = non_then_methodsOf(BDDAssertions.class.getDeclaredMethods());
@@ -141,11 +140,11 @@ class Assertions_sync_with_BDDAssertions_WithAssertions_and_soft_assertions_vari
   }
 
   private static Stream<String> bdd_assertion_methods() {
-    return assertion_methods().map(assertionMethod -> toBDDAssertionMethod(assertionMethod));
+    return assertion_methods().map(method -> toBDDAssertionMethod(method));
   }
 
   private static Stream<Arguments> standard_and_bdd_assertion_methods() {
-    return assertion_methods().map(assertionMethod -> arguments(assertionMethod, toBDDAssertionMethod(assertionMethod)));
+    return assertion_methods().map(method -> arguments(method, toBDDAssertionMethod(method)));
   }
 
   private static Set<Method> non_assertThat_methodsOf(Method[] declaredMethods) {

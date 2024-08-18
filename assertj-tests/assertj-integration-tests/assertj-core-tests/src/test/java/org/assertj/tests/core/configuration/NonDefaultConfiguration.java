@@ -13,7 +13,6 @@
 package org.assertj.tests.core.configuration;
 
 import static org.assertj.core.presentation.BinaryRepresentation.BINARY_REPRESENTATION;
-import static org.assertj.core.util.Lists.list;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -74,11 +73,12 @@ class NonDefaultConfiguration extends Configuration {
 
   @Override
   public List<DateFormat> additionalDateFormats() {
-    return list(DATE_FORMAT1, DATE_FORMAT2);
+    return List.of(DATE_FORMAT1, DATE_FORMAT2);
   }
 
   @Override
   public PreferredAssumptionException preferredAssumptionException() {
     return PreferredAssumptionException.TEST_NG;
   }
+
 }

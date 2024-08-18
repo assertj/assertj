@@ -18,7 +18,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHavePermittedSubclasses.shouldHavePermittedSubclasses;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.List;
@@ -50,7 +49,7 @@ class ClassAssert_hasPermittedSubclasses_Test {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(Object.class).hasPermittedSubclasses(String.class));
     // THEN
-    then(error).hasMessage(shouldHavePermittedSubclasses(Object.class, array(String.class), list(String.class)).create());
+    then(error).hasMessage(shouldHavePermittedSubclasses(Object.class, array(String.class), List.of(String.class)).create());
   }
 
   @Test

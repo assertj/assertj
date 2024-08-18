@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.list;
 import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.guava.error.RangeSetShouldIntersect.shouldIntersect;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
@@ -27,6 +26,7 @@ import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionErr
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.Range;
 import com.google.common.collect.RangeSet;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -38,7 +38,7 @@ class RangeSetAssert_intersectsAll_with_Iterable_Test {
   void should_fail_if_actual_is_null() {
     // GIVEN
     RangeSet<Integer> actual = null;
-    Iterable<Range<Integer>> ranges = list(closed(0, 10));
+    Iterable<Range<Integer>> ranges = List.of(closed(0, 10));
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(actual).intersectsAll(ranges));
     // THEN
@@ -73,11 +73,11 @@ class RangeSetAssert_intersectsAll_with_Iterable_Test {
   void should_fail_if_actual_does_not_intersect_ranges() {
     // GIVEN
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 100));
-    Iterable<Range<Integer>> ranges = list(closed(50, 70), closed(120, 150));
+    Iterable<Range<Integer>> ranges = List.of(closed(50, 70), closed(120, 150));
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(actual).intersectsAll(ranges));
     // THEN
-    then(error).hasMessage(shouldIntersect(actual, ranges, list(closed(120, 150))).create());
+    then(error).hasMessage(shouldIntersect(actual, ranges, List.of(closed(120, 150))).create());
   }
 
   @Test
@@ -93,9 +93,9 @@ class RangeSetAssert_intersectsAll_with_Iterable_Test {
   void should_pass_if_actual_intersects_ranges() {
     // GIVEN
     RangeSet<Integer> rangeSet = ImmutableRangeSet.of(closed(0, 100));
-    Iterable<Range<Integer>> ranges = list(closed(-10, 10),
-                                           open(50, 60),
-                                           open(90, 170));
+    Iterable<Range<Integer>> ranges = List.of(closed(-10, 10),
+                                              open(50, 60),
+                                              open(90, 170));
     // WHEN/THEN
     assertThat(rangeSet).intersectsAll(ranges);
   }

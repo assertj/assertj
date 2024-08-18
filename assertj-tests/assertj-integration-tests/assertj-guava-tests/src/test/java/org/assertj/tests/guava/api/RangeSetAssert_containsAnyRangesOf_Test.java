@@ -20,7 +20,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.list;
 import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
 
@@ -72,7 +71,7 @@ class RangeSetAssert_containsAnyRangesOf_Test {
   void should_fail_if_actual_does_not_contain_values() {
     // GIVEN
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 3));
-    List<Integer> values = list(4, 5);
+    List<Integer> values = List.of(4, 5);
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(actual).containsAnyRangesOf(values));
     // THEN
@@ -92,7 +91,7 @@ class RangeSetAssert_containsAnyRangesOf_Test {
   void should_pass_if_actual_contains_any_values() {
     // GIVEN
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(1, 10));
-    Iterable<Integer> values = list(0, 1, 2, 12, 13);
+    Iterable<Integer> values = List.of(0, 1, 2, 12, 13);
     // WHEN/THEN
     assertThat(actual).containsAnyRangesOf(values);
   }

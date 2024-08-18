@@ -15,7 +15,6 @@ package org.assertj.tests.core.api;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThatList;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ class Assertions_assertThatList_Test {
   @Test
   void should_create_Assert() {
     // GIVEN
-    AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> assertions = assertThatList(emptyList());
+    AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> assertions = assertThatList(emptyList());
     // WHEN/THEN
     then(assertions).isNotNull();
   }
@@ -57,9 +56,8 @@ class Assertions_assertThatList_Test {
   void should_create_Assert_with_extends() {
     // GIVEN
     Employee bill = new Employee("bill");
-    Person billou = bill;
-    List<Person> list1 = list(billou);
-    List<Employee> list2 = list(bill);
+    List<Person> list1 = List.of(bill);
+    List<Employee> list2 = List.of(bill);
     // WHEN/THEN
     assertThatList(list1).isEqualTo(list2);
     assertThatList(list2).isEqualTo(list1);

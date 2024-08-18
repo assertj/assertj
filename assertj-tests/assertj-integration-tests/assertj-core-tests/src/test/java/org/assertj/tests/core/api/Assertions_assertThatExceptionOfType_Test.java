@@ -19,9 +19,9 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.function.Supplier;
 import org.assertj.core.api.ThrowableAssertAlternative;
 import org.assertj.core.api.ThrowableTypeAssert;
@@ -35,21 +35,21 @@ class Assertions_assertThatExceptionOfType_Test {
   }
 
   public static Iterable<?> data() {
-    return list(array(s(() -> assertThatExceptionOfType(UnsupportedOperationException.class)),
-                      UnsupportedOperationException.class,
-                      s(() -> new UnsupportedOperationException())),
-                array(s(() -> assertThatNullPointerException()),
-                      NullPointerException.class,
-                      s(() -> new NullPointerException("value"))),
-                array(s(() -> assertThatIllegalArgumentException()),
-                      IllegalArgumentException.class,
-                      s(() -> new IllegalArgumentException("arg"))),
-                array(s(() -> assertThatIllegalStateException()),
-                      IllegalStateException.class,
-                      s(() -> new IllegalStateException("state"))),
-                array(s(() -> assertThatIOException()),
-                      IOException.class,
-                      s(() -> new IOException("io"))));
+    return List.of(array(s(() -> assertThatExceptionOfType(UnsupportedOperationException.class)),
+                         UnsupportedOperationException.class,
+                         s(() -> new UnsupportedOperationException())),
+                   array(s(() -> assertThatNullPointerException()),
+                         NullPointerException.class,
+                         s(() -> new NullPointerException("value"))),
+                   array(s(() -> assertThatIllegalArgumentException()),
+                         IllegalArgumentException.class,
+                         s(() -> new IllegalArgumentException("arg"))),
+                   array(s(() -> assertThatIllegalStateException()),
+                         IllegalStateException.class,
+                         s(() -> new IllegalStateException("state"))),
+                   array(s(() -> assertThatIOException()),
+                         IOException.class,
+                         s(() -> new IOException("io"))));
   }
 
   @ParameterizedTest

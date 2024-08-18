@@ -21,12 +21,12 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.list;
 import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
 
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -72,11 +72,11 @@ class RangeSetAssert_doesNotContainAll_Test {
   void should_fail_if_actual_contains_values() {
     // GIVEN
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(1, 10));
-    Iterable<Integer> values = list(0, 2, 3, 4);
+    Iterable<Integer> values = List.of(0, 2, 3, 4);
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainAll(values));
     // THEN
-    then(error).hasMessage(shouldNotContain(actual, values, list(2, 3, 4)).create());
+    then(error).hasMessage(shouldNotContain(actual, values, List.of(2, 3, 4)).create());
   }
 
   @Test
@@ -84,7 +84,7 @@ class RangeSetAssert_doesNotContainAll_Test {
     // GIVEN
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 3));
     // WHEN/THEN
-    assertThat(actual).doesNotContainAll(list(4, 5));
+    assertThat(actual).doesNotContainAll(List.of(4, 5));
   }
 
 }

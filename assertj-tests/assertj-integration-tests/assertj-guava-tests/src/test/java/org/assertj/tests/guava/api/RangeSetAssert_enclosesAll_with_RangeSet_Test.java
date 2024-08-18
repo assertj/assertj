@@ -18,13 +18,13 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.list;
 import static org.assertj.guava.api.Assertions.assertThat;
 import static org.assertj.guava.error.RangeSetShouldEnclose.shouldEnclose;
 import static org.assertj.tests.guava.testkit.AssertionErrors.expectAssertionError;
 
 import com.google.common.collect.ImmutableRangeSet;
 import com.google.common.collect.RangeSet;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 class RangeSetAssert_enclosesAll_with_RangeSet_Test {
@@ -75,7 +75,7 @@ class RangeSetAssert_enclosesAll_with_RangeSet_Test {
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(actual).enclosesAll(expected));
     // THEN
-    then(error).hasMessage(shouldEnclose(actual, expected, list(closed(120, 150))).create());
+    then(error).hasMessage(shouldEnclose(actual, expected, List.of(closed(120, 150))).create());
   }
 
   @Test
