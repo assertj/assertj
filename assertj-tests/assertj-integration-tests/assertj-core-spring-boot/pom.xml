@@ -10,10 +10,9 @@
 
   <artifactId>assertj-core-spring-boot</artifactId>
 
-  <name>AssertJ Core Integration Tests - Spring Boot</name>
+  <name>AssertJ Core Integration Tests (Spring Boot)</name>
 
   <properties>
-    <java.version>21</java.version>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
     <spotless.skip>false</spotless.skip>
   </properties>

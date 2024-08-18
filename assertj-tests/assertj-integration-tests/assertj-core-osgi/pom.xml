@@ -10,7 +10,7 @@
 
   <artifactId>assertj-core-osgi</artifactId>
 
-  <name>AssertJ Core Integration Tests - OSGi</name>
+  <name>AssertJ Core Integration Tests (OSGi)</name>
 
   <properties>
     <osgi.bundle>${project.build.directory}/${project.build.finalName}-tests.jar</osgi.bundle>

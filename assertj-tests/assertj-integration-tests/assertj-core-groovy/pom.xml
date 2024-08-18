@@ -10,7 +10,7 @@
 
   <artifactId>assertj-core-groovy</artifactId>
 
-  <name>AssertJ Core Integration Tests - Groovy</name>
+  <name>AssertJ Core Integration Tests (Groovy)</name>
 
   <dependencies>
     <dependency>

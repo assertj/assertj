@@ -10,7 +10,7 @@
 
   <artifactId>assertj-core-testng-with-junit4</artifactId>
 
-  <name>AssertJ Core Integration Tests - TestNG with JUnit 4</name>
+  <name>AssertJ Core Integration Tests (TestNG and JUnit 4)</name>
 
   <properties>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>

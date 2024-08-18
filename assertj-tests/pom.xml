@@ -20,6 +20,7 @@
   </modules>
 
   <properties>
+    <java.version>21</java.version>
     <gpg.skip>true</gpg.skip>
     <maven.install.skip>true</maven.install.skip>
     <maven.deploy.skip>true</maven.deploy.skip>

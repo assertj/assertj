@@ -10,7 +10,7 @@
 
   <artifactId>assertj-core-kotlin</artifactId>
 
-  <name>AssertJ Core Integration Tests - Kotlin</name>
+  <name>AssertJ Core Integration Tests (Kotlin)</name>
 
   <properties>
     <kotlin.version>2.0.10</kotlin.version>

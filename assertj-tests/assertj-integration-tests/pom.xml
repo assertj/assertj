@@ -14,14 +14,13 @@
   <name>AssertJ Integration Tests</name>
 
   <modules>
-    <module>assertj-core-java-8</module>
-    <module>assertj-core-java-17</module>
     <module>assertj-core-junit4-with-opentest4j</module>
     <module>assertj-core-kotlin</module>
     <module>assertj-core-osgi</module>
     <module>assertj-core-spring-boot</module>
     <module>assertj-core-testng-with-junit4</module>
-    <module>assertj-guava-java-8</module>
+    <module>assertj-core-tests</module>
+    <module>assertj-guava-tests</module>
   </modules>
 
   <profiles>
