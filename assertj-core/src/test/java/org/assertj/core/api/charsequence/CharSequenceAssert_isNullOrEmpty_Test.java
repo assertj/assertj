@@ -19,8 +19,6 @@ import org.assertj.core.api.CharSequenceAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#isNullOrEmpty()}</code>.
- * 
  * @author Alex Ruiz
  */
 class CharSequenceAssert_isNullOrEmpty_Test extends CharSequenceAssertBaseTest {

@@ -18,8 +18,6 @@ import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 /**
- * Tests for <code>{@link CharSequenceAssert#isNotEmpty()}</code>.
- * 
  * @author Alex Ruiz
  */
 class CharSequenceAssert_isNotEmpty_Test extends CharSequenceAssertBaseTest {
