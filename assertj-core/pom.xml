@@ -26,6 +26,7 @@
     </argLine>
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
+    <jacoco.skip>true</jacoco.skip> <!-- https://github.com/assertj/assertj/issues/3580 -->
     <!-- Dependency versions -->
     <byte-buddy.version>1.14.19</byte-buddy.version>
     <hamcrest.version>3.0</hamcrest.version>
