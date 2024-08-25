@@ -40,9 +40,7 @@ jobs:
 
       - name: Add result to job summary
         if: success() || failure()
-        run: |
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          cat assertj-core/target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
+        run: cat assertj-core/target/japicmp/default-cli.md >> $GITHUB_STEP_SUMMARY
 
   verify-with-release:
 
@@ -64,13 +62,4 @@ jobs:
 
       - name: Add result to job summary
         if: success() || failure()
-        run: |
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          cat assertj-core/target/japicmp/default-cli.diff >> $GITHUB_STEP_SUMMARY
-      - name: Upload reports
-        if: success() || failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: japicmp
-          path: assertj-core/target/japicmp
-          if-no-files-found: error
+        run: cat assertj-core/target/japicmp/default-cli.md >> $GITHUB_STEP_SUMMARY

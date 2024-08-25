@@ -108,6 +108,7 @@
               <onlyModified>true</onlyModified>
               <reportOnlyFilename>true</reportOnlyFilename>
             </parameter>
+            <skipHtmlReport>true</skipHtmlReport>
             <skipXmlReport>true</skipXmlReport>
           </configuration>
         </plugin>
