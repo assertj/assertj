@@ -13,6 +13,7 @@
 package org.assertj.core.api.future;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.future.FutureTestHelper.futureCompletingAfter;
@@ -22,49 +23,31 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 
 import org.junit.jupiter.api.Test;
 
-class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
+class CompletableFutureAssert_completesExceptionallyWithin_Test extends AbstractFutureTest {
 
   private static final Duration ONE_SECOND = Duration.ofSeconds(1);
 
   @Test
-  void should_pass_when_future_does_not_complete_within_timeout_Duration() {
+  void should_fail_when_future_does_not_complete_within_timeout_Duration() {
     // GIVEN
     CompletableFuture<Void> future = futureCompletingAfter(ONE_SECOND, executorService);
-    // WHEN/THEN
-    then(future).failsWithin(Duration.ofMillis(50));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(Duration.ofMillis(50)));
+    // THEN
+    then(assertionError).hasMessageContainingAll("Incomplete", "to have completed exceptionally within 0.05S.");
   }
 
   @Test
-  void should_pass_when_future_does_not_complete_within_timeout() {
+  void should_fail_when_future_does_not_complete_within_timeout() {
     // GIVEN
     CompletableFuture<Void> future = futureCompletingAfter(ONE_SECOND, executorService);
-    // WHEN/THEN
-    then(future).failsWithin(50, MILLISECONDS);
-  }
-
-  @Test
-  void should_allow_assertion_on_future_exception_when_future_did_not_complete_within_timeout_Duration() {
-    // GIVEN
-    CompletableFuture<Void> future = futureCompletingAfter(ONE_SECOND, executorService);
-    // WHEN/THEN
-    then(future).failsWithin(Duration.ofMillis(50))
-                .withThrowableOfType(TimeoutException.class)
-                .withMessage(null);
-  }
-
-  @Test
-  void should_allow_assertion_on_future_exception_when_future_did_not_complete_within_timeout() {
-    // GIVEN
-    CompletableFuture<Void> future = futureCompletingAfter(ONE_SECOND, executorService);
-    // WHEN/THEN
-    then(future).failsWithin(50, MILLISECONDS)
-                .withThrowableThat()
-                .isInstanceOf(TimeoutException.class)
-                .withMessage(null);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(50, MILLISECONDS));
+    // THEN
+    then(assertionError).hasMessageContainingAll("Incomplete", "to have completed exceptionally within 50L MILLISECONDS.");
   }
 
   @Test
@@ -72,9 +55,10 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
     // GIVEN
     CompletableFuture<Void> future = futureCompletingAfter(Duration.ofMillis(10), executorService);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(future).failsWithin(500, MILLISECONDS));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(500,
+                                                                                                               MILLISECONDS));
     // THEN
-    then(assertionError).hasMessageContainingAll("Completed", "to have failed within 500L MILLISECONDS.");
+    then(assertionError).hasMessageContainingAll("Completed", "to have completed exceptionally within 500L MILLISECONDS.");
   }
 
   @Test
@@ -82,9 +66,9 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
     // GIVEN
     CompletableFuture<Void> future = futureCompletingAfter(Duration.ofMillis(10), executorService);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).failsWithin(Duration.ofMillis(500)));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(Duration.ofMillis(500)));
     // THEN
-    then(assertionError).hasMessageContainingAll("Completed", "to have failed within 0.5S.");
+    then(assertionError).hasMessageContainingAll("Completed", "to have completed exceptionally within 0.5S.");
   }
 
   @Test
@@ -93,8 +77,8 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
     CompletableFuture<Void> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN/THEN
-    then(future).failsWithin(1, MILLISECONDS);
-    then(future).failsWithin(Duration.ofMillis(1));
+    then(future).completesExceptionallyWithin(1, MILLISECONDS);
+    then(future).completesExceptionallyWithin(Duration.ofMillis(1));
   }
 
   @Test
@@ -103,13 +87,24 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
     CompletableFuture<Void> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException("boom!"));
     // WHEN/THEN
-    then(future).failsWithin(1, MILLISECONDS)
+    then(future).completesExceptionallyWithin(1, MILLISECONDS)
                 .withThrowableOfType(ExecutionException.class)
                 .withMessageContaining("boom!");
-    then(future).failsWithin(Duration.ofMillis(1))
+    then(future).completesExceptionallyWithin(Duration.ofMillis(1))
                 .withThrowableThat()
                 .isInstanceOf(ExecutionException.class)
                 .withMessageContaining("boom!");
+  }
+
+  @Test
+  void should_fail_when_wait_is_interrupted() {
+    // GIVEN
+    CompletableFuture<Void> future = futureCompletingAfter(ONE_SECOND, executorService);
+    // WHEN
+    Thread.currentThread().interrupt();
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(2, SECONDS));
+    // THEN
+    then(assertionError).hasMessageContainingAll("Incomplete", "to have completed exceptionally within 2L SECONDS.");
   }
 
   @Test
@@ -117,7 +112,7 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
     // GIVEN
     CompletableFuture<Void> future = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).failsWithin(1, MILLISECONDS));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(1, MILLISECONDS));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
