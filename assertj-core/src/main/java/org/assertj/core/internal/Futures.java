@@ -15,6 +15,7 @@ package org.assertj.core.internal;
 import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
 import static org.assertj.core.error.future.ShouldBeCompletedWithin.shouldBeCompletedWithin;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
+import static org.assertj.core.error.future.ShouldHaveCompletedExceptionallyWithin.shouldHaveCompletedExceptionallyWithin;
 import static org.assertj.core.error.future.ShouldHaveFailedWithin.shouldHaveFailedWithin;
 import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
 import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
@@ -129,6 +130,30 @@ public class Futures {
       throw failures.failure(info, shouldHaveFailedWithin(actual, timeout, unit));
     } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
       return e;
+    }
+  }
+
+  public Exception assertCompletedExceptionallyWithin(AssertionInfo info, Future<?> actual, Duration timeout) {
+    assertNotNull(info, actual);
+    try {
+      actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
+      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout));
+    } catch (ExecutionException | CancellationException e) {
+      return e;
+    } catch (InterruptedException | TimeoutException e) {
+      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout));
+    }
+  }
+
+  public Exception assertCompletedExceptionallyWithin(AssertionInfo info, Future<?> actual, long timeout, TimeUnit unit) {
+    assertNotNull(info, actual);
+    try {
+      actual.get(timeout, unit);
+      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout, unit));
+    } catch (ExecutionException | CancellationException e) {
+      return e;
+    } catch (TimeoutException | InterruptedException e) {
+      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout, unit));
     }
   }
 
