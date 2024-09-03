@@ -10,24 +10,19 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.presentation;
+package org.assertj.tests.core.testkit;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import java.util.Comparator;
 
-/**
- * @author Filip Hrisafov
- */
-abstract class AbstractBaseRepresentationTest {
+public final class OtherStringTestComparatorWithAt implements Comparator<String> {
 
-  @BeforeEach
-  void setUp() {
-    StandardRepresentation.resetDefaults();
+  @Override
+  public int compare(String s1, String s2) {
+    return s1.length() - s2.length();
   }
 
-  @AfterEach
-  void afterTests() {
-    StandardRepresentation.resetDefaults();
+  @Override
+  public String toString() {
+    return "other String comparator with @";
   }
-
 }

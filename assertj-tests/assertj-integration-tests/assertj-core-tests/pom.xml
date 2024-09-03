@@ -10,7 +10,7 @@
 
   <artifactId>assertj-core-tests</artifactId>
 
-  <name>AssertJ Core Integration Tests</name>
+  <name>AssertJ Core Tests</name>
 
   <properties>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
@@ -55,6 +55,18 @@
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.17.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.17.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

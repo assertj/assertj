@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.presentation;
+package org.assertj.tests.core.presentation;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -19,14 +19,11 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.assertj.core.configuration.Configuration;
-import org.assertj.core.testkit.MutatesGlobalConfiguration;
+import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.tests.core.testkit.MutatesGlobalConfiguration;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link StandardRepresentation#toStringOf(Throwable)}</code>.
- *
- *  @author XiaoMingZHM Eveneko
- */
 @MutatesGlobalConfiguration
 class StandardRepresentation_throwable_format_Test {
 
@@ -35,7 +32,6 @@ class StandardRepresentation_throwable_format_Test {
   // Just to make sure the stack trace is long enough.
   static class Test1 {
     static class Test2 {
-
       static void boom2() {
         throw new RuntimeException();
       }
@@ -68,9 +64,9 @@ class StandardRepresentation_throwable_format_Test {
     String toString = REPRESENTATION.toStringOf(catchThrowable(Test1::boom));
     // THEN
     then(toString).matches("java\\.lang\\.RuntimeException\\R" +
-                           "\\tat org\\.assertj\\.core\\.presentation\\.StandardRepresentation_throwable_format_Test\\$Test1\\$Test2\\.boom2\\(StandardRepresentation_throwable_format_Test\\.java:\\d+\\)\\R"
+                           "\\tat org\\.assertj\\.tests\\.core\\.presentation\\.StandardRepresentation_throwable_format_Test\\$Test1\\$Test2\\.boom2\\(StandardRepresentation_throwable_format_Test\\.java:\\d+\\)\\R"
                            +
-                           "\\tat org\\.assertj\\.core\\.presentation\\.StandardRepresentation_throwable_format_Test\\$Test1\\.boom\\(StandardRepresentation_throwable_format_Test\\.java:\\d+\\)\\R"
+                           "\\tat org\\.assertj\\.tests\\.core\\.presentation\\.StandardRepresentation_throwable_format_Test\\$Test1\\.boom\\(StandardRepresentation_throwable_format_Test\\.java:\\d+\\)\\R"
                            +
                            "\\tat org\\.assertj\\.core\\.api\\.ThrowableAssert\\.catchThrowable\\(ThrowableAssert\\.java:\\d+\\)\\R"
                            +
@@ -87,7 +83,7 @@ class StandardRepresentation_throwable_format_Test {
     String toString = REPRESENTATION.toStringOf(catchThrowable(Test1::boom));
     // THEN
     then(toString).startsWith(format("java.lang.RuntimeException%n"
-                                     + "\tat org.assertj.core.presentation.StandardRepresentation_throwable_format_Test$Test1$Test2.boom2(StandardRepresentation_throwable_format_Test.java"))
+                                     + "\tat org.assertj.tests.core.presentation.StandardRepresentation_throwable_format_Test$Test1$Test2.boom2(StandardRepresentation_throwable_format_Test.java"))
                   .doesNotContain("remaining lines not displayed");
   }
 

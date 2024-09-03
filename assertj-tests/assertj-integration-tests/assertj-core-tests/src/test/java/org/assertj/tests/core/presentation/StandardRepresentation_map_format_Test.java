@@ -10,9 +10,8 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.presentation;
+package org.assertj.tests.core.presentation;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.io.File;
@@ -23,27 +22,30 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link StandardRepresentation#toStringOf(Map) StandardRepresentation#toStringOf(Map)}.
- *
- * @author Yvonne Wang
- * @author Alex Ruiz
- * @author gabga
- */
 class StandardRepresentation_map_format_Test extends AbstractBaseRepresentationTest {
   private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   @Test
   void should_return_null_if_Map_is_null() {
+    // GIVEN
     Map<?, ?> map = null;
-    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isNull();
+    // WHEN
+    String mapRepresentation = STANDARD_REPRESENTATION.toStringOf(map);
+    // THEN
+    then(mapRepresentation).isNull();
   }
 
   @Test
   void should_return_empty_braces_if_Map_is_empty() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new HashMap<>())).isEqualTo("{}");
+    // GIVEN
+    Map<?, ?> map = new HashMap<>();
+    // WHEN
+    String mapRepresentation = STANDARD_REPRESENTATION.toStringOf(map);
+    // THEN
+    then(mapRepresentation).isEqualTo("{}");
   }
 
   @Test
@@ -113,7 +115,7 @@ class StandardRepresentation_map_format_Test extends AbstractBaseRepresentationT
   @Test
   void should_formal_null_in_the_entry_set() {
     // GIVEN
-    Map<Integer, Integer> map = new AbstractMap<Integer, Integer>() {
+    Map<Integer, Integer> map = new AbstractMap<>() {
       @Override
       public Set<Entry<Integer, Integer>> entrySet() {
         Set<Entry<Integer, Integer>> entries = new HashSet<>();

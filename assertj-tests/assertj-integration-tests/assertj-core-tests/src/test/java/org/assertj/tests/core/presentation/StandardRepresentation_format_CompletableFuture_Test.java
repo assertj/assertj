@@ -10,11 +10,12 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.presentation;
+package org.assertj.tests.core.presentation;
 
 import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.concurrent.CompletableFuture;
@@ -25,7 +26,12 @@ class StandardRepresentation_format_CompletableFuture_Test {
 
   @Test
   void should_format_incomplete_future() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new CompletableFuture<>())).isEqualTo("CompletableFuture[Incomplete]");
+    // GIVEN
+    CompletableFuture<Object> future = new CompletableFuture<>();
+    // WHEN
+    String futureStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(future);
+    // THEN
+    then(futureStandardRepresentation).isEqualTo("CompletableFuture[Incomplete]");
   }
 
   @Test
@@ -37,32 +43,44 @@ class StandardRepresentation_format_CompletableFuture_Test {
 
   @Test
   void should_format_failed_future() {
+    // GIVEN
     CompletableFuture<Object> future = new CompletableFuture<>();
+    // WHEN
     future.completeExceptionally(new RuntimeException("some random error"));
-    assertThat(STANDARD_REPRESENTATION.toStringOf(future)).startsWith(format("CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: some random error"));
+    // THEN
+    then(STANDARD_REPRESENTATION.toStringOf(future)).startsWith(format("CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: some random error"));
   }
 
   @Test
   void should_format_cancelled_future() {
+    // GIVEN
     CompletableFuture<Object> future = new CompletableFuture<>();
+    // WHEN
     future.cancel(true);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(future)).isEqualTo("CompletableFuture[Cancelled]");
+    // THEN
+    then(STANDARD_REPRESENTATION.toStringOf(future)).isEqualTo("CompletableFuture[Cancelled]");
   }
 
   @Test
   void should_not_stack_overflow_when_formatting_future_completed_with_itself() {
+    // GIVEN
     CompletableFuture<CompletableFuture<?>> future = new CompletableFuture<>();
+    // WHEN
     future.complete(future);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(future)).isEqualTo("CompletableFuture[Completed: " + future + "]");
+    // THEN
+    then(STANDARD_REPRESENTATION.toStringOf(future)).isEqualTo("CompletableFuture[Completed: " + future + "]");
   }
 
   @Test
   void should_not_stack_overflow_when_formatting_future_with_reference_cycle() {
+    // GIVEN
     CompletableFuture<CompletableFuture<?>> future1 = new CompletableFuture<>();
     CompletableFuture<CompletableFuture<?>> future2 = new CompletableFuture<>();
+    // WHEN
     future1.complete(future2);
     future2.complete(future1);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(future1)).isEqualTo("CompletableFuture[Completed: " + future2 + "]");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(future2)).isEqualTo("CompletableFuture[Completed: " + future1 + "]");
+    // THEN
+    then(STANDARD_REPRESENTATION.toStringOf(future1)).isEqualTo("CompletableFuture[Completed: " + future2 + "]");
+    then(STANDARD_REPRESENTATION.toStringOf(future2)).isEqualTo("CompletableFuture[Completed: " + future1 + "]");
   }
 }

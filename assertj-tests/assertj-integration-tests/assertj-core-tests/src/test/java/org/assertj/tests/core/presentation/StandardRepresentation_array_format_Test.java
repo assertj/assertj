@@ -10,10 +10,9 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.presentation;
+package org.assertj.tests.core.presentation;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Strings.quote;
@@ -22,14 +21,13 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.configuration.Configuration;
+import org.assertj.core.presentation.HexadecimalRepresentation;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-/**
- * Tests for <code>{@link StandardRepresentation#formatArray(Object)}</code>.
- */
 class StandardRepresentation_array_format_Test extends AbstractBaseRepresentationTest {
 
   private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
@@ -39,7 +37,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     // GIVEN
     final Object array = null;
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     then(formatted).isNull();
   }
@@ -49,7 +47,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     // GIVEN
     final Object[] array = new Object[0];
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     then(formatted).isEqualTo("[]");
   }
@@ -58,7 +56,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
   @MethodSource("should_format_primitive_array_source")
   void should_format_primitive_array(Object array, String expectedDescription) {
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     then(formatted).isEqualTo(expectedDescription);
   }
@@ -82,19 +80,9 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     // GIVEN
     Object array = new byte[] { (byte) 3, (byte) 8 };
     // WHEN
-    String formatted = new HexadecimalRepresentation().formatArray(array);
+    String formatted = new HexadecimalRepresentation().toStringOf(array);
     // THEN
     then(formatted).isEqualTo("[0x03, 0x08]");
-  }
-
-  @Test
-  void should_return_null_if_parameter_is_not_array() {
-    // GIVEN
-    String string = "Hello";
-    // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(string);
-    // THEN
-    then(formatted).isNull();
   }
 
   @Test
@@ -102,9 +90,9 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     // GIVEN
     Object[] array = { "Hello", "World" };
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
-    then(formatted).isEqualTo(format("[\"Hello\", \"World\"]"));
+    then(formatted).isEqualTo("[\"Hello\", \"World\"]");
   }
 
   @Test
@@ -112,9 +100,9 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     // GIVEN
     Object[] array = { "Hello", new Person("Anakin") };
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
-    then(formatted).isEqualTo(format("[\"Hello\", 'Anakin']"));
+    then(formatted).isEqualTo("[\"Hello\", 'Anakin']");
   }
 
   @Test
@@ -123,10 +111,10 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     StandardRepresentation.setMaxLengthForSingleLineDescription(11);
     Object[] array = { "Hello", new Person("Anakin") };
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
-    then(formatted).isEqualTo(format("[\"Hello\",%n"
-                                     + "    'Anakin']"));
+    then(formatted).isEqualTo(format("[\"Hello\",%n" +
+                                     "    'Anakin']"));
   }
 
   @Test
@@ -135,7 +123,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     boolean[] booleans = { true, false };
     Object[] array = { "Hello", booleans };
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     then(formatted).isEqualTo("[\"Hello\", [true, false]]");
   }
@@ -146,7 +134,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     Object[] array = { "Hello", null };
     array[1] = array;
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     then(formatted).isEqualTo("[\"Hello\", (this array)]");
   }
@@ -158,7 +146,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     array[0] = array;
     array[1] = array;
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     then(formatted).isEqualTo("[(this array), (this array)]");
   }
@@ -168,7 +156,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     // GIVEN
     Object[] array = { "Hello", new int[] {} };
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     then(formatted).isEqualTo("[\"Hello\", []]");
   }
@@ -178,7 +166,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     // GIVEN
     Object[] array = { "Hello", null };
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     then(formatted).isEqualTo("[\"Hello\", null]");
   }
@@ -188,7 +176,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     // GIVEN
     int[] array = new int[1 << 28];
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     then(formatted).contains("...");
     then(StringUtils.countMatches(formatted, "0")).isEqualTo(Configuration.MAX_ELEMENTS_FOR_PRINTING);
@@ -199,7 +187,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     // GIVEN
     Object[] array = new Object[1 << 28];
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     then(formatted).contains("...");
     then(StringUtils.countMatches(formatted, "null")).isEqualTo(Configuration.MAX_ELEMENTS_FOR_PRINTING);
@@ -211,7 +199,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     StandardRepresentation.setMaxElementsForPrinting(3);
     Object[] array = { "First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh" };
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     then(formatted).isEqualTo("[\"First\", \"Second\", ... \"Seventh\"]");
   }
@@ -222,24 +210,13 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     StandardRepresentation.setMaxLengthForSingleLineDescription(25);
     Object[] array = { "1234567890", "1234567890", "1234567890", "1234567890" };
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     String formattedAfterNewLine = "  <" + formatted + ">";
     then(formattedAfterNewLine).isEqualTo(format("  <[\"1234567890\",%n" +
                                                  "    \"1234567890\",%n" +
                                                  "    \"1234567890\",%n" +
                                                  "    \"1234567890\"]>"));
-  }
-
-  @ParameterizedTest(name = "{0}")
-  @MethodSource
-  public void formatPrimitiveArray_should_throw_exception_if_not_given_a_primitive_array(Object object) {
-    assertThatIllegalArgumentException().isThrownBy(() -> STANDARD_REPRESENTATION.formatPrimitiveArray(object))
-                                        .withMessage("<%s> is not an array of primitives", object);
-  }
-
-  private static Stream<Arguments> formatPrimitiveArray_should_throw_exception_if_not_given_a_primitive_array() {
-    return Stream.of(Arguments.of(12, array("a", "b", "c"), "foo"));
   }
 
   @ParameterizedTest(name = "with printing {0} max, {1} should be formatted as {2}")
@@ -250,7 +227,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     StandardRepresentation.setMaxElementsForPrinting(maxElementsForPrinting);
     StandardRepresentation.setMaxLengthForSingleLineDescription(15);
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.formatArray(array);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(array);
     // THEN
     // formattedAfterNewLine is built to show we align values on the first element.
     String formattedAfterNewLine = "  <" + formatted + ">";
@@ -320,12 +297,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
                                                                                                                     "    20]>"));
   }
 
-  private static class Person {
-    private final String name;
-
-    Person(String name) {
-      this.name = name;
-    }
+  private record Person(String name) {
 
     @Override
     public String toString() {

@@ -10,12 +10,11 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.presentation;
+package org.assertj.tests.core.presentation;
 
 import static java.lang.String.format;
 import static java.time.temporal.ChronoUnit.MILLIS;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.BDDAssertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -25,6 +24,7 @@ import static org.assertj.core.util.Maps.newHashMap;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.io.File;
+import java.io.Serial;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
@@ -60,161 +60,244 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.stream.Stream;
 
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.util.OtherStringTestComparator;
-import org.assertj.core.util.OtherStringTestComparatorWithAt;
-import org.assertj.core.util.StringTestComparator;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.assertj.tests.core.testkit.OtherStringTestComparator;
+import org.assertj.tests.core.testkit.OtherStringTestComparatorWithAt;
+import org.assertj.tests.core.testkit.StringTestComparator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-/**
- * @author Joel Costigliola
- */
 class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationTest {
 
   private static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
 
   @Test
   void should_return_null_if_object_is_null() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf((Object) null)).isNull();
+    // GIVEN
+    Object object = null;
+    // WHEN
+    String nullStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(object);
+    // THEN
+    then(nullStandardRepresentation).isNull();
   }
 
   @Test
   void should_quote_String() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf("Hello")).isEqualTo("\"Hello\"");
+    // GIVEN
+    String string = "Hello";
+    // WHEN
+    String emptyStringStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(string);
+    // THEN
+    then(emptyStringStandardRepresentation).isEqualTo("\"Hello\"");
   }
 
   @Test
   void should_quote_empty_String() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf("")).isEqualTo("\"\"");
+    // GIVEN
+    String emptyString = "";
+    // WHEN
+    String emptyStringStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(emptyString);
+    // THEN
+    then(emptyStringStandardRepresentation).isEqualTo("\"\"");
   }
 
   @Test
   void should_return_toString_of_File() {
+    // GIVEN
     final String path = "/someFile.txt";
-    @SuppressWarnings("serial")
-    File o = new File(path) {
+    File file = new File(path) {
       @Override
       public String getAbsolutePath() {
         return path;
       }
     };
-    assertThat(STANDARD_REPRESENTATION.toStringOf(o)).isEqualTo(path);
+    // WHEN
+    String fileStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(file);
+    // THEN
+    then(fileStandardRepresentation).isEqualTo(path);
   }
 
   @Test
   void should_return_toString_of_Path() {
+    // GIVEN
     final Path path = Paths.get("someFile.txt");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(path)).isEqualTo("someFile.txt");
+    // WHEN
+    String pathStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(path);
+    // THEN
+    then(pathStandardRepresentation).isEqualTo("someFile.txt");
   }
 
   @Test
   void should_return_toString_of_Class_with_its_name() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(Object.class)).isEqualTo("java.lang.Object");
+    // GIVEN
+    final Class<?> aClass = Object.class;
+    // WHEN
+    String classStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(aClass);
+    // THEN
+    then(classStandardRepresentation).isEqualTo("java.lang.Object");
   }
 
   @Test
   void should_return_toString_of_anonymous_Class_with_generic_description() {
+    // GIVEN
     Object anonymous = new Object() {};
-    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymous.getClass())).isEqualTo("anonymous class");
+    // WHEN
+    String anonymousClassStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(anonymous.getClass());
+    // THEN
+    then(anonymousClassStandardRepresentation).isEqualTo("anonymous class");
   }
 
   @Test
   void should_return_toString_of_anonymous_Class_array_with_generic_description() {
+    // GIVEN
     Object anonymous = new Object() {};
     Object anonymousArray = Array.newInstance(anonymous.getClass(), 1);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymousArray.getClass())).isEqualTo("anonymous class array");
+    // WHEN
+    String anonymousClassArrayStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(anonymousArray.getClass());
+    // THEN
+    then(anonymousClassArrayStandardRepresentation).isEqualTo("anonymous class array");
   }
 
   @Test
   void should_return_toString_of_local_Class_with_its_simple_name() {
+    // GIVEN
     class LocalClass {
     }
-    assertThat(STANDARD_REPRESENTATION.toStringOf(LocalClass.class)).isEqualTo("local class LocalClass");
+    // WHEN
+    String localClassStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(LocalClass.class);
+    // THEN
+    then(localClassStandardRepresentation).isEqualTo("local class LocalClass");
   }
 
   @Test
   void should_return_toString_of_local_Class_array_with_its_simple_name() {
+    // GIVEN
     class LocalClass {
     }
-    assertThat(STANDARD_REPRESENTATION.toStringOf(LocalClass[].class)).isEqualTo("local class LocalClass[]");
+    // WHEN
+    String localClassArrayStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(LocalClass[].class);
+    // THEN
+    then(localClassArrayStandardRepresentation).isEqualTo("local class LocalClass[]");
   }
 
   @Test
   void should_return_toString_of_Collection_of_String() {
+    // GIVEN
     Collection<String> collection = list("s1", "s2");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[\"s1\", \"s2\"]");
+    // WHEN
+    String stringCollectionStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(collection);
+    // THEN
+    then(stringCollectionStandardRepresentation).isEqualTo("[\"s1\", \"s2\"]");
   }
 
   @Test
   void should_return_toString_of_Collection_of_arrays() {
+    // GIVEN
     List<Boolean[]> collection = list(array(true, false), array(true, false, true));
-    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[true, false], [true, false, true]]");
+    // WHEN
+    String arrayCollectionStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(collection);
+    // THEN
+    then(arrayCollectionStandardRepresentation).isEqualTo("[[true, false], [true, false, true]]");
   }
 
   @Test
   void should_return_toString_of_Collection_of_arrays_up_to_the_maximum_allowed_elements() {
+    // GIVEN
     List<Boolean[]> collection = list(array(true),
                                       array(true, false, true, false, true),
                                       array(true, true),
                                       array(true),
                                       array(true));
     StandardRepresentation.setMaxElementsForPrinting(4);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[true], [true, false, ... false, true], ... [true], [true]]");
+    // WHEN
+    String collectionStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(collection);
+    // THEN
+    then(collectionStandardRepresentation).isEqualTo("[[true], [true, false, ... false, true], ... [true], [true]]");
   }
 
   @Test
   void should_return_toString_of_Collection_of_Collections() {
+    // GIVEN
     Collection<List<String>> collection = list(list("s1", "s2"), list("s3", "s4", "s5"));
-    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
+    // WHEN
+    String collectionOfCollectionStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(collection);
+    // THEN
+    then(collectionOfCollectionStandardRepresentation).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
   }
 
   @Test
   void should_return_toString_of_Collection_of_Collections_up_to_the_maximum_allowed_elements() {
+    // GIVEN
     Collection<List<String>> collection = list(list("s1"),
                                                list("s2", "s3", "s4", "s5", "s6"),
                                                list("s7", "s8"),
                                                list("s9"),
                                                list("s10"));
     StandardRepresentation.setMaxElementsForPrinting(4);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(collection)).isEqualTo("[[\"s1\"], [\"s2\", \"s3\", ... \"s5\", \"s6\"], ... [\"s9\"], [\"s10\"]]");
+    // WHEN
+    String collectionOfCollectionStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(collection);
+    // THEN
+    then(collectionOfCollectionStandardRepresentation).isEqualTo("[[\"s1\"], [\"s2\", \"s3\", ... \"s5\", \"s6\"], ... [\"s9\"], [\"s10\"]]");
   }
 
   @Test
   void should_return_toString_of_Map() {
+    // GIVEN
     Map<String, String> map = new LinkedHashMap<>();
     map.put("key1", "value1");
     map.put("key2", "value2");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(map)).isEqualTo("{\"key1\"=\"value1\", \"key2\"=\"value2\"}");
+    // WHEN
+    String mapStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(map);
+    // THEN
+    then(mapStandardRepresentation).isEqualTo("{\"key1\"=\"value1\", \"key2\"=\"value2\"}");
   }
 
   @Test
   void should_return_toString_of_array() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(array("s1", "s2"))).isEqualTo("[\"s1\", \"s2\"]");
+    // GIVEN
+    String[] array = array("s1", "s2");
+    // WHEN
+    String arrayStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(array);
+    // THEN
+    then(arrayStandardRepresentation).isEqualTo("[\"s1\", \"s2\"]");
   }
 
   @Test
   void should_return_toString_of_array_of_arrays() {
+    // GIVEN
     String[][] array = array(array("s1", "s2"), array("s3", "s4", "s5"));
-    assertThat(STANDARD_REPRESENTATION.toStringOf(array)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
+    // WHEN
+    String arrayStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(array);
+    // THEN
+    then(arrayStandardRepresentation).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]]");
   }
 
   @Test
   void should_return_toString_of_array_of_arrays_up_to_the_maximum_allowed_elements() {
+    // GIVEN
     String[][] array = array(array("s1", "s2"),
                              array("s3", "s4", "s5", "s6", "s7"),
                              array("s8"),
                              array("s9"),
                              array("s10"));
     StandardRepresentation.setMaxElementsForPrinting(4);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(array)).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ... \"s6\", \"s7\"], ... [\"s9\"], [\"s10\"]]");
+    // WHEN
+    String arrayStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(array);
+    // THEN
+    then(arrayStandardRepresentation).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ... \"s6\", \"s7\"], ... [\"s9\"], [\"s10\"]]");
   }
 
   @Test
   void should_return_toString_of_array_of_Class() {
+    // GIVEN
     Class<?>[] array = { String.class, File.class };
-    assertThat(STANDARD_REPRESENTATION.toStringOf(array)).isEqualTo("[java.lang.String, java.io.File]");
+    // WHEN
+    String arrayStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(array);
+    // THEN
+    then(arrayStandardRepresentation).isEqualTo("[java.lang.String, java.io.File]");
   }
 
   @Test
@@ -291,54 +374,80 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
 
   @Test
   void should_return_toString_of_AtomicReference() {
+    // GIVEN
     AtomicReference<String> atomicReference = new AtomicReference<>("actual");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(atomicReference)).isEqualTo("AtomicReference[\"actual\"]");
+    // WHEN
+    String atomicReferenceRepresentation = STANDARD_REPRESENTATION.toStringOf(atomicReference);
+    // THEN
+    then(atomicReferenceRepresentation).isEqualTo("AtomicReference[\"actual\"]");
   }
 
   @Test
   void should_return_toString_of_AtomicMarkableReference() {
+    // GIVEN
     AtomicMarkableReference<String> atomicMarkableReference = new AtomicMarkableReference<>("actual", true);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(atomicMarkableReference)).isEqualTo("AtomicMarkableReference[marked=true, reference=\"actual\"]");
+    // WHEN
+    String atomicMarkableReferenceRepresentation = STANDARD_REPRESENTATION.toStringOf(atomicMarkableReference);
+    // THEN
+    then(atomicMarkableReferenceRepresentation).isEqualTo("AtomicMarkableReference[marked=true, reference=\"actual\"]");
   }
 
   @Test
   void should_return_toString_of_AtomicStampedReference() {
+    // GIVEN
     AtomicStampedReference<String> atomicStampedReference = new AtomicStampedReference<>("actual", 123);
-    assertThat(STANDARD_REPRESENTATION.toStringOf(atomicStampedReference)).isEqualTo("AtomicStampedReference[stamp=123, reference=\"actual\"]");
+    // WHEN
+    String atomicStampedReferenceRepresentation = STANDARD_REPRESENTATION.toStringOf(atomicStampedReference);
+    // THEN
+    then(atomicStampedReferenceRepresentation).isEqualTo("AtomicStampedReference[stamp=123, reference=\"actual\"]");
   }
 
   @Test
   void should_return_toString_of_AtomicIntegerFieldUpdater() {
+    // GIVEN
     AtomicIntegerFieldUpdater<Person> updater = AtomicIntegerFieldUpdater.newUpdater(Person.class, "age");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(updater)).isEqualTo("AtomicIntegerFieldUpdater");
+    // WHEN
+    String atomicIntegerFieldUpdaterRepresentation = STANDARD_REPRESENTATION.toStringOf(updater);
+    // THEN
+    then(atomicIntegerFieldUpdaterRepresentation).isEqualTo("AtomicIntegerFieldUpdater");
   }
 
   @Test
   void should_return_toString_of_AtomicLongFieldUpdater() {
+    // GIVEN
     AtomicLongFieldUpdater<Person> updater = AtomicLongFieldUpdater.newUpdater(Person.class, "account");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(updater)).isEqualTo("AtomicLongFieldUpdater");
+    // WHEN
+    String atomicLongFieldUpdaterRepresentation = STANDARD_REPRESENTATION.toStringOf(updater);
+    // THEN
+    then(atomicLongFieldUpdaterRepresentation).isEqualTo("AtomicLongFieldUpdater");
   }
 
   @Test
   void should_return_toString_of_AtomicReferenceFieldUpdater() {
     AtomicReferenceFieldUpdater<Person, String> updater = newUpdater(Person.class, String.class, "name");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(updater)).isEqualTo("AtomicReferenceFieldUpdater");
+    // THEN
+    then(STANDARD_REPRESENTATION.toStringOf(updater)).isEqualTo("AtomicReferenceFieldUpdater");
   }
 
   @Test
   void toString_with_anonymous_comparator() {
-    Comparator<String> anonymousComparator = new Comparator<String>() {
+    // GIVEN
+    Comparator<String> anonymousComparator = new Comparator<>() {
       @Override
       public int compare(String s1, String s2) {
         return s1.length() - s2.length();
       }
     };
-    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymousComparator)).isEqualTo("'anonymous comparator class'");
+    // WHEN
+    String representation = STANDARD_REPRESENTATION.toStringOf(anonymousComparator);
+    // THEN
+    then(representation).isEqualTo("'anonymous comparator class'");
   }
 
   @Test
   void toString_with_anonymous_comparator_overriding_toString() {
-    Comparator<String> anonymousComparator = new Comparator<String>() {
+    // GIVEN
+    Comparator<String> anonymousComparator = new Comparator<>() {
       @Override
       public int compare(String s1, String s2) {
         return s1.length() - s2.length();
@@ -349,80 +458,172 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
         return "foo";
       }
     };
-    assertThat(STANDARD_REPRESENTATION.toStringOf(anonymousComparator)).isEqualTo("foo");
+    // WHEN
+    String representation = STANDARD_REPRESENTATION.toStringOf(anonymousComparator);
+    // THEN
+    then(representation).isEqualTo("foo");
   }
 
   @Test
   void toString_with_comparator_not_overriding_toString() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new StringTestComparator())).isEqualTo("StringTestComparator");
+    // GIVEN
+    StringTestComparator comparator = new StringTestComparator();
+    // WHEN
+    String comparatorStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(comparator);
+    // THEN
+    then(comparatorStandardRepresentation).isEqualTo("StringTestComparator");
   }
 
   @Test
   void toString_with_comparator_overriding_toString() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparator())).isEqualTo("other String comparator");
+    // GIVEN
+    OtherStringTestComparator comparator = new OtherStringTestComparator();
+    // WHEN
+    String comparatorStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(comparator);
+    // THEN
+    then(comparatorStandardRepresentation).isEqualTo("other String comparator");
   }
 
   @Test
   void toString_with_comparator_overriding_toString_and_having_at() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(new OtherStringTestComparatorWithAt())).isEqualTo("other String comparator with @");
+    // GIVEN
+    OtherStringTestComparatorWithAt comparator = new OtherStringTestComparatorWithAt();
+    // WHEN
+    String comparatorStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(comparator);
+    // THEN
+    then(comparatorStandardRepresentation).isEqualTo("other String comparator with @");
   }
 
   @Test
-  void should_format_longs_and_integers() {
-    assertThat(STANDARD_REPRESENTATION.toStringOf(20L).equals(toStringOf(20))).isFalse();
-    assertThat(toStringOf(20)).isEqualTo("20");
-    assertThat(toStringOf(20L)).isEqualTo("20L");
+  void should_format_byte() {
+    // GIVEN
+    byte b = 20;
+    // WHEN
+    String byteStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(b);
+    // THEN
+    then(byteStandardRepresentation).isEqualTo("20");
   }
 
   @Test
-  void should_format_bytes_as_hex() {
-    assertThat(toStringOf((byte) 20).equals(toStringOf((char) 20))).isFalse();
-    assertThat((toStringOf((short) 20))).isEqualTo(toStringOf((byte) 20));
-    assertThat(toStringOf((byte) 32)).isEqualTo("32");
+  void should_format_char() {
+    // GIVEN
+    char a = 'a';
+    // WHEN
+    String charStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(a);
+    // THEN
+    then(charStandardRepresentation).isEqualTo("'a'");
   }
 
   @Test
-  void should_format_doubles_and_floats() {
-    assertThat(toStringOf(20.0f).equals(toStringOf(20.0))).isFalse();
-    assertThat(toStringOf(20.0)).isEqualTo("20.0");
-    assertThat(toStringOf(20.0f)).isEqualTo("20.0f");
+  void should_format_short() {
+    // GIVEN
+    short s = 20;
+    // WHEN
+    String shortStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(s);
+    // THEN
+    then(shortStandardRepresentation).isEqualTo("20");
   }
 
   @Test
-  void should_format_tuples() {
-    assertThat(toStringOf(tuple(1, 2, 3))).isEqualTo("(1, 2, 3)");
+  void should_format_int() {
+    // GIVEN
+    int i = 20;
+    // WHEN
+    String intStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(i);
+    // THEN
+    then(intStandardRepresentation).isEqualTo("20");
+  }
+
+  @Test
+  void should_format_long() {
+    // GIVEN
+    long l = 20;
+    // WHEN
+    String longStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(l);
+    // THEN
+    then(longStandardRepresentation).isEqualTo("20L");
+  }
+
+  @Test
+  void should_format_float() {
+    // GIVEN
+    float d = 20.0f;
+    // WHEN
+    String floatStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(d);
+    // THEN
+    then(floatStandardRepresentation).isEqualTo("20.0f");
+  }
+
+  @Test
+  void should_format_double() {
+    // GIVEN
+    double d = 20.0;
+    // WHEN
+    String doubleStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(d);
+    // THEN
+    then(doubleStandardRepresentation).isEqualTo("20.0");
+  }
+
+  @Test
+  void should_format_tuple() {
+    // GIVEN
+    Tuple tuple = tuple(1, 2, 3);
+    // WHEN
+    String tupleStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(tuple);
+    // THEN
+    then(tupleStandardRepresentation).isEqualTo("(1, 2, 3)");
   }
 
   @Test
   void should_format_tuples_up_to_the_maximum_allowed_elements() {
+    // GIVEN
     StandardRepresentation.setMaxElementsForPrinting(4);
-    assertThat(toStringOf(tuple(1, 2, 3, 4, 5))).isEqualTo("(1, 2, ... 4, 5)");
+    // WHEN
+    String tupleRepresentation = STANDARD_REPRESENTATION.toStringOf(tuple(1, 2, 3, 4, 5));
+    // THEN
+    then(tupleRepresentation).isEqualTo("(1, 2, ... 4, 5)");
   }
 
   @Test
   void should_format_simple_date_format() {
+    // GIVEN
     SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy");
-    assertThat(toStringOf(sdf)).isEqualTo("ddMMyyyy");
+    // WHEN
+    String sdfRepresentation = STANDARD_REPRESENTATION.toStringOf(sdf);
+    // THEN
+    then(sdfRepresentation).isEqualTo("ddMMyyyy");
   }
 
   @Test
   void should_format_assertj_map_entry() {
+    // GIVEN
     MapEntry<String, Integer> entry = entry("A", 1);
-    assertThat(toStringOf(entry)).isEqualTo("\"A\"=1");
+    // WHEN
+    String entryRepresentation = STANDARD_REPRESENTATION.toStringOf(entry);
+    // THEN
+    then(entryRepresentation).isEqualTo("\"A\"=1");
   }
 
   @Test
   void should_format_java_map_entry() {
+    // GIVEN
     Entry<String, Integer> entry = newHashMap("key", 123).entrySet().iterator().next();
-    assertThat(toStringOf(entry)).isEqualTo("\"key\"=123");
+    // WHEN
+    String javaEntryRepresentation = STANDARD_REPRESENTATION.toStringOf(entry);
+    // THEN
+    then(javaEntryRepresentation).isEqualTo("\"key\"=123");
   }
 
   @Test
   void should_return_toStringOf_method() {
+    // GIVEN
     Method method = Arrays.stream(GenericClass.class.getMethods()).filter(m -> m.getName().equals("someGenericMethod"))
-                          .findAny().get();
-
-    assertThat(STANDARD_REPRESENTATION.toStringOf(method)).isEqualTo(method.toGenericString());
+                          .findAny()
+                          .get();
+    // WHEN
+    String methodRepresentation = STANDARD_REPRESENTATION.toStringOf(method);
+    // THEN
+    then(methodRepresentation).isEqualTo(method.toGenericString());
   }
 
   @ParameterizedTest
@@ -441,13 +642,14 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
     list.add("abc");
     list.add("def");
     // WHEN
-    String toString = toStringOf(list);
+    String toString = STANDARD_REPRESENTATION.toStringOf(list);
     // THEN
-    assertThat(toString).isEqualTo("[\"abc\", \"def\"]");
+    then(toString).isEqualTo("[\"abc\", \"def\"]");
   }
 
-  class VolatileSizeArrayList<T> extends AtomicInteger implements List<T> {
+  static class VolatileSizeArrayList<T> extends AtomicInteger implements List<T> {
 
+    @Serial
     private static final long serialVersionUID = 1L;
     private final List<T> list = new ArrayList<>();
 
@@ -577,10 +779,6 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
   }
   //@format:on
 
-  private String toStringOf(Object o) {
-    return STANDARD_REPRESENTATION.toStringOf(o);
-  }
-
   private static class Person {
     volatile String name;
     volatile int age;
@@ -599,5 +797,4 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
       return input2;
     }
   }
-
 }

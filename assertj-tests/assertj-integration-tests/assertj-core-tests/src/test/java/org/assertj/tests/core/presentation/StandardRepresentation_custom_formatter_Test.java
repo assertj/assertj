@@ -10,23 +10,20 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.presentation;
+package org.assertj.tests.core.presentation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.BinaryRepresentation.BINARY_REPRESENTATION;
 import static org.assertj.core.presentation.HexadecimalRepresentation.HEXA_REPRESENTATION;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 
 import org.assertj.core.api.Assertions;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link org.assertj.core.presentation.StandardRepresentation#toStringOf(Object)}.
- *
- * @author Joel Costigliola
- */
 class StandardRepresentation_custom_formatter_Test {
 
   @AfterEach
@@ -45,10 +42,10 @@ class StandardRepresentation_custom_formatter_Test {
     // WHEN
     Assertions.registerFormatterForType(Long.class, value -> "$" + value + "$");
     // THEN
-    assertThat(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
-    assertThat(HEXA_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
-    assertThat(BINARY_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
-    assertThat(UNICODE_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
+    then(STANDARD_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
+    then(HEXA_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
+    then(BINARY_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
+    then(UNICODE_REPRESENTATION.toStringOf(longNumber)).isEqualTo("$123$");
   }
 
   @Test
@@ -64,8 +61,8 @@ class StandardRepresentation_custom_formatter_Test {
     // WHEN
     StandardRepresentation.removeAllRegisteredFormatters();
     // THEN
-    assertThat(STANDARD_REPRESENTATION.toStringOf(string)).isEqualTo("\"abc\"");
-    assertThat(STANDARD_REPRESENTATION.toStringOf(intNumber)).isEqualTo("8");
+    then(STANDARD_REPRESENTATION.toStringOf(string)).isEqualTo("\"abc\"");
+    then(STANDARD_REPRESENTATION.toStringOf(intNumber)).isEqualTo("8");
   }
 
   @Test
@@ -76,6 +73,6 @@ class StandardRepresentation_custom_formatter_Test {
     // WHEN
     String actual = STANDARD_REPRESENTATION.toStringOf(string);
     // THEN
-    assertThat(actual).isNull();
+    then(actual).isNull();
   }
 }

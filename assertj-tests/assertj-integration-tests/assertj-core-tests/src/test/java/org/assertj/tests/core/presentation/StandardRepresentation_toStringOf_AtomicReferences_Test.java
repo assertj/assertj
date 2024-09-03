@@ -10,9 +10,7 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.presentation;
-
-import org.junit.jupiter.api.Test;
+package org.assertj.tests.core.presentation;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -26,23 +24,25 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
-@SuppressWarnings({ "serial", "unused" })
+import org.junit.jupiter.api.Test;
+
+@SuppressWarnings({ "unused" })
 class StandardRepresentation_toStringOf_AtomicReferences_Test {
 
   @Test
   void should_use_assertj_representation_for_AtomicReference() {
     // GIVEN
-    Object myData = new AtomicReference<String>("value");
+    Object myData = new AtomicReference<>("value");
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
-    then(stringOf).isEqualTo("AtomicReference[\"value\"]");
+    then(representation).isEqualTo("AtomicReference[\"value\"]");
   }
 
   @Test
   void should_use_overridden_toString_in_AtomicReference_subclass() {
     class MyData extends AtomicReference<String> {
-      private String description;
+      private final String description;
 
       MyData(String description) {
         this.description = description;
@@ -56,15 +56,15 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
     // GIVEN
     Object myData = new MyData("Description");
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
-    then(stringOf).isEqualTo("MyData[Description]");
+    then(representation).isEqualTo("MyData[Description]");
   }
 
   @Test
   void should_use_the_last_overridden_toString_in_AtomicReference_subclasses() {
     class MyData extends AtomicReference<String> {
-      protected String description;
+      protected final String description;
 
       MyData(String description) {
         this.description = description;
@@ -89,15 +89,15 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
     // GIVEN
     Object myData = new MySubData("Description");
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
-    then(stringOf).isEqualTo("SubMyData[Description]");
+    then(representation).isEqualTo("SubMyData[Description]");
   }
 
   @Test
   void should_use_overridden_toString_in_AtomicReference_intermediate_subclass() {
     class MyData extends AtomicReference<String> {
-      protected String description;
+      protected final String description;
 
       MyData(String description) {
         this.description = description;
@@ -119,9 +119,9 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
     // GIVEN
     Object myData = new MySubData("Description");
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
-    then(stringOf).isEqualTo("MyData[Description]");
+    then(representation).isEqualTo("MyData[Description]");
   }
 
   @Test
@@ -137,25 +137,25 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
     // GIVEN
     Object myData = new MyData("value");
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
-    then(stringOf).isEqualTo("MyData[\"value\"]");
+    then(representation).isEqualTo("MyData[\"value\"]");
   }
 
   @Test
   void should_use_assertj_representation_for_AtomicMarkableReference() {
     // GIVEN
-    Object myData = new AtomicMarkableReference<String>("value", true);
+    Object myData = new AtomicMarkableReference<>("value", true);
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
-    then(stringOf).isEqualTo("AtomicMarkableReference[marked=true, reference=\"value\"]");
+    then(representation).isEqualTo("AtomicMarkableReference[marked=true, reference=\"value\"]");
   }
 
   @Test
   void should_use_overridden_toString_in_AtomicMarkableReference_subclass() {
     class MyData extends AtomicMarkableReference<String> {
-      private String description;
+      private final String description;
 
       MyData(String description) {
         super(description, true);
@@ -170,19 +170,17 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
     // GIVEN
     Object myData = new MyData("Description");
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
-    then(stringOf).isEqualTo("MyData[Description]");
+    then(representation).isEqualTo("MyData[Description]");
   }
 
   @Test
   void should_use_assertj_AtomicMarkableReference_representation_as_toString_was_not_overridden_in_AtomicMarkableReference_subclass() {
     class MyData extends AtomicMarkableReference<String> {
-      private String description;
 
       MyData(String description) {
         super(description, true);
-        this.description = description;
       }
 
       // has no overridden toString, use the predefined one which gives "%s[marked=%s, reference=%s]"
@@ -190,25 +188,25 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
     // GIVEN
     Object myData = new MyData("Description");
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
-    then(stringOf).isEqualTo("MyData[marked=true, reference=\"Description\"]");
+    then(representation).isEqualTo("MyData[marked=true, reference=\"Description\"]");
   }
 
   @Test
   void should_use_assertj_representation_for_AtomicStampedReference() {
     // GIVEN
-    Object myData = new AtomicStampedReference<String>("value", 1);
+    Object myData = new AtomicStampedReference<>("value", 1);
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
-    then(stringOf).isEqualTo("AtomicStampedReference[stamp=1, reference=\"value\"]");
+    then(representation).isEqualTo("AtomicStampedReference[stamp=1, reference=\"value\"]");
   }
 
   @Test
   void should_use_overridden_toString_AtomicStampedReference() {
     class MyData extends AtomicStampedReference<String> {
-      private String description;
+      private final String description;
 
       MyData(String description) {
         super(description, 0);
@@ -223,19 +221,17 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
     // GIVEN
     Object myData = new MyData("Description");
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
-    then(stringOf).isEqualTo("MyData[Description]");
+    then(representation).isEqualTo("MyData[Description]");
   }
 
   @Test
   void should_use_predefined_toString_AtomicStampedReference() {
     class MyData extends AtomicStampedReference<String> {
-      private String description;
 
       MyData(String description) {
         super(description, 0);
-        this.description = description;
       }
 
       // has no overridden toString, use the predefined one which gives "%s[stamp=%s, reference=%s]"
@@ -243,15 +239,15 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
     // GIVEN
     Object myData = new MyData("Description");
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myData);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myData);
     // THEN
-    then(stringOf).isEqualTo("MyData[stamp=0, reference=\"Description\"]");
+    then(representation).isEqualTo("MyData[stamp=0, reference=\"Description\"]");
   }
 
   @Test
   void should_use_smartFormat() {
     class MyIterable implements Iterable<String> {
-      ArrayList<String> arrayList;
+      final ArrayList<String> arrayList;
 
       public MyIterable(String[] strings) {
         arrayList = new ArrayList<>(Arrays.asList(strings));
@@ -268,15 +264,15 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
     String[] strings = { "A", "B", "C" };
     MyIterable myIterable = new MyIterable(strings);
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myIterable);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myIterable);
     // THEN
-    then(stringOf).isEqualTo("[\"A\", \"B\", \"C\"]");
+    then(representation).isEqualTo("[\"A\", \"B\", \"C\"]");
   }
 
   @Test
   void should_use_overridden_toString() {
     class MyIterable implements Iterable<String> {
-      List<String> arrayList;
+      final List<String> arrayList;
 
       public MyIterable(String[] strings) {
         arrayList = list(strings);
@@ -296,8 +292,8 @@ class StandardRepresentation_toStringOf_AtomicReferences_Test {
     String[] strings = { "A", "B", "C" };
     MyIterable myIterable = new MyIterable(strings);
     // WHEN
-    String stringOf = STANDARD_REPRESENTATION.toStringOf(myIterable);
+    String representation = STANDARD_REPRESENTATION.toStringOf(myIterable);
     // THEN
-    then(stringOf).isEqualTo("MyIterable: [A, B, C]");
+    then(representation).isEqualTo("MyIterable: [A, B, C]");
   }
 }

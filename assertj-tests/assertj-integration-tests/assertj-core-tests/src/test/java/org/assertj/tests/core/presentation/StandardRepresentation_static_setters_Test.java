@@ -10,15 +10,13 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.presentation;
+package org.assertj.tests.core.presentation;
 
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Filip Hrisafov
- */
 class StandardRepresentation_static_setters_Test extends AbstractBaseRepresentationTest {
 
   @Test

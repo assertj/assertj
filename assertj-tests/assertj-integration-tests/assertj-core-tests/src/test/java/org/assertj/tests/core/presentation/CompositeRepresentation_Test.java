@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.presentation;
+package org.assertj.tests.core.presentation;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -20,6 +20,8 @@ import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 
+import org.assertj.core.presentation.CompositeRepresentation;
+import org.assertj.core.presentation.Representation;
 import org.junit.jupiter.api.Test;
 
 class CompositeRepresentation_Test extends AbstractBaseRepresentationTest {

@@ -10,11 +10,12 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.presentation;
+package org.assertj.tests.core.presentation;
 
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.joining;
+import static org.apache.commons.lang3.StringUtils.countMatches;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
@@ -31,8 +32,9 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.configuration.Configuration;
+import org.assertj.core.presentation.HexadecimalRepresentation;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -51,7 +53,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     // GIVEN
     List<Object> list = null;
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.smartFormat(list);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(list);
     // THEN
     then(formatted).isNull();
   }
@@ -61,7 +63,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     // GIVEN
     List<Object> list = emptyList();
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.smartFormat(list);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(list);
     // THEN
     then(formatted).isEqualTo("[]");
   }
@@ -72,7 +74,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     String element1 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription() / 10);
     String element2 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription() / 10);
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.smartFormat(list(element1, element2));
+    String formatted = STANDARD_REPRESENTATION.toStringOf(list(element1, element2));
     // THEN
     then(formatted).isEqualTo("[\"" + element1 + "\", \"" + element2 + "\"]");
   }
@@ -82,19 +84,10 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     String element1 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription());
     String element2 = stringOfLength(StandardRepresentation.getMaxLengthForSingleLineDescription());
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.smartFormat(list(element1, element2));
+    String formatted = STANDARD_REPRESENTATION.toStringOf(list(element1, element2));
     // THEN
     then(formatted).isEqualTo(format("[\"" + element1 + "\",%n" +
                                      "    \"" + element2 + "\"]"));
-  }
-
-  @Test
-  void should_format_iterable_with_custom_start_and_end() {
-    // GIVEN
-    List<? extends Object> list = list("First", 3);
-    // THEN
-    then(STANDARD_REPRESENTATION.singleLineFormat(list, "{", "}")).isEqualTo("{\"First\", 3}");
-    then(STANDARD_REPRESENTATION.singleLineFormat(list(), "{", "}")).isEqualTo("{}");
   }
 
   @ParameterizedTest(name = "with printing {0} max, {1} should be formatted as {2}")
@@ -119,7 +112,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     T iterable = mock(type, withSettings().name(expectedToString).defaultAnswer(RETURNS_SMART_NULLS));
 
     // WHEN
-    String formatted = STANDARD_REPRESENTATION.smartFormat(iterable);
+    String formatted = STANDARD_REPRESENTATION.toStringOf(iterable);
 
     // THEN
     then(formatted).isEqualTo(expectedToString);
@@ -198,7 +191,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     // WHEN
     String formatted = STANDARD_REPRESENTATION.toStringOf(list("First", 3, 4, "foo", "bar", 5, "another", 6));
     // THEN
-    then(formatted).isEqualTo(format("[\"First\", 3, 4, ... 5, \"another\", 6]"));
+    then(formatted).isEqualTo("[\"First\", 3, 4, ... 5, \"another\", 6]");
   }
 
   @Test
@@ -220,7 +213,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     // WHEN
     String formatted = STANDARD_REPRESENTATION.toStringOf(selfReferencingList);
     // THEN
-    then(formatted).isEqualTo(format("[(this instance), (this instance)]"));
+    then(formatted).isEqualTo("[(this instance), (this instance)]");
   }
 
   @Test
@@ -278,8 +271,7 @@ class StandardRepresentation_iterable_format_Test extends AbstractBaseRepresenta
     String formatted = STANDARD_REPRESENTATION.toStringOf(numbers);
     // THEN
     then(formatted).contains("...");
-    then(StringUtils.countMatches(formatted, "0")).isEqualTo(
-                                                             Configuration.MAX_ELEMENTS_FOR_PRINTING * elementsPerArray);
+    then(countMatches(formatted, "0")).isEqualTo(Configuration.MAX_ELEMENTS_FOR_PRINTING * elementsPerArray);
   }
 
   private static String stringOfLength(int length) {
