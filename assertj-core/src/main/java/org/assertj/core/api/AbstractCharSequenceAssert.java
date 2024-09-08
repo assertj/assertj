@@ -1533,6 +1533,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
     return super.inHexadecimal();
   }
 
+  @Override
+  @CheckReturnValue
+  public SELF inBinary() {
+    return super.inBinary();
+  }
+
   /**
    * Use unicode character representation instead of standard representation in error messages.
    * <p>

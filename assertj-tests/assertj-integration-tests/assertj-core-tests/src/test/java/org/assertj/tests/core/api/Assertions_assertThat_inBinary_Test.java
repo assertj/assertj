@@ -104,12 +104,11 @@ class Assertions_assertThat_inBinary_Test {
                                                                                      "0b01000000_00001000_00000000_00000000_00000000_00000000_00000000_00000000"));
   }
 
-  // FIXME https://github.com/assertj/assertj/issues/3547
-  // @Test
-  // void should_assert_String_in_binary() {
-  // assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("ab").inBinary().isEqualTo("a6"))
-  // .withMessage(shouldBeEqualMessage("\"['0b00000000_01100001', '0b00000000_01100010']\"",
-  // "\"['0b00000000_01100001', '0b00000000_00110110']\""));
-  // }
+   @Test
+   void should_assert_String_in_binary() {
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat("ab").inBinary().isEqualTo("a6"))
+                                                   .withMessage(shouldBeEqualMessage("\"['0b00000000_01100001', '0b00000000_01100010']\"",
+                                                                                     "\"['0b00000000_01100001', '0b00000000_00110110']\""));
+   }
 
 }
