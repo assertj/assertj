@@ -488,4 +488,55 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     dataStore.field2.addAll(list(d1, d2));
     return dataStore;
   }
+
+  // related to https://github.com/assertj/assertj/issues/3598
+  @Test
+  public void should_fix_3598() {
+    // GIVEN
+    Inner i1 = new Inner(1);
+    Inner i2 = new Inner(2);
+    Inner i3 = new Inner(3);
+
+    Outer o1A = new Outer(i1);
+    Outer o2A = new Outer(i2);
+    Outer o3A = new Outer(i3);
+    Outer o1B = new Outer(i1);
+    Outer o2B = new Outer(i2);
+    Outer o3B = new Outer(i3);
+
+    List<Outer> listA = list(o1A, o2A, o3A);
+    List<Outer> listB = list(o2B, o1B, o3B);
+    List<Outer> listACopy = list(o1A, o2A, o3A);
+    List<Outer> listBCopy = list(o2B, o1B, o3B);
+
+    // WHEN/THEN
+    then(list(listA, listACopy)).usingRecursiveComparison()
+                                .ignoringCollectionOrder()
+                                .isEqualTo(list(listB, listBCopy));
+  }
+
+  static class Outer {
+    public Inner inner;
+
+    public Outer(Inner inner) {
+      this.inner = inner;
+    }
+
+    public String toString() {
+      return "O" + inner;
+    }
+  }
+
+  static class Inner {
+    public int val;
+
+    public Inner(int val) {
+      this.val = val;
+    }
+
+    public String toString() {
+      return "I" + val;
+    }
+  }
+
 }
