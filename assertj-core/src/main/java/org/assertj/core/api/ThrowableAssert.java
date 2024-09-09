@@ -16,6 +16,8 @@ import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 
 import java.util.concurrent.Callable;
 
+import org.assertj.core.internal.ResultOrError;
+
 /**
  * Assertion methods for {@link Throwable}s.
  * <p>
@@ -29,7 +31,13 @@ import java.util.concurrent.Callable;
  */
 public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowableAssert<ThrowableAssert<ACTUAL>, ACTUAL> {
 
+  /**
+   * That's actually not a {@link Callable}, because it does not return any result
+   *
+   * @deprecated use {@link org.assertj.core.api.ThrowingCallable} instead
+   */
   public interface ThrowingCallable {
+
     void call() throws Throwable;
   }
 
@@ -65,6 +73,15 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
       return throwable;
     }
     return null;
+  }
+
+  @SuppressWarnings("unchecked")
+  public static <RESULT, E extends Throwable> ResultOrError<RESULT, E> catchThrowable(org.assertj.core.api.ThrowingCallable<RESULT, E> shouldRaiseThrowable) {
+    try {
+      return ResultOrError.result(shouldRaiseThrowable.call());
+    } catch (Throwable throwable) {
+      return ResultOrError.error((E) throwable);
+    }
   }
 
   @Deprecated

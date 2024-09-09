@@ -98,6 +98,7 @@ import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.ResultOrError;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
@@ -145,6 +146,7 @@ import org.assertj.core.util.introspection.Introspection;
  * @author Julien Meddah
  * @author William Bakker
  * @author William Delanoue
+ * @author Mikhail Polivakha
  */
 @CheckReturnValue
 public class Assertions implements InstanceOfAssertFactories {
@@ -295,12 +297,12 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-  * Create assertion for {@link java.util.regex.Matcher}.
-  *
-  * @param actual the actual value.
-  *
-  * @return the created assertion object.
-  */
+   * Create assertion for {@link java.util.regex.Matcher}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
   public static MatcherAssert assertThat(Matcher actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
@@ -1241,7 +1243,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
    */
-  public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
+  public static <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(
+                                                                                            AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return new AtomicReferenceFieldUpdaterAssert<>(actual);
   }
 
@@ -1388,6 +1391,55 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return AssertionsForClassTypes.assertThatCode(shouldRaiseOrNotThrowable);
+  }
+
+  /**
+   * Represents an assertion that happens of the code that can either result in error, or complete normally.
+   *
+   * <p>
+   * The main difference with {@code assertThatCode(ThrowingCallable)} is that
+   * <strong>this method gives the ability to assert the return value in case of a successful execution</strong>
+   * <p>
+   * Example :
+   * <pre><code class='java'> ThrowingCallable boomCode = () -&gt; {
+   *    if (false) {
+   *      return "neverHappens";
+   *    }
+   *    throw new Exception("boom!");
+   * };
+   *
+   * ThrowingCallable doNothing = () -&gt; "actualValue";
+   *
+   * // assertions succeed
+   * assertThatCode(doNothing)
+   *        .doesNotThrowAnyException()
+   *        .resultsInValueSatisfying(it -> "actualValue".equals(it));
+   *
+   * assertThatCode(boomCode).isInstanceOf(Exception.class)
+   *                         .hasMessageContaining("boom");
+   *
+   * // assertion fails
+   * assertThatCode(boomCode).doesNotThrowAnyException();</code></pre>
+   *
+   * Contrary to <code>assertThatThrownBy(ThrowingCallable)</code> the test description provided with
+   * {@link AbstractAssert#as(String, Object...) as(String, Object...)} is always honored as shown below.
+   *
+   * <pre><code class='java'> ThrowingCallable&lt;String&gt; doNothing = () -&gt; {
+   *   return "anything";
+   * };
+   *
+   * // assertion fails and "display me" appears in the assertion error
+   * assertThatCode(doNothing).as("display me")
+   *                          .raisesThrowableOfType(Exception.class);</code></pre>
+   * <p>
+   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(
+   *
+   * @param shouldEvaluateToAValueOrRaiseThrowable The {@link org.assertj.core.api.ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return the created {@link ResultOrErrorAssert}.
+   */
+  public static <RESULT, E extends Throwable> ResultOrErrorAssert<RESULT, E> assertThatCode(
+                                                                                            org.assertj.core.api.ThrowingCallable<RESULT, E> shouldEvaluateToAValueOrRaiseThrowable) {
+    return AssertionsForClassTypes.assertThatCode(shouldEvaluateToAValueOrRaiseThrowable);
   }
 
   /**
@@ -1970,7 +2022,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * <p>
    * Example:
    * <pre><code class='java'> doSomething(optional.orElseGet(() -> fail(cause)));</code></pre>
-   * 
+   *
    * @param <T> dummy return value type
    * @param realCause cause of the error.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
@@ -2675,7 +2727,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param unit the {@link TemporalUnit} of the offset.
    * @return the created {@code Offset}.
    * @since 3.7.0
-   * @see #within(long, TemporalUnit) 
+   * @see #within(long, TemporalUnit)
    */
   public static TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
     return new TemporalUnitLessThanOffset(value, unit);
@@ -2722,7 +2774,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @see AbstractIterableAssert#last(InstanceOfAssertFactory)
    * @see AbstractIterableAssert#element(int, InstanceOfAssertFactory)
    */
-  public static <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
+  public static <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(
+                                                                                               InstanceOfAssertFactory<T, ASSERT> assertFactory) {
     return assertFactory;
   }
 
@@ -3499,7 +3552,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.21.0
    */
-  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThat(Collection<? extends E> actual) {
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThat(
+                                                                                                        Collection<? extends E> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
   }
 
@@ -3514,7 +3568,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThatCollection(Collection<? extends E> actual) {
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThatCollection(
+                                                                                                                  Collection<? extends E> actual) {
     return assertThat(actual);
   }
 

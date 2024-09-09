@@ -58,6 +58,7 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.ResultOrError;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.CanIgnoreReturnValue;
 import org.assertj.core.util.CheckReturnValue;
@@ -505,6 +506,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link ResultOrErrorAssert}</code> from the given ADT.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <R, E extends Throwable> ResultOrErrorAssert<R, E> assertThatAdt(ResultOrError<R, E> actual) {
+    return new ResultOrErrorAssert<>(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link ObjectArrayAssert}</code>.
    *
    * @param <T> the actual elements type.
@@ -873,6 +884,53 @@ public class AssertionsForClassTypes {
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
     return assertThat(catchThrowable(shouldRaiseOrNotThrowable));
+  }
+
+  /**
+   * Allows asserting execution of the code block, that can either evaluate to a value or raise an error.
+   *
+   * </p>
+   * Example :
+   * <pre><code class='java'> ThrowingCallable&lt;String&gt; boomCode = () -&gt; {
+   *    if (false) {
+   *      return "neverHappens";
+   *    }
+   *    throw new Exception("boom!");
+   * };
+   *
+   * ThrowingCallable&lt;String&gt; doNothing = () -&gt; "actualValue";
+   *
+   * // assertions succeed
+   * assertThatCode(doNothing)
+   *        .doesNotThrowAnyException()
+   *        .resultsInValueSatisfying(it -> "actualValue".equals(it));
+   *
+   * assertThatCode(boomCode).raisesThrowableOfType(Exception.class);
+   *
+   * // assertion fails
+   * assertThatCode(boomCode).doesNotThrowAnyException();</code></pre>
+   *
+   * If the provided {@link org.assertj.core.api.ThrowingCallable} does not validate against next assertions, an error is immediately raised,
+   * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
+   * To use a test description, use {@link #assertThatCode(org.assertj.core.api.ThrowingCallable)} as shown below.
+   *
+   * <pre><code class='java'> ThrowingCallable doNothing = () -&gt; {
+   *   return "anything";
+   * };
+   *
+   * // assertion fails and "display me" appears in the assertion error
+   * assertThatCode(doNothing).as("display me")
+   *                          .raisesThrowableOfType(Exception.class);</code></pre>
+   * <p>
+   * This method was not named {@code assertThat} because the java compiler reported it ambiguous when used directly with a lambda :(
+   *
+   * @param shouldRaiseOrNotThrowable The {@link org.assertj.core.api.ThrowingCallable} or lambda with the code that should raise the throwable.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @since 3.7.0
+   */
+  public static <RESULT, E extends Throwable> ResultOrErrorAssert<RESULT, E> assertThatCode(
+                                                                                            org.assertj.core.api.ThrowingCallable<RESULT, E> shouldRaiseOrNotThrowable) {
+    return assertThatAdt(ThrowableAssert.catchThrowable(shouldRaiseOrNotThrowable));
   }
 
   /**

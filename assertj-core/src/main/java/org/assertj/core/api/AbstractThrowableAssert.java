@@ -843,7 +843,9 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.7.0
    */
   public void doesNotThrowAnyException() {
-    if (actual != null) throw Failures.instance().failure(info, shouldNotHaveThrown(actual));
+    if (actual != null) {
+      throw Failures.instance().failure(info, shouldNotHaveThrown(actual));
+    }
   }
 
   /**
