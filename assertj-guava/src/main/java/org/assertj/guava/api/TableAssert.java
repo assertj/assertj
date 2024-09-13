@@ -20,6 +20,10 @@ import static org.assertj.guava.error.TableShouldContainColumns.tableShouldConta
 import static org.assertj.guava.error.TableShouldContainRows.tableShouldContainRows;
 import static org.assertj.guava.error.TableShouldHaveColumnCount.tableShouldHaveColumnCount;
 import static org.assertj.guava.error.TableShouldHaveRowCount.tableShouldHaveRowCount;
+import static org.assertj.guava.error.TableShouldHaveRowCountGreaterThan.tableShouldHaveRowCountGreaterThan;
+import static org.assertj.guava.error.TableShouldHaveRowCountGreaterThanOrEqualTo.tableShouldHaveRowCountGreaterThanOrEqualTo;
+import static org.assertj.guava.error.TableShouldHaveRowCountLessThan.tableShouldHaveRowCountLessThan;
+import static org.assertj.guava.error.TableShouldHaveRowCountLessThanOrEqualTo.tableShouldHaveRowCountLessThanOrEqualTo;
 
 import java.util.Set;
 
@@ -64,6 +68,138 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
 
     if (actual.rowKeySet().size() != expectedSize) {
       throw assertionError(tableShouldHaveRowCount(actual, actual.rowKeySet().size(), expectedSize));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of rows in the actual table is greater than the given boundary.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   * actual.put(1, 4, "Franklin Pierce");
+   * actual.put(2, 5, "Grover Cleveland");
+   *
+   * // assertion will pass
+   * assertThat(actual).hasRowCountGreaterThan(1);
+   *
+   * // assertion will fail
+   * assertThat(actual).hasRowCountGreaterThan(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual row count to.
+   * @return this {@link TableAssert} for assertion chaining.
+   * @throws IllegalArgumentException if the expected size is negative
+   * @throws AssertionError           if the actual {@link Table} is {@code null}.
+   * @throws AssertionError           if the number of rows in the actual {@link Table} is not greater than the boundary.
+   */
+  public TableAssert<R, C, V> hasRowCountGreaterThan(int boundary) {
+    isNotNull();
+    checkExpectedSizeArgument(boundary);
+
+    if (actual.rowKeySet().size() <= boundary) {
+      throw assertionError(tableShouldHaveRowCountGreaterThan(actual, actual.rowKeySet().size(), boundary));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of rows in the actual table is greater than or equal to the given boundary.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   * actual.put(1, 4, "Franklin Pierce");
+   * actual.put(2, 5, "Grover Cleveland");
+   *
+   * // assertion will pass
+   * assertThat(actual).hasRowCountGreaterThanOrEqualTo(2);
+   *
+   * // assertion will fail
+   * assertThat(actual).hasRowCountGreaterThanOrEqualTo(3);</code></pre>
+   *
+   * @param boundary the given value to compare the actual row count to.
+   * @return this {@link TableAssert} for assertion chaining.
+   * @throws IllegalArgumentException if the expected size is negative
+   * @throws AssertionError           if the actual {@link Table} is {@code null}.
+   * @throws AssertionError           if the number of rows in the actual {@link Table} is not greater than or equal to the boundary.
+   */
+  public TableAssert<R, C, V> hasRowCountGreaterThanOrEqualTo(int boundary) {
+    isNotNull();
+    checkExpectedSizeArgument(boundary);
+
+    if (actual.rowKeySet().size() < boundary) {
+      throw assertionError(tableShouldHaveRowCountGreaterThanOrEqualTo(actual, actual.rowKeySet().size(), boundary));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of rows in the actual table is less than the given boundary.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   * actual.put(1, 4, "Franklin Pierce");
+   * actual.put(2, 5, "Grover Cleveland");
+   *
+   * // assertion will pass
+   * assertThat(actual).hasRowCountLessThan(3);
+   *
+   * // assertion will fail
+   * assertThat(actual).hasRowCountLessThan(2);</code></pre>
+   *
+   * @param boundary the given value to compare the actual row count to.
+   * @return this {@link TableAssert} for assertion chaining.
+   * @throws IllegalArgumentException if the expected size is negative
+   * @throws AssertionError           if the actual {@link Table} is {@code null}.
+   * @throws AssertionError           if the number of rows in the actual {@link Table} is not less than the boundary.
+   */
+  public TableAssert<R, C, V> hasRowCountLessThan(int boundary) {
+    isNotNull();
+    checkExpectedSizeArgument(boundary);
+
+    if (actual.rowKeySet().size() >= boundary) {
+      throw assertionError(tableShouldHaveRowCountLessThan(actual, actual.rowKeySet().size(), boundary));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that the number of rows in the actual table is less than or equal to the given boundary.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   * actual.put(1, 4, "Franklin Pierce");
+   * actual.put(2, 5, "Grover Cleveland");
+   *
+   * // assertion will pass
+   * assertThat(actual).hasRowCountLessThanOrEqualTo(2);
+   *
+   * // assertion will fail
+   * assertThat(actual).hasRowCountLessThanOrEqualTo(1);</code></pre>
+   *
+   * @param boundary the given value to compare the actual row count to.
+   * @return this {@link TableAssert} for assertion chaining.
+   * @throws IllegalArgumentException if the expected size is negative
+   * @throws AssertionError           if the actual {@link Table} is {@code null}.
+   * @throws AssertionError           if the number of rows in the actual {@link Table} is not less than or equal to the boundary.
+   */
+  public TableAssert<R, C, V> hasRowCountLessThanOrEqualTo(int boundary) {
+    isNotNull();
+    checkExpectedSizeArgument(boundary);
+
+    if (actual.rowKeySet().size() > boundary) {
+      throw assertionError(tableShouldHaveRowCountLessThanOrEqualTo(actual, actual.rowKeySet().size(), boundary));
     }
     return myself;
   }
