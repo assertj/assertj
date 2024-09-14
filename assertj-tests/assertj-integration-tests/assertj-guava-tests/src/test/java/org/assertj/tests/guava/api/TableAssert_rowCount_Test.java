@@ -13,8 +13,8 @@
 package org.assertj.tests.guava.api;
 
 import org.assertj.core.api.AbstractIntegerAssert;
-import org.assertj.core.api.IntegerAssert;
 import org.assertj.guava.api.TableAssert;
+import org.assertj.guava.api.TableIntegerAssert;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -39,13 +39,14 @@ class TableAssert_rowCount_Test extends TableAssertBaseTest {
   }
 
   @Test
-  void should_return_integer_assert() {
+  void integer_assert_should_return_to_source_table() {
     // GIVEN
-    TableAssert<Integer, Integer, String> assertion = assertThat(actual);
+    TableAssert<Integer, Integer, String> tableAssertion = assertThat(actual);
+    TableIntegerAssert<Integer, Integer, String> rowCountAssertion = tableAssertion.rowCount();
     // WHEN
-    AbstractIntegerAssert<?> returnedAssertion = assertion.rowCount();
+    TableAssert<Integer, Integer, String> returnedAssertion = rowCountAssertion.returnToTable();
     // THEN
-    then(returnedAssertion).isInstanceOf(IntegerAssert.class);
+    then(returnedAssertion).isSameAs(tableAssertion);
   }
 
   @Test
