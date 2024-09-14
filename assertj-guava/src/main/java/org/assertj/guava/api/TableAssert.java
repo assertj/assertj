@@ -21,12 +21,15 @@ import static org.assertj.guava.error.TableShouldContainRows.tableShouldContainR
 import static org.assertj.guava.error.TableShouldHaveColumnCount.tableShouldHaveColumnCount;
 import static org.assertj.guava.error.TableShouldHaveRowCount.tableShouldHaveRowCount;
 
-import com.google.common.collect.Sets;
-import com.google.common.collect.Table;
 import java.util.Set;
+
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.error.ShouldBeEmpty;
 import org.assertj.core.error.ShouldNotBeEmpty;
+
+import com.google.common.collect.Sets;
+import com.google.common.collect.Table;
 
 /**
  * @author Jan Gorman
@@ -95,6 +98,108 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
       throw assertionError(tableShouldHaveColumnCount(actual, actual.columnKeySet().size(), expectedSize));
     }
     return myself;
+  }
+
+  /**
+   * Returns a {@link TableIntegerAssert} object that allows performing assertions on the row count of the actual {@link Table}.
+   * <p>
+   * Once this method is called, the object under test is no longer the {@link Table} but its row count,
+   * to perform assertions on the {@link Table}, call {@link TableIntegerAssert#returnToTable()}.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   * actual.put(1, 4, "Franklin Pierce");
+   * actual.put(2, 5, "Grover Cleveland");
+   *
+   * // assertion will pass
+   * assertThat(actual).rowCount().isGreaterThan(1)
+   *                              .isLessThan(5)
+   *                              .returnToTable()
+   *                              .containsValues("Franklin Pierce", "Millard Fillmore");
+   *
+   * // assertion will fail
+   * assertThat(actual).rowCount().isLessThan(2);</code></pre>
+   *
+   * @return the created assertion object.
+   * @throws AssertionError if the actual {@link Table} is {@code null}.
+   */
+  @CheckReturnValue
+  public TableIntegerAssert<R, C, V> rowCount() {
+    isNotNull();
+    TableIntegerAssert<R, C, V> rowCountIntegerAssert = new TableIntegerAssert<>(this, actual.rowKeySet().size());
+    rowCountIntegerAssert.info.description("checking row count");
+    return rowCountIntegerAssert;
+  }
+
+  /**
+   * Returns a {@link TableIntegerAssert} object that allows performing assertions on the column count of the actual {@link Table}.
+   * <p>
+   * Once this method is called, the object under test is no longer the {@link Table} but its column count,
+   * to perform assertions on the {@link Table}, call {@link TableIntegerAssert#returnToTable()}.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   * actual.put(1, 4, "Franklin Pierce");
+   * actual.put(2, 5, "Grover Cleveland");
+   *
+   * // assertion will pass
+   * assertThat(actual).columnCount().isGreaterThan(1)
+   *                                 .isLessThan(5)
+   *                                 .returnToTable()
+   *                                 .containsValues("Franklin Pierce", "Millard Fillmore");
+   *
+   * // assertion will fail
+   * assertThat(actual).columnCount().isLessThan(3);</code></pre>
+   *
+   * @return the created assertion object.
+   * @throws AssertionError if the actual {@link Table} is {@code null}.
+   */
+  @CheckReturnValue
+  public TableIntegerAssert<R, C, V> columnCount() {
+    isNotNull();
+    TableIntegerAssert<R, C, V> columnCountIntegerAssert = new TableIntegerAssert<>(this, actual.columnKeySet().size());
+    columnCountIntegerAssert.info.description("checking column count");
+    return columnCountIntegerAssert;
+  }
+
+  /**
+   * Returns a {@link TableIntegerAssert} object that allows performing assertions on the size of the actual {@link Table}.
+   * <p>
+   * Once this method is called, the object under test is no longer the {@link Table} but its size,
+   * to perform assertions on the {@link Table}, call {@link TableIntegerAssert#returnToTable()}.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   * actual.put(1, 4, "Franklin Pierce");
+   * actual.put(2, 5, "Grover Cleveland");
+   *
+   * // assertion will pass
+   * assertThat(actual).size().isGreaterThan(1)
+   *                          .isLessThan(5)
+   *                          .returnToTable()
+   *                          .containsValues("Franklin Pierce", "Millard Fillmore");
+   *
+   * // assertion will fail
+   * assertThat(actual).size().isLessThan(2);</code></pre>
+   *
+   * @return the created assertion object.
+   * @throws AssertionError if the actual {@link Table} is {@code null}.
+   */
+  @CheckReturnValue
+  public TableIntegerAssert<R, C, V> size() {
+    isNotNull();
+    TableIntegerAssert<R, C, V> tableSizeIntegerAssert = new TableIntegerAssert<>(this, actual.size());
+    tableSizeIntegerAssert.info.description("checking table size");
+    return tableSizeIntegerAssert;
   }
 
   /**
