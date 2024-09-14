@@ -25,14 +25,14 @@ import static org.assertj.guava.api.Assertions.assertThat;
 /**
  * @author Maciej Kucharczyk
  */
-class TableAssert_columnCount_Test extends TableAssertBaseTest {
+class TableAssert_size_Test extends TableAssertBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).columnCount());
+    Throwable throwable = catchThrowable(() -> assertThat(actual).size());
     // THEN
     then(throwable).isInstanceOf(AssertionError.class)
                    .hasMessage(actualIsNull());
@@ -42,19 +42,19 @@ class TableAssert_columnCount_Test extends TableAssertBaseTest {
   void integer_assert_should_return_to_source_table() {
     // GIVEN
     TableAssert<Integer, Integer, String> tableAssertion = assertThat(actual);
-    TableIntegerAssert<Integer, Integer, String> columnCountAssertion = tableAssertion.columnCount();
+    TableIntegerAssert<Integer, Integer, String> sizeAssertion = tableAssertion.size();
     // WHEN
-    TableAssert<Integer, Integer, String> returnedAssertion = columnCountAssertion.returnToTable();
+    TableAssert<Integer, Integer, String> returnedAssertion = sizeAssertion.returnToTable();
     // THEN
     then(returnedAssertion).isSameAs(tableAssertion);
   }
 
   @Test
-  void should_hand_over_column_count_as_integer_assert_actual() {
+  void should_hand_over_size_as_integer_assert_actual() {
     // GIVEN
     TableAssert<Integer, Integer, String> assertion = assertThat(actual);
     // WHEN
-    AbstractIntegerAssert<?> returnedAssertion = assertion.columnCount();
+    AbstractIntegerAssert<?> returnedAssertion = assertion.size();
     // THEN
     then(returnedAssertion.actual()).isEqualTo(3);
   }
