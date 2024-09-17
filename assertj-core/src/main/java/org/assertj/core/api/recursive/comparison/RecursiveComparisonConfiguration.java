@@ -169,18 +169,15 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return typeComparators.comparatorByTypes();
   }
 
-  @VisibleForTesting
-  boolean getIgnoreAllActualNullFields() {
+  public boolean getIgnoreAllActualNullFields() {
     return ignoreAllActualNullFields;
   }
 
-  @VisibleForTesting
-  boolean getIgnoreAllExpectedNullFields() {
+  public boolean getIgnoreAllExpectedNullFields() {
     return ignoreAllExpectedNullFields;
   }
 
-  @VisibleForTesting
-  boolean getIgnoreAllOverriddenEquals() {
+  public boolean getIgnoreAllOverriddenEquals() {
     return ignoreAllOverriddenEquals;
   }
 
@@ -195,8 +192,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.ignoreAllActualEmptyOptionalFields = ignoringAllActualEmptyOptionalFields;
   }
 
-  @VisibleForTesting
-  boolean getIgnoreAllActualEmptyOptionalFields() {
+  public boolean getIgnoreAllActualEmptyOptionalFields() {
     return ignoreAllActualEmptyOptionalFields;
   }
 
@@ -268,7 +264,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return !comparedFields.isEmpty();
   }
 
-  boolean isOrIsChildOfAnyComparedFields(FieldLocation currentFieldLocation) {
+  @VisibleForTesting
+  public boolean isOrIsChildOfAnyComparedFields(FieldLocation currentFieldLocation) {
     return comparedFields.stream()
                          .anyMatch(comparedField -> comparedField.equals(currentFieldLocation)
                                                     || comparedField.hasChild(currentFieldLocation));
@@ -337,8 +334,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     ignoredOverriddenEqualsForTypes.addAll(list(types));
   }
 
-  @VisibleForTesting
-  boolean getIgnoreCollectionOrder() {
+  public boolean getIgnoreCollectionOrder() {
     return ignoreCollectionOrder;
   }
 
@@ -584,7 +580,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return fieldComparators.comparatorByFields();
   }
 
-  RecursiveComparisonIntrospectionStrategy getIntrospectionStrategy() {
+  public RecursiveComparisonIntrospectionStrategy getIntrospectionStrategy() {
     return introspectionStrategy;
   }
 
@@ -685,13 +681,15 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return description.toString();
   }
 
-  boolean shouldNotEvaluate(DualValue dualValue) {
+  @VisibleForTesting
+  public boolean shouldNotEvaluate(DualValue dualValue) {
     // if we have some compared types, we can't discard any values since they could have fields we need to compare.
     if (!comparedTypes.isEmpty()) return false;
     return shouldIgnore(dualValue);
   }
 
-  boolean shouldIgnore(DualValue dualValue) {
+  @VisibleForTesting
+  public boolean shouldIgnore(DualValue dualValue) {
     return shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation)
            || shouldIgnoreFieldBasedOnFieldValue(dualValue);
   }
@@ -714,7 +712,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                             || field.hasChild(comparedField); // ex: field "name" and "name.first" compared field
   }
 
-  Set<String> getActualChildrenNodeNamesToCompare(DualValue dualValue) {
+  @VisibleForTesting
+  public Set<String> getActualChildrenNodeNamesToCompare(DualValue dualValue) {
     Set<String> actualChildrenNodeNames = getChildrenNodeNamesOf(dualValue.actual);
     // if we have some compared types, we can't discard any nodes since they could have fields we need to compare.
     // we could evaluate the whole graphs to figure that but that would be bad performance wise so add everything
@@ -784,7 +783,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return hasComparatorForType(valueType);
   }
 
-  boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
+  @VisibleForTesting
+  public boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
     // root objects are not compared with equals as it makes the recursive comparison pointless (use isEqualsTo instead)
     if (dualValue.fieldLocation.isRoot()) return true;
     // we must compare java basic types otherwise the recursive comparison loops infinitely!
@@ -800,11 +800,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   @VisibleForTesting
-  boolean shouldIgnoreOverriddenEqualsOf(Class<?> clazz) {
+  public boolean shouldIgnoreOverriddenEqualsOf(Class<?> clazz) {
     return matchesAnIgnoredOverriddenEqualsType(clazz);
   }
 
-  boolean shouldIgnoreCollectionOrder(FieldLocation fieldLocation) {
+  @VisibleForTesting
+  public boolean shouldIgnoreCollectionOrder(FieldLocation fieldLocation) {
     return ignoreCollectionOrder
            || matchesAnIgnoredCollectionOrderInField(fieldLocation)
            || matchesAnIgnoredCollectionOrderInFieldRegex(fieldLocation);

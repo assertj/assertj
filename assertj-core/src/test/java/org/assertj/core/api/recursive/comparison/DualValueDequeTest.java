@@ -12,10 +12,13 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.recursive.comparison.DualValueUtil.randomPath;
 import static org.assertj.core.util.Lists.list;
 
+import java.util.List;
+
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+import org.assertj.core.api.BDDAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,7 +53,7 @@ class DualValueDequeTest {
     dualValueDeque.addAll(list(dualValueA, dualValueB, dualValueC));
     dualValueDeque.addAll(0, list(dualValueA, dualValueB, dualValueC));
     // THEN
-    then(dualValueDeque).containsExactly(dualValueB, dualValueB, dualValueD, dualValueE, dualValueB);
+    BDDAssertions.then(dualValueDeque).containsExactly(dualValueB, dualValueB, dualValueD, dualValueE, dualValueB);
   }
 
   @Test
@@ -73,7 +76,7 @@ class DualValueDequeTest {
     dualValueDeque.addAll(list(dualValueA, dualValueB, dualValueC));
     dualValueDeque.addAll(0, list(dualValueA, dualValueB, dualValueC));
     // THEN
-    then(dualValueDeque).containsExactly(dualValueB, dualValueB, dualValueD, dualValueE, dualValueB);
+    BDDAssertions.then(dualValueDeque).containsExactly(dualValueB, dualValueB, dualValueD, dualValueE, dualValueB);
   }
 
   @Test
@@ -95,12 +98,16 @@ class DualValueDequeTest {
     dualValueDeque.addAll(list(dualValueA, dualValueB, dualValueC));
     dualValueDeque.addAll(0, list(dualValueA, dualValueB, dualValueC));
     // THEN
-    then(dualValueDeque).containsExactly(dualValueA, dualValueB, dualValueC, dualValueC, dualValueA, dualValueA, dualValueB,
-                                         dualValueD, dualValueE, dualValueA, dualValueB, dualValueC);
+    BDDAssertions.then(dualValueDeque).containsExactly(dualValueA, dualValueB, dualValueC, dualValueC, dualValueA, dualValueA,
+                                                       dualValueB,
+                                                       dualValueD, dualValueE, dualValueA, dualValueB, dualValueC);
   }
 
   private static DualValue dualValue(String value1, String value2) {
     return new DualValue(randomPath(), value1, value2);
   }
 
+  static List<String> randomPath() {
+    return list(RandomStringUtils.random(RandomUtils.nextInt(01, 10), true, false));
+  }
 }
