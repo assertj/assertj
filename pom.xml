@@ -295,6 +295,8 @@ Copyright ${project.inceptionYear}-${currentYear} the original author or authors
         <artifactId>maven-checkstyle-plugin</artifactId>
         <executions>
           <execution>
+            <id>validate</id>
+            <phase>validate</phase>
             <goals>
               <goal>check</goal>
             </goals>
