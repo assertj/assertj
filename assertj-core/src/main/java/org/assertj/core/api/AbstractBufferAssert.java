@@ -8,15 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.assertj.core.error.buffer.ShouldBeFlipped.shouldBeFlipped;
-import static org.assertj.core.error.buffer.ShouldHaveLength.shouldHaveLength;
-import static org.assertj.core.error.buffer.ShouldHaveRemainingLength.shouldHaveRemainingLength;
+import static org.assertj.core.error.ShouldBeFlipped.shouldBeFlipped;
+import static org.assertj.core.error.ShouldHaveLength.shouldHaveLength;
+import static org.assertj.core.error.ShouldHaveRemainingLength.shouldHaveRemainingLength;
 
 import java.nio.Buffer;
 
@@ -30,7 +30,8 @@ import java.nio.Buffer;
  *
  * @author Jean de Leeuw
  */
-public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SELF, ACTUAL>, ACTUAL extends Buffer> extends AbstractAssert<SELF, ACTUAL> {
+public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SELF, ACTUAL>, ACTUAL extends Buffer>
+    extends AbstractAssert<SELF, ACTUAL> {
 
   public AbstractBufferAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);

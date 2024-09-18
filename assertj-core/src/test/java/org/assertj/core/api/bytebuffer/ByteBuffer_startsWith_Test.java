@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.bytebuffer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.error.buffer.bytebuffer.ContentsShouldStartWith.contentsShouldStartWith;
+import static org.assertj.core.error.ContentsShouldStartWith.contentsShouldStartWith;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -47,8 +47,9 @@ public class ByteBuffer_startsWith_Test {
 
     ByteBuffer buffer = ByteBuffer.wrap(actual.getBytes());
     assertThatThrownBy(() -> assertThat(buffer).startsWith(expected))
-      .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldStartWith(expected, buffer, Charset.defaultCharset()).create());
+                                                                     .isInstanceOf(AssertionError.class)
+                                                                     .hasMessage(contentsShouldStartWith(expected, buffer,
+                                                                                                         Charset.defaultCharset()).create());
   }
 
   @Test
@@ -67,8 +68,10 @@ public class ByteBuffer_startsWith_Test {
 
     ByteBuffer buffer = specified.encode(actual);
     assertThatThrownBy(() -> assertThat(buffer).startsWith(expected, specified))
-      .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldStartWith(expected, buffer, specified).create());
+                                                                                .isInstanceOf(AssertionError.class)
+                                                                                .hasMessage(contentsShouldStartWith(expected,
+                                                                                                                    buffer,
+                                                                                                                    specified).create());
   }
 
   @Test
@@ -80,8 +83,10 @@ public class ByteBuffer_startsWith_Test {
 
     ByteBuffer buffer = actualCharset.encode(fullContent);
     assertThatThrownBy(() -> assertThat(buffer).startsWith(startsWithContent, expectedCharset))
-      .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldStartWith(startsWithContent, buffer, expectedCharset).create());
+                                                                                               .isInstanceOf(AssertionError.class)
+                                                                                               .hasMessage(contentsShouldStartWith(startsWithContent,
+                                                                                                                                   buffer,
+                                                                                                                                   expectedCharset).create());
   }
 
   @Test
@@ -97,7 +102,7 @@ public class ByteBuffer_startsWith_Test {
 
     ByteBuffer buffer = ByteBuffer.wrap(actual.getBytes());
     assertThatThrownBy(() -> assertThat(buffer).startsWith(expected.getBytes()))
-      .isInstanceOf(AssertionError.class);
+                                                                                .isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -114,6 +119,6 @@ public class ByteBuffer_startsWith_Test {
     ByteBuffer expected = ByteBuffer.wrap("es".getBytes());
 
     assertThatThrownBy(() -> assertThat(actual).startsWith(expected))
-      .isInstanceOf(AssertionError.class);
+                                                                     .isInstanceOf(AssertionError.class);
   }
 }

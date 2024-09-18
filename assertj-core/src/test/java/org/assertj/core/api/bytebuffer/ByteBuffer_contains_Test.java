@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.bytebuffer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.error.buffer.bytebuffer.ContentsShouldContain.contentsShouldContain;
+import static org.assertj.core.error.ContentsShouldContain.contentsShouldContain;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -47,8 +47,9 @@ public class ByteBuffer_contains_Test {
 
     ByteBuffer buffer = ByteBuffer.wrap(actual.getBytes());
     assertThatThrownBy(() -> assertThat(buffer).contains(expected))
-      .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldContain(expected, buffer, Charset.defaultCharset()).create());
+                                                                   .isInstanceOf(AssertionError.class)
+                                                                   .hasMessage(contentsShouldContain(expected, buffer,
+                                                                                                     Charset.defaultCharset()).create());
   }
 
   @Test
@@ -67,8 +68,9 @@ public class ByteBuffer_contains_Test {
 
     ByteBuffer buffer = specified.encode(actual);
     assertThatThrownBy(() -> assertThat(buffer).contains(expected, specified))
-      .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldContain(expected, buffer, specified).create());
+                                                                              .isInstanceOf(AssertionError.class)
+                                                                              .hasMessage(contentsShouldContain(expected, buffer,
+                                                                                                                specified).create());
   }
 
   @Test
@@ -80,8 +82,10 @@ public class ByteBuffer_contains_Test {
 
     ByteBuffer buffer = actualCharset.encode(fullContent);
     assertThatThrownBy(() -> assertThat(buffer).contains(containsContent, expectedCharset))
-      .isInstanceOf(AssertionError.class)
-      .hasMessage(contentsShouldContain(containsContent, buffer, expectedCharset).create());
+                                                                                           .isInstanceOf(AssertionError.class)
+                                                                                           .hasMessage(contentsShouldContain(containsContent,
+                                                                                                                             buffer,
+                                                                                                                             expectedCharset).create());
   }
 
   @Test
@@ -97,7 +101,7 @@ public class ByteBuffer_contains_Test {
 
     ByteBuffer buffer = ByteBuffer.wrap(actual.getBytes());
     assertThatThrownBy(() -> assertThat(buffer).contains(expected.getBytes()))
-      .isInstanceOf(AssertionError.class);
+                                                                              .isInstanceOf(AssertionError.class);
   }
 
   @Test
@@ -114,6 +118,6 @@ public class ByteBuffer_contains_Test {
     ByteBuffer expected = ByteBuffer.wrap("xy".getBytes());
 
     assertThatThrownBy(() -> assertThat(actual).contains(expected))
-      .isInstanceOf(AssertionError.class);
+                                                                   .isInstanceOf(AssertionError.class);
   }
 }

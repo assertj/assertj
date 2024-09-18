@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.buffer;
 
@@ -19,7 +19,7 @@ import java.nio.ByteBuffer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.error.buffer.ShouldHaveLength.shouldHaveLength;
+import static org.assertj.core.error.ShouldHaveLength.shouldHaveLength;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.AbstractBufferAssert#hasLength(int)}</code>.
@@ -39,7 +39,7 @@ public class Buffer_hasLength_Test {
     byte[] testArray = "test".getBytes();
     Buffer buffer = ByteBuffer.wrap(testArray);
     assertThatThrownBy(() -> assertThat(buffer).hasLength(1))
-      .isInstanceOf(AssertionError.class)
-      .hasMessage(shouldHaveLength(1, testArray.length, buffer).create());
+                                                             .isInstanceOf(AssertionError.class)
+                                                             .hasMessage(shouldHaveLength(1, testArray.length, buffer).create());
   }
 }

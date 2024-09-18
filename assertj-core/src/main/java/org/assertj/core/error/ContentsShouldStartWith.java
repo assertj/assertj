@@ -8,12 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.error.buffer.bytebuffer;
+package org.assertj.core.error;
 
-import org.assertj.core.error.BasicErrorMessageFactory;
-import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.util.Hexadecimals;
 
 import java.nio.ByteBuffer;
@@ -24,7 +22,7 @@ import java.nio.charset.Charset;
  *
  * @author Jean de Leeuw
  */
-public class ContentsShouldStartWith extends BasicErrorMessageFactory  {
+public class ContentsShouldStartWith extends BasicErrorMessageFactory {
 
   private static final String CONTENTS_SHOULD_START_WITH = "%nExpected the contents of%n  <%s>%nto start with%n  <%s>";
 
@@ -37,7 +35,7 @@ public class ContentsShouldStartWith extends BasicErrorMessageFactory  {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory contentsShouldStartWith(String expected, ByteBuffer actual, Charset charset) {
-    expected = Hexadecimals.byteArrayToHexString(expected.getBytes(charset), " ");
+    expected = Hexadecimals.toHexString(expected.getBytes());
     return new ContentsShouldStartWith(expected, actual);
   }
 

@@ -8,14 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.error.buffer.bytebuffer.ContentsShouldBeEqualTo.contentsShouldBeEqualTo;
-import static org.assertj.core.error.buffer.bytebuffer.ContentsShouldContain.contentsShouldContain;
-import static org.assertj.core.error.buffer.bytebuffer.ContentsShouldEndWith.contentsShouldEndWith;
-import static org.assertj.core.error.buffer.bytebuffer.ContentsShouldStartWith.contentsShouldStartWith;
+import static org.assertj.core.error.ContentsShouldBeEqualTo.contentsShouldBeEqualTo;
+import static org.assertj.core.error.ContentsShouldContain.contentsShouldContain;
+import static org.assertj.core.error.ContentsShouldEndWith.contentsShouldEndWith;
+import static org.assertj.core.error.ContentsShouldStartWith.contentsShouldStartWith;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -33,7 +33,8 @@ import org.assertj.core.util.VisibleForTesting;
  *
  * @author Jean de Leeuw
  */
-public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF>> extends AbstractBufferAssert<SELF, ByteBuffer> {
+public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF>>
+    extends AbstractBufferAssert<SELF, ByteBuffer> {
 
   /**
    * Used to compare a ByteBuffer with another ByteBuffer.
@@ -319,7 +320,8 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
     isFlipped();
 
     String contentString = new String(getContent(actual));
-    if (!contentString.startsWith(expected)) throwAssertionError(contentsShouldStartWith(expected, actual, Charset.defaultCharset()));
+    if (!contentString.startsWith(expected))
+      throwAssertionError(contentsShouldStartWith(expected, actual, Charset.defaultCharset()));
     return myself;
   }
 

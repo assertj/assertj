@@ -18,6 +18,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
@@ -167,6 +169,17 @@ public interface InstanceOfAssertFactories {
   static <RESULT> InstanceOfAssertFactory<CompletionStage, CompletableFutureAssert<RESULT>> completionStage(Class<RESULT> resultType) {
     return new InstanceOfAssertFactory<>(CompletionStage.class, new Class[] { resultType }, Assertions::<RESULT> assertThat);
   }
+
+  /**
+   * {@link InstanceOfAssertFactory} for an {@link Buffer}.
+   */
+  InstanceOfAssertFactory<Buffer, BufferAssert> BUFFER = new InstanceOfAssertFactory<>(Buffer.class, Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for an {@link java.nio.ByteBuffer}.
+   */
+  InstanceOfAssertFactory<ByteBuffer, ByteBufferAssert> BYTE_BUFFER = new InstanceOfAssertFactory<>(ByteBuffer.class,
+                                                                                                    Assertions::assertThat);
 
   /**
    * {@link InstanceOfAssertFactory} for an {@link Optional}, assuming {@code Object} as value type.

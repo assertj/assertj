@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2019 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.buffer;
 
@@ -20,7 +20,7 @@ import java.nio.ByteBuffer;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.error.buffer.ShouldHaveRemainingLength.shouldHaveRemainingLength;
+import static org.assertj.core.error.ShouldHaveRemainingLength.shouldHaveRemainingLength;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.AbstractBufferAssert#hasRemainingLength(int)}</code>.
@@ -50,7 +50,10 @@ public class Buffer_hasRemainingLength_Test {
   public void should_fail_when_expected_remaining_length_mismatches() {
     int remainingLength = capacity - testArray.length;
     assertThatThrownBy(() -> assertThat(buffer).hasRemainingLength(remainingLength - 1))
-      .isInstanceOf(AssertionError.class)
-      .hasMessage(shouldHaveRemainingLength(remainingLength - 1, remainingLength, buffer).create());
+                                                                                        .isInstanceOf(AssertionError.class)
+                                                                                        .hasMessage(shouldHaveRemainingLength(remainingLength
+                                                                                                                              - 1,
+                                                                                                                              remainingLength,
+                                                                                                                              buffer).create());
   }
 }

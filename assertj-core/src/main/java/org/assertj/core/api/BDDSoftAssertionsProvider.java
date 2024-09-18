@@ -282,7 +282,7 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public BufferAssert then(Buffer actual) {
+  default BufferAssert then(Buffer actual) {
     return proxy(BufferAssert.class, Buffer.class, actual);
   }
 
@@ -293,7 +293,7 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    * @return the created assertion object.
    */
   @CheckReturnValue
-  public ByteBufferAssert then(ByteBuffer actual) {
+  default ByteBufferAssert then(ByteBuffer actual) {
     return proxy(ByteBufferAssert.class, ByteBuffer.class, actual);
   }
 

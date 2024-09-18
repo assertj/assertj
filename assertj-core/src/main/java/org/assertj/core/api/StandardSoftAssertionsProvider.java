@@ -270,7 +270,7 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    *
    * @return the created assertion object.
    */
-  public BufferAssert assertThat(Buffer actual) {
+  default BufferAssert assertThat(Buffer actual) {
     return proxy(BufferAssert.class, Buffer.class, actual);
   }
 
@@ -281,7 +281,7 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    *
    * @return the created assertion object.
    */
-  public ByteBufferAssert assertThat(ByteBuffer actual) {
+  default ByteBufferAssert assertThat(ByteBuffer actual) {
     return proxy(ByteBufferAssert.class, ByteBuffer.class, actual);
   }
 
