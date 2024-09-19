@@ -9,7 +9,7 @@ jobs:
 
   test_os:
 
-    name: OS ${{ matrix.os }}
+    name: Java 21 (${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
