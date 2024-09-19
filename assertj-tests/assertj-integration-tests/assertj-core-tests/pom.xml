@@ -13,25 +13,18 @@
   <name>AssertJ Core Tests</name>
 
   <properties>
+    <argLine>
+      -Dfile.encoding=${project.build.sourceEncoding}
+      -Dnet.bytebuddy.experimental=true
+      --add-opens=java.base/java.lang=ALL-UNNAMED
+      --add-opens=java.base/java.math=ALL-UNNAMED
+      --add-opens=java.base/java.util=ALL-UNNAMED
+      --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
+    </argLine>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
     <spotless.skip>false</spotless.skip>
   </properties>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.0.0</version>
-        <configuration>
-          <!-- for RecursiveAssertionDriver_JavaClassLibraryRecursionTest that accesses inner fields of String -->
-          <argLine>
-            --add-opens=java.base/java.lang=ALL-UNNAMED
-          </argLine>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
