@@ -294,7 +294,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(7)).contains(shouldBeEqualMessage("'A'", "'B'"));
     assertThat(errors.get(8)).contains(shouldBeEqualMessage("'C'", "'D'"));
     assertThat(errors.get(9)).contains(shouldBeEqualMessage("['E']", "['F']"));
-    assertThat(errors.get(10)).contains(shouldBeEqualMessage("a", "b"));
+    assertThat(errors.get(10)).contains(shouldBeEqualMessage("\"a\"", "\"b\""));
     assertThat(errors.get(11)).contains(shouldBeEqualMessage("java.lang.Object", "java.lang.String"));
     assertThat(errors.get(12)).contains(shouldBeEqualMessage("1999-12-31T23:59:59.000 (java.util.Date)",
                                                              "2000-01-01T00:00:01.000 (java.util.Date)"));

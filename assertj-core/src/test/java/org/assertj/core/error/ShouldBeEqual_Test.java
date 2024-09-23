@@ -75,7 +75,7 @@ class ShouldBeEqual_Test {
     AssertionError error = expectAssertionError(() -> then(actual).isEqualTo(expected));
     // THEN
     then(error).hasMessageContainingAll(format("%nexpected: \"\"test\" (StringBuilder"),
-      format("%n but was: \"\"test\" (String"));
+                                        format("%n but was: \"\"test\" (String"));
   }
 
   @Test
