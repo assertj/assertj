@@ -35,6 +35,15 @@ class Assertions_assertThat_inUnicode_Test {
   }
 
   @Test
+  void should_assert_CharSequence_implementation_in_unicode() {
+    // WHEN
+    CharSequence charSequence = new StringBuilder("abó");
+    AssertionError assertionError = expectAssertionError(() -> assertThat("a6c").inUnicode().isEqualTo(charSequence));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("a6c", "ab\\u00f3"));
+  }
+
+  @Test
   void should_assert_Character_in_unicode() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat('o').inUnicode().isEqualTo('ó'));

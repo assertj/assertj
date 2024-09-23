@@ -235,6 +235,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof File) return toStringOf((File) object);
     if (object instanceof Path) return fallbackToStringOf(object);
     if (object instanceof String) return toStringOf((String) object);
+    if (object instanceof CharSequence) return toStringOf((CharSequence) object);
     if (object instanceof Character) return toStringOf((Character) object);
     if (object instanceof Comparator) return toStringOf((Comparator<?>) object);
     if (object instanceof SimpleDateFormat) return toStringOf((SimpleDateFormat) object);
@@ -401,6 +402,10 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(String s) {
+    return toStringOf((CharSequence) s);
+  }
+
+  protected String toStringOf(CharSequence s) {
     return concat("\"", s, "\"");
   }
 

@@ -105,6 +105,16 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
   }
 
   @Test
+  void should_quote_CharSequence_implementation() {
+    // GIVEN
+    CharSequence charSequence = new StringBuilder("Hello");
+    // WHEN
+    String emptyStringStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(charSequence);
+    // THEN
+    then(emptyStringStandardRepresentation).isEqualTo("\"Hello\"");
+  }
+
+  @Test
   void should_return_toString_of_File() {
     // GIVEN
     final String path = "/someFile.txt";
