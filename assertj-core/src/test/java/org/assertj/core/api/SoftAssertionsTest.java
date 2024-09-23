@@ -323,7 +323,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       then(errors.get(8)).contains(shouldBeEqualMessage("'C'", "'D'"));
       then(errors.get(9)).contains(shouldBeEqualMessage("['E']", "['F']"));
 
-      then(errors.get(10)).contains(shouldBeEqualMessage("a", "b"));
+      then(errors.get(10)).contains(shouldBeEqualMessage("\"a\"", "\"b\""));
 
       then(errors.get(11)).contains(shouldBeEqualMessage("java.lang.Object", "java.lang.String"));
 

@@ -177,7 +177,7 @@ class AutoCloseableSoftAssertionsTest {
       assertThat(errors.get(8)).contains(shouldBeEqualMessage("'C'", "'D'"));
       assertThat(errors.get(9)).contains(shouldBeEqualMessage("['E']", "['F']"));
 
-      assertThat(errors.get(10)).contains(shouldBeEqualMessage("a", "b"));
+      assertThat(errors.get(10)).contains(shouldBeEqualMessage("\"a\"", "\"b\""));
 
       assertThat(errors.get(11)).contains(shouldBeEqualMessage("java.lang.Object", "java.lang.String"));
 

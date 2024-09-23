@@ -12,12 +12,12 @@
  */
 package org.assertj.tests.core.api;
 
+import org.junit.jupiter.api.Test;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-
-import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link org.assertj.core.presentation.UnicodeRepresentation#toStringOf(Object)}.
@@ -30,6 +30,16 @@ class Assertions_assertThat_inUnicode_Test {
   void should_assert_String_in_unicode() {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat("a6c").inUnicode().isEqualTo("abó"));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("a6c", "ab\\u00f3"));
+  }
+
+  @Test
+  void should_assert_CharSequence_implementation_in_unicode() {
+    // GIVEN
+    CharSequence charSequence = new StringBuilder("abó");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat("a6c").inUnicode().isEqualTo(charSequence));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("a6c", "ab\\u00f3"));
   }

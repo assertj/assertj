@@ -12,18 +12,16 @@
  */
 package org.assertj.core.presentation;
 
-import static java.lang.Integer.toHexString;
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
-import static org.assertj.core.util.Arrays.isObjectArray;
-import static org.assertj.core.util.Arrays.notAnArrayOfPrimitives;
-import static org.assertj.core.util.DateUtil.formatAsDatetime;
-import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
-import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Strings.concat;
-import static org.assertj.core.util.Strings.quote;
-import static org.assertj.core.util.Throwables.getStackTrace;
+import org.assertj.core.configuration.Configuration;
+import org.assertj.core.configuration.ConfigurationProvider;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.Closeables;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.ChangeDelta;
+import org.assertj.core.util.diff.DeleteDelta;
+import org.assertj.core.util.diff.InsertDelta;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -63,16 +61,18 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
 
-import org.assertj.core.configuration.Configuration;
-import org.assertj.core.configuration.ConfigurationProvider;
-import org.assertj.core.data.MapEntry;
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.Closeables;
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.diff.ChangeDelta;
-import org.assertj.core.util.diff.DeleteDelta;
-import org.assertj.core.util.diff.InsertDelta;
+import static java.lang.Integer.toHexString;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
+import static org.assertj.core.util.Arrays.isObjectArray;
+import static org.assertj.core.util.Arrays.notAnArrayOfPrimitives;
+import static org.assertj.core.util.DateUtil.formatAsDatetime;
+import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Strings.concat;
+import static org.assertj.core.util.Strings.quote;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 /**
  * Standard java object representation.
@@ -235,6 +235,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof File) return toStringOf((File) object);
     if (object instanceof Path) return fallbackToStringOf(object);
     if (object instanceof String) return toStringOf((String) object);
+    if (object instanceof CharSequence) return toStringOf((CharSequence) object);
     if (object instanceof Character) return toStringOf((Character) object);
     if (object instanceof Comparator) return toStringOf((Comparator<?>) object);
     if (object instanceof SimpleDateFormat) return toStringOf((SimpleDateFormat) object);
@@ -314,7 +315,6 @@ public class StandardRepresentation implements Representation {
     return this.getClass().getSimpleName();
   }
 
-  @SuppressWarnings("unchecked")
   protected <T> String customFormat(T object) {
     if (object == null) return null;
     CharSequence formatted = ((Function<T, ? extends CharSequence>) customFormatterByType.get(object.getClass())).apply(object);
@@ -376,7 +376,7 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(Comparator<?> comparator) {
     if (!comparator.toString().contains("@")) return comparator.toString();
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
-    if (comparatorSimpleClassName.length() == 0) return quote("anonymous comparator class");
+    if (comparatorSimpleClassName.isEmpty()) return quote("anonymous comparator class");
     // if toString has not been redefined, let's use comparator simple class name.
     if (comparator.toString().contains(comparatorSimpleClassName + "@")) return comparatorSimpleClassName;
     return comparator.toString();
@@ -395,12 +395,20 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(Class<?> c) {
     String canonicalName = c.getCanonicalName();
     if (canonicalName != null) return canonicalName;
-    if (c.getSimpleName().equals("")) return "anonymous class";
+    if (c.getSimpleName().isEmpty()) return "anonymous class";
     if (c.getSimpleName().equals("[]")) return "anonymous class array";
     return String.format("local class %s", c.getSimpleName());
   }
 
   protected String toStringOf(String s) {
+    return concatWithDoubleQuotes(s);
+  }
+
+  protected String toStringOf(CharSequence s) {
+    return concatWithDoubleQuotes(s);
+  }
+
+  private static String concatWithDoubleQuotes(CharSequence s) {
     return concat("\"", s, "\"");
   }
 

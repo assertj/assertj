@@ -43,14 +43,20 @@ public class UnicodeRepresentation extends StandardRepresentation {
   }
 
   @Override
+  protected String toStringOf(CharSequence string) {
+    return escapeUnicode(string);
+  }
+
+  @Override
   protected String toStringOf(String string) {
     return escapeUnicode(string);
   }
 
-  private static String escapeUnicode(String input) {
+  private static String escapeUnicode(CharSequence input) {
     StringBuilder b = new StringBuilder(input.length());
     Formatter formatter = new Formatter(b);
-    for (char c : input.toCharArray()) {
+    for (int i = 0; i < input.length(); i++) {
+      char c = input.charAt(i);
       if (c < 128) {
         b.append(c);
       } else {
