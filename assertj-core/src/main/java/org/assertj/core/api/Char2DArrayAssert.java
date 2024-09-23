@@ -329,7 +329,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * Expecting actual[1][0] value to be equal to:
    *  &lt;c&gt;
    * but was
-   *  &lt;\u0107&gt;</code></pre>
+   *  &lt;&bsol;0107&gt;</code></pre>
    *
    * @return {@code this} assertion object.
    */

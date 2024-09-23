@@ -820,7 +820,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * <pre><code class='java'> assertThat("a6c".toCharArray()).inUnicode().isEqualTo("abó".toCharArray());
    *
    * org.junit.ComparisonFailure:
-   * Expected :[a, b, \u00f3]
+   * Expected :[a, b, &bsol;u00f3]
    * Actual   :[a, 6, c]</code></pre>
    *
    * @return {@code this} assertion object.

@@ -169,8 +169,8 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * <pre><code class='java'> assertThat('µ').inUnicode().isEqualTo('μ');
    *
    * org.junit.ComparisonFailure:
-   * Expected :\u03bc
-   * Actual   :\u00b5</code></pre>
+   * Expected :&bsol;u03bc
+   * Actual   :&bsol;u00b5</code></pre>
    *
    * @return {@code this} assertion object.
    */

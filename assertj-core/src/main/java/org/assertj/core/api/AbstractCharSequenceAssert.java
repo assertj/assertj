@@ -1553,9 +1553,9 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * java.lang.AssertionError:
    * Expecting:
-   *   &lt;\u00b5\u00b5\u00b5&gt;
+   *   &lt;&bsol;u00b5&bsol;u00b5&bsol;u00b5&gt;
    * to contain:
-   *   &lt;\u03bc\u03bc\u03bc&gt;</code></pre>
+   *   &lt;&bsol;u03bc&bsol;u03bc&bsol;u03bc&gt;</code></pre>
    *
    * @return {@code this} assertion object.
    */
