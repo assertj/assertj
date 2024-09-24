@@ -12,6 +12,7 @@
  */
 package org.assertj.core.error;
 
+import java.nio.Buffer;
 import java.util.concurrent.atomic.AtomicMarkableReference;
 
 public class ShouldBeMarked extends BasicErrorMessageFactory {
@@ -23,11 +24,35 @@ public class ShouldBeMarked extends BasicErrorMessageFactory {
     return new ShouldBeMarked(actual, true);
   }
 
+  /**
+   * Creates a new <code>{@link ShouldBeMarked}</code>.
+   *
+   * @param actual the actual buffer in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldBeMarked(Buffer actual) {
+    return new ShouldBeMarked(actual, true);
+  }
+
   public static ErrorMessageFactory shouldNotBeMarked(AtomicMarkableReference<?> actual) {
     return new ShouldBeMarked(actual, false);
   }
 
+  /**
+   * Creates a new <code>{@link ShouldBeMarked}</code>.
+   *
+   * @param actual the actual buffer in the failed assertion.
+   * @return the created {@code ErrorMessageFactory}.
+   */
+  public static ErrorMessageFactory shouldNotBeMarked(Buffer actual) {
+    return new ShouldBeMarked(actual, false);
+  }
+
   private ShouldBeMarked(AtomicMarkableReference<?> actual, boolean marked) {
+    super(marked ? EXPECTING_TO_BE_MARKED : EXPECTING_NOT_TO_BE_MARKED, actual);
+  }
+
+  private ShouldBeMarked(Buffer actual, boolean marked) {
     super(marked ? EXPECTING_TO_BE_MARKED : EXPECTING_NOT_TO_BE_MARKED, actual);
   }
 }

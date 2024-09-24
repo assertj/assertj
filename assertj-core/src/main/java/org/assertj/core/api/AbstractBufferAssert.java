@@ -13,12 +13,18 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.ShouldHaveCapacity.shouldHaveCapacity;
+import static org.assertj.core.error.ShouldHaveLimit.shouldHaveLimit;
+import static org.assertj.core.error.ShouldHavePosition.shouldHavePosition;
+import static org.assertj.core.error.ShouldHaveRemaining.shouldHaveRemaining;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldBeFlipped.shouldBeFlipped;
 import static org.assertj.core.error.ShouldHaveLength.shouldHaveLength;
 import static org.assertj.core.error.ShouldHaveRemainingLength.shouldHaveRemainingLength;
 
 import java.nio.Buffer;
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 
 /**
  * Base class for all implementations of assertions for {@link Buffer}s.
@@ -35,6 +41,113 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
 
   public AbstractBufferAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /**
+   * Verifies that the actual {@code Buffer} has a capacity equal to the given expected value.
+   *
+   * Example:
+   *
+   * <pre><code class='java'>
+   * byte[] testArray = "test".getBytes();
+   * Buffer buffer = ByteBuffer.wrap(testArray);
+   *
+   * // this assertion succeeds ...
+   * assertThat(buffer).hasCapacity(testArray.length);
+   *
+   * // ... but this one fails as "buffer" has a different capacity than the given expected value.
+   * assertThat(buffer).hasCapacity(testArray.length - 1);
+   * </code></pre>
+   *
+   * @param expected integer value representing the expected capacity of the buffer.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code Buffer} is {@code null}.
+   * @throws AssertionError if the actual {@code Buffer} capacity is different than the given expected value.
+   */
+  public SELF hasCapacity(int expected) {
+    isNotNull();
+    if (actual.capacity() != expected) throwAssertionError(shouldHaveCapacity(expected, actual.capacity(), actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Buffer} has a limit equal to the given expected value.
+   *
+   * Example:
+   *
+   * <pre><code class='java'>
+   * byte[] testArray = "test".getBytes();
+   * Buffer buffer = ByteBuffer.wrap(testArray);
+   *
+   * // this assertion succeeds ...
+   * assertThat(buffer).hasLimit(testArray.length); // Limit of a buffer is equal to the capacity before the buffer is flipped.
+   *
+   * // ... but this one fails as "buffer" has a different limit than the given expected value.
+   * assertThat(buffer).hasLimit(testArray.length - 1);
+   * </code></pre>
+   *
+   * @param expected integer value representing the expected limit of the buffer.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code Buffer} is {@code null}.
+   * @throws AssertionError if the actual {@code Buffer} limit is different than the given expected value.
+   */
+  public SELF hasLimit(int expected) {
+    isNotNull();
+    if (actual.limit() != expected) throwAssertionError(shouldHaveLimit(expected, actual.limit(), actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Buffer}'s position is equal to the given expected value.
+   *
+   * Example:
+   *
+   * <pre><code class='java'>
+   * Buffer buffer = ByteBuffer.wrap("test".getBytes());
+   *
+   * // this assertion succeeds ...
+   * assertThat(buffer).hasPosition(0);
+   *
+   * // ... but this one fails as the position of "buffer" is different than the given expected value.
+   * assertThat(buffer).hasPosition(1);
+   * </code></pre>
+   *
+   * @param expected integer value representing the expected position of the buffer.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code Buffer} is {@code null}.
+   * @throws AssertionError if the actual {@code Buffer}'s position is different than the given expected value.
+   */
+  public SELF hasPosition(int expected) {
+    isNotNull();
+    if (actual.position() != expected) throwAssertionError(shouldHavePosition(expected, actual.position(), actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@Code Buffer} has a number of remaining elements equal to the given expected value.
+   *
+   * Example:
+   *
+   * <pre><code class='java'>
+   * byte[] testArray = "test".getBytes();
+   * Buffer buffer = ByteBuffer.wrap(testArray);
+   *
+   * // this assertion succeeds ...
+   * assertThat(buffer).hasRemaining(testArray.length);
+   *
+   * // ... but this one fails as "buffer" has a different number of remaining elements than the given expected value.
+   * assertThat(buffer).hasRemaining(testArray.length - 1);
+   * </code></pre>
+   *
+   * @param expected integer value representing the expected number of remaining elements in the buffer.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code Buffer} is {@code null}.
+   * @throws AssertionError if the actual {@code Buffer} number of remaining elements is different than the given expected value.
+   */
+  public SELF hasRemaining(int expected) {
+    isNotNull();
+    if (actual.remaining() != expected) throwAssertionError(shouldHaveRemaining(expected, actual.remaining(), actual));
+    return myself;
   }
 
   /**
@@ -128,7 +241,7 @@ public abstract class AbstractBufferAssert<SELF extends AbstractBufferAssert<SEL
    *
    * Example:
    *
-   * <pre><code class='java'>
+   * <pre><code class='java'>z
    * byte[] testArray = "test".getBytes();
    * Buffer buffer = ByteBuffer.wrap(testArray);
    *

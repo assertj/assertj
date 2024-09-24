@@ -16,10 +16,15 @@ import static org.assertj.core.error.ContentsShouldBeEqualTo.contentsShouldBeEqu
 import static org.assertj.core.error.ContentsShouldContain.contentsShouldContain;
 import static org.assertj.core.error.ContentsShouldEndWith.contentsShouldEndWith;
 import static org.assertj.core.error.ContentsShouldStartWith.contentsShouldStartWith;
+import static org.assertj.core.error.ShouldBeMarked.shouldBeMarked;
+import static org.assertj.core.error.ShouldBeMarked.shouldNotBeMarked;
+import static org.assertj.core.error.ShouldBeMarkedAt.shouldBeMarkedAt;
 
 import java.nio.ByteBuffer;
+import java.nio.InvalidMarkException;
 import java.nio.charset.Charset;
 
+import java.util.Optional;
 import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.util.VisibleForTesting;
@@ -534,6 +539,98 @@ public class AbstractByteBufferAssert<SELF extends AbstractByteBufferAssert<SELF
     isFlipped();
 
     byteArrays.assertEndsWith(info, getContent(actual), getContent(expected));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code ByteBuffer} is marked.
+   *
+   * Example:
+   *
+   * <pre><code class='java'>
+   * ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
+   *
+   * // this assertion succeeds ...
+   * actual.mark();
+   * assertThat(actual).isMarked();
+   *
+   * // ... but this one fails as "buffer" was never marked.
+   * assertThat(actual).isMarked();
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
+   * @throws AssertionError if the actual {@code ByteBuffer} is not marked.
+   */
+  public SELF isMarked() {
+    isNotNull();
+    try {
+      actual.duplicate().reset();
+    } catch (InvalidMarkException e) {
+      throwAssertionError(shouldBeMarked(actual));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code ByteBuffer} is marked at the given expected position.
+   *
+   * Example:
+   *
+   * <pre><code class='java'>
+   * ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
+   * actual.mark();
+   *
+   * // this assertion succeeds ...
+   * assertThat(actual).isMarkedAt(0);
+   *
+   * // ... but this one fails as "buffer" was marked at position 0.
+   * assertThat(actual).isMarkedAt(1);
+   * </code></pre>
+   *
+   * @param expected integer value representing the expected marked position of the buffer.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
+   * @throws AssertionError if the actual {@code ByteBuffer} is not marked.
+   * @throws AssertionError if the actual {@code ByteBuffer} is marked at a different position than the given expected position.
+   */
+  public SELF isMarkedAt(int expected) {
+    isNotNull();
+    try {
+      int markedPosition = actual.duplicate().reset().position();
+      if (markedPosition != expected) throwAssertionError(shouldBeMarkedAt(expected, markedPosition, actual));
+    } catch (InvalidMarkException e) {
+      throwAssertionError(shouldBeMarked(actual));
+    }
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code ByteBuffer} is not marked.
+   *
+   * Example:
+   *
+   * <pre><code class='java'>
+   * ByteBuffer actual = ByteBuffer.wrap("test".getBytes());
+   *
+   * // this assertion succeeds ...
+   * assertThat(actual).isNotMarked();
+   *
+   * // ... but this one fails as "buffer" was marked.
+   * actual.mark();
+   * assertThat(actual).isMarked();
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code ByteBuffer} is {@code null}.
+   * @throws AssertionError if the actual {@code ByteBuffer} is marked.
+   */
+  public SELF isNotMarked() {
+    isNotNull();
+    try {
+      actual.duplicate().reset();
+      throwAssertionError(shouldNotBeMarked(actual));
+    } catch (InvalidMarkException ignored) {}
     return myself;
   }
 
