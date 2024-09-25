@@ -542,28 +542,30 @@ public class RecursiveComparisonDifferenceCalculator {
       // no need to inspect elements, iterables are not equal as they don't have the same size
       return;
     }
-    Map<Integer, ? extends List<?>> actualByHashCode = stream(actual.spliterator(), false).collect(groupingBy(Objects::hashCode,
-                                                                                                              toList()));
     List<Object> expectedElementsNotFound = list();
     for (Object expectedElement : expected) {
       boolean expectedElementMatched = false;
       // speed up comparison by selecting actual elements matching expected hash code, note that the hash code might not be
       // relevant if fields used to compute it are ignored in the recursive comparison, it's a good heuristic though to check
       // the first actual elements that could match the expected one, worst case we compare all actual elements.
+      // actualElementsGroupedByHashCode must be initialized for each expectedElement, as we remove elements from its
+      // entries when a match with expectedElement is found, the next expectedElement comparison is done on a smaller
+      // set of entries which leads to incorrect results.
+      Map<Integer, ? extends List<?>> actualElementsGroupedByHashCode = actualElementsGroupedByHashCode(actual);
       Integer expectedHash = Objects.hashCode(expectedElement);
-      List<?> actualHashBucket = actualByHashCode.get(expectedHash);
+      List<?> actualHashBucket = actualElementsGroupedByHashCode.get(expectedHash);
       if (actualHashBucket != null) {
         Iterator<?> actualIterator = actualHashBucket.iterator();
-        expectedElementMatched = searchIterableForElement(actualIterator, expectedElement, dualValue, comparisonState);
+        expectedElementMatched = searchExpectedElementIn(actualIterator, expectedElement, dualValue, comparisonState);
       }
       // It may be that expectedElement matches an actual element in a different hash bucket, to account for this, we check the
       // other actual elements for matches. This may result in O(n^2) complexity in the worst case.
       if (!expectedElementMatched) {
-        for (Map.Entry<Integer, ? extends List<?>> entry : actualByHashCode.entrySet()) {
+        for (Map.Entry<Integer, ? extends List<?>> actualElementsEntry : actualElementsGroupedByHashCode.entrySet()) {
           // avoid checking the same bucket twice
-          if (entry.getKey().equals(expectedHash)) continue;
-          Iterator<?> actualIterator = entry.getValue().iterator();
-          expectedElementMatched = searchIterableForElement(actualIterator, expectedElement, dualValue, comparisonState);
+          if (actualElementsEntry.getKey().equals(expectedHash)) continue;
+          Iterator<?> actualElementsIterator = actualElementsEntry.getValue().iterator();
+          expectedElementMatched = searchExpectedElementIn(actualElementsIterator, expectedElement, dualValue, comparisonState);
           if (expectedElementMatched) break;
         }
         if (!expectedElementMatched) expectedElementsNotFound.add(expectedElement);
@@ -579,8 +581,12 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
-  private static boolean searchIterableForElement(Iterator<?> actualIterator, Object expectedElement,
-                                                  DualValue dualValue, ComparisonState comparisonState) {
+  private static Map<Integer, ? extends List<?>> actualElementsGroupedByHashCode(Iterable<?> actual) {
+    return stream(actual.spliterator(), false).collect(groupingBy(Objects::hashCode, toList()));
+  }
+
+  private static boolean searchExpectedElementIn(Iterator<?> actualIterator, Object expectedElement,
+                                                 DualValue dualValue, ComparisonState comparisonState) {
     while (actualIterator.hasNext()) {
       Object actualElement = actualIterator.next();
       // we need to get the currently visited dual values otherwise a cycle would cause an infinite recursion.

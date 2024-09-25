@@ -12,13 +12,14 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Lists.list;
+import org.assertj.core.api.BDDAssertions;
+import org.junit.jupiter.api.Test;
 
 class VisitedDualValuesTest {
 
@@ -36,7 +37,8 @@ class VisitedDualValuesTest {
     Optional<List<ComparisonDifference>> optionalComparisonDifferences = visitedDualValues.registeredComparisonDifferencesOf(dualValue);
     // THEN
     then(optionalComparisonDifferences).isPresent();
-    then(optionalComparisonDifferences.get()).containsExactlyInAnyOrder(comparisonDifference1, comparisonDifference2);
+    BDDAssertions.then(optionalComparisonDifferences.get()).containsExactlyInAnyOrder(comparisonDifference1,
+                                                                                      comparisonDifference2);
   }
 
   @Test
@@ -49,7 +51,7 @@ class VisitedDualValuesTest {
     Optional<List<ComparisonDifference>> optionalComparisonDifferences = visitedDualValues.registeredComparisonDifferencesOf(dualValue);
     // THEN
     then(optionalComparisonDifferences).isPresent();
-    then(optionalComparisonDifferences.get()).isEmpty();
+    BDDAssertions.then(optionalComparisonDifferences.get()).isEmpty();
   }
 
   @Test

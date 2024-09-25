@@ -25,6 +25,7 @@ import java.util.Optional;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
+import org.assertj.core.util.VisibleForTesting;
 
 public class ComparisonDifference implements Comparable<ComparisonDifference> {
 
@@ -94,6 +95,11 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
 
   public List<String> getDecomposedPath() {
     return decomposedPath;
+  }
+
+  @VisibleForTesting
+  public String getConcatenatedPath() {
+    return concatenatedPath;
   }
 
   @Override

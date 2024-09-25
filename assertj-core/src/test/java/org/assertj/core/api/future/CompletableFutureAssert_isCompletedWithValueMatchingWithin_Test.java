@@ -65,7 +65,7 @@ public class CompletableFutureAssert_isCompletedWithValueMatchingWithin_Test ext
   @Test
   void should_fail_on_pending_future_that_will_not_complete_in_provided_period() {
     // GIVEN
-    CompletableFuture<String> future = completedFutureAfter("string", Duration.ofSeconds(1), executorService);
+    CompletableFuture<String> future = completedFutureAfter("123456", Duration.ofSeconds(1), executorService);
     // WHEN/THEN
     expectAssertionError(() -> assertThat(future).isCompletedWithValueMatchingWithin(s -> s.length() == 6, TEN_MS));
   }
