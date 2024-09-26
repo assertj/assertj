@@ -76,6 +76,16 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
   }
 
   @Test
+  void should_quote_CharSequence_implementation() {
+    // GIVEN
+    CharSequence charSequence = new StringBuilder("Hello");
+    // WHEN
+    String unambiguousToString = unambiguousToStringOf(charSequence);
+    // THEN
+    then(unambiguousToString).isEqualTo(format("\"Hello\" (StringBuilder@%s)", toHexString(identityHashCode(charSequence))));
+  }
+
+  @Test
   void should_quote_empty_String() {
     // GIVEN
     String emptyString = "";
@@ -83,6 +93,16 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     String unambiguousToString = unambiguousToStringOf(emptyString);
     // THEN
     then(unambiguousToString).isEqualTo(format("\"\" (String@%s)", toHexString(identityHashCode(emptyString))));
+  }
+
+  @Test
+  void should_quote_empty_CharSequence_implementation() {
+    // GIVEN
+    CharSequence emptyCharSequence = new StringBuilder();
+    // WHEN
+    String unambiguousToString = unambiguousToStringOf(emptyCharSequence);
+    // THEN
+    then(unambiguousToString).isEqualTo(format("\"\" (StringBuilder@%s)", toHexString(identityHashCode(emptyCharSequence))));
   }
 
   @Test

@@ -401,12 +401,16 @@ public class StandardRepresentation implements Representation {
     return String.format("local class %s", c.getSimpleName());
   }
 
+  private static String toQuotedString(CharSequence s) {
+    return concat("\"", s, "\"");
+  }
+
   protected String toStringOf(String s) {
-    return toStringOf((CharSequence) s);
+    return toQuotedString(s);
   }
 
   protected String toStringOf(CharSequence s) {
-    return concat("\"", s, "\"");
+    return toQuotedString(s);
   }
 
   protected String toStringOf(Character c) {

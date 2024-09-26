@@ -33,6 +33,7 @@ public class UnicodeRepresentation extends StandardRepresentation {
   public String toStringOf(Object object) {
     if (hasCustomFormatterFor(object)) return customFormat(object);
     if (object instanceof String) return toStringOf((String) object);
+    if (object instanceof CharSequence) return toStringOf((CharSequence) object);
     if (object instanceof Character) return toStringOf((Character) object);
     return super.toStringOf(object);
   }
@@ -40,6 +41,11 @@ public class UnicodeRepresentation extends StandardRepresentation {
   @Override
   protected String toStringOf(Character string) {
     return escapeUnicode(string.toString());
+  }
+
+  @Override
+  protected String toStringOf(String string) {
+    return escapeUnicode(string);
   }
 
   @Override

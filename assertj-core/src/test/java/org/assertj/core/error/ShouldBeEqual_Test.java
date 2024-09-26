@@ -67,18 +67,6 @@ class ShouldBeEqual_Test {
   }
 
   @Test
-  void should_display_class_for_ambiguous_CharSequence() {
-    // GIVEN
-    CharSequence actual = "test";
-    CharSequence expected = new StringBuilder("test");
-    // WHEN
-    AssertionError error = expectAssertionError(() -> then(actual).isEqualTo(expected));
-    // THEN
-    then(error).hasMessageContainingAll(format("%nexpected: \"\"test\" (StringBuilder"),
-                                        format("%n but was: \"\"test\" (String"));
-  }
-
-  @Test
   void should_display_multiline_values_nicely() {
     // GIVEN
     Xml actual = new Xml("1");
