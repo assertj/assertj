@@ -22,7 +22,7 @@ import java.nio.Buffer;
  */
 public class ShouldHavePosition extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_POSITION = "%nExpected%n  <%s>%nto have limit%n  <%s>%nbut was%n  <%s>%n";
+  private static final String SHOULD_HAVE_POSITION = "%nExpected%n  <%s>%nto have position%n  <%s>%nbut was%n  <%s>%n";
 
   /**
    * Creates a new <code>{@link ShouldHavePosition}</code>.

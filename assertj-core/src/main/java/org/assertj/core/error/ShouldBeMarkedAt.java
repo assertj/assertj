@@ -22,7 +22,7 @@ import java.nio.Buffer;
  */
 public class ShouldBeMarkedAt extends BasicErrorMessageFactory {
 
-  private static final String EXPECTING_TO_BE_MARKED_AT = "%nExpecting %s to be a marked at %s but was marked at %s instead";
+  private static final String EXPECTING_TO_BE_MARKED_AT = "%nExpected%n  <%s>%nto be marked at position%n  <%s>%nbut was marked at position%n  <%s>%n";
 
   /**
    * Creates a new <code>{@link ShouldBeMarkedAt}</code>.

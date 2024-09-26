@@ -22,7 +22,7 @@ import java.nio.Buffer;
  */
 public class ShouldHaveRemaining extends BasicErrorMessageFactory {
 
-  private static final String SHOULD_HAVE_REMAINING = "%nExpected%n  <%s>%nto have  <%s>remaining elements but was%n  <%s>%n";
+  private static final String SHOULD_HAVE_REMAINING = "%nExpected%n  <%s>%nto have number of remaining elements%n  <%s>%nbut was%n  <%s>%n";
 
   /**
    * Creates a new <code>{@link ShouldHaveRemaining}</code>.
