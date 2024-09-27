@@ -24,7 +24,6 @@ import java.nio.ByteBuffer;
 import java.nio.InvalidMarkException;
 import java.nio.charset.Charset;
 
-import java.util.Optional;
 import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.util.VisibleForTesting;
