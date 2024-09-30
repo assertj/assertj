@@ -128,7 +128,7 @@
     <license-maven-plugin.version>4.5</license-maven-plugin.version>
     <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
     <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
-    <maven-gpg-plugin.version>3.2.6</maven-gpg-plugin.version>
+    <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
     <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
     <sonar-maven-plugin.version>4.0.0.4121</sonar-maven-plugin.version>
