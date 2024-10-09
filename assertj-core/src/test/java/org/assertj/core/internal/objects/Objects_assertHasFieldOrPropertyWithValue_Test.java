@@ -20,6 +20,9 @@ import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.junit.jupiter.api.Test;
@@ -42,6 +45,22 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
     Object actual = new Data();
     // WHEN/THEN
     objects.assertHasFieldOrPropertyWithValue(INFO, actual, "field3", "bar");
+  }
+
+  @Test
+  void should_pass_if_actual_has_expected_list_field_and_value_with_index() {
+    // GIVEN
+    Object actual = new Data();
+    // WHEN/THEN
+    objects.assertHasFieldOrPropertyWithValue(INFO, actual, "listField[0]", "bar");
+  }
+
+  @Test
+  void should_pass_if_actual_has_expected_array_field_and_value_with_index() {
+    // GIVEN
+    Object actual = new Data();
+    // WHEN/THEN
+    objects.assertHasFieldOrPropertyWithValue(INFO, actual, "arrayField[0]", "baz");
   }
 
   @Test
@@ -102,7 +121,13 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
 
     private Object field1 = "foo";
     private Object field2;
+    private List<String> listField = new ArrayList<String>(1);
+    private String[] arrayField = new String[] { "baz" };
     private static Object staticField;
+
+    public Data() {
+       listField.add("bar");
+    }
 
     @Override
     public String toString() {
