@@ -126,7 +126,7 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
     private static Object staticField;
 
     public Data() {
-       listField.add("bar");
+      listField.add("bar");
     }
 
     @Override
