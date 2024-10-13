@@ -12,7 +12,10 @@
  */
 package org.assertj.core.testkit;
 
-import java.util.ArrayList;
+import static org.assertj.core.util.Lists.newArrayList;
+import static java.lang.String.format;
+import static org.assertj.core.util.Arrays.array;
+
 import java.util.List;
 
 /*
@@ -22,9 +25,10 @@ import java.util.List;
  */
 public class Office {
 
-  public List<Employee> employees = new ArrayList<Employee>();
-  public Employee[] employeesArray = new Employee[] {};
   public String description = "This is an office";
+  public List<Employee> employees = newArrayList();
+  public Employee[] employeesArray = array();
+  public List<Office> nearbyOffices = newArrayList();
 
   public void addEmployee(Employee employee) {
     employees.add(employee);
@@ -33,6 +37,16 @@ public class Office {
   public void addEmployees(Iterable<Employee> employeesToAdd) {
     employeesToAdd.forEach(employees::add);
     employeesArray = employees.toArray(new Employee[] {});
+  }
+
+  public void addNearbyOffice(Office office) {
+    nearbyOffices.add(office);
+  }
+
+  @Override
+  public String toString() {
+    return format("%s[desc=%s, employees=%s, employeesArray=%s, nearby=%s]", description, employees, employeesArray,
+                  nearbyOffices);
   }
 
 }

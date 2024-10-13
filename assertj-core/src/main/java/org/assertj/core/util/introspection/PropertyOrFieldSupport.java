@@ -54,7 +54,9 @@ public class PropertyOrFieldSupport {
 
     if (isNested(propertyOrFieldName)) {
       String firstPropertyName = popNameFrom(propertyOrFieldName);
-      Object propertyOrFieldValue = getSimpleValue(firstPropertyName, input);
+      // extract with or without and index
+      Object propertyOrFieldValue = hasIndex(firstPropertyName) ? getArrayOrListValue(firstPropertyName, input)
+          : getSimpleValue(firstPropertyName, input);
       // when one of the intermediate nested property/field value is null, return null
       if (propertyOrFieldValue == null) return null;
       // extract next sub-property/field value until reaching the last sub-property/field
