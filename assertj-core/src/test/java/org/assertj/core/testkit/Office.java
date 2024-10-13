@@ -45,7 +45,8 @@ public class Office {
 
   @Override
   public String toString() {
-    return format("%s[desc=%s, employees=%s, employeesArray=%s, nearby=%s]", description, employees, employeesArray,
+    return format("%s[desc=%s, employees=%s, employeesArray=%s, nearby=%s]", getClass().getSimpleName(), description, employees,
+                  employeesArray,
                   nearbyOffices);
   }
 
