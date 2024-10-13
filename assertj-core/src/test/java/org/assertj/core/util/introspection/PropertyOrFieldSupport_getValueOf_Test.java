@@ -35,7 +35,7 @@ class PropertyOrFieldSupport_getValueOf_Test {
   private final PropertyOrFieldSupport underTest = PropertyOrFieldSupport.EXTRACTION;
   private final Employee yoda = new Employee(1L, new Name("Yoda"), 800);
   private final Employee luke = new Employee(3L, new Name("Luke", "Skywalker"), 24);
-  private final Employee han = new Employee(3L, new Name("Han"), 31); 
+  private final Employee han = new Employee(3L, new Name("Han"), 31);
   private final Office office = new Office();
   private final Office officeNearby = new Office();
 
@@ -262,7 +262,6 @@ class PropertyOrFieldSupport_getValueOf_Test {
     then(value).isEqualTo(han);
   }
 
-
   @Test
   void should_extract_property_value_with_index_if_array() {
     // WHEN
@@ -303,7 +302,6 @@ class PropertyOrFieldSupport_getValueOf_Test {
     then(value).isEqualTo(yoda);
   }
 
-  
   @Test
   void should_extract_single_value_from_maps_by_key_and_index_when_value_is_array() {
     // GIVEN
