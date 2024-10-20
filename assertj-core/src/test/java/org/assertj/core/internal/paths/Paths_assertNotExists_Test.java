@@ -24,6 +24,8 @@ import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 class Paths_assertNotExists_Test extends PathsBaseTest {
 
@@ -54,6 +56,7 @@ class Paths_assertNotExists_Test extends PathsBaseTest {
   }
 
   @Test
+  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
   void should_fail_if_actual_is_a_symbolic_link_and_target_does_not_exist() throws IOException {
     // GIVEN
     Path target = tempDir.resolve("non-existent");
