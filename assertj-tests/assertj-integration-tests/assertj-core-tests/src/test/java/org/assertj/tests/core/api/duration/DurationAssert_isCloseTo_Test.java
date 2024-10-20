@@ -10,19 +10,17 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.duration;
+package org.assertj.tests.core.api.duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchException;
 import static org.assertj.core.api.Assertions.withMarginOf;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.error.ShouldBeCloseTo.shouldBeCloseTo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.Duration;
-
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -88,10 +86,10 @@ class DurationAssert_isCloseTo_Test {
     Duration expected = null;
     Duration allowedDifference = Duration.ofDays(5);
     // WHEN
-    ThrowingCallable code = () -> assertThat(actual).isCloseTo(expected, allowedDifference);
+    Exception exception = catchException(() -> assertThat(actual).isCloseTo(expected, allowedDifference));
     // THEN
-    thenIllegalArgumentException().isThrownBy(code)
-                                  .withMessage("expected duration should not be null");
+    then(exception).isInstanceOf(IllegalArgumentException.class)
+                   .hasMessage("expected duration should not be null");
   }
 
   @Test
@@ -101,10 +99,10 @@ class DurationAssert_isCloseTo_Test {
     Duration expected = Duration.ofDays(5);
     Duration allowedDifference = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(actual).isCloseTo(expected, allowedDifference);
+    Exception exception = catchException(() -> assertThat(actual).isCloseTo(expected, allowedDifference));
     // THEN
-    thenIllegalArgumentException().isThrownBy(code)
-                                  .withMessage("allowed difference duration should not be null");
+    then(exception).isInstanceOf(IllegalArgumentException.class)
+                   .hasMessage("allowed difference duration should not be null");
   }
 
   @Test
@@ -114,10 +112,10 @@ class DurationAssert_isCloseTo_Test {
     Duration expected = Duration.ofDays(5);
     Duration allowedDifference = Duration.ofDays(-5);
     // WHEN
-    ThrowingCallable code = () -> assertThat(actual).isCloseTo(expected, allowedDifference);
+    Exception exception = catchException(() -> assertThat(actual).isCloseTo(expected, allowedDifference));
     // THEN
-    thenIllegalArgumentException().isThrownBy(code)
-                                  .withMessage("allowed difference duration should be >= 0");
+    then(exception).isInstanceOf(IllegalArgumentException.class)
+                   .hasMessage("allowed difference duration should be >= 0");
   }
 
 }

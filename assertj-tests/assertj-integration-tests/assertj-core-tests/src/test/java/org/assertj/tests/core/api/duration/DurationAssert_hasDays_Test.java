@@ -10,31 +10,28 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.duration;
+package org.assertj.tests.core.api.duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldHaveDuration.shouldHaveMinutes;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveDuration.shouldHaveDays;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.Duration;
-
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov
  */
-@DisplayName("DurationAssert hasMinutes")
-class DurationAssert_hasMinutes_Test {
+class DurationAssert_hasDays_Test {
 
   @Test
-  void should_pass_if_duration_has_matching_minutes() {
+  void should_pass_if_duration_has_matching_days() {
     // GIVEN
-    Duration duration = Duration.ofMinutes(18L);
+    Duration duration = Duration.ofDays(4L);
     // WHEN/THEN
-    assertThat(duration).hasMinutes(18L);
+    assertThat(duration).hasDays(4L);
   }
 
   @Test
@@ -42,19 +39,19 @@ class DurationAssert_hasMinutes_Test {
     // GIVEN
     Duration duration = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(duration).hasMinutes(20L);
+    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasDays(5L));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_duration_does_not_have_matching_minutes() {
+  void should_fail_if_duration_does_not_have_matching_days() {
     // GIVEN
-    Duration duration = Duration.ofMinutes(35L);
+    Duration duration = Duration.ofDays(10L);
     // WHEN
-    ThrowingCallable code = () -> assertThat(duration).hasMinutes(10L);
+    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasDays(15L));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldHaveMinutes(duration, 35L, 10L).create());
+    then(assertionError).hasMessage(shouldHaveDays(duration, 10L, 15L).create());
   }
 
 }

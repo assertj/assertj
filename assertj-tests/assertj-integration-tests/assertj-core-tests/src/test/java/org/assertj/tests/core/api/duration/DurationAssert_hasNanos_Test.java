@@ -10,29 +10,28 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.duration;
+package org.assertj.tests.core.api.duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldHaveDuration.shouldHaveHours;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveDuration.shouldHaveNanos;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.Duration;
-
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov
  */
-class DurationAssert_hasHours_Test {
+class DurationAssert_hasNanos_Test {
 
   @Test
-  void should_pass_if_duration_has_matching_hours() {
+  void should_pass_if_duration_has_matching_nanos() {
     // GIVEN
-    Duration duration = Duration.ofHours(4L);
+    Duration duration = Duration.ofNanos(145692L);
     // WHEN/THEN
-    assertThat(duration).hasHours(4L);
+    assertThat(duration).hasNanos(145692L);
   }
 
   @Test
@@ -40,19 +39,19 @@ class DurationAssert_hasHours_Test {
     // GIVEN
     Duration duration = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(duration).hasHours(5L);
+    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasNanos(190L));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_duration_does_not_have_matching_hours() {
+  void should_fail_if_duration_does_not_have_matching_nanos() {
     // GIVEN
-    Duration duration = Duration.ofHours(10L);
+    Duration duration = Duration.ofNanos(1892L);
     // WHEN
-    ThrowingCallable code = () -> assertThat(duration).hasHours(15L);
+    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasNanos(190L));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldHaveHours(duration, 10L, 15L).create());
+    then(assertionError).hasMessage(shouldHaveNanos(duration, 1892L, 190L).create());
   }
 
 }

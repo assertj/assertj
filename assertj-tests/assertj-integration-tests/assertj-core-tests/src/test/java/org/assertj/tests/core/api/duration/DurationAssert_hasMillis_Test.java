@@ -10,29 +10,28 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.duration;
+package org.assertj.tests.core.api.duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldHaveDuration.shouldHaveDays;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveDuration.shouldHaveMillis;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.Duration;
-
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov
  */
-class DurationAssert_hasDays_Test {
+class DurationAssert_hasMillis_Test {
 
   @Test
-  void should_pass_if_duration_has_matching_days() {
+  void should_pass_if_duration_has_matching_millis() {
     // GIVEN
-    Duration duration = Duration.ofDays(4L);
+    Duration duration = Duration.ofMillis(32893L);
     // WHEN/THEN
-    assertThat(duration).hasDays(4L);
+    assertThat(duration).hasMillis(32893L);
   }
 
   @Test
@@ -40,19 +39,19 @@ class DurationAssert_hasDays_Test {
     // GIVEN
     Duration duration = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(duration).hasDays(5L);
+    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasMillis(190L));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_duration_does_not_have_matching_days() {
+  void should_fail_if_duration_does_not_have_matching_millis() {
     // GIVEN
-    Duration duration = Duration.ofDays(10L);
+    Duration duration = Duration.ofMillis(5866L);
     // WHEN
-    ThrowingCallable code = () -> assertThat(duration).hasDays(15L);
+    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasMillis(758L));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldHaveDays(duration, 10L, 15L).create());
+    then(assertionError).hasMessage(shouldHaveMillis(duration, 5866L, 758L).create());
   }
 
 }

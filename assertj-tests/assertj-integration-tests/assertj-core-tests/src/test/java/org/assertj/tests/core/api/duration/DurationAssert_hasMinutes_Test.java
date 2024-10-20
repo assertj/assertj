@@ -10,29 +10,28 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.duration;
+package org.assertj.tests.core.api.duration;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldHaveDuration.shouldHaveSeconds;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldHaveDuration.shouldHaveMinutes;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.Duration;
-
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Filip Hrisafov
  */
-class DurationAssert_hasSeconds_Test {
+class DurationAssert_hasMinutes_Test {
 
   @Test
-  void should_pass_if_duration_has_matching_seconds() {
+  void should_pass_if_duration_has_matching_minutes() {
     // GIVEN
-    Duration duration = Duration.ofSeconds(120L);
+    Duration duration = Duration.ofMinutes(18L);
     // WHEN/THEN
-    assertThat(duration).hasSeconds(120L);
+    assertThat(duration).hasMinutes(18L);
   }
 
   @Test
@@ -40,19 +39,19 @@ class DurationAssert_hasSeconds_Test {
     // GIVEN
     Duration duration = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(duration).hasSeconds(190L);
+    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasMinutes(20L));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_duration_does_not_have_matching_seconds() {
+  void should_fail_if_duration_does_not_have_matching_minutes() {
     // GIVEN
-    Duration duration = Duration.ofSeconds(120L);
+    Duration duration = Duration.ofMinutes(35L);
     // WHEN
-    ThrowingCallable code = () -> assertThat(duration).hasSeconds(758L);
+    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasMinutes(10L));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldHaveSeconds(duration, 120L, 758L).create());
+    then(assertionError).hasMessage(shouldHaveMinutes(duration, 35L, 10L).create());
   }
 
 }
