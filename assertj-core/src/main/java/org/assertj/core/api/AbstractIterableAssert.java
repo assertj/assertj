@@ -18,6 +18,7 @@ import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
@@ -41,6 +42,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.function.BiConsumer;
@@ -2619,7 +2622,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * <p>The recursive algorithm employs cycle detection, so object graphs with cyclic references can safely be asserted over without causing looping.</p>
    *
-   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the   
+   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
@@ -3258,7 +3261,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Filters the iterable under test keeping only elements matching the given assertions specified with a {@link ThrowingConsumer}.
    * <p>
    * This is the same assertion as {@link #filteredOnAssertions(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example: check young hobbits whose age &lt; 34:
    *
@@ -3522,8 +3525,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Allow to perform assertions on the elements corresponding to the given indices 
-   * (the iterable {@link Iterable} under test is changed to an iterable with the selected elements).  
+   * Allow to perform assertions on the elements corresponding to the given indices
+   * (the iterable {@link Iterable} under test is changed to an iterable with the selected elements).
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
@@ -3577,6 +3580,45 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   private static void assertIndicesIsNotEmpty(int[] indices) {
     if (indices.length == 0) throw new IllegalArgumentException("indices must not be empty");
   }
+
+  /**
+   * If the iterable is a collection, verifies that the actual collection is unmodifiable, i.e., throws an
+   * {@link UnsupportedOperationException} with any attempt to modify the collection. Iterables
+   * that are instance of {@code java.util.Collection} aren't supported, since there isn't a way to
+   * know if the actual class has any mutating methods.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(Collections.unmodifiableCollection(new ArrayList&lt;&gt;())).isUnmodifiable();
+   * assertThat(Collections.unmodifiableList(new ArrayList&lt;&gt;())).isUnmodifiable();
+   * assertThat(Collections.unmodifiableSet(new HashSet&lt;&gt;())).isUnmodifiable();
+   *
+   * // assertions will fail
+   * assertThat(new ArrayList&lt;&gt;()).isUnmodifiable();
+   * assertThat(new HashSet&lt;&gt;()).isUnmodifiable();
+   * assertThat(new MyCustomIterable&lt;&gt;()).isUnmodifiable();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual collection is modifiable.
+   * @see java.util.Collections#unmodifiableCollection(Collection)
+   * @see java.util.Collections#unmodifiableList(List)
+   * @see java.util.Collections#unmodifiableSet (java.util.Set)
+   */
+  @Beta
+  public SELF isUnmodifiable() {
+    isNotNull();
+
+    try {
+      CollectionVisitor<Optional<String>> finder = new MutatingMethodFinder();
+      acceptVisitor(finder).ifPresent(method -> throwAssertionError(shouldBeUnmodifiable(method)));
+    } catch (CollectionVisitor.TargetException e) {
+      throwAssertionError(shouldBeUnmodifiable(e.getMessage(), e.getException()));
+    }
+
+    return myself;
+  }
+
+  protected abstract <T> T acceptVisitor(CollectionVisitor<? extends T> visitor);
 
   private void checkIndexValidity(int index, List<ELEMENT> indexedActual) {
     assertThat(indexedActual).describedAs("check actual size is enough to get element[" + index + "]")
@@ -3704,7 +3746,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions on that element, 
+   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions on that element,
    * the assertions are strongly typed according to the given {@link AssertFactory} parameter.
    * <p>
    * This is a shorthand for <code>hasSize(1).first(assertFactory)</code>.
