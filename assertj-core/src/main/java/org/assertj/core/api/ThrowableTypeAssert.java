@@ -25,7 +25,7 @@ import org.assertj.core.util.VisibleForTesting;
  * <p>
  * The class itself does not do much, it delegates the work to {@link ThrowableAssertAlternative} after calling {@link #isThrownBy(ThrowingCallable)}.
  *
- * @param <T> type of throwable to be thrown.
+ * @param <T> expected type of throwable to assert.
  * @see NotThrownAssert
  */
 public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<ThrowableTypeAssert<T>> {
@@ -45,7 +45,7 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
   }
 
   /**
-   * Assert that an exception of type T is thrown by the {@code throwingCallable}
+   * Assert that an exception of type {@link T} is thrown by the {@code throwingCallable}
    * and allow to chain assertions on the thrown exception.
    * <p>
    * Example:
@@ -61,6 +61,25 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
     @SuppressWarnings("unchecked")
     T castThrowable = (T) throwable;
     return buildThrowableTypeAssert(castThrowable).as(description);
+  }
+
+  /**
+   * Assert that the {@code throwingCallable} does not throw exception or throw an exception which is not type {@link T}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> assertThatExceptionOfType(IllegalArgumentException.class).isNotThrownBy(() -&gt; { throw new IllegalStateException("boom!"); });</code></pre>
+   *
+   * @param throwingCallable code will not throw the exception of expected type
+   */
+  public void isNotThrownBy(final ThrowingCallable throwingCallable) {
+    Throwable throwable = ThrowableAssert.catchThrowable(throwingCallable);
+    if (throwable != null) {
+      checkNotThrowableType(throwable);
+    }
+  }
+
+  protected void checkNotThrowableType(Throwable throwable) {
+    assertThat(throwable).as(description).hasBeenThrown().isNotInstanceOf(expectedThrowableType);
   }
 
   protected void checkThrowableType(Throwable throwable) {
