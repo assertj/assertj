@@ -10,14 +10,13 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.boolean_;
+package org.assertj.tests.core.api.boolean_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.api.Assertions.catchException;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.Comparator;
-
 import org.junit.jupiter.api.Test;
 
 class BooleanAssert_usingComparator_Test {
@@ -26,9 +25,11 @@ class BooleanAssert_usingComparator_Test {
   @SuppressWarnings("deprecation")
   void should_prevent_using_comparator_for_boolean_assertions() {
     // GIVEN
-    // we don't care of the comparator, the point to check is that we can't use a comparator
-    Comparator<Boolean> comparator = alwaysEqual();
-    // WHEN/THEN
-    assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(() -> assertThat(true).usingComparator(comparator));
+    Comparator<Boolean> comparator = (o1, o2) -> 0;
+    // WHEN
+    Exception exception = catchException(() -> assertThat(true).usingComparator(comparator));
+    // THEN
+    then(exception).isInstanceOf(UnsupportedOperationException.class);
   }
+
 }

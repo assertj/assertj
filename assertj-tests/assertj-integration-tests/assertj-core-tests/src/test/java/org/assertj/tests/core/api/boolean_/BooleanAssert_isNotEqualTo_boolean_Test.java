@@ -10,14 +10,14 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.boolean_;
+package org.assertj.tests.core.api.boolean_;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
@@ -54,4 +54,5 @@ class BooleanAssert_isNotEqualTo_boolean_Test {
     // THEN
     then(assertionError).hasMessage(shouldNotBeEqual(actual, expected).create());
   }
+
 }

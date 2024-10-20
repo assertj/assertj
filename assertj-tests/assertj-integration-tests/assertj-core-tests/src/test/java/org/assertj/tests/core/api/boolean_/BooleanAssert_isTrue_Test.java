@@ -10,15 +10,13 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.boolean_;
+package org.assertj.tests.core.api.boolean_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 import static org.assertj.core.error.ShouldBeTrue.shouldBeTrue;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +27,7 @@ class BooleanAssert_isTrue_Test {
     // GIVEN
     Boolean actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isTrue());
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isTrue());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -39,7 +37,7 @@ class BooleanAssert_isTrue_Test {
     // GIVEN
     boolean actual = true;
     // WHEN/THEN
-    then(actual).isTrue();
+    assertThat(actual).isTrue();
   }
 
   @Test
@@ -47,7 +45,7 @@ class BooleanAssert_isTrue_Test {
     // GIVEN
     Boolean actual = true;
     // WHEN/THEN
-    then(actual).isTrue();
+    assertThat(actual).isTrue();
   }
 
   @Test
@@ -57,7 +55,7 @@ class BooleanAssert_isTrue_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isTrue());
     // THEN
-    then(assertionError).hasMessage(shouldBeTrue(actual).create(emptyDescription(), STANDARD_REPRESENTATION));
+    then(assertionError).hasMessage(shouldBeTrue(actual).create());
   }
 
   @Test
@@ -67,7 +65,7 @@ class BooleanAssert_isTrue_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isTrue());
     // THEN
-    then(assertionError).hasMessage(shouldBeTrue(actual).create(emptyDescription(), STANDARD_REPRESENTATION));
+    then(assertionError).hasMessage(shouldBeTrue(actual).create());
   }
 
 }

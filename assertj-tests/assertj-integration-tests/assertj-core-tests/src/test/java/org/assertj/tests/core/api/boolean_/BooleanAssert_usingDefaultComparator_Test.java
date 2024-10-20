@@ -10,12 +10,12 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.boolean_;
+package org.assertj.tests.core.api.boolean_;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 
-import org.assertj.core.api.BooleanAssert;
+import org.assertj.core.api.AbstractBooleanAssert;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.Test;
 
@@ -24,9 +24,10 @@ class BooleanAssert_usingDefaultComparator_Test {
   @Test
   void should_support_default_comparator() {
     // WHEN
-    BooleanAssert assertions = (BooleanAssert) assertThat(true).usingDefaultComparator();
+    AbstractBooleanAssert<?> assertions = assertThat(true).usingDefaultComparator();
     // THEN
     then(assertions).extracting("objects").isSameAs(Objects.instance())
                     .extracting("comparator").isNull();
   }
+
 }
