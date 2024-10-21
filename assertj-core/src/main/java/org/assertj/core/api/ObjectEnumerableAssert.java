@@ -1626,6 +1626,34 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF anyMatch(Predicate<? super ELEMENT> predicate);
 
   /**
+   * Verifies whether any elements match the provided {@link Predicate}. The predicate description is used
+   * to get an informative error message.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
+   *
+   * // assertion will pass
+   * assertThat(abcc).anyMatch(s -&gt; s.length() == 2, "length of 2");
+   *
+   * // assertion will fail
+   * assertThat(abcc).anyMatch(s -&gt; s.length() &gt; 2, "length greater than 2);</code></pre>
+   *
+   * The message of the failed assertion would be:
+   * <pre><code class='java'>Expecting any elements of:
+   *  &lt;["a", "b", "cc"]&gt;
+   *  to match 'length greater than 2' predicate but none did.</code></pre>
+   *
+   *
+   * @param predicate the given {@link Predicate}.
+   * @param predicateDescription a description of the {@link Predicate} used in the error message
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if no elements satisfy the given predicate.
+   * @since 3.27.0
+   */
+  SELF anyMatch(Predicate<? super ELEMENT> predicate, String predicateDescription);
+
+  /**
    * Verifies that at least one element satisfies the given requirements expressed as a {@link Consumer}.
    * <p>
    * This is useful to check that a group of assertions is verified by (at least) one element.
@@ -1821,4 +1849,33 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.9.0
    */
   SELF noneMatch(Predicate<? super ELEMENT> predicate);
+
+  /**
+   * Verifies that no elements match the given {@link Predicate}. The predicate description is used
+   * to get an informative error message.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
+   *
+   * // assertion will pass
+   * assertThat(abcc).noneMatch(s -&gt; s.isEmpty(), "is empty");
+   *
+   * // assertion will fail
+   * assertThat(abcc).noneMatch(s -&gt; s.length() == 2, "length of 2");</code></pre>
+   *
+   * The message of the failed assertion would be:
+   * <pre><code class='java'>Expecting no elements of:
+   *  &lt;["a", "b", "cc"]&gt;
+   *  to match 'length of 2' predicate but this element did:
+   *  &lt;"cc"&gt;</code></pre>
+   *
+   *
+   * @param predicate the given {@link Predicate}.
+   * @param predicateDescription a description of the {@link Predicate} used in the error message
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if any elements satisfy the given predicate.
+   * @since 3.27.0
+   */
+  SELF noneMatch(Predicate<? super ELEMENT> predicate, String predicateDescription);
 }
