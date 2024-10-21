@@ -3388,6 +3388,37 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
+   * Verifies whether any elements match the provided {@link Predicate}. The predicate description is used
+   * to get an informative error message.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abcc = { "a", "b", "cc" };
+   *
+   * // assertion will pass
+   * assertThat(abcc).anyMatch(s -&gt; s.length() == 2, "length of 2");
+   *
+   * // assertion will fail
+   * assertThat(abcc).anyMatch(s -&gt; s.length() &gt; 2, "length greater than 2);</code></pre>
+   *
+   * The message of the failed assertion would be:
+   * <pre><code class='java'>Expecting any elements of:
+   *  &lt;["a", "b", "cc"]&gt;
+   *  to match 'length greater than 2' predicate but none did.</code></pre>
+   *
+   * @param predicate the given {@link Predicate}.
+   * @param predicateDescription a description of the {@link Predicate} used in the error message
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if no elements satisfy the given predicate.
+   * @since 3.27.0
+   */
+  @Override
+  public SELF anyMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
+    iterables.assertAnyMatch(info, newArrayList(actual), predicate, new PredicateDescription(predicateDescription));
+    return myself;
+  }
+
+  /**
    * Verifies that the zipped pairs of actual and other elements, i.e: (actual 1st element, other 1st element), (actual 2nd element, other 2nd element), ...
    * all satisfy the given {@code zipRequirements}.
    * <p>
@@ -3910,6 +3941,38 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF noneMatch(Predicate<? super ELEMENT> predicate) {
     iterables.assertNoneMatch(info, newArrayList(actual), predicate, PredicateDescription.GIVEN);
+    return myself;
+  }
+
+  /**
+   * Verifies that no elements match the given {@link Predicate}. The predicate description is used
+   * to get an informative error message.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abcc = { "a", "b", "cc" };
+   *
+   * // assertion will pass
+   * assertThat(abcc).noneMatch(s -&gt; s.isEmpty(), "is empty");
+   *
+   * // assertion will fail
+   * assertThat(abcc).noneMatch(s -&gt; s.length() == 2, "length of 2");</code></pre>
+   *
+   * The message of the failed assertion would be:
+   * <pre><code class='java'>Expecting no elements of:
+   *  &lt;["a", "b", "cc"]&gt;
+   *  to match 'length of 2' predicate but this element did:
+   *  &lt;"cc"&gt;</code></pre>
+   *
+   * @param predicate the given {@link Predicate}.
+   * @param predicateDescription a description of the {@link Predicate} used in the error message
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if any elements satisfy the given predicate.
+   * @since 3.27.0
+   */
+  @Override
+  public SELF noneMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
+    iterables.assertNoneMatch(info, newArrayList(actual), predicate, new PredicateDescription(predicateDescription));
     return myself;
   }
 
