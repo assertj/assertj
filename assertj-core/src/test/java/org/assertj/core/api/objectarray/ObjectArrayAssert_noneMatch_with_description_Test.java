@@ -39,6 +39,6 @@ class ObjectArrayAssert_noneMatch_with_description_Test extends ObjectArrayAsser
   @Override
   protected void verify_internal_effects() {
     verify(iterables).assertNoneMatch(getInfo(assertions), newArrayList(getActual(assertions)), predicate,
-                                     new PredicateDescription("custom"));
+                                      new PredicateDescription("custom"));
   }
 }

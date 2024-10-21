@@ -39,6 +39,6 @@ class AtomicReferenceArrayAssert_noneMatch_with_description_Test extends AtomicR
   @Override
   protected void verify_internal_effects() {
     verify(iterables).assertNoneMatch(info(), newArrayList(internalArray()), predicate,
-                                     new PredicateDescription("custom"));
+                                      new PredicateDescription("custom"));
   }
 }
