@@ -30,6 +30,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -1030,6 +1031,21 @@ public class Assumptions {
    */
   @SuppressWarnings("unchecked")
   public static <T extends Throwable> AbstractThrowableAssert<?, T> assumeThat(T actual) {
+    return asAssumption(ThrowableAssert.class, Throwable.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ThrowableAssert}</code> assumption.
+   * This overload's purpose is to disambiguate the call for <code>{@link SQLException}</code>.
+   * Indeed, this class implements <code>{@link Iterable}</code> and is considered ambiguous.
+   *
+   * @param <T> the type of the actual SQL exception.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 3.23.1
+   */
+  @SuppressWarnings("unchecked")
+  public static <T extends SQLException> AbstractThrowableAssert<?, T> assumeThat(T actual) {
     return asAssumption(ThrowableAssert.class, Throwable.class, actual);
   }
 

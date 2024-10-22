@@ -22,6 +22,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -465,6 +466,20 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created {@link ThrowableAssert}.
    */
   default <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(final T actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ThrowableAssert}</code>.
+   * This overload's purpose is to disambiguate the call for <code>{@link SQLException}</code>.
+   * Indeed, this class implements <code>{@link Iterable}</code> and is considered ambiguous.
+   *
+   * @param <T> the type of the actual SQL exception.
+   * @param actual the actual value.
+   * @return the created {@link ThrowableAssert}.
+   * @since 3.23.1
+   */
+  default <T extends SQLException> AbstractThrowableAssert<?, T> assertThat(final T actual) {
     return Assertions.assertThat(actual);
   }
 
