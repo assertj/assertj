@@ -18,10 +18,13 @@ import static org.assertj.guava.error.MultisetShouldContainAtMostTimes.shouldCon
 import static org.assertj.guava.error.MultisetShouldContainTimes.shouldContainTimes;
 
 import org.assertj.core.api.AbstractIterableAssert;
+import org.assertj.core.api.CollectionVisitor;
 import org.assertj.core.api.ObjectAssert;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
+
+import java.util.Objects;
 
 /**
  *
@@ -151,5 +154,11 @@ public class MultisetAssert<T> extends AbstractIterableAssert<MultisetAssert<T>,
     Multiset<T> filtered = HashMultiset.create();
     iterable.forEach(filtered::add);
     return new MultisetAssert<>(filtered);
+  }
+
+  @Override
+  protected <T> T acceptVisitor(CollectionVisitor<? extends T> visitor) {
+    Objects.requireNonNull(visitor, "visitor can't be null");
+    return visitor.visitCollection(actual);
   }
 }
