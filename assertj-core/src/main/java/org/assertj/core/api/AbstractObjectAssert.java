@@ -662,6 +662,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
+   * For convenience, arrays and {@code List} fields or properties can be indexed using 'name[index]' (since 3.26.4).
+   * <p>
    * If you are looking to chain multiple assertions on different properties in a type safe way, consider chaining
    * {@link #returns(Object, Function)} and {@link #doesNotReturn(Object, Function)} calls.
    * <p>
@@ -669,19 +671,27 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
    *   private int age;
+   *   private List<TolkienCharacter> friends;
    *   // constructor omitted
    *
    *   public String getName() {
    *     return this.name;
    *   }
+   *
+   *   public void addFriend(TolkienCharacter character) {
+   *     friends.add(character);
+   *   }
    * }
    *
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33);
+   * TolkienCharacter sam = new TolkienCharacter("Sam", 34);
+   * frodo.addFriend(sam);
    * TolkienCharacter noname = new TolkienCharacter(null, 33);
    *
    * // assertions will pass :
    * assertThat(frodo).hasFieldOrPropertyWithValue("name", "Frodo");
    * assertThat(frodo).hasFieldOrPropertyWithValue("age", 33);
+   * assertThat(frodo).hasFieldOrPropertyWithValue("friends[0]", sam);
    * assertThat(noname).hasFieldOrPropertyWithValue("name", null);
    *
    * // assertions will fail :
@@ -697,6 +707,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param value the field/property expected value
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
+   * @throws AssertionError if using an index that is out of bounds.
    * @throws IllegalArgumentException if name is {@code null}.
    * @throws AssertionError if the actual object does not have the given field/property
    * @throws AssertionError if the actual object has the given field/property but not with the expected value
