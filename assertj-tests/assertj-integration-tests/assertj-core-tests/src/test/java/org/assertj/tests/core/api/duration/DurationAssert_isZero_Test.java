@@ -44,7 +44,7 @@ class DurationAssert_isZero_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isZero());
     // THEN
-    then(assertionError).hasMessage("\nexpected: %s\n but was: %s",
+    then(assertionError).hasMessage("%nexpected: %s%n but was: %s",
                                     STANDARD_REPRESENTATION.toStringOf(Duration.ZERO),
                                     STANDARD_REPRESENTATION.toStringOf(actual));
   }
