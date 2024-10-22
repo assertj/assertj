@@ -12,6 +12,8 @@
  */
 package org.assertj.core.api;
 
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
@@ -271,6 +273,28 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
   @SuppressWarnings("unchecked")
   default <RESULT> CompletableFutureAssert<RESULT> then(CompletionStage<RESULT> actual) {
     return proxy(CompletableFutureAssert.class, CompletionStage.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link Buffer}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  default BufferAssert then(Buffer actual) {
+    return proxy(BufferAssert.class, Buffer.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link ByteBuffer}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  default ByteBufferAssert then(ByteBuffer actual) {
+    return proxy(ByteBufferAssert.class, ByteBuffer.class, actual);
   }
 
   /**

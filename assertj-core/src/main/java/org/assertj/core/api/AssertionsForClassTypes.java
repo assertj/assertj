@@ -20,6 +20,8 @@ import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.text.DateFormat;
@@ -88,6 +90,28 @@ public class AssertionsForClassTypes {
    */
   public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
     return new CompletableFutureAssert<>(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.nio.Buffer}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static BufferAssert assertThat(Buffer actual) {
+    return new BufferAssert(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.nio.ByteBuffer}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static ByteBufferAssert assertThat(ByteBuffer actual) {
+    return new ByteBufferAssert(actual);
   }
 
   /**
