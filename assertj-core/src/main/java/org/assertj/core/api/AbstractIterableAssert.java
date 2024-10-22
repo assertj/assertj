@@ -3848,6 +3848,15 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF anyMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
+    iterables.assertAnyMatch(info, actual, predicate, new PredicateDescription(predicateDescription));
+    return myself;
+  }
+
+  /**
    * Verifies that the zipped pairs of actual and other elements, i.e: (actual 1st element, other 1st element), (actual 2nd element, other 2nd element), ...
    * all satisfy the given {@code zipRequirements}.
    * <p>
@@ -4149,6 +4158,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   public SELF noneMatch(Predicate<? super ELEMENT> predicate) {
     iterables.assertNoneMatch(info, actual, predicate, PredicateDescription.GIVEN);
+    return myself;
+  }
+
+  @Override
+  public SELF noneMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
+    iterables.assertNoneMatch(info, actual, predicate, new PredicateDescription(predicateDescription));
     return myself;
   }
 

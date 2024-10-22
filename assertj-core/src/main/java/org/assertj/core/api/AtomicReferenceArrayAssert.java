@@ -3469,6 +3469,15 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> anyMatch(Predicate<? super T> predicate, String predicateDescription) {
+    iterables.assertAnyMatch(info, newArrayList(array), predicate, new PredicateDescription(predicateDescription));
+    return myself;
+  }
+
+  /**
    * Verifies that at least one element satisfies the given requirements expressed as a {@link Consumer}.
    * <p>
    * This is useful to check that a group of assertions is verified by (at least) one element.
@@ -3980,6 +3989,15 @@ public class AtomicReferenceArrayAssert<T>
   @Override
   public AtomicReferenceArrayAssert<T> noneMatch(Predicate<? super T> predicate) {
     iterables.assertNoneMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN);
+    return myself;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public AtomicReferenceArrayAssert<T> noneMatch(Predicate<? super T> predicate, String predicateDescription) {
+    iterables.assertNoneMatch(info, newArrayList(array), predicate, new PredicateDescription(predicateDescription));
     return myself;
   }
 
