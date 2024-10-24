@@ -18,6 +18,8 @@ We appreciate your effort and to make sure that your pull request is easy to rev
 * Use `AssertionUtil.expectAssertionError` for tests expecting to get an `AssertionError` - see `OptionalAssert_containsInstanceOf_Test` below for an example.
 * Use static import when it makes the code more readable.
 * If possible, add a (fun) code example in [assertj-examples](https://github.com/assertj/assertj-examples) and use it in the Javadoc.
+* Execute `./mvnw spotless:apply` before submitting your PR, otherwise if the code is not formatted correctly the build will fail
+* You can execute `./mvnw clean install` to make sure all tests are passing
 
 A good unit test to use as a reference is `OptionalAssert_containsInstanceOf_Test`, here's a sample below:
 
