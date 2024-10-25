@@ -671,7 +671,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <pre><code class='java'> public class TolkienCharacter {
    *   private String name;
    *   private int age;
-   *   private List<TolkienCharacter> friends;
+   *   private List&lt;TolkienCharacter&gt; friends;
    *   // constructor omitted
    *
    *   public String getName() {
