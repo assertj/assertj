@@ -1,25 +1,25 @@
 Contributing
 ============
 
-Thank you for your interest in contributing to AssertJ!
+We appreciate your interest in contributing to AssertJ!
 
-We appreciate your effort and to make sure that your pull request is easy to review, we ask you to note the following guidelines including legal contributor agreement:
+We appreciate your effort, and to make sure that your pull request is easy to review, we ask you to note the following guidelines, including legal contributor agreement:
 
 * Use JDK 21 or newer to build the project.
 * Use **[AssertJ code Eclipse formatting preferences](eclipse/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the [Adapter for Eclipse Code Formatter](https://plugins.jetbrains.com/plugin/6546-adapter-for-eclipse-code-formatter) plugin)
-* Write complete Javadocs for each assertion method and include a code example (succeeding and failing assertion(s)).
-* As we use JUnit 5, favor `package-private` visibility for both test classes and test methods.
+* Write a complete Javadoc for each assertion method with a code example (succeeding and failing assertion(s)).
+* As we use JUnit 5, favor `package-private` visibility for test classes and methods.
 * Write one JUnit test class for each assertion method with the following naming convention: `<AssertClass>_<assertion>_Test`.
-* Write unit test assertions with AssertJ! Let's eat our own dog food.
+* Write test assertions with AssertJ! Let's eat our own dog food.
 * The unit test method naming convention is underscore-based (like Python) rather than camel-case; we find it more readable for long test names!
 * Successful assertion unit test method names should start with: `should_pass_xxx` (if you find a better test name, use your best judgment and go for it!)
 * Failing assertion unit test method names should start with: `should_fail_xxx`. (if you find a better test name, use your best judgment and go for it!)
-* Put `GIVEN` `WHEN` `THEN` steps in each test, prefer `BDDAssertions.then` over `Assertions.assertThat` for assertions in the `THEN` step. Steps can be combined or omitted if a separate step does not provide much benefit to test readability, just ensure that the WHEN step (either single or combined) contains the test target.
-* Use `AssertionUtil.expectAssertionError` for tests expecting to get an `AssertionError` - see `OptionalAssert_containsInstanceOf_Test` below for an example.
+* Put `GIVEN` `WHEN` `THEN` steps in each test; prefer `BDDAssertions.then` over `Assertions.assertThat` for assertions in the `THEN` step. Steps can be combined or omitted if a separate step does not provide much benefit to test readability; just ensure that the WHEN step (either single or combined) contains the test target.
+* Use `AssertionUtil.expectAssertionError` for tests expecting an `AssertionError` - see `OptionalAssert_containsInstanceOf_Test` below for an example.
 * Use static import when it makes the code more readable.
 * If possible, add a (fun) code example in [assertj-examples](https://github.com/assertj/assertj-examples) and use it in the Javadoc.
-* Execute `./mvnw spotless:apply` before submitting your PR, otherwise if the code is not formatted correctly the build will fail
-* You can execute `./mvnw clean install` to make sure all tests are passing
+* Execute `./mvnw spotless:apply` before submitting your PR, otherwise the build will fail if the code is not formatted correctly
+* You can execute `./mvnw clean verify` to make sure all tests are passing
 
 A good unit test to use as a reference is `OptionalAssert_containsInstanceOf_Test`, here's a sample below:
 
@@ -51,7 +51,7 @@ class OptionalAssert_containsInstanceOf_Test extends BaseTest {
 }
 ```
 
-It's ok not to follow some rules described above if you have a good reason not to (use your best judgment).
+It's okay not to follow some of the rules described above if you have a good reason not to (use your best judgment).
 
 [assertj-examples](https://github.com/assertj/assertj-examples) shows how to efficiently use AssertJ through fun unit test examples, it is a kind of living documentation.
 
@@ -120,7 +120,7 @@ BAD! (not in the same line)
  * String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
 ```
 
-To see what the Javadoc actually looks like, simply generate it and read it in your browser.
+You can generate the Javadoc and read it in your browser to see what it actually looks like.
 
 ## Binary compatibility
 
@@ -141,7 +141,7 @@ These are not automatically rejected, but we will carefully evaluate each one to
 
 ## Using Gitpod
 
-To avoid setting up your local development environment, you can use [Gitpod](https://www.gitpod.io/) and develop directly in browser-based Visual Studio Code, or [JetBrains Client via JetBrains Gateway](https://www.gitpod.io/docs/ides-and-editors/jetbrains-gateway).
+To avoid setting up your local development environment, you can use [Gitpod](https://www.gitpod.io/) and develop directly in browser-based Visual Studio Code or [JetBrains Client via JetBrains Gateway](https://www.gitpod.io/docs/ides-and-editors/jetbrains-gateway).
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
 
