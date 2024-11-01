@@ -12,8 +12,9 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
+import static org.assertj.core.api.Assertions.catchRuntimeException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHavePropertyOrField.shouldHavePropertyOrField;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -50,7 +51,7 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrProperty(INFO, actual, "field1"));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -61,7 +62,7 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrProperty(INFO, actual, fieldName));
     // THEN
-    assertThat(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
+    then(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
   }
 
   @Test
@@ -72,7 +73,7 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrProperty(INFO, actual, fieldName));
     // THEN
-    assertThat(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
+    then(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
   }
 
   @Test
@@ -80,9 +81,30 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = new Data();
     String fieldName = null;
+    // WHEN
+    RuntimeException exception = catchIllegalArgumentException(() -> objects.assertHasFieldOrProperty(INFO, actual, fieldName));
+    // THEN
+    then(exception).hasMessage("The name of the property/field to read should not be null");
+  }
+
+  @Test
+  void should_use_field_if_getters_throws_exception() {
+    // GIVEN
+    Object actual = new Data();
+    String fieldName = "fieldWithGetterThrowing";
     // WHEN/THEN
-    assertThatIllegalArgumentException().isThrownBy(() -> objects.assertHasFieldOrProperty(INFO, actual, fieldName))
-                                        .withMessage("The name of the property/field to read should not be null");
+    objects.assertHasFieldOrProperty(INFO, actual, fieldName);
+  }
+
+  @Test
+  void should_rethrow_getter_exception_if_field_is_missing() {
+    // GIVEN
+    Object actual = new Data();
+    String fieldName = "unknownFieldWithGetterThrowing";
+    // WHEN
+    RuntimeException exception = catchRuntimeException(() -> objects.assertHasFieldOrProperty(INFO, actual, fieldName));
+    // THEN
+    then(exception).hasMessage("some dummy exception");
   }
 
   @SuppressWarnings("unused")
@@ -90,6 +112,7 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
 
     private Object field1;
     private Object field2;
+    private Object fieldWithGetterThrowing;
     private static Object staticField;
 
     @Override
@@ -101,5 +124,13 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
       return null;
     }
 
+    public Object getUnknownFieldWithGetterThrowing() {
+      throw new RuntimeException("some dummy exception");
+    }
+
+    public Object getFieldWithGetterThrowing() {
+      throw new RuntimeException("some dummy exception");
+    }
   }
+
 }

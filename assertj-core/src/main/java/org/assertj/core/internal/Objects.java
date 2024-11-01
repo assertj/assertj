@@ -229,7 +229,8 @@ public class Objects {
   }
 
   public void assertNull(AssertionInfo info, Object actual) {
-    if (actual != null) throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
+    if (actual != null)
+      throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
   }
 
   public void assertNotNull(AssertionInfo info, Object actual) {
@@ -525,6 +526,8 @@ public class Objects {
     try {
       extractPropertyOrField(actual, name);
     } catch (IntrospectionError error) {
+      error.getterInvocationException()
+           .ifPresent(this::throwAsRuntime);
       throw failures.failure(info, shouldHavePropertyOrField(actual, name));
     }
   }
@@ -568,7 +571,8 @@ public class Objects {
   public <A> void assertDoesNotHaveSameHashCodeAs(AssertionInfo info, A actual, Object other) {
     assertNotNull(info, actual);
     requireNonNull(other, "The object used to compare actual's hash code with should not be null");
-    if (actual.hashCode() == other.hashCode()) throw failures.failure(info, shouldNotHaveSameHashCode(actual, other));
+    if (actual.hashCode() == other.hashCode())
+      throw failures.failure(info, shouldNotHaveSameHashCode(actual, other));
   }
 
   private static class ByFieldsComparison {
@@ -595,4 +599,10 @@ public class Objects {
 
   }
 
+  private void throwAsRuntime(Throwable ex) {
+    if (ex instanceof RuntimeException) {
+      throw (RuntimeException) ex;
+    }
+    throw new RuntimeException(ex);
+  }
 }
