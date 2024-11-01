@@ -12,8 +12,7 @@
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.error.ShouldHavePropertyOrField.shouldHavePropertyOrField;
 import static org.assertj.core.error.ShouldHavePropertyOrFieldWithValue.shouldHavePropertyOrFieldWithValue;
 import static org.assertj.core.test.TestData.someInfo;
@@ -21,6 +20,8 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.ThrowableAssert;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -107,18 +108,16 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
   }
 
   @Test
-  void should_fail_if_getters_throws_exception_and_field_is_missing() {
+  void should_rethrow_getter_exception_if_field_is_missing() {
     // GIVEN
     Object actual = new Data();
     String fieldName = "unknownFieldWithGetterThrowing";
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "foo"));
+    ThrowingCallable test = () -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "foo");
     // THEN
-    assertThat(error)
-                     .isInstanceOf(AssertionError.class)
-                     .hasMessageContainingAll(
-                                              "Expecting",
-                                              "to have a property or a field named \"unknownFieldWithGetterThrowing\"");
+    assertThatThrownBy(test)
+                            .isInstanceOf(RuntimeException.class)
+                            .hasMessage("some dummy exception");
   }
 
   @SuppressWarnings("unused")
