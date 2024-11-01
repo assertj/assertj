@@ -97,11 +97,36 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
                                         .withMessage("The name of the property/field to read should not be null");
   }
 
+  @Test
+  void should_use_field_if_getters_throws_exception() {
+    // GIVEN
+    Object actual = new Data();
+    String fieldName = "fieldWithGetterThrowing";
+    // WHEN/THEN
+    objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "dummy");
+  }
+
+  @Test
+  void should_fail_if_getters_throws_exception_and_field_is_missing() {
+    // GIVEN
+    Object actual = new Data();
+    String fieldName = "unknownFieldWithGetterThrowing";
+    // WHEN
+    AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "foo"));
+    // THEN
+    assertThat(error)
+                     .isInstanceOf(AssertionError.class)
+                     .hasMessageContainingAll(
+                                              "Expecting",
+                                              "to have a property or a field named \"unknownFieldWithGetterThrowing\"");
+  }
+
   @SuppressWarnings("unused")
   private static class Data {
 
     private Object field1 = "foo";
     private Object field2;
+    private Object fieldWithGetterThrowing = "dummy";
     private static Object staticField;
 
     @Override
@@ -113,5 +138,12 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
       return "bar";
     }
 
+    public Object getUnknownFieldWithGetterThrowing() {
+      throw new RuntimeException("some dummy exception");
+    }
+
+    public Object getFieldWithGetterThrowing() {
+      return fieldWithGetterThrowing;
+    }
   }
 }
