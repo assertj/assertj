@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
@@ -69,6 +70,10 @@ public final class Introspection {
       // force access for static class with public getter
       getter.setAccessible(true);
       getter.invoke(target);
+    } catch (InvocationTargetException ex) {
+      String message = String.format("Unable to invoke getter %s in %s, exception: %s",
+                                     getter.getName(), target.getClass().getSimpleName(), ex.getTargetException());
+      throw new IntrospectionError(message, ex, ex.getTargetException());
     } catch (Exception t) {
       throw new IntrospectionError(propertyNotFoundErrorMessage("Unable to find property %s in %s", propertyName, target), t);
     }

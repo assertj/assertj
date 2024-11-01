@@ -12,15 +12,26 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.error.GroupTypeDescription;
+import org.assertj.core.internal.DeepDifference.Difference;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.introspection.FieldSupport;
+import org.assertj.core.util.introspection.IntrospectionError;
+import org.assertj.core.util.introspection.PropertyOrFieldSupport;
+import org.assertj.core.util.introspection.PropertySupport;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.*;
+
 import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
 import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toCollection;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.*;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.error.ShouldBeEqualByComparingOnlyGivenFields.shouldBeEqualComparingOnlyGivenFields;
@@ -57,24 +68,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.introspection.ClassUtils.isInJavaLangPackage;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.Comparator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.error.GroupTypeDescription;
-import org.assertj.core.internal.DeepDifference.Difference;
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.introspection.FieldSupport;
-import org.assertj.core.util.introspection.IntrospectionError;
-import org.assertj.core.util.introspection.PropertyOrFieldSupport;
-import org.assertj.core.util.introspection.PropertySupport;
 
 /**
  * Reusable assertions for {@code Object}s.
@@ -229,7 +222,8 @@ public class Objects {
   }
 
   public void assertNull(AssertionInfo info, Object actual) {
-    if (actual != null) throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
+    if (actual != null)
+      throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
   }
 
   public void assertNotNull(AssertionInfo info, Object actual) {
@@ -524,6 +518,8 @@ public class Objects {
     try {
       extractPropertyOrField(actual, name);
     } catch (IntrospectionError error) {
+      error.getterInvocationException()
+           .ifPresent(this::throwAsRuntime);
       throw failures.failure(info, shouldHavePropertyOrField(actual, name));
     }
   }
@@ -567,7 +563,8 @@ public class Objects {
   public <A> void assertDoesNotHaveSameHashCodeAs(AssertionInfo info, A actual, Object other) {
     assertNotNull(info, actual);
     requireNonNull(other, "The object used to compare actual's hash code with should not be null");
-    if (actual.hashCode() == other.hashCode()) throw failures.failure(info, shouldNotHaveSameHashCode(actual, other));
+    if (actual.hashCode() == other.hashCode())
+      throw failures.failure(info, shouldNotHaveSameHashCode(actual, other));
   }
 
   private static class ByFieldsComparison {
@@ -594,4 +591,10 @@ public class Objects {
 
   }
 
+  private void throwAsRuntime(Throwable ex) {
+    if (ex instanceof RuntimeException) {
+      throw (RuntimeException) ex;
+    }
+    throw new RuntimeException(ex);
+  }
 }
