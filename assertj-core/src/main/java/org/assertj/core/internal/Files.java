@@ -21,6 +21,7 @@ import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEmptyDirectory.shouldBeEmptyDirectory;
+import static org.assertj.core.error.ShouldBeEncodedIn.shouldBeEncodedIn;
 import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldBeReadable.shouldBeReadable;
@@ -40,6 +41,7 @@ import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotBeEncodedIn.shouldNotBeEncodedIn;
 import static org.assertj.core.error.ShouldNotContain.directoryShouldNotContain;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.internal.Digests.digestDiff;
@@ -64,6 +66,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 
@@ -76,6 +79,7 @@ import org.assertj.core.util.diff.Delta;
  * @author Olivier Demeijer
  * @author Valeriy Vyrva
  * @author Rostyslav Ivankiv
+ * @author Ludovic VIEGAS
  */
 public class Files {
 
@@ -452,6 +456,24 @@ public class Files {
     assertNotNull(info, actual);
     if (actual.getParentFile() == null) return;
     throw failures.failure(info, shouldHaveNoParent(actual));
+  }
+
+  public void assertIsEncodedIn(WritableAssertionInfo info, File actual, Charset charset, boolean lenient) {
+    requireNonNull(charset, "The charset should not be null.");
+    assertIsFile(info, actual);
+    assertCanRead(info, actual);
+
+    List<EncodingIssue> issues = new Encoding(charset, lenient).validate(actual);
+    if (!issues.isEmpty()) throw failures.failure(info, shouldBeEncodedIn(actual, charset, issues));
+  }
+
+  public void assertIsNotEncodedIn(WritableAssertionInfo info, File actual, Charset charset, boolean lenient) {
+    requireNonNull(charset, "The charset should not be null.");
+    assertIsFile(info, actual);
+    assertCanRead(info, actual);
+
+    List<EncodingIssue> issues = new Encoding(charset, lenient).validate(actual);
+    if (issues.isEmpty()) throw failures.failure(info, shouldNotBeEncodedIn(actual, charset));
   }
 
   public void assertHasDigest(AssertionInfo info, File actual, MessageDigest digest, byte[] expected) {

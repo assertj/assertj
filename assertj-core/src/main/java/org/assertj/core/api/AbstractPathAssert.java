@@ -83,6 +83,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @see java.nio.file.FileSystems#getDefault()
  * @see Files
  *
+ * @author Ludovic VIEGAS
  * @author Valeriy Vyrva
  */
 public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> extends AbstractComparableAssert<SELF, Path> {
@@ -95,6 +96,90 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
 
   protected AbstractPathAssert(final Path actual, final Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /**
+   * Synonyme of {@link #isEncodedIn(Charset, boolean)} with {@code lenient = false}.
+   *
+   * @param charset the expected encoding of the actual file.
+   * @return {@code this} assertion object.
+   * @author Ludovic VIEGAS
+   * @since 3.26.4
+   */
+  public SELF isEncodedIn(Charset charset) {
+    return isEncodedIn(charset, false);
+  }
+
+  /**
+   * Verifies that the content of the actual {@code Path} contains only characters valid in the specified {@link Charset}.
+   * <p>
+   * Examples:
+   * <pre>{@code
+   * // A file with text encoded in UTF-8
+   * Path aFile = Files.write(Paths.get("a-file.txt"), "éèàû".getBytes(UTF-8));
+   *
+   * // The following assertion succeeds:
+   * assertThat(aFile).isEncodedIn(UTF-8);
+   *
+   * // The following assertion fails:
+   * assertThat(aFile).isEncodedIn(ISO_8859_1);
+   * }</pre>
+   *
+   * @param charset the expected encoding of the actual file.
+   * @param lenient {@code TRUE} to accept the presence of the replacement character of the charset, often "�" ({@code U+FFFD}`).
+   * {@code FALSE} to reject the replacement character, which can be a sign of a previous wrong encoding operation.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code Charset} is {@code null}.
+   * @throws AssertionError if the actual {@code Path} is not an existing file.
+   * @throws AssertionError if the content of the actual {@code Path} contains characters invalid in the specified {@code Charset}.
+   * @author Ludovic VIEGAS
+   * @since 3.26.4
+   */
+  public SELF isEncodedIn(Charset charset, boolean lenient) {
+    paths.assertIsEncodedIn(info, actual, charset, lenient);
+    return myself;
+  }
+
+  /**
+   * Synonyme of {@link #isNotEncodedIn(Charset, boolean)} with {@code lenient = false}.
+   *
+   * @param charset the unexpected encoding of the actual file.
+   * @return {@code this} assertion object.
+   * @author Ludovic VIEGAS
+   * @since 3.26.4
+   */
+  public SELF isNotEncodedIn(Charset charset) {
+    return isNotEncodedIn(charset, false);
+  }
+
+  /**
+   * Verifies that the content of the actual {@code Path} contains character invalid in the specified {@link Charset}.
+   * <p>
+   * Examples:
+   * <pre>{@code
+   * // A path with content encoded in UTF-8
+   * Path aPath = Files.write(Paths.get("a-file.txt"), "éèàû".getBytes(UTF-8));
+   *
+   * // The following assertion succeeds:
+   * assertThat(aPath).isNotEncodedIn(ISO_8859_1);
+   *
+   * // The following assertion fails:
+   * assertThat(aPath).isNotEncodedIn(UTF-8);
+   * }</pre>
+   *
+   * @param charset the unexpected encoding of the actual file.
+   * @param lenient {@code TRUE} to accept the presence of the replacement character of the charset, often "�" ({@code U+FFFD}`).
+   * {@code FALSE} to reject the absence of the replacement character.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code Charset} is {@code null}.
+   * @throws AssertionError if the actual {@code Path} is not an existing file.
+   * @throws AssertionError if the content of the actual {@code Path} contains only characters valid in the specified {@code Charset}.
+   * @author Ludovic VIEGAS
+   * @since 3.26.4
+   */
+  public SELF isNotEncodedIn(Charset charset, boolean lenient) {
+    paths.assertIsNotEncodedIn(info, actual, charset, lenient);
+    return myself;
   }
 
   /**
