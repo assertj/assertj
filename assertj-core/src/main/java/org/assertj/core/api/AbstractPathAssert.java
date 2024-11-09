@@ -84,6 +84,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @see Files
  *
  * @author Valeriy Vyrva
+ * @author Jin Kwon
  */
 public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> extends AbstractComparableAssert<SELF, Path> {
 

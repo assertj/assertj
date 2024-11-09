@@ -46,6 +46,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Valeriy Vyrva
  * @author Nikolaos Georgiou
  * @author Rostyslav Ivankiv
+ * @author Jin Kwon
  */
 public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> extends AbstractAssert<SELF, File> {
 
