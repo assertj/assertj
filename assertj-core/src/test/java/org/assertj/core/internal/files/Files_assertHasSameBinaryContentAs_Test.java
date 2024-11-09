@@ -106,7 +106,7 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
   void should_throw_error_wrapping_caught_IOException() throws IOException {
     // GIVEN
     IOException cause = new IOException();
-    given(binaryDiff.diff(actual, expectedBytes)).willThrow(cause);
+    given(binaryDiff.diff(actual.toPath(), expected.toPath())).willThrow(cause);
     // WHEN
     UncheckedIOException uioe = catchThrowableOfType(() -> underTest.assertSameBinaryContentAs(INFO, actual, expected),
                                                      UncheckedIOException.class);

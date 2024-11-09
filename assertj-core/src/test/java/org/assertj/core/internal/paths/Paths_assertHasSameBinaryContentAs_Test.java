@@ -150,7 +150,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path actual = Files.write(tempDir.resolve("actual"), "Content".getBytes());
     Path expected = Files.write(tempDir.resolve("expected"), "Content".getBytes());
     IOException exception = new IOException("boom!");
-    willThrow(exception).given(binaryDiff).diff(actual, "Content".getBytes());
+    willThrow(exception).given(binaryDiff).diff(actual, expected);
     // WHEN
     Throwable thrown = catchThrowable(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
     // THEN

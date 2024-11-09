@@ -161,7 +161,7 @@ public class Files {
     verifyIsFile(expected);
     assertIsFile(info, actual);
     try {
-      BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected.toPath()));
+      BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual.toPath(), expected.toPath());
       if (binaryDiffResult.hasDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
     } catch (IOException ioe) {
       throw new UncheckedIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), ioe);

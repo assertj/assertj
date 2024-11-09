@@ -265,7 +265,7 @@ public class Paths {
     checkArgument(Files.isReadable(expected), "The given Path <%s> to compare actual content to should be readable", expected);
     assertIsReadable(info, actual);
     try {
-      BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected));
+      BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, expected);
       if (binaryDiffResult.hasDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
     } catch (IOException ioe) {
       throw new UncheckedIOException(format(UNABLE_TO_COMPARE_PATH_CONTENTS, actual, expected), ioe);
