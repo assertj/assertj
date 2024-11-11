@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -854,8 +854,8 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    *                                          .isBetween(parse("2010-01-01T01:00:00+01:00"),
    *                                                     parse("2010-01-01T01:00:00+01:00"));</code></pre>
    *
-   * @param startExclusive the start value (exclusive), expected not to be null.
-   * @param endExclusive the end value (exclusive), expected not to be null.
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
    * @return this assertion object.
    * @throws AssertionError if the actual value is {@code null}.
    * @throws NullPointerException if start value is {@code null}.
@@ -864,8 +864,8 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    *
    * @since 3.7.1
    */
-  public SELF isBetween(OffsetDateTime startExclusive, OffsetDateTime endExclusive) {
-    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, true, true);
+  public SELF isBetween(OffsetDateTime startInclusive, OffsetDateTime endInclusive) {
+    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
     return myself;
   }
 
@@ -892,8 +892,8 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * // assertion fails:
    * assertThat(firstOfJanuary2000).isBetween("1999-01-01T00:00:01Z", "1999-12-31T23:59:59Z");</code></pre>
    *
-   * @param startExclusive the start value (exclusive), expected not to be null.
-   * @param endExclusive the end value (exclusive), expected not to be null.
+   * @param startInclusive the start value (inclusive), expected not to be null.
+   * @param endInclusive the end value (inclusive), expected not to be null.
    * @return this assertion object.
    *
    * @throws AssertionError if the actual value is {@code null}.
@@ -904,8 +904,8 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    *
    * @since 3.7.1
    */
-  public SELF isBetween(String startExclusive, String endExclusive) {
-    return isBetween(parse(startExclusive), parse(endExclusive));
+  public SELF isBetween(String startInclusive, String endInclusive) {
+    return isBetween(parse(startInclusive), parse(endInclusive));
   }
 
   /**

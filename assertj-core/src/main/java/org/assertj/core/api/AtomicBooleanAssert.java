@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -17,13 +17,7 @@ import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.assertj.core.internal.Booleans;
-import org.assertj.core.util.VisibleForTesting;
-
 public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, AtomicBoolean> {
-
-  @VisibleForTesting
-  Booleans booleans = Booleans.instance();
 
   public AtomicBooleanAssert(AtomicBoolean actual) {
     super(actual, AtomicBooleanAssert.class);

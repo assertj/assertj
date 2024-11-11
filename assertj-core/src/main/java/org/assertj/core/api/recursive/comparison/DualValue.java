@@ -8,14 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.String.format;
+import static java.lang.System.identityHashCode;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
+import static org.assertj.core.internal.RecursiveHelper.isContainer;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 
@@ -23,7 +25,6 @@ import java.nio.file.Path;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -61,7 +62,11 @@ public final class DualValue {
     this.fieldLocation = requireNonNull(fieldLocation, "fieldLocation must not be null");
     actual = actualFieldValue;
     expected = expectedFieldValue;
-    hashCode = Objects.hash(actual, expected);
+    hashCode = computeHashCode();
+  }
+
+  private int computeHashCode() {
+    return identityHashCode(actual) + identityHashCode(expected) + fieldLocation.hashCode();
   }
 
   @Override
@@ -314,27 +319,12 @@ public final class DualValue {
     return !isContainer(actual) && !isExpectedAContainer();
   }
 
-  // TODO test
   public boolean isExpectedAContainer() {
     return isContainer(expected);
   }
 
   public boolean hasNoNullValues() {
     return actual != null && expected != null;
-  }
-
-  private static boolean isContainer(Object o) {
-    return o instanceof Iterable ||
-           o instanceof Map ||
-           o instanceof Optional ||
-           o instanceof AtomicReference ||
-           o instanceof AtomicReferenceArray ||
-           o instanceof AtomicBoolean ||
-           o instanceof AtomicInteger ||
-           o instanceof AtomicIntegerArray ||
-           o instanceof AtomicLong ||
-           o instanceof AtomicLongArray ||
-           isArray(o);
   }
 
   public boolean hasPotentialCyclingValues() {

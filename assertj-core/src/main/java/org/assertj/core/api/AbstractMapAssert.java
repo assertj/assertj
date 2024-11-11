@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.util.Collections.singleton;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
@@ -26,6 +27,7 @@ import static org.assertj.core.util.IterableUtil.toCollection;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -2218,5 +2220,27 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
       else result.add(item);
     }
     return result;
+  }
+
+  /**
+   * <p>Returns an {@link AbstractCollectionAssert} to make assertions on the values of the map</p>
+   *
+   * <p><strong>Example</strong></p>
+   * <pre><code class='java'> TolkienCharacter pippin = new TolkienCharacter("Pippin", 28, HOBBIT);
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter merry = new TolkienCharacter("Merry", 36, HOBBIT);
+   *
+   * Map&lt;String, TolkienCharacter&gt; characters = mapOf(entry("Pippin", pippin),
+   *                                                  entry("Frodo", frodo),
+   *                                                  entry("Merry", merry));
+   * assertThat(characters).values()
+   *                       .contains(frodo, pippin, merry); </code></pre>
+   * @return An {@link AbstractCollectionAssert} to make collections assertion only on map values.
+   * @throws NullPointerException if the map under test is null
+   * @since 3.26.0
+   */
+  public AbstractCollectionAssert<?, Collection<? extends V>, V, ObjectAssert<V>> values() {
+    requireNonNull(actual, "Can not extract values from a null map.");
+    return assertThat(actual.values());
   }
 }

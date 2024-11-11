@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.api.Java6Assertions.assertThat;
 
 import java.io.File;
 import java.io.InputStream;
@@ -447,7 +447,27 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
+   * then(hobbits, StringAssert::new).first()
+   *                                 .startsWith("fro")
+   *                                 .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *              .startsWith("fro")
+   *              .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   //@format:off
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(Iterable<? extends ELEMENT> actual,
@@ -483,7 +503,27 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
+   * then(hobbits, StringAssert.class).first()
+   *                                  .startsWith("fro")
+   *                                  .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *              .startsWith("fro")
+   *              .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(ACTUAL actual,
                                                                              Class<ELEMENT_ASSERT> assertClass) {
@@ -526,7 +566,27 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
+   * then(hobbits, StringAssert::new).first()
+   *                                 .startsWith("fro")
+   *                                 .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *              .startsWith("fro")
+   *              .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                            AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -561,10 +621,30 @@ public class Java6BDDAssertions {
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
+   * then(hobbits, StringAssert.class).first()
+   *                                  .startsWith("fro")
+   *                                  .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *              .startsWith("fro")
+   *              .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
-                                                                         Class<ELEMENT_ASSERT> assertClass) {
+                                                                             Class<ELEMENT_ASSERT> assertClass) {
     return assertThat(actual, assertClass);
   }
 
@@ -874,6 +954,20 @@ public class Java6BDDAssertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code>.
+   * <p>
+   * Use this over {@link #then(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.25.0
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> thenCharSequence(CharSequence actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code> from a {@link StringBuilder}.
    *
    * @param actual the actual value.
@@ -1163,4 +1257,5 @@ public class Java6BDDAssertions {
   public static <T> AbstractObjectAssert<?, T> thenObject(T actual) {
     return then(actual);
   }
+
 }

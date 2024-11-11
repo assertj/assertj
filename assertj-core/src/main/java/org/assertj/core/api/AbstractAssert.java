@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -361,6 +361,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /** {@inheritDoc} */
   @Override
   public SELF isEqualTo(Object expected) {
+    if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
+      throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isEqualTo'. "
+                                              + "This is not supported. Perhaps you meant 'isSameAs' instead?");
+    }
+
     objects.assertEqual(info, actual, expected);
     return myself;
   }
@@ -368,6 +373,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /** {@inheritDoc} */
   @Override
   public SELF isNotEqualTo(Object other) {
+    if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
+      throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isNotEqualTo'. "
+                                              + "This is not supported. Perhaps you meant 'isNotSameAs' instead?");
+    }
+
     objects.assertNotEqual(info, actual, other);
     return myself;
   }
@@ -468,7 +478,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
     requireNonNull(instanceOfAssertFactory, shouldNotBeNull("instanceOfAssertFactory")::create);
-    objects.assertIsInstanceOf(info, actual, instanceOfAssertFactory.getType());
+    objects.assertIsInstanceOf(info, actual, instanceOfAssertFactory.getRawClass());
     return (ASSERT) instanceOfAssertFactory.createAssert(actual).withAssertionState(myself);
   }
 
@@ -580,13 +590,15 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
-  /** {@inheritDoc} */
-  @SuppressWarnings("unchecked")
+  /**
+   *  {@inheritDoc}
+   *  @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
+   */
+  @Deprecated
   @Override
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList() {
-    objects.assertIsInstanceOf(info, actual, List.class);
-    return newListAssertInstance((List<Object>) actual).as(info.description());
+    return asInstanceOf(InstanceOfAssertFactories.LIST);
   }
 
   /** {@inheritDoc} */
@@ -740,7 +752,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Deprecated
   public boolean equals(Object obj) {
     if (throwUnsupportedExceptionOnEquals) {
-      throw new UnsupportedOperationException("'equals' is not supported...maybe you intended to call 'isEqualTo'");
+      throw new UnsupportedOperationException("'equals' is not supported... maybe you intended to call 'isEqualTo'");
     }
     return super.equals(obj);
   }
@@ -764,7 +776,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param predicate the {@link Predicate} to match
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not match the given {@link Predicate}.
+   * @throws AssertionError if {@code actual} does not match the given {@link Predicate}.
    * @throws NullPointerException if given {@link Predicate} is null.
    */
   public SELF matches(Predicate<? super ACTUAL> predicate) {
@@ -789,7 +801,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param predicate the {@link Predicate} to match
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual does not match the given {@link Predicate}.
+   * @throws AssertionError if {@code actual} does not match the given {@link Predicate}.
    * @throws NullPointerException if given {@link Predicate} is null.
    * @throws NullPointerException if given predicateDescription is null.
    */
@@ -940,7 +952,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * This allows users to perform <b>OR like assertions</b> since only one the assertions group has to be met.
    * <p>
    * This is the same assertion as {@link #satisfiesAnyOf(Consumer...)} but the given consumers can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * {@link #overridingErrorMessage(String, Object...) Overriding error message} is not supported as it would prevent from
    * getting the error messages of the failing assertions, these are valuable to figure out what went wrong.<br>
@@ -951,10 +963,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * ThrowingConsumer&lt;Reader&gt; hasReachedEOF = reader -&gt; assertThat(reader.read()).isEqualTo(-1);
    * ThrowingConsumer&lt;Reader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
    *
-   * // assertion succeeds as the file is empty (note that if hasReachedEOF was declared as a Consumer&lt;Reader&gt; the following line would not compile): 
+   * // assertion succeeds as the file is empty (note that if hasReachedEOF was declared as a Consumer&lt;Reader&gt; the following line would not compile):
    * assertThat(new FileReader("empty.txt")).satisfiesAnyOf(hasReachedEOF, startsWithZ);
    *
-   * // alphabet.txt contains: abcdefghijklmnopqrstuvwxyz  
+   * // alphabet.txt contains: abcdefghijklmnopqrstuvwxyz
    * // assertion fails as alphabet.txt is not empty and starts with 'a':
    * assertThat(new FileReader("alphabet.txt")).satisfiesAnyOf(hasReachedEOF, startsWithZ);</code></pre>
    *
@@ -962,7 +974,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @return this assertion object.
    *
    * @throws IllegalArgumentException if any given assertions group is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
    * @throws AssertionError rethrown as is by the given {@link ThrowingConsumer}
    * @since 3.21.0
    */
@@ -1109,7 +1121,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param propertyOrField the property/field to extract from the initial object under test
    * @param assertFactory   the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
-   * @throws AssertionError if the object under test is {@code null}
+   * @throws AssertionError if {@code actual} is {@code null}
    *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(String)
@@ -1137,7 +1149,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param extractor     the extractor function used to extract the value from the object under test
    * @param assertFactory the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
-   * @throws AssertionError if the object under test is {@code null}
+   * @throws AssertionError if {@code actual} is {@code null}
    *
    * @since 3.16.0
    * @see AbstractObjectAssert#extracting(Function)
@@ -1168,6 +1180,30 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Deprecated
   protected boolean areEqual(Object actual, Object other) {
     return objects.getComparisonStrategy().areEqual(actual, other);
+  }
+
+  /**
+   * Returns actual (the object currently under test).
+   * <p>
+   * This can be useful if after chaining assertions, the object under test has changed and you want to get it.
+   * <p>
+   * Examples of method changing actual:
+   * {@link AbstractObjectAssert#extracting(Function) extracting(Function)} or a navigation methods like
+   * {@link AbstractThrowableAssert#rootCause() rootCause()}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
+   * 
+   * String newActual = assertThat(frodo).extracting(TolkienCharacter::getName).actual();
+   * 
+   * // newActual == frodo.getName()
+   * assertThat(newActual).isSameAs(frodo.name);</code></pre>
+   *
+   * @return actual the object currently under test.
+   * @since 3.27.0
+   */
+  public ACTUAL actual() {
+    return actual;
   }
 
 }

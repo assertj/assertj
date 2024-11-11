@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.collection;
 
@@ -39,7 +39,7 @@ import org.apache.commons.collections4.set.UnmodifiableNavigableSet;
 import org.apache.commons.collections4.set.UnmodifiableSet;
 import org.apache.commons.collections4.set.UnmodifiableSortedSet;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.test.jdk11.Jdk11;
+import org.assertj.core.testkit.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

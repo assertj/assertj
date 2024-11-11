@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -18,8 +18,8 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.Lists.list;
 
@@ -177,7 +177,7 @@ class AutoCloseableSoftAssertionsTest {
       assertThat(errors.get(8)).contains(shouldBeEqualMessage("'C'", "'D'"));
       assertThat(errors.get(9)).contains(shouldBeEqualMessage("['E']", "['F']"));
 
-      assertThat(errors.get(10)).contains(shouldBeEqualMessage("a", "b"));
+      assertThat(errors.get(10)).contains(shouldBeEqualMessage("\"a\"", "\"b\""));
 
       assertThat(errors.get(11)).contains(shouldBeEqualMessage("java.lang.Object", "java.lang.String"));
 

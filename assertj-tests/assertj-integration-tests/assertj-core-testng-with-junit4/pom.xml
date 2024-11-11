@@ -5,15 +5,16 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-integration-tests</artifactId>
-    <version>3.25.0-SNAPSHOT</version>
+    <version>3.26.4-SNAPSHOT</version>
   </parent>
 
   <artifactId>assertj-core-testng-with-junit4</artifactId>
 
-  <name>AssertJ Core Integration Tests - TestNG with JUnit 4</name>
+  <name>AssertJ Core Integration Tests (TestNG and JUnit 4)</name>
 
   <properties>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
+    <spotless.skip>false</spotless.skip>
   </properties>
 
   <dependencies>
@@ -31,18 +32,9 @@
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
-      <version>7.8.0</version>
+      <version>7.10.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>

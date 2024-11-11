@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -104,7 +104,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * <p>
    * <strong>Example</strong>
    * <p>
-   * Here is a basic example with a default {@link RecursiveComparisonConfiguration}, you can find other examples for each of the method changing the recursive comparison behavior
+   * Here is a basic example with a default {@link RecursiveComparisonConfiguration}, you can find other examples for each of the methods changing the recursive comparison behavior
    * like {@link #ignoringFields(String...)}.
    * <pre><code class='java'> class Person {
    *   String name;
@@ -140,20 +140,19 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if the actual and the given objects are not deeply equal property/field by property/field.
-   * @throws IntrospectionError if one property/field to compare can not be found.
+   * @throws IntrospectionError if one property/field to compare cannot be found.
    */
   @Override
   public SELF isEqualTo(Object expected) {
     // deals with both actual and expected being null
     if (actual == expected) return myself;
     if (expected == null) {
-      // for the assertion to pass, actual must be null but this is not the case since actual != expected
-      // => we fail expecting actual to be null
+      // for the assertion to pass, actual must be null, but this is not the case since actual != expected
       objects.assertNull(info, actual);
     }
     // at this point expected is not null, which means actual must not be null for the assertion to pass
     objects.assertNotNull(info, actual);
-    // at this point both actual and expected are not null, we can compare them recursively!
+    // at this point, both actual and expected are not null, we can compare them recursively!
     List<ComparisonDifference> differences = determineDifferencesWith(expected);
     if (!differences.isEmpty()) throw objects.getFailures().failure(info, shouldBeEqualByComparingFieldByFieldRecursively(actual,
                                                                                                                           expected,
@@ -212,7 +211,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
                                                                                                    recursiveComparisonConfiguration,
                                                                                                    info.representation()));
     }
-    // either one of actual or other was null (but not both) or there were no differences
+    // either actual or other was null (but not both) or there were no differences
     return myself;
   }
 
@@ -375,7 +374,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Verifies that the actual value is not present in the given iterable, comparing values with the recursive comparison..
+   * Verifies that the actual value is not present in the given iterable, comparing values with the recursive comparison.
    * <p>
    * This assertion always succeeds if the given iterable is empty.
    * <p>
@@ -494,16 +493,17 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   /**
    * Makes the recursive comparison to only compare given actual fields of the specified types and their subfields (no other fields will be compared).
    * <p>
-   * Specifying a field of type will make all its subfields to be compared, for example specifying the {@code Person} type will
+   * Specifying a compared type will make any fields of this type and its subfields to be compared, for example specifying the {@code Person} type will
    * lead to compare {@code Person.name}, {@code Person.address} and all other {@code Person} fields.<br>
    * In case actual's field is null, expected's field type will be checked to match one of the given types (we assume actual and expected fields have the same type).
    * <p>
-   * {@code ", "} can be combined with {@link #comparingOnlyFields(String...)} to compare fields of the given types <b>or</b> names (union of both sets of fields).
+   * {@code comparingOnlyFieldsOfTypes} can be combined with {@link #comparingOnlyFields(String...)} to compare fields of the given types <b>or</b> names (union of both sets of fields).
    * <p>
-   * {@code ", "} can be also combined with ignoring fields or compare only fields by name methods to restrict further the fields actually compared,
+   * {@code comparingOnlyFieldsOfTypes} can be also combined with ignoring fields to restrict further the fields actually compared,
    * the resulting compared fields = {specified compared fields of types} {@code -} {specified ignored fields}.<br>
-   * For example if the specified compared fields of types = {@code {String.class, Integer.class, Double.class}}, when there are fields  String foo, {@code Integer baz} and {@code Double bar}
-   * and the ignored fields = {"bar"} set with {@link RecursiveComparisonAssert#ignoringFields(String...)} that will remove {@code bar} field from comparison, then only {@code {foo, baz}} fields will be compared.
+   * For example, we specify the following compared types: {@code {String.class, Integer.class, Double.class}}, and the
+   * object to compare has fields {@code String foo}, {@code Integer baz} and {@code Double bar},
+   * if we ignore the {"bar"} field with {@link RecursiveComparisonAssert#ignoringFields(String...)} the comparison will only report differences on {@code {foo, baz}} fields.
    * <p>
    * Usage example:
    * <pre><code class='java'> class Person {
@@ -532,13 +532,16 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *
    * // assertion succeeds as it only compared fields height and home.address.number since their types match compared types
    * assertThat(sherlock).usingRecursiveComparison()
-   *                     .", "(Integer.class, Double.class)
+   *                     .comparingOnlyFieldsOfTypes(Integer.class, Double.class)
    *                     .isEqualTo(moriarty);
    *
    * // assertion fails as home.address.street fields differ (Home fields and its subfields were compared)
    * assertThat(sherlock).usingRecursiveComparison()
-   *                     .", "(Home.class)
+   *                     .comparingOnlyFieldsOfTypes(Home.class)
    *                     .isEqualTo(moriarty);</code></pre>
+   * <p>
+   * Note that the recursive comparison checks whether the fields actually exist and throws an {@link IllegalArgumentException} if some of them don't,
+   * this is done to catch typos.
    *
    * @param typesToCompare the types to compare in the recursive comparison.
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
@@ -789,10 +792,14 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   /**
    * Makes the recursive comparison to ignore the object under test fields of the given types.
-   * The fields are ignored if their types <b>exactly match one of the ignored types</b>, for example if a field is a subtype of an ignored type it is not ignored.
    * <p>
-   * If some object under test fields are null it is not possible to evaluate their types unless in {@link #withStrictTypeChecking() strictTypeChecking mode},
-   * in that case the corresponding expected field's type is evaluated instead but if strictTypeChecking mode is disabled then null fields are not ignored.
+   * The fields are ignored if their types <b>exactly match one of the ignored types</b>, for example,
+   * if a field is a subtype of an ignored type it is not ignored.
+   * <p>
+   * If {@code strictTypeChecking} mode is disabled then null fields are ignored since their types cannot be known.
+   * <p>
+   * If {@code strictTypeChecking} mode is enabled and a field of the object under test is null, the recursive
+   * comparison evaluates the corresponding expected field's type.
    * <p>
    * Example:
    * <pre><code class='java'> class Person {
@@ -832,6 +839,63 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    */
   public RecursiveComparisonAssert<?> ignoringFieldsOfTypes(Class<?>... typesToIgnore) {
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(typesToIgnore);
+    return myself;
+  }
+
+  /**
+   * Makes the recursive comparison to ignore the fields of the object under test having types matching one of the given regexes.
+   * The fields are ignored if their types <b>exactly match one of the regexes</b>, if a field is a subtype of a matched type it is not ignored.
+   * <p>
+   * One use case of this method is to ignore types that can't be introspected.
+   * <p>
+   * If {@code strictTypeChecking} mode is enabled and a field of the object under test is null, the recursive
+   * comparison evaluates the corresponding expected field's type (if not null), if it is disabled then the field is evaluated as
+   * usual (i.e. it is not ignored).
+   * <p>
+   * <b>Warning</b>: primitive types are not directly supported because under the hood they are converted to their
+   * corresponding wrapping types, for example {@code int} to {@code java.lang.Integer}. The preferred way to ignore
+   * primitive types is to use {@link #ignoringFieldsOfTypes(Class[])}.
+   * Another way is to ignore the wrapping type, for example ignoring {@code java.lang.Integer} ignores both
+   * {@code java.lang.Integer} and {@code int} fields.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class Person {
+   *   String name;
+   *   double height;
+   *   Home home = new Home();
+   * }
+   *
+   * class Home {
+   *   Address address = new Address();
+   * }
+   *
+   * class Address {
+   *   int number;
+   *   String street;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * sherlock.home.address.street = "Baker Street";
+   * sherlock.home.address.number = 221;
+   *
+   * Person cherlock = new Person("Cherlock", 1.80);
+   * cherlock.home.address.street = "Butcher Street";
+   * cherlock.home.address.number = 221;
+   *
+   * // assertion succeeds as we ignore Address and height
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .ignoringFieldsOfTypes(".*Address", "java\\.util\\.String")
+   *                     .isEqualTo(cherlock);
+   *
+   * // now this assertion fails as expected since the home.address.street fields and name differ
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .isEqualTo(cherlock);</code></pre>
+   *
+   * @param regexes regexes specifying the types to ignore.
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  public RecursiveComparisonAssert<?> ignoringFieldsOfTypesMatchingRegexes(String... regexes) {
+    recursiveComparisonConfiguration.ignoreFieldsOfTypesMatchingRegexes(regexes);
     return myself;
   }
 
@@ -953,7 +1017,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   /**
    * In case you have instructed the recursive to use overridden {@code equals} with {@link #usingOverriddenEquals()},
-   * this method allows to ignore overridden {@code equals} for the given fields (it adds them to the already registered ones).
+   * this method allows ignoring overridden {@code equals} for the given fields (it adds them to the already registered ones).
    * <p>
    * Since 3.17.0 all overridden {@code equals} so this method is only relevant if you have called {@link #usingOverriddenEquals()} before.
    * <p>
@@ -1018,7 +1082,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   /**
    * By default, the recursive comparison uses overridden {@code equals} methods to compare fields,
-   * this method allows to force a recursive comparison for all fields of the given types (it adds them to the already registered ones).
+   * this method allows forcing a recursive comparison for all fields of the given types (it adds them to the already registered ones).
    * <p>
    * Since 3.17.0 all overridden {@code equals} so this method is only relevant if you have called {@link #usingOverriddenEquals()} before.
    * <p>
@@ -1081,7 +1145,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
 
   /**
    * In case you have instructed the recursive comparison to use overridden {@code equals} with {@link #usingOverriddenEquals()},
-   * this method allows to force a recursive comparison for the fields matching the given regexes (it adds them to the already registered ones).
+   * this method allows forcing a recursive comparison for the fields matching the given regexes (it adds them to the already registered ones).
    * <p>
    * Since 3.17.0 all overridden {@code equals} so this method is only relevant if you have called {@link #usingOverriddenEquals()} before.
    * <p>
@@ -1145,7 +1209,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    * Makes the recursive comparison to ignore collection order in all fields in the object under test.
    * <p>
    * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
-   * be compared to each element of the expected collection which is a O(n&sup2;) operation. For example with a collection of 100
+   * be compared to each element of the expected collection which is an O(n&sup2;) operation. For example with a collection of 100
    * elements, the number of comparisons is 100x100 = 10 000!
    * <p>
    * Example:
@@ -1335,7 +1399,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Allows to register a {@link BiPredicate} to compare fields with the given locations.
+   * Allows registering a {@link BiPredicate} to compare fields with the given locations.
    * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * BiPredicates specified with this method have precedence over the ones registered with {@link #withEqualsForType(BiPredicate, Class)}
@@ -1382,7 +1446,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Allows to register a {@link BiPredicate} to compare fields whose location matches the given regexes.
+   * Allows registering a {@link BiPredicate} to compare fields whose location matches the given regexes.
    * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * The fields are evaluated from the root object, for example if {@code Foo} has a {@code Bar} field and both have an {@code id} field,
@@ -1421,7 +1485,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *                  .isEqualTo(hugeFrodo);</code></pre>
    *
    * @param equals the {@link BiPredicate} to use to compare the fields matching the given regexes
-   * @param regexes the regexes from the root object of the fields location the BiPredicate should be used for
+   * @param regexes the regexes from the root object of the field locations the BiPredicate should be used for
    *
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
    * @throws NullPointerException if the given BiPredicate is null.
@@ -1433,7 +1497,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Allows to register a comparator to compare fields with the given locations.
+   * Allows registering a comparator to compare fields with the given locations.
    * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * Comparators registered with this method have precedence over comparators registered with {@link #withComparatorForType(Comparator, Class)}
@@ -1479,7 +1543,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Allows to register a comparator to compare the fields with the given type.
+   * Allows registering a comparator to compare the fields with the given type.
    * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * Comparators registered with this method have less precedence than comparators registered with {@link #withComparatorForFields(Comparator, String...) withComparatorForFields(Comparator, String...)}
@@ -1523,7 +1587,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Allows to register a {@link BiPredicate} to compare the fields with the given type.
+   * Allows registering a {@link BiPredicate} to compare the fields with the given type.
    * A typical usage is to compare double/float fields with a given precision.
    * <p>
    * BiPredicates registered with this method have less precedence than the one registered  with {@link #withEqualsForFields(BiPredicate, String...) withEqualsForFields(BiPredicate, String...)}

@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
 import java.util.function.Consumer;
 
 import org.assertj.core.api.Condition;
+import org.assertj.core.description.Description;
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -47,6 +48,14 @@ public class ShouldSatisfy extends BasicErrorMessageFactory {
 
   private ShouldSatisfy(Object actual, Condition<?> condition) {
     super(CONDITION_SHOULD_BE_SATISFIED, actual, condition);
+  }
+
+  public static ErrorMessageFactory shouldSatisfyAll(Object actual, Description d) {
+    return new ShouldSatisfy(actual, d);
+  }
+
+  private ShouldSatisfy(Object actual, Description d) {
+    super(CONDITION_SHOULD_BE_SATISFIED, actual, d);
   }
 
   private <E> ShouldSatisfy(Iterable<E> actual) {

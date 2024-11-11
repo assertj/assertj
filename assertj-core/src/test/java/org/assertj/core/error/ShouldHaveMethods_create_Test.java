@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -18,13 +18,13 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.Sets.newTreeSet;
 
 import java.lang.reflect.Modifier;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.test.Person;
+import org.assertj.core.testkit.Person;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -43,7 +43,7 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Person%n" +
+                                   "  org.assertj.core.testkit.Person%n" +
                                    "to have methods:%n" +
                                    "  [\"getAddress\", \"getName\"]%n" +
                                    "but could not find:%n" +
@@ -61,7 +61,7 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Person%n" +
+                                   "  org.assertj.core.testkit.Person%n" +
                                    "to have declared methods:%n" +
                                    "  [\"getAddress\", \"getName\"]%n" +
                                    "but could not find:%n" +
@@ -79,7 +79,7 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Person%n" +
+                                   "  org.assertj.core.testkit.Person%n" +
                                    "not to have any declared public methods but it has the following:%n" +
                                    "  [\"getName\"]"));
   }
@@ -95,7 +95,7 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Person%n" +
+                                   "  org.assertj.core.testkit.Person%n" +
                                    "not to have any public methods but it has the following:%n" +
                                    "  [\"getName\"]"));
   }
@@ -109,7 +109,7 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Person%n" +
+                                   "  org.assertj.core.testkit.Person%n" +
                                    "not to have any declared methods but it has the following:%n" +
                                    "  [\"getName\"]"));
   }
@@ -123,7 +123,7 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Person%n" +
+                                   "  org.assertj.core.testkit.Person%n" +
                                    "not to have any methods but it has the following:%n" +
                                    "  [\"getName\"]"));
   }
@@ -140,7 +140,7 @@ class ShouldHaveMethods_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Person%n" +
+                                   "  org.assertj.core.testkit.Person%n" +
                                    "to have public methods:%n" +
                                    "  [\"finalize\"]%n" +
                                    "but the following are not public:%n" +

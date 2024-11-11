@@ -8,11 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.util;
 
 import java.util.Arrays;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 
 public class StackTraceUtils {
 
@@ -22,8 +25,14 @@ public class StackTraceUtils {
    * @param throwable the {@link Throwable} we want to check stack trace for AssertJ related elements.
    * @return true if given {@link Throwable} stack trace contains AssertJ related elements, false otherwise.
    */
-  public static boolean hasStackTraceElementRelatedToAssertJ(Throwable throwable) {
+  public static boolean hasAssertJStackTraceElement(Throwable throwable) {
     return Arrays.stream(throwable.getStackTrace())
                  .anyMatch(stackTraceElement -> stackTraceElement.getClassName().contains("org.assertj"));
   }
+
+  public static void checkNoAssertjStackTraceElementIn(Throwable throwable) {
+    StackTraceElement[] stackTrace = throwable.getStackTrace();
+    then(stackTrace).noneSatisfy(stackTraceElement -> assertThat(stackTraceElement.toString()).contains("org.assertj"));
+  }
+
 }

@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
@@ -26,6 +27,7 @@ import static org.assertj.core.error.ShouldBeAnnotation.shouldNotBeAnnotation;
 import static org.assertj.core.error.ShouldBeAssignableTo.shouldBeAssignableTo;
 import static org.assertj.core.error.ShouldBeInterface.shouldBeInterface;
 import static org.assertj.core.error.ShouldBeInterface.shouldNotBeInterface;
+import static org.assertj.core.error.ShouldBePrimitive.shouldBePrimitive;
 import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldBeSealed.shouldBeSealed;
@@ -33,9 +35,11 @@ import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
 import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
+import static org.assertj.core.error.ShouldHavePermittedSubclasses.shouldHavePermittedSubclasses;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
 import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.error.ShouldNotBePrimitive.shouldNotBePrimitive;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -44,6 +48,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.assertj.core.internal.Classes;
 
@@ -507,7 +513,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} is package-private (has no modifier).
+   * Verifies that the actual {@code Class} is package-private (i.e., has no explicit access level modifier).
    * <p>
    * Example:
    * <pre><code class='java'> class MyClass { }
@@ -536,6 +542,37 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
       throw assertionError(shouldBePackagePrivate(actual));
     }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is private (has {@code private} modifier).
+   * <p>
+   * Example:
+   * <pre><code class='java'> class EnclosingClass {
+   *   private static class PrivateClass { }
+   * }
+   *
+   * // these assertions succeed:
+   * assertThat(PrivateClass.class).isPrivate();
+   * assertThat(Class.forName(EnclosingClass.class.getName() + "$PrivateClass")).isPrivate();
+   *
+   * // This assertion fails:
+   * assertThat(String.class).isPrivate();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not private.
+   *
+   * @since 3.26.0
+   */
+  public SELF isPrivate() {
+    isNotNull();
+    assertIsPrivate();
+    return myself;
+  }
+
+  private void assertIsPrivate() {
+    if (!Modifier.isPrivate(actual.getModifiers())) throw assertionError(shouldBePrivate(actual));
   }
 
   /**
@@ -1118,4 +1155,112 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     }
   }
 
+  /**
+   * Verifies that the actual {@code Class} permitted subclasses contains the given classes.
+   * <p>
+   * Example:
+   * <pre><code class='java'> sealed class SealedClass permits NonSealedClass, FinalClass {}
+   * non-sealed class NonSealedClass extends SealedClass {}
+   * final class FinalClass extends SealedClass {}
+   *
+   * // these assertions succeed:
+   * assertThat(SealedClass.class).hasPermittedSubclasses(NonSealedClass.class)
+   *                              .hasPermittedSubclasses(FinalClass.class)
+   *                              .hasPermittedSubclasses(NonSealedClass.class, FinalClass.class)
+   *                              .hasPermittedSubclasses();
+   *
+   * // these assertions fail:
+   * assertThat(SealedClass.class).hasPermittedSubclasses(String.class);
+   * assertThat(SealedClass.class).hasPermittedSubclasses(FinalClass.class, String.class);</code></pre>
+   *
+   * @param permittedSubclasses classes that must be permitted subclasses of the given class
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} does not have all of given permitted subclasses
+   */
+  public SELF hasPermittedSubclasses(Class<?>... permittedSubclasses) {
+    isNotNull();
+    assertHasPermittedSubclasses(permittedSubclasses);
+    return myself;
+  }
+
+  private void assertHasPermittedSubclasses(Class<?>[] expectedPermittedSubclasses) {
+    for (Class<?> expectedPermittedSubclass : expectedPermittedSubclasses) {
+      classes.classParameterIsNotNull(expectedPermittedSubclass);
+    }
+    Set<Class<?>> actualPermittedSubclasses = newLinkedHashSet(getPermittedSubclasses(actual));
+    Set<Class<?>> missingPermittedSubclasses = Stream.of(expectedPermittedSubclasses)
+                                                     .filter(expectedPermittedSubclass -> !actualPermittedSubclasses.contains(expectedPermittedSubclass))
+                                                     .collect(Collectors.toSet());
+    if (!missingPermittedSubclasses.isEmpty())
+      throw assertionError(shouldHavePermittedSubclasses(actual, expectedPermittedSubclasses, missingPermittedSubclasses));
+  }
+
+  private static Class<?>[] getPermittedSubclasses(Class<?> actual) {
+    try {
+      Method getPermittedSubclasses = Class.class.getMethod("getPermittedSubclasses");
+      Class<?>[] permittedSubclasses = (Class<?>[]) getPermittedSubclasses.invoke(actual);
+      return permittedSubclasses == null ? array() : permittedSubclasses;
+    } catch (NoSuchMethodException e) {
+      return new Class<?>[0];
+    } catch (ReflectiveOperationException e) {
+      throw new IllegalStateException(e);
+    }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is a primitive type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // these assertions succeed:
+   * assertThat(byte.class).isPrimitive();
+   * assertThat(short.class).isPrimitive();
+   * assertThat(int.class).isPrimitive();
+   * assertThat(long.class).isPrimitive();
+   * assertThat(float.class).isPrimitive();
+   * assertThat(double.class).isPrimitive();
+   * assertThat(boolean.class).isPrimitive();
+   * assertThat(char.class).isPrimitive();
+   *
+   * // this assertion fails as Object is not a primitive type:
+   * assertThat(Object.class).isPrimitive(); </code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not a primitive type.
+   * @see Class#isPrimitive()
+   */
+  public SELF isPrimitive() {
+    isNotNull();
+    if (!actual.isPrimitive()) throw assertionError(shouldBePrimitive(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is not a primitive type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // this assertion succeeds as Object is not a primitive type:
+   * assertThat(Object.class).isNotPrimitive();
+   *
+   * // these assertions fail:
+   * assertThat(byte.class).isNotPrimitive();
+   * assertThat(short.class).isNotPrimitive();
+   * assertThat(int.class).isNotPrimitive();
+   * assertThat(long.class).isNotPrimitive();
+   * assertThat(float.class).isNotPrimitive();
+   * assertThat(double.class).isNotPrimitive();
+   * assertThat(boolean.class).isNotPrimitive();
+   * assertThat(char.class).isNotPrimitive(); </code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is a primitive type.
+   * @see Class#isPrimitive()
+   */
+  public SELF isNotPrimitive() {
+    isNotNull();
+    if (actual.isPrimitive()) throw assertionError(shouldNotBePrimitive(actual));
+    return myself;
+  }
 }

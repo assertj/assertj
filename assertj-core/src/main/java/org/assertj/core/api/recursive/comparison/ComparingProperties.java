@@ -8,19 +8,22 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toSet;
+import static org.assertj.core.util.introspection.ClassUtils.isInJavaLangPackage;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.assertj.core.util.introspection.PropertySupport;
 
@@ -35,9 +38,13 @@ public class ComparingProperties implements RecursiveComparisonIntrospectionStra
   private static final String GET_PREFIX = "get";
   private static final String IS_PREFIX = "is";
 
+  // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
+  private final Map<Class<?>, Set<String>> propertiesNamesPerClass = new ConcurrentHashMap<>();
+
   @Override
   public Set<String> getChildrenNodeNamesOf(Object node) {
-    return node == null ? new HashSet<>() : getPropertiesNamesOf(node.getClass());
+    if (node == null) return new HashSet<>();
+    return propertiesNamesPerClass.computeIfAbsent(node.getClass(), ComparingProperties::getPropertiesNamesOf);
   }
 
   @Override
@@ -65,29 +72,18 @@ public class ComparingProperties implements RecursiveComparisonIntrospectionStra
   }
 
   public static Set<Method> gettersIncludingInheritedOf(Class<?> clazz) {
-    Set<Method> getters = gettersOf(clazz);
-    // get fields declared in superClass
-    Class<?> superClass = clazz.getSuperclass();
-    while (superClass != null && !superClass.getName().startsWith("java.lang")) {
-      getters.addAll(gettersOf(superClass));
-      superClass = superClass.getSuperclass();
-    }
-    return getters;
+    return gettersOf(clazz);
   }
 
   private static Set<Method> gettersOf(Class<?> clazz) {
-    return stream(clazz.getDeclaredMethods()).filter(method -> !isStatic(method))
-                                             .filter(ComparingProperties::isPublic)
-                                             .filter(ComparingProperties::isGetter)
-                                             .collect(toCollection(LinkedHashSet::new));
+    return stream(clazz.getMethods()).filter(method -> !isInJavaLangPackage(method.getDeclaringClass()))
+                                     .filter(method -> !isStatic(method))
+                                     .filter(ComparingProperties::isGetter)
+                                     .collect(toCollection(LinkedHashSet::new));
   }
 
   private static boolean isStatic(Method method) {
     return Modifier.isStatic(method.getModifiers());
-  }
-
-  private static boolean isPublic(Method method) {
-    return Modifier.isPublic(method.getModifiers());
   }
 
   private static boolean isGetter(Method method) {

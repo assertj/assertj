@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -553,7 +553,11 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
-   * Verifies that the text content of the actual {@code File} is <b>exactly</b> equal to the given one.<br>
+   * Verifies that the text content of the actual {@code File} is <b>exactly</b> equal to the given one <b>except for newlines wich are ignored</b>.
+   * <p>
+   * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
+   * one can use {@link #content()} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
+   * <p>
    * The charset to use when reading the file should be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.

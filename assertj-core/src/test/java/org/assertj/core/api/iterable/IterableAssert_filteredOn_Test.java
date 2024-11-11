@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -21,19 +21,19 @@ import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.Name.lastNameComparator;
-import static org.assertj.core.test.Name.name;
+import static org.assertj.core.testkit.Name.lastNameComparator;
+import static org.assertj.core.testkit.Name.name;
 import static org.assertj.core.util.Sets.newHashSet;
 
 import java.util.Set;
 
 import org.assertj.core.api.IterableAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.data.TolkienCharacterAssert;
-import org.assertj.core.data.TolkienCharacterAssertFactory;
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Name;
+import org.assertj.core.testkit.TolkienCharacter;
+import org.assertj.core.testkit.TolkienCharacterAssert;
+import org.assertj.core.testkit.TolkienCharacterAssertFactory;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 

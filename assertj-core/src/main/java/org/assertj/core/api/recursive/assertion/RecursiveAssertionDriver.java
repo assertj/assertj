@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.assertion;
 
@@ -237,15 +237,16 @@ public class RecursiveAssertionDriver {
   }
 
   private boolean nodeIsJavaTypeToIgnore(Object node) {
-    String canonicalName = node.getClass().getCanonicalName();
-    boolean isJCLType = canonicalName.startsWith("java.") || canonicalName.startsWith("javax.");
+    String name = node.getClass().getCanonicalName();
+    // best effort if canonical name is null
+    if (name == null) name = node.getClass().getName();
+    boolean isJCLType = name.startsWith("java.") || name.startsWith("javax.");
     return isJCLType && configuration.shouldSkipJavaLibraryTypeObjects();
   }
 
   private void evaluateFieldsOfCurrentNodeRecursively(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
-    configuration.getIntrospectionStrategy().getChildNodesOf(node).forEach(field -> {
-      assertRecursively(predicate, field.value, field.type, fieldLocation.field(field.name));
-    });
+    configuration.getIntrospectionStrategy().getChildNodesOf(node)
+                 .forEach(field -> assertRecursively(predicate, field.value, field.type, fieldLocation.field(field.name)));
   }
 
   private boolean markNodeAsVisited(Object node) {

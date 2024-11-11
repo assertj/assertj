@@ -8,12 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static java.lang.reflect.Array.getLength;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ActualIsNotEmpty.actualIsNotEmpty;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.error.ElementsShouldBe.elementsShouldBe;
 import static org.assertj.core.error.ElementsShouldBeAtLeast.elementsShouldBeAtLeast;
@@ -71,6 +72,7 @@ import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
 import static org.assertj.core.internal.IterableDiff.diff;
 import static org.assertj.core.util.ArrayWrapperList.wrap;
 import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Arrays.isArrayEmpty;
 import static org.assertj.core.util.Arrays.prepend;
 import static org.assertj.core.util.Arrays.sizeOf;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
@@ -196,7 +198,7 @@ public class Arrays {
 
   @VisibleForTesting
   public void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
-    if (commonChecks(info, actual, values)) return;
+    if (commonChecks(info, failures, actual, values)) return;
     Set<Object> notFound = new LinkedHashSet<>();
     int valueCount = sizeOf(values);
     for (int i = 0; i < valueCount; i++) {
@@ -243,7 +245,7 @@ public class Arrays {
   }
 
   void assertContainsOnly(AssertionInfo info, Failures failures, Object actual, Object values) {
-    if (commonChecks(info, actual, values)) return;
+    if (commonChecks(info, failures, actual, values)) return;
     List<Object> notExpected = asList(actual);
     List<Object> notFound = asList(values);
 
@@ -274,7 +276,7 @@ public class Arrays {
   }
 
   void assertContainsExactly(AssertionInfo info, Failures failures, Object actual, Object values) {
-    if (commonChecks(info, actual, values)) return;
+    if (commonChecks(info, failures, actual, values)) return;
     assertIsArray(info, actual);
     assertIsArray(info, values);
 
@@ -297,7 +299,7 @@ public class Arrays {
   }
 
   void assertContainsExactlyInAnyOrder(AssertionInfo info, Failures failures, Object actual, Object values) {
-    if (commonChecks(info, actual, values)) return;
+    if (commonChecks(info, failures, actual, values)) return;
     List<Object> notExpected = asList(actual);
     List<Object> notFound = asList(values);
 
@@ -314,7 +316,7 @@ public class Arrays {
   }
 
   void assertContainsOnlyOnce(AssertionInfo info, Failures failures, Object actual, Object values) {
-    if (commonChecks(info, actual, values))
+    if (commonChecks(info, failures, actual, values))
       return;
     Iterable<?> actualDuplicates = comparisonStrategy.duplicatesFrom(asList(actual));
     Set<Object> notFound = new LinkedHashSet<>();
@@ -344,7 +346,7 @@ public class Arrays {
   }
 
   void assertContainsSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-    if (commonChecks(info, actual, sequence)) return;
+    if (commonChecks(info, failures, actual, sequence)) return;
     // look for given sequence, stop check when there are not enough elements remaining in actual to contain sequence
     int lastIndexWhereSequenceCanBeFound = sizeOf(actual) - sizeOf(sequence);
     for (int actualIndex = 0; actualIndex <= lastIndexWhereSequenceCanBeFound; actualIndex++) {
@@ -354,7 +356,7 @@ public class Arrays {
   }
 
   void assertDoesNotContainSequence(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-    if (commonChecks(info, actual, sequence)) return;
+    if (commonChecks(info, failures, actual, sequence)) return;
 
     // look for given sequence, stop check when there are not enough elements remaining in actual to contain sequence
     int lastIndexWhereSequenceCanBeFound = sizeOf(actual) - sizeOf(sequence);
@@ -383,7 +385,7 @@ public class Arrays {
   }
 
   void assertContainsSubsequence(AssertionInfo info, Failures failures, Object actual, Object subsequence) {
-    if (commonChecks(info, actual, subsequence)) return;
+    if (commonChecks(info, failures, actual, subsequence)) return;
 
     int sizeOfActual = sizeOf(actual);
     int sizeOfSubsequence = sizeOf(subsequence);
@@ -422,7 +424,7 @@ public class Arrays {
   }
 
   void assertDoesNotContainSubsequence(AssertionInfo info, Failures failures, Object actual, Object subsequence) {
-    if (commonChecks(info, actual, subsequence)) return;
+    if (commonChecks(info, failures, actual, subsequence)) return;
 
     int sizeOfActual = sizeOf(actual);
     int sizeOfSubsequence = sizeOf(subsequence);
@@ -480,7 +482,7 @@ public class Arrays {
   }
 
   void assertStartsWith(AssertionInfo info, Failures failures, Object actual, Object sequence) {
-    if (commonChecks(info, actual, sequence))
+    if (commonChecks(info, failures, actual, sequence))
       return;
     int sequenceSize = sizeOf(sequence);
     int arraySize = sizeOf(actual);
@@ -491,11 +493,11 @@ public class Arrays {
     }
   }
 
-  private static boolean commonChecks(AssertionInfo info, Object actual, Object sequence) {
+  private static boolean commonChecks(AssertionInfo info, Failures failures, Object actual, Object sequence) {
     checkNulls(info, actual, sequence);
     // if both actual and values are empty arrays, then assertion passes.
     if (isArrayEmpty(actual) && isArrayEmpty(sequence)) return true;
-    failIfEmptySinceActualIsNotEmpty(sequence);
+    failIfEmptySinceActualIsNotEmpty(info, failures, actual, sequence);
     return false;
 
   }
@@ -626,7 +628,7 @@ public class Arrays {
   }
 
   public void assertContainsAnyOf(AssertionInfo info, Failures failures, Object actual, Object values) {
-    if (commonChecks(info, actual, values)) return;
+    if (commonChecks(info, failures, actual, values)) return;
     assertIsArray(info, actual);
     assertIsArray(info, values);
 
@@ -757,10 +759,6 @@ public class Arrays {
     if (values == null) throw arrayOfValuesToLookForIsNull();
   }
 
-  static boolean isArrayEmpty(Object array) {
-    return sizeOf(array) == 0;
-  }
-
   private AssertionError arrayDoesNotEndWithSequence(AssertionInfo info, Failures failures, Object array,
                                                      Object sequence) {
     return failures.failure(info, shouldEndWith(array, sequence, comparisonStrategy));
@@ -770,8 +768,9 @@ public class Arrays {
     Objects.instance().assertNotNull(info, array);
   }
 
-  private static void failIfEmptySinceActualIsNotEmpty(Object values) {
-    if (isArrayEmpty(values)) throw new AssertionError("actual is not empty while group of values to look for is.");
+  private static void failIfEmptySinceActualIsNotEmpty(AssertionInfo info, Failures failures, Object actual,
+                                                       Object values) {
+    if (isArrayEmpty(values)) throw failures.failure(info, actualIsNotEmpty(actual));
   }
 
 }

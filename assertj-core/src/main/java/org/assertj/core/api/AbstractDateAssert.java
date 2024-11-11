@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -27,6 +27,7 @@ import static org.assertj.core.util.DateUtil.newTimestampDateFormat;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,9 +38,11 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Dates;
@@ -49,9 +52,9 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all implementations of assertions for {@link Date}s.
  * <p>
- * Note that assertions with date parameter comes with two flavor, one is obviously a {@link Date} and the other is a
+ * Note that assertions with date parameter come with two flavors, one is obviously a {@link Date} and the other is a
  * {@link String} representing a Date.<br>
- * For the latter, the default format follows ISO 8901 : "yyyy-MM-dd", user can override it with a custom format by
+ * For the latter, the default format follows ISO 8901: "yyyy-MM-dd", user can override it with a custom format by
  * calling {@link #withDateFormat(DateFormat)}.<br>
  * The user custom format will then be used for all next Date assertions (i.e not limited to the current assertion) in
  * the test suite.<br>
@@ -69,24 +72,38 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> extends AbstractAssert<SELF, Date> {
 
-  /**
-   * the default DateFormat used to parse any String date representation.
-   */
-  @VisibleForTesting
-  static final List<DateFormat> DEFAULT_DATE_FORMATS = list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(),
-                                                            newIsoDateTimeWithMsFormat(),
-                                                            newTimestampDateFormat(),
-                                                            newIsoDateTimeWithIsoTimeZoneFormat(),
-                                                            newIsoDateTimeFormat(),
-                                                            newIsoDateFormat());
-
   private static final String DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL = "Given date format pattern should not be null";
   private static final String DATE_FORMAT_SHOULD_NOT_BE_NULL = "Given date format should not be null";
 
   /**
+   * the default DateFormat used to parse any String date representation.
+   */
+  private static List<DateFormat> DEFAULT_DATE_FORMATS = defaultDateFormats();
+  private static boolean lenientParsing = Configuration.LENIENT_DATE_PARSING;
+
+  @VisibleForTesting
+  static List<DateFormat> defaultDateFormats() {
+    if (DEFAULT_DATE_FORMATS == null || defaultDateFormatMustBeRecreated()) {
+      DEFAULT_DATE_FORMATS = list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(lenientParsing),
+                                  newIsoDateTimeWithMsFormat(lenientParsing),
+                                  newTimestampDateFormat(lenientParsing),
+                                  newIsoDateTimeWithIsoTimeZoneFormat(lenientParsing),
+                                  newIsoDateTimeFormat(lenientParsing),
+                                  newIsoDateFormat(lenientParsing));
+    }
+    return DEFAULT_DATE_FORMATS;
+  }
+
+  private static boolean defaultDateFormatMustBeRecreated() {
+    // check default timezone or lenient flag changes, only check one date format since all are configured the same way
+    DateFormat dateFormat = DEFAULT_DATE_FORMATS.get(0);
+    return !dateFormat.getTimeZone().getID().equals(TimeZone.getDefault().getID()) || dateFormat.isLenient() != lenientParsing;
+  }
+
+  /**
    * Used in String based Date assertions - like {@link #isAfter(String)} - to convert input date represented as string
    * to Date.<br>
-   * It keeps the insertion order so first format added will be first format used.
+   * It keeps the insertion order, so the first format added will be the first format used.
    */
   @VisibleForTesting
   static ThreadLocal<LinkedHashSet<DateFormat>> userDateFormats = ThreadLocal.withInitial(LinkedHashSet::new);
@@ -100,10 +117,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Same assertion as {@link AbstractAssert#isEqualTo(Object) isEqualTo(Date date)} but given date is represented as
-   * a {@code String} either with one of the supported defaults date format or a user custom date format set with method
+   * a {@code String} either with one of the supported default date formats or a user custom date format set with method
    * {@link #withDateFormat(DateFormat)}.
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -161,12 +178,12 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if actual {@code Date} and given {@link Instant} are not equal (after converting instant to a Date).
    */
   public SELF isEqualTo(Instant instant) {
-    return isEqualTo(Date.from(instant));
+    return isEqualTo(dateFrom(instant));
   }
 
   /**
    * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringHours(Date)} but given Date is represented as String
-   * either with one of the default supported date format or user custom date format (set with method
+   * either with one of the default supported date formats or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
    * User custom date format take precedence over the default ones.
@@ -232,7 +249,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isEqualToIgnoringHours(Instant instant) {
-    return isEqualToIgnoringHours(Date.from(instant));
+    return isEqualToIgnoringHours(dateFrom(instant));
   }
 
   /**
@@ -332,12 +349,12 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isEqualToIgnoringMinutes(Instant instant) {
-    return isEqualToIgnoringMinutes(Date.from(instant));
+    return isEqualToIgnoringMinutes(dateFrom(instant));
   }
 
   /**
    * Same assertion as {@link AbstractAssert#isEqualTo(Object)} but given Date should not take care of minutes,
-   * seconds and milliseconds precision.
+   * seconds and millisecond precision.
    * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:01:35");
@@ -367,10 +384,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   /**
    * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringSeconds(Date)} but given Date is represented as
    * String
-   * either with one of the default supported date format or user custom date format (set with method
+   * either with one of the default supported date formats or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -435,12 +452,12 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isEqualToIgnoringSeconds(Instant instant) {
-    return isEqualToIgnoringSeconds(Date.from(instant));
+    return isEqualToIgnoringSeconds(dateFrom(instant));
   }
 
   /**
    * Same assertion as {@link AbstractAssert#isEqualTo(Object)} but given Date should not take care of seconds and
-   * milliseconds precision.
+   * millisecond precision.
    * <p>
    * Example:
    * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:01:35");
@@ -469,10 +486,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringMillis(Date)} but given Date is represented as String
-   * either with one of the default supported date format or user custom date format (set with method
+   * either with one of the default supported date formats or user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -536,7 +553,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   @Deprecated
   public SELF isEqualToIgnoringMillis(Instant instant) {
-    return isEqualToIgnoringMillis(Date.from(instant));
+    return isEqualToIgnoringMillis(dateFrom(instant));
   }
 
   /**
@@ -569,10 +586,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Same assertion as {@link AbstractAssert#isNotEqualTo(Object) isNotEqualTo(Date date)} but given date is
-   * represented as String either with one of the supported defaults date format or a user custom date format (set with
+   * represented as String either with one of the supported default date formats or a user custom date format (set with
    * method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -631,14 +648,14 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isNotEqualTo(Instant instant) {
-    return isNotEqualTo(Date.from(instant));
+    return isNotEqualTo(dateFrom(instant));
   }
 
   /**
    * Same assertion as {@link Assert#isIn(Object...)}but given dates are represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -822,9 +839,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Same assertion as {@link Assert#isNotIn(Iterable)} but given date is represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -912,15 +929,15 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isBefore(Instant other) {
-    dates.assertIsBefore(info, actual, Date.from(other));
+    dates.assertIsBefore(info, actual, dateFrom(other));
     return myself;
   }
 
   /**
    * Same assertion as {@link #isBefore(Date)} but given date is represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -1037,15 +1054,15 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isBeforeOrEqualTo(Instant other) {
-    dates.assertIsBeforeOrEqualTo(info, actual, Date.from(other));
+    dates.assertIsBeforeOrEqualTo(info, actual, dateFrom(other));
     return myself;
   }
 
   /**
    * Same assertion as {@link #isBeforeOrEqualsTo(Date)} but given date is represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -1189,15 +1206,15 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isAfter(Instant other) {
-    dates.assertIsAfter(info, actual, Date.from(other));
+    dates.assertIsAfter(info, actual, dateFrom(other));
     return myself;
   }
 
   /**
    * Same assertion as {@link #isAfter(Date)} but given date is represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -1313,15 +1330,15 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isAfterOrEqualTo(Instant other) {
-    dates.assertIsAfterOrEqualTo(info, actual, Date.from(other));
+    dates.assertIsAfterOrEqualTo(info, actual, dateFrom(other));
     return myself;
   }
 
   /**
    * Same assertion as {@link #isAfterOrEqualsTo(Date)} but given date is represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -1514,7 +1531,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isBetween(Instant start, Instant end) {
-    return isBetween(Date.from(start), Date.from(end));
+    return isBetween(dateFrom(start), dateFrom(end));
   }
 
   /**
@@ -1552,10 +1569,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Same assertion as {@link #isBetween(Date, Date, boolean, boolean)} but given date is represented as String either
-   * with one of the supported defaults date format or a user custom date format (set with method
+   * with one of the supported default date formats or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -1625,7 +1642,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isBetween(Instant start, Instant end, boolean inclusiveStart, boolean inclusiveEnd) {
-    dates.assertIsBetween(info, actual, Date.from(start), Date.from(end), inclusiveStart, inclusiveEnd);
+    dates.assertIsBetween(info, actual, dateFrom(start), dateFrom(end), inclusiveStart, inclusiveEnd);
     return myself;
   }
 
@@ -1688,16 +1705,16 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isNotBetween(Instant start, Instant end, boolean inclusiveStart, boolean inclusiveEnd) {
-    dates.assertIsNotBetween(info, actual, Date.from(start), Date.from(end), inclusiveStart, inclusiveEnd);
+    dates.assertIsNotBetween(info, actual, dateFrom(start), dateFrom(end), inclusiveStart, inclusiveEnd);
     return myself;
   }
 
   /**
    * Same assertion as {@link #isNotBetween(Date, Date, boolean, boolean)} but given date is represented as String
-   * either with one of the supported defaults date format or a user custom date format (set with method
+   * either with one of the supported default date formats or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -1798,14 +1815,14 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isNotBetween(Instant start, Instant end) {
-    return isNotBetween(Date.from(start), Date.from(end), true, false);
+    return isNotBetween(dateFrom(start), dateFrom(end), true, false);
   }
 
   /**
    * Same assertion as {@link #isNotBetween(Date, Date)} but given date is represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -2253,7 +2270,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameYearAs(Instant other) {
-    dates.assertIsInSameYearAs(info, actual, Date.from(other));
+    dates.assertIsInSameYearAs(info, actual, dateFrom(other));
     return myself;
   }
 
@@ -2344,15 +2361,15 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameMonthAs(Instant other) {
-    dates.assertIsInSameMonthAs(info, actual, Date.from(other));
+    dates.assertIsInSameMonthAs(info, actual, dateFrom(other));
     return myself;
   }
 
   /**
    * Same assertion as {@link #isInSameMonthAs(Date)}but given date is represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -2438,15 +2455,15 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameDayAs(Instant other) {
-    dates.assertIsInSameDayAs(info, actual, Date.from(other));
+    dates.assertIsInSameDayAs(info, actual, dateFrom(other));
     return myself;
   }
 
   /**
    * Same assertion as {@link #isInSameDayAs(Date)} but given date is represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -2555,16 +2572,16 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameHourWindowAs(Instant other) {
-    dates.assertIsInSameHourWindowAs(info, actual, Date.from(other));
+    dates.assertIsInSameHourWindowAs(info, actual, dateFrom(other));
     return myself;
   }
 
   /**
    * Same assertion as {@link #isInSameHourWindowAs(java.util.Date)} but given date is represented as String either
-   * with one of the supported defaults date format or a user custom date format (set with method
+   * with one of the supported default date formats or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -2642,9 +2659,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Same assertion as {@link #isInSameHourAs(Date)} but given date is represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -2755,16 +2772,16 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameMinuteWindowAs(Instant other) {
-    dates.assertIsInSameMinuteWindowAs(info, actual, Date.from(other));
+    dates.assertIsInSameMinuteWindowAs(info, actual, dateFrom(other));
     return myself;
   }
 
   /**
    * Same assertion as {@link #isInSameMinuteWindowAs(Date)} but given date is represented as String either with one of
-   * the supported defaults date format or a user custom date format (set with method
+   * the supported default date formats or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -2844,13 +2861,13 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Same assertion as {@link #isInSameMinuteAs(Date)} but given date is represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
+   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Default date formats (expressed in the local time zone unless specified otherwise) are:
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -2969,16 +2986,16 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isInSameSecondWindowAs(Instant other) {
-    dates.assertIsInSameSecondWindowAs(info, actual, Date.from(other));
+    dates.assertIsInSameSecondWindowAs(info, actual, dateFrom(other));
     return myself;
   }
 
   /**
    * Same assertion as {@link #isInSameSecondWindowAs(Date)} but given date is represented as String either with one of
-   * the supported defaults date format or a user custom date format (set with method
+   * the supported default date formats or a user custom date format (set with method
    * {@link #withDateFormat(DateFormat)}).
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -3162,7 +3179,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isCloseTo(Instant other, long deltaInMilliseconds) {
-    dates.assertIsCloseTo(info, actual, Date.from(other), deltaInMilliseconds);
+    dates.assertIsCloseTo(info, actual, dateFrom(other), deltaInMilliseconds);
     return myself;
   }
 
@@ -3174,7 +3191,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
+   * Default date formats (expressed in the local time zone unless specified otherwise) are:
    * <ul>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
    * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
@@ -3312,7 +3329,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Instead of using default date formats for the date String based Date assertions like {@link #isEqualTo(String)},
-   * AssertJ is gonna use any date formats registered with one of these methods :
+   * AssertJ is going to use any date formats registered with one of these methods :
    * <ul>
    * <li>{@link #withDateFormat(String)}</li>
    * <li>this method</li>
@@ -3339,7 +3356,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
 
   /**
    * Instead of using default date formats for the date String based Date assertions like {@link #isEqualTo(String)},
-   * AssertJ is gonna use any date formats registered with one of these methods :
+   * AssertJ is going to use any date formats registered with one of these methods :
    * <ul>
    * <li>this method</li>
    * <li>{@link #withDateFormat(java.text.DateFormat)}</li>
@@ -3368,7 +3385,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * Instead of using default strict date/time parsing, it is possible to use lenient parsing mode for default date
    * formats parser to interpret inputs that do not precisely match supported date formats (lenient parsing).
    * <p>
-   * With strict parsing, inputs must match exactly date/time format.
+   * With strict parsing, inputs must match exactly date/time formats.
    * <p>
    * Example:
    * <pre><code class='java'> final Date date = Dates.parse("2001-02-03");
@@ -3391,13 +3408,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * To revert to default strict date parsing, call {@code setLenientDateParsing(false)}.
    *
-   * @param value whether lenient parsing mode should be enabled or not
+   * @param lenientDateParsing whether lenient parsing mode should be enabled or not
    */
-  public static void setLenientDateParsing(boolean value) {
-    ConfigurationProvider.loadRegisteredConfiguration();
-    for (DateFormat defaultDateFormat : DEFAULT_DATE_FORMATS) {
-      defaultDateFormat.setLenient(value);
-    }
+  public static void setLenientDateParsing(boolean lenientDateParsing) {
+    lenientParsing = lenientDateParsing;
   }
 
   /**
@@ -3528,9 +3542,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Remove all registered custom date formats =&gt; use only the defaults date formats to parse string as date.
+   * Remove all registered custom date formats =&gt; use only the default date formats to parse string as date.
    * <p>
-   * User custom date format take precedence over the default ones.
+   * User custom date format takes precedence over the default ones.
    * <p>
    * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
    * <p>
@@ -3563,7 +3577,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Thread safe utility method to parse a Date with {@link #userDateFormats} first, then {@link #DEFAULT_DATE_FORMATS}.
+   * Thread safe utility method to parse a Date with {@link #userDateFormats} first, then {@link #defaultDateFormats()}.
    * <p>
    * Returns <code>null</code> if dateAsString parameter is <code>null</code>.
    *
@@ -3586,15 +3600,13 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
                                            info.representation().toStringOf(dateFormatsInOrderOfUsage())));
   }
 
-  private Date parseDateWithDefaultDateFormats(final String dateAsString) {
-    synchronized (DEFAULT_DATE_FORMATS) {
-      return parseDateWith(dateAsString, DEFAULT_DATE_FORMATS);
-    }
+  private synchronized Date parseDateWithDefaultDateFormats(final String dateAsString) {
+    return parseDateWith(dateAsString, defaultDateFormats());
   }
 
   private List<DateFormat> dateFormatsInOrderOfUsage() {
     List<DateFormat> allDateFormatsInOrderOfUsage = newArrayList(userDateFormats.get());
-    allDateFormatsInOrderOfUsage.addAll(DEFAULT_DATE_FORMATS);
+    allDateFormatsInOrderOfUsage.addAll(defaultDateFormats());
     return allDateFormatsInOrderOfUsage;
   }
 
@@ -3635,6 +3647,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   public SELF usingDefaultComparator() {
     this.dates = Dates.instance();
     return super.usingDefaultComparator();
+  }
+
+  private Date dateFrom(Instant instant) {
+    return actual instanceof Timestamp ? Timestamp.from(instant) : Date.from(instant);
   }
 
 }

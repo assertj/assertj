@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -24,14 +24,15 @@ class ShouldHaveCauseInstance_create_Test {
   @Test
   void should_create_error_message_for_no_cause() {
     // GIVEN
-    Throwable actual = new RuntimeException();
+    Throwable actual = new RuntimeException("boom %s");
     Throwable expected = new IllegalStateException();
     // WHEN
     String message = shouldHaveCauseInstance(actual, expected.getClass()).create();
     // THEN
     then(message).isEqualTo("%nExpecting a throwable with cause being an instance of:%n" +
                             "  %s%n" +
-                            "but current throwable has no cause.", expected);
+                            "but current throwable has no cause." +
+                            "%nThrowable that failed the check:%n%s", expected, getStackTrace(actual));
   }
 
   @Test
@@ -50,6 +51,5 @@ class ShouldHaveCauseInstance_create_Test {
                                    "Throwable that failed the check:%n" +
                                    "%n" +
                                    "%s", getStackTrace(actual)));
-
   }
 }

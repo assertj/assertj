@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -55,6 +55,7 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
+import java.util.regex.Matcher;
 
 import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
@@ -163,6 +164,7 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     if (currentAssert instanceof LongAssert) return Long.class;
     if (currentAssert instanceof LongPredicateAssert) return LongPredicate.class;
     if (currentAssert instanceof MapAssert) return Map.class;
+    if (currentAssert instanceof MatcherAssert) return Matcher.class;
     if (currentAssert instanceof ObjectAssert) return Object.class;
     if (currentAssert instanceof OffsetDateTimeAssert) return OffsetDateTime.class;
     if (currentAssert instanceof OffsetTimeAssert) return OffsetTime.class;

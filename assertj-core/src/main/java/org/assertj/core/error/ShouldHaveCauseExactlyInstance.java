@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -33,7 +33,7 @@ public class ShouldHaveCauseExactlyInstance extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldHaveCauseExactlyInstance(Throwable actual,
                                                                    Class<? extends Throwable> expectedCauseType) {
     return actual.getCause() == null
-        ? new ShouldHaveCauseExactlyInstance(expectedCauseType)
+        ? new ShouldHaveCauseExactlyInstance(expectedCauseType, actual)
         : new ShouldHaveCauseExactlyInstance(actual, expectedCauseType);
   }
 
@@ -47,8 +47,8 @@ public class ShouldHaveCauseExactlyInstance extends BasicErrorMessageFactory {
           expectedCauseType, actual.getCause().getClass());
   }
 
-  private ShouldHaveCauseExactlyInstance(Class<? extends Throwable> expectedCauseType) {
-    super("%nExpecting a throwable with cause being exactly an instance of:%n  %s%nbut current throwable has no cause.",
-          expectedCauseType);
+  private ShouldHaveCauseExactlyInstance(Class<? extends Throwable> expectedCauseType, Throwable actual) {
+    super("%nExpecting a throwable with cause being exactly an instance of:%n  %s%nbut current throwable has no cause." +
+          "%nThrowable that failed the check:%n" + escapePercent(getStackTrace(actual)), expectedCauseType);
   }
 }

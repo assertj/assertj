@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent</artifactId>
-    <version>3.25.0-SNAPSHOT</version>
+    <version>3.26.4-SNAPSHOT</version>
     <relativePath>../assertj-parent</relativePath>
   </parent>
 
@@ -24,13 +24,14 @@
       --add-opens=java.base/java.util=ALL-UNNAMED
       --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
     </argLine>
-    <javadocAdditionalOptions>-html5 --allow-script-in-comments</javadocAdditionalOptions>
     <rootDirectory>${project.basedir}/../</rootDirectory>
+    <spotless.skip>false</spotless.skip>
+    <jacoco.skip>true</jacoco.skip> <!-- https://github.com/assertj/assertj/issues/3580 -->
     <!-- Dependency versions -->
-    <byte-buddy.version>1.14.5</byte-buddy.version>
-    <hamcrest.version>2.2</hamcrest.version>
+    <byte-buddy.version>1.15.5</byte-buddy.version>
+    <hamcrest.version>3.0</hamcrest.version>
     <!-- Plugin versions -->
-    <cdg.pitest.version>1.0.12</cdg.pitest.version>
+    <cdg.pitest.version>1.1.4</cdg.pitest.version>
   </properties>
 
   <dependencyManagement>
@@ -53,7 +54,7 @@
       <dependency> <!-- Included by hibernate-core -->
         <groupId>org.jboss.logging</groupId>
         <artifactId>jboss-logging</artifactId>
-        <version>3.5.3.Final</version>
+        <version>3.6.1.Final</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -99,31 +100,37 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
-      <version>2.13.0</version>
+      <version>2.17.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.15.2</version>
+      <version>2.18.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>32.1.1-jre</version>
+      <version>33.3.1-jre</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>jakarta.ws.rs</groupId>
       <artifactId>jakarta.ws.rs-api</artifactId>
-      <version>3.1.0</version>
+      <version>4.0.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+      <version>4.0.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.15</version>
+      <version>3.17.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -135,13 +142,19 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.13.0</version>
+      <version>3.17.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-text</artifactId>
+      <version>1.12.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>6.2.7.Final</version>
+      <version>6.6.1.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -197,13 +210,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>5.3.29</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>4.0.1</version>
+      <version>5.3.39</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -211,13 +218,7 @@
   <build>
     <pluginManagement>
       <plugins>
-        <plugin>
-          <groupId>net.alchim31.maven</groupId>
-          <artifactId>yuicompressor-maven-plugin</artifactId>
-          <version>1.5.1</version>
-        </plugin>
-        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build
-          itself. -->
+        <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
         <plugin>
           <groupId>org.eclipse.m2e</groupId>
           <artifactId>lifecycle-mapping</artifactId>
@@ -235,7 +236,7 @@
                     </goals>
                   </pluginExecutionFilter>
                   <action>
-                    <ignore/>
+                    <ignore />
                   </action>
                 </pluginExecution>
               </pluginExecutions>
@@ -288,15 +289,11 @@
     </pluginManagement>
     <plugins>
       <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
           <execution>
-            <id>enforce-java-and-dependencies</id>
+            <id>enforce-dependencies</id>
             <goals>
               <goal>enforce</goal>
             </goals>
@@ -312,10 +309,7 @@
                     <exclude>*:*:*:jar:compile</exclude>
                   </excludes>
                 </bannedDependencies>
-                <dependencyConvergence/>
-                <requireJavaVersion>
-                  <version>[17,)</version>
-                </requireJavaVersion>
+                <dependencyConvergence />
               </rules>
             </configuration>
           </execution>
@@ -324,10 +318,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <showDeprecation>true</showDeprecation>
-          <showWarnings>true</showWarnings>
-        </configuration>
         <executions>
           <execution>
             <id>jdk9</id>
@@ -347,7 +337,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>3.1.2</version>
         <configuration>
           <trimStackTrace>false</trimStackTrace>
           <excludes>
@@ -429,51 +418,44 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>yuicompressor-maven-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>flatten-maven-plugin</artifactId>
         <executions>
           <execution>
-            <phase>generate-sources</phase> <!-- invoked by maven-javadoc-plugin -->
+            <id>flatten</id>
+            <phase>process-resources</phase>
             <goals>
-              <goal>compress</goal>
+              <goal>flatten</goal>
+            </goals>
+            <configuration>
+              <flattenMode>ossrh</flattenMode>
+              <pomElements>
+                <build>remove</build>
+              </pomElements>
+            </configuration>
+          </execution>
+          <execution>
+            <id>flatten-clean</id>
+            <phase>clean</phase>
+            <goals>
+              <goal>clean</goal>
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <sourceDirectory>src/main/javadoc</sourceDirectory>
-          <outputDirectory>${project.build.directory}/javadoc-stylesheet</outputDirectory>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <!-- Explicitly set Javadoc locale to English -->
-          <locale>en_US</locale>
-          <!-- needed to fix javadoc on java 11+ https://github.com/assertj/assertj/issues/1403 -->
-          <source>8</source>
-          <!-- (1) CSS file location -->
-          <stylesheetfile>${project.build.directory}/javadoc-stylesheet/assertj-javadoc-min.css</stylesheetfile>
-          <!-- init Highlight -->
-          <additionalOptions>${javadocAdditionalOptions}</additionalOptions>
-          <nohelp>true</nohelp>
-          <bottom><![CDATA[
-            Copyright &#169; {currentYear} {organizationName}. All rights reserved.
-            <link rel="stylesheet" href="./assertj-javadoc.css"">
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.1/highlight.min.js"></script>
-            <script>hljs.highlightAll();</script>
-        ]]></bottom>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>1.14.2</version>
+        <version>1.17.1</version>
         <dependencies>
           <dependency>
             <groupId>org.pitest</groupId>
             <artifactId>pitest-junit5-plugin</artifactId>
-            <version>1.2.0</version>
+            <version>1.2.1</version>
           </dependency>
           <dependency>
             <groupId>com.groupcdg</groupId>

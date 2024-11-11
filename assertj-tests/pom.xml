@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent</artifactId>
-    <version>3.25.0-SNAPSHOT</version>
+    <version>3.26.4-SNAPSHOT</version>
     <relativePath>../assertj-parent</relativePath>
   </parent>
 
@@ -20,6 +20,7 @@
   </modules>
 
   <properties>
+    <java.version>21</java.version>
     <gpg.skip>true</gpg.skip>
     <maven.install.skip>true</maven.install.skip>
     <maven.deploy.skip>true</maven.deploy.skip>

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -19,7 +19,7 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.test.jdk11.Jdk11.List;
+import org.assertj.core.testkit.jdk11.Jdk11.List;
 import org.junit.jupiter.api.Test;
 
 /**

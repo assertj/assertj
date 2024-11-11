@@ -8,15 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.Offset.strictOffset;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.function.BiFunction;
@@ -26,11 +28,9 @@ import java.util.stream.Stream;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.TemporalUnitLessThanOffset;
 import org.assertj.core.data.TemporalUnitOffset;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayName("EntryPoint assertions byLessThan method")
 class EntryPointAssertions_byLessThan_Test extends EntryPointAssertionsBaseTest {
 
   @ParameterizedTest
@@ -39,9 +39,9 @@ class EntryPointAssertions_byLessThan_Test extends EntryPointAssertionsBaseTest 
     // GIVEN
     BigDecimal offsetValue = BigDecimal.ONE;
     // WHEN
-    Offset<BigDecimal> index = offsetFactory.apply(offsetValue);
+    Offset<BigDecimal> offset = offsetFactory.apply(offsetValue);
     // THEN
-    then(index).isEqualTo(strictOffset(offsetValue));
+    then(offset).isEqualTo(strictOffset(offsetValue));
   }
 
   private static Stream<Function<BigDecimal, Offset<BigDecimal>>> bigDecimalOffsetFactories() {
@@ -54,9 +54,9 @@ class EntryPointAssertions_byLessThan_Test extends EntryPointAssertionsBaseTest 
     // GIVEN
     BigInteger offsetValue = BigInteger.ONE;
     // WHEN
-    Offset<BigInteger> index = offsetFactory.apply(offsetValue);
+    Offset<BigInteger> offset = offsetFactory.apply(offsetValue);
     // THEN
-    then(index).isEqualTo(strictOffset(offsetValue));
+    then(offset).isEqualTo(strictOffset(offsetValue));
   }
 
   private static Stream<Function<BigInteger, Offset<BigInteger>>> bigIntegerOffsetFactories() {
@@ -69,9 +69,9 @@ class EntryPointAssertions_byLessThan_Test extends EntryPointAssertionsBaseTest 
     // GIVEN
     Byte offsetValue = Byte.MAX_VALUE;
     // WHEN
-    Offset<Byte> index = offsetFactory.apply(offsetValue);
+    Offset<Byte> offset = offsetFactory.apply(offsetValue);
     // THEN
-    then(index).isEqualTo(strictOffset(offsetValue));
+    then(offset).isEqualTo(strictOffset(offsetValue));
   }
 
   private static Stream<Function<Byte, Offset<Byte>>> byteOffsetFactories() {
@@ -84,9 +84,9 @@ class EntryPointAssertions_byLessThan_Test extends EntryPointAssertionsBaseTest 
     // GIVEN
     Double offsetValue = Double.MAX_VALUE;
     // WHEN
-    Offset<Double> index = offsetFactory.apply(offsetValue);
+    Offset<Double> offset = offsetFactory.apply(offsetValue);
     // THEN
-    then(index).isEqualTo(strictOffset(offsetValue));
+    then(offset).isEqualTo(strictOffset(offsetValue));
   }
 
   private static Stream<Function<Double, Offset<Double>>> doubleOffsetFactories() {
@@ -99,9 +99,9 @@ class EntryPointAssertions_byLessThan_Test extends EntryPointAssertionsBaseTest 
     // GIVEN
     Float offsetValue = Float.MAX_VALUE;
     // WHEN
-    Offset<Float> index = offsetFactory.apply(offsetValue);
+    Offset<Float> offset = offsetFactory.apply(offsetValue);
     // THEN
-    then(index).isEqualTo(strictOffset(offsetValue));
+    then(offset).isEqualTo(strictOffset(offsetValue));
   }
 
   private static Stream<Function<Float, Offset<Float>>> floatOffsetFactories() {
@@ -114,9 +114,9 @@ class EntryPointAssertions_byLessThan_Test extends EntryPointAssertionsBaseTest 
     // GIVEN
     Integer offsetValue = Integer.MAX_VALUE;
     // WHEN
-    Offset<Integer> index = offsetFactory.apply(offsetValue);
+    Offset<Integer> offset = offsetFactory.apply(offsetValue);
     // THEN
-    then(index).isEqualTo(strictOffset(offsetValue));
+    then(offset).isEqualTo(strictOffset(offsetValue));
   }
 
   private static Stream<Function<Integer, Offset<Integer>>> integerOffsetFactories() {
@@ -129,9 +129,9 @@ class EntryPointAssertions_byLessThan_Test extends EntryPointAssertionsBaseTest 
     // GIVEN
     Long offsetValue = Long.MAX_VALUE;
     // WHEN
-    Offset<Long> index = offsetFactory.apply(offsetValue);
+    Offset<Long> offset = offsetFactory.apply(offsetValue);
     // THEN
-    then(index).isEqualTo(strictOffset(offsetValue));
+    then(offset).isEqualTo(strictOffset(offsetValue));
   }
 
   private static Stream<Function<Long, Offset<Long>>> longOffsetFactories() {
@@ -139,18 +139,44 @@ class EntryPointAssertions_byLessThan_Test extends EntryPointAssertionsBaseTest 
   }
 
   @ParameterizedTest
-  @MethodSource("temporalOffsetFactories")
+  @MethodSource
   void should_create_temporal_strictOffset(BiFunction<Long, TemporalUnit, TemporalUnitOffset> offsetFactory) {
     // GIVEN
-    Long value = Long.MAX_VALUE;
+    long value = Long.MAX_VALUE;
     TemporalUnit temporalUnit = ChronoUnit.MINUTES;
     // WHEN
-    TemporalUnitOffset index = offsetFactory.apply(value, temporalUnit);
+    TemporalUnitOffset offset = offsetFactory.apply(value, temporalUnit);
     // THEN
-    then(index).isEqualTo(new TemporalUnitLessThanOffset(value, temporalUnit));
+    then(offset).isEqualTo(new TemporalUnitLessThanOffset(value, temporalUnit));
   }
 
-  private static Stream<BiFunction<Long, TemporalUnit, TemporalUnitOffset>> temporalOffsetFactories() {
+  private static Stream<BiFunction<Long, TemporalUnit, TemporalUnitOffset>> should_create_temporal_strictOffset() {
+    return Stream.of(Assertions::byLessThan, BDDAssertions::byLessThan, withAssertions::byLessThan);
+  }
+
+  @ParameterizedTest
+  @MethodSource("temporal_strictOffset_from_duration")
+  void should_create_temporal_strictOffset_from_duration(Function<Duration, TemporalUnitOffset> offsetFactory) {
+    // GIVEN
+    Duration duration = Duration.ofNanos(123);
+    // WHEN
+    TemporalUnitOffset offset = offsetFactory.apply(duration);
+    // THEN
+    then(offset).isEqualTo(new TemporalUnitLessThanOffset(123, ChronoUnit.NANOS));
+  }
+
+  @ParameterizedTest
+  @MethodSource("temporal_strictOffset_from_duration")
+  void should_fail_if_duration_is_null(Function<Duration, TemporalUnitOffset> offsetFactory) {
+    // GIVEN
+    Duration duration = null;
+    // WHEN
+    NullPointerException npe = catchNullPointerException(() -> offsetFactory.apply(duration));
+    // THEN
+    then(npe).hasMessage("non null duration expected");
+  }
+
+  private static Stream<Function<Duration, TemporalUnitOffset>> temporal_strictOffset_from_duration() {
     return Stream.of(Assertions::byLessThan, BDDAssertions::byLessThan, withAssertions::byLessThan);
   }
 

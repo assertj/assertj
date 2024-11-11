@@ -8,16 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 
@@ -132,12 +135,21 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
    * @throws AssertionError if the content of the actual {@code InputStream} is not empty.
-   * @throws InputStreamsException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @since 3.17.0
    */
   public SELF isEmpty() {
-    inputStreams.assertIsEmpty(info, actual);
+    isNotNull();
+    assertIsEmpty();
     return myself;
+  }
+
+  private void assertIsEmpty() {
+    try {
+      if (actual.read() != -1) throw assertionError(shouldBeEmpty(actual));
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 
   /**
@@ -155,16 +167,28 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
    * @throws AssertionError if the content of the actual {@code InputStream} is empty.
-   * @throws InputStreamsException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @since 3.17.0
    */
   public SELF isNotEmpty() {
-    inputStreams.assertIsNotEmpty(info, actual);
+    isNotNull();
+    assertIsNotEmpty();
     return myself;
   }
 
+  private void assertIsNotEmpty() {
+    try {
+      if (actual.read() == -1) throw assertionError(shouldNotBeEmpty());
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
+  }
+
   /**
-   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String}.
+   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String} <b>except for newlines wich are ignored</b>.
+   * <p>
+   * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
+   * one can use {@link #asString(Charset)} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass

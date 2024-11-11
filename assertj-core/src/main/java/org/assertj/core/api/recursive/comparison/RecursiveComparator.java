@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -20,10 +20,10 @@ import java.util.List;
 /**
  * {@code Comparator} comparing objects recursively as in {@link org.assertj.core.api.RecursiveComparisonAssert}.
  * <p>
- * This comparator does not enforce any ordering, it just returns 0 if compared objects are equals according the recursive
- * comparison and a non 0 value otherwise.
- * <p>
- * This comparator honors the {@link RecursiveComparisonConfiguration} passed at construction time.
+ * This comparator does not enforce any ordering and returns zero if the compared objects are equals,
+ * according to the recursive comparison, or a non-zero value otherwise.
+ *
+ * @since 3.24.0
  */
 public class RecursiveComparator implements Comparator<Object> {
 
@@ -31,10 +31,21 @@ public class RecursiveComparator implements Comparator<Object> {
   private final RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator;
 
   /**
-   * Returns a new {@code RecursiveComparator} that uses the given {@link RecursiveComparisonConfiguration} when comparing
-   * objects with the recursive comparison.
+   * Returns a new {@code RecursiveComparator} that uses the default {@link RecursiveComparisonConfiguration}
+   * when comparing objects with the recursive comparison.
    *
-   * @param recursiveComparisonConfiguration the used {@code RecursiveComparisonConfiguration}
+   * @since 3.25.0
+   */
+  public RecursiveComparator() {
+    this.recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+    this.recursiveComparisonDifferenceCalculator = new RecursiveComparisonDifferenceCalculator();
+  }
+
+  /**
+   * Returns a new {@code RecursiveComparator} that uses the given {@link RecursiveComparisonConfiguration}
+   * when comparing objects with the recursive comparison.
+   *
+   * @param recursiveComparisonConfiguration the {@code RecursiveComparisonConfiguration} instance to be used
    */
   public RecursiveComparator(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
@@ -45,12 +56,17 @@ public class RecursiveComparator implements Comparator<Object> {
     return recursiveComparisonDifferenceCalculator.determineDifferences(actual, expected, recursiveComparisonConfiguration);
   }
 
+  public String getDescription() {
+    return format("RecursiveComparator a comparator based on the recursive comparison with the following configuration:%n%s",
+                  recursiveComparisonConfiguration);
+  }
+
   /**
-   * Returns 0 if the arguments are recursively equal to each other, a non-zero otherwise (no ordering enforced).
+   * Returns zero if the arguments are recursively equal to each other, or non-zero otherwise (no ordering enforced).
    *
    * @param actual the object to compare to {@code other}
    * @param other the object to compare to {@code actual}
-   * @return 0 if the arguments are recursively equal to each other, a non-zero otherwise.
+   * @return zero if the arguments are recursively equal to each other, or non-zero otherwise.
    */
   @Override
   public int compare(Object actual, Object other) {
@@ -60,8 +76,4 @@ public class RecursiveComparator implements Comparator<Object> {
     return -1;
   }
 
-  public String getDescription() {
-    return format("RecursiveComparator a comparator based on the recursive comparison with the following configuration:%n%s",
-                  recursiveComparisonConfiguration);
-  }
 }

@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-tests</artifactId>
-    <version>3.25.0-SNAPSHOT</version>
+    <version>3.26.4-SNAPSHOT</version>
   </parent>
 
   <artifactId>assertj-integration-tests</artifactId>
@@ -14,18 +14,20 @@
   <name>AssertJ Integration Tests</name>
 
   <modules>
-    <module>assertj-core-java-17</module>
     <module>assertj-core-junit4-with-opentest4j</module>
     <module>assertj-core-kotlin</module>
     <module>assertj-core-osgi</module>
+    <module>assertj-core-spring-boot</module>
     <module>assertj-core-testng-with-junit4</module>
+    <module>assertj-core-tests</module>
+    <module>assertj-guava-tests</module>
   </modules>
 
   <profiles>
     <profile>
       <id>it-groovy</id>
       <activation>
-        <jdk>(,22)</jdk>
+        <jdk>(,24)</jdk>
       </activation>
       <modules>
         <module>assertj-core-groovy</module>

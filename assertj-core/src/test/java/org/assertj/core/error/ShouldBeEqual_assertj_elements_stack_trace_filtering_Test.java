@@ -8,13 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.StackTraceUtils.hasStackTraceElementRelatedToAssertJ;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.StackTraceUtils.checkNoAssertjStackTraceElementIn;
+import static org.assertj.core.util.StackTraceUtils.hasAssertJStackTraceElement;
 
 import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.Test;
@@ -31,10 +33,9 @@ class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
     // GIVEN
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(true);
     // WHEN
-    Throwable error = catchThrowable(() -> then("Xavi").isEqualTo("Xabi"));
+    AssertionError error = expectAssertionError(() -> assertThat("Xavi").isEqualTo("Xabi"));
     // THEN
-    then(error).isInstanceOf(AssertionError.class);
-    then(hasStackTraceElementRelatedToAssertJ(error)).isFalse();
+    checkNoAssertjStackTraceElementIn(error);
   }
 
   @Test
@@ -42,10 +43,9 @@ class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
     // GIVEN
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(false);
     // WHEN
-    Throwable error = catchThrowable(() -> then("Messi").isEqualTo("Ronaldo"));
+    AssertionError error = expectAssertionError(() -> then("Messi").isEqualTo("Ronaldo"));
     // THEN
-    then(error).isInstanceOf(AssertionError.class);
-    then(hasStackTraceElementRelatedToAssertJ(error)).isTrue();
+    then(hasAssertJStackTraceElement(error)).isTrue();
   }
 
 }

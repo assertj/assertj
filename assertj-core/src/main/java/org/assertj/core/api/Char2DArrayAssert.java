@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -190,7 +190,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
   }
 
   /**
-   * Verifies that the actual {@code char[][]} has the the given dimensions.
+   * Verifies that the actual {@code char[][]} has the given dimensions.
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -329,7 +329,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * Expecting actual[1][0] value to be equal to:
    *  &lt;c&gt;
    * but was
-   *  &lt;\u0107&gt;</code></pre>
+   *  &lt;&bsol;0107&gt;</code></pre>
    *
    * @return {@code this} assertion object.
    */

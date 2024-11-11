@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.objectarray;
 
@@ -18,16 +18,16 @@ import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFie
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
-import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
+import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.util.Arrays.array;
 
 import java.sql.Timestamp;
 
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.test.AlwaysEqualComparator;
-import org.assertj.core.test.CartoonCharacter;
+import org.assertj.core.testkit.AlwaysEqualComparator;
+import org.assertj.core.testkit.CartoonCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

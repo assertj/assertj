@@ -8,15 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static java.util.Comparator.naturalOrder;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Answers.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -34,7 +34,7 @@ import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.test.WithPlayerData;
+import org.assertj.core.testkit.WithPlayerData;
 import org.hibernate.collection.spi.CollectionSemantics;
 import org.hibernate.collection.spi.PersistentMap;
 import org.hibernate.collection.spi.PersistentSortedMap;

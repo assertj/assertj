@@ -5,15 +5,15 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-integration-tests</artifactId>
-    <version>3.25.0-SNAPSHOT</version>
+    <version>3.26.4-SNAPSHOT</version>
   </parent>
 
   <artifactId>assertj-core-kotlin</artifactId>
 
-  <name>AssertJ Core Integration Tests - Kotlin</name>
+  <name>AssertJ Core Integration Tests (Kotlin)</name>
 
   <properties>
-    <kotlin.version>1.9.0</kotlin.version>
+    <kotlin.version>2.0.21</kotlin.version>
   </properties>
 
   <dependencies>

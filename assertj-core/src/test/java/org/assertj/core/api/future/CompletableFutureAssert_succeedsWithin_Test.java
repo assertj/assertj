@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.future;
 
@@ -110,15 +110,4 @@ class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n"))
                         .hasMessageContaining("to be completed within 1L Millis.");
   }
-
-  private static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration, ExecutorService service) {
-    CompletableFuture<U> completableFuture = new CompletableFuture<>();
-    service.submit(() -> {
-      Thread.sleep(sleepDuration);
-      completableFuture.complete(value);
-      return null;
-    });
-    return completableFuture;
-  }
-
 }

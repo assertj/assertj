@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -205,7 +205,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    */
@@ -229,7 +229,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values.
    * @since 3.19.0
@@ -256,7 +256,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
@@ -282,7 +282,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
    *           or none of the given values, or the actual array contains more values than the given ones.
@@ -308,7 +308,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
@@ -333,7 +333,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group contains some
    *           or none of the given values, or the actual group contains more than once these values.
@@ -359,6 +359,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   public SELF containsSequence(boolean... sequence) {
@@ -381,6 +382,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   public SELF containsSequence(Boolean[] sequence) {
@@ -404,6 +406,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   public SELF containsSubsequence(boolean... subsequence) {
@@ -426,6 +429,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @return myself assertion object.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given array is {@code null}.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   public SELF containsSubsequence(Boolean[] subsequence) {
@@ -563,7 +567,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
@@ -587,7 +591,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
@@ -612,7 +616,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
@@ -636,7 +639,6 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param sequence the sequence of values to look for.
    * @return myself assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws IllegalArgumentException if the given argument is an empty array.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
@@ -698,6 +700,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
@@ -721,6 +724,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual group does not contain the given values with same order, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones
    *           or values are the same but the order is not.
@@ -749,6 +753,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 2.6.0 / 3.6.0
@@ -775,6 +780,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual group is {@code null}.
+   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
    * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
    *           contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 3.19.0
@@ -802,7 +808,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the array of values is {@code null}.
-   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array of values is empty and the array under test is not empty.
    * @throws AssertionError if the array under test is {@code null}.
    * @throws AssertionError if the array under test does not contain any of the given {@code values}.
    * @since 2.9.0 / 3.9.0
@@ -829,7 +835,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the array of values is {@code null}.
-   * @throws IllegalArgumentException if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError if the array of values is empty and the array under test is not empty.
    * @throws AssertionError if the array under test is {@code null}.
    * @throws AssertionError if the array under test does not contain any of the given {@code values}.
    * @since 3.19.0

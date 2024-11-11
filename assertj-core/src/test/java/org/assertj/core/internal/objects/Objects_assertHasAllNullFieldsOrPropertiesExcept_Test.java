@@ -8,14 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.objects;
 
 import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldHaveAllNullFields.shouldHaveAllNullFields;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
@@ -25,8 +25,8 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ObjectsBaseTest;
-import org.assertj.core.test.Jedi;
-import org.assertj.core.test.Person;
+import org.assertj.core.testkit.Jedi;
+import org.assertj.core.testkit.Person;
 import org.junit.jupiter.api.Test;
 
 /**

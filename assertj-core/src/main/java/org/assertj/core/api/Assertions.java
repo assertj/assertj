@@ -8,11 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.Percentage.withPercentage;
 
@@ -38,7 +38,10 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 import java.util.Collection;
 import java.util.Date;
@@ -79,7 +82,6 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallableWithValue;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.filter.InFilter;
@@ -101,7 +103,6 @@ import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
@@ -180,7 +181,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Create assertion for {@link Predicate}.
    * <p>
    * Use this over {@link #assertThat(Predicate)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param actual the actual value.
    * @param <T> the type of the value contained in the {@link Predicate}.
@@ -720,7 +721,27 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    * @since 2.5.0 / 3.5.0
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
+   * assertThat(hobbits, StringAssert::new).first()
+   *                                       .startsWith("fro")
+   *                                       .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   //@format:off
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
@@ -757,7 +778,27 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    * @since 2.5.0 / 3.5.0
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
+   * assertThat(hobbits, StringAssert.class).first()
+   *                                        .startsWith("fro")
+   *                                        .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual,
                                                                                           Class<ELEMENT_ASSERT> assertClass) {
@@ -801,7 +842,27 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    * @since 2.5.0 / 3.5.0
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
+   * assertThat(hobbits, StringAssert::new).first()
+   *                                       .startsWith("fro")
+   *                                       .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                         AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -837,7 +898,27 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    * @since 2.5.0 / 3.5.0
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
+   * assertThat(hobbits, StringAssert.class).first()
+   *                                        .startsWith("fro")
+   *                                        .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
                                                                                       Class<ELEMENT_ASSERT> assertClass) {
@@ -983,6 +1064,17 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link TemporalAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.26.1
+   */
+  public static TemporalAssert assertThatTemporal(Temporal actual) {
+    return new TemporalAssert(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link LocalDateTimeAssert}</code>.
    *
    * @param actual the actual value.
@@ -1029,6 +1121,17 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    */
   public static AbstractLocalDateAssert<?> assertThat(LocalDate actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link YearMonthAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  public static AbstractYearMonthAssert<?> assertThat(YearMonth actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 
@@ -1261,26 +1364,6 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Similar to {@link #assertThatThrownBy(ThrowingCallable)}, but when the called code returns a value instead of
-   * throwing, the assertion error shows the returned value to help understand what went wrong.
-   *
-   * @param shouldRaiseThrowable The {@link ThrowingCallableWithValue} or lambda with the code that should raise the throwable.
-   * @return the created {@link ThrowableAssert}.
-   * @since 3.25.0
-   */
-  @CanIgnoreReturnValue
-  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(
-                                                                                   ThrowingCallableWithValue shouldRaiseThrowable) {
-    Object value;
-    try {
-      value = shouldRaiseThrowable.call();
-    } catch (Throwable throwable) {
-      return assertThat(throwable);
-    }
-    throw Failures.instance().failure(format("Expecting code to raise a throwable, but it returned [%s] instead", value));
-  }
-
-  /**
    * Allows to capture and then assert on a {@link Throwable} like {@code assertThatThrownBy(ThrowingCallable)} but this method
    * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
    * <p>
@@ -1316,26 +1399,6 @@ public class Assertions implements InstanceOfAssertFactories {
   public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                                    String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
-  }
-
-  /**
-   * Similar to {@link #assertThatThrownBy(ThrowingCallable, String, Object...)}, but when the called code returns a value
-   * instead of throwing, the assertion error shows the returned value to help understand what went wrong.
-   *
-   * @param shouldRaiseThrowable The {@link ThrowingCallableWithValue} or lambda with the code that should raise the throwable.
-   * @return the created {@link ThrowableAssert}.
-   * @since 3.25.0
-   */
-  @CanIgnoreReturnValue
-  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatThrownBy(ThrowingCallableWithValue shouldRaiseThrowable,
-                                                                                   String description, Object... args) {
-    Object value;
-    try {
-      value = shouldRaiseThrowable.call();
-    } catch (Throwable throwable) {
-      return assertThat(throwable).as(description, args);
-    }
-    throw Failures.instance().failure(format("Expecting code to raise a throwable, but it returned [%s] instead", value));
   }
 
   /**
@@ -1435,7 +1498,8 @@ public class Assertions implements InstanceOfAssertFactories {
    * <p>
    * This caught {@link Throwable} can then be asserted.
    * <p>
-   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(ThrowingCallable, Class)}.
+   * If you need to assert on the real type of Throwable caught (e.g. IOException), use
+   * {@link #catchThrowableOfType(Class, ThrowingCallable)}.
    * <p>
    * Example:
    * <pre><code class='java'>{@literal @}Test
@@ -1450,7 +1514,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowableOfType(ThrowingCallable, Class)
+   * @see #catchThrowableOfType(Class, ThrowingCallable)
    */
   public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
     return AssertionsForClassTypes.catchThrowable(shouldRaiseThrowable);
@@ -1493,10 +1557,55 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.9.0
+   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    */
+  @Deprecated
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
                                                                              Class<THROWABLE> type) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, type);
+    return catchThrowableOfType(type, shouldRaiseThrowable);
+  }
+
+  /**
+   * Allows catching a {@link Throwable} of a specific type.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
+   * otherwise it checks that the caught {@link Throwable} has the specified type and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class TextException extends Exception {
+   *   int line;
+   *   int column;
+   *
+   *   public TextException(String msg, int line, int column) {
+   *     super(msg);
+   *     this.line = line;
+   *     this.column = column;
+   *   }
+   * }
+   *
+   * TextException textException = catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); },
+   *                                                    TextException.class);
+   * // assertions succeed
+   * assertThat(textException).hasMessage("boom!");
+   * assertThat(textException.line).isEqualTo(1);
+   * assertThat(textException.column).isEqualTo(5);
+   *
+   * // succeeds as catchThrowableOfType returns null when the code does not thrown any exceptions
+   * assertThat(catchThrowableOfType( Exception.class, () -&gt; {})).isNull();
+   *
+   * // fails as TextException is not a RuntimeException
+   * catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); }, RuntimeException.class);</code></pre>
+   *
+   * @param <THROWABLE> the {@link Throwable} type.
+   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
+   * @param type The type of exception that the code is expected to raise.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.26.0
+   */
+  public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
+                                                                             ThrowingCallable shouldRaiseThrowable) {
+    return ThrowableAssert.catchThrowableOfType(type, shouldRaiseThrowable);
   }
 
   /**
@@ -1517,13 +1626,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an Exception
    * catchException(() -&gt; {throw new Throwable("boom!");});</code></pre>
    *
-   * @param shouldRaiseException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static Exception catchException(ThrowingCallable shouldRaiseException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseException, Exception.class);
+  public static Exception catchException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(Exception.class, throwingCallable);
   }
 
   /**
@@ -1544,13 +1653,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not a RuntimeException
    * catchRuntimeException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseRuntimeException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static RuntimeException catchRuntimeException(ThrowingCallable shouldRaiseRuntimeException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseRuntimeException, RuntimeException.class);
+  public static RuntimeException catchRuntimeException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(RuntimeException.class, throwingCallable);
   }
 
   /**
@@ -1571,13 +1680,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not a NullPointerException
    * catchNullPointerException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseNullPointerException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static NullPointerException catchNullPointerException(ThrowingCallable shouldRaiseNullPointerException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseNullPointerException, NullPointerException.class);
+  public static NullPointerException catchNullPointerException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(NullPointerException.class, throwingCallable);
   }
 
   /**
@@ -1598,13 +1707,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an IllegalArgumentException
    * catchIllegalArgumentException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseIllegalArgumentException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IllegalArgumentException catchIllegalArgumentException(ThrowingCallable shouldRaiseIllegalArgumentException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalArgumentException, IllegalArgumentException.class);
+  public static IllegalArgumentException catchIllegalArgumentException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IllegalArgumentException.class, throwingCallable);
   }
 
   /**
@@ -1625,13 +1734,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an IOException
    * catchIOException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseIOException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IOException catchIOException(ThrowingCallable shouldRaiseIOException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIOException, IOException.class);
+  public static IOException catchIOException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IOException.class, throwingCallable);
   }
 
   /**
@@ -1652,14 +1761,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an IOException
    * catchReflectiveOperationException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseReflectiveOperationException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException,
-                                                        ReflectiveOperationException.class);
+  public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(ReflectiveOperationException.class, throwingCallable);
   }
 
   /**
@@ -1680,13 +1788,13 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an IOException
    * catchIllegalStateException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseIllegalStateException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IllegalStateException catchIllegalStateException(ThrowingCallable shouldRaiseIllegalStateException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalStateException, IllegalStateException.class);
+  public static IllegalStateException catchIllegalStateException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IllegalStateException.class, throwingCallable);
   }
 
   /**
@@ -1707,18 +1815,18 @@ public class Assertions implements InstanceOfAssertFactories {
    * // fails as the thrown instance is not an IOException
    * catchIndexOutOfBoundsException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseIndexOutOfBoundException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable shouldRaiseIndexOutOfBoundException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIndexOutOfBoundException, IndexOutOfBoundsException.class);
+  public static IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IndexOutOfBoundsException.class, throwingCallable);
   }
 
   /**
    * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
-   * which allows to chain assertions on the thrown exception.
+   * which allows chaining assertions on the thrown exception.
    * <p>
    * Example:
    * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
@@ -1867,6 +1975,20 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Throws an {@link AssertionError} with an empty message to be used in code like:
+   * <pre><code class='java'> doSomething(optional.orElseGet(() -> fail()));</code></pre>
+   *
+   * @param <T> dummy return value type
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail()));}.
+   * @throws AssertionError with an empty message.
+   * @since 3.26.0
+   */
+  @CanIgnoreReturnValue
+  public static <T> T fail() {
+    return Fail.fail();
+  }
+
+  /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
@@ -1891,6 +2013,23 @@ public class Assertions implements InstanceOfAssertFactories {
   @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage, Throwable realCause) {
     return Fail.fail(failureMessage, realCause);
+  }
+
+  /**
+   * Throws an {@link AssertionError} with the {@link Throwable} that caused the failure and an empty message.
+   * <p>
+   * Example:
+   * <pre><code class='java'> doSomething(optional.orElseGet(() -> fail(cause)));</code></pre>
+   * 
+   * @param <T> dummy return value type
+   * @param realCause cause of the error.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
+   * @throws AssertionError with the {@link Throwable} that caused the failure.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T fail(Throwable realCause) {
+    // pass an empty string because passing null results in a "null" error message.
+    return fail("", realCause);
   }
 
   /**
@@ -2366,6 +2505,24 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Assertions entry point for {@link Duration} with less than or equal condition to use with isCloseTo temporal assertions.
+   * <p>
+   * Typical usage:
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12);
+   * assertThat(_07_10).isCloseTo(_07_12, within(Duration.ofMinutes(5)));</code></pre>
+   *
+   * @param duration the {@link Duration} of the offset
+   * @return the created {@code Offset}.
+   * @since 3.27.0
+   * @see #byLessThan(Duration)
+   */
+  public static TemporalUnitOffset within(Duration duration) {
+    requireNonNull(duration, "non null duration expected");
+    return new TemporalUnitWithinOffset(duration.toNanos(), ChronoUnit.NANOS);
+  }
+
+  /**
    * Assertions entry point for {@link TemporalUnitOffset} with less than or equal condition
    * to use with isCloseTo temporal assertions.
    * <p>
@@ -2574,6 +2731,24 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Assertions entry point for {@link Duration} with strict less than condition to use with {@code isCloseTo} temporal assertions.
+   * <p>
+   * Typical usage:
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12);
+   * assertThat(_07_10).isCloseTo(_07_12, byLessThan(Duration.ofMinutes(5)));</code></pre>
+   *
+   * @param duration the {@link Duration} of the offset.
+   * @return the created {@code Offset}.
+   * @since 3.27.0
+   * @see #within(Duration)
+   */
+  public static TemporalUnitOffset byLessThan(Duration duration) {
+    requireNonNull(duration, "non null duration expected");
+    return new TemporalUnitLessThanOffset(duration.toNanos(), ChronoUnit.NANOS);
+  }
+
+  /**
    * Assertions entry point for {@link TemporalUnitOffset} with strict less than condition
    * to use with {@code isCloseTo} temporal assertions.
    * <p>
@@ -2669,6 +2844,21 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfies(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SafeVarargs
+  public static <T> ThrowingConsumer<T> allOf(ThrowingConsumer<? super T>... consumers) {
+    return actual -> assertThat(actual).satisfies(consumers);
+  }
+
+  /**
    * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use {@link AnyOf} if you prefer).
    * <p>
@@ -2696,6 +2886,21 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
     return AnyOf.anyOf(conditions);
+  }
+
+  /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfiesAnyOf(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SafeVarargs
+  public static <T> ThrowingConsumer<T> anyOf(ThrowingConsumer<? super T>... consumers) {
+    return actual -> assertThat(actual).satisfiesAnyOf(consumers);
   }
 
   /**
@@ -3263,6 +3468,20 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.25.0
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThatCharSequence(CharSequence actual) {
+    return assertThat(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link CharSequenceAssert}</code> from a {@link StringBuilder}.
    *
    * @param actual the actual value.
@@ -3309,7 +3528,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    * <p>
    * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -3347,7 +3566,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
    * Use this over {@link #assertThat(Iterator)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -3374,7 +3593,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    * <p>
    * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <E> the type of elements.
    * @param actual the actual value.
@@ -3400,7 +3619,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Creates a new instance of <code>{@link ListAssert}</code>.
    * <p>
    * Use this over {@link #assertThat(List)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -3446,7 +3665,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
    * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    * <p>
    * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
    * Once this is done the {@code Stream} can't reused as it would have been consumed.</b>
@@ -3597,7 +3816,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Creates a new instance of {@link PathAssert}
    * <p>
    * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param actual the path to test
    * @return the created assertion object
@@ -3639,7 +3858,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * standard comparison semantics.
    * <p>
    * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>assertThat</code> for. 
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <T> the type of actual.
    * @param actual the actual value.

@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.objectarray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
@@ -24,7 +24,7 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.ObjectArrays;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

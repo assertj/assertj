@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.objects;
 
@@ -21,10 +21,10 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import static org.assertj.core.error.ShouldBeEqualByComparingFieldByFieldRecursively.shouldBeEqualByComparingFieldByFieldRecursive;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.internal.objects.SymmetricDateComparator.SYMMETRIC_DATE_COMPARATOR;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
-import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
+import static org.assertj.core.testkit.NeverEqualComparator.NEVER_EQUALS;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
 import java.sql.Timestamp;
@@ -46,7 +46,7 @@ import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.DeepDifference.Difference;
 import org.assertj.core.internal.ObjectsBaseTest;
 import org.assertj.core.internal.TypeComparators;
-import org.assertj.core.test.Patient;
+import org.assertj.core.testkit.Patient;
 import org.junit.jupiter.api.Test;
 
 public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends ObjectsBaseTest {

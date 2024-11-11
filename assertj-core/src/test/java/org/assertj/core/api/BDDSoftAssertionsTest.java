@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -28,12 +28,12 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static org.assertj.core.data.TolkienCharacter.Race.ELF;
-import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
-import static org.assertj.core.data.TolkienCharacter.Race.MAN;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.test.Name.name;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.testkit.Name.name;
+import static org.assertj.core.testkit.TolkienCharacter.Race.ELF;
+import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
+import static org.assertj.core.testkit.TolkienCharacter.Race.MAN;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.Lists.list;
@@ -94,11 +94,11 @@ import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.test.Animal;
-import org.assertj.core.test.CartoonCharacter;
-import org.assertj.core.test.Name;
-import org.assertj.core.test.Person;
+import org.assertj.core.testkit.Animal;
+import org.assertj.core.testkit.CartoonCharacter;
+import org.assertj.core.testkit.Name;
+import org.assertj.core.testkit.Person;
+import org.assertj.core.testkit.TolkienCharacter;
 import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -294,7 +294,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(7)).contains(shouldBeEqualMessage("'A'", "'B'"));
     assertThat(errors.get(8)).contains(shouldBeEqualMessage("'C'", "'D'"));
     assertThat(errors.get(9)).contains(shouldBeEqualMessage("['E']", "['F']"));
-    assertThat(errors.get(10)).contains(shouldBeEqualMessage("a", "b"));
+    assertThat(errors.get(10)).contains(shouldBeEqualMessage("\"a\"", "\"b\""));
     assertThat(errors.get(11)).contains(shouldBeEqualMessage("java.lang.Object", "java.lang.String"));
     assertThat(errors.get(12)).contains(shouldBeEqualMessage("1999-12-31T23:59:59.000 (java.util.Date)",
                                                              "2000-01-01T00:00:01.000 (java.util.Date)"));
@@ -828,14 +828,23 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  void should_return_failure_after_fail_without_message() {
+    // WHEN
+    softly.fail();
+    // THEN
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .message().isEmpty();
+  }
+
+  @Test
   void should_return_failure_after_fail() {
     // GIVEN
     String failureMessage = "Should not reach here";
     // WHEN
     softly.fail(failureMessage);
     // THEN
-    assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith(failureMessage);
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith(failureMessage);
   }
 
   @Test
@@ -845,22 +854,33 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.fail(failureMessage, "here", "here");
     // THEN
-    assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith("Should not reach here or here");
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith("Should not reach here or here");
   }
 
   @Test
-  void should_return_failure_after_fail_with_throwable() {
+  void should_return_failure_after_fail_with_cause() {
+    // GIVEN
+    IllegalStateException realCause = new IllegalStateException();
+    // WHEN
+    softly.fail(realCause);
+    // THEN
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessage("")
+                                  .cause().isEqualTo(realCause);
+  }
+
+  @Test
+  void should_return_failure_after_fail_with_message_and_cause() {
     // GIVEN
     String failureMessage = "Should not reach here";
     IllegalStateException realCause = new IllegalStateException();
     // WHEN
     softly.fail(failureMessage, realCause);
     // THEN
-    List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(1);
-    assertThat(errorsCollected.get(0)).hasMessageStartingWith(failureMessage);
-    assertThat(errorsCollected.get(0).getCause()).isEqualTo(realCause);
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith(failureMessage)
+                                  .cause().isEqualTo(realCause);
   }
 
   @Test
@@ -1608,6 +1628,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
+  @SuppressWarnings("deprecation")
   @Test
   void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN

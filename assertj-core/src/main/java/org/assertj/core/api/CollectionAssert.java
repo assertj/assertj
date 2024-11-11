@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -39,7 +39,7 @@ public class CollectionAssert<ELEMENT> extends
 
   @Override
   protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
-    return new ObjectAssertFactory<ELEMENT>().createAssert(value).as(description);
+    return new ObjectAssert<>(value).as(description);
   }
 
   @Override

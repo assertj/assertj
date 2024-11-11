@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -22,6 +22,8 @@ import static org.assertj.core.error.ShouldBeNumeric.NumericType.INTEGER;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.LONG;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.SHORT;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Comparator;
 
@@ -53,7 +55,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * assertThat(&quot;abc&quot;).isLessThan(&quot;bcd&quot;)
    *                  .isLessThan(&quot;b&quot;)
    *                  .isLessThan(&quot;abca&quot;)
-   *                  .usingComparator(CASE_INSENSITIVE)
+   *                  .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isLessThan(&quot;BCD&quot;);
    *
    * // assertions fail
@@ -84,7 +86,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *                  .isLessThanOrEqualTo(&quot;abc&quot;)
    *                  .isLessThanOrEqualTo(&quot;b&quot;)
    *                  .isLessThanOrEqualTo(&quot;abca&quot;)
-   *                  .usingComparator(CASE_INSENSITIVE)
+   *                  .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isLessThanOrEqualTo(&quot;ABC&quot;);
    *
    * // assertions fail
@@ -113,7 +115,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * assertThat(&quot;xyz&quot;).isGreaterThan(&quot;abc&quot;)
    *                  .isGreaterThan(&quot;xy&quot;)
    *                  .isGreaterThan(&quot;ABC&quot;);
-   * assertThat(&quot;XYZ&quot;).usingComparator(CASE_INSENSITIVE)
+   * assertThat(&quot;XYZ&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isGreaterThan(&quot;abc&quot;);
    *
    * // assertions fail
@@ -144,7 +146,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *                  .isGreaterThanOrEqualTo(&quot;xyz&quot;)
    *                  .isGreaterThanOrEqualTo(&quot;xy&quot;)
    *                  .isGreaterThanOrEqualTo(&quot;ABC&quot;);
-   * assertThat(&quot;XYZ&quot;).usingComparator(CASE_INSENSITIVE)
+   * assertThat(&quot;XYZ&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isGreaterThanOrEqualTo(&quot;abc&quot;);
    *
    * // assertions fail
@@ -175,7 +177,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *                 .isBetween(&quot;aa&quot;, &quot;ab&quot;)
    *                 .isBetween(&quot;ab&quot;, &quot;ab&quot;)
    *                 .isBetween(&quot;a&quot;, &quot;c&quot;)
-   *                 .usingComparator(CASE_INSENSITIVE)
+   *                 .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                 .isBetween("AA", "AC");
    *
    * // assertions fail
@@ -206,7 +208,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <pre><code class='java'> // assertions succeed
    * assertThat(&quot;ab&quot;).isStrictlyBetween(&quot;aa&quot;, &quot;ac&quot;)
    *                 .isStrictlyBetween(&quot;a&quot;, &quot;c&quot;)
-   *                 .usingComparator(CASE_INSENSITIVE)
+   *                 .usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                 .isStrictlyBetween("AA", "AC");
    *
    * // assertions fail
@@ -314,7 +316,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <p>
    * Examples :
    * <pre><code class='java'> // assertions succeed
-   * assertThat(&quot;abc&quot;).usingComparator(CASE_INSENSITIVE)
+   * assertThat(&quot;abc&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER)
    *                  .isEqualTo(&quot;Abc&quot;)
    *                  .isEqualTo(&quot;ABC&quot;);
    *
@@ -339,7 +341,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * <p>
    * Examples :
    * <pre><code class='java'> // assertions succeed
-   * assertThat(&quot;abc&quot;).usingComparator(CASE_INSENSITIVE, &quot;String case insensitive comparator&quot;)
+   * assertThat(&quot;abc&quot;).usingComparator(String.CASE_INSENSITIVE_ORDER, &quot;String case insensitive comparator&quot;)
    *                  .isEqualTo(&quot;Abc&quot;)
    *                  .isEqualTo(&quot;ABC&quot;);
    *
@@ -369,7 +371,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * Verifies that the actual value is equal to expected build using {@link String#format(String stringTemplate, Object... args)}.
    * <p>
    * Note that for this assertion to be called, <b>you must use a format template with parameters</b> otherwise {@link #isEqualTo(Object)} is called which
-   * does not perform any formatting. For example, it you only use {@code %n} in the template they won't be replaced.
+   * does not perform any formatting. For example, if you only use {@code %n} in the template they won't be replaced.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertion succeeds
@@ -456,6 +458,76 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       return InstanceOfAssertFactories.BYTE.createAssert(Byte.parseByte(actual)).withAssertionState(myself);
     } catch (NumberFormatException e) {
       throw failures.failure(info, shouldBeNumeric(actual, BYTE));
+    }
+  }
+
+  /**
+   * Encodes the actual value as byte array using the platform's default charset, the encoded byte array becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> assertThat("abc").bytes()
+   *                  .isEqualTo(new byte[] {'a', 'b', 'c'});
+   *
+   * assertThat("").bytes()
+   *               .isEmpty(); </code></pre>
+   *
+   * @return a new {@link AbstractByteArrayAssert} instance whose value under test is the result of parsing the string.
+   * @throws AssertionError if the actual string is {@code null}.
+   *
+   * @since 3.26.0
+   */
+  public AbstractByteArrayAssert<?> bytes() {
+    isNotNull();
+    return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(actual.getBytes()).withAssertionState(myself);
+  }
+
+  /**
+   * Encodes the actual value as byte array using a specific {@link Charset}, the encoded byte array becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> assertThat("abc").bytes(StandardCharsets.US_ASCII)
+   *                  .isEqualTo("abc".getBytes(StandardCharsets.US_ASCII));
+   * 
+   * assertThat("").bytes(StandardCharsets.US_ASCII)
+   *               .isEmpty(); </code></pre>
+   *
+   * @param charset the {@link Charset} to be used to encode the string.
+   * @return a new {@link AbstractByteArrayAssert} instance whose value under test is the result of parsing the string.
+   * @throws NullPointerException if charset parameter is {@code null}.
+   * @throws AssertionError if the actual string is {@code null}.
+   *
+   * @since 3.26.0
+   */
+  public AbstractByteArrayAssert<?> bytes(Charset charset) {
+    isNotNull();
+    byte[] bytes = actual.getBytes(requireNonNull(charset, "The charset must not be null"));
+    return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(bytes).withAssertionState(myself);
+  }
+
+  /**
+   * Encodes the actual value as byte array using a specific {@link Charset}, the encoded byte array becoming the new value under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> assertThat("abc").bytes(StandardCharsets.US_ASCII)
+   *                  .isEqualTo("abc".getBytes(StandardCharsets.US_ASCII));
+   *
+   * assertThat("").bytes(StandardCharsets.US_ASCII)
+   *               .isEmpty(); </code></pre>
+   *
+   * @param charsetName the Charset to be used to encode the string.
+   * @return a new {@link AbstractByteArrayAssert} instance whose value under test is the result of parsing the string.
+   * @throws NullPointerException if named charset parameter is {@code null}.
+   * @throws AssertionError if the actual string is {@code null} or if the named charset parameter is not supported.
+   *
+   * @since 3.26.0
+   */
+  public AbstractByteArrayAssert<?> bytes(String charsetName) {
+    isNotNull();
+    try {
+      byte[] bytes = actual.getBytes(requireNonNull(charsetName, "The charsetName must not be null"));
+      return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(bytes).withAssertionState(myself);
+    } catch (UnsupportedEncodingException e) {
+      throw failures.failure(charsetName + " is not a supported Charset");
     }
   }
 

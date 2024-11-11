@@ -4,7 +4,7 @@
 
   <groupId>org.assertj</groupId>
   <artifactId>assertj-build</artifactId>
-  <version>3.25.0-SNAPSHOT</version>
+  <version>3.26.4-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>AssertJ Build</name>
@@ -122,14 +122,17 @@
 
   <properties>
     <rootDirectory>${project.basedir}</rootDirectory>
+    <spotless.skip>true</spotless.skip>
     <!-- Plugin versions -->
-    <license-maven-plugin.version>4.2</license-maven-plugin.version>
-    <maven-enforcer-plugin.version>3.3.0</maven-enforcer-plugin.version>
-    <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
-    <maven-release-plugin.version>3.0.1</maven-release-plugin.version>
-    <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
-    <sonar-maven-plugin.version>3.9.1.2184</sonar-maven-plugin.version>
-    <spotless-maven-plugin.version>2.38.0</spotless-maven-plugin.version>
+    <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
+    <license-maven-plugin.version>4.5</license-maven-plugin.version>
+    <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
+    <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
+    <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
+    <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
+    <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
+    <sonar-maven-plugin.version>4.0.0.4121</sonar-maven-plugin.version>
+    <spotless-maven-plugin.version>2.43.0</spotless-maven-plugin.version>
   </properties>
 
   <build>
@@ -139,29 +142,50 @@
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
           <version>${spotless-maven-plugin.version}</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>check</goal>
-              </goals>
-              <configuration>
-                <java>
-                  <includes>
-                    <include>src/main/java/**/*.java</include>
-                    <include>src/test/java/**/*.java</include>
-                  </includes>
-                  <eclipse>
-                    <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
-                  </eclipse>
-                </java>
-              </configuration>
-            </execution>
-          </executions>
+          <configuration>
+            <java>
+              <includes>
+                <include>src/main/java/**/*.java</include>
+                <include>src/test/java/**/*.java</include>
+              </includes>
+              <eclipse>
+                <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
+              </eclipse>
+            </java>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
           <version>${license-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${maven-clean-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <configuration>
+            <additionalOptions>
+              <additionalOption>-html5</additionalOption>
+              <additionalOption>--allow-script-in-comments</additionalOption>
+            </additionalOptions>
+            <javadocDirectory>${rootDirectory}/javadoc-theme</javadocDirectory>
+            <addStylesheets>
+              <stylesheet>assertj-theme.css</stylesheet>
+              <stylesheet>hljs-theme.css</stylesheet>
+            </addStylesheets>
+            <!-- Explicitly set Javadoc locale to English -->
+            <locale>en_US</locale>
+            <nohelp>true</nohelp>
+            <bottom><![CDATA[
+              Copyright &#169; {currentYear} {organizationName}. All rights reserved.
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+              <script>hljs.highlightAll();</script>
+            ]]></bottom>
+        </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -185,6 +209,11 @@
           </configuration>
         </plugin>
         <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>flatten-maven-plugin</artifactId>
+          <version>${flatten-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
           <groupId>org.sonarsource.scanner.maven</groupId>
           <artifactId>sonar-maven-plugin</artifactId>
           <version>${sonar-maven-plugin.version}</version>
@@ -204,6 +233,17 @@
     </pluginManagement>
     <plugins>
       <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>com.mycila</groupId>
         <artifactId>license-maven-plugin</artifactId>
         <executions>
@@ -214,7 +254,6 @@
           </execution>
         </executions>
         <configuration>
-          <errorMessage>Some files do not have the expected license header. Run license:format to update them.</errorMessage>
           <licenseSets>
             <licenseSet>
               <inlineHeader><![CDATA[
@@ -238,29 +277,10 @@ Copyright ${project.inceptionYear}-${currentYear} the original author or authors
             </licenseSet>
           </licenseSets>
           <properties>
-            <currentYear>2023</currentYear>
+            <currentYear>2024</currentYear>
           </properties>
           <strictCheck>true</strictCheck>
         </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-enforcer-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>enforce-maven</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <requireMavenVersion>
-                  <version>[3.5.0,)</version>
-                </requireMavenVersion>
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <groupId>org.sonatype.plugins</groupId>

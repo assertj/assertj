@@ -1,0 +1,4 @@
+contact_links:
+  - name: Stack Overflow
+    url: https://stackoverflow.com/questions/tagged/assertj
+    about: For questions about how to use AssertJ, consider asking your question on Stack Overflow, tagged [assertj].

@@ -8,11 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
-
-import static java.lang.String.format;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +34,9 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.Period;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
+import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 import java.util.Collection;
 import java.util.Date;
@@ -77,7 +77,6 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallableWithValue;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.InFilter;
 import org.assertj.core.api.filter.NotFilter;
@@ -95,7 +94,6 @@ import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
@@ -594,7 +592,27 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
+   * then(hobbits, StringAssert::new).first()
+   *                                 .startsWith("fro")
+   *                                 .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *              .startsWith("fro")
+   *              .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
 //@format:off
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(Iterable<? extends ELEMENT> actual,
@@ -630,10 +648,30 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
+   * then(hobbits, StringAssert.class).first()
+   *                                  .startsWith("fro")
+   *                                  .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *              .startsWith("fro")
+   *              .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(ACTUAL actual,
-                                                                                          Class<ELEMENT_ASSERT> assertClass) {
+                                                                                    Class<ELEMENT_ASSERT> assertClass) {
     return assertThat(actual, assertClass);
   }
 
@@ -673,7 +711,27 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
+   * then(hobbits, StringAssert::new).first()
+   *                                 .startsWith("fro")
+   *                                 .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *              .startsWith("fro")
+   *              .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                                         AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -708,10 +766,30 @@ public class BDDAssertions extends Assertions {
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
+   * then(hobbits, StringAssert.class).first()
+   *                                  .startsWith("fro")
+   *                                  .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *              .startsWith("fro")
+   *              .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
-                                                                                      Class<ELEMENT_ASSERT> assertClass) {
+                                                                                Class<ELEMENT_ASSERT> assertClass) {
     return assertThat(actual, assertClass);
   }
 
@@ -1088,6 +1166,20 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code>.
+   * <p>
+   * Use this over {@link #then(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.25.0
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> thenCharSequence(CharSequence actual) {
+    return then(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.CharSequenceAssert}</code> from a {@link StringBuilder}.
    *
    * @param actual the actual value.
@@ -1325,25 +1417,6 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Similar to {@link #thenThrownBy(ThrowingCallable)}, but when the called code returns a value instead of
-   * throwing, the assertion error shows the returned value to help understand what went wrong.
-   *
-   * @param shouldRaiseThrowable The {@link ThrowingCallableWithValue} or lambda with the code that should raise the throwable.
-   * @return the created {@link ThrowableAssert}.
-   * @since 3.25.0
-   */
-  @CanIgnoreReturnValue
-  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallableWithValue shouldRaiseThrowable) {
-    Object value;
-    try {
-      value = shouldRaiseThrowable.call();
-    } catch (Throwable throwable) {
-      return assertThat(throwable);
-    }
-    throw Failures.instance().failure(format("Expecting code to raise a throwable, but it returned [%s] instead", value));
-  }
-
-  /**
    * Allows to capture and then assert on a {@link Throwable} like {@code thenThrownBy(ThrowingCallable)} but this method
    * let you set the assertion description the same way you do with {@link AbstractAssert#as(String, Object...) as(String, Object...)}.
    * <p>
@@ -1378,26 +1451,6 @@ public class BDDAssertions extends Assertions {
   public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallable shouldRaiseThrowable,
                                                                              String description, Object... args) {
     return assertThat(catchThrowable(shouldRaiseThrowable)).as(description, args).hasBeenThrown();
-  }
-
-  /**
-   * Similar to {@link #thenThrownBy(ThrowingCallable, String, Object...)}, but when the called code returns a value instead of
-   * throwing, the assertion error shows the returned value to help understand what went wrong.
-   *
-   * @param shouldRaiseThrowable The {@link ThrowingCallableWithValue} or lambda with the code that should raise the throwable.
-   * @return the created {@link ThrowableAssert}.
-   * @since 3.25.0
-   */
-  @CanIgnoreReturnValue
-  public static AbstractThrowableAssert<?, ? extends Throwable> thenThrownBy(ThrowingCallableWithValue shouldRaiseThrowable,
-                                                                             String description, Object... args) {
-    Object value;
-    try {
-      value = shouldRaiseThrowable.call();
-    } catch (Throwable throwable) {
-      return assertThat(throwable).as(description, args);
-    }
-    throw Failures.instance().failure(format("Expecting code to raise a throwable, but it returned [%s] instead", value));
   }
 
   /**
@@ -1494,12 +1547,34 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.TemporalAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.26.1
+   */
+  public static TemporalAssert thenTemporal(Temporal actual) {
+    return assertThatTemporal(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link org.assertj.core.api.LocalDateAssert}</code>.
    *
    * @param actual the actual value.
    * @return the created assertion object.
    */
   public static AbstractLocalDateAssert<?> then(LocalDate actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link org.assertj.core.api.YearMonthAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.26.0
+   */
+  public static AbstractYearMonthAssert<?> then(YearMonth actual) {
     return assertThat(actual);
   }
 
@@ -1860,7 +1935,7 @@ public class BDDAssertions extends Assertions {
 
   /**
    * Creates a new instance of <code>{@link SpliteratorAssert}</code> from the given {@link Spliterator}.
-   *
+   * <p>
    * Example:
    * <pre><code class='java'> Spliterator&lt;Integer&gt; spliterator = Stream.of(1, 2, 3).spliterator();
    * then(spliterator).hasCharacteristics(Spliterator.SIZED); </code></pre>
@@ -1879,7 +1954,7 @@ public class BDDAssertions extends Assertions {
    * <p>
    * This caught {@link Throwable} can then be asserted.
    * <p>
-   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(ThrowingCallable, Class)}.
+   * If you need to assert on the real type of Throwable caught (e.g. IOException), use {@link #catchThrowableOfType(Class, ThrowingCallable)}.
    * <p>
    * Example:
    * <pre><code class='java'>{@literal @}Test
@@ -1892,14 +1967,14 @@ public class BDDAssertions extends Assertions {
    *                     .hasMessageContaining("boom");
    * } </code></pre>
    *
-   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowableOfType(ThrowingCallable, Class)
+   * @see #catchThrowableOfType(Class, ThrowingCallable)
    *
    * @since 3.20.0
    */
-  public static Throwable catchThrowable(ThrowingCallable shouldRaiseThrowable) {
-    return AssertionsForClassTypes.catchThrowable(shouldRaiseThrowable);
+  public static Throwable catchThrowable(ThrowingCallable throwingCallable) {
+    return AssertionsForClassTypes.catchThrowable(throwingCallable);
   }
 
   /**
@@ -1934,16 +2009,60 @@ public class BDDAssertions extends Assertions {
    * catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); }, RuntimeException.class);</code></pre>
    *
    * @param <THROWABLE> the {@link Throwable} type.
-   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @param type The type of exception that the code is expected to raise.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
-   *
    * @since 3.20.0
+   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    */
-  public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
+  @Deprecated
+  public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable throwingCallable,
                                                                              Class<THROWABLE> type) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseThrowable, type);
+    return catchThrowableOfType(type, throwingCallable);
+  }
+
+  /**
+   * Allows catching a {@link Throwable} of a specific type.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
+   * otherwise it checks that the caught {@link Throwable} has the specified type and casts it making it convenient to perform subtype-specific assertions on it.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class TextException extends Exception {
+   *   int line;
+   *   int column;
+   *
+   *   public TextException(String msg, int line, int column) {
+   *     super(msg);
+   *     this.line = line;
+   *     this.column = column;
+   *   }
+   * }
+   *
+   * TextException textException = catchThrowableOfType(TextException.class() ,
+   *                                                    -&gt; { throw new TextException("boom!", 1, 5); });
+   * // assertions succeed
+   * assertThat(textException).hasMessage("boom!");
+   * assertThat(textException.line).isEqualTo(1);
+   * assertThat(textException.column).isEqualTo(5);
+   *
+   * // succeeds as catchThrowableOfType returns null when the code does not thrown any exceptions
+   * assertThat(catchThrowableOfType(Exception.class, () -&gt; {})).isNull();
+   *
+   * // fails as TextException is not a RuntimeException
+   * catchThrowableOfType(RuntimeException.class, () -&gt; { throw new TextException("boom!", 1, 5); });</code></pre>
+   *
+   * @param <THROWABLE> the {@link Throwable} type.
+   * @param throwingCallable The lambda with the code that should raise the exception.
+   * @param type The type of exception that the code is expected to raise.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowingCallable)
+   * @since 3.26.0
+   */
+  public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
+                                                                             ThrowingCallable throwingCallable) {
+    return ThrowableAssert.catchThrowableOfType(type, throwingCallable);
   }
 
   /**
@@ -1964,13 +2083,13 @@ public class BDDAssertions extends Assertions {
    * // fails as the thrown instance is not an Exception
    * catchException(() -&gt; {throw new Throwable("boom!");});</code></pre>
    *
-   * @param shouldRaiseException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static Exception catchException(ThrowingCallable shouldRaiseException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseException, Exception.class);
+  public static Exception catchException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(Exception.class, throwingCallable);
   }
 
   /**
@@ -1991,13 +2110,13 @@ public class BDDAssertions extends Assertions {
    * // fails as the thrown instance is not a RuntimeException
    * catchRuntimeException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseRuntimeException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static RuntimeException catchRuntimeException(ThrowingCallable shouldRaiseRuntimeException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseRuntimeException, RuntimeException.class);
+  public static RuntimeException catchRuntimeException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(RuntimeException.class, throwingCallable);
   }
 
   /**
@@ -2018,13 +2137,13 @@ public class BDDAssertions extends Assertions {
    * // fails as the thrown instance is not a NullPointerException
    * catchNullPointerException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseNullPointerException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static NullPointerException catchNullPointerException(ThrowingCallable shouldRaiseNullPointerException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseNullPointerException, NullPointerException.class);
+  public static NullPointerException catchNullPointerException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(NullPointerException.class, throwingCallable);
   }
 
   /**
@@ -2045,13 +2164,13 @@ public class BDDAssertions extends Assertions {
    * // fails as the thrown instance is not an IllegalArgumentException
    * catchIllegalArgumentException(() -&gt; {throw new Exception("boom!");});
    *
-   * @param shouldRaiseIllegalArgumentException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IllegalArgumentException catchIllegalArgumentException(ThrowingCallable shouldRaiseIllegalArgumentException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalArgumentException, IllegalArgumentException.class);
+  public static IllegalArgumentException catchIllegalArgumentException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IllegalArgumentException.class, throwingCallable);
   }
 
   /**
@@ -2072,13 +2191,13 @@ public class BDDAssertions extends Assertions {
    * // fails as the thrown instance is not an IOException
    * catchIOException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseIOException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IOException catchIOException(ThrowingCallable shouldRaiseIOException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIOException, IOException.class);
+  public static IOException catchIOException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IOException.class, throwingCallable);
   }
 
   /**
@@ -2099,14 +2218,13 @@ public class BDDAssertions extends Assertions {
    * // fails as the thrown instance is not an IOException
    * catchReflectiveOperationException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseReflectiveOperationException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable shouldRaiseReflectiveOperationException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseReflectiveOperationException,
-                                                        ReflectiveOperationException.class);
+  public static ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(ReflectiveOperationException.class, throwingCallable);
   }
 
   /**
@@ -2127,13 +2245,13 @@ public class BDDAssertions extends Assertions {
    * // fails as the thrown instance is not an IOException
    * catchIllegalStateException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseIllegalStateException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IllegalStateException catchIllegalStateException(ThrowingCallable shouldRaiseIllegalStateException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIllegalStateException, IllegalStateException.class);
+  public static IllegalStateException catchIllegalStateException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IllegalStateException.class, throwingCallable);
   }
 
   /**
@@ -2154,13 +2272,13 @@ public class BDDAssertions extends Assertions {
    * // fails as the thrown instance is not an IOException
    * catchIndexOutOfBoundsException(() -&gt; {throw new Exception("boom!");});</code></pre>
    *
-   * @param shouldRaiseIndexOutOfBoundException The lambda with the code that should raise the exception.
+   * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
-  public static IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable shouldRaiseIndexOutOfBoundException) {
-    return AssertionsForClassTypes.catchThrowableOfType(shouldRaiseIndexOutOfBoundException, IndexOutOfBoundsException.class);
+  public static IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable throwingCallable) {
+    return catchThrowableOfType(IndexOutOfBoundsException.class, throwingCallable);
   }
 
   /**
@@ -2306,6 +2424,20 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Throws an {@link AssertionError} with an empty message to be used in code like:
+   * <pre><code class='java'> doSomething(optional.orElseGet(() -> fail()));</code></pre>
+   *
+   * @param <T> dummy return value type
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail()));}.
+   * @throws AssertionError with an empty message.
+   * @since 3.26.0
+   */
+  @CanIgnoreReturnValue
+  public static <T> T fail() {
+    return Assertions.fail();
+  }
+
+  /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
@@ -2334,6 +2466,18 @@ public class BDDAssertions extends Assertions {
   @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage, Throwable realCause) {
     return Assertions.fail(failureMessage, realCause);
+  }
+
+  /**
+   * Throws an {@link AssertionError} with the {@link Throwable} that caused the failure.
+   * @param <T> dummy return value type
+   * @param realCause cause of the error.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
+   * @throws AssertionError with the {@link Throwable} that caused the failure.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T fail(Throwable realCause) {
+    return fail(null, realCause);
   }
 
   /**
@@ -2826,6 +2970,23 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Assertions entry point for {@link Duration} with less than or equal condition to use with isCloseTo temporal assertions.
+   * <p>
+   * Typical usage:
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12);
+   * then(_07_10).isCloseTo(_07_12, within(Duration.ofMinutes(5)));</code></pre>
+   *
+   * @param duration the {@link Duration} of the offset
+   * @return the created {@code Offset}.
+   * @since 3.27.0
+   * @see #byLessThan(Duration)
+   */
+  public static TemporalUnitOffset within(Duration duration) {
+    return Assertions.within(duration);
+  }
+
+  /**
    * Syntactic sugar method to use with {@link AbstractDurationAssert#isCloseTo(Duration, Duration)} assertion.
    * <p>
    * Example:
@@ -3057,6 +3218,23 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Assertions entry point for {@link Duration} with strict less than condition to use with {@code isCloseTo} temporal assertions.
+   * <p>
+   * Typical usage:
+   * <pre><code class='java'> LocalTime _07_10 = LocalTime.of(7, 10);
+   * LocalTime _07_12 = LocalTime.of(7, 12);
+   * then(_07_10).isCloseTo(_07_12, byLessThan(Duration.ofMinutes(5)));</code></pre>
+   *
+   * @param duration the {@link Duration} of the offset.
+   * @return the created {@code Offset}.
+   * @since 3.27.0
+   * @see #within(Duration)
+   */
+  public static TemporalUnitOffset byLessThan(Duration duration) {
+    return Assertions.byLessThan(duration);
+  }
+
+  /**
    * A syntax sugar to write fluent assertion using {@link ObjectAssert#returns(Object, Function)} and
    * {@link ObjectAssert#doesNotReturn(Object, Function)}.
    * <p>
@@ -3140,6 +3318,21 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfies(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SafeVarargs
+  public static <T> ThrowingConsumer<T> allOf(ThrowingConsumer<? super T>... consumers) {
+    return Assertions.allOf(consumers);
+  }
+
+  /**
    * Only delegate to {@link AnyOf#anyOf(Condition...)} so that Assertions offers a full feature entry point to all
    * AssertJ features (but you can use {@link AnyOf} if you prefer).
    * <p>
@@ -3171,6 +3364,21 @@ public class BDDAssertions extends Assertions {
    */
   public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
     return Assertions.anyOf(conditions);
+  }
+
+  /**
+   * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
+   * given consumers to {@link AbstractAssert#satisfiesAnyOf(ThrowingConsumer[])}.
+   *
+   * @param <T> the type of object the given consumers accept
+   * @param consumers the consumers to evaluate
+   * @return the {@code ThrowingConsumer} instance
+   *
+   * @since 3.25.0
+   */
+  @SafeVarargs
+  public static <T> ThrowingConsumer<T> anyOf(ThrowingConsumer<? super T>... consumers) {
+    return Assertions.anyOf(consumers);
   }
 
   /**

@@ -8,14 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.assumptions;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThatCode;
+import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.Assumptions.assumeThatCode;
+import static org.assertj.core.api.Assumptions.assumeThatTemporal;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.time.Duration;
@@ -26,6 +28,8 @@ import java.time.LocalTime;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.Temporal;
 import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
@@ -288,6 +292,18 @@ class Assumptions_assumeThat_with_various_java_8_types_Test {
                        @Override
                        public void runPassingAssumption() {
                          assumeThat(actual).isNotNull().isPositive();
+                       }
+                     },
+                     new AssumptionRunner<Temporal>(ZonedDateTime.now()) {
+                       @Override
+                       public void runFailingAssumption() {
+                         assumeThatTemporal(actual).isNotNull().isCloseTo(ZonedDateTime.now().plusMinutes(5),
+                                                                          within(1, ChronoUnit.MINUTES));
+                       }
+
+                       @Override
+                       public void runPassingAssumption() {
+                         assumeThatTemporal(actual).isNotNull().isCloseTo(ZonedDateTime.now(), within(10, ChronoUnit.MINUTES));
                        }
                      });
   }

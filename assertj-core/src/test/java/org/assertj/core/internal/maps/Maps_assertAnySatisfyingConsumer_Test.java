@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
@@ -19,8 +19,8 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.error.ElementsShouldSatisfy.unsatisfiedRequirement;
-import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
@@ -38,7 +38,7 @@ import java.util.function.BiConsumer;
 
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.internal.MapsBaseTest;
-import org.assertj.core.test.Player;
+import org.assertj.core.testkit.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

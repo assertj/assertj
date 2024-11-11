@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -664,12 +664,32 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
+   * assertThat(hobbits, StringAssert::new).first()
+   *                                       .startsWith("fro")
+   *                                       .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   //@format:off
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
       FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
-                                                                                     AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+                                                                                         AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     return new FactoryBasedNavigableIterableAssert(actual, FactoryBasedNavigableIterableAssert.class, assertFactory);
   }
 
@@ -701,11 +721,31 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
+   * assertThat(hobbits, StringAssert.class).first()
+   *                                        .startsWith("fro")
+   *                                        .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   @SuppressWarnings({ "rawtypes", "unchecked" })
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
      ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual,
-                                                                                   Class<ELEMENT_ASSERT> assertClass) {
+                                                                                      Class<ELEMENT_ASSERT> assertClass) {
     return new ClassBasedNavigableIterableAssert(actual, ClassBasedNavigableIterableAssert.class, assertClass);
   }
 
@@ -745,7 +785,27 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
+   * assertThat(hobbits, StringAssert::new).first()
+   *                                       .startsWith("fro")
+   *                                       .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
      FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
@@ -781,7 +841,27 @@ public class Java6Assertions {
    * @param actual the actual value.
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
+   * @deprecated
+   * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
+   * <p>
+   * Deprecated way:
+   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
+   * assertThat(hobbits, StringAssert.class).first()
+   *                                        .startsWith("fro")
+   *                                        .endsWith("do");</code></pre>
+   *
+   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
+   * <p>
+   * New way:
+   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
+   *
+   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * preferred way to create type-specific assertions in AssertJ API.
    */
+  @Deprecated
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
   ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
@@ -999,6 +1079,20 @@ public class Java6Assertions {
    */
   public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThat(CharSequence actual) {
     return new CharSequenceAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link CharSequenceAssert}</code>.
+   * <p>
+   * Use this over {@link #assertThat(CharSequence)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>assertThat</code> for.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 3.25.0
+   */
+  public static AbstractCharSequenceAssert<?, ? extends CharSequence> assertThatCharSequence(CharSequence actual) {
+    return assertThat(actual);
   }
 
   /**
@@ -1287,11 +1381,53 @@ public class Java6Assertions {
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
    * @since 3.9.0
+   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    */
+  @Deprecated
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable, Class<THROWABLE> type) {
-    return ThrowableAssert.catchThrowableOfType(shouldRaiseThrowable, type);
+    return catchThrowableOfType(type, shouldRaiseThrowable);
   }
 
+  /**
+   * Allows catching a {@link Throwable} of a specific type.
+   * <p>
+   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
+   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it,
+   * making it convenient to perform subtype-specific assertions on the result.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class CustomParseException extends Exception {
+   *   int line;
+   *   int column;
+   *
+   *   public CustomParseException(String msg, int l, int c) {
+   *     super(msg);
+   *     line = l;
+   *     column = c;
+   *   }
+   * }
+   *
+   * CustomParseException e = catchThrowableOfType(CustomParseException.class,
+   *                                               () -&gt; { throw new CustomParseException("boom!", 1, 5); });
+   * // assertions pass
+   * assertThat(e).hasMessageContaining("boom");
+   * assertThat(e.line).isEqualTo(1);
+   * assertThat(e.column).isEqualTo(5);
+   *
+   * // fails as CustomParseException is not a RuntimeException
+   * catchThrowableOfType(RuntimeException.class,
+   *                      () -&gt; { throw new CustomParseException("boom!", 1, 5); });</code></pre>
+   *
+   * @param <THROWABLE> the {@link Throwable} type.
+   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
+   * @param type The type of exception that the code is expected to raise.
+   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
+   * @since 3.26.0
+   */
+  public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type, ThrowingCallable shouldRaiseThrowable) {
+    return ThrowableAssert.catchThrowableOfType(type, shouldRaiseThrowable);
+  }
   // -------------------------------------------------------------------------------------------------
   // fail methods : not assertions but here to have a single entry point to all AssertJ features.
   // -------------------------------------------------------------------------------------------------

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.objectarray;
 
@@ -22,8 +22,8 @@ import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
 
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ThrowingConsumer;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
-import org.assertj.core.test.Employee;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.core.testkit.Employee;
 import org.junit.jupiter.api.Test;
 
 class ObjectArrayAssert_filteredOnAssertions_ThrowingConsumer_Test extends ObjectArrayAssert_filtered_baseTest {

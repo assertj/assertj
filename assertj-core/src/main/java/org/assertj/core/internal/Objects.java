@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -56,6 +56,7 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.core.util.introspection.ClassUtils.isInJavaLangPackage;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -486,7 +487,7 @@ public class Objects {
     Set<Field> declaredFields = getDeclaredFieldsIgnoringSyntheticAndStatic(clazz);
     // get fields declared in superClass
     Class<?> superClass = clazz.getSuperclass();
-    while (superClass != null && !superClass.getName().startsWith("java.lang")) {
+    while (!isInJavaLangPackage(superClass)) {
       declaredFields.addAll(getDeclaredFieldsIgnoringSyntheticAndStatic(superClass));
       superClass = superClass.getSuperclass();
     }
@@ -500,8 +501,9 @@ public class Objects {
   }
 
   private static Set<Field> getDeclaredFieldsIgnoringSyntheticAndStatic(Class<?> clazz) {
-    return stream(clazz.getDeclaredFields()).filter(field -> !(field.isSynthetic() || Modifier.isStatic(field.getModifiers())))
-                                            .collect(toCollection(LinkedHashSet::new));
+    Field[] declaredFields = clazz.getDeclaredFields();
+    return stream(declaredFields).filter(field -> !(field.isSynthetic() || Modifier.isStatic(field.getModifiers())))
+                                 .collect(toCollection(LinkedHashSet::new));
   }
 
   public boolean areEqualToIgnoringGivenFields(Object actual, Object other,

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
@@ -23,8 +23,8 @@ import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
-import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -32,6 +32,7 @@ import static org.assertj.core.util.Sets.set;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -39,7 +40,7 @@ import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.collections4.map.SingletonMap;
 import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.internal.MapsBaseTest;
-import org.assertj.core.test.jdk11.Jdk11;
+import org.assertj.core.testkit.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -80,6 +81,27 @@ class Maps_assertContainsKeys_Test extends MapsBaseTest {
     Throwable thrown = catchThrowable(() -> maps.assertContainsKeys(someInfo(), actual, keys));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage(keysToLookForIsEmpty("array of keys"));
+  }
+
+  @Test
+  void should_pass_with_Properties() {
+    // GIVEN
+    Properties actual = mapOf(Properties::new, entry("name", "Yoda"), entry("job", "Jedi"));
+    Object[] expected = array("name", "job");
+    // WHEN/THEN
+    maps.assertContainsKeys(info, actual, expected);
+  }
+
+  @Test
+  void should_fail_with_Properties() {
+    // GIVEN
+    Properties actual = mapOf(Properties::new, entry("name", "Yoda"), entry("job", "Jedi"));
+    Object[] expected = array("name", "color");
+    Set<Object> notFound = set("color");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsKeys(info, actual, expected));
+    // THEN
+    then(assertionError).hasMessage(shouldContainKeys(actual, notFound).create());
   }
 
   @ParameterizedTest

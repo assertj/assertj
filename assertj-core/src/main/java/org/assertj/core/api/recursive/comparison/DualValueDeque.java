@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -18,9 +18,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 // special deque that can ignore DualKey according to RecursiveComparisonConfiguration.
-@SuppressWarnings("serial")
 class DualValueDeque extends LinkedList<DualValue> {
-  private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
+  private final RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   public DualValueDeque(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;
@@ -28,13 +27,13 @@ class DualValueDeque extends LinkedList<DualValue> {
 
   @Override
   public boolean add(DualValue dualKey) {
-    if (shouldIgnore(dualKey)) return false;
+    if (shouldNotEvaluate(dualKey)) return false;
     return super.add(dualKey);
   }
 
   @Override
   public void add(int index, DualValue dualKey) {
-    if (shouldIgnore(dualKey)) return;
+    if (shouldNotEvaluate(dualKey)) return;
     super.add(index, dualKey);
   }
 
@@ -45,22 +44,31 @@ class DualValueDeque extends LinkedList<DualValue> {
 
   @Override
   public void addFirst(DualValue dualKey) {
-    if (shouldIgnore(dualKey)) return;
+    if (shouldNotEvaluate(dualKey)) return;
     super.addFirst(dualKey);
   }
 
   @Override
   public void addLast(DualValue dualKey) {
-    if (shouldIgnore(dualKey)) return;
+    if (shouldNotEvaluate(dualKey)) return;
     super.addLast(dualKey);
   }
 
-  private boolean shouldIgnore(DualValue dualKey) {
-    return recursiveComparisonConfiguration.shouldIgnore(dualKey);
+  /**
+   * Decides whether the value needs to evaluated, note that we need to evaluate all values if we have
+   * compared types registered as a value could have fields of type to compare.
+   * <p>
+   * For example if we want to compare Employee in a Company, we need to evaluate company as it holds a list of Employee.
+   *
+   * @param dualValue the value to check
+   * @return true if we want to register the value for evaluation, false otherwise
+   */
+  private boolean shouldNotEvaluate(DualValue dualValue) {
+    return recursiveComparisonConfiguration.shouldNotEvaluate(dualValue);
   }
 
   private boolean shouldAddDualKey(DualValue dualKey) {
-    return !shouldIgnore(dualKey);
+    return !shouldNotEvaluate(dualKey);
   }
 
 }

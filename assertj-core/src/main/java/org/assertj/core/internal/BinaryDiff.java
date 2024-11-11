@@ -8,10 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.internal;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class BinaryDiff {
 
   @VisibleForTesting
   public BinaryDiffResult diff(Path actual, byte[] expected) throws IOException {
-    try (InputStream actualStream = Files.newInputStream(actual)) {
+    try (InputStream actualStream = new BufferedInputStream(Files.newInputStream(actual))) {
       return diff(actualStream, expected);
     }
   }

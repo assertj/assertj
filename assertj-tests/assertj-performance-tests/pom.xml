@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-tests</artifactId>
-    <version>3.25.0-SNAPSHOT</version>
+    <version>3.26.4-SNAPSHOT</version>
   </parent>
 
   <artifactId>assertj-performance-tests</artifactId>
@@ -14,6 +14,7 @@
 
   <properties>
     <rootDirectory>${project.basedir}/../../</rootDirectory>
+    <spotless.skip>false</spotless.skip>
   </properties>
 
   <dependencies>
@@ -29,14 +30,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
 
 </project>

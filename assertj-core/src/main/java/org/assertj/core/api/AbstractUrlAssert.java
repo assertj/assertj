@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -88,7 +88,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * assertThat(new URL("http://helloworld.org/france")).hasNoPath();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual has a path.
+   * @throws AssertionError if {@code actual} has a path.
    */
   public SELF hasNoPath() {
     urls.assertHasPath(info, actual, "");
@@ -126,7 +126,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * assertThat(new URL("http://helloworld.org:8080")).hasNoPort();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual has a port.
+   * @throws AssertionError if {@code actual} has a port.
    */
   public SELF hasNoPort() {
     urls.assertHasPort(info, actual, -1);
@@ -226,7 +226,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * assertThat(new URL("http://www.helloworld.org/index.html?type=test")).hasNoQuery();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual has a query.
+   * @throws AssertionError if {@code actual} has a query.
    */
   public SELF hasNoQuery() {
     urls.assertHasQuery(info, actual, null);
@@ -264,7 +264,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * assertThat(new URL("http://www.helloworld.org/news.html#sport")).hasNoAnchor();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual has a anchor.
+   * @throws AssertionError if {@code actual} has a anchor.
    */
   public SELF hasNoAnchor() {
     urls.assertHasAnchor(info, actual, null);
@@ -304,7 +304,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * assertThat(new URL("http://test:pass@www.helloworld.org/index.html")).hasNoUserInfo();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual has some userinfo.
+   * @throws AssertionError if {@code actual} has some userinfo.
    */
   public SELF hasNoUserInfo() {
     urls.assertHasUserInfo(info, actual, null);
@@ -373,7 +373,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * assertThat(new URL("http://www.helloworld.org/index.html?sad=much")).hasNoParameters();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual has a parameter.
+   * @throws AssertionError if {@code actual} has a parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    *
    * @since 2.5.0 / 3.5.0
@@ -398,7 +398,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    *
    * @param name the name of the parameter expected to be absent.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual has the expected parameter.
+   * @throws AssertionError if {@code actual} has the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    *
    * @since 2.5.0 / 3.5.0
@@ -427,7 +427,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * @param name the name of the parameter expected to be absent.
    * @param value the value of the parameter expected to be absent.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual has the expected parameter.
+   * @throws AssertionError if {@code actual} has the expected parameter.
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    *
    * @since 2.5.0 / 3.5.0

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.future;
 
@@ -24,8 +24,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -112,16 +110,6 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n"))
                         .hasMessageContaining("to be completed within 0.001S.");
-  }
-
-  private static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration, ExecutorService service) {
-    CompletableFuture<U> completableFuture = new CompletableFuture<>();
-    service.submit(() -> {
-      Thread.sleep(sleepDuration);
-      completableFuture.complete(value);
-      return null;
-    });
-    return completableFuture;
   }
 
 }

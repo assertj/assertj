@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.objectarray;
 
@@ -16,8 +16,8 @@ import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.core.test.NeverEqualComparator.NEVER_EQUALS_STRING;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.testkit.NeverEqualComparator.NEVER_EQUALS_STRING;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
@@ -29,7 +29,7 @@ import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.ObjectArrays;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -172,7 +172,7 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
                                   + "  [Luke the Jedi]%n"
                                   + "when comparing values using field/property by field/property comparator on all fields/properties%n"
                                   + "Comparators used:%n"
-                                  + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> org.assertj.core.test.NeverEqualComparator, Path -> lexicographic comparator (Path natural order)}%n"
+                                  + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> org.assertj.core.testkit.NeverEqualComparator, Path -> lexicographic comparator (Path natural order)}%n"
                                   + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> AlwaysEqualComparator, Path -> lexicographic comparator (Path natural order)}"));
   }
 }

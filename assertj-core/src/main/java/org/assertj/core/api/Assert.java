@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -448,7 +448,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param other the object to check type against.
    * @return this assertion object.
-   * @throws AssertionError if the actual has not the same type has the given object.
+   * @throws AssertionError if {@code actual} has not the same type as the given object.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
@@ -543,7 +543,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param other the object to check type against.
    * @return this assertion object.
-   * @throws AssertionError if the actual has the same type has the given object.
+   * @throws AssertionError if {@code actual} has the same type as the given object.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
@@ -650,7 +650,9 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(unsortedListAsObject).asList().isSorted();</code></pre>
    *
    * @return a list assertion object
+   * @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
    */
+  @Deprecated
   AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList();
 
   /**

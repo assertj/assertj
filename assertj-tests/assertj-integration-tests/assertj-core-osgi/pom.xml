@@ -5,16 +5,17 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-integration-tests</artifactId>
-    <version>3.25.0-SNAPSHOT</version>
+    <version>3.26.4-SNAPSHOT</version>
   </parent>
 
   <artifactId>assertj-core-osgi</artifactId>
 
-  <name>AssertJ Core Integration Tests - OSGi</name>
+  <name>AssertJ Core Integration Tests (OSGi)</name>
 
   <properties>
     <osgi.bundle>${project.build.directory}/${project.build.finalName}-tests.jar</osgi.bundle>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
+    <spotless.skip>false</spotless.skip>
   </properties>
 
   <dependencyManagement>
@@ -22,7 +23,7 @@
       <dependency>
         <groupId>org.eclipse.platform</groupId>
         <artifactId>org.eclipse.osgi</artifactId>
-        <version>3.18.400</version>
+        <version>3.21.0</version>
         <scope>test</scope>
       </dependency>
     </dependencies>
@@ -44,10 +45,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>com.diffplug.spotless</groupId>
-        <artifactId>spotless-maven-plugin</artifactId>
-      </plugin>
       <plugin>
         <groupId>biz.aQute.bnd</groupId>
         <artifactId>bnd-maven-plugin</artifactId>

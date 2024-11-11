@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -43,14 +43,20 @@ public class UnicodeRepresentation extends StandardRepresentation {
   }
 
   @Override
+  protected String toStringOf(CharSequence string) {
+    return escapeUnicode(string);
+  }
+
+  @Override
   protected String toStringOf(String string) {
     return escapeUnicode(string);
   }
 
-  private static String escapeUnicode(String input) {
+  private static String escapeUnicode(CharSequence input) {
     StringBuilder b = new StringBuilder(input.length());
     Formatter formatter = new Formatter(b);
-    for (char c : input.toCharArray()) {
+    for (int i = 0; i < input.length(); i++) {
+      char c = input.charAt(i);
       if (c < 128) {
         b.append(c);
       } else {

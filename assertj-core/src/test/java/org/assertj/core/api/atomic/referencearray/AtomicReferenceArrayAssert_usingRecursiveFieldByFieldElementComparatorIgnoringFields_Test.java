@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.atomic.referencearray;
 
@@ -22,8 +22,8 @@ import org.assertj.core.internal.AtomicReferenceArrayElementComparisonStrategy;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ObjectArrays;
-import org.assertj.core.test.Name;
-import org.assertj.core.test.Player;
+import org.assertj.core.testkit.Name;
+import org.assertj.core.testkit.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

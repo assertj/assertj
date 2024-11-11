@@ -8,26 +8,26 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.error;
+
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
+
+import java.util.Objects;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.assertj.core.test.AlwaysDifferentComparator.ALWAY_DIFFERENT;
+import static org.assertj.core.testkit.AlwaysDifferentComparator.ALWAY_DIFFERENT;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
-
-import java.util.Objects;
-
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
 
 class ShouldBeEqual_Test {
 
@@ -40,7 +40,7 @@ class ShouldBeEqual_Test {
                                               .usingComparator(CaseInsensitiveStringComparator.INSTANCE)
                                               .isEqualTo(expected);
     // WHEN
-    AssertionFailedError error = catchThrowableOfType(code, AssertionFailedError.class);
+    AssertionFailedError error = catchThrowableOfType(AssertionFailedError.class, code);
     // THEN
     then(error.getActual().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(actual));
     then(error.getExpected().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(expected));
@@ -57,13 +57,25 @@ class ShouldBeEqual_Test {
     byte[] expected = { 1, 2, 4 };
     ThrowingCallable code = () -> then(actual).as("numbers").isEqualTo(expected);
     // WHEN
-    AssertionFailedError error = catchThrowableOfType(code, AssertionFailedError.class);
+    AssertionFailedError error = catchThrowableOfType(AssertionFailedError.class, code);
     // THEN
     then(error.getActual().getValue()).isEqualTo("[1, 2, 3]");
     then(error.getExpected().getValue()).isEqualTo("[1, 2, 4]");
     then(error).hasMessage(format("[numbers] %n" +
                                   "expected: [1, 2, 4]%n" +
                                   " but was: [1, 2, 3]"));
+  }
+
+  @Test
+  void should_display_class_for_ambiguous_CharSequence() {
+    // GIVEN
+    CharSequence actual = "test";
+    CharSequence expected = new StringBuilder("test");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> then(actual).isEqualTo(expected));
+    // THEN
+    then(error).hasMessageContainingAll(format("%nexpected: \"\"test\" (StringBuilder"),
+                                        format("%n but was: \"\"test\" (String"));
   }
 
   @Test
@@ -154,7 +166,7 @@ class ShouldBeEqual_Test {
   }
 
   @Test
-  void should_display_multiline_values_nicely_for_ambiguous_representation_for_ambiguous_representation() {
+  void should_display_multiline_values_nicely_with_comparison_strategy_for_ambiguous_representation() {
     // GIVEN
     Xml actual = new Xml("1");
     XmlDuplicate expected = new XmlDuplicate("1");

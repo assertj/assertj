@@ -8,23 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.presentation;
 
-import static java.lang.Integer.toHexString;
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
-import static org.assertj.core.util.Arrays.isObjectArray;
-import static org.assertj.core.util.Arrays.notAnArrayOfPrimitives;
-import static org.assertj.core.util.DateUtil.formatAsDatetime;
-import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
-import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Streams.stream;
-import static org.assertj.core.util.Strings.concat;
-import static org.assertj.core.util.Strings.quote;
-import static org.assertj.core.util.Throwables.getStackTrace;
+import org.assertj.core.configuration.Configuration;
+import org.assertj.core.configuration.ConfigurationProvider;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.Closeables;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.ChangeDelta;
+import org.assertj.core.util.diff.DeleteDelta;
+import org.assertj.core.util.diff.InsertDelta;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -37,6 +34,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.Calendar;
 import java.util.Collection;
@@ -62,18 +60,19 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
-import java.util.stream.Stream;
 
-import org.assertj.core.configuration.Configuration;
-import org.assertj.core.configuration.ConfigurationProvider;
-import org.assertj.core.data.MapEntry;
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.Closeables;
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.diff.ChangeDelta;
-import org.assertj.core.util.diff.DeleteDelta;
-import org.assertj.core.util.diff.InsertDelta;
+import static java.lang.Integer.toHexString;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
+import static org.assertj.core.util.Arrays.isObjectArray;
+import static org.assertj.core.util.Arrays.notAnArrayOfPrimitives;
+import static org.assertj.core.util.DateUtil.formatAsDatetime;
+import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Strings.concat;
+import static org.assertj.core.util.Strings.quote;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 /**
  * Standard java object representation.
@@ -218,6 +217,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Date) return toStringOf((Date) object);
     if (object instanceof Duration) return toStringOf((Duration) object);
     if (object instanceof LocalDate) return toStringOf((LocalDate) object);
+    if (object instanceof YearMonth) return toStringOf((YearMonth) object);
     if (object instanceof LocalDateTime) return toStringOf((LocalDateTime) object);
     if (object instanceof OffsetDateTime) return toStringOf((OffsetDateTime) object);
     if (object instanceof ZonedDateTime) return toStringOf((ZonedDateTime) object);
@@ -235,6 +235,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof File) return toStringOf((File) object);
     if (object instanceof Path) return fallbackToStringOf(object);
     if (object instanceof String) return toStringOf((String) object);
+    if (object instanceof CharSequence) return toStringOf((CharSequence) object);
     if (object instanceof Character) return toStringOf((Character) object);
     if (object instanceof Comparator) return toStringOf((Comparator<?>) object);
     if (object instanceof SimpleDateFormat) return toStringOf((SimpleDateFormat) object);
@@ -314,7 +315,6 @@ public class StandardRepresentation implements Representation {
     return this.getClass().getSimpleName();
   }
 
-  @SuppressWarnings("unchecked")
   protected <T> String customFormat(T object) {
     if (object == null) return null;
     CharSequence formatted = ((Function<T, ? extends CharSequence>) customFormatterByType.get(object.getClass())).apply(object);
@@ -376,7 +376,7 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(Comparator<?> comparator) {
     if (!comparator.toString().contains("@")) return comparator.toString();
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
-    if (comparatorSimpleClassName.length() == 0) return quote("anonymous comparator class");
+    if (comparatorSimpleClassName.isEmpty()) return quote("anonymous comparator class");
     // if toString has not been redefined, let's use comparator simple class name.
     if (comparator.toString().contains(comparatorSimpleClassName + "@")) return comparatorSimpleClassName;
     return comparator.toString();
@@ -395,12 +395,20 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(Class<?> c) {
     String canonicalName = c.getCanonicalName();
     if (canonicalName != null) return canonicalName;
-    if (c.getSimpleName().equals("")) return "anonymous class";
+    if (c.getSimpleName().isEmpty()) return "anonymous class";
     if (c.getSimpleName().equals("[]")) return "anonymous class array";
     return String.format("local class %s", c.getSimpleName());
   }
 
   protected String toStringOf(String s) {
+    return concatWithDoubleQuotes(s);
+  }
+
+  protected String toStringOf(CharSequence s) {
+    return concatWithDoubleQuotes(s);
+  }
+
+  private static String concatWithDoubleQuotes(CharSequence s) {
     return concat("\"", s, "\"");
   }
 
@@ -431,6 +439,10 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(LocalDate localDate) {
     return defaultToStringWithClassNameDisambiguation(localDate);
+  }
+
+  protected String toStringOf(YearMonth yearMonth) {
+    return defaultToStringWithClassNameDisambiguation(yearMonth);
   }
 
   protected String classNameDisambiguation(Object o) {
@@ -633,7 +645,7 @@ public class StandardRepresentation implements Representation {
     if (iterable == null) return null;
     Iterator<?> iterator = iterable.iterator();
     if (!iterator.hasNext()) return start + end;
-    List<String> representedElements = representElements(stream(iterable), start, end, elementSeparator, indentation, root);
+    List<String> representedElements = representElements(iterable, start, end, elementSeparator, indentation, root);
     return representGroup(representedElements, start, end, elementSeparator, indentation);
   }
 
@@ -652,10 +664,14 @@ public class StandardRepresentation implements Representation {
 
   // private methods
 
-  private List<String> representElements(Stream<?> elements, String start, String end, String elementSeparator,
+  private List<String> representElements(Iterable<?> elements, String start, String end, String elementSeparator,
                                          String indentation, Object root) {
-    return elements.map(element -> safeStringOf(element, start, end, elementSeparator, indentation, root))
-                   .collect(toList());
+    int capacity = maxElementsForPrinting / 2 + 1;
+    HeadTailAccumulator<Object> accumulator = new HeadTailAccumulator<>(capacity, capacity);
+    elements.forEach(accumulator::add);
+
+    return accumulator.stream().map(element -> safeStringOf(element, start, end, elementSeparator, indentation, root))
+                      .collect(toList());
   }
 
   // this method only deals with max number of elements to display, the elements representation is already computed

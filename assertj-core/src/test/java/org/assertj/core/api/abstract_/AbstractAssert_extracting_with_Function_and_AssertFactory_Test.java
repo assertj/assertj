@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.api.abstract_;
 
@@ -29,8 +29,8 @@ import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.abstract_.AbstractAssert_extracting_with_Function_and_AssertFactory_Test.TestAssert;
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2023 the original author or authors.
+ * Copyright 2012-2024 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
 class FieldSupport_isAllowedToReadField_Test {
