@@ -1091,7 +1091,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // this method is meant to be overridden and made public in subclasses that want to expose it
   // this would avoid duplicating this code in all subclasses
   protected RecursiveComparisonAssert<?> usingRecursiveComparison() {
-    return usingRecursiveComparison(new RecursiveComparisonConfiguration());
+    return usingRecursiveComparison(new RecursiveComparisonConfiguration(info.representation()));
   }
 
   // this method is meant to be overridden and made public in subclasses that want to expose it

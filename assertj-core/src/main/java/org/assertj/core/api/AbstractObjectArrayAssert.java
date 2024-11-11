@@ -2088,7 +2088,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {
-    return usingRecursiveFieldByFieldElementComparator(new RecursiveComparisonConfiguration());
+    return usingRecursiveFieldByFieldElementComparator(new RecursiveComparisonConfiguration(info.representation()));
   }
 
   /**

@@ -199,6 +199,10 @@ public class RecursiveComparisonDifferenceCalculator {
 
       return null;
     }
+
+    String toStringOf(Object value) {
+      return recursiveComparisonConfiguration.getRepresentation().toStringOf(value);
+    }
   }
 
   /**
@@ -582,10 +586,10 @@ public class RecursiveComparisonDifferenceCalculator {
         if (!expectedElementMatched) expectedElementsNotFound.add(expectedElement);
       }
     }
-
     if (!expectedElementsNotFound.isEmpty()) {
       String unmatched = format("The following expected elements were not matched in the actual %s:%n  %s",
-                                actual.getClass().getSimpleName(), expectedElementsNotFound);
+                                actual.getClass().getSimpleName(),
+                                comparisonState.toStringOf(expectedElementsNotFound));
       comparisonState.addDifference(dualValue, unmatched);
       // TODO could improve the error by listing the actual elements not in expected but that would need
       // another double loop inverting actual and expected to find the actual elements not matched in expected
@@ -669,7 +673,7 @@ public class RecursiveComparisonDifferenceCalculator {
     expectedKeysNotFound.removeAll(actualMap.keySet());
     if (!expectedKeysNotFound.isEmpty()) {
       comparisonState.addDifference(dualValue, format("The following keys were not found in the actual map value:%n  %s",
-                                                      expectedKeysNotFound));
+                                                      comparisonState.toStringOf(expectedKeysNotFound)));
       return;
     }
     // actual and expected maps have the same keys, we need now to compare their values
@@ -878,7 +882,7 @@ public class RecursiveComparisonDifferenceCalculator {
     return false;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings({ "rawtypes" })
   private static boolean areDualValueEqual(DualValue dualValue,
                                            RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     final String fieldName = dualValue.getConcatenatedPath();

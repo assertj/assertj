@@ -12,19 +12,6 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.groups.Tuple;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UnknownFormatConversionException;
-import java.util.stream.Stream;
-
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
@@ -32,11 +19,25 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.presentation.StandardRepresentation.registerFormatterForType;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.tests.core.api.recursive.comparison.Author.authorsTreeSet;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.UnknownFormatConversionException;
+import java.util.stream.Stream;
+
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.core.groups.Tuple;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest
     implements PersonData {
@@ -184,7 +185,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                                                                                  .ignoringCollectionOrder()
                                                                                  .isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual ArrayList:%n  [bbb]"));
+    then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual ArrayList:%n  [\"bbb\"]"));
   }
 
   // https://github.com/assertj/assertj/issues/2279
@@ -215,4 +216,20 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
 
   }
 
+  record Item(String name, int quantity) {
+  }
+
+  @Test
+  void should_honor_representation_in_unmatched_elements_when_comparing_unordered_set() {
+    // GIVEN
+    Set<Item> expectedItems = newHashSet(new Item("Shoes", 2), new Item("Pants", 3));
+    Set<Item> actualItems = newHashSet(new Item("Pants", 3), new Item("Loafers", 1));
+    registerFormatterForType(Item.class, item -> String.format("Item(%s, %d)", item.name(), item.quantity()));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison()
+                                                                                      .isEqualTo(expectedItems));
+    // THEN
+    then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual HashSet:%n" +
+                                                     "  [Item(Shoes, 2)]"));
+  }
 }

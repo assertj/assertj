@@ -19,6 +19,7 @@ import static java.util.Collections.singletonMap;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.presentation.StandardRepresentation.registerFormatterForType;
 import static org.assertj.tests.core.testkit.Maps.mapOf;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
@@ -112,7 +113,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     Map<String, Author> singletonGeorgeMartinMap = singletonMap(georgeMartin.name, georgeMartin);
     return Stream.of(Arguments.of(singletonPratchettMap, singletonGeorgeMartinMap, "map",
                                   singletonPratchettMap, singletonGeorgeMartinMap,
-                                  format("The following keys were not found in the actual map value:%n  [George Martin]")),
+                                  format("The following keys were not found in the actual map value:%n  [\"George Martin\"]")),
                      Arguments.of(nonSortedPratchettAndMartin, singletonPratchettMap, "map",
                                   nonSortedPratchettAndMartin, singletonPratchettMap,
                                   "actual and expected values are maps of different size, actual size=2 when expected size=1"),
@@ -126,7 +127,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
                                   none, pratchett, null),
                      Arguments.of(singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), "map",
                                   singletonPratchettMap, singletonMap(georgeMartin.name, pratchett),
-                                  format("The following keys were not found in the actual map value:%n  [George Martin]")),
+                                  format("The following keys were not found in the actual map value:%n  [\"George Martin\"]")),
                      Arguments.of(singletonPratchettMap, empty, "map",
                                   singletonPratchettMap, empty,
                                   "actual and expected values are maps of different size, actual size=1 when expected size=0"));
@@ -152,7 +153,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison().isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessageContaining(format("The following keys were not found in the actual map value:%n  [c, d]"));
+    then(assertionError).hasMessageContaining(format("The following keys were not found in the actual map value:%n  [\"c\", \"d\"]"));
   }
 
   static Stream<Arguments> should_fail_when_comparing_map_to_non_map() {
@@ -163,6 +164,23 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     return Stream.of(Arguments.of(pratchett, mapOfTwoAuthors, "group", pratchett, mapOfTwoAuthors,
                                   "expected field is a map but actual field is not (org.assertj.tests.core.api.recursive.comparison.Author)"),
                      Arguments.of(none, mapOfTwoAuthors, "group", none, mapOfTwoAuthors, null));
+  }
+
+  record Item(String name, int quantity) {
+  }
+
+  @Test
+  void should_honor_representation_in_unmatched_elements_when_comparing_unordered_iterables() {
+    // GIVEN
+    Map<String, Item> expectedItems = mapOf(entry("Shoes", new Item("Shoes", 2)), entry("Pants", new Item("Pants", 3)));
+    Map<String, Item> actualItems = mapOf(entry("Pants", new Item("Pants", 3)), entry("Hat", new Item("Hat", 1)));
+    registerFormatterForType(Item.class, item -> String.format("Item(%s, %d)", item.name(), item.quantity()));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison()
+                                                                                      .isEqualTo(expectedItems));
+    // THEN
+    then(assertionError).hasMessageContaining(format("The following keys were not found in the actual map value:%n" +
+                                                     "  [\"Shoes\"]"));
   }
 
 }

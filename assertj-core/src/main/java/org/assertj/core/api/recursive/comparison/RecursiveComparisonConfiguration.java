@@ -50,6 +50,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private static final boolean DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS = true;
   public static final String INDENT_LEVEL_2 = "  -";
+  private final Representation representation;
   public static final DefaultRecursiveComparisonIntrospectionStrategy DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY = new DefaultRecursiveComparisonIntrospectionStrategy();
   private boolean strictTypeChecking = false;
 
@@ -115,10 +116,20 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.fieldMessages = builder.fieldMessages;
     this.typeMessages = builder.typeMessages;
     this.introspectionStrategy = builder.introspectionStrategy;
+    this.representation = builder.representation;
+  }
+
+  public RecursiveComparisonConfiguration(Representation representation) {
+    super();
+    this.representation = representation;
   }
 
   public RecursiveComparisonConfiguration() {
-    super();
+    this(CONFIGURATION_PROVIDER.representation());
+  }
+
+  public Representation getRepresentation() {
+    return representation;
   }
 
   public boolean hasComparatorForField(String fieldName) {
@@ -437,7 +448,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * @throws NullPointerException if the given BiPredicate is null.
    * @since 3.17.0
    */
-  @SuppressWarnings("unchecked")
   public <T> void registerEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
     registerComparatorForType(toComparator(equals), type);
   }
@@ -1164,6 +1174,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * Builder to build {@link RecursiveComparisonConfiguration}.
    */
   public static final class Builder extends AbstractBuilder<Builder> {
+    private Representation representation;
     private boolean strictTypeChecking;
     private boolean ignoreAllActualNullFields;
     private boolean ignoreAllActualEmptyOptionalFields;
@@ -1186,6 +1197,17 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
     private Builder() {
       super(Builder.class);
+    }
+
+    /**
+     * Sets the {@link Representation} used when formatting the differences.
+     *
+     * @param representation the {@link Representation} used when formatting the differences.
+     * @return this builder.
+     */
+    public Builder withRepresentation(Representation representation) {
+      this.representation = representation;
+      return this;
     }
 
     /**
@@ -1398,7 +1420,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * @since 3.17.0
      * @throws NullPointerException if the given BiPredicate is null.
      */
-    @SuppressWarnings("unchecked")
     public <T> Builder withEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
       return withComparatorForType(toComparator(equals), type);
     }
@@ -1554,7 +1575,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     }
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked", "ComparatorMethodParameterNotUsed" })
+  @SuppressWarnings({ "rawtypes", "ComparatorMethodParameterNotUsed" })
   private static Comparator toComparator(BiPredicate equals) {
     requireNonNull(equals, "Expecting a non null BiPredicate");
     return (o1, o2) -> equals.test(o1, o2) ? 0 : 1;

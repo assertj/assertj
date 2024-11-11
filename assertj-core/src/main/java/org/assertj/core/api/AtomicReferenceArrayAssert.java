@@ -2207,7 +2207,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparator() {
-    return usingRecursiveFieldByFieldElementComparator(new RecursiveComparisonConfiguration());
+    return usingRecursiveFieldByFieldElementComparator(new RecursiveComparisonConfiguration(info.representation()));
   }
 
   /**
