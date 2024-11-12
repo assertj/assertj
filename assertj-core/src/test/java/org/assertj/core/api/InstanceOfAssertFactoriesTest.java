@@ -4227,11 +4227,11 @@ class InstanceOfAssertFactoriesTest {
 
     private final Object actual;
     {
-        try {
-            actual = String.class.getDeclaredConstructor();
-        } catch (NoSuchMethodException exception) {
-            throw new RuntimeException("Failed to get declared constructor", exception);
-        }
+      try {
+        actual = String.class.getDeclaredConstructor();
+      } catch (NoSuchMethodException exception) {
+        throw new RuntimeException("Failed to get declared constructor", exception);
+      }
     }
 
     @Test
@@ -4263,8 +4263,7 @@ class InstanceOfAssertFactoriesTest {
 
   }
 
-
-    @SuppressWarnings("unchecked")
+  @SuppressWarnings("unchecked")
   @SafeVarargs
   private static <T> T mockThatDelegatesTo(T delegate, T... reified) {
     if (reified.length > 0) {
