@@ -10,20 +10,20 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optional;
+package org.assertj.tests.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Optional;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractObjectAssert;
-import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.OptionalAssert;
+import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**

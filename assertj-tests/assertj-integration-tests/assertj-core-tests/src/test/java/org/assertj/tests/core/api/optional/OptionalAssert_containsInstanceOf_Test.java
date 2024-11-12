@@ -10,19 +10,32 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optional;
+package org.assertj.tests.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
 class OptionalAssert_containsInstanceOf_Test {
+
+  @Test
+  void should_fail_when_optional_is_null() {
+    // GIVEN
+    @SuppressWarnings("OptionalAssignedToNull")
+    Optional<Object> actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(Object.class));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
+  }
+
 
   @Test
   void should_fail_if_optional_is_empty() {

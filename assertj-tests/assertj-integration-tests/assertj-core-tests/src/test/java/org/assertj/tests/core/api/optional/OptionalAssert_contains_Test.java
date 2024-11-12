@@ -10,15 +10,15 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optional;
+package org.assertj.tests.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Optional;
 
@@ -30,9 +30,12 @@ class OptionalAssert_contains_Test {
   @Test
   void should_fail_when_optional_is_null() {
     // GIVEN
+    @SuppressWarnings("OptionalAssignedToNull")
     Optional<String> nullActual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).contains("something"));
     // THEN
-    assertThatAssertionErrorIsThrownBy(() -> assertThat(nullActual).contains("something")).withMessage(actualIsNull());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
@@ -52,12 +55,12 @@ class OptionalAssert_contains_Test {
     Optional<String> actual = Optional.of("not-expected");
     String expectedValue = "something";
     // WHEN
-    AssertionFailedError error = catchThrowableOfType(() -> assertThat(actual).contains(expectedValue),
-                                                      AssertionFailedError.class);
+    AssertionFailedError error = catchThrowableOfType(AssertionFailedError.class,
+                                                      () -> assertThat(actual).contains(expectedValue));
     // THEN
-    assertThat(error).hasMessage(shouldContain(actual, expectedValue).create());
-    assertThat(error.getActual().getStringRepresentation()).isEqualTo(actual.get());
-    assertThat(error.getExpected().getStringRepresentation()).isEqualTo(expectedValue);
+    then(error).hasMessage(shouldContain(actual, expectedValue).create());
+    then(error.getActual().getStringRepresentation()).isEqualTo(actual.get());
+    then(error.getExpected().getStringRepresentation()).isEqualTo(expectedValue);
   }
 
   @Test
@@ -65,8 +68,8 @@ class OptionalAssert_contains_Test {
     // GIVEN
     String expectedValue = "something";
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(Optional.empty()).contains(expectedValue));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(Optional.empty()).contains(expectedValue));
     // THEN
-    assertThat(error).hasMessage(shouldContain(expectedValue).create());
+    then(assertionError).hasMessage(shouldContain(expectedValue).create());
   }
 }

@@ -10,36 +10,46 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optional;
+package org.assertj.tests.core.api.optional;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.ShouldBe.shouldBe;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Optional;
 
 import org.assertj.core.api.Condition;
-import org.assertj.core.api.TestCondition;
+import org.assertj.tests.core.testkit.TestCondition;
 import org.junit.jupiter.api.Test;
 
 class OptionalAssert_hasValueSatisfying_Condition_Test {
 
-  private Condition<String> passingCondition = new TestCondition<>(true);
-  private Condition<String> notPassingCondition = new TestCondition<>();
+  private final Condition<String> passingCondition = new TestCondition<>(true);
+  private final Condition<String> notPassingCondition = new TestCondition<>();
 
   @Test
   void should_fail_when_optional_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).hasValueSatisfying(passingCondition))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    @SuppressWarnings("OptionalAssignedToNull")
+    Optional<String> actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(passingCondition));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_when_optional_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.<String> empty()).hasValueSatisfying(passingCondition))
-                                                   .withMessage(shouldBePresent(Optional.empty()).create());
+    // GIVEN
+    Optional<String> actual = Optional.empty();
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(passingCondition));
+    // THEN
+    then(assertionError).hasMessage(shouldBePresent(Optional.empty()).create());
   }
 
   @Test
@@ -55,7 +65,11 @@ class OptionalAssert_hasValueSatisfying_Condition_Test {
 
   @Test
   void should_fail_when_condition_is_not_met() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.of("something")).hasValueSatisfying(notPassingCondition))
-                                                   .withMessage(shouldBe("something", notPassingCondition).create());
+    // GIVEN
+    Optional<String> actual = Optional.of("something");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(notPassingCondition));
+    // THEN
+    then(assertionError).hasMessage(shouldBe("something", notPassingCondition).create());
   }
 }

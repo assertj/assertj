@@ -10,14 +10,14 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optional;
+package org.assertj.tests.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.error.OptionalShouldContain.shouldContain;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Optional;
 
@@ -26,9 +26,14 @@ import org.junit.jupiter.api.Test;
 class OptionalAssert_containsSame_Test {
 
   @Test
-  void should_fail_when_optional_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).containsSame("something"))
-                                                   .withMessage(actualIsNull());
+  void should_fail_when_actual_is_null() {
+    // GIVEN
+    @SuppressWarnings("OptionalAssignedToNull")
+    Optional<Object> actual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsSame("something"));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
@@ -39,34 +44,39 @@ class OptionalAssert_containsSame_Test {
 
   @Test
   void should_pass_if_optional_contains_the_expected_object_reference() {
-    String containedAndExpected = "something";
-
-    assertThat(Optional.of(containedAndExpected)).containsSame(containedAndExpected);
+    assertThat(Optional.of("something")).containsSame("something");
   }
 
   @Test
   void should_fail_if_optional_does_not_contain_the_expected_object_reference() {
+    // GIVEN
     Optional<String> actual = Optional.of("not-expected");
     String expectedValue = "something";
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).containsSame(expectedValue))
-                                                   .withMessage(shouldContainSame(actual, expectedValue).create());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsSame(expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldContainSame(actual, expectedValue).create());
   }
 
   @Test
   void should_fail_if_optional_contains_equal_but_not_same_value() {
+    // GIVEN
     Optional<String> actual = Optional.of(new String("something"));
     String expectedValue = "something";
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).containsSame(expectedValue))
-                                                   .withMessage(shouldContainSame(actual, expectedValue).create());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsSame(expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldContainSame(actual, expectedValue).create());
   }
 
   @Test
   void should_fail_if_optional_is_empty() {
+    // GIVEN
     String expectedValue = "something";
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).containsSame(expectedValue))
-                                                   .withMessage(shouldContain(expectedValue).create());
+    // WHEN
+    Optional<Object> actual = Optional.empty();
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsSame(expectedValue));
+    // THEN
+    then(assertionError).hasMessage(shouldContainSame(actual, expectedValue).create());
   }
 }

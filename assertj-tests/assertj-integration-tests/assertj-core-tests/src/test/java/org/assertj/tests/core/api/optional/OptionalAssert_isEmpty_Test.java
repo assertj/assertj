@@ -10,35 +10,44 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optional;
+package org.assertj.tests.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-class OptionalAssert_isNotPresent_Test {
+@SuppressWarnings("DataFlowIssue")
+class OptionalAssert_isEmpty_Test {
 
   @Test
   void should_pass_if_optional_is_empty() {
-    assertThat(Optional.empty()).isNotPresent();
+    assertThat(Optional.empty()).isEmpty();
   }
 
   @Test
   void should_fail_when_optional_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).isNotPresent())
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    @SuppressWarnings("OptionalAssignedToNull")
+    Optional<String> nullActual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(nullActual).isEmpty());
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_optional_is_present() {
+    // GIVEN
     Optional<String> actual = Optional.of("not-empty");
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNotPresent())
-                                                   .withMessage(shouldBeEmpty(actual).create());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(actual).isEmpty());
+    // THEN
+    then(error).hasMessage(shouldBeEmpty(actual).create());
   }
 }

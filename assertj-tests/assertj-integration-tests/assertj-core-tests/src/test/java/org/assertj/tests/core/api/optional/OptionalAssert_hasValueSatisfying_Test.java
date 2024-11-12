@@ -10,33 +10,45 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optional;
+package org.assertj.tests.core.api.optional;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
-import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 class OptionalAssert_hasValueSatisfying_Test {
 
+  public static final Consumer<String> NO_OP = s -> {
+  };
+
   @Test
   void should_fail_when_optional_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<String>) null).hasValueSatisfying(s -> {}))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    @SuppressWarnings("OptionalAssignedToNull")
+    Optional<String> nullActual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(nullActual).hasValueSatisfying(NO_OP));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_when_optional_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).hasValueSatisfying(o -> {}))
-                                                   .withMessage(shouldBePresent(Optional.empty()).create());
+    // GIVEN
+    Optional<String> actual = Optional.empty();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(NO_OP));
+    // THEN
+    then(error).hasMessage(shouldBePresent(Optional.empty()).create());
   }
 
   @Test

@@ -10,41 +10,45 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optional;
+package org.assertj.tests.core.api.optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import java.util.Comparator;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 
-class OptionalAssert_contains_usingValueComparator_Test {
-
-  private static Comparator<Foo> FOO_COMPARATOR = (o1, o2) -> o1.getValue().toLowerCase()
-                                                                .compareTo(o2.getValue().toLowerCase());
+class OptionalAssert_contains_usingFieldByFieldValueComparator_Test {
 
   @Test
   void should_fail_when_optional_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((Optional<Foo>) null).usingValueComparator(FOO_COMPARATOR)
-                                                                                                     .contains(new Foo("something")))
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    @SuppressWarnings("OptionalAssignedToNull")
+    Optional<Foo> nullActual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).usingFieldByFieldValueComparator()
+                                                                                     .contains(new Foo("something")));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_expected_value_is_null() {
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Optional.of(new Foo("something"))).usingValueComparator(FOO_COMPARATOR)
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(Optional.of(new Foo("something"))).usingFieldByFieldValueComparator()
                                                                                                        .contains(null))
                                         .withMessage("The expected value should not be <null>.");
   }
 
   @Test
   void should_pass_if_optional_contains_expected_value() {
-    assertThat(Optional.of(new Foo("something"))).usingValueComparator(FOO_COMPARATOR).contains(new Foo("SoMething"));
+    assertThat(Optional.of(new Foo("something"))).usingFieldByFieldValueComparator()
+                                                 .contains(new Foo("something"));
   }
 
   @Test
@@ -52,7 +56,7 @@ class OptionalAssert_contains_usingValueComparator_Test {
     Optional<Foo> actual = Optional.of(new Foo("something"));
     Foo expectedValue = new Foo("something else");
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR)
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).usingFieldByFieldValueComparator()
                                                                                        .contains(expectedValue))
                                                    .withMessage(shouldContain(actual, expectedValue).create());
   }
@@ -61,10 +65,9 @@ class OptionalAssert_contains_usingValueComparator_Test {
   void should_fail_if_optional_is_empty() {
     Foo expectedValue = new Foo("test");
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      Optional<Foo> actual = Optional.empty();
-      assertThat(actual).usingValueComparator(FOO_COMPARATOR).contains(expectedValue);
-    }).withMessage(shouldContain(expectedValue).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(Optional.empty()).usingFieldByFieldValueComparator()
+                                                                                                 .contains(expectedValue))
+                                                   .withMessage(shouldContain(expectedValue).create());
   }
 
   private static class Foo {
@@ -75,13 +78,14 @@ class OptionalAssert_contains_usingValueComparator_Test {
       this.value = value;
     }
 
+    @SuppressWarnings("unused")
     public String getValue() {
       return value;
     }
 
     @Override
     public String toString() {
-      return "Foo{value='" + value + "'}";
+      return "Foo{" + "value='" + value + '\'' + '}';
     }
   }
 }
