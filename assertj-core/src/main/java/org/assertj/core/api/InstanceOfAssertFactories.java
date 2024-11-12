@@ -1039,8 +1039,22 @@ public interface InstanceOfAssertFactories {
                                                                                                   Assertions::assertThat);
 
   /**
-   * {@link InstanceOfAssertFactory} for a {@link Constructor}.
+   * {@link InstanceOfAssertFactory} for an {@link Constructor}, assuming {@code Object} as value type.
+   *
+   * @see #optional(Class)
    */
-  InstanceOfAssertFactory<Constructor, AbstractConstructorAssert<?, Constructor<?>>> CONSTRUCTOR = new InstanceOfAssertFactory<>(Constructor.class,
-                                                                                                                                 Assertions::assertThat);
+  @SuppressWarnings("rawtypes")
+  InstanceOfAssertFactory<Constructor, AbstractConstructorAssert<?, Object>> CONSTRUCTOR = constructor(Object.class);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Constructor}.
+   *
+   * @param <CLAZZ>   the {@code Constructor} class type.
+   * @param classType the class type instance.
+   * @return the factory instance.
+   */
+  @SuppressWarnings("rawtypes")
+  static <CLAZZ> InstanceOfAssertFactory<Constructor, AbstractConstructorAssert<?, CLAZZ>> constructor(Class<CLAZZ> classType) {
+    return new InstanceOfAssertFactory<>(Constructor.class, new Class[] { classType }, Assertions::<CLAZZ> assertThat);
+  }
 }

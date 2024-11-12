@@ -30,15 +30,15 @@ class Assertions_assertThat_with_Constructor_Test {
 
   @Test
   void should_create_Assert() throws NoSuchMethodException {
-    Constructor<?> constructor = Assertions_assertThat_with_Constructor_Test.ConstructorContainer.class.getDeclaredConstructor();
-    AbstractConstructorAssert<?, Constructor<?>> assertions = Assertions.assertThat(constructor);
+    Constructor<ConstructorContainer> constructor = Assertions_assertThat_with_Constructor_Test.ConstructorContainer.class.getDeclaredConstructor();
+    AbstractConstructorAssert<?, ConstructorContainer> assertions = Assertions.assertThat(constructor);
     assertThat(assertions).isNotNull();
   }
 
   @Test
   void should_pass_actual() throws NoSuchMethodException {
-    Constructor<?> constructor = Assertions_assertThat_with_Constructor_Test.ConstructorContainer.class.getDeclaredConstructor();
-    AbstractConstructorAssert<?, Constructor<?>> assertions = Assertions.assertThat(constructor);
+    Constructor<ConstructorContainer> constructor = Assertions_assertThat_with_Constructor_Test.ConstructorContainer.class.getDeclaredConstructor();
+    AbstractConstructorAssert<?, ConstructorContainer> assertions = Assertions.assertThat(constructor);
     assertThat(assertions.actual).isSameAs(constructor);
   }
 }

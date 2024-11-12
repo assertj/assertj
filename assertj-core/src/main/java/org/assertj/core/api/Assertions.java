@@ -321,7 +321,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @return the created assertion object.
    * @since 3.25.0
    */
-  public static AbstractConstructorAssert<?, Constructor<?>> assertThat(Constructor<?> actual) {
+  public static <CLASS> AbstractConstructorAssert<?, CLASS> assertThat(Constructor<CLASS> actual) {
     return AssertionsForClassTypes.assertThat(actual);
   }
 

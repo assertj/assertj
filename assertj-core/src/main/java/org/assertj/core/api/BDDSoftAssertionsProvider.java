@@ -473,7 +473,8 @@ public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvide
    *
    * @return the created assertion object.
    */
-  default AbstractConstructorAssert<?, Constructor<?>> then(Constructor<?> actual) {
+  @SuppressWarnings("unchecked")
+  default <CLASS> AbstractConstructorAssert<?, CLASS> then(Constructor<CLASS> actual) {
     return proxy(ConstructorAssert.class, Constructor.class, actual);
   }
 }

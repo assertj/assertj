@@ -4038,7 +4038,7 @@ public class BDDAssertions extends Assertions {
    * @return the created assertion object.
    * @since 3.25.0
    */
-  public static AbstractConstructorAssert<?, Constructor<?>> then(Constructor<?> actual) {
+  public static <CLASS> AbstractConstructorAssert<?, CLASS> then(Constructor<CLASS> actual) {
     return assertThat(actual);
   }
 

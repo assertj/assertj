@@ -471,7 +471,8 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
    *
    * @return the created assertion object.
    */
-  default AbstractConstructorAssert<?, Constructor<?>> assertThat(Constructor<?> actual) {
+  @SuppressWarnings("unchecked")
+  default <CLASS> AbstractConstructorAssert<?, CLASS> assertThat(Constructor<CLASS> actual) {
     return proxy(ConstructorAssert.class, Constructor.class, actual);
   }
 }

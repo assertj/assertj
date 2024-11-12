@@ -3558,7 +3558,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  default AbstractConstructorAssert<?, Constructor<?>> assertThat(Constructor<?> actual) {
+  default <CLASS> AbstractConstructorAssert<?, CLASS> assertThat(Constructor<CLASS> actual) {
     return Assertions.assertThat(actual);
   }
 

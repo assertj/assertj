@@ -318,8 +318,8 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static ConstructorAssert assertThat(Constructor<?> actual) {
-    return new ConstructorAssert(actual);
+  public static <CLASS> ConstructorAssert<CLASS> assertThat(Constructor<CLASS> actual) {
+    return ConstructorAssert.assertThatConstructor(actual);
   }
 
   /**

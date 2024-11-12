@@ -122,6 +122,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.collection;
 import static org.assertj.core.api.InstanceOfAssertFactories.comparable;
 import static org.assertj.core.api.InstanceOfAssertFactories.completableFuture;
 import static org.assertj.core.api.InstanceOfAssertFactories.completionStage;
+import static org.assertj.core.api.InstanceOfAssertFactories.constructor;
 import static org.assertj.core.api.InstanceOfAssertFactories.future;
 import static org.assertj.core.api.InstanceOfAssertFactories.iterable;
 import static org.assertj.core.api.InstanceOfAssertFactories.iterator;
@@ -145,6 +146,8 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -4137,107 +4140,128 @@ class InstanceOfAssertFactoriesTest {
 
   }
 
-    @Nested
-    class Field_Factory {
+  @Nested
+  class Field_Factory {
 
-        private final Object actual = 0;
-
-        @Test
-        void getRawClass() {
-            // WHEN
-            Class<?> result = field(Integer.class).getRawClass();
-            // THEN
-            then(result).isEqualTo(Integer.class);
-        }
-
-        @Test
-        void createAssert() {
-            // WHEN
-            AbstractFieldAssert<?, Integer> result = field(Integer.class).createAssert(actual);
-            // THEN
-            result.isEqualByComparingTo(0);
-        }
-
-        @Test
-        void createAssert_with_ValueProvider() {
-            // GIVEN
-            ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
-            // WHEN
-            AbstractFieldAssert<?, Integer> result = field(Integer.class).createAssert(valueProvider);
-            // THEN
-            result.isEqualByComparingTo(0);
-            verify(valueProvider).apply(Integer.class);
-        }
-
+    private final Object actual;
+    {
+      try {
+        actual = String.class.getDeclaredField("COMPACT_STRINGS");
+      } catch (NoSuchFieldException exception) {
+        throw new RuntimeException("Failed to get declared field 'COMPACT_STRINGS'", exception);
+      }
     }
 
-    @Nested
-    class Method_Factory {
-
-        private final Object actual = 0;
-
-        @Test
-        void getRawClass() {
-            // WHEN
-            Class<?> result = method(Integer.class).getRawClass();
-            // THEN
-            then(result).isEqualTo(Integer.class);
-        }
-
-        @Test
-        void createAssert() {
-            // WHEN
-            AbstractMethodAssert<?, Integer> result = method(Integer.class).createAssert(actual);
-            // THEN
-            result.isEqualByComparingTo(0);
-        }
-
-        @Test
-        void createAssert_with_ValueProvider() {
-            // GIVEN
-            ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
-            // WHEN
-            AbstractMethodAssert<?, Integer> result = method(Integer.class).createAssert(valueProvider);
-            // THEN
-            result.isEqualByComparingTo(0);
-            verify(valueProvider).apply(Integer.class);
-        }
-
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = FIELD.getRawClass();
+      // THEN
+      then(result).isEqualTo(Field.class);
     }
 
-    @Nested
-    class Constructor_Factory {
-
-        private final Object actual = 0;
-
-        @Test
-        void getRawClass() {
-            // WHEN
-            Class<?> result = constructor(Integer.class).getRawClass();
-            // THEN
-            then(result).isEqualTo(Integer.class);
-        }
-
-        @Test
-        void createAssert() {
-            // WHEN
-            AbstractConstructorAssert<?, Integer> result = constructor(Integer.class).createAssert(actual);
-            // THEN
-            result.isEqualByComparingTo(0);
-        }
-
-        @Test
-        void createAssert_with_ValueProvider() {
-            // GIVEN
-            ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
-            // WHEN
-            AbstractConstructorAssert<?, Integer> result = constructor(Integer.class).createAssert(valueProvider);
-            // THEN
-            result.isEqualByComparingTo(0);
-            verify(valueProvider).apply(Integer.class);
-        }
-
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractFieldAssert<?> result = FIELD.createAssert(actual);
+      // THEN
+      result.isFinal();
     }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractFieldAssert<?> result = FIELD.createAssert(valueProvider);
+      // THEN
+      result.isFinal();
+      verify(valueProvider).apply(Field.class);
+    }
+
+  }
+
+  @Nested
+  class Method_Factory {
+
+    private final Object actual;
+    {
+      try {
+        actual = String.class.getDeclaredMethod("length");
+      } catch (NoSuchMethodException exception) {
+        throw new RuntimeException("Failed to get declared method 'length'", exception);
+      }
+    }
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = METHOD.getRawClass();
+      // THEN
+      then(result).isEqualTo(Method.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractMethodAssert<?> result = METHOD.createAssert(actual);
+      // THEN
+      result.isNotFinal();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractMethodAssert<?> result = METHOD.createAssert(valueProvider);
+      // THEN
+      result.isNotFinal();
+      verify(valueProvider).apply(Method.class);
+    }
+
+  }
+
+  @Nested
+  class Constructor_Factory {
+
+    private final Object actual;
+    {
+        try {
+            actual = String.class.getDeclaredConstructor();
+        } catch (NoSuchMethodException exception) {
+            throw new RuntimeException("Failed to get declared constructor", exception);
+        }
+    }
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = CONSTRUCTOR.getRawClass();
+      // THEN
+      then(result).isEqualTo(Constructor.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractConstructorAssert<?, Object> result = CONSTRUCTOR.createAssert(actual);
+      // THEN
+      result.isPublic();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractConstructorAssert<?, Object> result = CONSTRUCTOR.createAssert(valueProvider);
+      // THEN
+      result.isPublic();
+      verify(valueProvider).apply(parameterizedType(Constructor.class, Object.class));
+    }
+
+  }
 
 
     @SuppressWarnings("unchecked")

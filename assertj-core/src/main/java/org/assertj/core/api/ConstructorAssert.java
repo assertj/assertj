@@ -22,9 +22,13 @@ import java.lang.reflect.Constructor;
  * 
  * @author William Bakker
  */
-public class ConstructorAssert extends AbstractConstructorAssert<ConstructorAssert, Constructor<?>> {
+public class ConstructorAssert<CLASS> extends AbstractConstructorAssert<ConstructorAssert<CLASS>, CLASS> {
 
-  public ConstructorAssert(Constructor<?> actual) {
+  public static <CLASS> ConstructorAssert<CLASS> assertThatConstructor(Constructor<CLASS> actual) {
+    return new ConstructorAssert<>(actual);
+  }
+
+  public ConstructorAssert(Constructor<CLASS> actual) {
     super(actual, ConstructorAssert.class);
   }
 
