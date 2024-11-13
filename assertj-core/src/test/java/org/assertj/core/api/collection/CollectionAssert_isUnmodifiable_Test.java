@@ -79,7 +79,7 @@ class CollectionAssert_isUnmodifiable_Test {
                      arguments(new HashSet<>(), shouldBeUnmodifiable("Collection.add(null)")),
                      arguments(newArrayList(new Object()), shouldBeUnmodifiable("Collection.add(null)")),
                      arguments(newLinkedHashSet(new Object()), shouldBeUnmodifiable("Collection.add(null)")),
-                     arguments(newTreeSet("element"), shouldBeUnmodifiable("Collection.add(null)", new NullPointerException())));
+                     arguments(newTreeSet("element"), shouldBeUnmodifiable("Collection.add(null)")));
   }
 
   // https://issues.apache.org/jira/browse/COLLECTIONS-799
