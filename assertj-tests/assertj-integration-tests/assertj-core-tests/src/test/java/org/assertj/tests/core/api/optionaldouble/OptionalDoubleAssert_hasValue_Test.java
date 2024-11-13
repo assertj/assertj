@@ -10,14 +10,14 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optionaldouble;
+package org.assertj.tests.core.api.optionaldouble;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.OptionalDouble;
 
@@ -34,13 +34,15 @@ class OptionalDoubleAssert_hasValue_Test {
     assertThat(OptionalDouble.of(value)).hasValue(value);
   }
 
+  @SuppressWarnings("UnnecessaryBoxing")
   @Test
   void should_pass_if_optionalDouble_has_the_expected_value_as_Double() {
     assertThat(OptionalDouble.of(10.0)).hasValue(Double.valueOf(10.0));
   }
 
+  @SuppressWarnings("OptionalAssignedToNull")
   @Test
-  void should_fail_when_optionalDouble_is_null() {
+  void should_fail_when_OptionalDouble_is_null() {
     // GIVEN
     OptionalDouble nullActual = null;
     // WHEN
@@ -55,8 +57,8 @@ class OptionalDoubleAssert_hasValue_Test {
     OptionalDouble actual = OptionalDouble.of(5.0);
     double expectedValue = 10.0;
     // WHEN
-    AssertionFailedError error = catchThrowableOfType(() -> assertThat(actual).hasValue(expectedValue),
-                                                      AssertionFailedError.class);
+    AssertionFailedError error = catchThrowableOfType(AssertionFailedError.class,
+                                                      () -> assertThat(actual).hasValue(expectedValue));
     // THEN
     then(error).hasMessage(shouldContain(actual, expectedValue).create());
     then(error.getActual().getStringRepresentation()).isEqualTo(String.valueOf(actual.getAsDouble()));

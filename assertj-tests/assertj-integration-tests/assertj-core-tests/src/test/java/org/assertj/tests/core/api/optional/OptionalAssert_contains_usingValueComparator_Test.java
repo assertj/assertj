@@ -71,7 +71,8 @@ class OptionalAssert_contains_usingValueComparator_Test {
     Foo expectedValue = new Foo("test");
     Optional<Foo> actual = Optional.empty();
     // THEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR).contains(expectedValue));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR)
+                                                                                 .contains(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldContain(expectedValue).create());
   }

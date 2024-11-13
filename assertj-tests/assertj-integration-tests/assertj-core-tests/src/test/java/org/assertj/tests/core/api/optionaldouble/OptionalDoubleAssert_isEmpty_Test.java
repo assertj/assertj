@@ -10,35 +10,44 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optionaldouble;
+package org.assertj.tests.core.api.optionaldouble;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.OptionalDouble;
 
 import org.junit.jupiter.api.Test;
 
-class OptionalDoubleAssert_isNotPresent_Test {
+@SuppressWarnings("DataFlowIssue")
+class OptionalDoubleAssert_isEmpty_Test {
 
   @Test
-  void should_pass_if_optionaldouble_is_empty() {
-    assertThat(OptionalDouble.empty()).isNotPresent();
+  void should_pass_if_OptionalDouble_is_empty() {
+    assertThat(OptionalDouble.empty()).isEmpty();
+  }
+
+  @SuppressWarnings("OptionalAssignedToNull")
+  @Test
+  void should_fail_when_OptionalDouble_is_null() {
+    // GIVEN
+    OptionalDouble nullActual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).isEmpty());
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_when_optionaldouble_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalDouble) null).isNotPresent())
-                                                   .withMessage(actualIsNull());
-  }
-
-  @Test
-  void should_fail_if_optionaldouble_is_present() {
+  void should_fail_if_OptionalDouble_is_present() {
+    // GIVEN
     OptionalDouble actual = OptionalDouble.of(10.0);
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNotPresent())
-                                                   .withMessage(shouldBeEmpty(actual).create());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEmpty());
+    // THEN
+    then(assertionError).hasMessage(shouldBeEmpty(actual).create());
   }
 }

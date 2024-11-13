@@ -27,8 +27,7 @@ import org.junit.jupiter.api.Test;
 
 class OptionalAssert_hasValueSatisfying_Test {
 
-  public static final Consumer<String> NO_OP = s -> {
-  };
+  public static final Consumer<String> NO_OP = s -> {};
 
   @Test
   void should_fail_when_optional_is_null() {

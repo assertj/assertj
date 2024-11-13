@@ -10,20 +10,19 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optionaldouble;
+package org.assertj.tests.core.api.optionaldouble;
 
 import static java.lang.Double.NEGATIVE_INFINITY;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
-import static java.lang.Math.abs;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.OptionalDoubleShouldHaveValueCloseToPercentage.shouldHaveValueCloseToPercentage;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.util.OptionalDouble;
 
@@ -33,8 +32,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
 
+  @SuppressWarnings("OptionalAssignedToNull")
   @Test
   void should_fail_when_actual_is_null() {
     // GIVEN
@@ -117,8 +118,7 @@ class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
     double expectedValue = 10;
     Percentage percentage = withPercentage(10);
     // THEN
-    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage,
-                                                           abs(expectedValue - actual.getAsDouble())).create();
+    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage).create();
     hasValueCloseToThrowsAssertionError(actual, expectedValue, percentage).withMessage(errorMessage);
   }
 
@@ -129,8 +129,7 @@ class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
     double expectedValue = 1;
     Percentage percentage = withPercentage(10);
     // THEN
-    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage,
-                                                           abs(expectedValue - actual.getAsDouble())).create();
+    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage).create();
     hasValueCloseToThrowsAssertionError(actual, expectedValue, percentage).withMessage(errorMessage);
   }
 
@@ -146,8 +145,7 @@ class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
     double expectedValue = 1;
     Percentage percentage = withPercentage(10);
     // THEN
-    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage,
-                                                           abs(expectedValue - actual.getAsDouble())).create();
+    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage).create();
     hasValueCloseToThrowsAssertionError(actual, expectedValue, percentage).withMessage(errorMessage);
   }
 
@@ -163,8 +161,7 @@ class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
     double expectedValue = 1;
     Percentage percentage = withPercentage(10);
     // THEN
-    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage,
-                                                           abs(expectedValue - actual.getAsDouble())).create();
+    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage).create();
     hasValueCloseToThrowsAssertionError(actual, expectedValue, percentage).withMessage(errorMessage);
   }
 
@@ -180,8 +177,7 @@ class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
     double expectedValue = NEGATIVE_INFINITY;
     Percentage percentage = withPercentage(10);
     // THEN
-    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage,
-                                                           abs(expectedValue - actual.getAsDouble())).create();
+    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage).create();
     hasValueCloseToThrowsAssertionError(actual, expectedValue, percentage).withMessage(errorMessage);
   }
 
@@ -192,8 +188,7 @@ class OptionalDoubleAssert_hasValueCloseToPercentage_Test {
     double expectedValue = POSITIVE_INFINITY;
     Percentage percentage = withPercentage(10);
     // THEN
-    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage,
-                                                           abs(expectedValue - actual.getAsDouble())).create();
+    String errorMessage = shouldHaveValueCloseToPercentage(actual, expectedValue, percentage).create();
     hasValueCloseToThrowsAssertionError(actual, expectedValue, percentage).withMessage(errorMessage);
   }
 

@@ -40,10 +40,10 @@ class OptionalAssert_isNotEmpty_Test {
     then(error).hasMessage(shouldBePresent(Optional.empty()).create());
   }
 
+  @SuppressWarnings("OptionalAssignedToNull")
   @Test
   void should_fail_when_optional_is_null() {
     // GIVEN
-    @SuppressWarnings("OptionalAssignedToNull")
     Optional<String> nullActual = null;
     // WHEN
     AssertionError error = expectAssertionError(() -> assertThat(nullActual).isNotEmpty());

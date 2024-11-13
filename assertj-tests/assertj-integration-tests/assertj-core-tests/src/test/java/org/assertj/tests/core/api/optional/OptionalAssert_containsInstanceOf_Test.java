@@ -36,7 +36,6 @@ class OptionalAssert_containsInstanceOf_Test {
     then(assertionError).hasMessage(actualIsNull());
   }
 
-
   @Test
   void should_fail_if_optional_is_empty() {
     // GIVEN

@@ -180,7 +180,7 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
 
   /**
    * Verifies that the actual {@link java.util.OptionalDouble} has a value close to the expected value, within the given
-   * percentage.<br>
+   * percentage of the expected value.<br>
    * If the difference is equal to the percentage value, the assertion is considered valid.
    *
    * <pre><code class='java'>// The assertion will pass:
@@ -200,14 +200,14 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
    * @throws java.lang.AssertionError if actual is null
    * @throws java.lang.AssertionError if the actual value is not close to the given one
    */
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public SELF hasValueCloseTo(Double expectedValue, Percentage percentage) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseToPercentage(expectedValue));
     try {
       doubles.assertIsCloseToPercentage(info, actual.getAsDouble(), expectedValue, percentage);
     } catch (AssertionError assertionError) {
-      throwAssertionError(shouldHaveValueCloseToPercentage(actual, expectedValue, percentage,
-                                                           abs(expectedValue - actual.getAsDouble())));
+      throwAssertionError(shouldHaveValueCloseToPercentage(actual, expectedValue, percentage));
     }
     return myself;
   }
