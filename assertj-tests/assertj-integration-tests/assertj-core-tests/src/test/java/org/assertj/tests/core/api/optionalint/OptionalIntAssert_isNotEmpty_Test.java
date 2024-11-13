@@ -10,33 +10,44 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optionalint;
+package org.assertj.tests.core.api.optionalint;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.OptionalInt;
 
 import org.junit.jupiter.api.Test;
 
-class OptionalIntAssert_isPresent_Test {
+@SuppressWarnings("DataFlowIssue")
+class OptionalIntAssert_isNotEmpty_Test {
 
   @Test
   void should_pass_when_OptionalInt_is_present() {
-    assertThat(OptionalInt.of(10)).isPresent();
+    assertThat(OptionalInt.of(10)).isNotEmpty();
   }
 
   @Test
   void should_fail_when_OptionalInt_is_empty() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(OptionalInt.empty()).isPresent())
-                                                   .withMessage(shouldBePresent(OptionalInt.empty()).create());
+    // GIVEN
+    OptionalInt actual = OptionalInt.empty();
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotEmpty());
+    // THEN
+    then(assertionError).hasMessage(shouldBePresent(actual).create());
   }
 
+  @SuppressWarnings("OptionalAssignedToNull")
   @Test
   void should_fail_when_OptionalInt_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalInt) null).isPresent())
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    OptionalInt nullActual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).isNotEmpty());
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 }

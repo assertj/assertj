@@ -10,35 +10,44 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.optionalint;
+package org.assertj.tests.core.api.optionalint;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.OptionalInt;
 
 import org.junit.jupiter.api.Test;
 
-class OptionalIntAssert_isEmpty_Test {
+@SuppressWarnings("DataFlowIssue")
+class OptionalIntAssert_isNotPresent_Test {
 
   @Test
   void should_pass_if_OptionalInt_is_empty() {
-    assertThat(OptionalInt.empty()).isEmpty();
+    assertThat(OptionalInt.empty()).isNotPresent();
   }
 
+  @SuppressWarnings("OptionalAssignedToNull")
   @Test
   void should_fail_when_OptionalInt_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat((OptionalInt) null).isEmpty())
-                                                   .withMessage(actualIsNull());
+    // GIVEN
+    OptionalInt nullActual = null;
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).isNotPresent());
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_OptionalInt_is_present() {
+    // GIVEN
     OptionalInt actual = OptionalInt.of(10);
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isEmpty())
-                                                   .withMessage(shouldBeEmpty(actual).create());
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotPresent());
+    // THEN
+    then(assertionError).hasMessage(shouldBeEmpty(actual).create());
   }
 }
