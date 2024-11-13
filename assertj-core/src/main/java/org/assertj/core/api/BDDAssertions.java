@@ -4021,7 +4021,7 @@ public class BDDAssertions extends Assertions {
    *
    * @param actual the field to test.
    * @return the created assertion object.
-   * @since 3.25.0
+   * @since 3.27.0
    */
   public static AbstractFieldAssert<?> then(Field actual) {
     return assertThat(actual);
@@ -4036,7 +4036,7 @@ public class BDDAssertions extends Assertions {
    *
    * @param actual the constructor to test.
    * @return the created assertion object.
-   * @since 3.25.0
+   * @since 3.27.0
    */
   public static <CLASS> AbstractConstructorAssert<?, CLASS> then(Constructor<CLASS> actual) {
     return assertThat(actual);
@@ -4051,7 +4051,7 @@ public class BDDAssertions extends Assertions {
    *
    * @param actual the method to test.
    * @return the created assertion object.
-   * @since 3.25.0
+   * @since 3.27.0
    */
   public static AbstractMethodAssert<?> then(Method actual) {
     return assertThat(actual);

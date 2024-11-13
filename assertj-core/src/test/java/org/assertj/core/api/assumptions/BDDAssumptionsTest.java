@@ -23,6 +23,9 @@ import static org.mockito.Mockito.mock;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -1411,6 +1414,72 @@ class BDDAssumptionsTest {
     @Test
     void should_ignore_test_when_assumption_fails() {
       expectAssumptionNotMetException(() -> given(Duration.ofHours(1)).isNotNull().isNegative());
+    }
+  }
+
+  @Nested
+  class BDDAssumptions_given_Constructor_Test {
+    private final Constructor<String> actual;
+    {
+      try {
+        actual = String.class.getDeclaredConstructor(String.class);
+      } catch (NoSuchMethodException exception) {
+        throw new RuntimeException("Failed to get declared constructor 'String'", exception);
+      }
+    }
+
+    @Test
+    void should_run_test_when_assumption_passes() {
+      thenCode(() -> given(actual).isPublic()).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_ignore_test_when_assumption_fails() {
+      expectAssumptionNotMetException(() -> given(actual).isProtected());
+    }
+  }
+
+  @Nested
+  class BDDAssumptions_given_Field_Test {
+    private final Field actual;
+    {
+      try {
+        actual = Math.class.getDeclaredField("PI");
+      } catch (NoSuchFieldException exception) {
+        throw new RuntimeException("Failed to get declared field 'PI'", exception);
+      }
+    }
+
+    @Test
+    void should_run_test_when_assumption_passes() {
+      thenCode(() -> given(actual).isFinal()).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_ignore_test_when_assumption_fails() {
+      expectAssumptionNotMetException(() -> given(actual).isNotFinal());
+    }
+  }
+
+  @Nested
+  class BDDAssumptions_given_Method_Test {
+    private final Method actual;
+    {
+      try {
+        actual = Math.class.getDeclaredMethod("abs", long.class);
+      } catch (NoSuchMethodException exception) {
+        throw new RuntimeException("Failed to get declared method 'length'", exception);
+      }
+    }
+
+    @Test
+    void should_run_test_when_assumption_passes() {
+      thenCode(() -> given(actual).isNotFinal()).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_ignore_test_when_assumption_fails() {
+      expectAssumptionNotMetException(() -> given(actual).isFinal());
     }
   }
 }

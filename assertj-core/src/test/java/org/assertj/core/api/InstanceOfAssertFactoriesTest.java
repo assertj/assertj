@@ -122,7 +122,6 @@ import static org.assertj.core.api.InstanceOfAssertFactories.collection;
 import static org.assertj.core.api.InstanceOfAssertFactories.comparable;
 import static org.assertj.core.api.InstanceOfAssertFactories.completableFuture;
 import static org.assertj.core.api.InstanceOfAssertFactories.completionStage;
-import static org.assertj.core.api.InstanceOfAssertFactories.constructor;
 import static org.assertj.core.api.InstanceOfAssertFactories.future;
 import static org.assertj.core.api.InstanceOfAssertFactories.iterable;
 import static org.assertj.core.api.InstanceOfAssertFactories.iterator;
@@ -4146,9 +4145,9 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual;
     {
       try {
-        actual = String.class.getDeclaredField("COMPACT_STRINGS");
+        actual = Math.class.getDeclaredField("PI");
       } catch (NoSuchFieldException exception) {
-        throw new RuntimeException("Failed to get declared field 'COMPACT_STRINGS'", exception);
+        throw new RuntimeException("Failed to get declared field 'PI'", exception);
       }
     }
 
@@ -4187,7 +4186,7 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual;
     {
       try {
-        actual = String.class.getDeclaredMethod("length");
+        actual = Math.class.getDeclaredMethod("abs", long.class);
       } catch (NoSuchMethodException exception) {
         throw new RuntimeException("Failed to get declared method 'length'", exception);
       }
