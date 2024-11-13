@@ -318,7 +318,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static <CLASS> ConstructorAssert<CLASS> assertThat(Constructor<CLASS> actual) {
+  public static <CLASS> AbstractConstructorAssert<?, CLASS> assertThat(Constructor<CLASS> actual) {
     return ConstructorAssert.assertThatConstructor(actual);
   }
 
@@ -389,7 +389,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static FieldAssert assertThat(Field actual) {
+  public static AbstractFieldAssert<?> assertThat(Field actual) {
     return new FieldAssert(actual);
   }
 
@@ -522,7 +522,7 @@ public class AssertionsForClassTypes {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  public static MethodAssert assertThat(Method actual) {
+  public static AbstractMethodAssert<?> assertThat(Method actual) {
     return new MethodAssert(actual);
   }
 
