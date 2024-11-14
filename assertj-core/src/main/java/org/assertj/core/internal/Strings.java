@@ -61,6 +61,8 @@ import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shoul
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContainIgnoringCase;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
+import static org.assertj.core.error.ShouldNotContainSequenceOfCharSequence.shouldNotContainSequence;
+import static org.assertj.core.error.ShouldNotContainSubsequenceOfCharSequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.error.ShouldNotEndWithIgnoringCase.shouldNotEndWithIgnoringCase;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
@@ -706,20 +708,57 @@ public class Strings {
 
   private String removeUpTo(String string, CharSequence toRemove) {
     // we have already checked that toRemove was not null in doCommonCheckForCharSequence and this point string is not neither
-    int index = indexOf(string, toRemove);
-    // remove the start of string up to toRemove included
+    int index = indexOf(string, toRemove.toString());
+    // remove the start of string up to toRemove included.
+    // index cannot be -1 here since we this method is used from assertContainsSubsequence at a step where we know
+    // that toRemove was found, and we are checking whether it was at the right place/order.
     return string.substring(index + toRemove.length());
   }
 
-  private int indexOf(String string, CharSequence toFind) {
-    if (EMPTY_STRING.equals(string) && EMPTY_STRING.equals(toFind.toString())) return 0;
-    for (int i = 0; i < string.length(); i++) {
-      if (comparisonStrategy.stringStartsWith(string.substring(i), toFind.toString())) return i;
+  private int indexOf(String str, String toFind) {
+    return indexOf(str, toFind, 0);
+  }
+
+  private int indexOf(String str, String toFind, int fromIndex) {
+    if (EMPTY_STRING.equals(str) && EMPTY_STRING.equals(toFind)) return 0;
+    for (int i = fromIndex; i < str.length(); i++) {
+      if (comparisonStrategy.stringStartsWith(str.substring(i), toFind)) return i;
     }
-    // should not arrive here since we this method is used from assertContainsSubsequence at a step where we know that toFind
-    // was found and we are checking whether it was at the right place/order.
-    throw new IllegalStateException(format("%s should have been found in %s, please raise an assertj-core issue", toFind,
-                                           string));
+
+    return -1;
+  }
+
+  public void assertDoesNotContainSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
+    doCommonCheckForCharSequence(info, actual, sequence);
+
+    String strActual = actual.toString();
+    String strSequence = String.join(EMPTY_STRING, sequence);
+
+    int index = indexOf(strActual, strSequence);
+    if (index != -1) {
+      throw failures.failure(info, shouldNotContainSequence(actual, sequence, index, comparisonStrategy));
+    }
+  }
+
+  public void assertDoesNotContainSubsequence(AssertionInfo info, CharSequence actual, CharSequence[] subsequence) {
+    doCommonCheckForCharSequence(info, actual, subsequence);
+
+    String strActual = actual.toString();
+    int startIndex = 0;
+    int[] subsequenceIndexes = new int[subsequence.length];
+    for (int i = 0; i < subsequence.length; i++) {
+      String strSubsequenceItem = subsequence[i].toString();
+
+      int index = indexOf(strActual, strSubsequenceItem, startIndex);
+      if (index != -1) {
+        subsequenceIndexes[i] = index;
+        startIndex = index + strSubsequenceItem.length();
+      } else {
+        return;
+      }
+    }
+
+    throw failures.failure(info, shouldNotContainSubsequence(actual, subsequence, subsequenceIndexes, comparisonStrategy));
   }
 
   public void assertXmlEqualsTo(AssertionInfo info, CharSequence actualXml, CharSequence expectedXml) {
