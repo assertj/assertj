@@ -52,7 +52,7 @@ class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
     // GIVEN
     final byte[] actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameSizeAs(new byte[]{ 2, 3 }));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameSizeAs(new byte[] { 2, 3 }));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
