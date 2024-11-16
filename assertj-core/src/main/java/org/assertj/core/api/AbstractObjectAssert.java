@@ -53,7 +53,6 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Libor Ondrusek
  */
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
-@SuppressWarnings("deprecation")
 public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
     extends AbstractAssert<SELF, ACTUAL> {
 
@@ -333,7 +332,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * If an object has a field and a property with the same name, the property value will be used over the field.
    * <p>
-   * Private fields are checked, but this can be disable using {@link Assertions#setAllowComparingPrivateFields(boolean)},
+   * Private fields are checked, but this can be disabled using {@link Assertions#setAllowComparingPrivateFields(boolean)},
    * if disable only <b>accessible</b> fields values are checked,
    * accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
    * <p>
@@ -395,7 +394,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * If an object has a field and a property with the same name, the property value will be user over the field.
    * <p>
-   * Private fields are checked, but this can be disable using {@link Assertions#setAllowComparingPrivateFields(boolean)},
+   * Private fields are checked, but this can be disabled using {@link Assertions#setAllowComparingPrivateFields(boolean)},
    * if disabled only <b>accessible</b> fields values are checked,
    * accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
    * <p>
@@ -713,8 +712,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * The assertion only checks declared fields (inherited fields are not checked) that are not static or synthetic.
    * <p>
-   * By default private fields are included in the check, this can be disabled with {@code Assertions.setAllowExtractingPrivateFields(false);}
-   * but be mindful this is has a global effect on all field introspection in AssertJ.
+   * By default, private fields are included in the check, this can be disabled with {@code Assertions.setAllowExtractingPrivateFields(false);}
+   * but be mindful this has a global effect on all field introspection in AssertJ.
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -758,12 +757,12 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * If the object under test is a {@link Map} with {@link String} keys, extracting will extract values matching the given fields/properties.
    * <p>
-   * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to:
-   * <pre><code class='java'> // "adress.street.number" corresponding to pojo properties
-   * actual.getAdress().getStreet().getNumber();</code></pre>
+   * Nested fields/properties are supported, specifying "address.street.number" is equivalent to:
+   * <pre><code class='java'> // "address.street.number" corresponding to pojo properties
+   * actual.getAddress().getStreet().getNumber();</code></pre>
    * or if address is a {@link Map}:
-   * <pre><code class='java'> // "adress" is a Map property (that is getAdress() returns a Map)
-   * actual.getAdress().get("street").getNumber();</code></pre>
+   * <pre><code class='java'> // "address" is a Map property (that is getAddress() returns a Map)
+   * actual.getAddress().get("street").getNumber();</code></pre>
    * <p>
    * Private fields can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
@@ -797,12 +796,12 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * If the object under test is a {@link Map}, the {@code propertyOrField} parameter is used as a key to the map.
    * <p>
-   * Nested fields/properties are supported, specifying "adress.street.number" is equivalent to:
-   * <pre><code class='java'> // "adress.street.number" corresponding to pojo properties
-   * actual.getAdress().getStreet().getNumber();</code></pre>
+   * Nested fields/properties are supported, specifying "address.street.number" is equivalent to:
+   * <pre><code class='java'> // "address.street.number" corresponding to pojo properties
+   * actual.getAddress().getStreet().getNumber();</code></pre>
    * or if address is a {@link Map}:
-   * <pre><code class='java'> // "adress" is a Map property (that is getAdress() returns a Map)
-   * actual.getAdress().get("street").getNumber();</code></pre>
+   * <pre><code class='java'> // "address" is a Map property (that is getAddress() returns a Map)
+   * actual.getAddress().get("street").getNumber();</code></pre>
    * <p>
    * Private field can be extracted unless you call {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
@@ -1002,7 +1001,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
   /**
    * @deprecated Prefer calling {@link #usingRecursiveComparison()} for comparing objects field by field as it offers more flexibility, better reporting and an easier to use API.
-   *
+   * <p>
    * Asserts that the object under test (actual) is equal to the given object based on a recursive property/field by property/field comparison (including
    * inherited ones). This can be useful if actual's {@code equals} implementation does not suit you.
    * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals} implementation, i.e.
@@ -1336,7 +1335,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return new ObjectAssert<>(objectUnderTest);
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings({ "rawtypes" })
   @Override
   SELF withAssertionState(AbstractAssert assertInstance) {
     if (assertInstance instanceof AbstractObjectAssert) {
@@ -1352,8 +1351,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return myself;
   }
 
-  SELF withComparatorByPropertyOrField(Map<String, Comparator<?>> comparatorsToPropaget) {
-    this.comparatorsByPropertyOrField = comparatorsToPropaget;
+  SELF withComparatorByPropertyOrField(Map<String, Comparator<?>> comparatorsToPropagate) {
+    this.comparatorsByPropertyOrField = comparatorsToPropagate;
     return myself;
   }
 
