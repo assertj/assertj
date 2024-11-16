@@ -10,13 +10,13 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.period;
+package org.assertj.tests.core.api.period;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHavePeriod.shouldHaveYears;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.error.ShouldHavePeriod.shouldHaveDays;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.Period;
 
@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Hayden Meloche
  */
-class PeriodAssert_hasYears_Test {
+class PeriodAssert_hasDays_Test {
 
   @Test
-  void should_pass_if_period_has_expected_years() {
+  void should_pass_if_period_has_expected_days() {
     // GIVEN
-    Period period = Period.ofYears(10);
+    Period period = Period.ofDays(10);
     // WHEN/THEN
-    then(period).hasYears(10);
+    then(period).hasDays(10);
   }
 
   @Test
@@ -40,18 +40,18 @@ class PeriodAssert_hasYears_Test {
     // GIVEN
     Period period = null;
     // WHEN
-    final AssertionError code = expectAssertionError(() -> assertThat(period).hasYears(5));
+    final AssertionError code = expectAssertionError(() -> assertThat(period).hasDays(5));
     // THEN
     then(code).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_period_does_not_have_expected_years() {
+  void should_fail_if_period_does_not_have_expected_days() {
     // GIVEN
-    Period period = Period.ofYears(10);
+    Period period = Period.ofDays(10);
     // WHEN
-    final AssertionError code = expectAssertionError(() -> assertThat(period).hasYears(15));
+    final AssertionError code = expectAssertionError(() -> assertThat(period).hasDays(15));
     // THEN
-    then(code).hasMessage(shouldHaveYears(period, 10, 15).create());
+    then(code).hasMessage(shouldHaveDays(period, 10, 15).create());
   }
 }

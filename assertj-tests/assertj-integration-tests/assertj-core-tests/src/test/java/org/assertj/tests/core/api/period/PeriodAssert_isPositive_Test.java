@@ -10,13 +10,13 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.period;
+package org.assertj.tests.core.api.period;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHavePeriod.shouldHaveMonths;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.error.ShouldBePeriod.shouldBePositive;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.Period;
 
@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Hayden Meloche
  */
-class PeriodAssert_hasMonths_Test {
+class PeriodAssert_isPositive_Test {
 
   @Test
-  void should_pass_if_period_has_expected_Months() {
+  void should_pass_if_period_is_positive() {
     // GIVEN
     Period period = Period.ofMonths(10);
     // WHEN/THEN
-    then(period).hasMonths(10);
+    then(period).isPositive();
   }
 
   @Test
@@ -40,18 +40,28 @@ class PeriodAssert_hasMonths_Test {
     // GIVEN
     Period period = null;
     // WHEN
-    final AssertionError code = expectAssertionError(() -> assertThat(period).hasMonths(5));
+    final AssertionError code = expectAssertionError(() -> assertThat(period).isPositive());
     // THEN
     then(code).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_period_does_not_have_expected_Months() {
+  void should_fail_if_period_is_negative() {
     // GIVEN
-    Period period = Period.ofMonths(10);
+    Period period = Period.ofMonths(-10);
     // WHEN
-    final AssertionError code = expectAssertionError(() -> assertThat(period).hasMonths(15));
+    final AssertionError code = expectAssertionError(() -> assertThat(period).isPositive());
     // THEN
-    then(code).hasMessage(shouldHaveMonths(period, 10, 15).create());
+    then(code).hasMessage(shouldBePositive(period).create());
+  }
+
+  @Test
+  void should_fail_if_period_is_zero() {
+    // GIVEN
+    Period period = Period.ZERO;
+    // WHEN
+    final AssertionError code = expectAssertionError(() -> assertThat(period).isPositive());
+    // THEN
+    then(code).hasMessage(shouldBePositive(period).create());
   }
 }

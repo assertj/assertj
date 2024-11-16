@@ -10,13 +10,13 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.period;
+package org.assertj.tests.core.api.period;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBePeriod.shouldBeNegative;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.error.ShouldHavePeriod.shouldHaveMonths;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.Period;
 
@@ -25,14 +25,14 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Hayden Meloche
  */
-class PeriodAssert_isNegative_Test {
+class PeriodAssert_hasMonths_Test {
 
   @Test
-  void should_pass_if_period_is_negative() {
+  void should_pass_if_period_has_expected_Months() {
     // GIVEN
-    Period period = Period.ofMonths(-10);
+    Period period = Period.ofMonths(10);
     // WHEN/THEN
-    then(period).isNegative();
+    then(period).hasMonths(10);
   }
 
   @Test
@@ -40,28 +40,18 @@ class PeriodAssert_isNegative_Test {
     // GIVEN
     Period period = null;
     // WHEN
-    final AssertionError code = expectAssertionError(() -> assertThat(period).isNegative());
+    final AssertionError code = expectAssertionError(() -> assertThat(period).hasMonths(5));
     // THEN
     then(code).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_period_is_positive() {
+  void should_fail_if_period_does_not_have_expected_Months() {
     // GIVEN
     Period period = Period.ofMonths(10);
     // WHEN
-    final AssertionError code = expectAssertionError(() -> assertThat(period).isNegative());
+    final AssertionError code = expectAssertionError(() -> assertThat(period).hasMonths(15));
     // THEN
-    then(code).hasMessage(shouldBeNegative(period).create());
-  }
-
-  @Test
-  void should_fail_if_period_is_zero() {
-    // GIVEN
-    Period period = Period.ofMonths(0);
-    // WHEN
-    final AssertionError code = expectAssertionError(() -> assertThat(period).isNegative());
-    // THEN
-    then(code).hasMessage(shouldBeNegative(period).create());
+    then(code).hasMessage(shouldHaveMonths(period, 10, 15).create());
   }
 }
