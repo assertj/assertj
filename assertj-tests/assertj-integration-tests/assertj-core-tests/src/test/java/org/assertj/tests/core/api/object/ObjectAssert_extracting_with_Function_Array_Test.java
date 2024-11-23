@@ -10,27 +10,26 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.object;
+package org.assertj.tests.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
-import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 
 import java.util.List;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.internal.Objects;
-import org.assertj.core.testkit.Employee;
-import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
+import org.assertj.tests.core.testkit.AlwaysEqualComparator;
+import org.assertj.tests.core.testkit.Employee;
+import org.assertj.tests.core.testkit.Name;
+import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -50,7 +49,41 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
     // GIVEN
     Function<Employee, Object> lastName = employee -> employee.getName().getLast();
     // WHEN
-    AbstractListAssert<?, ?, Object, ?> result = assertThat(luke).extracting(firstName, lastName);
+    AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> result = assertThat(luke).extracting(firstName, lastName);
+    // THEN
+    result.hasSize(2)
+          .containsExactly("Luke", "Skywalker");
+  }
+
+  static class Manager extends Employee {
+    public Manager(int age) {
+      this.setAge(age);
+    }
+  }
+  record Company(Manager manager, Employee employee) {
+  }
+
+  @Test
+  void should_allow_extracting_values_using_multiple_lambda_extractors_with_common_ancestor() {
+    // GIVEN
+    var company = new Company(new Manager(40), new Employee(1, new Name("John"), 40));
+    Function<Company, Manager> manager = containerName -> company.manager();
+    Function<Company, Employee> employee = containerParentName -> company.employee();
+    // WHEN
+    AbstractListAssert<?, List<? extends Employee>, Employee, ObjectAssert<Employee>> result = assertThat(company).extracting(manager,
+                                                                                                                              employee);
+    // THEN
+    result.hasSize(2)
+          .allSatisfy(e -> assertThat(e.getAge()).isGreaterThan(30));
+  }
+
+  @Test
+  void should_allow_extracting_values_using_multiple_lambda_extractors_with_type() {
+    // GIVEN
+    Function<Employee, String> lastName = employee -> employee.getName().getLast();
+    // WHEN
+    AbstractListAssert<?, List<? extends String>, String, ObjectAssert<String>> result = assertThat(luke).extracting(firstName,
+                                                                                                                     lastName);
     // THEN
     result.hasSize(2)
           .containsExactly("Luke", "Skywalker");
@@ -96,16 +129,18 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
     ObjectAssert<Employee> assertion = assertThat(luke).as("test description")
                                                        .withFailMessage("error message")
                                                        .withRepresentation(UNICODE_REPRESENTATION)
-                                                       .usingComparator(ALWAYS_EQUALS)
-                                                       .usingComparatorForFields(ALWAYS_EQUALS_STRING, "foo")
-                                                       .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class);
+                                                       .usingComparator(AlwaysEqualComparator.ALWAYS_EQUALS)
+                                                       .usingComparatorForFields(AlwaysEqualComparator.ALWAYS_EQUALS_STRING,
+                                                                                 "foo")
+                                                       .usingComparatorForType(AlwaysEqualComparator.ALWAYS_EQUALS_STRING,
+                                                                               String.class);
     // WHEN
     AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> result = assertion.extracting(firstName, Employee::getName);
     // THEN
     then(result.descriptionText()).isEqualTo("test description");
     then(result.info.overridingErrorMessage()).isEqualTo("error message");
     then(result.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    then(comparatorOf(result).getComparator()).isSameAs(ALWAYS_EQUALS);
+    then(comparatorOf(result).getComparator()).isSameAs(AlwaysEqualComparator.ALWAYS_EQUALS);
   }
 
   private static Objects comparatorOf(AbstractListAssert<?, ?, ?, ?> assertion) {
