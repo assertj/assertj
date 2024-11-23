@@ -912,18 +912,18 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   @SafeVarargs
-  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
+  public final <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> extracting(Function<? super ACTUAL, ? extends T>... extractors) {
     return extractingForProxy(extractors);
   }
 
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingForProxy(Function<? super ACTUAL, ?>[] extractors) {
+  protected <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> extractingForProxy(Function<? super ACTUAL, ? extends T>[] extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors")::create);
-    List<Object> values = Stream.of(extractors)
-                                .map(extractor -> extractor.apply(actual))
-                                .collect(toList());
+    List<T> values = Stream.of(extractors)
+                           .map(extractor -> extractor.apply(actual))
+                           .collect(toList());
     return newListAssertInstance(values).withAssertionState(myself);
   }
 
