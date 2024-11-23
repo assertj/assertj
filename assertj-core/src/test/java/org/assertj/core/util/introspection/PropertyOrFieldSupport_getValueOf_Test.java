@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.introspection.FieldSupport.EXTRACTION_OF_PUBLIC_FIELD_ONLY;
 
 import java.util.HashMap;
@@ -25,6 +26,7 @@ import java.util.Map;
 
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
+import org.assertj.core.testkit.Office;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,10 +34,17 @@ class PropertyOrFieldSupport_getValueOf_Test {
 
   private final PropertyOrFieldSupport underTest = PropertyOrFieldSupport.EXTRACTION;
   private final Employee yoda = new Employee(1L, new Name("Yoda"), 800);
+  private final Employee luke = new Employee(3L, new Name("Luke", "Skywalker"), 24);
+  private final Employee han = new Employee(3L, new Name("Han"), 31);
+  private final Office office = new Office();
+  private final Office officeNearby = new Office();
 
   @BeforeEach
   void setup() {
-    yoda.setRelation("padawan", new Employee(3L, new Name("Luke", "Skywalker"), 24));
+    yoda.setRelation("padawan", luke);
+    office.addEmployees(asList(yoda, luke));
+    officeNearby.addEmployee(han);
+    office.addNearbyOffice(officeNearby);
   }
 
   @Test
@@ -235,6 +244,95 @@ class PropertyOrFieldSupport_getValueOf_Test {
     Object value = underTest.getValueOf("city", new VoidGetterPropertyEmployee());
     // THEN
     then(value).isEqualTo("New York");
+  }
+
+  @Test
+  void should_extract_property_value_with_index_if_list() {
+    // WHEN
+    Object value = underTest.getValueOf("employees[0]", office);
+    // THEN
+    then(value).isEqualTo(yoda);
+  }
+
+  @Test
+  void should_extract_nested_property_value_with_indexes_if_lists() {
+    // WHEN
+    Object value = underTest.getValueOf("nearbyOffices[0].employees[0]", office);
+    // THEN
+    then(value).isEqualTo(han);
+  }
+
+  @Test
+  void should_extract_property_value_with_index_if_array() {
+    // WHEN
+    Object value = underTest.getValueOf("employeesArray[0]", office);
+    // THEN
+    then(value).isEqualTo(yoda);
+  }
+
+  @Test
+  void should_throw_error_when_not_an_array_or_list() {
+    // WHEN
+    Throwable thrown = catchThrowable(() -> underTest.getValueOf("office", office));
+    // THEN
+    then(thrown).isInstanceOf(IntrospectionError.class);
+  }
+
+  @Test
+  void should_extract_single_value_from_maps_by_key_even_if_key_has_index() {
+    // GIVEN
+    String key = "employees[0]";
+    Map<String, Employee> map = new HashMap<>(1);
+    map.put(key, yoda);
+    // WHEN
+    Object value = underTest.getValueOf("employees[0]", map);
+    // THEN
+    then(value).isEqualTo(yoda);
+  }
+
+  @Test
+  void should_extract_single_value_from_maps_by_key_and_index_when_value_is_list() {
+    // GIVEN
+    String key = "employees";
+    Map<String, List<Employee>> map = new HashMap<>(1);
+    map.put(key, asList(yoda));
+    // WHEN
+    Object value = underTest.getValueOf("employees[0]", map);
+    // THEN
+    then(value).isEqualTo(yoda);
+  }
+
+  @Test
+  void should_extract_single_value_from_maps_by_key_and_index_when_value_is_array() {
+    // GIVEN
+    String key = "employees";
+    Map<String, Employee[]> map = new HashMap<>();
+    map.put(key, array(yoda));
+    // WHEN
+    Object value = underTest.getValueOf("employees[0]", map);
+    // THEN
+    then(value).isEqualTo(yoda);
+  }
+
+  @Test
+  void should_extract_single_value_from_maps_by_key_even_if_key_has_broken_index() {
+    // GIVEN
+    String key0 = "employees[";
+    String key1 = "employees[foo";
+    String key2 = "employees]";
+    Employee bar = new Employee();
+    Map<String, Employee> map = new HashMap<>();
+    map.put(key0, yoda);
+    map.put(key1, luke);
+    map.put(key2, bar);
+    // WHEN
+    Object value0 = underTest.getValueOf("employees[", map);
+    Object value1 = underTest.getValueOf("employees[foo", map);
+    Object value2 = underTest.getValueOf("employees]", map);
+    // THEN
+    then(value0).isEqualTo(yoda);
+    then(value1).isEqualTo(luke);
+    then(value2).isEqualTo(bar);
   }
 
   private Employee employeeWithBrokenName(String name) {
