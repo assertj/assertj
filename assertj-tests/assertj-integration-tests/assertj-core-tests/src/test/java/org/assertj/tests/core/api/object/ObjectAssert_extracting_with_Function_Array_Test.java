@@ -20,7 +20,6 @@ import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRES
 
 import java.util.List;
 import java.util.function.Function;
-
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.ObjectAssert;
@@ -28,8 +27,10 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.assertj.tests.core.testkit.AlwaysEqualComparator;
 import org.assertj.tests.core.testkit.Employee;
+import org.assertj.tests.core.testkit.Jedi;
 import org.assertj.tests.core.testkit.Name;
 import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
+import org.assertj.tests.core.testkit.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -55,26 +56,20 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
           .containsExactly("Luke", "Skywalker");
   }
 
-  static class Manager extends Employee {
-    public Manager(int age) {
-      this.setAge(age);
-    }
-  }
-  record Company(Manager manager, Employee employee) {
-  }
-
   @Test
   void should_allow_extracting_values_using_multiple_lambda_extractors_with_common_ancestor() {
     // GIVEN
-    var company = new Company(new Manager(40), new Employee(1, new Name("John"), 40));
-    Function<Company, Manager> manager = containerName -> company.manager();
-    Function<Company, Employee> employee = containerParentName -> company.employee();
+    record Companions(Jedi jedi, Person person) {
+    }
+    Companions companions = new Companions(new Jedi("Luke", "blue"), new Person("Han"));
+    Function<Companions, Jedi> jedi = Companions::jedi;
+    Function<Companions, Person> person = Companions::person;
     // WHEN
-    AbstractListAssert<?, List<? extends Employee>, Employee, ObjectAssert<Employee>> result = assertThat(company).extracting(manager,
-                                                                                                                              employee);
+    AbstractListAssert<?, List<? extends Person>, Person, ObjectAssert<Person>> result = assertThat(companions).extracting(jedi,
+                                                                                                                           person);
     // THEN
     result.hasSize(2)
-          .allSatisfy(e -> assertThat(e.getAge()).isGreaterThan(30));
+          .allSatisfy(e -> assertThat(e.getName()).isNotBlank());
   }
 
   @Test
