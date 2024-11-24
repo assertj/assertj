@@ -10,24 +10,24 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.abstract_;
+package org.assertj.tests.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.NavigationMethodBaseTest;
-import org.assertj.core.api.abstract_.AbstractAssert_extracting_with_String_and_AssertFactory_Test.TestAssert;
-import org.assertj.core.testkit.Employee;
-import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.assertj.tests.core.api.abstract_.AbstractAssert_extracting_with_String_and_AssertFactory_Test.TestAssert;
+import org.assertj.tests.core.testkit.Employee;
+import org.assertj.tests.core.testkit.Name;
+import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

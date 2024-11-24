@@ -10,41 +10,39 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.throwable;
+package org.assertj.tests.core.api.throwable;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.error.ShouldHaveRootCause.shouldHaveRootCause;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.api.NavigationMethodBaseTest;
 import org.assertj.core.api.ThrowableAssert;
+import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
 import org.junit.jupiter.api.Test;
 
-class ThrowableAssert_rootCause_Test implements NavigationMethodBaseTest<ThrowableAssert<Throwable>> {
+class ThrowableAssert_cause_Test implements NavigationMethodBaseTest<ThrowableAssert<Throwable>> {
 
-  private final Throwable rootCause = new NullPointerException();
-  private final Throwable cause = new RuntimeException(rootCause);
+  private final Throwable cause = new NullPointerException();
 
   @Test
-  void should_return_throwable_assertions_for_actual_root_cause() {
+  void should_return_throwable_assertions_for_actual_cause() {
     // GIVEN
     Throwable throwable = new Throwable(cause);
     // WHEN/THEN
-    assertThat(throwable).rootCause()
-                         .isNotSameAs(cause)
-                         .isSameAs(rootCause);
+    assertThat(throwable).cause()
+                         .isSameAs(cause);
   }
 
   @Test
-  void should_fail_if_actual_has_no_root_cause() {
+  void should_fail_if_actual_has_no_cause() {
     // GIVEN
     Throwable actual = new Throwable();
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).rootCause());
+    AssertionError error = expectAssertionError(() -> assertThat(actual).cause());
     // THEN
-    assertThat(error).hasMessage(shouldHaveRootCause(actual).create());
+    assertThat(error).hasMessage(shouldHaveCause(actual).create());
   }
 
   @Test
@@ -52,7 +50,7 @@ class ThrowableAssert_rootCause_Test implements NavigationMethodBaseTest<Throwab
     // GIVEN
     Throwable actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).rootCause());
+    AssertionError error = expectAssertionError(() -> assertThat(actual).cause());
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }
@@ -64,7 +62,7 @@ class ThrowableAssert_rootCause_Test implements NavigationMethodBaseTest<Throwab
 
   @Override
   public AbstractAssert<?, ?> invoke_navigation_method(ThrowableAssert<Throwable> assertion) {
-    return assertion.rootCause();
+    return assertion.cause();
   }
 
 }
