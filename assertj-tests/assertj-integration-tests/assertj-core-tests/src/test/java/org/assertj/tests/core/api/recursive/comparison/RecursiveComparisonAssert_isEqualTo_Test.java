@@ -12,14 +12,39 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Stopwatch;
+import static java.lang.String.format;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.entry;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.core.util.Maps.newHashMap;
+import static org.assertj.tests.core.api.recursive.comparison.ColorWithCode.RED;
+import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.tests.core.testkit.Maps.mapOf;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
+
+import java.io.IOException;
+import java.net.InetAddress;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+import javax.xml.datatype.DatatypeFactory;
+
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.internal.StandardComparisonStrategy;
-import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.DoubleComparator;
 import org.assertj.tests.core.api.recursive.data.AlwaysEqualPerson;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
@@ -32,33 +57,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import javax.xml.datatype.DatatypeFactory;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Timestamp;
-import java.time.Duration;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.entry;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Maps.newHashMap;
-import static org.assertj.tests.core.api.recursive.comparison.ColorWithCode.RED;
-import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.tests.core.testkit.Maps.mapOf;
-import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Stopwatch;
 
 class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -92,7 +93,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison().isEqualTo(expected));
     // THEN
     var shouldBeEqual = shouldBeEqual(actual, null, StandardComparisonStrategy.instance(), info.representation());
-    var expectedAssertionError = shouldBeEqual.newAssertionError(null, StandardRepresentation.STANDARD_REPRESENTATION);
+    var expectedAssertionError = shouldBeEqual.newAssertionError(null, STANDARD_REPRESENTATION);
     then(assertionError).hasMessage(expectedAssertionError.getMessage());
   }
 
@@ -402,7 +403,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     ComparisonDifference difference = diff("_children",
                                            mapOf(entry("importantValue", "10"), entry("someNotImportantValue", 1)),
                                            mapOf(entry("bar", "10"), entry("foo", 1)),
-                                           format("The following keys were not found in the actual map value:%n  [foo, bar]"));
+                                           format("The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]"));
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 

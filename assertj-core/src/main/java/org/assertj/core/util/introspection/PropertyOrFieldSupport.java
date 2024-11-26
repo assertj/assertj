@@ -80,6 +80,12 @@ public class PropertyOrFieldSupport {
           if (map.containsKey(name)) return map.get(name);
         }
 
+        // if the getter invocation throws exception and there's no field present,
+        // we'll propagate the IntrospectionError containing the original exception
+        if (propertyIntrospectionError.getterInvocationException().isPresent()) {
+          throw propertyIntrospectionError;
+        }
+
         // no value found with given name, it is considered as an error
         String message = format("%nCan't find any field or property with name '%s'.%n" +
                                 "Error when introspecting properties was :%n" +

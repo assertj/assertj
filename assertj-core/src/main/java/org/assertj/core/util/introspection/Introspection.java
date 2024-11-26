@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
@@ -48,12 +49,12 @@ public final class Introspection {
    * Returns the getter {@link Method} for a property matching the given name in the given object.
    *
    * @param propertyName the given property name.
-   * @param target the given object.
+   * @param target       the given object.
    * @return the getter {@code Method} for a property matching the given name in the given object.
-   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws NullPointerException     if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
-   * @throws NullPointerException if the given object is {@code null}.
-   * @throws IntrospectionError if the getter for the matching property cannot be found or accessed.
+   * @throws NullPointerException     if the given object is {@code null}.
+   * @throws IntrospectionError       if the getter for the matching property cannot be found or accessed.
    */
   public static Method getPropertyGetter(String propertyName, Object target) {
     checkNotNullOrEmpty(propertyName);
@@ -69,15 +70,19 @@ public final class Introspection {
       // force access for static class with public getter
       getter.setAccessible(true);
       getter.invoke(target);
+    } catch (InvocationTargetException ex) {
+      String message = format("Unable to invoke getter %s in %s, exception: %s",
+                              getter.getName(), target.getClass().getSimpleName(), ex.getTargetException());
+      throw new IntrospectionError(message, ex, ex.getTargetException());
     } catch (Exception t) {
       throw new IntrospectionError(propertyNotFoundErrorMessage("Unable to find property %s in %s", propertyName, target), t);
     }
     return getter;
   }
 
-  public static void setExtractBareNamePropertyMethods(boolean barenamePropertyMethods) {
+  public static void setExtractBareNamePropertyMethods(boolean bareNamePropertyMethods) {
     ConfigurationProvider.loadRegisteredConfiguration();
-    bareNamePropertyMethods = barenamePropertyMethods;
+    Introspection.bareNamePropertyMethods = bareNamePropertyMethods;
   }
 
   @VisibleForTesting

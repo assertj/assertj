@@ -37,8 +37,7 @@ public class RecursiveComparator implements Comparator<Object> {
    * @since 3.25.0
    */
   public RecursiveComparator() {
-    this.recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
-    this.recursiveComparisonDifferenceCalculator = new RecursiveComparisonDifferenceCalculator();
+    this(new RecursiveComparisonConfiguration());
   }
 
   /**

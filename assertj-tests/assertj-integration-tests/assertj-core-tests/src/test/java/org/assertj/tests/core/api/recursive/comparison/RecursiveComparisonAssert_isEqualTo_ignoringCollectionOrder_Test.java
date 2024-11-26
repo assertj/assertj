@@ -12,27 +12,29 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import static java.lang.String.format;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.presentation.StandardRepresentation.registerFormatterForType;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test.Type.FIRST;
+import static org.assertj.tests.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test.Type.SECOND;
+import static org.assertj.tests.core.api.recursive.data.FriendlyPerson.friend;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
-import static org.assertj.tests.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test.Type.FIRST;
-import static org.assertj.tests.core.api.recursive.comparison.RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test.Type.SECOND;
-import static org.assertj.tests.core.api.recursive.data.FriendlyPerson.friend;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     extends RecursiveComparisonAssert_isEqualTo_BaseTest {
@@ -529,6 +531,24 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     public String toString() {
       return "I" + val;
     }
+  }
+
+  record Item(String name, int quantity) {
+  }
+
+  @Test
+  void should_honor_representation_in_unmatched_elements_when_comparing_iterables_ignoring_order() {
+    // GIVEN
+    List<Item> expectedItems = List.of(new Item("Shoes", 2), new Item("Pants", 3));
+    List<Item> actualItems = List.of(new Item("Pants", 3), new Item("Loafers", 1));
+    registerFormatterForType(Item.class, item -> String.format("Item(%s, %d)", item.name(), item.quantity()));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison()
+                                                                                      .ignoringCollectionOrder()
+                                                                                      .isEqualTo(expectedItems));
+    // THEN
+    then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual List12:%n" +
+                                                     "  [Item(Shoes, 2)]"));
   }
 
 }

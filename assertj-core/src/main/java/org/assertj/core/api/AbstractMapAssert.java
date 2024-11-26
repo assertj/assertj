@@ -639,7 +639,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws NullPointerException if the given map is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws IllegalArgumentException if the given map is empty.
-   * @throws AssertionError if the actual map does not contain the entries of the given map with same order, i.e
+   * @throws AssertionError if the actual map does not contain the entries of the given map with same order, i.e.
    *           the actual map contains some or none of the entries of the given map, or the actual map contains more
    *           entries than the entries of the given map or entries are the same but the order is not.
    * @since 3.12.0
@@ -683,7 +683,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws NullPointerException if the given map is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws IllegalArgumentException if the given map is empty.
-   * @throws AssertionError if the actual map does not contain the entries of the given map, i.e the actual map contains
+   * @throws AssertionError if the actual map does not contain the entries of the given map, i.e. the actual map contains
    *           some or none of the entries of the given map, or the actual map contains more entries than the entries of
    *           the given map.
    * @since 3.13.0
@@ -692,7 +692,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     return containsOnly(toEntries(map));
   }
 
-  @SuppressWarnings("unchecked")
   private Map.Entry<? extends K, ? extends V>[] toEntries(Map<? extends K, ? extends V> map) {
     return map.entrySet().toArray(new Map.Entry[0]);
   }
@@ -749,7 +748,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * // this assertion will fail
    * assertThat(ringBearers).hasEntrySatisfying(oneRing, elfBearer);</code></pre>
    *
-   * @param key he given key to check.
+   * @param key the given key to check.
    * @param valueCondition the given condition for check value.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given values is {@code null}.
@@ -784,7 +783,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *     assertThat(character.getRace()).isEqualTo(ELF);
    * });</code></pre>
    *
-   * @param key he given key to check.
+   * @param key the given key to check.
    * @param valueRequirements the given requirements for check value.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given values is {@code null}.
@@ -1213,7 +1212,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @since 3.12.0
    */
-  @SuppressWarnings("unchecked")
   public SELF containsOnlyKeys(Iterable<? extends K> keys) {
     if (keys instanceof Path) {
       // do not treat Path as an Iterable
@@ -1427,7 +1425,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     return myself;
   }
 
-  @SuppressWarnings("unchecked")
   private void assertIsUnmodifiable() {
     switch (actual.getClass().getName()) {
     case "java.util.Collections$EmptyNavigableMap":
@@ -1438,7 +1435,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
       return;
     }
 
-    expectUnsupportedOperationException(() -> actual.clear(), "Map.clear()");
+    expectUnsupportedOperationException(actual::clear, "Map.clear()");
     expectUnsupportedOperationException(() -> actual.compute(null, (k, v) -> v), "Map.compute(null, (k, v) -> v)");
     expectUnsupportedOperationException(() -> actual.computeIfAbsent(null, k -> null), "Map.computeIfAbsent(null, k -> null)");
     expectUnsupportedOperationException(() -> actual.computeIfPresent(null, (k, v) -> v),
@@ -1455,8 +1452,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
     if (actual instanceof NavigableMap) {
       NavigableMap<K, V> navigableMap = (NavigableMap<K, V>) actual;
-      expectUnsupportedOperationException(() -> navigableMap.pollFirstEntry(), "NavigableMap.pollFirstEntry()");
-      expectUnsupportedOperationException(() -> navigableMap.pollLastEntry(), "NavigableMap.pollLastEntry()");
+      expectUnsupportedOperationException(navigableMap::pollFirstEntry, "NavigableMap.pollFirstEntry()");
+      expectUnsupportedOperationException(navigableMap::pollLastEntry, "NavigableMap.pollLastEntry()");
     }
   }
 
@@ -1702,7 +1699,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a {@link AbstractMapSizeAssert} to allow assertions on the number of key-value mappings in this map
    * @throws NullPointerException if the given map is {@code null}.
    */
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings({ "rawtypes" })
   @CheckReturnValue
   public AbstractMapSizeAssert<SELF, ACTUAL, K, V> size() {
     requireNonNull(actual, "Can not perform assertions on the size of a null map.");

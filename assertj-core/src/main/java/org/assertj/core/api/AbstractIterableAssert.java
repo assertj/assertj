@@ -123,7 +123,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     super(actual, selfType);
 
     if (actual instanceof SortedSet) {
-      @SuppressWarnings("unchecked")
       SortedSet<ELEMENT> sortedSet = (SortedSet<ELEMENT>) actual;
       Comparator<? super ELEMENT> comparator = sortedSet.comparator();
       if (comparator != null) usingElementComparator(sortedSet.comparator());
@@ -990,7 +989,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Iterable becoming the Iterable under test.
    * <p>
    * It allows you to test a property/field of the Iterable's elements instead of testing the elements themselves, which
-   * can be be much less work!
+   * can be much less work!
    * <p>
    * Let's take a look at an example to make things clearer:
    * <pre><code class='java'> // build a list of TolkienCharacters: a TolkienCharacter has a name, and age and a Race (a specific class)
@@ -1019,7 +1018,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *                                .doesNotContain(&quot;Orc&quot;);</code></pre>
    * <p>
    * A property with the given name is searched for first. If it doesn't exist a field with the given name is looked
-   * for. If the field does not exist an {@link IntrospectionError} is thrown. By default private fields are read but
+   * for. If the field does not exist an {@link IntrospectionError} is thrown. By default, private fields are read but,
    * you can change this with {@link Assertions#setAllowComparingPrivateFields(boolean)}. Trying to read a private field
    * when it's not allowed leads to an {@link IntrospectionError}.
    * <p>
@@ -1166,7 +1165,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extractingResultOf(String method,
                                                                                              Class<P> extractedType) {
-    @SuppressWarnings("unchecked")
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -1205,7 +1203,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *                                .doesNotContain(&quot;Orc&quot;);</code></pre>
    *
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
-   * for, if the field does not exist an {@link IntrospectionError} is thrown, by default private fields are read but
+   * for, if the field does not exist an {@link IntrospectionError} is thrown, by default private fields are read but,
    * you can change this with {@link Assertions#setAllowComparingPrivateFields(boolean)}, trying to read a private field
    * when it's not allowed leads to an {@link IntrospectionError}.
    * <p>
@@ -1257,7 +1255,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extracting(String propertyOrField,
                                                                                      Class<P> extractingType) {
-    @SuppressWarnings("unchecked")
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
     String extractedDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -1303,7 +1300,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *                                          tuple(&quot;Legolas&quot;, 1000, &quot;Elf&quot;));</code></pre>
    *
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
-   * for, if the field does not exist an {@link IntrospectionError} is thrown, by default private fields are read but
+   * for, if the field does not exist an {@link IntrospectionError} is thrown, by default private fields are read but,
    * you can change this with {@link Assertions#setAllowComparingPrivateFields(boolean)}, trying to read a private field
    * when it's not allowed leads to an {@link IntrospectionError}.
    * <p>
@@ -1557,7 +1554,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(parents).flatExtracting(CartoonCharacter::getChildren)
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The extracted values order is consistent with both the order of the iterable itself as well as the extracted collections.
+   * The extracted values order is consistent with both the order of the iterable itself and the extracted collections.
    *
    * @param <V> the type of extracted elements.
    * @param extractor the {@link Function} transforming input object to an {@code Iterable} of desired ones
@@ -1592,7 +1589,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(parents).flatMap(CartoonCharacter::getChildren)
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The mapped values order is consistent with both the order of the iterable itself as well as the mapped collections.
+   * The mapped values order is consistent with both the order of the iterable itself and the mapped collections.
    *
    * @param <V> the type of mapped elements.
    * @param mapper the {@link Function} transforming input object to an {@code Iterable} of desired ones
@@ -1628,7 +1625,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(parents).flatExtracting(CartoonCharacter::getChildren)
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The extracted values order is consistent with both the order of the iterable itself as well as the extracted collections.
+   * The extracted values order is consistent with both the order of the iterable itself and the extracted collections.
    *
    * @param <V> the type of extracted values.
    * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
@@ -1665,7 +1662,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(parents).flatMap(CartoonCharacter::getChildren)
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The mapped values order is consistent with both the order of the iterable itself as well as the mapped collections.
+   * The mapped values order is consistent with both the order of the iterable itself and the mapped collections.
    *
    * @param <V> the type of mapped values.
    * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
@@ -1866,7 +1863,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(parents).flatExtracting("children")
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The order of extracted values is consisted with both the order of the iterable itself as well as the extracted collections.
+   * The order of extracted values is consisted with both the order of the iterable itself and the extracted collections.
    *
    * @param fieldOrPropertyName the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
@@ -2397,7 +2394,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * Another point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
    * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
-   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * use the more fine-grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @return {@code this} assertion object.
@@ -2407,7 +2404,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {
-    return usingRecursiveFieldByFieldElementComparator(new RecursiveComparisonConfiguration());
+    return usingRecursiveFieldByFieldElementComparator(new RecursiveComparisonConfiguration(info.representation()));
   }
 
   /**
@@ -2501,7 +2498,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * Another point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
    * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
-   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * use the more fine-grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @param configuration the recursive comparison configuration.
@@ -2580,7 +2577,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * Another point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
    * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
-   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * use the more fine-grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    * <p>
    * At the moment, only `isEqualTo` can be chained after this method but there are plans to provide assertions.
@@ -3294,7 +3291,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Navigate and allow to perform assertions on the first element of the {@link Iterable} under test.
    * <p>
-   * By default available assertions after {@code first()} are {@code Object} assertions, it is possible though to
+   * By default, available assertions after {@code first()} are {@code Object} assertions, it is possible though to
    * get more specific assertions if you create {@code IterableAssert} with either:
    * <ul>
    * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
@@ -3378,7 +3375,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Navigate and allow to perform assertions on the last element of the {@link Iterable} under test.
    * <p>
-   * By default available assertions after {@code last()} are {@code Object} assertions, it is possible though to
+   * By default, available assertions after {@code last()} are {@code Object} assertions, it is possible though to
    * get more specific assertions if you create {@code IterableAssert} with either:
    * <ul>
    * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
@@ -3461,7 +3458,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private ELEMENT lastElement() {
     if (actual instanceof List) {
-      @SuppressWarnings("unchecked")
       List<? extends ELEMENT> list = (List<? extends ELEMENT>) actual;
       return list.get(list.size() - 1);
     }
@@ -3476,7 +3472,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Navigate and allow to perform assertions on the chosen element of the {@link Iterable} under test.
    * <p>
-   * By default available assertions after {@code element(index)} are {@code Object} assertions, it is possible though to
+   * By default, available assertions after {@code element(index)} are {@code Object} assertions, it is possible though to
    * get more specific assertions if you create {@code IterableAssert} with either:
    * <ul>
    * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
@@ -3556,7 +3552,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
                                            .peek(index -> checkIndexValidity(index, indexedActual))
                                            .mapToObj(indexedActual::get)
                                            .collect(toList());
-    // For soft assertions/assumptions, this must return a proxied iterable assert but we can't put "elements" in
+    // For soft assertions/assumptions, this must return a proxied iterable assert but, we can't put "elements" in
     // SoftProxies.METHODS_CHANGING_THE_OBJECT_UNDER_TEST because these methods are not proxied.
     // We want to proxy elements(int... indices) to capture isNotEmpty and checkIndexValidity assertion errors.
     // The solution is to introduce newAbstractIterableAssertForProxy which is going to be proxied as newAbstractIterableAssert
@@ -3622,7 +3618,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
                      .isBetween(0, IterableUtil.sizeOf(actual) - 1);
     ELEMENT elementAtIndex;
     if (actual instanceof List) {
-      @SuppressWarnings("unchecked")
       List<? extends ELEMENT> list = (List<? extends ELEMENT>) actual;
       elementAtIndex = list.get(index);
     } else {
@@ -3641,7 +3636,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * This is a shorthand for <code>hasSize(1).first()</code>.
    * <p>
-   * By default available assertions after {@code singleElement()} are {@code Object} assertions, it is possible though to
+   * By default, available assertions after {@code singleElement()} are {@code Object} assertions, it is possible though to
    * get more specific assertions if you create {@code IterableAssert} with either:
    * <ul>
    * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
@@ -3848,18 +3843,27 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Override
+  public SELF anyMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
+    iterables.assertAnyMatch(info, actual, predicate, new PredicateDescription(predicateDescription));
+    return myself;
+  }
+
+  /**
    * Verifies that the zipped pairs of actual and other elements, i.e: (actual 1st element, other 1st element), (actual 2nd element, other 2nd element), ...
    * all satisfy the given {@code zipRequirements}.
    * <p>
-   * This assertion assumes that actual and other have the same size but they can contain different type of elements
+   * This assertion assumes that actual and other have the same size but, they can contain different type of elements
    * making it handy to compare objects converted to another type, for example Domain and View/DTO objects.
    * <p>
    * Example:
-   * <pre><code class='java'> List&lt;Adress&gt; addressModels = findGoodRestaurants();
-   * List&lt;AdressView&gt; addressViews = convertToView(addressModels);
+   * <pre><code class='java'> List&lt;Address&gt; addressModels = findGoodRestaurants();
+   * List&lt;AddressView&gt; addressViews = convertToView(addressModels);
    *
    * // compare addressViews and addressModels respective paired elements.
-   * assertThat(addressViews).zipSatisfy(addressModels, (AdressView view, Adress model) -&gt; {
+   * assertThat(addressViews).zipSatisfy(addressModels, (AddressView view, Address model) -&gt; {
    *    assertThat(view.getZipcode() + ' ' + view.getCity()).isEqualTo(model.getCityLine());
    *    assertThat(view.getStreet()).isEqualTo(model.getStreet().toUpperCase());
    * });</code></pre>
@@ -4153,6 +4157,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   @Override
+  public SELF noneMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
+    iterables.assertNoneMatch(info, actual, predicate, new PredicateDescription(predicateDescription));
+    return myself;
+  }
+
+  @Override
   @CheckReturnValue
   public SELF overridingErrorMessage(String newErrorMessage, Object... args) {
     return super.overridingErrorMessage(newErrorMessage, args);
@@ -4209,7 +4219,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @return AbstractIterableSizeAssert built with the {@code Iterable}'s size.
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
    */
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings({ "rawtypes" })
   @CheckReturnValue
   public AbstractIterableSizeAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> size() {
     requireNonNull(actual, "Can not perform assertions on the size of a null iterable.");
@@ -4229,7 +4239,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * This methods is needed to build a new concrete instance of AbstractIterableAssert after a filtering operation is executed.
+   * This method is needed to build a new concrete instance of AbstractIterableAssert after a filtering operation is executed.
    * <p>
    * If you create your own subclass of AbstractIterableAssert, simply returns an instance of it in this method.
    *
@@ -4238,7 +4248,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   protected abstract SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable);
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings({ "rawtypes" })
   @Override
   SELF withAssertionState(AbstractAssert assertInstance) {
     if (assertInstance instanceof AbstractIterableAssert) {

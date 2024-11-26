@@ -12,25 +12,19 @@
  */
 package org.assertj.tests.core.util;
 
-import static java.nio.charset.Charset.forName;
-import static java.nio.charset.StandardCharsets.UTF_16;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
-import java.nio.charset.Charset;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.ThrowableAssertAlternative;
 import org.junit.AssumptionViolatedException;
 
 public class AssertionsUtil {
 
-  public static final Charset TURKISH_CHARSET = forName("windows-1254");
-
   public static AssertionError expectAssertionError(ThrowingCallable shouldRaiseAssertionError) {
-    AssertionError error = catchThrowableOfType(shouldRaiseAssertionError, AssertionError.class);
+    AssertionError error = catchThrowableOfType(AssertionError.class, shouldRaiseAssertionError);
     assertThat(error).as("The code under test should have raised an AssertionError").isNotNull();
     return error;
   }
@@ -42,9 +36,4 @@ public class AssertionsUtil {
   public static void expectAssumptionNotMetException(ThrowingCallable shouldRaiseError) {
     assertThatThrownBy(shouldRaiseError).isInstanceOf(AssumptionViolatedException.class);
   }
-
-  public static Charset getDifferentCharsetFrom(Charset charset) {
-    return charset.equals(UTF_8) ? UTF_16 : UTF_8;
-  }
-
 }

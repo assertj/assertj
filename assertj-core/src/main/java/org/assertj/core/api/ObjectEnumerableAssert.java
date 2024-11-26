@@ -118,7 +118,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group is empty or contains non null elements.
+   * @throws AssertionError if the actual group is empty or contains non-null elements.
    * @since 2.9.0 / 3.9.0
    */
   SELF containsOnlyNulls();
@@ -945,7 +945,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @param elementAssertions the assertions to perform on the unique element.
    * @return {@code this} assertion object.
    * @throws AssertionError if the {@link Iterable} does not have a unique element.
-   * @throws AssertionError if the {@link Iterable}'s unique element does not satisfies the given assertions.
+   * @throws AssertionError if the {@link Iterable}'s unique element does not satisfy the given assertions.
    * @since 3.5.0
    */
   SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions);
@@ -1353,7 +1353,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
    * <p>
-   * Each requirements are expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
+   * Each requirement is expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;TolkienCharacter&gt; characters = list(frodo, aragorn, legolas);
@@ -1396,7 +1396,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
    * <p>
-   * Each requirements are expressed as a {@link ThrowingConsumer}, there must be as many requirements as there are iterable elements.
+   * Each requirement is expressed as a {@link ThrowingConsumer}, there must be as many requirements as there are iterable elements.
    * <p>
    * This is the same assertion as {@link #satisfiesExactly(Consumer...)} but the given consumers can throw checked exceptions.<br>
    * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
@@ -1572,7 +1572,6 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the requirements are not satisfied only once
    * @since 3.24.0
    */
-  @SuppressWarnings("unchecked")
   SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements);
 
   /**
@@ -1599,7 +1598,6 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @throws AssertionError if the requirements are not satisfied only once
    * @since 3.24.0
    */
-  @SuppressWarnings("unchecked")
   SELF satisfiesOnlyOnce(ThrowingConsumer<? super ELEMENT> requirements);
 
   /**
@@ -1624,6 +1622,33 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.9.0
    */
   SELF anyMatch(Predicate<? super ELEMENT> predicate);
+
+  /**
+   * Verifies whether any elements match the provided {@link Predicate}. The predicate description is used
+   * to get an informative error message.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
+   *
+   * // assertion will pass
+   * assertThat(abcc).anyMatch(s -&gt; s.length() == 2, "length of 2");
+   *
+   * // assertion will fail
+   * assertThat(abcc).anyMatch(s -&gt; s.length() &gt; 2, "length greater than 2);</code></pre>
+   *
+   * The message of the failed assertion would be:
+   * <pre><code class='java'>Expecting any elements of:
+   *  &lt;["a", "b", "cc"]&gt;
+   *  to match 'length greater than 2' predicate but none did.</code></pre>
+   *
+   * @param predicate the given {@link Predicate}.
+   * @param predicateDescription a description of the {@link Predicate} used in the error message
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if no elements satisfy the given predicate.
+   * @since 3.27.0
+   */
+  SELF anyMatch(Predicate<? super ELEMENT> predicate, String predicateDescription);
 
   /**
    * Verifies that at least one element satisfies the given requirements expressed as a {@link Consumer}.
@@ -1692,11 +1717,11 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <pre><code class='java'> // assume that all icelander in myIcelanderFriends are not from Brazil
    * assertThat(myIcelanderFriends).noneSatisfy(person -&gt; {
    *                                  assertThat(person.getCountry()).isEqualTo("Brazil");
-   *                                });
-   *</code></pre>
+   *                                });</code></pre>
+   *
    * Note that this assertion succeeds if the group (collection, array, ...) is empty whatever the restrictions are.
    *
-   * @param restrictions the given restrictions as {@link Consumer} that no elements should met.
+   * @param restrictions the given restrictions as {@link Consumer} that no elements should meet.
    * @return {@code this} object.
    * @throws NullPointerException if the given {@link Consumer} is {@code null}.
    * @throws AssertionError if one or more elements satisfy the given requirements.
@@ -1821,4 +1846,32 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @since 3.9.0
    */
   SELF noneMatch(Predicate<? super ELEMENT> predicate);
+
+  /**
+   * Verifies that no elements match the given {@link Predicate}. The predicate description is used
+   * to get an informative error message.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Iterable&lt;String&gt; abcc = newArrayList("a", "b", "cc");
+   *
+   * // assertion will pass
+   * assertThat(abcc).noneMatch(s -&gt; s.isEmpty(), "is empty");
+   *
+   * // assertion will fail
+   * assertThat(abcc).noneMatch(s -&gt; s.length() == 2, "length of 2");</code></pre>
+   *
+   * The message of the failed assertion would be:
+   * <pre><code class='java'>Expecting no elements of:
+   *  &lt;["a", "b", "cc"]&gt;
+   *  to match 'length of 2' predicate but this element did:
+   *  &lt;"cc"&gt;</code></pre>
+   *
+   * @param predicate the given {@link Predicate}.
+   * @param predicateDescription a description of the {@link Predicate} used in the error message
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError if any elements satisfy the given predicate.
+   * @since 3.27.0
+   */
+  SELF noneMatch(Predicate<? super ELEMENT> predicate, String predicateDescription);
 }

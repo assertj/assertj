@@ -1365,8 +1365,7 @@ public class Iterables {
     stream(actual).filter(predicate)
                   .findFirst()
                   .ifPresent(e -> {
-                    throw failures.failure(info, noElementsShouldMatch(actual, e,
-                                                                       predicateDescription));
+                    throw failures.failure(info, noElementsShouldMatch(actual, e, predicateDescription));
                   });
   }
 
