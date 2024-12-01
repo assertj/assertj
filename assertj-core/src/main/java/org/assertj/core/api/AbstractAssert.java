@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.error.ShouldNotMatch.shouldNotMatch;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.util.Lists.list;
@@ -214,7 +215,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * This method also sets the "actual" and "expected" fields of the assertion if available (eg, if OpenTest4J is on the path).
    * This aids IDEs to produce visual diffs of the resulting values.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'> public TolkienCharacterAssert hasName(String name) {
    *   // check that actual TolkienCharacter we want to make assertions on is not null.
    *   isNotNull();
@@ -628,7 +629,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * The new error message is built using {@link String#format(String, Object...)} if you provide args parameter (if you
    * don't, the error message is taken as it is).
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'>assertThat(player.isRookie()).overridingErrorMessage(&quot;Expecting Player &lt;%s&gt; to be a rookie but was not.&quot;, player)
    *                              .isTrue();</code></pre>
    *
@@ -650,7 +651,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * You must set the message <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
    * the call chain by throwing an {@link AssertionError}.
    * <p>
-   * Example :
+   * Example:
    * <pre><code class='java'>assertThat(player.isRookie()).overridingErrorMessage(() -&gt; &quot;Expecting Player to be a rookie but was not.&quot;)
    *                             .isTrue();</code></pre>
    *
@@ -770,8 +771,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * Verifies that the actual object matches the given predicate.
    * <p>
-   * Example :
-   *
+   * Example:
    * <pre><code class='java'> assertThat(player).matches(p -&gt; p.isRookie());</code></pre>
    *
    * @param predicate the {@link Predicate} to match
@@ -788,12 +788,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Verifies that the actual object matches the given predicate, the predicate description is used to get an
    * informative error message.
    * <p>
-   * Example :
-   *
+   * Example:
    * <pre><code class='java'> assertThat(player).matches(p -&gt; p.isRookie(), "is rookie");</code></pre>
    *
-   * The error message contains the predicate description, if the previous assertion fails, it will be:
-   *
+   * The error message contains the predicate description, in our example, it is:
    * <pre><code class='java'> Expecting:
    *   &lt;player&gt;
    * to match 'is rookie' predicate.</code></pre>
@@ -807,6 +805,48 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   public SELF matches(Predicate<? super ACTUAL> predicate, String predicateDescription) {
     return matches(predicate, new PredicateDescription(predicateDescription));
+  }
+
+  /**
+   * Verifies that the actual object does not match the given predicate.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'> assertThat(player).doesNotMatch(p -&gt; p.isRookie());</code></pre>
+   *
+   * @param predicate the {@link Predicate} not to match
+   * @return {@code this} assertion object.
+   * @throws AssertionError if {@code actual} matches the given {@link Predicate}.
+   * @throws NullPointerException if given {@link Predicate} is null.
+   */
+  public SELF doesNotMatch(Predicate<? super ACTUAL> predicate) {
+    // use default PredicateDescription
+    return doesNotMatch(predicate, PredicateDescription.GIVEN);
+  }
+
+  /**
+   * Verifies that the actual object does not match the given predicate,
+   * the predicate description is used to get an informative error message.
+   * <p>
+   * Example:
+   *
+   * <pre><code class='java'> assertThat(player).doesNotMatch(p -&gt; p.isRookie(), "is rookie");</code></pre>
+   *
+   * The error message contains the predicate description, in our example, it is:
+   *
+   * <pre><code class='java'> Expecting:
+   *   &lt;player&gt;
+   * not to match 'is rookie' predicate.</code></pre>
+   *
+   * @param predicate the {@link Predicate} not to match
+   * @param predicateDescription a description of the {@link Predicate} used in the error message
+   * @return {@code this} assertion object.
+   * @throws AssertionError if {@code actual} matches the given {@link Predicate}.
+   * @throws NullPointerException if given {@link Predicate} is null.
+   * @throws NullPointerException if given predicateDescription is null.
+   */
+  public SELF doesNotMatch(Predicate<? super ACTUAL> predicate, String predicateDescription) {
+    return doesNotMatch(predicate, new PredicateDescription(predicateDescription));
   }
 
   /**
@@ -1009,6 +1049,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     requireNonNull(predicate, "The predicate must not be null");
     if (predicate.test(actual)) return myself;
     throw Failures.instance().failure(info, shouldMatch(actual, predicate, predicateDescription));
+  }
+
+  private SELF doesNotMatch(Predicate<? super ACTUAL> predicate, PredicateDescription predicateDescription) {
+    requireNonNull(predicate, "The predicate must not be null");
+    if (predicate.negate().test(actual)) return myself;
+    throw Failures.instance().failure(info, shouldNotMatch(actual, predicate, predicateDescription));
   }
 
   public static void setCustomRepresentation(Representation customRepresentation) {
