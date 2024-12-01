@@ -46,14 +46,12 @@ class Issue_3533_Test {
   void test() {
     // Create and save a City
     City city = new City();
-    city.setId(1L);
     city.setName("Paris");
     city.setPostalCode("75000");
     city = cityRepository.save(city);
 
     // Create and save a User
     Person person = new Person();
-    person.setId(1L);
     person.setFirstName("John");
     person.setLastName("Doe");
     person.setBirthCities(Set.of(city));
