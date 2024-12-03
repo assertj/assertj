@@ -55,7 +55,7 @@ class Assertions_catchIndexOutOfBoundsException_Test {
   @Test
   void catchIndexOutOfBoundsException_should_catch_mocked_throwable() {
     // GIVEN
-    IndexOutOfBoundsException indexOutOfBoundsException = mock(IndexOutOfBoundsException.class);
+    IndexOutOfBoundsException indexOutOfBoundsException = mock();
     // WHEN
     Throwable actual = catchIndexOutOfBoundsException(codeThrowing(indexOutOfBoundsException));
     // THEN

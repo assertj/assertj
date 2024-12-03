@@ -55,7 +55,7 @@ class Assertions_catchRuntimeException_Test {
   @Test
   void catchRuntimeException_should_catch_mocked_throwable() {
     // GIVEN
-    RuntimeException runtimeException = mock(RuntimeException.class);
+    RuntimeException runtimeException = mock();
     // WHEN
     Throwable actual = catchRuntimeException(codeThrowing(runtimeException));
     // THEN

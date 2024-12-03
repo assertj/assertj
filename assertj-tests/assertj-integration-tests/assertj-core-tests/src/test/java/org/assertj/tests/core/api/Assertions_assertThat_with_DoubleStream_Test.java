@@ -40,7 +40,7 @@ class Assertions_assertThat_with_DoubleStream_Test {
 
   @Test
   void isEqualTo_should_honor_comparing_the_same_mocked_stream() {
-    DoubleStream stream = mock(DoubleStream.class);
+    DoubleStream stream = mock();
     assertThat(stream).isEqualTo(stream);
   }
 
@@ -53,28 +53,28 @@ class Assertions_assertThat_with_DoubleStream_Test {
 
   @Test
   void should_not_consume_stream_when_asserting_non_null() {
-    DoubleStream stream = mock(DoubleStream.class);
+    DoubleStream stream = mock();
     assertThat(stream).isNotNull();
     verifyNoInteractions(stream);
   }
 
   @Test
   void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
-    DoubleStream stream = mock(DoubleStream.class);
+    DoubleStream stream = mock();
     assertThat(stream).isInstanceOf(DoubleStream.class);
     verifyNoInteractions(stream);
   }
 
   @Test
   void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
-    DoubleStream stream = mock(DoubleStream.class);
+    DoubleStream stream = mock();
     assertThat(stream).isInstanceOfAny(DoubleStream.class, String.class);
     verifyNoInteractions(stream);
   }
 
   @Test
   void isOfAnyClassIn_should_check_the_original_stream_without_consuming_it() {
-    DoubleStream stream = mock(DoubleStream.class);
+    DoubleStream stream = mock();
     assertThat(stream).isOfAnyClassIn(Double.class, stream.getClass());
   }
 
@@ -110,14 +110,14 @@ class Assertions_assertThat_with_DoubleStream_Test {
 
   @Test
   void isSameAs_should_check_the_original_stream_without_consuming_it() {
-    DoubleStream stream = mock(DoubleStream.class);
+    DoubleStream stream = mock();
     assertThat(stream).isSameAs(stream);
     verifyNoInteractions(stream);
   }
 
   @Test
   void isNotSameAs_should_check_the_original_stream_without_consuming_it() {
-    DoubleStream stream = mock(DoubleStream.class);
+    DoubleStream stream = mock();
     try {
       assertThat(stream).isNotSameAs(stream);
     } catch (AssertionError e) {

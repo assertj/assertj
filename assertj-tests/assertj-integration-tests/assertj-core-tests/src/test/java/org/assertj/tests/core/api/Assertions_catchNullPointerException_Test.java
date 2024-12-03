@@ -55,7 +55,7 @@ class Assertions_catchNullPointerException_Test {
   @Test
   void catchNullPointerException_should_catch_mocked_throwable() {
     // GIVEN
-    NullPointerException exception = mock(NullPointerException.class);
+    NullPointerException exception = mock();
     // WHEN
     Throwable actual = catchNullPointerException(codeThrowing(exception));
     // THEN
