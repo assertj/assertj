@@ -56,7 +56,7 @@ class Assertions_catchIOException_Test {
   @Test
   void catchIOException_should_catch_mocked_throwable() {
     // GIVEN
-    IOException exception = mock(IOException.class);
+    IOException exception = mock();
     // WHEN
     Throwable actual = catchIOException(codeThrowing(exception));
     // THEN

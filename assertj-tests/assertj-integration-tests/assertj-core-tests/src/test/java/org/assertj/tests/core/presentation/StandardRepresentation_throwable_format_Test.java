@@ -90,7 +90,7 @@ class StandardRepresentation_throwable_format_Test {
   @Test
   void should_display_toString_when_null_stack() {
     // GIVEN
-    Throwable throwable = mock(Throwable.class);
+    Throwable throwable = mock();
     when(throwable.toString()).thenReturn("throwable string");
     // WHEN
     String actual = REPRESENTATION.toStringOf(throwable);

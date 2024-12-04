@@ -55,7 +55,7 @@ class Assertions_catchIllegalStateException_Test {
   @Test
   void catchIllegalStateException_should_catch_mocked_throwable() {
     // GIVEN
-    IllegalStateException illegalStateException = mock(IllegalStateException.class);
+    IllegalStateException illegalStateException = mock();
     // WHEN
     Throwable actual = catchIllegalStateException(codeThrowing(illegalStateException));
     // THEN

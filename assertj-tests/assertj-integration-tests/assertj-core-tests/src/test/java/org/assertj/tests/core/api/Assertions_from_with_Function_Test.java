@@ -29,7 +29,7 @@ class Assertions_from_with_Function_Test {
   @Test
   void should_return_the_given_extractor() {
     // GIVEN
-    Function<?, ?> extractor = mock(Function.class);
+    Function<?, ?> extractor = mock();
     // WHEN
     Function<?, ?> result = Assertions.from(extractor);
     // THEN
