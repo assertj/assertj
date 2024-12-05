@@ -55,7 +55,7 @@ class Assertions_catchReflectiveOperationException_Test {
   @Test
   void catchReflectiveOperationException_should_catch_mocked_throwable() {
     // GIVEN
-    ReflectiveOperationException exception = mock(ReflectiveOperationException.class);
+    ReflectiveOperationException exception = mock();
     // WHEN
     Throwable actual = catchReflectiveOperationException(codeThrowing(exception));
     // THEN

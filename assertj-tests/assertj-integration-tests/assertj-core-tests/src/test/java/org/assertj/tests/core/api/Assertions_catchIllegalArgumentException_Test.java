@@ -55,7 +55,7 @@ class Assertions_catchIllegalArgumentException_Test {
   @Test
   void catchIllegalArgumentException_should_catch_mocked_throwable() {
     // GIVEN
-    IllegalArgumentException exception = mock(IllegalArgumentException.class);
+    IllegalArgumentException exception = mock();
     // WHEN
     Throwable actual = catchIllegalArgumentException(codeThrowing(exception));
     // THEN

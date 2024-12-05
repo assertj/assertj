@@ -73,7 +73,7 @@ class Assertions_catchThrowableOfType_Test {
   @Test
   void should_catch_mocked_throwable() {
     // GIVEN
-    Throwable throwable = mock(Throwable.class);
+    Throwable throwable = mock();
     // WHEN
     Throwable actual = catchThrowableOfType(Throwable.class, codeThrowing(throwable));
     // THEN

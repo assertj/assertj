@@ -63,7 +63,7 @@ class AssertionMatcher_matches_Test {
 
   @Test
   void matcher_should_not_fill_description_when_assertion_passes() {
-    Description description = mock(Description.class);
+    Description description = mock();
 
     assertThat(isZeroMatcher.matches(ZERO)).isTrue();
 
@@ -82,7 +82,7 @@ class AssertionMatcher_matches_Test {
    */
   @Test
   void matcher_should_fill_description_when_assertion_fails() {
-    Description description = mock(Description.class);
+    Description description = mock();
 
     assertThat(isZeroMatcher.matches(ONE)).isFalse();
 

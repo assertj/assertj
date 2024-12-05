@@ -40,7 +40,7 @@ class Assertions_assertThat_with_LongStream_Test {
 
   @Test
   void isEqualTo_should_honor_comparing_the_same_mocked_stream() {
-    LongStream stream = mock(LongStream.class);
+    LongStream stream = mock();
     assertThat(stream).isEqualTo(stream);
   }
 
@@ -53,28 +53,28 @@ class Assertions_assertThat_with_LongStream_Test {
 
   @Test
   void should_not_consume_stream_when_asserting_non_null() {
-    LongStream stream = mock(LongStream.class);
+    LongStream stream = mock();
     assertThat(stream).isNotNull();
     verifyNoInteractions(stream);
   }
 
   @Test
   void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
-    LongStream stream = mock(LongStream.class);
+    LongStream stream = mock();
     assertThat(stream).isInstanceOf(LongStream.class);
     verifyNoInteractions(stream);
   }
 
   @Test
   void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
-    LongStream stream = mock(LongStream.class);
+    LongStream stream = mock();
     assertThat(stream).isInstanceOfAny(LongStream.class, String.class);
     verifyNoInteractions(stream);
   }
 
   @Test
   void isOfAnyClassIn_should_check_the_original_stream_without_consuming_it() {
-    LongStream stream = mock(LongStream.class);
+    LongStream stream = mock();
     assertThat(stream).isOfAnyClassIn(Double.class, stream.getClass());
   }
 
@@ -110,14 +110,14 @@ class Assertions_assertThat_with_LongStream_Test {
 
   @Test
   void isSameAs_should_check_the_original_stream_without_consuming_it() {
-    LongStream stream = mock(LongStream.class);
+    LongStream stream = mock();
     assertThat(stream).isSameAs(stream);
     verifyNoInteractions(stream);
   }
 
   @Test
   void isNotSameAs_should_check_the_original_stream_without_consuming_it() {
-    LongStream stream = mock(LongStream.class);
+    LongStream stream = mock();
     try {
       assertThat(stream).isNotSameAs(stream);
     } catch (AssertionError e) {
