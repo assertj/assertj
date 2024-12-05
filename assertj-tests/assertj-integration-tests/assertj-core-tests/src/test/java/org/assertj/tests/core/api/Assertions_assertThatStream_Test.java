@@ -38,7 +38,7 @@ class Assertions_assertThatStream_Test {
   @Test
   void isEqualTo_should_honor_comparing_the_same_mocked_stream() {
     // GIVEN
-    Stream<?> stream = mock(Stream.class);
+    Stream<?> stream = mock();
     // WHEN/THEN
     assertThatStream(stream).isEqualTo(stream);
   }
@@ -55,7 +55,7 @@ class Assertions_assertThatStream_Test {
   @Test
   void should_not_consume_stream_when_asserting_non_null() {
     // GIVEN
-    Stream<?> stream = mock(Stream.class);
+    Stream<?> stream = mock();
     // WHEN
     assertThatStream(stream).isNotNull();
     // THEN
@@ -65,7 +65,7 @@ class Assertions_assertThatStream_Test {
   @Test
   void isInstanceOf_should_check_the_original_stream_without_consuming_it() {
     // GIVEN
-    Stream<?> stream = mock(Stream.class);
+    Stream<?> stream = mock();
     // WHEN
     assertThatStream(stream).isInstanceOf(Stream.class);
     // THEN
@@ -75,7 +75,7 @@ class Assertions_assertThatStream_Test {
   @Test
   void isInstanceOfAny_should_check_the_original_stream_without_consuming_it() {
     // GIVEN
-    Stream<?> stream = mock(Stream.class);
+    Stream<?> stream = mock();
     // WHEN
     assertThatStream(stream).isInstanceOfAny(Stream.class, String.class);
     // THEN
@@ -118,7 +118,7 @@ class Assertions_assertThatStream_Test {
   @Test
   void isSameAs_should_check_the_original_stream_without_consuming_it() {
     // GIVEN
-    Stream<?> stream = mock(Stream.class);
+    Stream<?> stream = mock();
     // WHEN
     assertThatStream(stream).isSameAs(stream);
     // THEN
@@ -128,7 +128,7 @@ class Assertions_assertThatStream_Test {
   @Test
   void isNotSameAs_should_check_the_original_stream_without_consuming_it() {
     // GIVEN
-    Stream<?> stream = mock(Stream.class);
+    Stream<?> stream = mock();
     // WHEN
     expectAssertionError(() -> assertThatStream(stream).isNotSameAs(stream));
     // THEN

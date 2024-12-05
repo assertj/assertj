@@ -55,7 +55,7 @@ class Assertions_catchException_Test {
   @Test
   void catchException_should_catch_mocked_throwable() {
     // GIVEN
-    Exception exception = mock(Exception.class);
+    Exception exception = mock();
     // WHEN
     Throwable actual = catchException(codeThrowing(exception));
     // THEN

@@ -56,7 +56,7 @@ class Assertions_assertThatIterator_Test {
   @Test
   void isEqualTo_should_honor_comparing_the_same_mocked_iterator() {
     // GIVEN
-    Iterator<?> iterator = mock(Iterator.class);
+    Iterator<?> iterator = mock();
     // WHEN/THEN
     assertThatIterator(iterator).isEqualTo(iterator);
   }
@@ -64,7 +64,7 @@ class Assertions_assertThatIterator_Test {
   @Test
   void should_not_consume_iterator_when_asserting_non_null() {
     // GIVEN
-    Iterator<?> iterator = mock(Iterator.class);
+    Iterator<?> iterator = mock();
     // WHEN
     assertThatIterator(iterator).isNotNull();
     // THEN
@@ -74,7 +74,7 @@ class Assertions_assertThatIterator_Test {
   @Test
   void isInstanceOf_should_check_the_original_iterator_without_consuming_it() {
     // GIVEN
-    Iterator<?> iterator = mock(Iterator.class);
+    Iterator<?> iterator = mock();
     // WHEN
     assertThatIterator(iterator).isInstanceOf(Iterator.class);
     // THEN
@@ -84,7 +84,7 @@ class Assertions_assertThatIterator_Test {
   @Test
   void isInstanceOfAny_should_check_the_original_iterator_without_consuming_it() {
     // GIVEN
-    Iterator<?> iterator = mock(Iterator.class);
+    Iterator<?> iterator = mock();
     // WHEN
     then(iterator).isInstanceOfAny(Iterator.class, String.class);
     // THEN
@@ -127,7 +127,7 @@ class Assertions_assertThatIterator_Test {
   @Test
   void isSameAs_should_check_the_original_iterator_without_consuming_it() {
     // GIVEN
-    Iterator<?> iterator = mock(Iterator.class);
+    Iterator<?> iterator = mock();
     // WHEN
     assertThatIterator(iterator).isSameAs(iterator);
     // THEN
@@ -137,7 +137,7 @@ class Assertions_assertThatIterator_Test {
   @Test
   void isNotSameAs_should_check_the_original_iterator_without_consuming_it() {
     // GIVEN
-    Iterator<?> iterator = mock(Iterator.class);
+    Iterator<?> iterator = mock();
     // WHEN
     expectAssertionError(() -> assertThatIterator(iterator).isNotSameAs(iterator));
     // THEN
