@@ -33,16 +33,16 @@ class ShouldNotContainThrowable_create_Test {
   @Test
   void should_create_error_message_with_escaping_percent() {
     // GIVEN
-    RuntimeException actual = new RuntimeException("You know nothing %");
+    RuntimeException actual = new RuntimeException("You know nothing % Jon Snow");
     // WHEN
-    String errorMessage = shouldNotContain(actual, "You know nothing % Jon Snow").create(new TestDescription("TEST"));
+    String errorMessage = shouldNotContain(actual, "You know nothing %").create(new TestDescription("TEST"));
     // THEN
     then(errorMessage).isEqualTo("[TEST] %n" +
                                  "Expecting throwable message:%n" +
-                                 "  \"You know nothing %%\"%n" +
-                                 "not to contain:%n" +
                                  "  \"You know nothing %% Jon Snow\"%n" +
-                                 "but found:%n" +
+                                 "not to contain:%n" +
+                                 "  \"You know nothing %%\"%n" +
+                                 "but did:%n" +
                                  "%n" +
                                  "Throwable that failed the check:%n" +
                                  "%n%s", getStackTrace(actual));
@@ -51,19 +51,19 @@ class ShouldNotContainThrowable_create_Test {
   @Test
   void should_create_error_message_with_several_values_not_found() {
     // GIVEN
-    RuntimeException actual = new RuntimeException("You know nothing");
-    String[] sequence = array("You", "know", "nothing", "Jon", "Snow");
-    Set<String> notFound = newSet("Jon", "Snow");
+    RuntimeException actual = new RuntimeException("You know nothing Jon Snow");
+    String[] sequence = array("You", "know", "nothing");
+    Set<String> found = newSet("You", "know", "nothing");
     // WHEN
-    String errorMessage = shouldNotContain(actual, sequence, notFound).create(new TestDescription("TEST"));
+    String errorMessage = shouldNotContain(actual, sequence, found).create(new TestDescription("TEST"));
     // THEN
     then(errorMessage).isEqualTo("[TEST] %n" +
                                  "Expecting throwable message:%n" +
-                                 "  \"You know nothing\"%n" +
+                                 "  \"You know nothing Jon Snow\"%n" +
                                  "not to contain:%n" +
-                                 "  [\"You\", \"know\", \"nothing\", \"Jon\", \"Snow\"]%n" +
+                                 "  [\"You\", \"know\", \"nothing\"]%n" +
                                  "but found:%n" +
-                                 "  [\"Jon\", \"Snow\"]%n" +
+                                 "  [\"You\", \"know\", \"nothing\"]%n" +
                                  "%n" +
                                  "Throwable that failed the check:%n" +
                                  "%n%s", getStackTrace(actual));
