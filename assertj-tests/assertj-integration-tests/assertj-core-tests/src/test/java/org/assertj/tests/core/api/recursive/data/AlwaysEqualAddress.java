@@ -12,8 +12,6 @@
  */
 package org.assertj.tests.core.api.recursive.data;
 
-import org.assertj.tests.core.api.recursive.data.Address;
-
 public class AlwaysEqualAddress extends Address {
 
   @Override
