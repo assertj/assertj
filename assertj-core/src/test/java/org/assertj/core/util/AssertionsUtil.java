@@ -31,7 +31,7 @@ public class AssertionsUtil {
   public static final Charset TURKISH_CHARSET = forName("windows-1254");
 
   public static AssertionError expectAssertionError(ThrowingCallable shouldRaiseAssertionError) {
-    AssertionError error = catchThrowableOfType(shouldRaiseAssertionError, AssertionError.class);
+    AssertionError error = catchThrowableOfType(AssertionError.class, shouldRaiseAssertionError);
     assertThat(error).as("The code under test should have raised an AssertionError").isNotNull();
     return error;
   }
