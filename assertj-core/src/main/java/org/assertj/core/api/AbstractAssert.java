@@ -1005,24 +1005,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return assertionErrorCreator.multipleAssertionsError(info.description(), assertionErrors);
   }
 
-  private boolean satisfiesAssertions(Consumer<? super ACTUAL> assertions) {
-    try {
-      assertions.accept(actual);
-    } catch (@SuppressWarnings("unused") AssertionError e) {
-      return false;
-    }
-    return true;
-  }
-
-  private AssertionError catchAssertionError(Consumer<? super ACTUAL> assertions) {
-    try {
-      assertions.accept(actual);
-    } catch (AssertionError assertionError) {
-      return assertionError;
-    }
-    throw new IllegalStateException("Shouldn't arrived here, assertions should have raised an AssertionError (please file a bug)");
-  }
-
   private SELF matches(Predicate<? super ACTUAL> predicate, PredicateDescription predicateDescription) {
     requireNonNull(predicate, "The predicate must not be null");
     if (predicate.test(actual)) return myself;
