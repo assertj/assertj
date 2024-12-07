@@ -69,7 +69,7 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
                     "  %s%n" +
                     "not to contain:%n" +
                     "  %s%n" +
-                    "but found:%n" +
+                    "but did:%n" +
                     "%n" +
                     "Throwable that failed the check:%n" +
                     "%n" + escapePercent(getStackTrace(actual)); // to avoid AssertJ default String formatting
