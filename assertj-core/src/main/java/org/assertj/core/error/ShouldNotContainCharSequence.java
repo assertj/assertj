@@ -12,6 +12,9 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 import java.util.Set;
 
 import org.assertj.core.internal.ComparisonStrategy;
@@ -58,6 +61,36 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldNotContain(CharSequence actual, CharSequence sequence) {
     return shouldNotContain(actual, sequence, StandardComparisonStrategy.instance());
+  }
+
+  public static ErrorMessageFactory shouldNotContain(Throwable actual, CharSequence sequence) {
+    String format = "%n" +
+                    "Expecting throwable message:%n" +
+                    "  %s%n" +
+                    "not to contain:%n" +
+                    "  %s%n" +
+                    "but found:%n" +
+                    "%n" +
+                    "Throwable that failed the check:%n" +
+                    "%n" + escapePercent(getStackTrace(actual)); // to avoid AssertJ default String formatting
+
+    return new ShouldNotContainCharSequence(format, actual.getMessage(), sequence, StandardComparisonStrategy.instance());
+  }
+
+  public static ErrorMessageFactory shouldNotContain(Throwable actual, CharSequence[] sequence,
+                                                     Set<? extends CharSequence> found) {
+    String format = "%n" +
+                    "Expecting throwable message:%n" +
+                    "  %s%n" +
+                    "not to contain:%n" +
+                    "  %s%n" +
+                    "but found:%n" +
+                    "  %s%n" +
+                    "%n" +
+                    "Throwable that failed the check:%n" +
+                    "%n" + escapePercent(getStackTrace(actual)); // to avoid AssertJ default String formatting
+
+    return new ShouldNotContainCharSequence(format, actual.getMessage(), sequence, found, StandardComparisonStrategy.instance());
   }
 
   /**

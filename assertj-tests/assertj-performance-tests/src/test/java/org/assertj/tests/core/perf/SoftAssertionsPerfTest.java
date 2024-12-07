@@ -289,27 +289,8 @@ class SoftAssertionsPerfTest {
       this.name = name;
     }
 
-    private String getName() {
-      return name;
-    }
-
     private List<CartoonCharacter> getChildren() {
       return children;
-    }
-
-    private List<CartoonCharacter> getChildrenWithException() throws Exception {
-      if (children.isEmpty()) {
-        throw new Exception("Should have children");
-      }
-      return children;
-    }
-
-    private CartoonCharacter[] getChildrenArray() {
-      return children.toArray(new CartoonCharacter[0]);
-    }
-
-    private void addChildren(CartoonCharacter... kids) {
-      children.addAll(asList(kids));
     }
 
     @Override

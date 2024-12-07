@@ -21,8 +21,6 @@ import static org.assertj.core.api.Assumptions.setPreferredAssumptionException;
 import static org.assertj.core.configuration.PreferredAssumptionException.JUNIT5;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 
-import org.assertj.core.api.Assumptions;
-import org.assertj.core.configuration.PreferredAssumptionException;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.TestAbortedException;
 

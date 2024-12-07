@@ -66,7 +66,7 @@ class Throwables_assertHasMessageNotContainingAny_Test extends ThrowablesBaseTes
     // WHEN
     expectAssertionError(() -> throwables.assertHasMessageNotContainingAny(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual.getMessage(), content), actual.getMessage(), content);
+    verify(failures).failure(INFO, shouldNotContain(actual, content), actual.getMessage(), content);
   }
 
   @Test
@@ -76,8 +76,6 @@ class Throwables_assertHasMessageNotContainingAny_Test extends ThrowablesBaseTes
     // WHEN
     expectAssertionError(() -> throwables.assertHasMessageNotContainingAny(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual.getMessage(), content, singleton("message"),
-                                                    StandardComparisonStrategy.instance()),
-                             actual.getMessage(), content);
+    verify(failures).failure(INFO, shouldNotContain(actual, content, singleton("message")), actual.getMessage(), content);
   }
 }
