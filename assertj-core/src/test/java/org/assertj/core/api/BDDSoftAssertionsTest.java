@@ -220,7 +220,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then((Iterable<String>) list("26")).isEqualTo(list("27"));
     softly.then(list("28").iterator()).isExhausted();
     softly.then(list("30")).isEqualTo(list("31"));
-    softly.then(Long.valueOf(32L)).isEqualTo(new Long(33L));
+    softly.then(Long.valueOf(32L)).isEqualTo(Long.valueOf(33L));
     softly.then(34L).isEqualTo(35L);
     softly.then(new long[] { 36L }).isEqualTo(new long[] { 37L });
     softly.then(mapOf(MapEntry.entry("38", "39"))).isEqualTo(mapOf(MapEntry.entry("40", "41")));

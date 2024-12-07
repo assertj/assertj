@@ -14,7 +14,6 @@ package org.assertj.tests.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatObject;
-import static org.assertj.core.util.Lists.list;
 
 import java.util.LinkedList;
 import java.util.List;

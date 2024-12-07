@@ -18,8 +18,6 @@ import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
 
-import org.assertj.tests.core.api.recursive.data.HomeDto;
-
 public class PersonDto {
   public Date dateOfBirth;
   public String name;

@@ -1464,7 +1464,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} is equal to the content of the given file.
    * <p>
-   * This is an handy shortcut that calls : {@code isXmlEqualTo(contentOf(xmlFile))}
+   * This is a handy shortcut that calls : {@code isXmlEqualTo(contentOf(xmlFile))}
    * </p>
    * Example:
    * <pre><code class='java'> // You can easily compare your XML String to the content of an XML file, whatever how formatted they are.
