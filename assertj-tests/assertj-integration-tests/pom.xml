@@ -15,7 +15,6 @@
 
   <modules>
     <module>assertj-core-junit4-with-opentest4j</module>
-    <module>assertj-core-kotlin</module>
     <module>assertj-core-spring-boot</module>
     <module>assertj-core-testng-with-junit4</module>
     <module>assertj-core-tests</module>
@@ -30,6 +29,7 @@
       </activation>
       <modules>
         <module>assertj-core-groovy</module>
+        <module>assertj-core-kotlin</module>
         <module>assertj-core-osgi</module> <!-- https://github.com/bndtools/bnd/issues/6370 -->
       </modules>
     </profile>
