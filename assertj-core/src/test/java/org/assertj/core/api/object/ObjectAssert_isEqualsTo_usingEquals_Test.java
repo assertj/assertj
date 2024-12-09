@@ -22,8 +22,6 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ObjectAssert#isEqualTo(Object)} (Object)}</code>.
- *
- * @author Nicolas François
  */
 class ObjectAssert_isEqualsTo_usingEquals_Test {
 

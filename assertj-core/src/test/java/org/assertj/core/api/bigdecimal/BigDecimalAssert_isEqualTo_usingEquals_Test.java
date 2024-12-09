@@ -24,8 +24,6 @@ import static org.assertj.core.testkit.BiPredicates.ALWAYS_EQUALS;
 
 /**
  * Tests for <code>{@link BigDecimalAssert#usingEquals(BiPredicate)}</code>.
- * 
- * @author Joel Costigliola
  */
 class BigDecimalAssert_isEqualTo_usingEquals_Test {
 
