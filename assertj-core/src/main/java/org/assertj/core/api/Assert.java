@@ -15,6 +15,7 @@ package org.assertj.core.api;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
 import org.assertj.core.presentation.Representation;
@@ -270,6 +271,36 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @return {@code this} assertion object.
    */
   SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription);
+
+  /**
+   * Uses the given custom {@link BiPredicate} instead of relying on actual type A {@code equals} method
+   * for incoming assertion checks.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // frodo and sam are instances of Character with Hobbit race (obviously :).
+   * // raceComparator implements Comparator&lt;Character&gt;
+   * assertThat(frodo).usingEquals((f, s) -> f.race() == s.race() && s.isRingBearer()).isEqualTo(sam);</code></pre>
+   *
+   * @param predicate the predicate to use for the incoming assertion checks.
+   * @throws NullPointerException if the given biPredicate is {@code null}.
+   * @return {@code this} assertion object.
+   */
+  SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate);
+
+  /**
+   * Uses the given custom {@link BiPredicate} instead of relying on actual type A {@code equals} method
+   * for incoming assertion checks.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // frodo and sam are instances of Character with Hobbit race (obviously :).
+   * assertThat(frodo).usingEquals((f, s) -> f.race() == s.race() && s.wasARingBearer(), "Hobbit and The One Ring Bearer").isEqualTo(sam);</code></pre>
+   *
+   * @param predicate the predicate to use for the incoming assertion checks.
+   * @param customComparatorDescription comparator description to be used in assertion error messages
+   * @throws NullPointerException if the given comparator is {@code null}.
+   * @return {@code this} assertion object.
+   */
+  SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate, String customComparatorDescription);
 
   /**
    * Revert to standard comparison for the incoming assertion checks.
