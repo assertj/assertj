@@ -183,7 +183,7 @@ public class Lists {
     try {
       // Empty collections are considered sorted even if comparator can't be applied to their element type
       // We can't verify that point because of erasure type at runtime.
-      if (actual.size() == 0) return;
+      if (actual.isEmpty()) return;
       Comparator rawComparator = comparator;
       if (actual.size() == 1) {
         // Compare unique element with itself to verify that it is compatible with comparator (a ClassCastException is

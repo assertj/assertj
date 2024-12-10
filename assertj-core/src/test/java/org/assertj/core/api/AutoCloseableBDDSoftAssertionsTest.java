@@ -140,7 +140,7 @@ class AutoCloseableBDDSoftAssertionsTest {
       softly.then(OptionalInt.of(0)).isEqualTo(1);
       softly.then(OptionalDouble.of(0.0)).isEqualTo(1.0);
       softly.then(OptionalLong.of(0L)).isEqualTo(1L);
-      softly.then(LocalTime.of(12, 00)).isEqualTo(LocalTime.of(13, 00));
+      softly.then(LocalTime.of(12, 0)).isEqualTo(LocalTime.of(13, 0));
       softly.then(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
       softly.then(OffsetDateTime.MIN).isEqualTo(OffsetDateTime.MAX);
 

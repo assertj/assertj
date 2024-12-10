@@ -81,7 +81,7 @@ class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveCo
     BookWithCoAuthor expected = new BookWithCoAuthor(pratchett);
     // WHEN/THEN
     compareRecursivelyFailsWithDifferences(actual, expected,
-                                           diff("bookId", null, 0l),
+                                           diff("bookId", null, 0L),
                                            javaTypeDiff("coAuthor", Optional.of(pratchett), pratchett),
                                            diff("numberOfPages", null, 0),
                                            diff("price", null, 0.0));
@@ -95,7 +95,7 @@ class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends RecursiveCo
     BookWithOptionalCoAuthor expected = new BookWithOptionalCoAuthor(pratchett.name);
     // WHEN/THEN
     compareRecursivelyFailsWithDifferences(actual, expected,
-                                           diff("bookId", 0l, null),
+                                           diff("bookId", 0L, null),
                                            diff("coAuthor", pratchett, Optional.of(pratchett),
                                                 "expected field is an Optional but actual field is not (org.assertj.tests.core.api.recursive.comparison.Author)"),
                                            diff("numberOfPages", 0, null),

@@ -272,7 +272,7 @@ public class Arrays {
     for (Object element : actual) {
       if (element != null) nonNullElements.add(element);
     }
-    if (nonNullElements.size() > 0) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
+    if (!nonNullElements.isEmpty()) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
 
   void assertContainsExactly(AssertionInfo info, Failures failures, Object actual, Object values) {
@@ -541,7 +541,7 @@ public class Arrays {
         extra.add(actualElement);
       }
     }
-    if (extra.size() > 0) {
+    if (!extra.isEmpty()) {
       throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
     }
   }
@@ -704,7 +704,7 @@ public class Arrays {
     try {
       List<T> arrayAsList = asList(array);
       // empty arrays are considered sorted even if comparator can't be applied to <T>.
-      if (arrayAsList.size() == 0) return;
+      if (arrayAsList.isEmpty()) return;
       if (arrayAsList.size() == 1) {
         // call compare to see if unique element is compatible with comparator.
         comparator.compare(arrayAsList.get(0), arrayAsList.get(0));
