@@ -21,8 +21,10 @@ import java.util.List;
  * Build the Assert instance by reflection.
  * 
  * @since 2.5.0 / 3.5.0
+ * @deprecated Use {@link FactoryBasedNavigableListAssert} instead.
  */
 //@format:off
+@Deprecated
 public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
                                            ACTUAL extends List<? extends ELEMENT>, 
                                            ELEMENT, 

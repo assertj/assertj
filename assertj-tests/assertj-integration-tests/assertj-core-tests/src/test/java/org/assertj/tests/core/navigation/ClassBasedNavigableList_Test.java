@@ -23,6 +23,7 @@ import org.assertj.tests.core.testkit.VehicleAssert;
 import org.assertj.tests.core.testkit.VehicleFactory;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("deprecation")
 class ClassBasedNavigableList_Test extends BaseNavigableListAssert_Test {
 
   @Override
