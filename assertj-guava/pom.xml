@@ -160,8 +160,8 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <links>
-            <link>https://javadoc.io/doc/com.google.guava/guava/${guava.version}</link>
-            <link>https://javadoc.io/doc/org.assertj/assertj-core/${project.version}</link>
+            <link>https://javadoc.io/static/com.google.guava/guava/${guava.version}</link>
+            <link>https://javadoc.io/static/org.assertj/assertj-core/${project.version}</link>
           </links>
         </configuration>
       </plugin>

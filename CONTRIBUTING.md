@@ -1,7 +1,7 @@
 Contributing
 ============
 
-We appreciate your interest in contributing to AssertJ!
+Thank you for your interest in contributing to AssertJ!
 
 We appreciate your effort, and to make sure that your pull request is easy to review, we ask you to note the following guidelines, including legal contributor agreement:
 
