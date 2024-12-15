@@ -71,7 +71,7 @@ Let's look at the `Throwables_assertHasNoCause_Test` test method names (undersco
 * `should_fail_if_actual_is_null`
 * `should_fail_if_actual_has_a_cause`
 
-A good Javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`](src/main/java/org/assertj/core/api/AbstractCharSequenceAssert.java) including:
+A good Javadoc example taken from [`AbstractCharSequenceAssert.containsSequence`](assertj-core/src/main/java/org/assertj/core/api/AbstractCharSequenceAssert.java) including:
 * assertion description
 * a code example showing how to use the assertion (succeeding and failing assertion)
 * parameters description (if any)
