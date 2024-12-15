@@ -15,19 +15,35 @@ package org.assertj.core.error;
 import static java.lang.String.format;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.presentation.Representation;
 
 public class UnsatisfiedRequirement {
 
   private final Object elementNotSatisfyingRequirements;
   private final String errorMessage;
+  private final AssertionError error;
 
+  /**
+   * @param elementNotSatisfyingRequirements object not satisfying the requirement
+   * @param errorMessage                     requirement error message
+   * @deprecated use {@link UnsatisfiedRequirement#UnsatisfiedRequirement(Object, AssertionError)} instead.
+   */
+  @Deprecated
   public UnsatisfiedRequirement(Object elementNotSatisfyingRequirements, String errorMessage) {
     this.elementNotSatisfyingRequirements = elementNotSatisfyingRequirements;
     this.errorMessage = errorMessage;
+    this.error = null;
+  }
+
+  public UnsatisfiedRequirement(Object elementNotSatisfyingRequirements, AssertionError error) {
+    this.elementNotSatisfyingRequirements = elementNotSatisfyingRequirements;
+    this.errorMessage = error.getMessage();
+    this.error = error;
   }
 
   public String describe(AssertionInfo info) {
-    return format("%s%nerror: %s", info.representation().toStringOf(elementNotSatisfyingRequirements), errorMessage);
+    Representation representation = info.representation();
+    return format("%s%nerror: %s", representation.toStringOf(elementNotSatisfyingRequirements), describeError(representation));
   }
 
   @Override
@@ -36,9 +52,14 @@ public class UnsatisfiedRequirement {
   }
 
   public String describe(int index, AssertionInfo info) {
+    Representation representation = info.representation();
     return format("%s%n" +
                   "- element index: %s%n" +
                   "- error: %s",
-                  info.representation().toStringOf(elementNotSatisfyingRequirements), index, errorMessage);
+                  representation.toStringOf(elementNotSatisfyingRequirements), index, describeError(representation));
+  }
+
+  private String describeError(Representation representation) {
+    return error != null ? representation.toStringOf(error) : errorMessage;
   }
 }

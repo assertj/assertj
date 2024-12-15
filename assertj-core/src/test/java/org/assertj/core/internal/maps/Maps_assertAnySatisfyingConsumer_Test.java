@@ -16,27 +16,22 @@ import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
-import static org.assertj.core.error.ElementsShouldSatisfy.unsatisfiedRequirement;
 import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.list;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.function.BiConsumer;
 
-import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.internal.MapsBaseTest;
 import org.assertj.core.testkit.Player;
 import org.junit.jupiter.api.BeforeEach;
@@ -89,21 +84,21 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
     AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), actual,
                                                                             ($1, $2) -> assertThat(true).isTrue()));
     // THEN
-    assertThat(error).hasMessage(elementsShouldSatisfyAny(actual, emptyList(), someInfo()).create());
+    then(error).hasMessage(elementsShouldSatisfyAny(actual, emptyList(), someInfo()).create());
   }
 
   @Test
   void should_fail_if_no_entry_satisfies_the_given_requirements() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), actual,
-                                                                            ($1, $2) -> assertThat(true).isFalse()));
+    BiConsumer<String, String> requirements = ($1, $2) -> assertThat(true).isFalse();
+    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), actual, requirements));
     // THEN
-    Iterator<Entry<String, String>> actualEntries = actual.entrySet().iterator();
-    List<UnsatisfiedRequirement> errors = list(unsatisfiedRequirement(actualEntries.next(),
-                                                                      format("%nExpecting value to be false but was true")),
-                                               unsatisfiedRequirement(actualEntries.next(),
-                                                                      format("%nExpecting value to be false but was true")));
-    assertThat(error).hasMessage(elementsShouldSatisfyAny(actual, errors, someInfo()).create());
+    // can't build the exact error message due to internal stack traces
+    then(error).hasMessageStartingWith(format("%n" +
+                                              "Expecting any element of:%n" +
+                                              "  %s%n" +
+                                              "to satisfy the given assertions requirements but none did:%n%n",
+                                              info.representation().toStringOf(actual)));
   }
 
   @Test
@@ -111,7 +106,7 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), null, (team, player) -> {}));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -119,4 +114,5 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
     assertThatNullPointerException().isThrownBy(() -> maps.assertAnySatisfy(someInfo(), greatPlayers, null))
                                     .withMessage("The BiConsumer<K, V> expressing the assertions requirements must not be null");
   }
+
 }

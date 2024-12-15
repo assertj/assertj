@@ -1193,7 +1193,7 @@ public class Iterables {
     try {
       requirements.accept(element);
     } catch (AssertionError ex) {
-      return Optional.of(new UnsatisfiedRequirement(element, ex.getMessage()));
+      return Optional.of(new UnsatisfiedRequirement(element, ex));
     }
     return Optional.empty();
   }

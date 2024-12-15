@@ -115,7 +115,7 @@ public class Maps {
     try {
       entryRequirements.accept(entry.getKey(), entry.getValue());
     } catch (AssertionError ex) {
-      return Optional.of(new UnsatisfiedRequirement(entry, ex.getMessage()));
+      return Optional.of(new UnsatisfiedRequirement(entry, ex));
     }
     return Optional.empty();
   }
