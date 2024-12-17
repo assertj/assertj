@@ -13,8 +13,8 @@
 package org.assertj.tests.guava.api;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
@@ -27,7 +27,9 @@ public class TableAssert_isEmpty_Test extends TableAssertBaseTest {
 
   @Test
   public void should_pass_if_actual_is_empty() {
+    // GIVEN
     actual.clear();
+    // WHEN/THEN
     assertThat(actual).isEmpty();
   }
 
@@ -36,19 +38,19 @@ public class TableAssert_isEmpty_Test extends TableAssertBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).isEmpty());
+    Throwable thrown = catchThrowable(() -> assertThat(actual).isEmpty());
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(actualIsNull());
+    then(thrown).isInstanceOf(AssertionError.class)
+                .hasMessage(actualIsNull());
   }
 
   @Test
   public void should_fail_if_actual_is_not_empty() {
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).isEmpty());
+    Throwable thrown = catchThrowable(() -> assertThat(actual).isEmpty());
     // THEN
-    assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(format("%nExpecting empty but was: {1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}"));
+    then(thrown).isInstanceOf(AssertionError.class)
+                .hasMessage(format("%nExpecting empty but was: {1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}"));
   }
 
 }

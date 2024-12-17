@@ -21,14 +21,12 @@ import static org.assertj.guava.error.TableShouldContainRows.tableShouldContainR
 import static org.assertj.guava.error.TableShouldHaveColumnCount.tableShouldHaveColumnCount;
 import static org.assertj.guava.error.TableShouldHaveRowCount.tableShouldHaveRowCount;
 
+import com.google.common.collect.Sets;
+import com.google.common.collect.Table;
 import java.util.Set;
-
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.error.ShouldBeEmpty;
 import org.assertj.core.error.ShouldNotBeEmpty;
-
-import com.google.common.collect.Sets;
-import com.google.common.collect.Table;
 
 /**
  * @author Jan Gorman
@@ -317,6 +315,8 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
    * @return this {@link TableAssert} for assertion chaining.
    * @throws AssertionError if the actual {@link Table} is {@code null}.
    * @throws AssertionError if the actual {@link Table} is empty.
+   *
+   * @since 3.27.0
    */
   public TableAssert<R, C, V> isNotEmpty() {
     isNotNull();

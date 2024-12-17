@@ -37,10 +37,10 @@ class TableAssert_isNotEmpty_Test extends TableAssertBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).isNotEmpty());
+    Throwable thrown = catchThrowable(() -> assertThat(actual).isNotEmpty());
     // THEN
-    then(throwable).isInstanceOf(AssertionError.class)
-                   .hasMessage(actualIsNull());
+    then(thrown).isInstanceOf(AssertionError.class)
+                .hasMessage(actualIsNull());
   }
 
   @Test
@@ -48,10 +48,10 @@ class TableAssert_isNotEmpty_Test extends TableAssertBaseTest {
     // GIVEN
     actual.clear();
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat(actual).isNotEmpty());
+    Throwable thrown = catchThrowable(() -> assertThat(actual).isNotEmpty());
     // THEN
-    then(throwable).isInstanceOf(AssertionError.class)
-                   .hasMessage(format("%nExpecting actual not to be empty"));
+    then(thrown).isInstanceOf(AssertionError.class)
+                .hasMessage(format("%nExpecting actual not to be empty"));
   }
 
   @Test
