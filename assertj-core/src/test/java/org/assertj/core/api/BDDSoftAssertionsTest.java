@@ -278,7 +278,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(LocalDateTime.now()).withFailMessage("LocalDateTime check").isBefore(LocalDateTime.now().minusSeconds(10));
     softly.then(LocalDate.now()).withFailMessage("LocalDate check").isBefore(LocalDate.now().minusDays(1));
     softly.then(emptySpliterator()).withFailMessage("Spliterator check").hasCharacteristics(123);
-    softly.then(new LongAdder()).withFailMessage("LongAdder check").hasValue(123l);
+    softly.then(new LongAdder()).withFailMessage("LongAdder check").hasValue(123L);
     // WHEN
     MultipleFailuresError error = catchThrowableOfType(() -> softly.assertAll(), MultipleFailuresError.class);
     // THEN

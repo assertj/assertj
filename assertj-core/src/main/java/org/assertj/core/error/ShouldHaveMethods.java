@@ -77,7 +77,7 @@ public class ShouldHaveMethods extends BasicErrorMessageFactory {
           "Expecting%n" +
           "  %s%n" +
           "not to have any " + (declared ? "declared " : "")
-          + (modifier != null && modifier.length() > 0 ? modifier + " " : "") + "methods but it has the following:%n" +
+          + (modifier != null && !modifier.isEmpty() ? modifier + " " : "") + "methods but it has the following:%n" +
           "  %s", actual, actualMethodsHavingModifier);
   }
 }

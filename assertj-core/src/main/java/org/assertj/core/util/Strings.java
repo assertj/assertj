@@ -30,7 +30,7 @@ public final class Strings {
    * @return {@code true} if the given {@code String} is {@code null} or empty, otherwise {@code false}.
    */
   public static boolean isNullOrEmpty(String s) {
-    return s == null || s.length() == 0;
+    return s == null || s.isEmpty();
   }
 
   /**

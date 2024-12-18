@@ -70,7 +70,7 @@ public class Properties<T> {
 
   private static void checkIsNotNullOrEmpty(String propertyName) {
     requireNonNull(propertyName, "The name of the property to read should not be null");
-    checkArgument(propertyName.length() > 0, "The name of the property to read should not be empty");
+    checkArgument(!propertyName.isEmpty(), "The name of the property to read should not be empty");
   }
 
   @VisibleForTesting

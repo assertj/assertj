@@ -29,7 +29,7 @@ class AbstractAssert_isNotEqualTo_Test extends AbstractAssertBaseTest {
 
   @Override
   protected ConcreteAssert invoke_api_method() {
-    return assertions.isNotEqualTo(Long.valueOf(8l));
+    return assertions.isNotEqualTo(Long.valueOf(8L));
   }
 
   @Test
