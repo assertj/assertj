@@ -14,8 +14,6 @@ package org.assertj.tests.core.api.recursive.data;
 
 import java.util.Date;
 
-import org.assertj.tests.core.api.recursive.data.Person;
-
 public class PersonDtoWithPersonNeighbour {
   public Date dateOfBirth;
   public String name;

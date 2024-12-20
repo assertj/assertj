@@ -458,7 +458,7 @@ public class Paths {
 
   private void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, Filter<Path> filter, String filterPresentation) {
     List<Path> matchingPaths = filterDirectory(info, actual, filter);
-    if (matchingPaths.size() > 0) {
+    if (!matchingPaths.isEmpty()) {
       throw failures.failure(info, directoryShouldNotContain(actual, matchingPaths, filterPresentation));
     }
   }

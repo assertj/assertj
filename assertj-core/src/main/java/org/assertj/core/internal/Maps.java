@@ -115,7 +115,7 @@ public class Maps {
     try {
       entryRequirements.accept(entry.getKey(), entry.getValue());
     } catch (AssertionError ex) {
-      return Optional.of(new UnsatisfiedRequirement(entry, ex.getMessage()));
+      return Optional.of(new UnsatisfiedRequirement(entry, ex));
     }
     return Optional.empty();
   }
@@ -145,7 +145,7 @@ public class Maps {
                                                .map(Optional::get)
                                                .collect(toList());
 
-    if (erroneousEntries.size() > 0) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousEntries));
+    if (!erroneousEntries.isEmpty()) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousEntries));
   }
 
   private <V, K> Optional<Entry<K, V>> failsRestrictions(Entry<K, V> entry,

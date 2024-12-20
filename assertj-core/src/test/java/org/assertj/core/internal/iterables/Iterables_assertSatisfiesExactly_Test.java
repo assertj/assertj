@@ -12,25 +12,19 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static com.google.common.collect.Maps.newHashMap;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyExactly;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
-import static org.assertj.core.util.Maps.newHashMap;
-import static org.mockito.Mockito.verify;
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
-import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -65,10 +59,15 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
                                             name -> assertThat(name).startsWith("Han"),
                                             name -> assertThat(name).endsWith("da"));
     // WHEN
-    expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
+    AssertionError error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
-    UnsatisfiedRequirement re = new UnsatisfiedRequirement("Leia", shouldStartWith("Leia", "Han").create());
-    verify(failures).failure(info, elementsShouldSatisfyExactly(actual, newHashMap(1, re), info));
+    // can't build the exact error message due to internal stack traces
+    then(error).hasMessageStartingWith(format("%n" +
+                                              "Expecting each element of:%n" +
+                                              "  %s%n" +
+                                              "to satisfy the requirements at its index, but these elements did not:%n%n",
+                                              info.representation().toStringOf(actual)))
+               .hasMessageContaining(shouldStartWith("Leia", "Han").create());
   }
 
   @Test
@@ -78,27 +77,37 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
                                             name -> assertThat(name).startsWith("Han"),
                                             name -> assertThat(name).startsWith("Io"));
     // WHEN
-    expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
+    AssertionError error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
-    Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements = newHashMap();
-    unsatisfiedRequirements.put(1, new UnsatisfiedRequirement("Leia", shouldStartWith("Leia", "Han").create()));
-    unsatisfiedRequirements.put(2, new UnsatisfiedRequirement("Yoda", shouldStartWith("Yoda", "Io").create()));
-    verify(failures).failure(info, elementsShouldSatisfyExactly(actual, unsatisfiedRequirements, info));
+    // can't build the exact error message due to internal stack traces
+    then(error).hasMessageStartingWith(format("%n" +
+                                              "Expecting each element of:%n" +
+                                              "  %s%n" +
+                                              "to satisfy the requirements at its index, but these elements did not:%n%n",
+                                              info.representation().toStringOf(actual)))
+               .hasMessageContaining(shouldStartWith("Leia", "Han").create())
+               .hasMessageContaining(shouldStartWith("Yoda", "Io").create());
   }
 
   @Test
-  void should_fail_when_requirements_are_met_but_in_the_right_order() {
+  void should_fail_when_requirements_are_met_but_not_in_the_right_order() {
     // GIVEN
     Consumer<String>[] requirements = array(name -> assertThat(name).isNotBlank(),
                                             name -> assertThat(name).startsWith("Yo"),
                                             name -> assertThat(name).startsWith("Lei"));
     // WHEN
-    expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
-    Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements = newHashMap();
-    unsatisfiedRequirements.put(1, new UnsatisfiedRequirement("Leia", shouldStartWith("Leia", "Yo").create()));
-    unsatisfiedRequirements.put(2, new UnsatisfiedRequirement("Yoda", shouldStartWith("Yoda", "Lei").create()));
-    verify(failures).failure(info, elementsShouldSatisfyExactly(actual, unsatisfiedRequirements, info));
+    // can't build the exact error message due to internal stack traces
+    then(error).hasMessageStartingWith(format("%n" +
+                                              "Expecting each element of:%n" +
+                                              "  %s%n" +
+                                              "to satisfy the requirements at its index, but these elements did not:%n%n",
+                                              info.representation().toStringOf(actual)))
+               .hasMessageContaining(shouldStartWith("Leia", "Yo").create())
+               .hasMessageContaining(shouldStartWith("Yoda", "Lei").create());
+
   }
 
   @Test

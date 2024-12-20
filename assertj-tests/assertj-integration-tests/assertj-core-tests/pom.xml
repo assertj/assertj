@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-integration-tests</artifactId>
-    <version>3.26.4-SNAPSHOT</version>
+    <version>3.27.1-SNAPSHOT</version>
   </parent>
 
   <artifactId>assertj-core-tests</artifactId>
@@ -29,7 +29,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>33.3.1-jre</version>
+      <version>33.4.0-jre</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -40,7 +40,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.17.4</version>
+      <version>3.17.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>

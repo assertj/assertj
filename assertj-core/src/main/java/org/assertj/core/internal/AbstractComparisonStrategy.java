@@ -61,12 +61,12 @@ public abstract class AbstractComparisonStrategy implements ComparisonStrategy {
 
   @Override
   public boolean isLessThan(Object actual, Object other) {
-    return !areEqual(actual, other) && !isGreaterThan(actual, other);
+    return !isGreaterThanOrEqualTo(actual, other);
   }
 
   @Override
   public boolean isLessThanOrEqualTo(Object actual, Object other) {
-    return areEqual(actual, other) || isLessThan(actual, other);
+    return !isGreaterThan(actual, other);
   }
 
   @Override

@@ -18,39 +18,50 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
+import org.assertj.guava.api.TableAssert;
 import org.junit.jupiter.api.Test;
 
 /**
- * @author Jan Gorman
+ * @author Maciej Kucharczyk
  */
-public class TableAssert_isEmpty_Test extends TableAssertBaseTest {
+class TableAssert_isNotEmpty_Test extends TableAssertBaseTest {
 
   @Test
-  public void should_pass_if_actual_is_empty() {
-    // GIVEN
-    actual.clear();
+  void should_pass_if_actual_is_not_empty() {
     // WHEN/THEN
-    assertThat(actual).isEmpty();
+    assertThat(actual).isNotEmpty();
   }
 
   @Test
-  public void should_fail_if_actual_is_null() {
+  void should_fail_if_actual_is_null() {
     // GIVEN
     actual = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(actual).isEmpty());
+    Throwable thrown = catchThrowable(() -> assertThat(actual).isNotEmpty());
     // THEN
     then(thrown).isInstanceOf(AssertionError.class)
                 .hasMessage(actualIsNull());
   }
 
   @Test
-  public void should_fail_if_actual_is_not_empty() {
+  void should_fail_if_actual_is_empty() {
+    // GIVEN
+    actual.clear();
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(actual).isEmpty());
+    Throwable thrown = catchThrowable(() -> assertThat(actual).isNotEmpty());
     // THEN
     then(thrown).isInstanceOf(AssertionError.class)
-                .hasMessage(format("%nExpecting empty but was: {1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}"));
+                .hasMessage(format("%nExpecting actual not to be empty"));
+  }
+
+  @Test
+  void should_return_this() {
+    // GIVEN
+    TableAssert<Integer, Integer, String> assertion = assertThat(actual);
+    // WHEN
+    TableAssert<Integer, Integer, String> returnedAssertion = assertion.isNotEmpty();
+    // THEN
+    then(returnedAssertion).isSameAs(assertion);
   }
 
 }

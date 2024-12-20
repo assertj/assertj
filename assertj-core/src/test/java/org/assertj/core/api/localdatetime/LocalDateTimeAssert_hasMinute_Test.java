@@ -27,7 +27,7 @@ class LocalDateTimeAssert_hasMinute_Test {
   @Test
   void should_pass_if_actual_is_in_given_minute() {
     // GIVEN
-    LocalDateTime actual = LocalDateTime.of(2021, 12, 31, 23, 59, 00);
+    LocalDateTime actual = LocalDateTime.of(2021, 12, 31, 23, 59, 0);
     // WHEN/THEN
     then(actual).hasMinute(59);
   }
@@ -35,7 +35,7 @@ class LocalDateTimeAssert_hasMinute_Test {
   @Test
   void should_fail_if_actual_is_not_in_given_minute() {
     // GIVEN
-    LocalDateTime actual = LocalDateTime.of(2021, 12, 31, 23, 59, 00);
+    LocalDateTime actual = LocalDateTime.of(2021, 12, 31, 23, 59, 0);
     int expectedMinute = 58;
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMinute(expectedMinute));

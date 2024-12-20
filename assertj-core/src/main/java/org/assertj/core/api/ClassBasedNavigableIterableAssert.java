@@ -18,8 +18,10 @@ import java.lang.reflect.Constructor;
  * Build the Assert instance by reflection.
  * 
  * @since 2.5.0 / 3.5.0
+ * @deprecated Use {@link FactoryBasedNavigableIterableAssert} instead.
  */
-// @format:off
+//@format:off
+@Deprecated
 public class ClassBasedNavigableIterableAssert<SELF extends ClassBasedNavigableIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                                ACTUAL extends Iterable<? extends ELEMENT>, 
                                                ELEMENT, 

@@ -259,7 +259,7 @@ public class Throwables {
   public void assertHasMessageNotContaining(AssertionInfo info, Throwable actual, String content) {
     assertNotNull(info, actual);
     if (actual.getMessage() == null || !actual.getMessage().contains(content)) return;
-    throw failures.failure(info, shouldNotContain(actual.getMessage(), content), actual.getMessage(), content);
+    throw failures.failure(info, shouldNotContain(actual, content), actual.getMessage(), content);
   }
 
   /**
@@ -278,10 +278,9 @@ public class Throwables {
                                             .collect(toCollection(LinkedHashSet::new));
     if (found.isEmpty()) return;
     if (found.size() == 1 && values.length == 1) {
-      throw failures.failure(info, shouldNotContain(actualMessage, values[0]), actualMessage, values[0]);
+      throw failures.failure(info, shouldNotContain(actual, values[0]), actualMessage, values[0]);
     }
-    throw failures.failure(info, shouldNotContain(actualMessage, values, found, StandardComparisonStrategy.instance()),
-                           actualMessage, values);
+    throw failures.failure(info, shouldNotContain(actual, values, found), actualMessage, values);
   }
 
   /**

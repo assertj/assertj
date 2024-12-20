@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.internal.Throwables;
 import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
@@ -66,7 +65,7 @@ class Throwables_assertHasMessageNotContainingAny_Test extends ThrowablesBaseTes
     // WHEN
     expectAssertionError(() -> throwables.assertHasMessageNotContainingAny(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual.getMessage(), content), actual.getMessage(), content);
+    verify(failures).failure(INFO, shouldNotContain(actual, content), actual.getMessage(), content);
   }
 
   @Test
@@ -76,8 +75,6 @@ class Throwables_assertHasMessageNotContainingAny_Test extends ThrowablesBaseTes
     // WHEN
     expectAssertionError(() -> throwables.assertHasMessageNotContainingAny(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual.getMessage(), content, singleton("message"),
-                                                    StandardComparisonStrategy.instance()),
-                             actual.getMessage(), content);
+    verify(failures).failure(INFO, shouldNotContain(actual, content, singleton("message")), actual.getMessage(), content);
   }
 }

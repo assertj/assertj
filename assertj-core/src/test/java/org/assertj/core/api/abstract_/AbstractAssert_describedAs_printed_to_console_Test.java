@@ -29,10 +29,8 @@ import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.description.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("AbstractAssert describedAs")
 class AbstractAssert_describedAs_printed_to_console_Test {
 
   private static ByteArrayOutputStream systemOutContent;
@@ -46,7 +44,7 @@ class AbstractAssert_describedAs_printed_to_console_Test {
   }
 
   @BeforeEach
-  void setUpStreams() {
+  void beforeAllTests() {
     Assertions.setPrintAssertionsDescription(true);
     systemOutContent = new ByteArrayOutputStream();
     System.setOut(new PrintStream(systemOutContent));
@@ -62,7 +60,7 @@ class AbstractAssert_describedAs_printed_to_console_Test {
   @Test
   void should_print_successful_assertions_description_to_console_with_new_line() {
     // GIVEN
-    String description = RandomStringUtils.randomAlphanumeric(20);
+    String description = RandomStringUtils.secure().nextAlphanumeric(20);
     // WHEN
     assertThat("abc").as(description + "1")
                      .startsWith("a")
@@ -77,23 +75,22 @@ class AbstractAssert_describedAs_printed_to_console_Test {
   @Test
   void should_print_successful_assertions_description_to_console_with_new_line_until_first_failed_assertion_included() {
     // GIVEN
-    String description = RandomStringUtils.randomAlphanumeric(20);
+    String description = RandomStringUtils.secure().nextAlphanumeric(20);
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat("abc").as(description + "1")
-                                                                .startsWith("a")
-                                                                .as(description + "2")
-                                                                .startsWith("b")
-                                                                .as("not printed as previous assertion failed")
-                                                                .endsWith("a"));
+    catchThrowable(() -> assertThat("abc").as(description + "1")
+                                          .startsWith("a")
+                                          .as(description + "2")
+                                          .startsWith("b")
+                                          .as("not printed as previous assertion failed")
+                                          .endsWith("a"));
     // THEN
-    then(throwable).isInstanceOf(AssertionError.class);
     then(systemOutContent).hasToString(format("%s%n%s%n", description + "1", description + "2"));
   }
 
   @Test
   void should_print_all_soft_assertions_failed_or_successful() {
     // GIVEN
-    String description = RandomStringUtils.randomAlphanumeric(20);
+    String description = RandomStringUtils.secure().nextAlphanumeric(20);
     SoftAssertions softly = new SoftAssertions();
     // WHEN
     softly.assertThat("abc").as("1" + description)
@@ -113,7 +110,7 @@ class AbstractAssert_describedAs_printed_to_console_Test {
   void should_be_printed_and_consumed_by_configured_description_consumer() {
     final StringBuffer consumedDescription = new StringBuffer("");
     Assertions.setDescriptionConsumer(description -> consumedDescription.append(description.toString()));
-    String description = RandomStringUtils.randomAlphanumeric(20);
+    String description = RandomStringUtils.secure().nextAlphanumeric(20);
     // WHEN
     assertThat("abc").as("1" + description)
                      .startsWith("a")
@@ -130,7 +127,7 @@ class AbstractAssert_describedAs_printed_to_console_Test {
   void should_not_print_assertions_description_to_console_by_default() {
     // GIVEN
     Assertions.setPrintAssertionsDescription(originalIsPrintAssertionsDescriptionEnabled);
-    String description = RandomStringUtils.randomAlphanumeric(20);
+    String description = RandomStringUtils.secure().nextAlphanumeric(20);
     // WHEN
     assertThat("abc").as(description + "1")
                      .startsWith("a")

@@ -220,7 +220,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then((Iterable<String>) list("26")).isEqualTo(list("27"));
     softly.then(list("28").iterator()).isExhausted();
     softly.then(list("30")).isEqualTo(list("31"));
-    softly.then(Long.valueOf(32L)).isEqualTo(new Long(33L));
+    softly.then(Long.valueOf(32L)).isEqualTo(Long.valueOf(33L));
     softly.then(34L).isEqualTo(35L);
     softly.then(new long[] { 36L }).isEqualTo(new long[] { 37L });
     softly.then(mapOf(MapEntry.entry("38", "39"))).isEqualTo(mapOf(MapEntry.entry("40", "41")));
@@ -278,7 +278,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(LocalDateTime.now()).withFailMessage("LocalDateTime check").isBefore(LocalDateTime.now().minusSeconds(10));
     softly.then(LocalDate.now()).withFailMessage("LocalDate check").isBefore(LocalDate.now().minusDays(1));
     softly.then(emptySpliterator()).withFailMessage("Spliterator check").hasCharacteristics(123);
-    softly.then(new LongAdder()).withFailMessage("LongAdder check").hasValue(123l);
+    softly.then(new LongAdder()).withFailMessage("LongAdder check").hasValue(123L);
     // WHEN
     MultipleFailuresError error = catchThrowableOfType(() -> softly.assertAll(), MultipleFailuresError.class);
     // THEN

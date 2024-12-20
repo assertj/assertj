@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent</artifactId>
-    <version>3.26.4-SNAPSHOT</version>
+    <version>3.27.1-SNAPSHOT</version>
     <relativePath>../assertj-parent</relativePath>
   </parent>
 
@@ -19,7 +19,7 @@
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <guava.version>33.3.1-jre</guava.version>
+    <guava.version>33.4.0-jre</guava.version>
   </properties>
 
   <dependencies>
@@ -160,8 +160,8 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <links>
-            <link>https://javadoc.io/doc/com.google.guava/guava/${guava.version}</link>
-            <link>https://javadoc.io/doc/org.assertj/assertj-core/${project.version}</link>
+            <link>https://javadoc.io/static/com.google.guava/guava/${guava.version}</link>
+            <link>https://javadoc.io/static/org.assertj/assertj-core/${project.version}</link>
           </links>
         </configuration>
       </plugin>

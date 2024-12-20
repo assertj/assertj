@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent</artifactId>
-    <version>3.26.4-SNAPSHOT</version>
+    <version>3.27.1-SNAPSHOT</version>
     <relativePath>../assertj-parent</relativePath>
   </parent>
 
@@ -28,7 +28,7 @@
     <spotless.skip>false</spotless.skip>
     <jacoco.skip>true</jacoco.skip> <!-- https://github.com/assertj/assertj/issues/3580 -->
     <!-- Dependency versions -->
-    <byte-buddy.version>1.15.10</byte-buddy.version>
+    <byte-buddy.version>1.15.11</byte-buddy.version>
     <hamcrest.version>3.0</hamcrest.version>
     <!-- Plugin versions -->
     <cdg.pitest.version>1.1.4</cdg.pitest.version>
@@ -112,7 +112,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>33.3.1-jre</version>
+      <version>33.4.0-jre</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -130,7 +130,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.17.4</version>
+      <version>3.17.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -148,13 +148,13 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
-      <version>1.12.0</version>
+      <version>1.13.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>6.6.3.Final</version>
+      <version>6.6.4.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>

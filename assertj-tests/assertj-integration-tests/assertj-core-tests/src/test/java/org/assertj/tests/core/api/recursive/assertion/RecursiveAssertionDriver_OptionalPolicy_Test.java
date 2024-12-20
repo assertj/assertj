@@ -75,7 +75,7 @@ class RecursiveAssertionDriver_OptionalPolicy_Test extends AbstractRecursiveAsse
   }
 
   private static Stream<Wrapper> wrapper_object_with_Optional_and_primitive_Optional_types() {
-    return Stream.of(new Wrapper(Optional.of("foo")), new Wrapper(OptionalLong.of(1l)),
+    return Stream.of(new Wrapper(Optional.of("foo")), new Wrapper(OptionalLong.of(1L)),
                      new Wrapper(OptionalDouble.of(1.0)), new Wrapper(OptionalInt.of(1)));
   }
 

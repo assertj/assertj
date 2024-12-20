@@ -108,6 +108,6 @@ class DualValueDequeTest {
   }
 
   static List<String> randomPath() {
-    return list(RandomStringUtils.random(RandomUtils.nextInt(01, 10), true, false));
+    return list(RandomStringUtils.random(RandomUtils.nextInt(1, 10), true, false));
   }
 }

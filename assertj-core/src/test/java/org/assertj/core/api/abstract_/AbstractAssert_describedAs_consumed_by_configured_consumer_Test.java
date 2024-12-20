@@ -28,10 +28,8 @@ import org.assertj.core.description.Description;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("AbstractAssert describedAs")
 class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
 
   private static String consumedDescription;
@@ -45,7 +43,7 @@ class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
   }
 
   @BeforeAll
-  static void setUpStreams() {
+  static void beforeAllTests() {
     Assertions.setPrintAssertionsDescription(true);
   }
 
@@ -64,7 +62,7 @@ class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
   @Test
   void should_be_consumed_by_configured_description_consumer_on_successful_assertions() {
     // GIVEN
-    String description = RandomStringUtils.random(20);
+    String description = RandomStringUtils.secure().next(20);
     // WHEN
     assertThat("abc").as("1" + description)
                      .startsWith("a")
@@ -79,23 +77,22 @@ class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
   @Test
   void should_be_consumed_by_configured_description_consumer_until_first_failed_assertion_included() {
     // GIVEN
-    String description = RandomStringUtils.random(20);
+    String description = RandomStringUtils.secure().next(20);
     // WHEN
-    Throwable throwable = catchThrowable(() -> assertThat("abc").as("1" + description)
-                                                                .startsWith("a")
-                                                                .as("2" + description)
-                                                                .startsWith("b")
-                                                                .as("not displayed as previous assertion failed")
-                                                                .endsWith("a"));
+    catchThrowable(() -> assertThat("abc").as("1" + description)
+                                          .startsWith("a")
+                                          .as("2" + description)
+                                          .startsWith("b")
+                                          .as("not displayed as previous assertion failed")
+                                          .endsWith("a"));
     // THEN
-    then(throwable).isInstanceOf(AssertionError.class);
     then(consumedDescription).isEqualTo("1" + description + "/2" + description + "/");
   }
 
   @Test
   void should_be_consumed_by_configured_description_consumer_on_all_soft_assertions_failed_or_successful() {
     // GIVEN
-    String description = RandomStringUtils.random(20);
+    String description = RandomStringUtils.secure().next(20);
     SoftAssertions softly = new SoftAssertions();
     // WHEN
     softly.assertThat("abc").as("1" + description)

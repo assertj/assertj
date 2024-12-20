@@ -60,6 +60,6 @@ class Throwables_assertHasMessageNotContaining_Test extends ThrowablesBaseTest {
     // WHEN
     expectAssertionError(() -> throwables.assertHasMessageNotContaining(INFO, actual, content));
     // THEN
-    verify(failures).failure(INFO, shouldNotContain(actual.getMessage(), content), actual.getMessage(), content);
+    verify(failures).failure(INFO, shouldNotContain(actual, content), actual.getMessage(), content);
   }
 }

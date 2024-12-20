@@ -4,7 +4,7 @@
 
   <groupId>org.assertj</groupId>
   <artifactId>assertj-build</artifactId>
-  <version>3.26.4-SNAPSHOT</version>
+  <version>3.27.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>AssertJ Build</name>
@@ -185,7 +185,7 @@
               <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
               <script>hljs.highlightAll();</script>
             ]]></bottom>
-        </configuration>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>

@@ -13,6 +13,7 @@ out
 /clover.license
 /actual.txt
 /expected.txt
+/.vscode
 #jEnv configuration
 .java-version
 dependency-reduced-pom.xml
