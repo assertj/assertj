@@ -48,15 +48,13 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
   @Test
   void should_allow_assertions_on_property_extracted_from_given_object_by_name() {
     // WHEN/THEN
-    assertThat(luke).extracting("id")
-                    .isNotNull();
+    assertThat(luke).extracting("id").isNotNull();
   }
 
   @Test
   void should_allow_assertions_on_nested_property_extracted_from_given_object_by_name() {
     // WHEN/THEN
-    assertThat(luke).extracting("name.first")
-                    .isEqualTo("Luke");
+    assertThat(luke).extracting("name.first").isEqualTo("Luke");
   }
 
   @Test
@@ -65,8 +63,7 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
     Person chewbacca = new Person("Chewbacca");
     chewbacca.setNickname(Optional.of("Chewie"));
     // WHEN/THEN
-    assertThat(chewbacca).extracting("nickname.value")
-                         .isEqualTo("Chewie");
+    assertThat(chewbacca).extracting("nickname.value").isEqualTo("Chewie");
   }
 
   @Test
@@ -109,6 +106,17 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
     // THEN
     then(thrown).isInstanceOf(IntrospectionError.class)
                 .hasMessageContaining("Can't find any field or property with name 'foo'.");
+  }
+
+  // https://github.com/assertj/assertj/issues/3539
+  @Test
+  void should_support_record_with_component_named_as_boolean_accessor() {
+    // GIVEN
+    record Record(String field, boolean isField) {
+    }
+    Record actual = new Record("value", true);
+    // WHEN/THEN
+    assertThat(actual).extracting("field").isEqualTo("value");
   }
 
   @Override
