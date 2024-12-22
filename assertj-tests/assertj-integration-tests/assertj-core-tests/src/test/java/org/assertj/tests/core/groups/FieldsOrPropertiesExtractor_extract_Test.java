@@ -10,80 +10,93 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.groups;
+package org.assertj.tests.core.groups;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
-import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.core.util.Lists.list;
 
-import java.util.Arrays;
 import java.util.List;
 
-import org.assertj.core.testkit.Employee;
-import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.assertj.tests.core.testkit.Employee;
+import org.assertj.tests.core.testkit.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class FieldsOrPropertiesExtractor_extract_Test {
 
-  private Employee yoda;
-  private Employee luke;
   private List<Employee> employees;
 
   @BeforeEach
   public void setUp() {
-    yoda = new Employee(1L, new Name("Yoda"), 800);
+    Employee yoda = new Employee(1L, new Name("Yoda"), 800);
     yoda.surname = new Name("Master", "Jedi");
-    luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
-    employees = newArrayList(yoda, luke);
+    Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+    employees = list(yoda, luke);
   }
 
   @Test
   void should_extract_field_values_in_absence_of_properties() {
+    // WHEN
     List<Object> extractedValues = extract(employees, byName("id"));
-    assertThat(extractedValues).containsOnly(1L, 2L);
+    // THEN
+    then(extractedValues).containsOnly(1L, 2L);
   }
 
   @Test
-  void should_extract_null_valuesfor_null_property_values() {
-    yoda.setName(null);
+  void should_extract_null_values_for_null_property_values() {
+    // GIVEN
+    employees.getFirst().setName(null);
+    // WHEN
     List<Object> extractedValues = extract(employees, byName("name"));
-    assertThat(extractedValues).containsOnly(null, new Name("Luke", "Skywalker"));
+    // THEN
+    then(extractedValues).containsOnly(null, new Name("Luke", "Skywalker"));
   }
 
   @Test
   void should_extract_null_values_for_null_nested_property_values() {
-    yoda.setName(null);
+    // GIVEN
+    employees.getFirst().setName(null);
+    // WHEN
     List<Object> extractedValues = extract(employees, byName("name.first"));
-    assertThat(extractedValues).containsOnly(null, "Luke");
+    // THEN
+    then(extractedValues).containsOnly(null, "Luke");
   }
 
   @Test
-  void should_extract_null_valuesfor_null_field_values() {
+  void should_extract_null_values_for_null_field_values() {
+    // WHEN
     List<Object> extractedValues = extract(employees, byName("surname"));
-    assertThat(extractedValues).containsOnly(new Name("Master", "Jedi"), null);
+    // THEN
+    then(extractedValues).containsOnly(new Name("Master", "Jedi"), null);
   }
 
   @Test
   void should_extract_null_values_for_null_nested_field_values() {
+    // WHEN
     List<Object> extractedValues = extract(employees, byName("surname.first"));
-    assertThat(extractedValues).containsOnly("Master", null);
+    // THEN
+    then(extractedValues).containsOnly("Master", null);
   }
 
   @Test
   void should_extract_property_values_when_no_public_field_match_given_name() {
+    // WHEN
     List<Object> extractedValues = extract(employees, byName("age"));
-    assertThat(extractedValues).containsOnly(800, 26);
+    // THEN
+    then(extractedValues).containsOnly(800, 26);
   }
 
   @Test
   void should_extract_pure_property_values() {
+    // WHEN
     List<Object> extractedValues = extract(employees, byName("adult"));
-    assertThat(extractedValues).containsOnly(true);
+    // THEN
+    then(extractedValues).containsOnly(true);
   }
 
   @Test
@@ -105,26 +118,30 @@ class FieldsOrPropertiesExtractor_extract_Test {
 
   @Test
   void should_fallback_to_field_if_exception_has_been_thrown_on_property_access() {
-
-    List<Employee> employees = Arrays.asList(new EmployeeWithBrokenName("Name"));
+    // GIVEN
+    List<Employee> employees = list(new EmployeeWithBrokenName("Name"));
+    // WHEN
     List<Object> extractedValues = extract(employees, byName("name"));
-    assertThat(extractedValues).containsOnly(new Name("Name"));
+    // THEN
+    then(extractedValues).containsOnly(new Name("Name"));
   }
 
   @Test
   void should_prefer_properties_over_fields() {
-
-    List<Employee> employees = Arrays.asList(new EmployeeWithOverriddenName("Overridden Name"));
+    // GIVEN
+    List<Employee> employees = list(new EmployeeWithOverriddenName("Overridden Name"));
+    // WHEN
     List<Object> extractedValues = extract(employees, byName("name"));
-    assertThat(extractedValues).containsOnly(new Name("Overridden Name"));
+    // THEN
+    then(extractedValues).containsOnly(new Name("Overridden Name"));
   }
 
   @Test
   void should_throw_exception_if_property_cannot_be_extracted_due_to_runtime_exception_during_property_access() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
-      List<Employee> employees = Arrays.asList(new BrokenEmployee());
-      extract(employees, byName("adult"));
-    });
+    // GIVEN
+    List<Employee> employees = list(new BrokenEmployee());
+    // WHEN/THEN
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> extract(employees, byName("adult")));
   }
 
   public static class EmployeeWithBrokenName extends Employee {
@@ -141,7 +158,7 @@ class FieldsOrPropertiesExtractor_extract_Test {
 
   public static class EmployeeWithOverriddenName extends Employee {
 
-    private String overriddenName;
+    private final String overriddenName;
 
     public EmployeeWithOverriddenName(final String overriddenName) {
       super(1L, new Name("Name"), 0);

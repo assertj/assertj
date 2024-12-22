@@ -10,10 +10,13 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.groups;
+package org.assertj.tests.core.groups;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.groups.Properties.extractProperty;
 
+import org.assertj.core.groups.Properties;
+import org.assertj.core.util.introspection.FieldSupport;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -25,8 +28,10 @@ class Properties_ofType_Test {
 
   @Test
   void should_create_a_new_Properties() {
-    Properties<String> properties = Properties.extractProperty("id").ofType(String.class);
-    assertThat(properties.propertyName).isEqualTo("id");
-    assertThat(properties.propertyType).isEqualTo(String.class);
+    // WHEN
+    Properties<String> properties = extractProperty("id").ofType(String.class);
+    // THEN
+    then(FieldSupport.EXTRACTION.fieldValue("propertyName", String.class, properties)).isEqualTo("id");
+    then(FieldSupport.EXTRACTION.fieldValue("propertyType", Class.class, properties)).isEqualTo(String.class);
   }
 }

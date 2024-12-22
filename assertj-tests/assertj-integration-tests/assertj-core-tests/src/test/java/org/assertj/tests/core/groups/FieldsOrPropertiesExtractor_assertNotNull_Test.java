@@ -10,10 +10,11 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.groups;
+package org.assertj.tests.core.groups;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,13 +22,17 @@ class FieldsOrPropertiesExtractor_assertNotNull_Test {
 
   @Test
   void should_throw_assertion_error_in_absence_of_iterable() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> extract((Iterable<?>) null, null))
-                                                   .withMessageContaining("Expecting actual not to be null");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> extract((Iterable<?>) null, null));
+    // THEN
+    then(assertionError).hasMessage("Expecting actual not to be null");
   }
 
   @Test
   void should_throw_assertion_error_in_absence_of_array() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> extract((Object[]) null, null))
-                                                   .withMessageContaining("Expecting actual not to be null");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> extract((Object[]) null, null));
+    // THEN
+    then(assertionError).hasMessage("Expecting actual not to be null");
   }
 }
