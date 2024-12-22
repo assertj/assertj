@@ -101,7 +101,7 @@ public final class Introspection {
     // try to find getProperty
     Method getter = findMethod("get" + capitalized, target);
     if (isValidGetter(getter)) return getter;
-    if (bareNamePropertyMethods) {
+    if (bareNamePropertyMethods || isRecordInstance(target)) {
       // try to find bare name property
       getter = findMethod(propertyName, target);
       if (isValidGetter(getter)) return getter;
@@ -113,6 +113,14 @@ public final class Introspection {
 
   private static boolean isValidGetter(Method method) {
     return method != null && !Modifier.isStatic(method.getModifiers()) && !Void.TYPE.equals(method.getReturnType());
+  }
+
+  private static boolean isRecordInstance(Object target) {
+    try {
+      return Class.forName("java.lang.Record").isInstance(target);
+    } catch (ClassNotFoundException e) {
+      return false;
+    }
   }
 
   private static Method findMethod(String name, Object target) {
