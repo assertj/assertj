@@ -13,39 +13,43 @@
 package org.assertj.tests.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for Assert.asString() methods
- */
 class Assertions_assertThat_asString_Test {
 
   @Test
-  void should_pass_string_asserts_on_string_objects_with_asString() {
+  void should_allow_string_assertions() {
+    // GIVEN
     Object stringAsObject = "hello world";
-    assertThat(stringAsObject).asString().contains("hello");
+    // WHEN/THEN
+    then(stringAsObject).asString()
+                        .startsWith("hello")
+                        .endsWith("world");
   }
 
   @Test
-  void should_pass_string_asserts_on_non_string_objects_with_asString() {
+  void should_allow_string_assertions_on_object_string_representation() {
+    // GIVEN
     Object nonString = new Object();
-    assertThat(nonString).asString().isEqualTo(nonString.toString());
+    // WHEN/THEN
+    then(nonString).asString().startsWith(nonString.toString());
   }
 
   @Test
-  void should_fail_string_asserts_on_non_string_objects_with_asString() {
-    Object nonString = new Object();
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(nonString).asString()
-                                                                                          .contains("probably not this"));
+  void should_fail_if_actual_is_null() {
+    expectAssertionError(() -> assertThat((Object) null).asString().isEqualTo("never gonna happen"));
   }
 
   @Test
-  void should_fail_if_actual_is_null_with_asString() {
-    Object nullObject = null;
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(nullObject).asString()
-                                                                                           .isEqualTo("never gonna happen"));
+  public void should_keep_existing_description_set_before_calling_asString() {
+    // GIVEN
+    String description = "My description";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat("foo").as(description).asString().isEmpty());
+    // THEN
+    then(assertionError).hasMessageContaining(description);
   }
-
 }

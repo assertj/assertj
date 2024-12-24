@@ -12,13 +12,13 @@
  */
 package org.assertj.tests.core.api;
 
-import static java.lang.String.format;
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("deprecation")
@@ -26,33 +26,40 @@ class Assertions_assertThat_asList_Test {
 
   @Test
   void should_pass_list_asserts_on_list_objects_with_asList() {
-    Object listAsObject = asList(1, 2, 3);
-    assertThat(listAsObject).asList().isSorted();
+    // GIVEN
+    Object listAsObject = list(1, 2, 3);
+    // WHEN/THEN
+    then(listAsObject).asList().isSorted();
   }
 
   @Test
   void should_pass_list_asserts_on_list_strings_with_asList() {
-    List<String> listAsObject = asList("a", "b", "c");
-    assertThat(listAsObject).asList().isSorted()
-                            .last().isEqualTo("c");
+    // GIVEN
+    List<String> listAsObject = list("a", "b", "c");
+    // WHEN/THEN
+    then(listAsObject).asList()
+                      .isSorted()
+                      .last().isEqualTo("c");
   }
 
   @Test
   void should_fail_list_asserts_on_non_list_objects_even_with_asList() {
+    // GIVEN
     Object nonList = new Object();
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(nonList).asList().isSorted())
-                                                   .withMessageContaining(format("an instance of:%n  java.util.List%nbut was instance of:%n  java.lang.Object"));
+    // WHEN
+    AssertionError error = expectAssertionError(() -> assertThat(nonList).asList().isSorted());
+    // THEN
+    then(error).hasMessageContainingAll("an instance of", "java.util.List", "but was instance of", "java.lang.Object");
   }
 
   @Test
   void should_keep_existing_description_set_before_calling_asList() {
     // GIVEN
-    Object listAsObject = asList(1, 2, 3);
+    Object listAsObject = list(1, 2, 3);
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(listAsObject).as("oops").asList().isEmpty());
+    AssertionError error = expectAssertionError(() -> assertThat(listAsObject).as("oops").asList().isEmpty());
     // THEN
-    assertThat(error).hasMessageContaining("oops");
+    then(error).hasMessageContaining("oops");
   }
 
 }

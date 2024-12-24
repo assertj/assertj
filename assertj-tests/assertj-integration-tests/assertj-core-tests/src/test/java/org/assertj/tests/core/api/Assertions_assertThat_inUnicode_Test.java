@@ -12,12 +12,12 @@
  */
 package org.assertj.tests.core.api;
 
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link org.assertj.core.presentation.UnicodeRepresentation#toStringOf(Object)}.
@@ -60,4 +60,15 @@ class Assertions_assertThat_inUnicode_Test {
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("[a, 6, c]", "[a, b, \\u00f3]"));
   }
+
+  @Test
+  public void should_keep_existing_description_set_before_calling_inUnicode() {
+    // GIVEN
+    String description = "My description";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat("ab").as(description).inUnicode().isNull());
+    // THEN
+    then(assertionError).hasMessageContaining(description);
+  }
+
 }

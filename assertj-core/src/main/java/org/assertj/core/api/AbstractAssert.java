@@ -58,11 +58,10 @@ import org.assertj.core.util.VisibleForTesting;
 /**
  * Base class for all assertions.
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
+ * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *                 target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *                 for more details.
  * @param <ACTUAL> the type of the "actual" value.
- *
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
@@ -133,7 +132,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * normally and respond appropriately.
    *
    * @param errorMessage the error message to format
-   * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @param arguments    the arguments referenced by the format specifiers in the errorMessage string.
    * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
    * @see #failure(String, Object...)
    */
@@ -165,10 +164,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * }</code></pre>
    *
    * @param errorMessage the error message to format
-   * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @param arguments    the arguments referenced by the format specifiers in the errorMessage string.
+   * @return The generated assertion error.
    * @see #failureWithActualExpected(Object, Object, String, Object...)
    * @see #failWithMessage(String, Object...)
-   * @return The generated assertion error.
    */
   protected AssertionError failure(String errorMessage, Object... arguments) {
     AssertionError assertionError = Failures.instance().failureIfErrorMessageIsOverridden(info);
@@ -192,10 +191,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * preferable to using this wrapper method, as the compiler and other code analysis tools will be able to tell that the
    * statement will never return normally and respond appropriately.
    *
-   * @param actual the actual object that was found during the test
-   * @param expected the object that was expected
+   * @param actual             the actual object that was found during the test
+   * @param expected           the object that was expected
    * @param errorMessageFormat the error message to format
-   * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @param arguments          the arguments referenced by the format specifiers in the errorMessage string.
    * @see #failWithMessage(String, Object...)
    * @see #failureWithActualExpected(Object, Object, String, Object...)
    */
@@ -230,10 +229,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *   return this;
    * }</code></pre>
    *
-   * @param actual the actual object that was found during the test
-   * @param expected the object that was expected
+   * @param actual             the actual object that was found during the test
+   * @param expected           the object that was expected
    * @param errorMessageFormat the error message to format
-   * @param arguments the arguments referenced by the format specifiers in the errorMessage string.
+   * @param arguments          the arguments referenced by the format specifiers in the errorMessage string.
    * @return The generated assertion error.
    * @see #failure(String, Object...)
    * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
@@ -309,7 +308,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *   &lt;"µµµ"&gt;
    * to contain:
    *   &lt;"μμμ"&gt;</code></pre>
-   *
+   * <p>
    * With Hexadecimal message:
    * <pre><code class='java'> assertThat("µµµ").inHexadecimal().contains("μμμ");
    *
@@ -345,7 +344,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public SELF describedAs(Description description) {
@@ -360,7 +361,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     if (!descriptionText.isEmpty()) System.out.println(descriptionText);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isEqualTo(Object expected) {
     if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
@@ -372,7 +375,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isNotEqualTo(Object other) {
     if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
@@ -384,97 +389,125 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public void isNull() {
     objects.assertNull(info, actual);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isNotNull() {
     objects.assertNotNull(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isSameAs(Object expected) {
     objects.assertSame(info, actual, expected);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isNotSameAs(Object other) {
     objects.assertNotSame(info, actual, other);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isIn(Object... values) {
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isNotIn(Object... values) {
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isIn(Iterable<?> values) {
     objects.assertIsIn(info, actual, values);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isNotIn(Iterable<?> values) {
     objects.assertIsNotIn(info, actual, values);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF is(Condition<? super ACTUAL> condition) {
     conditions.assertIs(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isNot(Condition<? super ACTUAL> condition) {
     conditions.assertIsNot(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF has(Condition<? super ACTUAL> condition) {
     conditions.assertHas(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF doesNotHave(Condition<? super ACTUAL> condition) {
     conditions.assertDoesNotHave(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF satisfies(Condition<? super ACTUAL> condition) {
     conditions.assertSatisfies(info, actual, condition);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @SuppressWarnings("unchecked")
   @Override
   @CheckReturnValue
@@ -484,14 +517,18 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return (ASSERT) instanceOfAssertFactory.createAssert(actual).withAssertionState(myself);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isInstanceOf(Class<?> type) {
     objects.assertIsInstanceOf(info, actual, type);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @SuppressWarnings("unchecked")
   @Override
   public <T> SELF isInstanceOfSatisfying(Class<T> type, Consumer<T> requirements) {
@@ -501,91 +538,117 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isInstanceOfAny(Class<?>... types) {
     objects.assertIsInstanceOfAny(info, actual, types);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isNotInstanceOf(Class<?> type) {
     objects.assertIsNotInstanceOf(info, actual, type);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isNotInstanceOfAny(Class<?>... types) {
     objects.assertIsNotInstanceOfAny(info, actual, types);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF hasSameClassAs(Object other) {
     objects.assertHasSameClassAs(info, actual, other);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF hasToString(String expectedToString) {
     objects.assertHasToString(info, actual, expectedToString);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF hasToString(String expectedStringTemplate, Object... args) {
     requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
     return hasToString(format(expectedStringTemplate, args));
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF doesNotHaveToString(String otherToString) {
     objects.assertDoesNotHaveToString(info, actual, otherToString);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF doesNotHaveToString(String expectedStringTemplate, Object... args) {
     requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
     return doesNotHaveToString(format(expectedStringTemplate, args));
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF doesNotHaveSameClassAs(Object other) {
     objects.assertDoesNotHaveSameClassAs(info, actual, other);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isExactlyInstanceOf(Class<?> type) {
     objects.assertIsExactlyInstanceOf(info, actual, type);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isNotExactlyInstanceOf(Class<?> type) {
     objects.assertIsNotExactlyInstanceOf(info, actual, type);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isOfAnyClassIn(Class<?>... types) {
     objects.assertIsOfAnyClassIn(info, actual, types);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isNotOfAnyClassIn(Class<?>... types) {
     objects.assertIsNotOfAnyClassIn(info, actual, types);
@@ -593,8 +656,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   *  {@inheritDoc}
-   *  @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
+   * {@inheritDoc}
+   *
+   * @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
    */
   @Deprecated
   @Override
@@ -603,12 +667,14 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return asInstanceOf(InstanceOfAssertFactories.LIST);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public AbstractStringAssert<?> asString() {
     objects.assertNotNull(info, actual);
-    return Assertions.assertThat(actual.toString());
+    return Assertions.assertThat(actual.toString()).withAssertionState(myself);
   }
 
   /**
@@ -635,7 +701,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *                              .isTrue();</code></pre>
    *
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
-   * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
+   * @param args            the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
    */
   @CheckReturnValue
@@ -674,8 +740,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Example:
    * <pre><code class='java'>assertThat(player.isRookie()).withFailMessage(&quot;Expecting Player &lt;%s&gt; to be a rookie but was not.&quot;, player)
    *                              .isTrue();</code></pre>
+   *
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
-   * @param args the args used to fill error message as in {@link String#format(String, Object...)}.
+   * @param args            the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
    */
   @CheckReturnValue
@@ -694,6 +761,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Example:
    * <pre><code class='java'>assertThat(player.isRookie()).withFailMessage(() -&gt; &quot;Expecting Player to be a rookie but was not.&quot;)
    *                              .isTrue();</code></pre>
+   *
    * @param supplier the supplier supplies error message that will replace the default one provided by Assertj.
    * @return this assertion object.
    */
@@ -702,14 +770,18 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return overridingErrorMessage(supplier);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
     return usingComparator(customComparator, null);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
@@ -718,21 +790,27 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate) {
     return usingEquals(predicate, null);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate, String customEqualsDescription) {
     return usingComparator((o1, o2) -> predicate.test(o1, o2) ? 0 : -1, customEqualsDescription);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public SELF usingDefaultComparator() {
@@ -741,7 +819,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public SELF withThreadDumpOnError() {
@@ -749,7 +829,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public SELF withRepresentation(Representation representation) {
@@ -760,9 +842,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * {@inheritDoc}
    *
-   * @deprecated use {@link #isEqualTo} instead
-   *
    * @throws UnsupportedOperationException if this method is called.
+   * @deprecated use {@link #isEqualTo} instead
    */
   @Override
   @Deprecated
@@ -791,7 +872,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param predicate the {@link Predicate} to match
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} does not match the given {@link Predicate}.
+   * @throws AssertionError       if {@code actual} does not match the given {@link Predicate}.
    * @throws NullPointerException if given {@link Predicate} is null.
    */
   public SELF matches(Predicate<? super ACTUAL> predicate) {
@@ -805,16 +886,16 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <p>
    * Example:
    * <pre><code class='java'> assertThat(player).matches(p -&gt; p.isRookie(), "is rookie");</code></pre>
-   *
+   * <p>
    * The error message contains the predicate description, in our example, it is:
    * <pre><code class='java'> Expecting:
    *   &lt;player&gt;
    * to match 'is rookie' predicate.</code></pre>
    *
-   * @param predicate the {@link Predicate} to match
+   * @param predicate            the {@link Predicate} to match
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} does not match the given {@link Predicate}.
+   * @throws AssertionError       if {@code actual} does not match the given {@link Predicate}.
    * @throws NullPointerException if given {@link Predicate} is null.
    * @throws NullPointerException if given predicateDescription is null.
    */
@@ -831,7 +912,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param predicate the {@link Predicate} not to match
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} matches the given {@link Predicate}.
+   * @throws AssertionError       if {@code actual} matches the given {@link Predicate}.
    * @throws NullPointerException if given {@link Predicate} is null.
    */
   public SELF doesNotMatch(Predicate<? super ACTUAL> predicate) {
@@ -846,17 +927,17 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Example:
    *
    * <pre><code class='java'> assertThat(player).doesNotMatch(p -&gt; p.isRookie(), "is rookie");</code></pre>
-   *
+   * <p>
    * The error message contains the predicate description, in our example, it is:
    *
    * <pre><code class='java'> Expecting:
    *   &lt;player&gt;
    * not to match 'is rookie' predicate.</code></pre>
    *
-   * @param predicate the {@link Predicate} not to match
+   * @param predicate            the {@link Predicate} not to match
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} matches the given {@link Predicate}.
+   * @throws AssertionError       if {@code actual} matches the given {@link Predicate}.
    * @throws NullPointerException if given {@link Predicate} is null.
    * @throws NullPointerException if given predicateDescription is null.
    */
@@ -897,7 +978,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param requirements to assert on the actual object - must not be null.
    * @return this assertion object.
-   *
    * @throws NullPointerException if any given Consumer is null
    */
   @SafeVarargs
@@ -932,10 +1012,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param assertions the group of assertions to run against the object under test - must not be null.
    * @return this assertion object.
-   *
    * @throws IllegalArgumentException if any given assertions group is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
-   * @throws AssertionError rethrown as is by the given {@link ThrowingConsumer}
+   * @throws RuntimeException         rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError           rethrown as is by the given {@link ThrowingConsumer}
    * @since 3.21.0
    */
   @SafeVarargs
@@ -992,7 +1071,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param assertions the group of assertions to run against the object under test - must not be null.
    * @return this assertion object.
-   *
    * @throws IllegalArgumentException if any given assertions group is null
    * @since 3.12.0
    */
@@ -1027,10 +1105,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @param assertions the group of assertions to run against the object under test - must not be null.
    * @return this assertion object.
-   *
    * @throws IllegalArgumentException if any given assertions group is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
-   * @throws AssertionError rethrown as is by the given {@link ThrowingConsumer}
+   * @throws RuntimeException         rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError           rethrown as is by the given {@link ThrowingConsumer}
    * @since 3.21.0
    */
   @SafeVarargs
@@ -1086,14 +1163,18 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     AbstractAssert.descriptionConsumer = descriptionConsumer;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF hasSameHashCodeAs(Object other) {
     objects.assertHasSameHashCodeAs(info, actual, other);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF doesNotHaveSameHashCodeAs(Object other) {
     objects.assertDoesNotHaveSameHashCodeAs(info, actual, other);
@@ -1105,7 +1186,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <p>
    * this method avoids code duplication when features like extracting/asList need to create a new list assertions.
    *
-   * @param <E> the type of elements.
+   * @param <E>       the type of elements.
    * @param newActual new list under test
    * @return a new {@link AbstractListAssert}.
    */
@@ -1165,10 +1246,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param assertFactory   the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
    * @throws AssertionError if {@code actual} is {@code null}
-   *
-   * @since 3.16.0
    * @see AbstractObjectAssert#extracting(String)
    * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
+   * @since 3.16.0
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
@@ -1193,10 +1273,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param assertFactory the factory for the creation of the new {@code Assert}
    * @return the new {@code Assert} instance
    * @throws AssertionError if {@code actual} is {@code null}
-   *
-   * @since 3.16.0
    * @see AbstractObjectAssert#extracting(Function)
    * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
+   * @since 3.16.0
    */
   @SuppressWarnings("unchecked")
   @CheckReturnValue
@@ -1213,10 +1292,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Returns true if actual and other are equal according to the current comparison strategy.
    *
    * @param actual the object to compare to other
-   * @param other the object to compare to actual
+   * @param other  the object to compare to actual
    * @return true if actual and other are equal according to the underlying comparison strategy.
    * @since 3.23.0
-   *
    * @deprecated {@link ComparisonStrategy} will become part of the public API in the next major release and this method
    * will be removed.
    */
@@ -1236,9 +1314,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <p>
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
-   * 
+   *
    * String newActual = assertThat(frodo).extracting(TolkienCharacter::getName).actual();
-   * 
+   *
    * // newActual == frodo.getName()
    * assertThat(newActual).isSameAs(frodo.name);</code></pre>
    *

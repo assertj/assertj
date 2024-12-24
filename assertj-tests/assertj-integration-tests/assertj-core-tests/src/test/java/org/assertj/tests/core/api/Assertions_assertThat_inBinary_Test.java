@@ -131,4 +131,14 @@ class Assertions_assertThat_inBinary_Test {
                                                          "\"['0b00000000_01100001', '0b00000000_00110110']\""));
   }
 
+  @Test
+  public void should_keep_existing_description_set_before_calling_inBinary() {
+    // GIVEN
+    String description = "My description";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat("ab").as(description).inBinary().isNull());
+    // THEN
+    then(assertionError).hasMessageContaining(description);
+  }
+
 }
