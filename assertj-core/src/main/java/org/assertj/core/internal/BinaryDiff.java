@@ -44,9 +44,7 @@ public class BinaryDiff {
 
   @VisibleForTesting
   public BinaryDiffResult diff(InputStream actualStream, byte[] expected) throws IOException {
-    try (InputStream expectedStream = new ByteArrayInputStream(expected)) {
-      return diff(actualStream, expectedStream);
-    }
+    return diff(actualStream, new ByteArrayInputStream(expected));
   }
 
   @VisibleForTesting

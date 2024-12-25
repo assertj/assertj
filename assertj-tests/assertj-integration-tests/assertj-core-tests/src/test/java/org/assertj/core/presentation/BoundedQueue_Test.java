@@ -16,19 +16,17 @@ import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 
+import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.google.common.collect.ImmutableList;
-
-final class BoundedQueue_Test {
+class BoundedQueue_Test {
 
   private final Random random = new Random();
 

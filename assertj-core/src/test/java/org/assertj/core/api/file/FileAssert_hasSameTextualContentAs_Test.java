@@ -18,7 +18,6 @@ import static org.assertj.core.util.TempFileUtil.createTempFileWithContent;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
-
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 import org.junit.jupiter.api.BeforeAll;
@@ -66,4 +65,5 @@ class FileAssert_hasSameTextualContentAs_Test extends FileAssertBaseTest {
     // WHEN/THEN
     then(actual).hasSameTextualContentAs(expected, TURKISH_CHARSET);
   }
+
 }

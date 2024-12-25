@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.tests.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -23,15 +23,17 @@ import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import org.assertj.core.internal.DigestDiff;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Digests#digestDiff(InputStream, MessageDigest, byte[])}</code>.
- *
  * @author Valeriy Vyrva
  */
-class Digests_digestDiff_Test extends DigestsBaseTest {
+class Digests_digestDiff_Test {
+
+  private static final byte[] EXPECTED_MD5_DIGEST = { 58, -63, -81, -94, -88, -101, 126, 79, 24, 102, 80, 40, 119, -65, 29, -59 };
+  private static final String EXPECTED_MD5_DIGEST_STR = "3AC1AFA2A89B7E4F1866502877BF1DC5";
 
   private InputStream stream;
   private MessageDigest digest;

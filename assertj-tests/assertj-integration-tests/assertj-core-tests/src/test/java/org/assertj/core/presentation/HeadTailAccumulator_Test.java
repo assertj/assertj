@@ -17,18 +17,17 @@ import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 
+import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.google.common.collect.ImmutableList;
+class HeadTailAccumulator_Test {
 
-final class HeadTailAccumulator_Test {
   @ParameterizedTest
   @MethodSource
   void should_retain_the_expected_elements(int headCapacity, int tailCapacity, List<Integer> toAdd, List<Integer> expected) {

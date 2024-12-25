@@ -13,6 +13,7 @@
 package org.assertj.core.internal;
 
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.util.Hexadecimals.byteToHexString;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public final class Digests {
   private Digests() {}
 
   public static String toHex(byte[] digest) {
-    requireNonNull(digest, "The digest should not be null");
+    requireNonNull(digest, shouldNotBeNull("digest")::create);
     StringBuilder hex = new StringBuilder(digest.length * 2);
     for (byte b : digest) {
       hex.append(byteToHexString(b));
@@ -40,7 +41,7 @@ public final class Digests {
   }
 
   public static byte[] fromHex(String digest) {
-    requireNonNull(digest, "The digest should not be null");
+    requireNonNull(digest, shouldNotBeNull("digest")::create);
     byte[] bytes = new byte[digest.length() / 2];
     for (int i = 0; i < bytes.length; i++) {
       bytes[i] = Integer.valueOf(digest.substring(i * 2, (i + 1) * 2), 16).byteValue();

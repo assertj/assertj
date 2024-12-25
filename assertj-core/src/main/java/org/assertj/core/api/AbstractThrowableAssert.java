@@ -19,7 +19,6 @@ import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThro
 import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.regex.Pattern;
-
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
@@ -125,7 +124,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * Verifies that the actual {@code Throwable} has a cause that refers to the given one, i.e. using == comparison
+   * Verifies that the actual {@code Throwable} has a cause that refers to the given one, i.e., using == comparison
    * <p>
    * Example:
    * <pre><code class='java'> Throwable invalidArgException = new IllegalArgumentException("invalid arg");
