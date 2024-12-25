@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -40,11 +41,10 @@ import org.assertj.core.util.introspection.IntrospectionError;
 /**
  * Base class for all implementations of assertions for {@link Object}s.
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
+ * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *                 target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *                 for more details.
  * @param <ACTUAL> the type of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
@@ -76,7 +76,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
    * {@link RecursiveComparisonAssert#ignoringExpectedNullFields() ignoringExpectedNullFields()}.
    * <p>
    * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
@@ -125,7 +124,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
    * for example if actual object has a name String field, it is expected other object to also have one.
    * <p>
-   *
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
    * TolkienCharacter mysteriousHobbit = new TolkienCharacter(null, 33, HOBBIT);
@@ -139,8 +137,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param other the object to compare {@code actual} to.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the actual or other object is {@code null}.
-   * @throws AssertionError if the actual and the given object are not lenient equals.
-   * @throws IntrospectionError if one of actual's field to compare can't be found in the other object.
+   * @throws AssertionError       if the actual and the given object are not lenient equals.
+   * @throws IntrospectionError   if one of actual's field to compare can't be found in the other object.
+   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
    */
   @Deprecated
   public SELF isEqualToIgnoringNullFields(Object other) {
@@ -149,7 +148,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and specify the fields to ignore.
    * <p>
    * <b>Warning:</b> the recursive comparison does not provide a strictly equivalent feature, instead it provides several ways to ignore
    * fields in the comparison {@link RecursiveComparisonAssert#ignoringFields(String...) by specifying fields to ignore}, or
@@ -196,7 +194,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
    * for example if actual object has a name String field, it is expected the other object to also have one.
    * <p>
-   *
    * Example:
    * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
    * TolkienCharacter sam = new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT);
@@ -210,13 +207,14 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * // ... but not when comparing both name and race
    * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;name&quot;, &quot;race&quot;); // FAIL</code></pre>
    *
-   * @param other the object to compare {@code actual} to.
+   * @param other                              the object to compare {@code actual} to.
    * @param propertiesOrFieldsUsedInComparison properties/fields used in comparison.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the actual or other is {@code null}.
-   * @throws AssertionError if the actual and the given objects are not equals property/field by property/field on given fields.
-   * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
-   * @throws IntrospectionError if a property/field does not exist in actual.
+   * @throws AssertionError       if the actual and the given objects are not equals property/field by property/field on given fields.
+   * @throws IntrospectionError   if one of actual's property/field to compare can't be found in the other object.
+   * @throws IntrospectionError   if a property/field does not exist in actual.
+   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and specify the fields to ignore.
    */
   @Deprecated
   public SELF isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
@@ -226,6 +224,37 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
+   * Asserts that the actual object is equal to the given one by comparing their properties/fields <b>except for the given ones</b>
+   * (inherited ones are taken into account). This can be handy if {@code equals} implementation of objects to compare does not suit you.
+   * <p>
+   * Note that comparison is <b>not</b> recursive, if one of the property/field is an Object, it will be compared to the other
+   * field using its {@code equals} method.
+   * <p>
+   * If an object has a field and a property with the same name, the property value will be used over the  field.
+   * <p>
+   * Private fields are used in comparison but this can be disabled using
+   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
+   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
+   * <p>
+   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
+   * for example if actual object has a name String field, it is expected the other object to also have one.
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
+   *
+   * // frodo and sam are equals when ignoring name and age since the only remaining field is race which they share as HOBBIT.
+   * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "name", "age"); // OK
+   *
+   * // ... but they are not equals if only age is ignored as their names differ.
+   * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "age"); // FAIL</code></pre>
+   *
+   * @param other                      the object to compare {@code actual} to.
+   * @param propertiesOrFieldsToIgnore ignored properties/fields to ignore in comparison.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the actual or given object is {@code null}.
+   * @throws AssertionError       if the actual and the given objects are not equals property/field by property/field after ignoring given fields.
+   * @throws IntrospectionError   if one of actual's property/field to compare can't be found in the other object.
    * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
    * {@link RecursiveComparisonAssert#ignoringFields(String...) ignoringFields(String...)}.
    * <p>
@@ -255,40 +284,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * Note that the recursive comparison also allows to ignore fields
    * {@link RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...) by type} or
    * {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) matching regexes}.
-   * <b>Original javadoc</b>
-   * <p>
-   * Asserts that the actual object is equal to the given one by comparing their properties/fields <b>except for the given ones</b>
-   * (inherited ones are taken into account). This can be handy if {@code equals} implementation of objects to compare does not suit you.
-   * <p>
-   * Note that comparison is <b>not</b> recursive, if one of the property/field is an Object, it will be compared to the other
-   * field using its {@code equals} method.
-   * <p>
-   * If an object has a field and a property with the same name, the property value will be used over the  field.
-   * <p>
-   * Private fields are used in comparison but this can be disabled using
-   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
-   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
-   * <p>
-   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
-   * for example if actual object has a name String field, it is expected the other object to also have one.
-   * <p>
-   *
-   * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
-   *
-   * // frodo and sam are equals when ignoring name and age since the only remaining field is race which they share as HOBBIT.
-   * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "name", "age"); // OK
-   *
-   * // ... but they are not equals if only age is ignored as their names differ.
-   * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "age"); // FAIL</code></pre>
-   *
-   * @param other the object to compare {@code actual} to.
-   * @param propertiesOrFieldsToIgnore ignored properties/fields to ignore in comparison.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the actual or given object is {@code null}.
-   * @throws AssertionError if the actual and the given objects are not equals property/field by property/field after ignoring given fields.
-   * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
   @Deprecated
   public SELF isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
@@ -319,7 +314,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some fields or properties of the actual object are null.
-   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoNullFieldsOrProperties() {
@@ -349,7 +343,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some field or properties of the actual object are not null.
-   *
    * @since 3.12.0
    */
   public SELF hasAllNullFieldsOrProperties() {
@@ -380,7 +373,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some (non ignored) fields or properties of the actual object are null.
-   *
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
@@ -411,7 +403,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some (non ignored) fields or properties of the actual object are not null.
-   *
    * @since 3.12.0
    */
   public SELF hasAllNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
@@ -460,7 +451,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
    * for example if actual object has a name String field, it is expected the other object to also have one.
    * <p>
-   *
    * Example:
    * <pre><code class='java'> // equals not overridden in TolkienCharacter
    * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
@@ -471,12 +461,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * // frodo and frodoClone are equals when doing a field by field comparison.
    * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);</code></pre>
-   *
-   * @param other the object to compare {@code actual} to.
-   * @return {@code this} assertions object
-   * @throws AssertionError if the actual object is {@code null}.
-   * @throws AssertionError if the actual and the given objects are not equals property/field by property/field.
-   * @throws IntrospectionError if one of actual's property/field to compare can't be found in the other object.
    */
   @Deprecated
   public SELF isEqualToComparingFieldByField(Object other) {
@@ -535,11 +519,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
    *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
    *
-   * @param <T> the type of values to compare.
-   * @param comparator the {@link Comparator} to use
+   * @param <T>                the type of values to compare.
+   * @param comparator         the {@link Comparator} to use
    * @param propertiesOrFields the names of the properties and/or fields the comparator should be used for
    * @return {@code this} assertions object
+   * @deprecated reason: only used in deprecated assertions which are replaced by the {@link #usingRecursiveComparison()} recursive comparison}. Will be removed in AssertJ 4.0
    */
+  @Deprecated
   @CheckReturnValue
   public <T> SELF usingComparatorForFields(Comparator<T> comparator, String... propertiesOrFields) {
     for (String propertyOrField : propertiesOrFields) {
@@ -552,46 +538,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * Allows to set a specific comparator to compare properties or fields with the given type.
    * A typical usage is for comparing fields of numeric type at a given precision.
    * <p>
-   * Comparators specified by {@link #usingComparatorForFields} have precedence over comparators specified by this method.
+   * The comparators specified by this method are used in the {@link #usingRecursiveComparison() recursive comparison},
+   * the {@link #returns(Object, Function)} and {@link #doesNotReturn(Object, Function)} assertions.
    * <p>
-   * The comparators specified by this method are used for field by field comparison like
-   * {@link #isEqualToComparingFieldByField(Object)}, but also for {@link #returns(Object, Function)} and
-   * {@link #doesNotReturn(Object, Function)} assertions.
+   * Note that for the recursive comparison, it is more idiomatic to use {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)} or {@link RecursiveComparisonAssert#withEqualsForType(BiPredicate, Class)}.
    * <p>
-   * Example:
-   * <pre><code class='java'> public class TolkienCharacter {
-   *   private String name;
-   *   private double height;
-   *   // constructor omitted
-   * }
-   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
-   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
-   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
-   *
-   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
-   *   double precision = 0.5;
-   *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
-   *   }
-   * };
-   *
-   * // assertions will pass
-   * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
-   *                  .isEqualToComparingFieldByField(tallerFrodo);
-   *
-   * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
-   *                  .isEqualToIgnoringNullFields(tallerFrodo);
-   *
-   * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
-   *                  .isEqualToIgnoringGivenFields(tallerFrodo);
-   *
-   * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
-   *                  .isEqualToComparingOnlyGivenFields(tallerFrodo);
-   *
-   * // assertion will fail
-   * assertThat(frodo).usingComparatorForType(closeEnough, Double.class)
-   *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
-   *
    * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance
    * chain to the given {@code type} is chosen in the following order:
    * <ol>
@@ -599,10 +550,23 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <li>The comparator of a superclass of the given {@code type}</li>
    * <li>The comparator of an interface implemented by the given {@code type}</li>
    * </ol>
+   * <p>
+   * Example:
+   * <pre><code class='java'> import static org.assertj.core.api.Assertions.from;
+   *
+   * Jedi yoda = new Jedi("Yoda");
+   *
+   * // assertion succeeds
+   * assertThat(yoda).usingComparatorForType(String.CASE_INSENSITIVE_ORDER, String.class)
+   *                 .returns("YODA", from(Jedi::getName));
+   *
+   * // assertion will fail
+   * assertThat(yoda).usingComparatorForType(String.CASE_INSENSITIVE_ORDER, String.class)
+   *                 .returns("LUKE", from(Jedi::getName));</code></pre>
    *
    * @param comparator the {@link Comparator} to use
-   * @param type the {@link Class} of the type the comparator should be used for
-   * @param <T> the type of objects that the comparator should be used for
+   * @param type       the {@link Class} of the type the comparator should be used for
+   * @param <T>        the type of objects that the comparator should be used for
    * @return {@code this} assertions object
    * @see #isEqualToComparingFieldByField(Object)
    * @see #returns(Object, Function)
@@ -619,7 +583,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * <p>
    * Private fields are matched by default but this can be changed by calling {@link Assertions#setAllowExtractingPrivateFields(boolean) Assertions.setAllowExtractingPrivateFields(false)}.
    * <p>
-   *
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
    *
@@ -647,9 +610,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @param name the field/property name to check
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual object is {@code null}.
+   * @throws AssertionError           if the actual object is {@code null}.
    * @throws IllegalArgumentException if name is {@code null}.
-   * @throws AssertionError if the actual object does not have the given field/property
+   * @throws AssertionError           if the actual object does not have the given field/property
    */
   public SELF hasFieldOrProperty(String name) {
     objects.assertHasFieldOrProperty(info, actual, name);
@@ -692,14 +655,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * Assertions.setAllowExtractingPrivateFields(false);
    * assertThat(frodo).hasFieldOrPropertyWithValue("age", 33); </code></pre>
    *
-   * @param name the field/property name to check
+   * @param name  the field/property name to check
    * @param value the field/property expected value
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual object is {@code null}.
+   * @throws AssertionError           if the actual object is {@code null}.
    * @throws IllegalArgumentException if name is {@code null}.
-   * @throws AssertionError if the actual object does not have the given field/property
-   * @throws AssertionError if the actual object has the given field/property but not with the expected value
-   *
+   * @throws AssertionError           if the actual object does not have the given field/property
+   * @throws AssertionError           if the actual object has the given field/property but not with the expected value
    * @see AbstractObjectAssert#hasFieldOrProperty(java.lang.String)
    */
   public SELF hasFieldOrPropertyWithValue(String name, Object value) {
@@ -738,9 +700,9 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @param expectedFieldNames the expected field names actual should have
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual object is {@code null}.
+   * @throws AssertionError           if the actual object is {@code null}.
    * @throws IllegalArgumentException if expectedFieldNames is {@code null}.
-   * @throws AssertionError if the actual object does not have the expected fields (without extra ones)
+   * @throws AssertionError           if the actual object does not have the expected fields (without extra ones)
    * @since 3.19.0
    */
   public SELF hasOnlyFields(String... expectedFieldNames) {
@@ -773,7 +735,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * // let's verify Frodo's name, age and race name:
    * assertThat(frodo).extracting(&quot;name&quot;, &quot;age&quot;, &quot;race.name&quot;)
    *                  .containsExactly(&quot;Frodo&quot;, 33, &quot;Hobbit&quot;);</code></pre>
-   *
+   * <p>
    * A property with the given name is looked for first, if it doesn't exist then a field with the given name is looked
    * for, if the field is not accessible (i.e. does not exist) an {@link IntrospectionError} is thrown.
    * <p>
@@ -833,9 +795,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param propertyOrField the property/field to extract from the initial object under test
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted property/field value
    * @throws IntrospectionError if one of the given name does not match a field or property
-   *
-   * @since 3.13.0
    * @see #extracting(String, InstanceOfAssertFactory)
+   * @since 3.13.0
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
@@ -878,8 +839,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param assertFactory   the factory which verifies the type and creates the new {@code Assert}
    * @return a new narrowed {@link Assert} instance whose object under test is the extracted property/field value
    * @throws NullPointerException if the given factory is {@code null}
-   * @throws IntrospectionError if one of the given name does not match a field or property
-   *
+   * @throws IntrospectionError   if one of the given name does not match a field or property
    * @since 3.14.0
    */
   @CheckReturnValue
@@ -949,12 +909,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * assertThat(frodo).extracting(TolkienCharacter::getName, as(InstanceOfAssertFactories.STRING))
    *                  .startsWith(&quot;Fro&quot;);</code></pre>
    *
-   * @param <T> the expected extracted value type.
+   * @param <T>       the expected extracted value type.
    * @param extractor the extractor function used to extract the value from the object under test.
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted value
-   *
-   * @since 3.11.0
    * @see #extracting(Function, InstanceOfAssertFactory)
+   * @since 3.11.0
    */
   @CheckReturnValue
   public <T> AbstractObjectAssert<?, T> extracting(Function<? super ACTUAL, T> extractor) {
@@ -990,7 +949,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
    * @return a new narrowed {@link Assert} instance whose object under test is the extracted value
    * @throws NullPointerException if the given factory is {@code null}
-   *
    * @since 3.14.0
    */
   @CheckReturnValue
@@ -1000,8 +958,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * @deprecated Prefer calling {@link #usingRecursiveComparison()} for comparing objects field by field as it offers more flexibility, better reporting and an easier to use API.
-   * <p>
    * Asserts that the object under test (actual) is equal to the given object based on a recursive property/field by property/field comparison (including
    * inherited ones). This can be useful if actual's {@code equals} implementation does not suit you.
    * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals} implementation, i.e.
@@ -1066,9 +1022,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *
    * @param other the object to compare {@code actual} to.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual object is {@code null}.
-   * @throws AssertionError if the actual and the given objects are not deeply equal property/field by property/field.
+   * @throws AssertionError     if the actual object is {@code null}.
+   * @throws AssertionError     if the actual and the given objects are not deeply equal property/field by property/field.
    * @throws IntrospectionError if one property/field to compare can not be found.
+   * @deprecated Prefer calling {@link #usingRecursiveComparison()} for comparing objects field by field as it offers more flexibility, better reporting and an easier to use API.
    */
   @Deprecated
   public SELF isEqualToComparingFieldByFieldRecursively(Object other) {
@@ -1092,12 +1049,11 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *                  .returns(HOBBIT, from(TolkienCharacter::getRace));</code></pre>
    *
    * @param expected the value the object under test method's call should return.
-   * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
-   * @param <T> the expected value type the given {@code method} returns.
+   * @param from     {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T>      the expected value type the given {@code method} returns.
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} is {@code null}
+   * @throws AssertionError       if {@code actual} is {@code null}
    * @throws NullPointerException if given {@code from} function is null
-   *
    * @see #usingComparatorForType(Comparator, Class)
    */
   public <T> SELF returns(T expected, Function<ACTUAL, T> from) {
@@ -1123,14 +1079,13 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    *                  .doesNotReturn(null, from(TolkienCharacter::getRace));</code></pre>
    *
    * @param expected the value the object under test method's call should not return.
-   * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
-   * @param <T> the expected value type the given {@code method} returns.
+   * @param from     {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T>      the expected value type the given {@code method} returns.
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} is {@code null}
+   * @throws AssertionError       if {@code actual} is {@code null}
    * @throws NullPointerException if given {@code from} function is null
-   *
-   * @since 3.22.0
    * @see #usingComparatorForType(Comparator, Class)
+   * @since 3.22.0
    */
   public <T> SELF doesNotReturn(T expected, Function<ACTUAL, T> from) {
     requireNonNull(from, "The given getter method/Function must not be null");
@@ -1222,8 +1177,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
   /**
    * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
-   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
    *
+   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
   @Override

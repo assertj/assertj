@@ -41,7 +41,6 @@ public class TypeCanonizer {
    * Returns a canonical form of {@code initialType} by replacing all {@link TypeVariable} by {@link Class}
    * instances.
    * <p>
-   * <p>
    * Such a canonical form allows to compare {@link ParameterizedType}s, {@link WildcardType}(s),
    * {@link GenericArrayType}(s), {@link TypeVariable}(s).
    * </p>
@@ -84,7 +83,7 @@ public class TypeCanonizer {
    * Adds all {@code type}'s {@link TypeVariable} to {@code typeVariables}
    *
    * @param typeVariables that need to be populated
-   * @param types the types for which the {@link TypeVariable}(s) need to be extracted
+   * @param types         the types for which the {@link TypeVariable}(s) need to be extracted
    */
   private static void populateAllTypeVariables(Set<TypeVariable<?>> typeVariables, Type... types) {
     for (Type type : types) {

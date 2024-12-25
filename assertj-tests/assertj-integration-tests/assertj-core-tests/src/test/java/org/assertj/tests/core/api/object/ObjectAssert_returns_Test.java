@@ -52,10 +52,10 @@ class ObjectAssert_returns_Test {
   @Test
   void should_pass() {
     // GIVEN
-    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi yoda = new Jedi("Yoda", "Green");
     // WHEN/THEN
-    assertThat(actual).returns("Yoda", from(Jedi::getName))
-                      .returns("Yoda", Jedi::getName);
+    then(yoda).returns("Yoda", from(Jedi::getName))
+              .returns("Yoda", Jedi::getName);
   }
 
   @Test
@@ -63,16 +63,16 @@ class ObjectAssert_returns_Test {
     // GIVEN
     Jedi actual = new Jedi(null, "Green");
     // WHEN/THEN
-    assertThat(actual).returns(null, from(Jedi::getName));
+    then(actual).returns(null, from(Jedi::getName));
   }
 
   @Test
   void should_honor_custom_type_comparator() {
     // GIVEN
-    Jedi actual = new Jedi("Yoda", "Green");
+    Jedi yoda = new Jedi("Yoda", "Green");
     // WHEN/THEN
-    assertThat(actual).usingComparatorForType(CASE_INSENSITIVE_ORDER, String.class)
-                      .returns("YODA", from(Jedi::getName));
+    then(yoda).usingComparatorForType(CASE_INSENSITIVE_ORDER, String.class)
+              .returns("YODA", from(Jedi::getName));
   }
 
 }

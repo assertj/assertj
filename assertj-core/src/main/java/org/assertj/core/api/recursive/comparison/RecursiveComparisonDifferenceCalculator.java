@@ -211,7 +211,6 @@ public class RecursiveComparisonDifferenceCalculator {
    * object (if not .equals() method has been overridden from Object), or it
    * will call the customized .equals() method if it exists.
    * <p>
-   * <p>
    * This method handles cycles correctly, for example A-&gt;B-&gt;C-&gt;A.
    * Suppose a and a' are two separate instances of the A with the same values
    * for all fields on A, B, and C. Then a.deepEquals(a') will return an empty list. It

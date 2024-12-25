@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.core.testkit;
 
-import com.google.common.reflect.TypeResolver;
 import java.io.InputStream;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -27,6 +26,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 
+import com.google.common.reflect.TypeResolver;
+
 /**
  * A Type canonizar that helps with the resolving of a {@link Type} so it can be compared to a similar one
  * considering generics.
@@ -39,7 +40,6 @@ public class TypeCanonizer {
   /**
    * Returns a canonical form of {@code initialType} by replacing all {@link TypeVariable} by {@link Class}
    * instances.
-   * <p>
    * <p>
    * Such a canonical form allows to compare {@link ParameterizedType}s, {@link WildcardType}(s),
    * {@link GenericArrayType}(s), {@link TypeVariable}(s).
@@ -83,7 +83,7 @@ public class TypeCanonizer {
    * Adds all {@code type}'s {@link TypeVariable} to {@code typeVariables}
    *
    * @param typeVariables that need to be populated
-   * @param types the types for which the {@link TypeVariable}(s) need to be extracted
+   * @param types         the types for which the {@link TypeVariable}(s) need to be extracted
    */
   private static void populateAllTypeVariables(Set<TypeVariable<?>> typeVariables, Type... types) {
     for (Type type : types) {
