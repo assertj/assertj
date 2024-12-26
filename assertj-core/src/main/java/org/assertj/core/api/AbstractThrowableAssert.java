@@ -143,6 +143,8 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has a cause that does not refer to the given (i.e. actual.getCause() != cause)
+   *
+   * @since 3.13.0
    */
   public SELF hasCauseReference(Throwable expected) {
     throwables.assertHasCauseReference(info, actual, expected);
