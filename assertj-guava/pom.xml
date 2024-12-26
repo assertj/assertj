@@ -64,29 +64,21 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>enforce-dependencies</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <bannedDependencies>
-                  <includes>
-                    <include>net.bytebuddy:byte-buddy</include>
-                    <include>org.assertj:assertj-core</include>
-                  </includes>
-                  <excludes>
-                    <exclude>org.assertj:assertj-guava</exclude>
-                    <exclude>*:*:*:jar:compile</exclude>
-                  </excludes>
-                </bannedDependencies>
-                <dependencyConvergence />
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
+        <configuration>
+          <rules combine-children="append">
+            <bannedDependencies>
+              <includes>
+                <include>net.bytebuddy:byte-buddy</include>
+                <include>org.assertj:assertj-core</include>
+              </includes>
+              <excludes>
+                <exclude>org.assertj:assertj-guava</exclude>
+                <exclude>*:*:*:jar:compile</exclude>
+              </excludes>
+            </bannedDependencies>
+            <dependencyConvergence />
+          </rules>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>biz.aQute.bnd</groupId>
