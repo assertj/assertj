@@ -29,6 +29,8 @@ import java.nio.file.Path;
 
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 class Paths_assertHasParent_Test extends PathsBaseTest {
 
@@ -113,6 +115,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
   }
 
   @Test
+  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
   void should_pass_if_actual_is_not_canonical() throws IOException {
     // GIVEN
     Path expected = createDirectory(tempDir.resolve("expected"));
@@ -123,6 +126,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
   }
 
   @Test
+  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
   void should_pass_if_expected_is_not_canonical() throws IOException {
     // GIVEN
     Path directory = createDirectory(tempDir.resolve("directory"));
