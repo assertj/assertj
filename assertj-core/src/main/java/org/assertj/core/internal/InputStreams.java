@@ -14,24 +14,29 @@ package org.assertj.core.internal;
 
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static org.assertj.core.error.ShouldBeEncodedIn.shouldBeEncodedIn;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
 import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
+import static org.assertj.core.error.ShouldNotBeEncodedIn.shouldNotBeEncodedIn;
 import static org.assertj.core.internal.Digests.digestDiff;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 
 /**
  * Reusable assertions for <code>{@link InputStream}</code>s.
  *
+ * @author Ludovic VIEGAS
  * @author Matthieu Baechler
  */
 public class InputStreams {
@@ -128,6 +133,22 @@ public class InputStreams {
 
   private static void assertNotNull(AssertionInfo info, InputStream stream) {
     Objects.instance().assertNotNull(info, stream);
+  }
+
+  public void assertIsEncodedIn(WritableAssertionInfo info, InputStream actual, Charset charset, boolean lenient) {
+    requireNonNull(charset, "The charset should not be null.");
+    assertNotNull(info, actual);
+
+    List<EncodingIssue> issues = new Encoding(charset, lenient).validate(actual);
+    if (!issues.isEmpty()) throw failures.failure(info, shouldBeEncodedIn(actual, charset, issues));
+  }
+
+  public void assertIsNotEncodedIn(WritableAssertionInfo info, InputStream actual, Charset charset, boolean lenient) {
+    requireNonNull(charset, "The charset should not be null.");
+    assertNotNull(info, actual);
+
+    List<EncodingIssue> issues = new Encoding(charset, lenient).validate(actual);
+    if (issues.isEmpty()) throw failures.failure(info, shouldNotBeEncodedIn(actual, charset));
   }
 
   public void assertHasDigest(AssertionInfo info, InputStream actual, MessageDigest digest, byte[] expected) {
