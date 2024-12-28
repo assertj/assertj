@@ -37,6 +37,7 @@ import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -746,6 +747,17 @@ public class BDDAssertions extends Assertions {
    */
   public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> thenCollection(Collection<? extends E> actual) {
     return then(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link HashSetAssert}</code>.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <ELEMENT> HashSetAssert<ELEMENT> then(HashSet<? extends ELEMENT> actual) {
+    return assertThat(actual);
   }
 
   /**

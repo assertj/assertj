@@ -33,6 +33,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -923,6 +924,30 @@ public interface InstanceOfAssertFactories {
   @SuppressWarnings("rawtypes")
   static <E> InstanceOfAssertFactory<Set, AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>>> set(Class<E> elementType) {
     return new InstanceOfAssertFactory<>(Set.class, new Class[] { elementType }, Assertions::<E> assertThat);
+  }
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link HashSet}, assuming {@code Object} as element type.
+   *
+   * @see #hashSet(Class)
+   * @since 4.0.0
+   */
+  @SuppressWarnings("rawtypes")
+  InstanceOfAssertFactory<HashSet, HashSetAssert<Object>> HASH_SET = hashSet(Object.class);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link HashSet}.
+   *
+   * @param <E>   the {@code HashSet} element type.
+   * @param elementType the element type instance.
+   * @return the factory instance.
+   *
+   * @see #HASH_SET
+   * @since 3.26.0
+   */
+  @SuppressWarnings("rawtypes")
+  static <E> InstanceOfAssertFactory<HashSet, HashSetAssert<E>> hashSet(Class<E> elementType) {
+    return new InstanceOfAssertFactory<>(HashSet.class, new Class[] { elementType }, Assertions::<E> assertThat);
   }
 
   /**

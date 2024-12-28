@@ -43,6 +43,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -1649,6 +1650,7 @@ public class Assumptions {
     if (assertion instanceof FloatArrayAssert) return asAssumption(FloatArrayAssert.class, float[].class, actual);
     if (assertion instanceof FutureAssert) return asAssumption(FutureAssert.class, Future.class, actual);
     if (assertion instanceof InputStreamAssert) return asAssumption(InputStreamAssert.class, InputStream.class, actual);
+    if (assertion instanceof HashSetAssert) return asAssumption(HashSetAssert.class, HashSet.class, actual);
     if (assertion instanceof InstantAssert) return asAssumption(InstantAssert.class, Instant.class, actual);
     if (assertion instanceof IntegerAssert) return asAssumption(IntegerAssert.class, Integer.class, actual);
     if (assertion instanceof Int2DArrayAssert) return asAssumption(Int2DArrayAssert.class, int[][].class, actual);

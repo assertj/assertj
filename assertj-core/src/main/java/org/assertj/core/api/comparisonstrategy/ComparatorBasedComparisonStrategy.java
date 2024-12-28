@@ -165,12 +165,12 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   @SuppressWarnings("unchecked")
   @Override
   protected Set<Object> newSetUsingComparisonStrategy() {
-    return new TreeSet<>(comparator);
+    return new TreeSet<Object>(comparator);
   }
 
   @Override
   public String asText() {
-    return "when comparing values using " + toString();
+    return "when comparing values using " + this;
   }
 
   @Override
@@ -217,10 +217,5 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   @SuppressWarnings("unchecked")
   public boolean isGreaterThan(Object actual, Object other) {
     return comparator.compare(actual, other) > 0;
-  }
-
-  @Override
-  public boolean isStandard() {
-    return false;
   }
 }

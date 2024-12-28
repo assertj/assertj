@@ -35,6 +35,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -1516,6 +1517,18 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   default TemporalAssert assertThatTemporal(Temporal actual) {
     return proxy(TemporalAssert.class, Temporal.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link HashSetAssert}</code>.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 4.0.0
+   */
+  default <ELEMENT> HashSetAssert<ELEMENT> assertThat(HashSet<? extends ELEMENT> actual) {
+    return proxy(HashSetAssert.class, HashSet.class, actual);
   }
 
 }

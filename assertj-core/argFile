@@ -55,6 +55,7 @@
 --add-opens org.assertj.core/org.assertj.core.api.float_=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.floatarray=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.future=org.junit.platform.commons
+--add-opens org.assertj.core/org.assertj.core.api.hashset=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.instant=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.int2darray=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.intarray=org.junit.platform.commons

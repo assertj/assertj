@@ -60,6 +60,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
+import static org.assertj.core.api.InstanceOfAssertFactories.HASH_SET;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.INSTANT;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
@@ -119,6 +120,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.comparable;
 import static org.assertj.core.api.InstanceOfAssertFactories.completableFuture;
 import static org.assertj.core.api.InstanceOfAssertFactories.completionStage;
 import static org.assertj.core.api.InstanceOfAssertFactories.future;
+import static org.assertj.core.api.InstanceOfAssertFactories.hashSet;
 import static org.assertj.core.api.InstanceOfAssertFactories.iterable;
 import static org.assertj.core.api.InstanceOfAssertFactories.iterator;
 import static org.assertj.core.api.InstanceOfAssertFactories.list;
@@ -131,6 +133,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.AdditionalAnswers.delegatesTo;
 import static org.mockito.ArgumentMatchers.assertArg;
@@ -161,6 +164,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -198,6 +202,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
 import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
@@ -2931,6 +2936,72 @@ class InstanceOfAssertFactoriesTest {
       // THEN
       result.contains(456, 789);
       verify(valueProvider).apply(parameterizedType(List.class, Integer.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new String[] { "123", "456", "789" }, type));
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class HashSet_Factory {
+
+    private final Object actual = newLinkedHashSet(123, 456, 789);
+
+    @Test
+    void createAssert() {
+      // WHEN
+      HashSetAssert<Object> result = HASH_SET.createAssert(actual);
+      // THEN
+      result.contains(456, 789);
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      HashSetAssert<Object> result = HASH_SET.createAssert(valueProvider);
+      // THEN
+      result.contains(456, 789);
+      verify(valueProvider).apply(parameterizedType(HashSet.class, Object.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new int[] { 123, 456, 789 }, type));
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class HashSet_Typed_Factory {
+
+    private final Object actual = newLinkedHashSet(123, 456, 789);
+
+    @Test
+    void createAssert() {
+      // WHEN
+      HashSetAssert<Integer> result = hashSet(Integer.class).createAssert(actual);
+      // THEN
+      result.contains(456, 789);
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      HashSetAssert<Integer> result = hashSet(Integer.class).createAssert(valueProvider);
+      // THEN
+      result.contains(456, 789);
+      verify(valueProvider).apply(parameterizedType(HashSet.class, Integer.class));
     }
 
     private Stream<ValueProvider<?>> valueProviders() {
