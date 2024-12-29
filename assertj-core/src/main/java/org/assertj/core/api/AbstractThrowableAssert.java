@@ -133,6 +133,8 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * // This assertion succeeds:
    * assertThat(throwable).hasCauseReference(invalidArgException);
+   * // same assertion but more idiomatic in future versions
+   * assertThat(throwable).cause().isSameAs(invalidArgException);
    *
    * // These assertions fail:
    * assertThat(throwable).hasCauseReference(new IllegalArgumentException("invalid arg"));
@@ -143,9 +145,12 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} has a cause that does not refer to the given (i.e. actual.getCause() != cause)
+   * @deprecated use <code class='java'> cause().isSameAs(expected)</code> instead.
    *
    * @since 3.13.0
+   * @see  #cause()
    */
+  @Deprecated
   public SELF hasCauseReference(Throwable expected) {
     throwables.assertHasCauseReference(info, actual, expected);
     return myself;
