@@ -17,13 +17,12 @@ import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 
+import com.google.common.collect.ImmutableList;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
-import com.google.common.collect.ImmutableList;
-
 class TransformingList_Test {
+
   @Test
   void should_handle_empty() {
     // GIVEN

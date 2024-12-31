@@ -82,6 +82,7 @@ import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
+import java.io.UncheckedIOException;
 import java.text.Normalizer;
 import java.util.Base64;
 import java.util.Collections;
@@ -212,7 +213,7 @@ public class Strings {
     try {
       while (reader.readLine() != null);
     } catch (IOException e) {
-      throw new InputStreamsException(format("Unable to count lines in `%s`", actual), e);
+      throw new UncheckedIOException(format("Unable to count lines in `%s`", actual), e);
     }
     checkLineCounts(actual, reader.getLineNumber(), expectedLineCount, info);
   }

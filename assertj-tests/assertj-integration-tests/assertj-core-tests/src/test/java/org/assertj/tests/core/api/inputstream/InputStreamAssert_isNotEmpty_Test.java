@@ -10,14 +10,14 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.inputstream;
+package org.assertj.tests.core.api.inputstream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.BDDAssertions.catchException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -25,7 +25,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
-
 import org.junit.jupiter.api.Test;
 
 class InputStreamAssert_isNotEmpty_Test {
@@ -51,24 +50,37 @@ class InputStreamAssert_isNotEmpty_Test {
   }
 
   @Test
-  void should_pass_if_actual_is_not_empty() {
+  void should_pass_resetting_actual_if_actual_is_not_empty_and_supports_marking() throws Exception {
     // GIVEN
     InputStream actual = new ByteArrayInputStream(new byte[] { '1', '2' });
-    // WHEN/THEN
+    // WHEN
     assertThat(actual).isNotEmpty();
+    // THEN
+    then(actual.read()).isEqualTo('1');
   }
 
-  @SuppressWarnings("resource")
   @Test
-  void should_rethrow_IOException() throws IOException {
+  void should_pass_without_resetting_actual_if_actual_is_not_empty_and_does_not_support_marking() throws Exception {
     // GIVEN
+    InputStream actual = new UnmarkableByteArrayInputStream(new byte[] { '1', '2' });
+    // WHEN
+    assertThat(actual).isNotEmpty();
+    // THEN
+    then(actual.read()).isEqualTo('2');
+  }
+
+  @Test
+  void should_rethrow_IOException() throws Exception {
+    // GIVEN
+    @SuppressWarnings("resource")
     InputStream actual = mock();
     IOException cause = new IOException();
     given(actual.read()).willThrow(cause);
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(actual).isNotEmpty());
+    Exception exception = catchException(() -> assertThat(actual).isNotEmpty());
     // THEN
-    then(error).isInstanceOf(UncheckedIOException.class).hasCauseReference(cause);
+    then(exception).isInstanceOf(UncheckedIOException.class)
+                   .hasCause(cause);
   }
 
 }

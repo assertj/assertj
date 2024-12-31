@@ -10,36 +10,31 @@
  *
  * Copyright 2012-2024 the original author or authors.
  */
-package org.assertj.core.api.bytearray;
+package org.assertj.tests.core.api.bytearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
-import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-
-import java.nio.charset.Charset;
+import static org.assertj.tests.core.testkit.Charsets.TURKISH;
+import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.error.AssertJMultipleFailuresError;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-@DisplayName("ByteArrayAssert asString")
-class ByteArrayAssert_asString_with_charset_Test {
-
-  private static final Charset TURKISH_CHARSET = Charset.forName("windows-1254");
+class ByteArrayAssert_asString_with_Charset_Test {
 
   @Test
   void should_convert_bytes_array_to_a_proper_string_with_specific_encoding() {
     // GIVEN
     String real = "Gerçek";
-    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    byte[] bytes = real.getBytes(TURKISH);
     // WHEN/THEN
-    assertThat(bytes).asString(TURKISH_CHARSET)
+    assertThat(bytes).asString(TURKISH)
                      .isEqualTo(real);
   }
 
@@ -48,7 +43,7 @@ class ByteArrayAssert_asString_with_charset_Test {
     // GIVEN
     byte[] bytes = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(bytes).asString(TURKISH_CHARSET));
+    AssertionError error = expectAssertionError(() -> assertThat(bytes).asString(TURKISH));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }
@@ -57,9 +52,10 @@ class ByteArrayAssert_asString_with_charset_Test {
   void should_fail_if_actual_does_not_match() {
     // GIVEN
     String real = "Gerçek";
-    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    byte[] bytes = real.getBytes(TURKISH);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(bytes).asString(TURKISH_CHARSET).isEqualTo("bar"));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(bytes).asString(TURKISH)
+                                                                                .isEqualTo("bar"));
     // THEN
     assertThat(assertionError).hasMessage(shouldBeEqualMessage("\"Gerçek\"", "\"bar\""))
                               .isExactlyInstanceOf(AssertionFailedError.class);
@@ -70,9 +66,9 @@ class ByteArrayAssert_asString_with_charset_Test {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     String real = "Gerçek";
-    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    byte[] bytes = real.getBytes(TURKISH);
     // WHEN/THEN
-    softly.assertThat(bytes).asString(TURKISH_CHARSET).isEqualTo(real);
+    softly.assertThat(bytes).asString(TURKISH).isEqualTo(real);
     softly.assertAll();
   }
 
@@ -81,10 +77,10 @@ class ByteArrayAssert_asString_with_charset_Test {
     // GIVEN
     SoftAssertions softly = new SoftAssertions();
     String real = "Gerçek";
-    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    byte[] bytes = real.getBytes(TURKISH);
     // WHEN
     softly.assertThat(bytes)
-          .asString(TURKISH_CHARSET)
+          .asString(TURKISH)
           .isEqualTo("bar")
           .isBlank();
     AssertionError assertionError = expectAssertionError(softly::assertAll);
@@ -101,18 +97,18 @@ class ByteArrayAssert_asString_with_charset_Test {
   void should_ignore_test_when_assumption_for_internally_created_hex_string_assertion_fails() {
     // GIVEN
     String real = "Gerçek";
-    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    byte[] bytes = real.getBytes(TURKISH);
     // WHEN/THEN
-    expectAssumptionNotMetException(() -> assumeThat(bytes).asString(TURKISH_CHARSET).isEqualTo("bar"));
+    expectAssumptionNotMetException(() -> assumeThat(bytes).asString(TURKISH).isEqualTo("bar"));
   }
 
   @Test
   void should_run_test_when_assumption_for_internally_created_string_passes() {
     // GIVEN
     String real = "Gerçek";
-    byte[] bytes = real.getBytes(TURKISH_CHARSET);
+    byte[] bytes = real.getBytes(TURKISH);
     // WHEN/THEN
-    assertThatCode(() -> assumeThat(bytes).asString(TURKISH_CHARSET).startsWith("Gerç")).doesNotThrowAnyException();
+    assertThatCode(() -> assumeThat(bytes).asString(TURKISH).startsWith("Gerç")).doesNotThrowAnyException();
   }
 
 }

@@ -17,10 +17,10 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 class PrimitiveArrayList_Test {
+
   @Test
   void should_not_be_able_to_create_for_non_array() {
     // WHEN

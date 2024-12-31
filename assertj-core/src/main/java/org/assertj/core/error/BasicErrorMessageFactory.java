@@ -23,7 +23,6 @@ import static org.assertj.core.util.Strings.quote;
 
 import java.util.Arrays;
 import java.util.Objects;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
@@ -110,13 +109,13 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   /** {@inheritDoc} */
   @Override
   public String create(Description d) {
-    return formatter.format(d, CONFIGURATION_PROVIDER.representation(), format, arguments);
+    return create(d, CONFIGURATION_PROVIDER.representation());
   }
 
   /** {@inheritDoc} */
   @Override
   public String create() {
-    return formatter.format(emptyDescription(), CONFIGURATION_PROVIDER.representation(), format, arguments);
+    return create(emptyDescription());
   }
 
   /**
