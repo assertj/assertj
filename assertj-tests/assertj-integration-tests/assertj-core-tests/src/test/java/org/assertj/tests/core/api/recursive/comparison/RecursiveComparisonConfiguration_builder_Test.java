@@ -14,6 +14,7 @@ package org.assertj.tests.core.api.recursive.comparison;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.tests.core.testkit.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.tests.core.testkit.BiPredicates.STRING_EQUALS;
 
@@ -376,6 +377,14 @@ class RecursiveComparisonConfiguration_builder_Test {
     RecursiveComparisonConfiguration configuration = configBuilder().withIntrospectionStrategy(myIntrospectionStrategy).build();
     // THEN
     then(configuration.getIntrospectionStrategy()).isSameAs(myIntrospectionStrategy);
+  }
+
+  @Test
+  void should_set_the_standard_representation_if_none_is_set() {
+    // WHEN
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = configBuilder().build();
+    // THEN
+    then(recursiveComparisonConfiguration.getRepresentation()).isSameAs(STANDARD_REPRESENTATION);
   }
 
   private static Builder configBuilder() {

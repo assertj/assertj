@@ -22,6 +22,7 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.internal.RecursiveHelper.isContainer;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -116,7 +117,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.fieldMessages = builder.fieldMessages;
     this.typeMessages = builder.typeMessages;
     this.introspectionStrategy = builder.introspectionStrategy;
-    this.representation = builder.representation;
+    this.representation = builder.representation != null ? builder.representation : STANDARD_REPRESENTATION;
   }
 
   public RecursiveComparisonConfiguration(Representation representation) {
