@@ -786,6 +786,24 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
                 .isEqualTo(expected);
   }
 
+  @Test
+  public void should_honor_ignored_fields_in_nested_map() {
+    // GIVEN
+    Map<String, Object> mapA = Map.of("foo", "bar",
+                                      "description", "foobar",
+                                      "submap", Map.of("subFoo", "subBar", "description", "subFooBar"));
+    Map<String, Object> mapB = Map.of("foo", "bar",
+                                      "description", "barfoo",
+                                      "submap", Map.of("subFoo", "subBar"));
+    // WHEN/THEN
+    then(mapA).usingRecursiveComparison()
+              .ignoringFields("description", "submap.description")
+              .isEqualTo(mapB);
+    then(mapA).usingRecursiveComparison()
+              .ignoringFieldsMatchingRegexes(".*description")
+              .isEqualTo(mapB);
+  }
+
   static class Data {
     private final InnerData innerData;
     private final List<InnerData> innerDataList;
