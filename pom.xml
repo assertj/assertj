@@ -277,7 +277,7 @@ Copyright ${project.inceptionYear}-${currentYear} the original author or authors
             </licenseSet>
           </licenseSets>
           <properties>
-            <currentYear>2024</currentYear>
+            <currentYear>2025</currentYear>
           </properties>
           <strictCheck>true</strictCheck>
         </configuration>
