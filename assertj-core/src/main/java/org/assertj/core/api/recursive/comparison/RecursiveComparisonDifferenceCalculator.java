@@ -17,7 +17,6 @@ import static java.util.Objects.deepEquals;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
@@ -35,6 +34,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -46,9 +46,11 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicLongArray;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.assertj.core.internal.DeepDifference;
 
 /**
@@ -575,7 +577,7 @@ public class RecursiveComparisonDifferenceCalculator {
       // It may be that expectedElement matches an actual element in a different hash bucket, to account for this, we check the
       // other actual elements for matches. This may result in O(n^2) complexity in the worst case.
       if (!expectedElementMatched) {
-        for (Map.Entry<Integer, ? extends List<?>> actualElementsEntry : actualElementsGroupedByHashCode.entrySet()) {
+        for (Entry<Integer, ? extends List<?>> actualElementsEntry : actualElementsGroupedByHashCode.entrySet()) {
           // avoid checking the same bucket twice
           if (actualElementsEntry.getKey().equals(expectedHash)) continue;
           Iterator<?> actualElementsIterator = actualElementsEntry.getValue().iterator();
@@ -627,6 +629,8 @@ public class RecursiveComparisonDifferenceCalculator {
 
     Map<?, ?> actualMap = filterIgnoredFields((Map<?, ?>) dualValue.actual, dualValue.fieldLocation,
                                               comparisonState.recursiveComparisonConfiguration);
+
+    @SuppressWarnings("unchecked")
     Map<K, V> expectedMap = (Map<K, V>) filterIgnoredFields((Map<?, ?>) dualValue.expected,
                                                             dualValue.fieldLocation,
                                                             comparisonState.recursiveComparisonConfiguration);
@@ -636,9 +640,9 @@ public class RecursiveComparisonDifferenceCalculator {
       // no need to inspect entries, maps are not equal as they don't have the same size
       return;
     }
-    Iterator<Map.Entry<K, V>> expectedMapEntries = expectedMap.entrySet().iterator();
-    for (Map.Entry<?, ?> actualEntry : actualMap.entrySet()) {
-      Map.Entry<?, ?> expectedEntry = expectedMapEntries.next();
+    Iterator<Entry<K, V>> expectedMapEntries = expectedMap.entrySet().iterator();
+    for (Entry<?, ?> actualEntry : actualMap.entrySet()) {
+      Entry<?, ?> expectedEntry = expectedMapEntries.next();
       // check keys are matched before comparing values as keys represents a field
       if (!java.util.Objects.equals(actualEntry.getKey(), expectedEntry.getKey())) {
         // report a missing key/field.
@@ -683,17 +687,29 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static Map<?, ?> filterIgnoredFields(Map<?, ?> map, FieldLocation fieldLocation,
-                                               RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    Set<String> ignoredFields = recursiveComparisonConfiguration.getIgnoredFields();
-    List<Pattern> ignoredFieldsRegexes = recursiveComparisonConfiguration.getIgnoredFieldsRegexes();
+                                               RecursiveComparisonConfiguration configuration) {
+    Set<String> ignoredFields = configuration.getIgnoredFields();
+    List<Pattern> ignoredFieldsRegexes = configuration.getIgnoredFieldsRegexes();
     if (ignoredFields.isEmpty() && ignoredFieldsRegexes.isEmpty()) {
       return map;
     }
     return map.entrySet().stream()
-              .filter(e -> !recursiveComparisonConfiguration.matchesAnIgnoredField(fieldLocation.field(e.getKey().toString())))
-              .filter(e -> !recursiveComparisonConfiguration.matchesAnIgnoredFieldRegex(fieldLocation.field(e.getKey()
-                                                                                                             .toString())))
-              .collect(toMap(Map.Entry::getKey, Map.Entry::getValue));
+              .filter(e -> !configuration.matchesAnIgnoredField(fieldLocation.field(e.getKey().toString())))
+              .filter(e -> !configuration.matchesAnIgnoredFieldRegex(fieldLocation.field(e.getKey().toString())))
+              .collect(toMap(Entry::getKey, Entry::getValue));
+  }
+
+  // workaround for https://bugs.openjdk.org/browse/JDK-8148463
+  private static <T, K, U> Collector<T, ?, Map<K, U>> toMap(Function<? super T, ? extends K> keyMapper,
+                                                            Function<? super T, ? extends U> valueMapper) {
+    @SuppressWarnings("unchecked")
+    U none = (U) new Object();
+    Collector<T, ?, Map<K, U>> downstream = Collectors.toMap(keyMapper, valueMapper.andThen(v -> v == null ? none : v));
+    Function<Map<K, U>, Map<K, U>> finisher = map -> {
+      map.replaceAll((k, v) -> v == none ? null : v);
+      return map;
+    };
+    return Collectors.collectingAndThen(downstream, finisher);
   }
 
   private static FieldLocation keyFieldLocation(FieldLocation parentFieldLocation, Object key) {
