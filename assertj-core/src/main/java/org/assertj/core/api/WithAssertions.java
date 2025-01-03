@@ -20,6 +20,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.text.DateFormat;
@@ -2650,6 +2652,26 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <RESULT> CompletableFutureAssert<RESULT> assertThat(final CompletableFuture<RESULT> future) {
     return Assertions.assertThat(future);
+  }
+
+  /**
+   * Create assertion for {@link java.nio.Buffer}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default BufferAssert assertThat(final Buffer actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.nio.ByteBuffer}.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  default ByteBufferAssert assertThat(final ByteBuffer actual) {
+    return Assertions.assertThat(actual);
   }
 
   /**

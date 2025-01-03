@@ -24,6 +24,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.text.DateFormat;
@@ -249,6 +251,28 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
     return AssertionsForInterfaceTypes.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.nio.Buffer}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static BufferAssert assertThat(Buffer actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
+   * Create assertion for {@link java.nio.ByteBuffer}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  public static ByteBufferAssert assertThat(ByteBuffer actual) {
+    return AssertionsForClassTypes.assertThat(actual);
   }
 
   /**
