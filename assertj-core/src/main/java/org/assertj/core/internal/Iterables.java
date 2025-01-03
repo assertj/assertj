@@ -388,19 +388,19 @@ public class Iterables {
    *           {@code Iterable} contains values that are not in the given array.
    */
   public void assertContainsOnly(AssertionInfo info, Iterable<?> actual, Object[] expectedValues) {
-    final List<?> actualAsList = newArrayList(actual);
+    final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
     // don't use commonCheckThatIterableAssertionSucceeds to get a better error message when actual is not empty and
     // expectedValues is
-    checkNotNullIterables(info, actualAsList, expectedValues);
+    checkNotNullIterables(info, actualAsCollection, expectedValues);
     // if both actual and values are empty, then assertion passes.
-    if (actualAsList.isEmpty() && expectedValues.length == 0) return;
+    if (actualAsCollection.isEmpty() && expectedValues.length == 0) return;
 
     // after the for loop, unexpected = expectedValues - actual
-    List<Object> unexpectedValues = newArrayList(actualAsList);
+    List<Object> unexpectedValues = newArrayList(actualAsCollection);
     // after the for loop, missing = actual - expectedValues
     List<Object> missingValues = newArrayList(expectedValues);
     for (Object expected : expectedValues) {
-      if (iterableContains(actualAsList, expected)) {
+      if (iterableContains(actualAsCollection, expected)) {
         // since expected was found in actual:
         // -- it does not belong to the missing elements
         iterablesRemove(missingValues, expected);
@@ -410,7 +410,7 @@ public class Iterables {
     }
 
     if (!unexpectedValues.isEmpty() || !missingValues.isEmpty()) {
-      throw failures.failure(info, shouldContainOnly(actualAsList, expectedValues,
+      throw failures.failure(info, shouldContainOnly(actualAsCollection, expectedValues,
                                                      missingValues, unexpectedValues,
                                                      comparisonStrategy));
     }
