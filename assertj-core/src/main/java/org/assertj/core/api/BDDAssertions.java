@@ -16,6 +16,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -134,6 +137,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Julien Meddah
  * @author William Delanoue
  * @author Mariusz Smykula
+ * @author William Bakker
  */
 @CheckReturnValue
 public class BDDAssertions extends Assertions {
@@ -4006,5 +4010,50 @@ public class BDDAssertions extends Assertions {
    */
   public static void useDefaultRepresentation() {
     Assertions.useDefaultRepresentation();
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FieldAssert}</code> from the given {@link java.lang.reflect.Field}.
+   *
+   * Example:
+   * <pre><code class='java'> Field field = Math.class.getDeclaredField("PI");
+   * then(field).isPublic(); </code></pre>
+   *
+   * @param actual the field to test.
+   * @return the created assertion object.
+   * @since 3.27.0
+   */
+  public static AbstractFieldAssert<?> then(Field actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ConstructorAssert}</code> from the given {@link java.lang.reflect.Constructor}.
+   *
+   * Example:
+   * <pre><code class='java'> Constructor constructor = Object.class.getDeclaredConstructor();
+   * then(constructor).isPublic(); </code></pre>
+   *
+   * @param actual the constructor to test.
+   * @return the created assertion object.
+   * @since 3.27.0
+   */
+  public static <CLASS> AbstractConstructorAssert<?, CLASS> then(Constructor<CLASS> actual) {
+    return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link MethodAssert}</code> from the given {@link java.lang.reflect.Method}.
+   *
+   * Example:
+   * <pre><code class='java'> Method method = Math.class.getDeclaredMethod("abs", long.class);
+   * then(method).isPublic(); </code></pre>
+   *
+   * @param actual the method to test.
+   * @return the created assertion object.
+   * @since 3.27.0
+   */
+  public static AbstractMethodAssert<?> then(Method actual) {
+    return assertThat(actual);
   }
 }

@@ -49,7 +49,7 @@ import org.assertj.core.util.Arrays;
  * 
  * @author William Delanoue
  */
-public class Classes {
+public class Classes extends AnnotatedElements {
 
   private static final Classes INSTANCE = new Classes();
 
@@ -87,28 +87,6 @@ public class Classes {
     }
 
     if (!missing.isEmpty()) throw failures.failure(info, shouldBeAssignableFrom(actual, expected, missing));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} contains the given {@code Annotation}s.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @param annotations annotations who must be attached to the class
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
-   */
-  public void assertContainsAnnotations(AssertionInfo info, Class<?> actual,
-                                        Class<? extends Annotation>[] annotations) {
-    assertNotNull(info, actual);
-    Set<Class<? extends Annotation>> expected = newLinkedHashSet(annotations);
-    Set<Class<? extends Annotation>> missing = new LinkedHashSet<>();
-    for (Class<? extends Annotation> other : expected) {
-      classParameterIsNotNull(other);
-      if (actual.getAnnotation(other) == null) missing.add(other);
-    }
-
-    if (!missing.isEmpty()) throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
   }
 
   /**
