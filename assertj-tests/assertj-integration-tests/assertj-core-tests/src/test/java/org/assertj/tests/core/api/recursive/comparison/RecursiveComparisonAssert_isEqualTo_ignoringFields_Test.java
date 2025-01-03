@@ -804,6 +804,22 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
               .isEqualTo(mapB);
   }
 
+  @Test
+  void should_honor_ignored_fields_in_map_with_null_value() {
+    // GIVEN
+    Map<String, String> actual = new HashMap<>();
+    actual.put("foo", "value1");
+    actual.put("bar", null);
+
+    Map<String, String> expected = new HashMap<>();
+    expected.put("foo", "value2");
+    expected.put("bar", null);
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .ignoringFields("foo")
+                .isEqualTo(expected);
+  }
+
   static class Data {
     private final InnerData innerData;
     private final List<InnerData> innerDataList;
@@ -839,4 +855,5 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends RecursiveC
       }
     }
   }
+
 }
