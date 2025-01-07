@@ -47,6 +47,26 @@ jobs:
       - name: Test
         run: ./mvnw $MAVEN_ARGS verify
 
+  kotlin:
+
+    name: Kotlin ${{ matrix.kotlin }}
+    strategy:
+      fail-fast: false
+      matrix:
+        kotlin: [1.9.25, 2.0.21, 2.1.20-Beta1]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+          cache: 'maven'
+      - name: Test
+        run: ./mvnw $MAVEN_ARGS verify -Dkotlin.version=${{ matrix.kotlin }}
+
   javadoc:
 
     name: Javadoc
