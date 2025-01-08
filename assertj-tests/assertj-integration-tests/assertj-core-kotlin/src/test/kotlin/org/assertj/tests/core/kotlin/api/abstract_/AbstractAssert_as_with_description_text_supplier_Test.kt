@@ -10,10 +10,10 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.tests.core.kotlin
+package org.assertj.tests.core.kotlin.api.abstract_
 
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.catchThrowable
 import org.assertj.core.api.BDDAssertions.then
 import org.assertj.tests.core.kotlin.testkit.AssertionsUtil.expectAssertionError
 import org.assertj.tests.core.kotlin.testkit.ConcreteAssert
@@ -25,7 +25,7 @@ import java.util.function.Supplier
  * See [org.assertj.core.api.abstract_.AbstractAssert_as_with_description_text_supplier_Test].
  * `as` is a keyword in Kotlin, so we use `describedAs` instead.
  */
-internal class Assertions_describedAs_text_supplier_Test {
+class AbstractAssert_as_with_description_text_supplier_Test {
 
   @Test
   fun `descriptionText should evaluate lazy description`() {
@@ -77,7 +77,7 @@ internal class Assertions_describedAs_text_supplier_Test {
     val assertions = ConcreteAssert("foo")
     val descriptionSupplier: Supplier<String>? = null
     // WHEN
-    val throwable = Assertions.catchThrowable {
+    val throwable = catchThrowable {
       assertions.describedAs(
         descriptionSupplier
       ).descriptionText()
