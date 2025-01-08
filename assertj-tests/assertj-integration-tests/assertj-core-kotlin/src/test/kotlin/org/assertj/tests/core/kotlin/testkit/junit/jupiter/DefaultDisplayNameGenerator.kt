@@ -10,24 +10,23 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.tests.core.kotlin
+package org.assertj.tests.core.kotlin.testkit.junit.jupiter
 
-import org.assertj.core.api.Assertions.catchThrowableOfType
-import org.assertj.core.api.BDDAssertions.then
-import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.DisplayNameGenerator.ReplaceUnderscores
 
-internal class Assertions_catchThrowableOfType_Test {
+private const val TEST_SUFFIX = " Test"
 
-  @Test
-  fun `should work with lambda expressions`() {
-    // GIVEN
-    val exception = Exception("boom!!")
-    // WHEN
-    val thrown = catchThrowableOfType(Exception::class.java) {
-      throw exception
-    }
-    // THEN
-    then(thrown).isSameAs(exception)
+class DefaultDisplayNameGenerator : ReplaceUnderscores() {
+
+  override fun generateDisplayNameForClass(testClass: Class<*>?): String {
+    return removeTestSuffixIfExists(super.generateDisplayNameForClass(testClass))
+  }
+
+  private fun removeTestSuffixIfExists(displayName: String): String {
+    return if (displayName.endsWith(TEST_SUFFIX))
+      displayName.substring(0, displayName.lastIndexOf(TEST_SUFFIX))
+    else
+      displayName
   }
 
 }
