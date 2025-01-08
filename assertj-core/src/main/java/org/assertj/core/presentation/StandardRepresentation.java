@@ -12,16 +12,18 @@
  */
 package org.assertj.core.presentation;
 
-import org.assertj.core.configuration.Configuration;
-import org.assertj.core.configuration.ConfigurationProvider;
-import org.assertj.core.data.MapEntry;
-import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.Closeables;
-import org.assertj.core.util.VisibleForTesting;
-import org.assertj.core.util.diff.ChangeDelta;
-import org.assertj.core.util.diff.DeleteDelta;
-import org.assertj.core.util.diff.InsertDelta;
+import static java.lang.Integer.toHexString;
+import static java.util.stream.Collectors.toList;
+import static org.assertj.core.util.Arrays.isArray;
+import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
+import static org.assertj.core.util.Arrays.isObjectArray;
+import static org.assertj.core.util.Arrays.notAnArrayOfPrimitives;
+import static org.assertj.core.util.DateUtil.formatAsDatetime;
+import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Strings.concat;
+import static org.assertj.core.util.Strings.quote;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -61,18 +63,16 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
 
-import static java.lang.Integer.toHexString;
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.util.Arrays.isArray;
-import static org.assertj.core.util.Arrays.isArrayTypePrimitive;
-import static org.assertj.core.util.Arrays.isObjectArray;
-import static org.assertj.core.util.Arrays.notAnArrayOfPrimitives;
-import static org.assertj.core.util.DateUtil.formatAsDatetime;
-import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
-import static org.assertj.core.util.Preconditions.checkArgument;
-import static org.assertj.core.util.Strings.concat;
-import static org.assertj.core.util.Strings.quote;
-import static org.assertj.core.util.Throwables.getStackTrace;
+import org.assertj.core.configuration.Configuration;
+import org.assertj.core.configuration.ConfigurationProvider;
+import org.assertj.core.data.MapEntry;
+import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.util.Closeables;
+import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.ChangeDelta;
+import org.assertj.core.util.diff.DeleteDelta;
+import org.assertj.core.util.diff.InsertDelta;
 
 /**
  * Standard java object representation.
@@ -234,6 +234,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof AtomicReferenceFieldUpdater) return AtomicReferenceFieldUpdater.class.getSimpleName();
     if (object instanceof File) return toStringOf((File) object);
     if (object instanceof Path) return fallbackToStringOf(object);
+    if (isUnquotedString(object)) return toUnquotedStringOf(object);
     if (object instanceof String) return toStringOf((String) object);
     if (object instanceof CharSequence) return toStringOf((CharSequence) object);
     if (object instanceof Character) return toStringOf((Character) object);
@@ -260,6 +261,11 @@ public class StandardRepresentation implements Representation {
     if (object instanceof Number) return toStringOf((Number) object);
     if (object instanceof Throwable) return toStringOf((Throwable) object);
     return fallbackToStringOf(object);
+  }
+
+  private static boolean isUnquotedString(Object object) {
+    String className = object.getClass().getName();
+    return className.contains("org.assertj.core") && className.contains("UnquotedString");
   }
 
   private static boolean isInstanceOfNotOverridingToString(Object object, Class<?> type) {
@@ -402,6 +408,10 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(String s) {
     return concatWithDoubleQuotes(s);
+  }
+
+  protected String toUnquotedStringOf(Object s) {
+    return s.toString();
   }
 
   protected String toStringOf(CharSequence s) {

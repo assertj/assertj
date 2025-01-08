@@ -14,6 +14,7 @@ package org.assertj.core.error;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.BasicErrorMessageFactory.unquotedString;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.junit.jupiter.api.Test;
 
@@ -26,4 +27,15 @@ class BasicErrorMessageFactory_unquotedString_Test {
   void should_implement_toString() {
     then(unquotedString("some value")).hasToString("some value");
   }
+  
+  @Test
+  void StandardRepresentation_should_not_quote_unquoted_String() {
+    // GIVEN
+    CharSequence unquotedString = unquotedString("Hello");
+    // WHEN
+    String unquotedStringStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(unquotedString);
+    // THEN
+    then(unquotedStringStandardRepresentation).isEqualTo("Hello");
+  }
+
 }

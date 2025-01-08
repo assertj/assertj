@@ -23,6 +23,7 @@ import static org.assertj.core.util.Strings.quote;
 
 import java.util.Arrays;
 import java.util.Objects;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
