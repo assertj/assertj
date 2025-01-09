@@ -30,9 +30,9 @@ class ObjectAssert_extracting_with_Function_Test {
     assertThatObject(" ").extracting { it -> it.trim() }.isEqualTo("")
   }
 
-  @Disabled("Does not compile on Kotlin 1.9.25")
+  @Disabled("Does not compile with Kotlin < 2.x")
   @Test
-  fun `should support lambda on two chained calls`() {
+  fun `should support lambda with implicit parameter on two chained calls`() {
 /*
     // WHEN/THEN
     assertThatObject(" ")
@@ -49,7 +49,7 @@ class ObjectAssert_extracting_with_Function_Test {
     assertThatObject(" ").extracting(String::trim).isEqualTo("")
   }
 
-  @Disabled("Does not compile on Kotlin 1.9.25")
+  @Disabled("Does not compile with Kotlin < 2.x")
   @Test
   fun `should support method reference on two chained calls`() {
 /*
