@@ -35,12 +35,11 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldBeInstance}</code> when object we want to check type is null.
    *
-   * @param objectDescription the description of the null object we wanted to check type.
    * @param type the \nExpecting:\n type.
    * @return the created {@code ErrorMessageFactory}.
    */
-  public static ErrorMessageFactory shouldBeInstanceButWasNull(String objectDescription, Class<?> type) {
-    return new ShouldBeInstance(objectDescription, type);
+  public static ErrorMessageFactory shouldBeInstanceButWasNull(Class<?> type) {
+    return new ShouldBeInstance(type);
   }
 
   private ShouldBeInstance(Object object, Class<?> type) {
@@ -63,13 +62,11 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
           type, throwable);
   }
 
-  private ShouldBeInstance(String objectDescription, Class<?> type) {
+  private ShouldBeInstance(Class<?> type) {
     super("%n" +
-          "Expecting object:%n" +
-          "  %s%n" +
-          "to be an instance of:%n" +
+          "Expecting actual to be an instance of:%n" +
           "  <%s>%n" +
           "but was null",
-          objectDescription, type);
+          type);
   }
 }

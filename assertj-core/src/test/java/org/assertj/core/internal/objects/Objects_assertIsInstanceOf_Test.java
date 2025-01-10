@@ -17,8 +17,8 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
+import static org.assertj.core.error.ShouldBeInstance.shouldBeInstanceButWasNull;
 import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Objects#assertIsInstanceOf(AssertionInfo, Object, Class)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -57,7 +57,7 @@ class Objects_assertIsInstanceOf_Test extends ObjectsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> objects.assertIsInstanceOf(someInfo(), null, Object.class))
-                                                   .withMessage(actualIsNull());
+                                                   .withMessage(shouldBeInstanceButWasNull(Object.class).create());
   }
 
   @Test

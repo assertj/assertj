@@ -28,6 +28,7 @@ import static org.assertj.core.error.ShouldBeEqualToIgnoringFields.shouldBeEqual
 import static org.assertj.core.error.ShouldBeExactlyInstanceOf.shouldBeExactlyInstance;
 import static org.assertj.core.error.ShouldBeIn.shouldBeIn;
 import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
+import static org.assertj.core.error.ShouldBeInstance.shouldBeInstanceButWasNull;
 import static org.assertj.core.error.ShouldBeInstanceOfAny.shouldBeInstanceOfAny;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
@@ -126,6 +127,7 @@ public class Objects {
   }
 
   public void assertIsInstanceOf(AssertionInfo info, Object actual, Class<?> type) {
+    if (actual == null) throw failures.failure(info, shouldBeInstanceButWasNull(type));
     if (!isInstanceOfClass(actual, type, info)) throw failures.failure(info, shouldBeInstance(actual, type));
   }
 
