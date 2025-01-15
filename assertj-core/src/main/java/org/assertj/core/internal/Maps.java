@@ -65,6 +65,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
@@ -325,9 +326,9 @@ public class Maps {
 
   public <K, V> void assertContainsKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
-    requireNonNull(keys, keysToLookForIsNull("array of keys"));
+    requireNonNull(keys, () -> keysToLookForIsNull("array of keys"));
     if (actual.isEmpty() && keys.length == 0) return;
-    failIfEmpty(keys, keysToLookForIsEmpty("array of keys"));
+    failIfEmpty(keys, () -> keysToLookForIsEmpty("array of keys"));
 
     Set<K> notFound = getNotFoundKeys(actual, keys);
     if (!notFound.isEmpty()) throw failures.failure(info, shouldContainKeys(actual, notFound));
@@ -344,7 +345,7 @@ public class Maps {
 
   public <K, V> void assertDoesNotContainKeys(AssertionInfo info, Map<K, V> actual, K[] keys) {
     assertNotNull(info, actual);
-    requireNonNull(keys, keysToLookForIsNull("array of keys"));
+    requireNonNull(keys, () -> keysToLookForIsNull("array of keys"));
     Set<K> found = getFoundKeys(actual, keys);
     if (!found.isEmpty()) throw failures.failure(info, shouldNotContainKeys(actual, found));
   }
@@ -359,11 +360,11 @@ public class Maps {
 
   private <K, V> void assertContainsOnlyKeys(AssertionInfo info, Map<K, V> actual, String placeholderForErrorMessages, K[] keys) {
     assertNotNull(info, actual);
-    requireNonNull(keys, keysToLookForIsNull(placeholderForErrorMessages));
+    requireNonNull(keys, () -> keysToLookForIsNull(placeholderForErrorMessages));
     if (actual.isEmpty() && keys.length == 0) {
       return;
     }
-    failIfEmpty(keys, keysToLookForIsEmpty(placeholderForErrorMessages));
+    failIfEmpty(keys, () -> keysToLookForIsEmpty(placeholderForErrorMessages));
 
     Set<K> notFound = getNotFoundKeys(actual, keys);
     Set<K> notExpected = getNotExpectedKeys(actual, keys);
@@ -622,6 +623,10 @@ public class Maps {
 
   private static <K> void failIfEmpty(K[] keys, String errorMessage) {
     checkArgument(keys.length > 0, errorMessage);
+  }
+
+  private static <K> void failIfEmpty(K[] keys, Supplier<String> errorMessageSupplier) {
+    checkArgument(keys.length > 0, errorMessageSupplier);
   }
 
   private static <K, V> void failIfEmpty(Entry<? extends K, ? extends V>[] entries) {
