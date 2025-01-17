@@ -109,9 +109,9 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
     // GIVEN
     CharSequence charSequence = new StringBuilder("Hello");
     // WHEN
-    String emptyStringStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(charSequence);
+    String charSequenceStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(charSequence);
     // THEN
-    then(emptyStringStandardRepresentation).isEqualTo("\"Hello\"");
+    then(charSequenceStandardRepresentation).isEqualTo("\"Hello\"");
   }
 
   @Test
