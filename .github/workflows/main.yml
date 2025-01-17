@@ -33,6 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # https://jdk.java.net/
         java: [23, 24, 25]
     runs-on: ubuntu-latest
 
@@ -53,6 +54,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # https://kotlinlang.org/docs/releases.html#release-details
         # https://kotlinlang.org/docs/eap.html#build-details
         kotlin: [1.9.25, 2.0.21, 2.1.10-RC, 2.1.20-Beta1]
     runs-on: ubuntu-latest
