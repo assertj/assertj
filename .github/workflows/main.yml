@@ -53,7 +53,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        kotlin: [1.9.25, 2.0.21, 2.1.20-Beta1]
+        kotlin: [1.9.25, 2.0.21, 2.1.10-RC, 2.1.20-Beta1]
     runs-on: ubuntu-latest
 
     steps:
