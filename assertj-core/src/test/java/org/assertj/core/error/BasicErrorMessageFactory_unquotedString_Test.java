@@ -27,7 +27,7 @@ class BasicErrorMessageFactory_unquotedString_Test {
   void should_implement_toString() {
     then(unquotedString("some value")).hasToString("some value");
   }
-  
+
   @Test
   void StandardRepresentation_should_not_quote_unquoted_String() {
     // GIVEN
