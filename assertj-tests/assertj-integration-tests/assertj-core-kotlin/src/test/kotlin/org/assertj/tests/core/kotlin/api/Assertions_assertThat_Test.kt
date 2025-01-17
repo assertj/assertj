@@ -10,12 +10,12 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.tests.core.kotlin
+package org.assertj.tests.core.kotlin.api
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-internal class Assertions_assertThat_Test {
+class Assertions_assertThat_Test {
 
   @Test
   fun intarray() {

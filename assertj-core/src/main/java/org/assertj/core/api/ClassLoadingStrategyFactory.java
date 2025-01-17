@@ -65,7 +65,7 @@ class ClassLoadingStrategyFactory {
         throw new IllegalStateException("Could not access package of " + assertClass, e);
       }
     } else {
-      throw new IllegalStateException("No code generation strategy available");
+      throw new IllegalStateException("No code generation strategy available for " + assertClass);
     }
   }
 

@@ -17,20 +17,20 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
+import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 
 import java.util.List;
 import java.util.function.Function;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
-import org.assertj.tests.core.testkit.AlwaysEqualComparator;
 import org.assertj.tests.core.testkit.Employee;
-import org.assertj.tests.core.testkit.Jedi;
 import org.assertj.tests.core.testkit.Name;
 import org.assertj.tests.core.testkit.NavigationMethodBaseTest;
-import org.assertj.tests.core.testkit.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +38,7 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
 
   private Employee luke;
 
-  private static final Function<Employee, String> firstName = employee -> employee.getName().getFirst();
+  private static final Function<Employee, String> FIRST_NAME = employee -> employee.getName().getFirst();
 
   @BeforeEach
   void setUp() {
@@ -50,26 +50,10 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
     // GIVEN
     Function<Employee, Object> lastName = employee -> employee.getName().getLast();
     // WHEN
-    AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> result = assertThat(luke).extracting(firstName, lastName);
+    AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> result = assertThat(luke).extracting(FIRST_NAME, lastName);
     // THEN
     result.hasSize(2)
           .containsExactly("Luke", "Skywalker");
-  }
-
-  @Test
-  void should_allow_extracting_values_using_multiple_lambda_extractors_with_common_ancestor() {
-    // GIVEN
-    record Companions(Jedi jedi, Person person) {
-    }
-    Companions companions = new Companions(new Jedi("Luke", "blue"), new Person("Han"));
-    Function<Companions, Jedi> jedi = Companions::jedi;
-    Function<Companions, Person> person = Companions::person;
-    // WHEN
-    AbstractListAssert<?, List<? extends Person>, Person, ObjectAssert<Person>> result = assertThat(companions).extracting(jedi,
-                                                                                                                           person);
-    // THEN
-    result.hasSize(2)
-          .allSatisfy(e -> assertThat(e.getName()).isNotBlank());
   }
 
   @Test
@@ -77,8 +61,7 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
     // GIVEN
     Function<Employee, String> lastName = employee -> employee.getName().getLast();
     // WHEN
-    AbstractListAssert<?, List<? extends String>, String, ObjectAssert<String>> result = assertThat(luke).extracting(firstName,
-                                                                                                                     lastName);
+    AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> result = assertThat(luke).extracting(FIRST_NAME, lastName);
     // THEN
     result.hasSize(2)
           .containsExactly("Luke", "Skywalker");
@@ -101,7 +84,7 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
       throw explosion;
     };
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(luke).extracting(firstName, bomb));
+    Throwable error = catchThrowable(() -> assertThat(luke).extracting(FIRST_NAME, bomb));
     // THEN
     then(error).isSameAs(explosion);
   }
@@ -124,18 +107,18 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
     ObjectAssert<Employee> assertion = assertThat(luke).as("test description")
                                                        .withFailMessage("error message")
                                                        .withRepresentation(UNICODE_REPRESENTATION)
-                                                       .usingComparator(AlwaysEqualComparator.ALWAYS_EQUALS)
-                                                       .usingComparatorForFields(AlwaysEqualComparator.ALWAYS_EQUALS_STRING,
+                                                       .usingComparator(ALWAYS_EQUALS)
+                                                       .usingComparatorForFields(ALWAYS_EQUALS_STRING,
                                                                                  "foo")
-                                                       .usingComparatorForType(AlwaysEqualComparator.ALWAYS_EQUALS_STRING,
+                                                       .usingComparatorForType(ALWAYS_EQUALS_STRING,
                                                                                String.class);
     // WHEN
-    AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> result = assertion.extracting(firstName, Employee::getName);
+    AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> result = assertion.extracting(FIRST_NAME, Employee::getName);
     // THEN
     then(result.descriptionText()).isEqualTo("test description");
     then(result.info.overridingErrorMessage()).isEqualTo("error message");
     then(result.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
-    then(comparatorOf(result).getComparator()).isSameAs(AlwaysEqualComparator.ALWAYS_EQUALS);
+    then(comparatorOf(result).getComparator()).isSameAs(ALWAYS_EQUALS);
   }
 
   private static Objects comparatorOf(AbstractListAssert<?, ?, ?, ?> assertion) {
