@@ -1013,6 +1013,118 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
+   * Verifies that the actual {@code CharSequence} does not contain the given sequence;
+   * a sequence is defined as a group of values arranged <b>in the given order without any other values
+   * between them</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'>{@literal  String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+   *
+   * // assertions will pass
+   * assertThat(book).doesNotContainSequence("A Game of ", "Shadows");
+   * assertThat(book).doesNotContainSequence("A Game of ", "George Martin");
+   *
+   * // assertions will fail
+   * assertThat(book).doesNotContainSequence("A Game of ", "Thrones");}</code></pre>
+   *
+   * @param sequence the sequence to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} contains the given values in the given order
+   * without any characters between them.
+   */
+  public SELF doesNotContainSequence(CharSequence... sequence) {
+    strings.assertDoesNotContainSequence(info, actual, sequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not contain the given sequence;
+   * a sequence is defined as a group of values arranged <b>in the given order without any other values
+   * between them</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'>{@literal  String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+   *
+   * // assertions will pass
+   * assertThat(book).doesNotContainSequence(asList("A Game of ", "Shadows"));
+   * assertThat(book).doesNotContainSequence(asList("A Game of ", "George Martin"));
+   *
+   * // assertions will fail
+   * assertThat(book).doesNotContainSequence(asList("A Game of ", "Thrones"));}</code></pre>
+   *
+   * @param sequence the sequence to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} contains the given values in the given order
+   * without any characters between them.
+   */
+  public SELF doesNotContainSequence(Iterable<? extends CharSequence> sequence) {
+    strings.assertDoesNotContainSequence(info, actual, toArray(sequence, CharSequence.class));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not contain the given subsequence;
+   * a subsequence is defined as a group of values arranged <b>in the given order, possibly with some values
+   * between them</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'>{@literal  String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+   *
+   * // assertions will pass
+   * assertThat(book).doesNotContainSubsequence("A Game of ", "Shadows");
+   *
+   * // assertions will fail
+   * assertThat(book).doesNotContainSubsequence("A Game of ", "George Martin");
+   * assertThat(book).doesNotContainSubsequence("A Game of ", "Thrones");}</code></pre>
+   *
+   * @param subsequence the subsequence to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} contains the given values in the given order,
+   * possibly with other characters between them.
+   */
+  public SELF doesNotContainSubsequence(CharSequence... subsequence) {
+    strings.assertDoesNotContainSubsequence(info, actual, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not contain the given subsequence;
+   * a subsequence is defined as a group of values arranged <b>in the given order, possibly with some values
+   * between them</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'>{@literal  String book = "{ 'title':'A Game of Thrones', 'author':'George Martin'}";
+   *
+   * // assertions will pass
+   * assertThat(book).doesNotContainSubsequence(asList("A Game of ", "Shadows"));
+   *
+   * // assertions will fail
+   * assertThat(book).doesNotContainSubsequence(asList("A Game of ", "George Martin"));
+   * assertThat(book).doesNotContainSubsequence(asList("A Game of ", "Thrones"));}</code></pre>
+   *
+   * @param subsequence the subsequence to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError if the given {@code CharSequence} contains the given values in the given order,
+   * possibly with other characters between them.
+   */
+  public SELF doesNotContainSubsequence(Iterable<? extends CharSequence> subsequence) {
+    strings.assertDoesNotContainSubsequence(info, actual, toArray(subsequence, CharSequence.class));
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@code CharSequence} does not contain any of the given values, ignoring case considerations.
    * <p>
    * Example:
