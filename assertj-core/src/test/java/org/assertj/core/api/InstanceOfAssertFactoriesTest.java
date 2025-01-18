@@ -49,6 +49,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.CLASS;
 import static org.assertj.core.api.InstanceOfAssertFactories.COLLECTION;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETABLE_FUTURE;
 import static org.assertj.core.api.InstanceOfAssertFactories.COMPLETION_STAGE;
+import static org.assertj.core.api.InstanceOfAssertFactories.CONSTRUCTOR;
 import static org.assertj.core.api.InstanceOfAssertFactories.DATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_2D_ARRAY;
@@ -56,6 +57,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.DURATION;
+import static org.assertj.core.api.InstanceOfAssertFactories.FIELD;
 import static org.assertj.core.api.InstanceOfAssertFactories.FILE;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_2D_ARRAY;
@@ -82,6 +84,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.LONG_PREDICATE;
 import static org.assertj.core.api.InstanceOfAssertFactories.LONG_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.MAP;
 import static org.assertj.core.api.InstanceOfAssertFactories.MATCHER;
+import static org.assertj.core.api.InstanceOfAssertFactories.METHOD;
 import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.OFFSET_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
@@ -141,6 +144,9 @@ import static org.mockito.Mockito.verify;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -4129,6 +4135,129 @@ class InstanceOfAssertFactoriesTest {
       // THEN
       result.isEqualByComparingTo(0);
       verify(valueProvider).apply(Integer.class);
+    }
+
+  }
+
+  @Nested
+  class Field_Factory {
+
+    private final Object actual;
+    {
+      try {
+        actual = Math.class.getDeclaredField("PI");
+      } catch (NoSuchFieldException exception) {
+        throw new RuntimeException("Failed to get declared field 'PI'", exception);
+      }
+    }
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = FIELD.getRawClass();
+      // THEN
+      then(result).isEqualTo(Field.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractFieldAssert<?> result = FIELD.createAssert(actual);
+      // THEN
+      result.isFinal();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractFieldAssert<?> result = FIELD.createAssert(valueProvider);
+      // THEN
+      result.isFinal();
+      verify(valueProvider).apply(Field.class);
+    }
+
+  }
+
+  @Nested
+  class Method_Factory {
+
+    private final Object actual;
+    {
+      try {
+        actual = Math.class.getDeclaredMethod("abs", long.class);
+      } catch (NoSuchMethodException exception) {
+        throw new RuntimeException("Failed to get declared method 'length'", exception);
+      }
+    }
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = METHOD.getRawClass();
+      // THEN
+      then(result).isEqualTo(Method.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractMethodAssert<?> result = METHOD.createAssert(actual);
+      // THEN
+      result.isNotFinal();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractMethodAssert<?> result = METHOD.createAssert(valueProvider);
+      // THEN
+      result.isNotFinal();
+      verify(valueProvider).apply(Method.class);
+    }
+
+  }
+
+  @Nested
+  class Constructor_Factory {
+
+    private final Object actual;
+    {
+      try {
+        actual = String.class.getDeclaredConstructor();
+      } catch (NoSuchMethodException exception) {
+        throw new RuntimeException("Failed to get declared constructor", exception);
+      }
+    }
+
+    @Test
+    void getRawClass() {
+      // WHEN
+      Class<?> result = CONSTRUCTOR.getRawClass();
+      // THEN
+      then(result).isEqualTo(Constructor.class);
+    }
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractConstructorAssert<?, Object> result = CONSTRUCTOR.createAssert(actual);
+      // THEN
+      result.isPublic();
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractConstructorAssert<?, Object> result = CONSTRUCTOR.createAssert(valueProvider);
+      // THEN
+      result.isPublic();
+      verify(valueProvider).apply(parameterizedType(Constructor.class, Object.class));
     }
 
   }

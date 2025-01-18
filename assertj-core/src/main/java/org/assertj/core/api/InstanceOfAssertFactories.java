@@ -14,6 +14,9 @@ package org.assertj.core.api;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -1023,4 +1026,35 @@ public interface InstanceOfAssertFactories {
     return new InstanceOfAssertFactory<>(comparableType, Assertions::assertThat);
   }
 
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Field}.
+   */
+  InstanceOfAssertFactory<Field, AbstractFieldAssert<?>> FIELD = new InstanceOfAssertFactory<>(Field.class,
+                                                                                               Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Method}.
+   */
+  InstanceOfAssertFactory<Method, AbstractMethodAssert<?>> METHOD = new InstanceOfAssertFactory<>(Method.class,
+                                                                                                  Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for an {@link Constructor}, assuming {@code Object} as value type.
+   *
+   * @see #optional(Class)
+   */
+  @SuppressWarnings("rawtypes")
+  InstanceOfAssertFactory<Constructor, AbstractConstructorAssert<?, Object>> CONSTRUCTOR = constructor(Object.class);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link Constructor}.
+   *
+   * @param <CLAZZ>   the {@code Constructor} class type.
+   * @param classType the class type instance.
+   * @return the factory instance.
+   */
+  @SuppressWarnings("rawtypes")
+  static <CLAZZ> InstanceOfAssertFactory<Constructor, AbstractConstructorAssert<?, CLAZZ>> constructor(Class<CLAZZ> classType) {
+    return new InstanceOfAssertFactory<>(Constructor.class, new Class[] { classType }, Assertions::<CLAZZ> assertThat);
+  }
 }

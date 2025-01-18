@@ -17,6 +17,9 @@ import static org.assertj.core.data.Percentage.withPercentage;
 import java.io.File;
 import java.io.InputStream;
 import java.io.UncheckedIOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URL;
@@ -310,6 +313,16 @@ public class AssertionsForClassTypes {
   }
 
   /**
+   * Creates a new instance of <code>{@link ConstructorAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <CLASS> AbstractConstructorAssert<?, CLASS> assertThat(Constructor<CLASS> actual) {
+    return ConstructorAssert.assertThatConstructor(actual);
+  }
+
+  /**
    * Creates a new instance of <code>{@link DoubleAssert}</code>.
    *
    * @param actual the actual value.
@@ -368,6 +381,16 @@ public class AssertionsForClassTypes {
    */
   public static AbstractInputStreamAssert<?, ? extends InputStream> assertThat(InputStream actual) {
     return new InputStreamAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FieldAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractFieldAssert<?> assertThat(Field actual) {
+    return new FieldAssert(actual);
   }
 
   /**
@@ -491,6 +514,16 @@ public class AssertionsForClassTypes {
    */
   public static Long2DArrayAssert assertThat(long[][] actual) {
     return new Long2DArrayAssert(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link MethodAssert}</code>.
+   *
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static AbstractMethodAssert<?> assertThat(Method actual) {
+    return new MethodAssert(actual);
   }
 
   /**
