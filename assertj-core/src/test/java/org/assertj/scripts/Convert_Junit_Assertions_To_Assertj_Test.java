@@ -18,6 +18,8 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -28,6 +30,7 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 
 @DisplayName("Convert JUnit assertions to AssertJ")
+@DisabledOnOs(value = OS.WINDOWS, disabledReason = "Executes Linux shell scripts")
 public class Convert_Junit_Assertions_To_Assertj_Test {
   private ShellScriptInvoker conversionScriptInvoker;
 
