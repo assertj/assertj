@@ -34,6 +34,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -233,6 +234,17 @@ class Assumptions_assumeThat_with_various_types_Test {
             assumeThat(actual).isInstanceOf(IllegalArgumentException.class);
           }
         },
+      new AssumptionRunner<SQLException>(new SQLException()) {
+        @Override
+        public void runFailingAssumption() {
+          assumeThat(actual).isInstanceOf(NullPointerException.class);
+        }
+
+        @Override
+        public void runPassingAssumption() {
+          assumeThat(actual).isInstanceOf(SQLException.class);
+        }
+      },
         new AssumptionRunner<ThrowingCallable>(new ThrowingCallable() {
           @Override
           public void call() {

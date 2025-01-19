@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Date;
@@ -204,6 +205,11 @@ class BDDAssertions_then_Test {
   @Test
   void then_Throwable() {
     then(new IllegalArgumentException("Foo")).hasMessage("Foo");
+  }
+
+  @Test
+  void then_SQLException() {
+    then(new SQLException("Foo")).hasMessage("Foo");
   }
 
   @Test

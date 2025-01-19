@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -1444,6 +1445,36 @@ public final class BDDAssumptions extends Assumptions {
    * @since 3.14.0
    */
   public static <T extends Throwable> AbstractThrowableAssert<?, T> given(T actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link java.sql.SQLException} value.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new SQLException("Yoda time")).hasMessage("Yoda time");
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new SQLException("Yoda time")).hasMessage("");
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param <T> the type of the actual SQL exception.
+   * @param actual the actual {@link java.sql.SQLException} value to be validated.
+   * @return the {@link AbstractThrowableAssert} assertion object to be used for assumptions.
+   * @since 3.23.1
+   */
+  public static <T extends SQLException> AbstractThrowableAssert<?, T> given(T actual) {
     return assumeThat(actual);
   }
 
