@@ -68,14 +68,13 @@ class ThrowableTypeAssert_description_Test {
   @MethodSource("parameters")
   void should_contain_provided_description_when_exception_message_is_wrong(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
     IllegalArgumentException exception = new IllegalArgumentException("some cause");
-    assertThatAssertionErrorIsThrownBy(() -> {
-      descriptionAdder.apply(assertThatIllegalArgumentException()).isThrownBy(() -> {
-        throw exception;
-      }).withMessage("other cause");
-    }).withMessageStartingWith(format("[test description] %n" +
-                                      "Expecting message to be:%n" +
-                                      "  \"other cause\"%n" +
-                                      "but was:%n" +
-                                      "  \"some cause\"%n"));
+    assertThatAssertionErrorIsThrownBy(() -> descriptionAdder.apply(assertThatIllegalArgumentException()).isThrownBy(() -> {
+      throw exception;
+    }).withMessage("other cause"))
+                                  .withMessageStartingWith(format("[test description] %n" +
+                                                                  "Expecting message to be:%n" +
+                                                                  "  \"other cause\"%n" +
+                                                                  "but was:%n" +
+                                                                  "  \"some cause\"%n"));
   }
 }

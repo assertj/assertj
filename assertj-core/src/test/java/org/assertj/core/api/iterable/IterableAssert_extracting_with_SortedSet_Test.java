@@ -52,35 +52,27 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 class IterableAssert_extracting_with_SortedSet_Test {
 
   private Employee yoda;
-  private Employee luke;
   private SortedSet<Employee> jedis;
   private SortedSet<TolkienCharacter> fellowshipOfTheRing;
 
   @SuppressWarnings("deprecation")
-  private static final Extractor<Employee, String> firstName = new Extractor<Employee, String>() {
-    @Override
-    public String extract(Employee input) {
-      return input.getName().getFirst();
-    }
-  };
+  private static final Extractor<Employee, String> firstName = input -> input.getName().getFirst();
 
   private static final Function<Employee, Integer> age = Employee::getAge;
 
-  private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = new ThrowingExtractor<Employee, Object, Exception>() {
-    @Override
-    public Object extractThrows(Employee employee) throws Exception {
-      if (employee.getAge() < 20) throw new Exception("age < 20");
-      return employee.getName().getFirst();
-    }
+  private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = employee -> {
+    if (employee.getAge() < 20) throw new Exception("age < 20");
+    return employee.getName().getFirst();
   };
 
   @BeforeEach
   void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
-    luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+    Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     jedis = new TreeSet<>(comparing(Employee::getAge));
     jedis.add(luke);
     jedis.add(yoda);
@@ -159,7 +151,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   void should_allow_assertions_on_property_values_extracted_from_given_iterable_with_extracted_type_defined() {
     // extract field that is also a property and check generic for comparator.
     assertThat(jedis).extracting("name", Name.class)
-                     .usingElementComparator((o1, o2) -> o1.getFirst().compareTo(o2.getFirst()))
+                     .usingElementComparator(comparing(Name::getFirst))
                      .containsOnly(new Name("Yoda"), new Name("Luke", "Skywalker"));
   }
 
@@ -176,10 +168,9 @@ class IterableAssert_extracting_with_SortedSet_Test {
 
   @Test
   void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
-      assertThat(jedis).extracting("unknown", "age", "id")
-                       .containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
-    });
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(jedis).extracting("unknown", "age", "id")
+                                                                                          .containsOnly(tuple("Yoda", 800, 1L),
+                                                                                                        tuple("Luke", 26, 2L)));
   }
 
   @Test
@@ -191,14 +182,11 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @SuppressWarnings("deprecation")
   @Test
   void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_runtimeexception() {
-    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(new Extractor<Employee, String>() {
-      @Override
-      public String extract(Employee input) {
-        if (input.getAge() > 100) {
-          throw new RuntimeException("age > 100");
-        }
-        return input.getName().getFirst();
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting((Extractor<Employee, String>) input -> {
+      if (input.getAge() > 100) {
+        throw new RuntimeException("age > 100");
       }
+      return input.getName().getFirst();
     }));
   }
 
@@ -233,24 +221,18 @@ class IterableAssert_extracting_with_SortedSet_Test {
 
   @Test
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
-    assertThat(jedis).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
-      @Override
-      public Object extractThrows(Employee employee) throws Exception {
-        if (employee.getAge() < 20) throw new Exception("age < 20");
-        return employee.getName().getFirst();
-      }
+    assertThat(jedis).extracting((ThrowingExtractor<Employee, Object, Exception>) employee -> {
+      if (employee.getAge() < 20) throw new Exception("age < 20");
+      return employee.getName().getFirst();
     }).containsOnly("Yoda", "Luke");
   }
 
   @SuppressWarnings("deprecation")
   @Test
   void should_allow_extracting_multiple_values_using_extractor() {
-    assertThat(jedis).extracting(new Extractor<Employee, Tuple>() {
-      @Override
-      public Tuple extract(Employee input) {
-        return new Tuple(input.getName().getFirst(), input.getAge(), input.id);
-      }
-    }).containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
+    assertThat(jedis).extracting((Extractor<Employee, Tuple>) input -> new Tuple(input.getName().getFirst(), input.getAge(),
+                                                                                 input.id))
+                     .containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
   }
 
   @Test
@@ -411,13 +393,9 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @Test
   void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
-                                                                                      .extracting(new Extractor<Employee, String>() {
-                                                                                        @Override
-                                                                                        public String extract(Employee input) {
-                                                                                          return input.getName()
-                                                                                                      .getFirst();
-                                                                                        }
-                                                                                      }).isEmpty())
+                                                                                      .extracting((Extractor<Employee, String>) input -> input.getName()
+                                                                                                                                              .getFirst())
+                                                                                      .isEmpty())
                                                    .withMessageContaining("[check employees first name]");
   }
 
@@ -438,7 +416,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @Test
   void extracting_by_several_functions_should_keep_assertion_state() {
     // WHEN
-    // not all comparators are used but we want to test that they are passed correctly after extracting
+    // not all comparators are used, but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
@@ -461,7 +439,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @Test
   void extracting_by_name_should_keep_assertion_state() {
     // WHEN
-    // not all comparators are used but we want to test that they are passed correctly after extracting
+    // not all comparators are used, but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
@@ -484,7 +462,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @Test
   void extracting_by_strongly_typed_name_should_keep_assertion_state() {
     // WHEN
-    // not all comparators are used but we want to test that they are passed correctly after extracting
+    // not all comparators are used, but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
@@ -507,7 +485,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @Test
   void extracting_by_multiple_names_should_keep_assertion_state() {
     // WHEN
-    // not all comparators are used but we want to test that they are passed correctly after extracting
+    // not all comparators are used, but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
@@ -530,7 +508,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @Test
   void extracting_by_single_extractor_should_keep_assertion_state() {
     // WHEN
-    // not all comparators are used but we want to test that they are passed correctly after extracting
+    // not all comparators are used, but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
@@ -553,7 +531,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @Test
   void extracting_by_throwing_extractor_should_keep_assertion_state() {
     // WHEN
-    // not all comparators are used but we want to test that they are passed correctly after extracting
+    // not all comparators are used, but we want to test that they are passed correctly after extracting
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)

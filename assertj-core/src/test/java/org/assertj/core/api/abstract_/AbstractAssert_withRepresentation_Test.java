@@ -20,6 +20,7 @@ import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 class AbstractAssert_withRepresentation_Test {
 
   @Test
@@ -30,9 +31,9 @@ class AbstractAssert_withRepresentation_Test {
 
   @Test
   void should_be_able_to_use_a_custom_representation_for_error_messages() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      assertThat(new Example()).withRepresentation(new CustomRepresentation()).isNull();
-    }).withMessage(shouldBeEqualMessage("Example", "null"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new Example()).withRepresentation(new CustomRepresentation())
+                                                                                              .isNull())
+                                                   .withMessage(shouldBeEqualMessage("Example", "null"));
   }
 
   @Test
@@ -42,10 +43,10 @@ class AbstractAssert_withRepresentation_Test {
                                                    .withMessageContaining("$foo$").withMessageContaining("$bar$");
   }
 
-  private class Example {
+  private static class Example {
   }
 
-  private class CustomRepresentation extends StandardRepresentation {
+  private static class CustomRepresentation extends StandardRepresentation {
     @Override
     public String toStringOf(Object o) {
       if (o instanceof Example) return "Example";

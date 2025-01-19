@@ -39,8 +39,8 @@ import org.junit.jupiter.api.Test;
 @DisplayName("IterableAssert usingComparatorForType")
 class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest {
 
-  private Jedi actual = new Jedi("Yoda", "green");
-  private Jedi other = new Jedi("Luke", "blue");
+  private final Jedi actual = new Jedi("Yoda", "green");
+  private final Jedi other = new Jedi("Luke", "blue");
 
   private Iterables iterablesBefore;
 
@@ -103,11 +103,10 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
     // GIVEN
     List<Comparable<? extends Comparable<?>>> list = list(actual, "some");
     // WHEN
-    AssertionError error = expectAssertionError(() -> {
-      assertThat(list).usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_STRING, String.class)
-                      .usingElementComparatorIgnoringFields("name")
-                      .contains(other, "any");
-    });
+    AssertionError error = expectAssertionError(() -> assertThat(list).usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_STRING,
+                                                                                                               String.class)
+                                                                      .usingElementComparatorIgnoringFields("name")
+                                                                      .contains(other, "any"));
     // THEN
     then(error).hasMessage(format("%nExpecting ArrayList:%n"
                                   + "  [Yoda the Jedi, \"some\"]%n"
@@ -149,12 +148,13 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
   @Test
   void should_fail_because_of_comparator_set_last() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> {
-      assertThat(asList(actual, actual)).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
-                                        .usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING, String.class)
-                                        .usingFieldByFieldElementComparator()
-                                        .contains(other, other);
-    });
+    AssertionError error = expectAssertionError(() -> assertThat(asList(actual,
+                                                                        actual)).usingComparatorForType(ALWAYS_EQUALS_STRING,
+                                                                                                        String.class)
+                                                                                .usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING,
+                                                                                                                         String.class)
+                                                                                .usingFieldByFieldElementComparator()
+                                                                                .contains(other, other));
     // THEN
     then(error).hasMessage(format("%nExpecting ArrayList:%n"
                                   + "  [Yoda the Jedi, Yoda the Jedi]%n"

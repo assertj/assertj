@@ -28,13 +28,13 @@ import org.junit.jupiter.api.Test;
 class IterableAssert_hasOnlyOneElementSatisfying_Test {
 
   @Test
-  void succeeds_if_iterable_has_only_one_element_and_that_element_statisfies_the_given_assertion() {
+  void succeeds_if_iterable_has_only_one_element_and_that_element_satisfies_the_given_assertion() {
     List<Jedi> jedis = asList(new Jedi("Yoda", "red"));
     assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));
   }
 
   @Test
-  void succeeds_if_iterable_has_only_one_element_and_that_element_statisfies_the_given_assertions() {
+  void succeeds_if_iterable_has_only_one_element_and_that_element_satisfies_the_given_assertions() {
     assertThat(asList(new Jedi("Yoda", "red"))).hasOnlyOneElementSatisfying(yoda -> {
       assertThat(yoda.getName()).isEqualTo("Yoda");
       assertThat(yoda.lightSaberColor).isEqualTo("red");
@@ -52,26 +52,23 @@ class IterableAssert_hasOnlyOneElementSatisfying_Test {
   @Test
   void fails_if_iterable_has_only_one_element_and_that_element_does_not_satisfy_one_of_the_given_assertion() {
     List<Jedi> jedis = asList(new Jedi("Yoda", "red"));
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
-        assertThat(yoda.getName()).startsWith("Y");
-        assertThat(yoda.getName()).startsWith("L");
-      });
-    }).withMessage(format("%nExpecting actual:%n  \"Yoda\"%nto start with:%n  \"L\"%n"));
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
+      assertThat(yoda.getName()).startsWith("Y");
+      assertThat(yoda.getName()).startsWith("L");
+    }))
+                                                   .withMessage(format("%nExpecting actual:%n  \"Yoda\"%nto start with:%n  \"L\"%n"));
   }
 
   @Test
   void fails_if_iterable_has_only_one_element_and_that_element_does_not_satisfy_the_soft_assertion() {
     List<Jedi> jedis = asList(new Jedi("Yoda", "red"));
 
-    Throwable assertionError = catchThrowable(() -> {
-      assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(yoda.getName()).startsWith("L");
-        softly.assertThat(yoda.getName()).startsWith("M");
-        softly.assertAll();
-      });
-    });
+    Throwable assertionError = catchThrowable(() -> assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
+      SoftAssertions softly = new SoftAssertions();
+      softly.assertThat(yoda.getName()).startsWith("L");
+      softly.assertThat(yoda.getName()).startsWith("M");
+      softly.assertAll();
+    }));
 
     assertThat(assertionError).hasMessageContaining(format("Expecting actual:%n  \"Yoda\"%nto start with:%n  \"L\""))
                               .hasMessageContaining(format("Expecting actual:%n  \"Yoda\"%nto start with:%n  \"M\""));

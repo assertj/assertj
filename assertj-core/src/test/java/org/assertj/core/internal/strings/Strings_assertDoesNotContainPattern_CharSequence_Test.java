@@ -87,10 +87,10 @@ class Strings_assertDoesNotContainPattern_CharSequence_Test extends StringsBaseT
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), null,
-                                                                               matchAnything().pattern());
-    }).withMessage(actualIsNull());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(),
+                                                                                                                                              null,
+                                                                                                                                              matchAnything().pattern()))
+                                                   .withMessage(actualIsNull());
   }
 
   @Test

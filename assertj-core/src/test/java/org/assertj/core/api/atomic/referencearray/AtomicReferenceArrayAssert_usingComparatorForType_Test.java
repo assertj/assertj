@@ -111,11 +111,10 @@ class AtomicReferenceArrayAssert_usingComparatorForType_Test extends AtomicRefer
     Object[] array = array(actual, "some");
     AtomicReferenceArray<Object> atomicArray = new AtomicReferenceArray<>(array);
     // WHEN
-    AssertionError error = expectAssertionError(() -> {
-      assertThat(atomicArray).usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_STRING, String.class)
-                             .usingFieldByFieldElementComparator()
-                             .contains(other, "any");
-    });
+    AssertionError error = expectAssertionError(() -> assertThat(atomicArray).usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_STRING,
+                                                                                                                      String.class)
+                                                                             .usingFieldByFieldElementComparator()
+                                                                             .contains(other, "any"));
     // THEN
     then(error).hasMessage(format("%nExpecting Object[]:%n"
                                   + "  [Yoda the Jedi, \"some\"]%n"
@@ -163,12 +162,12 @@ class AtomicReferenceArrayAssert_usingComparatorForType_Test extends AtomicRefer
     // GIVEN
     AtomicReferenceArray<Jedi> atomicArray = atomicArrayOf(actual, actual);
     // WHEN
-    AssertionError error = expectAssertionError(() -> {
-      assertThat(atomicArray).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
-                             .usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING, String.class)
-                             .usingFieldByFieldElementComparator()
-                             .contains(other, other);
-    });
+    AssertionError error = expectAssertionError(() -> assertThat(atomicArray).usingComparatorForType(ALWAYS_EQUALS_STRING,
+                                                                                                     String.class)
+                                                                             .usingComparatorForElementFieldsWithType(NEVER_EQUALS_STRING,
+                                                                                                                      String.class)
+                                                                             .usingFieldByFieldElementComparator()
+                                                                             .contains(other, other));
     // THEN
     then(error).hasMessage(format("%nExpecting Object[]:%n"
                                   + "  [Yoda the Jedi, Yoda the Jedi]%n"

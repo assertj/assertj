@@ -28,6 +28,7 @@ import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 class IterableAssert_filteredOn_not_Test extends IterableAssert_filtered_baseTest {
 
   @Test
@@ -56,9 +57,8 @@ class IterableAssert_filteredOn_not_Test extends IterableAssert_filtered_baseTes
   void should_fail_if_filter_is_on_private_field_and_reading_private_field_is_disabled() {
     setAllowExtractingPrivateFields(false);
     try {
-      assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
-        assertThat(employees).filteredOn("city", not("New York"));
-      });
+      assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).filteredOn("city",
+                                                                                                            not("New York")));
     } finally {
       setAllowExtractingPrivateFields(true);
     }

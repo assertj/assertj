@@ -36,10 +36,11 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Joel Costigliola
  */
+@SuppressWarnings("ThrowableNotThrown")
 class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
 
-  private static Comparator<String> stringDescendingOrderComparator = (s1, s2) -> -s1.compareTo(s2);
-  private static Comparator<Object> comparator = (o1, o2) -> o1.toString().compareTo(o2.toString());
+  private static final Comparator<String> stringDescendingOrderComparator = Comparator.comparing(String::toString).reversed();
+  private static final Comparator<Object> comparator = Comparator.comparing(Object::toString);
 
   @Test
   void should_pass_if_actual_is_sorted_according_to_given_comparator() {
@@ -96,7 +97,7 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
     AssertionInfo info = someInfo();
     List<Object> actual = newArrayList();
     actual.add("bar");
-    actual.add(new Integer(5));
+    actual.add(5);
     actual.add("foo");
 
     Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual,
