@@ -29,6 +29,8 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
@@ -1274,6 +1276,26 @@ public class Assumptions {
   @SuppressWarnings("unchecked")
   public static <RESULT> CompletableFutureAssert<RESULT> assumeThat(CompletionStage<RESULT> actual) {
     return asAssumption(CompletableFutureAssert.class, CompletionStage.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link AbstractBufferAssert} assumption.
+   *
+   * @param actual the Buffer to test.
+   * @return the created assumption for assertion object.
+   */
+  public static AbstractBufferAssert assumeThat(Buffer actual) {
+    return asAssumption(AbstractBufferAssert.class, Buffer.class, actual);
+  }
+
+  /**
+   * Creates a new instance of {@link AbstractByteBufferAssert} assumption.
+   *
+   * @param actual the Buffer to test.
+   * @return the created assumption for assertion object.
+   */
+  public static AbstractByteBufferAssert assumeThat(ByteBuffer actual) {
+    return asAssumption(AbstractByteBufferAssert.class, ByteBuffer.class, actual);
   }
 
   /**
