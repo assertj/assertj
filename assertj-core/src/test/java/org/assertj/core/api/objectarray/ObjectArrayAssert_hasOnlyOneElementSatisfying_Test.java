@@ -24,13 +24,13 @@ import org.junit.jupiter.api.Test;
 class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
 
   @Test
-  void succeeds_if_array_has_only_one_element_and_that_element_statisfies_the_given_assertion() {
+  void succeeds_if_array_has_only_one_element_and_that_element_satisfies_the_given_assertion() {
     Jedi[] jedis = { new Jedi("Yoda", "red") };
     assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));
   }
 
   @Test
-  void succeeds_if_arry_has_only_one_element_and_that_element_statisfies_the_given_assertions() {
+  void succeeds_if_array_has_only_one_element_and_that_element_satisfies_the_given_assertions() {
     assertThat(new Jedi[] { new Jedi("Yoda", "red") }).hasOnlyOneElementSatisfying(yoda -> {
       assertThat(yoda.getName()).isEqualTo("Yoda");
       assertThat(yoda.lightSaberColor).isEqualTo("red");
@@ -38,7 +38,7 @@ class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
   }
 
   @Test
-  void fails_if_arry_has_only_one_element_and_that_element_does_not_satisfy_the_given_assertion() {
+  void fails_if_array_has_only_one_element_and_that_element_does_not_satisfy_the_given_assertion() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Jedi[] jedis = { new Jedi("Yoda", "red") };
       assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("L"));
@@ -58,21 +58,19 @@ class ObjectArrayAssert_hasOnlyOneElementSatisfying_Test {
   void fails_if_iterable_has_only_one_element_and_that_element_does_not_satisfy_the_soft_assertion() {
     Jedi[] jedis = { new Jedi("Yoda", "red") };
 
-    Throwable assertionError = catchThrowable(() -> {
-      assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
-        SoftAssertions softly = new SoftAssertions();
-        softly.assertThat(yoda.getName()).startsWith("L");
-        softly.assertThat(yoda.getName()).startsWith("M");
-        softly.assertAll();
-      });
-    });
+    Throwable assertionError = catchThrowable(() -> assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> {
+      SoftAssertions softly = new SoftAssertions();
+      softly.assertThat(yoda.getName()).startsWith("L");
+      softly.assertThat(yoda.getName()).startsWith("M");
+      softly.assertAll();
+    }));
 
     assertThat(assertionError).hasMessageContaining(format("Expecting actual:%n  \"Yoda\"%nto start with:%n  \"L\""))
                               .hasMessageContaining(format("Expecting actual:%n  \"Yoda\"%nto start with:%n  \"M\""));
   }
 
   @Test
-  void fails_if_arry_has_more_than_one_element() {
+  void fails_if_array_has_more_than_one_element() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       Jedi[] jedis = { new Jedi("Yoda", "red"), new Jedi("Luke", "green") };
       assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("Y"));

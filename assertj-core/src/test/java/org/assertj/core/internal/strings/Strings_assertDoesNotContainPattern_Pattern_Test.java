@@ -81,10 +81,10 @@ class Strings_assertDoesNotContainPattern_Pattern_Test extends StringsBaseTest {
 
   @Test
   void should_fail_if_actual_contains_pattern_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
-      stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(), ACTUAL,
-                                                                               Pattern.compile(CONTAINED_PATTERN));
-    }).withMessage(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN).create());
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContainPattern(someInfo(),
+                                                                                                                                              ACTUAL,
+                                                                                                                                              Pattern.compile(CONTAINED_PATTERN)))
+                                                   .withMessage(shouldNotContainPattern(ACTUAL, CONTAINED_PATTERN).create());
   }
 
   @Test

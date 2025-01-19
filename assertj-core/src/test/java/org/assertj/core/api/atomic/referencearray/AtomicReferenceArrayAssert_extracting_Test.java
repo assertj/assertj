@@ -28,17 +28,15 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings({ "deprecation", "ResultOfMethodCallIgnored" })
 class AtomicReferenceArrayAssert_extracting_Test {
 
-  private static Employee yoda;
-  private static Employee luke;
   private static AtomicReferenceArray<Employee> employees;
 
   @BeforeAll
   static void setUpOnce() {
-    yoda = new Employee(1L, new Name("Yoda"), 800);
-    luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
+    Employee yoda = new Employee(1L, new Name("Yoda"), 800);
+    Employee luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     employees = new AtomicReferenceArray<>(array(yoda, luke));
   }
 
@@ -75,10 +73,11 @@ class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   void should_throw_error_if_one_property_or_field_can_not_be_extracted() {
-    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> {
-      assertThat(employees).extracting("unknown", "age", "id").containsOnly(tuple("Yoda", 800, 1L),
-                                                                            tuple("Luke", 26, 2L));
-    });
+    assertThatExceptionOfType(IntrospectionError.class).isThrownBy(() -> assertThat(employees).extracting("unknown", "age", "id")
+                                                                                              .containsOnly(tuple("Yoda", 800,
+                                                                                                                  1L),
+                                                                                                            tuple("Luke", 26,
+                                                                                                                  2L)));
   }
 
   @Test
@@ -131,23 +130,17 @@ class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   void should_let_anonymous_class_extractor_runtime_exception_bubble_up() {
-    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(new Extractor<Employee, String>() {
-      @Override
-      public String extract(Employee employee) {
-        if (employee.getAge() > 100) throw new RuntimeException("age > 100");
-        return employee.getName().getFirst();
-      }
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting((Extractor<Employee, String>) employee -> {
+      if (employee.getAge() > 100) throw new RuntimeException("age > 100");
+      return employee.getName().getFirst();
     })).withMessage("age > 100");
   }
 
   @Test
   void should_let_anonymous_class_function_runtime_exception_bubble_up() {
-    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(new Function<Employee, String>() {
-      @Override
-      public String apply(Employee employee) {
-        if (employee.getAge() > 100) throw new RuntimeException("age > 100");
-        return employee.getName().getFirst();
-      }
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting((Function<Employee, String>) employee -> {
+      if (employee.getAge() > 100) throw new RuntimeException("age > 100");
+      return employee.getName().getFirst();
     })).withMessage("age > 100");
   }
 
@@ -161,7 +154,7 @@ class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   void should_let_throwing_extractor_runtime_exception_bubble_up() {
-    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(employee -> {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting((Function<Employee, String>) employee -> {
       if (employee.getAge() > 100) throw new RuntimeException("age > 100");
       return employee.getName().getFirst();
     })).withMessage("age > 100");
@@ -177,12 +170,9 @@ class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
-    assertThat(employees).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
-      @Override
-      public Object extractThrows(Employee employee) throws Exception {
-        if (employee.getAge() < 20) throw new Exception("age < 20");
-        return employee.getName().getFirst();
-      }
+    assertThat(employees).extracting((ThrowingExtractor<Employee, Object, Exception>) employee -> {
+      if (employee.getAge() < 20) throw new Exception("age < 20");
+      return employee.getName().getFirst();
     }).containsOnly("Yoda", "Luke");
   }
 
