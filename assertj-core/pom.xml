@@ -28,7 +28,7 @@
     <spotless.skip>false</spotless.skip>
     <jacoco.skip>true</jacoco.skip> <!-- https://github.com/assertj/assertj/issues/3580 -->
     <!-- Dependency versions -->
-    <byte-buddy.version>1.15.11</byte-buddy.version>
+    <byte-buddy.version>1.16.1</byte-buddy.version>
     <hamcrest.version>3.0</hamcrest.version>
     <!-- Plugin versions -->
     <cdg.pitest.version>1.1.4</cdg.pitest.version>
