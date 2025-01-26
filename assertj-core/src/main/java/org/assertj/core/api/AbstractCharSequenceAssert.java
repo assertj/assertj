@@ -15,7 +15,6 @@ package org.assertj.core.api;
 import static java.lang.Character.isWhitespace;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toCollection;
-import static org.assertj.core.api.Assertions.contentOf;
 import static org.assertj.core.error.ShouldBeASCII.shouldBeASCII;
 import static org.assertj.core.error.ShouldBeAlphabetic.shouldBeAlphabetic;
 import static org.assertj.core.error.ShouldBeAlphanumeric.shouldBeAlphanumeric;
@@ -35,7 +34,6 @@ import static org.assertj.core.internal.Strings.doCommonCheckForCharSequence;
 import static org.assertj.core.internal.Strings.removeAllWhitespaces;
 import static org.assertj.core.util.IterableUtil.toArray;
 
-import java.io.File;
 import java.io.LineNumberReader;
 import java.text.Normalizer;
 import java.util.Comparator;
@@ -1335,89 +1333,6 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   public SELF doesNotMatch(Pattern pattern) {
     strings.assertDoesNotMatch(info, actual, pattern);
-    return myself;
-  }
-
-  /**
-   * @deprecated
-   *
-   * This assertion has some limitations, for example it does not handle tab vs space and would fail if elements are the same but
-   * in a different order.<br>
-   * The recommended approach is <a href="https://github.com/xmlunit/user-guide/wiki">XML Unit</a> which is able to deal with
-   * these limitations and provides many more features like XPath support and schema validation.
-   * <p>
-   * Original javadoc:
-   * <p>
-   * Verifies that the actual {@code CharSequence} is equal to the given XML {@code CharSequence} after both have been
-   * formatted the same way.
-   * <p>
-   * Example:
-   * <pre><code class='java'> String expectedXml =
-   *     &quot;&lt;rings&gt;\n&quot; +
-   *         &quot;  &lt;bearer&gt;\n&quot; +
-   *         &quot;    &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
-   *         &quot;    &lt;ring&gt;\n&quot; +
-   *         &quot;      &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
-   *         &quot;      &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
-   *         &quot;    &lt;/ring&gt;\n&quot; +
-   *         &quot;  &lt;/bearer&gt;\n&quot; +
-   *         &quot;&lt;/rings&gt;&quot;;
-   *
-   * // No matter how your xml string is formatted, isXmlEqualTo is able to compare it's content with another xml String.
-   * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
-   * assertThat(oneLineXml).isXmlEqualTo(expectedXml);
-   *
-   * String xmlWithNewLine =
-   *     &quot;&lt;rings&gt;\n&quot; +
-   *         &quot;&lt;bearer&gt;   \n&quot; +
-   *         &quot;  &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
-   *         &quot;  &lt;ring&gt;\n&quot; +
-   *         &quot;    &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
-   *         &quot;    &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
-   *         &quot;  &lt;/ring&gt;\n&quot; +
-   *         &quot;&lt;/bearer&gt;\n&quot; +
-   *         &quot;&lt;/rings&gt;&quot;;
-   * assertThat(xmlWithNewLine).isXmlEqualTo(expectedXml);
-   *
-   * // You can compare it with oneLineXml
-   * assertThat(xmlWithNewLine).isXmlEqualTo(oneLineXml);
-   *
-   * // Tip : use isXmlEqualToContentOf assertion to compare your XML String with the content of an XML file :
-   * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));</code></pre>
-   *
-   * @param expectedXml the XML {@code CharSequence} to which the actual {@code CharSequence} is to be compared to.
-   * @return {@code this} assertion object to chain other assertions.
-   * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the given XML
-   *           {@code CharSequence}.
-   * @see <a href="https://github.com/xmlunit/user-guide/wiki">XML Unit</a>
-   * @see <a href="https://github.com/xmlunit/user-guide/wiki/Providing-Input-to-XMLUnit">XML Unit XML source input</a>
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isXmlEqualTo(CharSequence expectedXml) {
-    strings.assertXmlEqualsTo(info, actual, expectedXml);
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual {@code CharSequence} is equal to the content of the given file.
-   * <p>
-   * This is a handy shortcut that calls : {@code isXmlEqualTo(contentOf(xmlFile))}
-   * </p>
-   * Example:
-   * <pre><code class='java'> // You can easily compare your XML String to the content of an XML file, whatever how formatted they are.
-   * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
-   * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));</code></pre>
-   *
-   * @param xmlFile the file to read the expected XML String to compare with actual {@code CharSequence}
-   * @return {@code this} assertion object to chain other assertions.
-   * @throws NullPointerException if the given {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the content of
-   *           given {@code File}.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isXmlEqualToContentOf(File xmlFile) {
-    isXmlEqualTo(contentOf(xmlFile));
     return myself;
   }
 
