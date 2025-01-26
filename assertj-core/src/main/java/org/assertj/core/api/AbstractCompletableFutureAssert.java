@@ -22,7 +22,6 @@ import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCanc
 import static org.assertj.core.error.future.ShouldNotBeCompleted.shouldNotBeCompleted;
 import static org.assertj.core.error.future.ShouldNotBeCompletedExceptionally.shouldNotHaveCompletedExceptionally;
 import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
-import static org.assertj.core.error.future.ShouldNotHaveFailed.shouldNotHaveFailed;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -316,39 +315,6 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
     if (!predicate.test(actualResult))
       throw Failures.instance().failure(info, shouldMatch(actualResult, predicate, description));
 
-    return myself;
-  }
-
-  /**
-   * @deprecated
-   * <p>
-   * Use matches with the following combination instead:
-   *
-   * <pre><code class='java'> assertThat(future).matches (f -&gt; f.isNotCompletedExceptionally() {@literal ||} f.isCancelled());</code></pre>
-   *
-   * This assertion is deprecated because its semantic is not obvious.
-   * <p>
-   * <b>Original javadoc</b>
-   * <p>
-   * Verifies that the {@link CompletableFuture} has not failed i.e: incomplete, completed or cancelled.<br>
-   * This is different from {@link #isNotCompletedExceptionally()} as a cancelled future has not failed but is completed exceptionally.
-   * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.cancel(true);
-   * assertThat(future).hasNotFailed();</code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.completeExceptionally(new RuntimeException());
-   * assertThat(future).hasNotFailed();</code></pre>
-   *
-   * @return this assertion object.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF hasNotFailed() {
-    isNotNull();
-    if (actual.isCompletedExceptionally() && !actual.isCancelled()) throwAssertionError(shouldNotHaveFailed(actual));
     return myself;
   }
 
