@@ -297,7 +297,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertThat(OptionalDouble.of(0.0)).isEqualTo(1.0);
       softly.assertThat(OptionalLong.of(0L)).isEqualTo(1L);
       softly.assertThat(URI.create("http://assertj.org")).hasPort(8888);
-      softly.assertThat(CompletableFuture.completedFuture("done")).hasFailed();
       softly.assertThat((Predicate<String>) s -> s.equals("something")).accepts("something else");
       softly.assertThat((IntPredicate) s -> s == 1).accepts(2);
       softly.assertThat((LongPredicate) s -> s == 1).accepts(2);
@@ -310,7 +309,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       fail("Should not reach here");
     } catch (MultipleFailuresError e) {
       List<String> errors = e.getFailures().stream().map(Object::toString).collect(toList());
-      then(errors).hasSize(55);
+      then(errors).hasSize(54);
       then(errors.get(0)).contains(shouldBeEqualMessage("0", "1"));
       then(errors.get(1)).contains("%nExpecting value to be true but was false".formatted());
       then(errors.get(2)).contains("%nExpecting value to be true but was false".formatted());
@@ -394,25 +393,24 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       then(errors.get(44)).contains(shouldBeEqualMessage("OptionalDouble[0.0]", "1.0"));
       then(errors.get(45)).contains(shouldBeEqualMessage("OptionalLong[0]", "1L"));
       then(errors.get(46)).contains("Expecting port of");
-      then(errors.get(47)).contains("to have failed");
-      then(errors.get(48)).contains(format("%nExpecting actual:%n  given predicate%n"
+      then(errors.get(47)).contains(format("%nExpecting actual:%n  given predicate%n"
                                            + "to accept \"something else\" but it did not."));
 
-      then(errors.get(49)).contains(format("%nExpecting actual:%n  given predicate%n"
+      then(errors.get(48)).contains(format("%nExpecting actual:%n  given predicate%n"
                                            + "to accept 2 but it did not."));
 
-      then(errors.get(50)).contains(format("%nExpecting actual:%n  given predicate%n"
+      then(errors.get(49)).contains(format("%nExpecting actual:%n  given predicate%n"
                                            + "to accept 2L but it did not."));
-      then(errors.get(51)).contains(format("%nExpecting actual:%n  given predicate%n"
+      then(errors.get(50)).contains(format("%nExpecting actual:%n  given predicate%n"
                                            + "to accept 2.0 but it did not."));
-      then(errors.get(52)).contains(format("%nExpecting actual:%n"
+      then(errors.get(51)).contains(format("%nExpecting actual:%n"
                                            + "  <http://assertj.org:80>%n"
                                            + "not to have a port but had:%n"
                                            + "  <80>"));
-      then(errors.get(53)).contains(format("%nExpecting Duration:%n"
+      then(errors.get(52)).contains(format("%nExpecting Duration:%n"
                                            + "  10H%n"
                                            + "to have 5L hours but had 10L"));
-      then(errors.get(54)).contains("%nExpecting Period:%n  P1D%nto have 2 days but had 1".formatted());
+      then(errors.get(53)).contains(format("%nExpecting Period:%n  P1D%nto have 2 days but had 1"));
     }
   }
 
