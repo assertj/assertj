@@ -1082,7 +1082,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @return true if both datetime are in the same year and month, false otherwise
    */
   private static boolean haveSameYearAndMonth(LocalDateTime actual, LocalDateTime other) {
-    return haveSameYear(actual, other) && actual.getMonth() == other.getMonth();
+    return haveSameYear(actual, other) && actual.getMonth().getValue() <= other.getMonth().getValue();
   }
 
   /**
@@ -1093,6 +1093,6 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @return true if both datetime are in the same year, false otherwise
    */
   private static boolean haveSameYear(LocalDateTime actual, LocalDateTime other) {
-    return actual.getYear() == other.getYear();
+    return actual.getYear() <= other.getYear();
   }
 }
