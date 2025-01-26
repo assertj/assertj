@@ -335,37 +335,6 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is not blank, i.e. either is {@code null}, empty or
-   * contains at least one non-whitespace character (according to {@link Character#isWhitespace(char)}).
-   * <p>
-   * These assertions will succeed:
-   * <pre><code class='java'> assertThat("a").isNotJavaBlank();
-   * assertThat(" b").isNotJavaBlank();
-   * assertThat(" c ").isNotJavaBlank();
-   * assertThat("").isNotJavaBlank();
-   * String nullString = null;
-   * assertThat(nullString).isNotJavaBlank();</code></pre>
-   *
-   * Whereas these assertions will fail:
-   * <pre><code class='java'> assertThat(" ").isNotJavaBlank();
-   * assertThat("   ").isNotJavaBlank();</code></pre>
-   *
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} is blank.
-   * @since 2.6.0 / 3.6.0
-   * @deprecated Use {@link #isNotBlank()} instead.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isNotJavaBlank() {
-    assertNotJavaBlank(actual);
-    return myself;
-  }
-
-  private void assertNotJavaBlank(CharSequence actual) {
-    if (containsOnlyWhitespaces(actual)) throw assertionError(shouldNotBeBlank(actual));
-  }
-
-  /**
    * Verifies that the actual {@code CharSequence} has the expected length using the {@code length()} method.
    * <p>
    * This assertion will succeed:
