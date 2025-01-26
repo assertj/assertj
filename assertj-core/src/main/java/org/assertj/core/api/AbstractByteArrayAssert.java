@@ -1343,26 +1343,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     return new StringAssert(Base64.getEncoder().encodeToString(actual)).withAssertionState(myself);
   }
 
-  /**
-   * @deprecated use {@link #asBase64Encoded()} instead.
-   * <p>
-   * Encodes the actual array into a Base64 string, the encoded string becoming the new object under test.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> // assertion succeeds
-   * assertThat("AssertJ".getBytes()).encodedAsBase64().isEqualTo(&quot;QXNzZXJ0Sg==&quot;);</code></pre>
-   *
-   * @return a new {@link StringAssert} instance whose string under test is the result of the encoding.
-   * @throws AssertionError if the actual value is {@code null}.
-   *
-   * @since 3.16.0
-   */
-  @Deprecated
-  @CheckReturnValue
-  public AbstractStringAssert<?> encodedAsBase64() {
-    return asBase64Encoded();
-  }
-
   private static byte[] toPrimitiveByteArray(Byte[] values) {
     byte[] bytes = new byte[values.length];
     range(0, values.length).forEach(i -> bytes[i] = values[i]);
