@@ -71,7 +71,7 @@ class ClassAssert_hasPermittedSubclasses_Test {
                                  .hasPermittedSubclasses(NonSealedClass.class, FinalClass.class);
   }
 
-  sealed class SealedClass permits NonSealedClass, FinalClass {
+  sealed class SealedClass permits NonSealedClass,FinalClass {
   }
 
   non-sealed class NonSealedClass extends SealedClass {
