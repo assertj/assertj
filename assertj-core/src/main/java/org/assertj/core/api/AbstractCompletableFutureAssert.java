@@ -12,14 +12,12 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
 import static org.assertj.core.error.future.ShouldBeCompletedExceptionally.shouldHaveCompletedExceptionally;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
-import static org.assertj.core.error.future.ShouldHaveFailed.shouldHaveFailed;
 import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
 import static org.assertj.core.error.future.ShouldNotBeCompleted.shouldNotBeCompleted;
 import static org.assertj.core.error.future.ShouldNotBeCompletedExceptionally.shouldNotHaveCompletedExceptionally;
@@ -30,7 +28,6 @@ import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -326,42 +323,6 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   /**
    * @deprecated
    * <p>
-   * Combine isCompletedExceptionally with isNotCancelled instead:
-   *
-   * <pre><code class='java'> assertThat(future).isCompletedExceptionally()
-   *                   .isNotCancelled();</code></pre>
-   *
-   * This assertion is deprecated to change the semantics of failed to correspond to {@link CompletableFuture#get()} failing.
-   * <p>
-   * <b>Original javadoc</b>
-   * <p>
-   * Verifies that the {@link CompletableFuture} has completed exceptionally but has not been cancelled,
-   * this assertion is equivalent to:
-   * <pre><code class='java'> assertThat(future).isCompletedExceptionally()
-   *                   .isNotCancelled();</code></pre>
-   * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.completeExceptionally(new RuntimeException());
-   * assertThat(future).hasFailed();</code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.cancel(true);
-   * assertThat(future).hasFailed();</code></pre>
-   *
-   * @return this assertion object.
-   */
-  @Deprecated
-  public SELF hasFailed() {
-    isNotNull();
-    if (!(actual.isCompletedExceptionally() && !actual.isCancelled())) throwAssertionError(shouldHaveFailed(actual));
-    return myself;
-  }
-
-  /**
-   * @deprecated
-   * <p>
    * Use matches with the following combination instead:
    *
    * <pre><code class='java'> assertThat(future).matches (f -&gt; f.isNotCompletedExceptionally() {@literal ||} f.isCancelled());</code></pre>
@@ -533,53 +494,6 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(long timeout, TimeUnit unit,
                                                                      InstanceOfAssertFactory<RESULT, ASSERT> assertFactory) {
     return internalSucceedsWithin(timeout, unit).asInstanceOf(assertFactory);
-  }
-
-  /**
-   * @deprecated
-   * <p>
-   * Although not 100% the same, consider using {@link #failsWithin(Duration)} or {@link #failsWithin(long, TimeUnit)} instead:
-   *
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.completeExceptionally(new RuntimeException("boom!"));
-   *
-   * assertThat(future).failsWithin(1, TimeUnit.SECONDS)
-   *                   .withThrowableOfType(RuntimeException.class)
-   *                   .withMessage("boom!"); </code></pre>
-   *
-   * This assertion is deprecated because it relies on {@link #hasFailed()} semantics which we want to move away from (they
-   * are not clear!) and to use failure semantics corresponding to {@link CompletableFuture#get()} failing.
-   * <p>
-   * <b>Original javadoc</b>
-   * <p>
-   * Verifies that the {@link CompletableFuture} has completed exceptionally and
-   * returns a Throwable assertion object allowing to check the Throwable that has caused the future to fail.
-   * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.completeExceptionally(new RuntimeException("boom!"));
-   *
-   * assertThat(future).hasFailedWithThrowableThat().isInstanceOf(RuntimeException.class);
-   *                                                .hasMessage("boom!"); </code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.completeExceptionally(new RuntimeException());
-   *
-   * assertThat(future).hasFailedWithThrowableThat().isInstanceOf(IllegalArgumentException.class);
-   * </code></pre>
-   *
-   * @return an exception assertion object.
-   */
-  @Deprecated
-  public AbstractThrowableAssert<?, ? extends Throwable> hasFailedWithThrowableThat() {
-    hasFailed();
-    try {
-      actual.join();
-      return assertThat((Throwable) null);
-    } catch (CompletionException e) {
-      return assertThat(e.getCause());
-    }
   }
 
   /**

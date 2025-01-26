@@ -264,7 +264,6 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(OptionalDouble.of(0.0)).isEqualTo(1.0);
     softly.then(OptionalLong.of(0L)).isEqualTo(1L);
     softly.then(URI.create("http://assertj.org")).hasPort(8888);
-    softly.then(CompletableFuture.completedFuture("done")).hasFailed();
     softly.then((Predicate<String>) s -> s.equals("something")).accepts("something else");
     softly.then((IntPredicate) s -> s == 1).accepts(2);
     softly.then((LongPredicate) s -> s == 1).accepts(2);
@@ -283,7 +282,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     MultipleFailuresError error = catchThrowableOfType(() -> softly.assertAll(), MultipleFailuresError.class);
     // THEN
     List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
-    assertThat(errors).hasSize(62);
+    assertThat(errors).hasSize(61);
     assertThat(errors.get(0)).contains(shouldBeEqualMessage("0", "1"));
     assertThat(errors.get(1)).contains(format("%nExpecting value to be true but was false"));
     assertThat(errors.get(2)).contains(format("%nExpecting value to be true but was false"));
@@ -348,28 +347,27 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(44)).contains(shouldBeEqualMessage("OptionalDouble[0.0]", "1.0"));
     assertThat(errors.get(45)).contains(shouldBeEqualMessage("OptionalLong[0]", "1L"));
     assertThat(errors.get(46)).contains("Expecting port of");
-    assertThat(errors.get(47)).contains("to have failed");
-    assertThat(errors.get(48)).contains(format("%nExpecting actual:%n  given predicate%n"
+    assertThat(errors.get(47)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                + "to accept \"something else\" but it did not."));
-    assertThat(errors.get(49)).contains(format("%nExpecting actual:%n  given predicate%n"
+    assertThat(errors.get(48)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                + "to accept 2 but it did not."));
-    assertThat(errors.get(50)).contains(format("%nExpecting actual:%n  given predicate%n"
+    assertThat(errors.get(49)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                + "to accept 2L but it did not."));
-    assertThat(errors.get(51)).contains(format("%nExpecting actual:%n  given predicate%n"
+    assertThat(errors.get(50)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                + "to accept 2.0 but it did not."));
-    assertThat(errors.get(52)).contains(format("%nExpecting actual:%n"
+    assertThat(errors.get(51)).contains(format("%nExpecting actual:%n"
                                                + "  <http://assertj.org:80>%n"
                                                + "not to have a port but had:%n"
                                                + "  <80>"));
-    assertThat(errors.get(53)).contains(format("does-not-exist"));
-    assertThat(errors.get(54)).contains(format("2000"));
-    assertThat(errors.get(55)).contains("duration check");
-    assertThat(errors.get(56)).contains("instant check");
-    assertThat(errors.get(57)).contains("ZonedDateTime check");
-    assertThat(errors.get(58)).contains("LocalDateTime check");
-    assertThat(errors.get(59)).contains("LocalDate check");
-    assertThat(errors.get(60)).contains("Spliterator check");
-    assertThat(errors.get(61)).contains("LongAdder check");
+    assertThat(errors.get(52)).contains(format("does-not-exist"));
+    assertThat(errors.get(53)).contains(format("2000"));
+    assertThat(errors.get(54)).contains("duration check");
+    assertThat(errors.get(55)).contains("instant check");
+    assertThat(errors.get(56)).contains("ZonedDateTime check");
+    assertThat(errors.get(57)).contains("LocalDateTime check");
+    assertThat(errors.get(58)).contains("LocalDate check");
+    assertThat(errors.get(59)).contains("Spliterator check");
+    assertThat(errors.get(60)).contains("LongAdder check");
   }
 
   @Test
