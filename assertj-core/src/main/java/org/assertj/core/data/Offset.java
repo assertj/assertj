@@ -12,7 +12,6 @@
  */
 package org.assertj.core.data;
 
-import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -101,7 +100,7 @@ public final class Offset<T extends Number> {
 
   @Override
   public String toString() {
-    return format("%s%s[value=%s]", strict ? "strict " : "", getClass().getSimpleName(), value);
+    return "%s%s[value=%s]".formatted(strict ? "strict " : "", getClass().getSimpleName(), value);
   }
 
 }

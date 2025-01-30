@@ -12,12 +12,10 @@
  */
 package org.assertj.core.condition;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.function.Function;
-
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.Condition;
 import org.assertj.core.description.Description;
@@ -71,14 +69,14 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
    * // returns false
    * optionalWithLineSeparator.matches(Optional.of("a"));</code></pre>
      * <p>
-   * Note that the mappingDescription argument follows {@link String#format(String, Object...)} syntax.
+   * Note that the mappingDescription argument follows {@link String#formatted(Object...)} syntax.
    *
    * @param <FROM> the type of object the given condition accept.
    * @param <TO> the type of object the nested condition accept.
    * @param mapping the Function that maps the value to test to the a value for the nested condition.
    * @param condition the nested condition to evaluate.
-   * @param mappingDescription describes the mapping, follows {@link String#format(String, Object...)} syntax.
-   * @param args for describing the mapping as in {@link String#format(String, Object...)} syntax.
+   * @param mappingDescription describes the mapping, follows {@link String#formatted(Object...)} syntax.
+   * @param args for describing the mapping as in {@link String#formatted(Object...)} syntax.
    * @return the created {@code MappedCondition}.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws NullPointerException if the given mapping is {@code null}.
@@ -86,7 +84,7 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
   public static <FROM, TO> MappedCondition<FROM, TO> mappedCondition(Function<FROM, TO> mapping, Condition<TO> condition,
                                                                      String mappingDescription, Object... args) {
     requireNonNull(mappingDescription, "The given mappingDescription should not be null");
-    return new MappedCondition<>(mapping, condition, format(mappingDescription, args));
+    return new MappedCondition<>(mapping, condition, mappingDescription.formatted(args));
   }
 
   /**
@@ -140,16 +138,16 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
   private String buildMappingDescription(FROM from, TO to, boolean withNested) {
 
     StringBuilder sb = new StringBuilder("mapped");
-    if (!mappingDescription.isEmpty()) sb.append(format("%n   using: %s", mappingDescription));
+    if (!mappingDescription.isEmpty()) sb.append("%n   using: %s".formatted(mappingDescription));
 
-    if (from == null) sb.append(format("%n   from: %s%n", from));
-    else sb.append(format("%n   from: <%s> %s%n", className(from), from));
+    if (from == null) sb.append("%n   from: %s%n".formatted(from));
+    else sb.append("%n   from: <%s> %s%n".formatted(className(from), from));
 
-    if (to == null) sb.append(format("   to:   %s%n", to));
-    else sb.append(format("   to:   <%s> %s%n", className(to), to));
+    if (to == null) sb.append("   to:   %s%n".formatted(to));
+    else sb.append("   to:   <%s> %s%n".formatted(className(to), to));
 
     sb.append("   then checked:");
-    if (withNested) sb.append(format("%n      %-10s", condition));
+    if (withNested) sb.append("%n      %-10s".formatted(condition));
     return sb.toString();
   }
 
@@ -158,7 +156,7 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
     TO mappedObject = mapping.apply(actual);
     Description descriptionsWithStatus = condition.conditionDescriptionWithStatus(mappedObject);
     Status status = status(actual);
-    String descriptionStart = format("%s %s", status, buildMappingDescription(actual, mappedObject, false));
+    String descriptionStart = "%s %s".formatted(status, buildMappingDescription(actual, mappedObject, false));
     return new JoinDescription(descriptionStart, "", list(descriptionsWithStatus));
   }
 

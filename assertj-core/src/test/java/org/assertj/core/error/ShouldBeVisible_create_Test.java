@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeVisible.shouldBeVisible;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -27,7 +26,7 @@ class ShouldBeVisible_create_Test {
     // WHEN
     String message = shouldBeVisible("\\t").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting \"\\t\" to be visible"));
+    then(message).isEqualTo("[Test] %nExpecting \"\\t\" to be visible".formatted());
   }
 
   @Test
@@ -35,6 +34,6 @@ class ShouldBeVisible_create_Test {
     // WHEN
     String message = shouldBeVisible("12\\n3").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting \"12\\n3\" to be visible"));
+    then(message).isEqualTo("[Test] %nExpecting \"12\\n3\" to be visible".formatted());
   }
 }

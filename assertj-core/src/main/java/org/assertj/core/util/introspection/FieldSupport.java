@@ -12,7 +12,6 @@
  */
 package org.assertj.core.util.introspection;
 
-import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.collectingAndThen;
@@ -25,7 +24,6 @@ import static org.assertj.core.util.introspection.FieldUtils.readField;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
-
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -236,15 +234,18 @@ public enum FieldSupport {
       }
       return clazz.cast(fieldValue);
     } catch (ClassCastException e) {
-      String msg = format("Unable to obtain the value of the field <'%s'> from <%s> - wrong field type specified <%s>",
-                          fieldName, target, clazz);
+      String msg = "Unable to obtain the value of the field <'%s'> from <%s> - wrong field type specified <%s>".formatted(
+                                                                                                                          fieldName,
+                                                                                                                          target,
+                                                                                                                          clazz);
       throw new IntrospectionError(msg, e);
     } catch (IllegalAccessException iae) {
-      String msg = format("Unable to obtain the value of the field <'%s'> from <%s>, check that field is public.",
-                          fieldName, target);
+      String msg = "Unable to obtain the value of the field <'%s'> from <%s>, check that field is public.".formatted(
+                                                                                                                     fieldName,
+                                                                                                                     target);
       throw new IntrospectionError(msg, iae);
     } catch (Throwable unexpected) {
-      String msg = format("Unable to obtain the value of the field <'%s'> from <%s>", fieldName, target);
+      String msg = "Unable to obtain the value of the field <'%s'> from <%s>".formatted(fieldName, target);
       throw new IntrospectionError(msg, unexpected);
     }
   }

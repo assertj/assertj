@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.objectarrays;
 
-import static java.lang.String.format;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -50,7 +49,7 @@ class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArraysBaseT
     // WHEN
     ThrowingCallable code = () -> arrays.assertHasSameSizeAs(someInfo(), actual, other);
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(format("%nExpecting an array but was: null"));
+    assertThatAssertionErrorIsThrownBy(code).withMessage("%nExpecting an array but was: null".formatted());
   }
 
   @Test

@@ -87,7 +87,6 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
@@ -670,9 +669,9 @@ public class Arrays {
 
   void assertIsSorted(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
       // instead of comparing array elements with their natural comparator, use the one set by client.
-      Comparator<?> comparator = ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+      Comparator<?> comparator = strategy.getComparator();
       assertIsSortedAccordingToComparator(info, failures, array, comparator);
       return;
     }

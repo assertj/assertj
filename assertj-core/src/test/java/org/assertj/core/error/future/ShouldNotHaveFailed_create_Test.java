@@ -12,13 +12,11 @@
  */
 package org.assertj.core.error.future;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.ShouldNotHaveFailed.shouldNotHaveFailed;
 import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.util.concurrent.CompletableFuture;
-
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +30,7 @@ class ShouldNotHaveFailed_create_Test {
     // WHEN
     String error = shouldNotHaveFailed(future).create(new TestDescription("TEST"));
     // THEN
-    then(error).startsWith(format("[TEST] %nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException"))
-               .endsWith(format("to not have failed.%n%s", WARNING));
+    then(error).startsWith("[TEST] %nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException".formatted())
+               .endsWith("to not have failed.%n%s".formatted(WARNING));
   }
 }

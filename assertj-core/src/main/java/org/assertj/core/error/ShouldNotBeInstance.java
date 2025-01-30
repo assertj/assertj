@@ -28,7 +28,7 @@ public class ShouldNotBeInstance extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotBeInstance(Object actual, Class<?> type) {
-    return actual instanceof Throwable ? new ShouldNotBeInstance((Throwable) actual, type)
+    return actual instanceof Throwable t ? new ShouldNotBeInstance(t, type)
         : new ShouldNotBeInstance(actual, type);
   }
 

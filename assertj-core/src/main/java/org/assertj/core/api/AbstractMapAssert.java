@@ -39,7 +39,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -2212,7 +2211,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   private static List<Object> flatten(Iterable<Object> collectionToFlatten) {
     List<Object> result = new ArrayList<>();
     for (Object item : collectionToFlatten) {
-      if (item instanceof Iterable<?>) result.addAll(toCollection((Iterable<?>) item));
+      if (item instanceof Iterable<?> iterable) result.addAll(toCollection(iterable));
       else if (isArray(item)) result.addAll(org.assertj.core.util.Arrays.asList(item));
       else result.add(item);
     }

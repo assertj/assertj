@@ -65,7 +65,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.MapEntry;
@@ -103,8 +102,7 @@ public class Maps {
 
     List<UnsatisfiedRequirement> unsatisfiedRequirements = actual.entrySet().stream()
                                                                  .map(entry -> failsRequirements(entryRequirements, entry))
-                                                                 .filter(Optional::isPresent)
-                                                                 .map(Optional::get)
+                                                                 .flatMap(Optional::stream)
                                                                  .collect(toList());
     if (!unsatisfiedRequirements.isEmpty())
       throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
@@ -128,7 +126,7 @@ public class Maps {
     List<UnsatisfiedRequirement> unsatisfiedRequirements = new ArrayList<>();
     for (Entry<K, V> entry : actual.entrySet()) {
       Optional<UnsatisfiedRequirement> result = failsRequirements(entryRequirements, entry);
-      if (!result.isPresent()) return; // entry satisfied the requirements
+      if (result.isEmpty()) return; // entry satisfied the requirements
       unsatisfiedRequirements.add(result.get());
     }
 
@@ -141,8 +139,7 @@ public class Maps {
 
     List<Entry<K, V>> erroneousEntries = actual.entrySet().stream()
                                                .map(entry -> failsRestrictions(entry, entryRequirements))
-                                               .filter(Optional::isPresent)
-                                               .map(Optional::get)
+                                               .flatMap(Optional::stream)
                                                .collect(toList());
 
     if (!erroneousEntries.isEmpty()) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousEntries));

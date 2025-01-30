@@ -72,7 +72,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -188,7 +187,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
+   * Throws an {@link AssertionError} with the given message built as {@link String#formatted(Object...)}.
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.

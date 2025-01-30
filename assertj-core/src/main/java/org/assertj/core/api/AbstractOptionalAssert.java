@@ -24,7 +24,6 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -137,7 +136,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   public SELF contains(VALUE expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
-    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+    if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
     if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue))
       throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.get(), expectedValue);
     return myself;
@@ -356,7 +355,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   public SELF containsSame(VALUE expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
-    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+    if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
     if (actual.get() != expectedValue) throwAssertionError(shouldContainSame(actual, expectedValue));
     return myself;
   }
@@ -657,7 +656,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   private void assertValueIsPresent() {
     isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    if (actual.isEmpty()) throwAssertionError(shouldBePresent(actual));
   }
 
 }

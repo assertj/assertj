@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
@@ -28,7 +27,6 @@ import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid
 import static org.assertj.core.util.Arrays.sizeOf;
 
 import java.lang.reflect.Array;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.error.ShouldHaveDimensions;
@@ -124,7 +122,7 @@ public class Arrays2D {
 
   static void hasSameRowSizeAsCheck(AssertionInfo info, int rowIndex, Object actual, Object other, Object actualRow,
                                     Object otherRow, int actualRowSize) {
-    requireNonNull(other, format("The array to compare %s size with should not be null", actual));
+    requireNonNull(other, "The array to compare %s size with should not be null".formatted(actual));
     int expectedRowSize = Array.getLength(otherRow);
     if (actualRowSize != expectedRowSize)
       throw Failures.instance().failure(info, shouldHaveSameDimensionsAs(rowIndex, actualRowSize, expectedRowSize, actualRow,

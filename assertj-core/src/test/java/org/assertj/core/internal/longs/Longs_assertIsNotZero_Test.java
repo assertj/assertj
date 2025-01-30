@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.longs;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.testkit.TestData.someInfo;
 
@@ -37,7 +36,7 @@ class Longs_assertIsNotZero_Test extends LongsBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsNotZero(someInfo(), 0L))
-                                                   .withMessage(format("%nExpecting actual:%n  0L%nnot to be equal to:%n  0L%n"));
+                                                   .withMessage("%nExpecting actual:%n  0L%nnot to be equal to:%n  0L%n".formatted());
   }
 
   @Test
@@ -49,7 +48,7 @@ class Longs_assertIsNotZero_Test extends LongsBaseTest {
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
                                                                                                                          0L))
-                                                   .withMessage(format("%nExpecting actual:%n  0L%nnot to be equal to:%n  0L%n"));
+                                                   .withMessage("%nExpecting actual:%n  0L%nnot to be equal to:%n  0L%n".formatted());
   }
 
 }

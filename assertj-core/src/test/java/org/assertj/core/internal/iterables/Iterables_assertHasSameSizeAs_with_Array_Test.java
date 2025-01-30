@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.iterables;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
@@ -22,7 +21,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Collection;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
@@ -62,9 +60,10 @@ class Iterables_assertHasSameSizeAs_with_Array_Test extends IterablesBaseTest {
     String[] other = array("Solo", "Luke", "Leia");
 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertHasSameSizeAs(info, actual, other))
-                                                   .withMessage(format(shouldHaveSameSizeAs(actual, other, actual.size(),
-                                                                                            other.length).create(null,
-                                                                                                                 info.representation())));
+                                                   .withMessage(shouldHaveSameSizeAs(actual, other, actual.size(),
+                                                                                     other.length).create(null,
+                                                                                                          info.representation())
+                                                                                                  .formatted());
   }
 
   @Test

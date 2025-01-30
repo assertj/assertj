@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.doubles;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.testkit.TestData.someInfo;
 
@@ -37,7 +36,7 @@ class Doubles_assertIsPositive_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsPositive(someInfo(), -6.0d))
-                                                   .withMessage(format("%nExpecting actual:%n  -6.0%nto be greater than:%n  0.0%n"));
+                                                   .withMessage("%nExpecting actual:%n  -6.0%nto be greater than:%n  0.0%n".formatted());
   }
 
   @Test

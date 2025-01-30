@@ -44,7 +44,7 @@ public class IndexedDiff {
 
   @Override
   public String toString() {
-    return String.format("IndexedDiff(actual=%s, expected=%s, index=%s)", this.actual, this.expected, this.index);
+    return "IndexedDiff(actual=%s, expected=%s, index=%s)".formatted(this.actual, this.expected, this.index);
   }
 
   @Override

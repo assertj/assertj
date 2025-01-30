@@ -12,14 +12,12 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeExecutable.shouldBeExecutable;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
 
 import java.nio.file.Path;
-
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
@@ -41,7 +39,7 @@ class ShouldBeExecutable_create_Test {
     // WHEN
     String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  xyz%nto be executable.", file));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  xyz%nto be executable.".formatted(file));
   }
 
   @Test
@@ -52,6 +50,6 @@ class ShouldBeExecutable_create_Test {
     // WHEN
     String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  %s%nto be executable.", path));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  %s%nto be executable.".formatted(path));
   }
 }

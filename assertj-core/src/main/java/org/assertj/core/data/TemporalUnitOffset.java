@@ -13,7 +13,6 @@
 package org.assertj.core.data;
 
 import static java.lang.Math.abs;
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
@@ -55,9 +54,9 @@ public abstract class TemporalUnitOffset implements TemporalOffset<Temporal> {
   @Override
   public String getBeyondOffsetDifferenceDescription(Temporal temporal1, Temporal temporal2) {
     try {
-      return format("%s %s but difference was %s %s", value, unit, getDifference(temporal1, temporal2), unit);
+      return "%s %s but difference was %s %s".formatted(value, unit, getDifference(temporal1, temporal2), unit);
     } catch (@SuppressWarnings("unused") ArithmeticException e) {
-      return format("%s %s but difference was %s", value, unit, getAbsoluteDuration(temporal1, temporal2));
+      return "%s %s but difference was %s".formatted(value, unit, getAbsoluteDuration(temporal1, temporal2));
     }
   }
 

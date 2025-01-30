@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
 
 import java.util.Comparator;
@@ -71,7 +70,7 @@ public class ExtendedByTypesComparator implements Comparator<Object> {
   public String toString() {
     // only used in element comparator
     return comparatorsByType.isEmpty()
-        ? format("%s", comparator)
-        : format("%s%n- for elements (by type): %s", comparator, comparatorsByType);
+        ? "%s".formatted(comparator)
+        : "%s%n- for elements (by type): %s".formatted(comparator, comparatorsByType);
   }
 }

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
@@ -66,7 +65,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.GroupTypeDescription;
 import org.assertj.core.internal.DeepDifference.Difference;
@@ -112,8 +110,8 @@ public class Objects {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy
-        ? ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator()
+    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy cbcs
+        ? cbcs.getComparator()
         : null;
   }
 
@@ -139,7 +137,7 @@ public class Objects {
     assertNotNull(info, actual);
     for (Class<?> type : types) {
       String format = "The given array of types:<%s> should not have null elements";
-      requireNonNull(type, format(format, info.representation().toStringOf(types)));
+      requireNonNull(type, format.formatted(info.representation().toStringOf(types)));
       if (type.isInstance(actual)) {
         return true;
       }
@@ -600,8 +598,8 @@ public class Objects {
   }
 
   private void throwAsRuntime(Throwable ex) {
-    if (ex instanceof RuntimeException) {
-      throw (RuntimeException) ex;
+    if (ex instanceof RuntimeException exception) {
+      throw exception;
     }
     throw new RuntimeException(ex);
   }

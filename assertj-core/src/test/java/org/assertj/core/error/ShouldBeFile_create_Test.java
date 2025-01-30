@@ -34,6 +34,6 @@ class ShouldBeFile_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting actual:%n xyz%nto be a file"));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n xyz%nto be a file".formatted());
   }
 }

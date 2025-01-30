@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.strings;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
@@ -100,9 +99,10 @@ class Strings_assertDoesNotContain_Test extends StringsBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContain(someInfo(),
                                                                                                   "Practice makes perfect",
                                                                                                   values))
-                                                   .withMessage(format(shouldNotContain("Practice makes perfect",
-                                                                                        values, newSet("make"),
-                                                                                        StandardComparisonStrategy.instance()).create()));
+                                                   .withMessage(shouldNotContain("Practice makes perfect",
+                                                                                 values, newSet("make"),
+                                                                                 StandardComparisonStrategy.instance()).create()
+                                                                                                                       .formatted());
   }
 
   @Test
@@ -117,8 +117,8 @@ class Strings_assertDoesNotContain_Test extends StringsBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(),
                                                                                                                                        "Practice makes perfect",
                                                                                                                                        values))
-                                                   .withMessage(format(shouldNotContain("Practice makes perfect",
-                                                                                        values, newSet("practice"),
-                                                                                        comparisonStrategy).create()));
+                                                   .withMessage(shouldNotContain("Practice makes perfect",
+                                                                                 values, newSet("practice"),
+                                                                                 comparisonStrategy).create().formatted());
   }
 }

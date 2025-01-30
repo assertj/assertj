@@ -23,7 +23,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.LongArraysBaseTest;
@@ -46,7 +45,7 @@ class LongArrays_assertIsSortedAccordingToComparator_Test extends LongArraysBase
     super.setUp();
     actual = new long[] { 4L, 3L, 2L, 2L, 1L };
     longDescendingOrderComparator = (long1, long2) -> -long1.compareTo(long2);
-    longSquareComparator = (long1, long2) -> new Long(long1 * long1).compareTo(new Long(long2 * long2));
+    longSquareComparator = (long1, long2) -> Long.valueOf(long1 * long1).compareTo(Long.valueOf(long2 * long2));
   }
 
   @Test

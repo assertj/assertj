@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -54,7 +53,7 @@ class Assertions_assertThat_with_Throwable_Test {
   @Test
   void should_fail_if_no_throwable_was_thrown() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(() -> {}).hasMessage("boom ?"))
-                                                   .withMessage(format("%nExpecting code to raise a throwable."));
+                                                   .withMessage("%nExpecting code to raise a throwable.".formatted());
   }
 
   @Test

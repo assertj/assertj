@@ -12,6 +12,7 @@
  */
 package org.assertj.core.util.diff;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 
@@ -21,6 +22,7 @@ import java.util.Comparator;
  * @author mksenzov
  */
 public class DeltaComparator implements Comparator<Delta<?>>, Serializable {
+  @Serial
   private static final long serialVersionUID = 1L;
   public static final Comparator<Delta<?>> INSTANCE = new DeltaComparator();
 

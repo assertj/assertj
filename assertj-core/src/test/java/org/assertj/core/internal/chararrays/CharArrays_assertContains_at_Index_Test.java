@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.chararrays;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -64,7 +63,7 @@ class CharArrays_assertContains_at_Index_Test extends CharArraysBaseTest {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arrays.assertContains(someInfo(),
                                                                                                       actual, 'a',
                                                                                                       atIndex(6)))
-                                                              .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <6>"));
+                                                              .withMessageContaining("Index should be between <0> and <2> (inclusive) but was:%n <6>".formatted());
   }
 
   @Test
@@ -114,7 +113,7 @@ class CharArrays_assertContains_at_Index_Test extends CharArraysBaseTest {
                                                                                                                                   actual,
                                                                                                                                   'A',
                                                                                                                                   atIndex(6)))
-                                                              .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <6>"));
+                                                              .withMessageContaining("Index should be between <0> and <2> (inclusive) but was:%n <6>".formatted());
   }
 
   @Test

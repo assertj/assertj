@@ -44,7 +44,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -2798,8 +2797,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
         for (int i = 0; i < size; i++) {
           extractedValues.add(Array.get(group, i));
         }
-      } else if (group instanceof Iterable) {
-        Iterable<?> iterable = (Iterable<?>) group;
+      } else if (group instanceof Iterable<?> iterable) {
         for (Object value : iterable) {
           extractedValues.add(value);
         }
@@ -4285,8 +4283,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
   SELF withAssertionState(AbstractAssert assertInstance) {
-    if (assertInstance instanceof AbstractObjectArrayAssert) {
-      AbstractObjectArrayAssert objectArrayAssert = (AbstractObjectArrayAssert) assertInstance;
+    if (assertInstance instanceof AbstractObjectArrayAssert objectArrayAssert) {
       return (SELF) super.withAssertionState(assertInstance).withIterables(objectArrayAssert.iterables)
                                                             .withObjectArrays(objectArrayAssert.arrays)
                                                             .withTypeComparators(objectArrayAssert.comparatorsByType)

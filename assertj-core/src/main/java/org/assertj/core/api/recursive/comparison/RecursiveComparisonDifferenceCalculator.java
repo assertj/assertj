@@ -386,7 +386,7 @@ public class RecursiveComparisonDifferenceCalculator {
       Class<?> expectedFieldClass = expectedFieldValue.getClass();
       if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode() && expectedTypeIsNotSubtypeOfActualType(dualValue)) {
         comparisonState.addDifference(dualValue,
-                                      format(STRICT_TYPE_ERROR, expectedFieldClass.getName(), actualFieldValueClass.getName()));
+                                      STRICT_TYPE_ERROR.formatted(expectedFieldClass.getName(), actualFieldValueClass.getName()));
         continue;
       }
 
@@ -402,9 +402,10 @@ public class RecursiveComparisonDifferenceCalculator {
         String missingNodes = actualNodesNamesNotInExpected.toString();
         String expectedClassName = expectedFieldClass.getName();
         String actualClassName = actualFieldValueClass.getName();
-        String missingNodesDescription = format(MISSING_FIELDS, actualClassName, expectedClassName,
-                                                expectedFieldClass.getSimpleName(), actualFieldValueClass.getSimpleName(),
-                                                missingNodes);
+        String missingNodesDescription = MISSING_FIELDS.formatted(actualClassName, expectedClassName,
+                                                                  expectedFieldClass.getSimpleName(),
+                                                                  actualFieldValueClass.getSimpleName(),
+                                                                  missingNodes);
         comparisonState.addDifference(dualValue, missingNodesDescription);
       } else { // TODO remove else to report more diff
         // compare actual's children nodes against expected:
@@ -461,7 +462,7 @@ public class RecursiveComparisonDifferenceCalculator {
   private static void enumComparedToDifferentTypeError(DualValue dualValue, ComparisonState comparisonState) {
     String typeErrorMessage = dualValue.isExpectedAnEnum()
         ? differentTypeErrorMessage(dualValue, "an enum")
-        : format(ACTUAL_IS_AN_ENUM_WHILE_EXPECTED_IS_NOT, dualValue.expected.getClass().getCanonicalName());
+        : ACTUAL_IS_AN_ENUM_WHILE_EXPECTED_IS_NOT.formatted(dualValue.expected.getClass().getCanonicalName());
     comparisonState.addDifference(dualValue, typeErrorMessage);
   }
 
@@ -494,7 +495,7 @@ public class RecursiveComparisonDifferenceCalculator {
     int actualArrayLength = Array.getLength(dualValue.actual);
     int expectedArrayLength = Array.getLength(dualValue.expected);
     if (actualArrayLength != expectedArrayLength) {
-      comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "arrays", actualArrayLength, expectedArrayLength));
+      comparisonState.addDifference(dualValue, DIFFERENT_SIZE_ERROR.formatted("arrays", actualArrayLength, expectedArrayLength));
       // no need to inspect elements, arrays are not equal as they don't have the same size
       return;
     }
@@ -503,7 +504,7 @@ public class RecursiveComparisonDifferenceCalculator {
     for (int i = 0; i < actualArrayLength; i++) {
       Object actualElement = Array.get(dualValue.actual, i);
       Object expectedElement = Array.get(dualValue.expected, i);
-      FieldLocation elementFieldLocation = arrayFieldLocation.field(format("[%d]", i));
+      FieldLocation elementFieldLocation = arrayFieldLocation.field("[%d]".formatted(i));
       comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement));
     }
   }
@@ -515,15 +516,15 @@ public class RecursiveComparisonDifferenceCalculator {
     if (!dualValue.isActualFieldAnOrderedCollection()) {
       // at the moment if expected is an ordered collection then actual should also be one
       comparisonState.addDifference(dualValue,
-                                    format(ACTUAL_NOT_ORDERED_COLLECTION, dualValue.actual.getClass().getCanonicalName()));
+                                    ACTUAL_NOT_ORDERED_COLLECTION.formatted(dualValue.actual.getClass().getCanonicalName()));
       return;
     }
 
     Collection<?> actualCollection = (Collection<?>) dualValue.actual;
     Collection<?> expectedCollection = (Collection<?>) dualValue.expected;
     if (actualCollection.size() != expectedCollection.size()) {
-      comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "collections", actualCollection.size(),
-                                                      expectedCollection.size()));
+      comparisonState.addDifference(dualValue, DIFFERENT_SIZE_ERROR.formatted("collections", actualCollection.size(),
+                                                                              expectedCollection.size()));
       // no need to inspect elements, arrays are not equal as they don't have the same size
       return;
     }
@@ -531,7 +532,7 @@ public class RecursiveComparisonDifferenceCalculator {
     Iterator<?> expectedIterator = expectedCollection.iterator();
     int i = 0;
     for (Object element : actualCollection) {
-      FieldLocation elementFieldLocation = dualValue.fieldLocation.field(format("[%d]", i));
+      FieldLocation elementFieldLocation = dualValue.fieldLocation.field("[%d]".formatted(i));
       DualValue elementDualValue = new DualValue(elementFieldLocation, element, expectedIterator.next());
       comparisonState.registerForComparison(elementDualValue);
       i++;
@@ -539,8 +540,9 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static String differentTypeErrorMessage(DualValue dualValue, String actualTypeDescription) {
-    return format(DIFFERENT_ACTUAL_AND_EXPECTED_FIELD_TYPES,
-                  actualTypeDescription, dualValue.actual.getClass().getCanonicalName());
+    return DIFFERENT_ACTUAL_AND_EXPECTED_FIELD_TYPES.formatted(
+                                                               actualTypeDescription,
+                                                               dualValue.actual.getClass().getCanonicalName());
   }
 
   private static void compareUnorderedIterables(DualValue dualValue, ComparisonState comparisonState) {
@@ -554,7 +556,7 @@ public class RecursiveComparisonDifferenceCalculator {
     int actualSize = sizeOf(actual);
     int expectedSize = sizeOf(expected);
     if (actualSize != expectedSize) {
-      comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "collections", actualSize, expectedSize));
+      comparisonState.addDifference(dualValue, DIFFERENT_SIZE_ERROR.formatted("collections", actualSize, expectedSize));
       // no need to inspect elements, iterables are not equal as they don't have the same size
       return;
     }
@@ -588,9 +590,10 @@ public class RecursiveComparisonDifferenceCalculator {
       }
     }
     if (!expectedElementsNotFound.isEmpty()) {
-      String unmatched = format("The following expected elements were not matched in the actual %s:%n  %s",
-                                actual.getClass().getSimpleName(),
-                                comparisonState.toStringOf(expectedElementsNotFound));
+      String unmatched = "The following expected elements were not matched in the actual %s:%n  %s".formatted(
+                                                                                                              actual.getClass()
+                                                                                                                    .getSimpleName(),
+                                                                                                              comparisonState.toStringOf(expectedElementsNotFound));
       comparisonState.addDifference(dualValue, unmatched);
       // TODO could improve the error by listing the actual elements not in expected but that would need
       // another double loop inverting actual and expected to find the actual elements not matched in expected
@@ -636,7 +639,8 @@ public class RecursiveComparisonDifferenceCalculator {
                                                             comparisonState.recursiveComparisonConfiguration);
 
     if (actualMap.size() != expectedMap.size()) {
-      comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "sorted maps", actualMap.size(), expectedMap.size()));
+      comparisonState.addDifference(dualValue,
+                                    DIFFERENT_SIZE_ERROR.formatted("sorted maps", actualMap.size(), expectedMap.size()));
       // no need to inspect entries, maps are not equal as they don't have the same size
       return;
     }
@@ -667,7 +671,7 @@ public class RecursiveComparisonDifferenceCalculator {
                                                 comparisonState.recursiveComparisonConfiguration);
 
     if (actualMap.size() != expectedMap.size()) {
-      comparisonState.addDifference(dualValue, format(DIFFERENT_SIZE_ERROR, "maps", actualMap.size(), expectedMap.size()));
+      comparisonState.addDifference(dualValue, DIFFERENT_SIZE_ERROR.formatted("maps", actualMap.size(), expectedMap.size()));
       // no need to inspect entries, maps are not equal as they don't have the same size
       return;
     }
@@ -675,8 +679,8 @@ public class RecursiveComparisonDifferenceCalculator {
     Set<?> expectedKeysNotFound = new LinkedHashSet<>(expectedMap.keySet());
     expectedKeysNotFound.removeAll(actualMap.keySet());
     if (!expectedKeysNotFound.isEmpty()) {
-      comparisonState.addDifference(dualValue, format("The following keys were not found in the actual map value:%n  %s",
-                                                      comparisonState.toStringOf(expectedKeysNotFound)));
+      comparisonState.addDifference(dualValue, "The following keys were not found in the actual map value:%n  %s".formatted(
+                                                                                                                            comparisonState.toStringOf(expectedKeysNotFound)));
       return;
     }
     // actual and expected maps have the same keys, we need now to compare their values
@@ -728,7 +732,7 @@ public class RecursiveComparisonDifferenceCalculator {
       return;
     }
     // either both are empty or present
-    if (!actual.isPresent()) return; // both optional are empty => end of the comparison
+    if (actual.isEmpty()) return; // both optional are empty => end of the comparison
     // both are present, we have to compare their values recursively
     Object value1 = actual.get();
     Object value2 = expected.get();
@@ -775,7 +779,8 @@ public class RecursiveComparisonDifferenceCalculator {
     int expectedArrayLength = expected.length();
     if (actualArrayLength != expectedArrayLength) {
       comparisonState.addDifference(dualValue,
-                                    format(DIFFERENT_SIZE_ERROR, "AtomicIntegerArrays", actualArrayLength, expectedArrayLength));
+                                    DIFFERENT_SIZE_ERROR.formatted("AtomicIntegerArrays", actualArrayLength,
+                                                                   expectedArrayLength));
       // no need to inspect elements, arrays are not equal as they don't have the same size
       return;
     }
@@ -815,7 +820,7 @@ public class RecursiveComparisonDifferenceCalculator {
     int expectedArrayLength = expected.length();
     if (actualArrayLength != expectedArrayLength) {
       comparisonState.addDifference(dualValue,
-                                    format(DIFFERENT_SIZE_ERROR, "AtomicLongArrays", actualArrayLength, expectedArrayLength));
+                                    DIFFERENT_SIZE_ERROR.formatted("AtomicLongArrays", actualArrayLength, expectedArrayLength));
       // no need to inspect elements, arrays are not equal as they don't have the same size
       return;
     }
@@ -842,8 +847,8 @@ public class RecursiveComparisonDifferenceCalculator {
     int expectedArrayLength = expected.length();
     if (actualArrayLength != expectedArrayLength) {
       comparisonState.addDifference(dualValue,
-                                    format(DIFFERENT_SIZE_ERROR, "AtomicReferenceArrays", actualArrayLength,
-                                           expectedArrayLength));
+                                    DIFFERENT_SIZE_ERROR.formatted("AtomicReferenceArrays", actualArrayLength,
+                                                                   expectedArrayLength));
       // no need to inspect elements, arrays are not equal as they don't have the same size
       return;
     }
@@ -934,8 +939,11 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static ComparisonDifference expectedAndActualTypeDifference(Object actual, Object expected) {
-    String additionalInformation = format("actual and expected are considered different since the comparison enforces strict type check and expected type %s is not a subtype of actual type %s",
-                                          expected.getClass().getName(), actual.getClass().getName());
+    String additionalInformation = "actual and expected are considered different since the comparison enforces strict type check and expected type %s is not a subtype of actual type %s".formatted(
+                                                                                                                                                                                                    expected.getClass()
+                                                                                                                                                                                                            .getName(),
+                                                                                                                                                                                                    actual.getClass()
+                                                                                                                                                                                                          .getName());
     return rootComparisonDifference(actual, expected, additionalInformation);
   }
 

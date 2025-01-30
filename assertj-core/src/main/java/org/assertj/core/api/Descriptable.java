@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import java.util.function.Supplier;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.description.LazyTextDescription;
 import org.assertj.core.description.TextDescription;
@@ -35,7 +34,7 @@ public interface Descriptable<SELF> {
    * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
    * the chained call by throwing an AssertionError.
    * <p>
-   * The description follows {@link String#format(String, Object...)} syntax.
+   * The description follows {@link String#formatted(Object...)} syntax.
    * <p>
    * Example :
    * <pre><code class='java'> try {

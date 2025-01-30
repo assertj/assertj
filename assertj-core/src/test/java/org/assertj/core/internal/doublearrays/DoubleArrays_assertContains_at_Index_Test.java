@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.doublearrays;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
@@ -61,7 +60,7 @@ class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseTest {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arrays.assertContains(someInfo(),
                                                                                                       actual, 8d,
                                                                                                       atIndex(6)))
-                                                              .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <6>"));
+                                                              .withMessageContaining("Index should be between <0> and <2> (inclusive) but was:%n <6>".formatted());
   }
 
   @Test
@@ -108,7 +107,7 @@ class DoubleArrays_assertContains_at_Index_Test extends DoubleArraysBaseTest {
                                                                                                                                   actual,
                                                                                                                                   -8d,
                                                                                                                                   atIndex(6)))
-                                                              .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <6>"));
+                                                              .withMessageContaining("Index should be between <0> and <2> (inclusive) but was:%n <6>".formatted());
   }
 
   @Test

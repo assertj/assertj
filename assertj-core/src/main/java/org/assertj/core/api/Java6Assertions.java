@@ -41,7 +41,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -1443,7 +1442,7 @@ public class Java6Assertions {
   }
 
   /**
-   * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
+   * Throws an {@link AssertionError} with the given message built as {@link String#formatted(Object...)}.
    *
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.

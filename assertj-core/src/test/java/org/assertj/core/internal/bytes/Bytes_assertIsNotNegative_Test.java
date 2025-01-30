@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.bytes;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.testkit.TestData.someHexInfo;
 import static org.assertj.core.testkit.TestData.someInfo;
@@ -40,13 +39,13 @@ class Bytes_assertIsNotNegative_Test extends BytesBaseTest {
   @Test
   void should_fail_since_actual_is_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotNegative(someInfo(), (byte) -6))
-                                                   .withMessage(format("%nExpecting actual:%n  -6%nto be greater than or equal to:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  -6%nto be greater than or equal to:%n  0%n".formatted());
   }
 
   @Test
   void should_fail_since_actual_is_negative_in_hex_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotNegative(someHexInfo(), (byte) 0xFA))
-                                                   .withMessage(format("%nExpecting actual:%n  0xFA%nto be greater than or equal to:%n  0x00%n"));
+                                                   .withMessage("%nExpecting actual:%n  0xFA%nto be greater than or equal to:%n  0x00%n".formatted());
   }
 
   @Test

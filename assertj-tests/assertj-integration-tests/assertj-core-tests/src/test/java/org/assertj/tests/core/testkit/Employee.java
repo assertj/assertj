@@ -12,8 +12,6 @@
  */
 package org.assertj.tests.core.testkit;
 
-import static java.lang.String.format;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,6 +83,6 @@ public class Employee {
 
   @Override
   public String toString() {
-    return format("%s[id=%d, name=%s, age=%d]", getClass().getSimpleName(), id, name, age);
+    return "%s[id=%d, name=%s, age=%d]".formatted(getClass().getSimpleName(), id, name, age);
   }
 }

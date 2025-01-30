@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameClass.shouldHaveSameClass;
 
@@ -34,6 +33,6 @@ class ShouldHaveSameClass_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting%n  \"Yoda\"%nto have the same class as:%n  10L(java.lang.Long) %nbut its class was: java.lang.String"));
+    then(message).isEqualTo("[Test] %nExpecting%n  \"Yoda\"%nto have the same class as:%n  10L(java.lang.Long) %nbut its class was: java.lang.String".formatted());
   }
 }

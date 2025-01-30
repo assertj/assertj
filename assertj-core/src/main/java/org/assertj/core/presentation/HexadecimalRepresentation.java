@@ -36,20 +36,20 @@ public class HexadecimalRepresentation extends StandardRepresentation {
   @Override
   public String toStringOf(Object object) {
     if (hasCustomFormatterFor(object)) return customFormat(object);
-    if (object instanceof Number) return toStringOf((Number) object);
-    else if (object instanceof String) return toStringOf(this, (String) object);
-    else if (object instanceof Character) return toStringOf((Character) object);
+    if (object instanceof Number number) return toStringOf(number);
+    else if (object instanceof String string) return toStringOf(this, string);
+    else if (object instanceof Character character) return toStringOf(character);
     return super.toStringOf(object);
   }
 
   @Override
   protected String toStringOf(Number number) {
-    if (number instanceof Byte) return toStringOf((Byte) number);
-    else if (number instanceof Short) return toStringOf((Short) number);
-    else if (number instanceof Integer) return toStringOf((Integer) number);
-    else if (number instanceof Long) return toStringOf((Long) number);
-    else if (number instanceof Float) return toStringOf((Float) number);
-    else if (number instanceof Double) return toStringOf((Double) number);
+    if (number instanceof Byte byte1) return toStringOf(byte1);
+    else if (number instanceof Short short1) return toStringOf(short1);
+    else if (number instanceof Integer integer) return toStringOf(integer);
+    else if (number instanceof Long long1) return toStringOf(long1);
+    else if (number instanceof Float float1) return toStringOf(float1);
+    else if (number instanceof Double double1) return toStringOf(double1);
     else return number.toString();
   }
 

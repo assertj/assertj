@@ -12,10 +12,7 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
-
 import java.util.List;
-
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CanIgnoreReturnValue;
@@ -78,7 +75,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   }
 
   /**
-   * Fails with the given message built like {@link String#format(String, Object...)}.
+   * Fails with the given message built like {@link String#formatted(Object...)}.
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
@@ -88,7 +85,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    */
   @CanIgnoreReturnValue
   public <T> T fail(String failureMessage, Object... args) {
-    return fail(format(failureMessage, args));
+    return fail(failureMessage.formatted(args));
   }
 
   /**

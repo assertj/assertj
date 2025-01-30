@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.classes;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoPublicFields;
@@ -62,10 +61,11 @@ class Classes_assertHasPublicFields_Test extends ClassesBaseTest {
     String[] expected = array("publicField", "protectedField", "privateField");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasPublicFields(someInfo(), actual,
                                                                                                    expected))
-                                                   .withMessage(format(shouldHaveFields(actual,
-                                                                                        newLinkedHashSet(expected),
-                                                                                        newLinkedHashSet("protectedField",
-                                                                                                         "privateField")).create()));
+                                                   .withMessage(shouldHaveFields(actual,
+                                                                                 newLinkedHashSet(expected),
+                                                                                 newLinkedHashSet("protectedField",
+                                                                                                  "privateField")).create()
+                                                                                                                  .formatted());
   }
 
   @Test
@@ -73,9 +73,10 @@ class Classes_assertHasPublicFields_Test extends ClassesBaseTest {
     String[] expected = array("missingField", "publicField");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasPublicFields(someInfo(), actual,
                                                                                                    expected))
-                                                   .withMessage(format(shouldHaveFields(actual,
-                                                                                        newLinkedHashSet(expected),
-                                                                                        newLinkedHashSet("missingField")).create()));
+                                                   .withMessage(shouldHaveFields(actual,
+                                                                                 newLinkedHashSet(expected),
+                                                                                 newLinkedHashSet("missingField")).create()
+                                                                                                                  .formatted());
   }
 
   @Test

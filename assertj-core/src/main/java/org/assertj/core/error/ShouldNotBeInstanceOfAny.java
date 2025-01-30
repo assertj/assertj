@@ -29,7 +29,7 @@ public class ShouldNotBeInstanceOfAny extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldNotBeInstanceOfAny(Object actual, Class<?>[] types) {
-    return actual instanceof Throwable ? new ShouldNotBeInstanceOfAny((Throwable) actual, types)
+    return actual instanceof Throwable t ? new ShouldNotBeInstanceOfAny(t, types)
         : new ShouldNotBeInstanceOfAny(actual, types);
   }
 

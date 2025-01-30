@@ -53,7 +53,6 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
 import org.assertj.core.util.VisibleForTesting;
@@ -92,9 +91,9 @@ public class Dates {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
-                                                                     .getComparator();
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
+      return strategy
+                     .getComparator();
     }
     return null;
   }

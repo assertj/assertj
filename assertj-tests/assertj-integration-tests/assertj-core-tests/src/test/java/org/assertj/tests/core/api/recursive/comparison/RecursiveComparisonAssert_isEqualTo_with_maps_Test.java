@@ -23,19 +23,17 @@ import static org.assertj.core.presentation.StandardRepresentation.registerForma
 import static org.assertj.tests.core.testkit.Maps.mapOf;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
+import com.google.common.collect.ImmutableMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import com.google.common.collect.ImmutableMap;
 
 class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -113,7 +111,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     Map<String, Author> singletonGeorgeMartinMap = singletonMap(georgeMartin.name, georgeMartin);
     return Stream.of(Arguments.of(singletonPratchettMap, singletonGeorgeMartinMap, "map",
                                   singletonPratchettMap, singletonGeorgeMartinMap,
-                                  format("The following keys were not found in the actual map value:%n  [\"George Martin\"]")),
+                                  "The following keys were not found in the actual map value:%n  [\"George Martin\"]".formatted()),
                      Arguments.of(nonSortedPratchettAndMartin, singletonPratchettMap, "map",
                                   nonSortedPratchettAndMartin, singletonPratchettMap,
                                   "actual and expected values are maps of different size, actual size=2 when expected size=1"),
@@ -127,7 +125,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
                                   none, pratchett, null),
                      Arguments.of(singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), "map",
                                   singletonPratchettMap, singletonMap(georgeMartin.name, pratchett),
-                                  format("The following keys were not found in the actual map value:%n  [\"George Martin\"]")),
+                                  "The following keys were not found in the actual map value:%n  [\"George Martin\"]".formatted()),
                      Arguments.of(singletonPratchettMap, empty, "map",
                                   singletonPratchettMap, empty,
                                   "actual and expected values are maps of different size, actual size=1 when expected size=0"));
@@ -153,7 +151,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison().isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessageContaining(format("The following keys were not found in the actual map value:%n  [\"c\", \"d\"]"));
+    then(assertionError).hasMessageContaining("The following keys were not found in the actual map value:%n  [\"c\", \"d\"]".formatted());
   }
 
   static Stream<Arguments> should_fail_when_comparing_map_to_non_map() {
@@ -174,7 +172,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     // GIVEN
     Map<String, Item> expectedItems = mapOf(entry("Shoes", new Item("Shoes", 2)), entry("Pants", new Item("Pants", 3)));
     Map<String, Item> actualItems = mapOf(entry("Pants", new Item("Pants", 3)), entry("Hat", new Item("Hat", 1)));
-    registerFormatterForType(Item.class, item -> String.format("Item(%s, %d)", item.name(), item.quantity()));
+    registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison()
                                                                                       .isEqualTo(expectedItems));

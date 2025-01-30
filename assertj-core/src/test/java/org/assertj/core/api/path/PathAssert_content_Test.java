@@ -12,13 +12,11 @@
  */
 package org.assertj.core.api.path;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.nio.file.Path;
-
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.NavigationMethodBaseTest;
@@ -51,7 +49,7 @@ class PathAssert_content_Test extends PathAssertBaseTest implements NavigationMe
     // WHEN
     AbstractStringAssert<?> stringAssert = assertThat(path).content();
     // THEN
-    stringAssert.isEqualTo(format("actual%n"));
+    stringAssert.isEqualTo("actual%n".formatted());
   }
 
   @Override

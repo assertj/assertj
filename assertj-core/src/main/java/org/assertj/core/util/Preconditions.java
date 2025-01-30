@@ -12,11 +12,9 @@
  */
 package org.assertj.core.util;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 import java.util.function.Supplier;
-
 import org.assertj.core.api.filter.FilterOperator;
 
 /**
@@ -121,14 +119,14 @@ public final class Preconditions {
    *
    * @param expression a boolean expression
    * @param errorMessageTemplate a template for the exception message should the check fail. The
-   *     message is formed by calling {@link String#format(String, Object...)} with the given parameters.
+   *     message is formed by calling {@link String#formatted(Object...)} with the given parameters.
    * @param errorMessageArgs the arguments to be substituted into the message template.
    * @throws IllegalArgumentException if {@code expression} is false
    * @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
    *     {@code errorMessageArgs} is null (don't let this happen)
    */
   public static void checkArgument(boolean expression, String errorMessageTemplate, Object... errorMessageArgs) {
-    if (!expression) throw new IllegalArgumentException(format(errorMessageTemplate, errorMessageArgs));
+    if (!expression) throw new IllegalArgumentException(errorMessageTemplate.formatted(errorMessageArgs));
   }
 
   /**
@@ -151,7 +149,7 @@ public final class Preconditions {
    *
    * @param expression a boolean expression
    * @param errorMessageTemplate a template for the exception message should the check fail.The
-   *     message is formed by calling {@link String#format(String, Object...)} with the given parameters.
+   *     message is formed by calling {@link String#formatted(Object...)} with the given parameters.
    * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
    *     are converted to strings using {@link String#valueOf(Object)}.
    * @throws IllegalStateException if {@code expression} is false
@@ -160,7 +158,7 @@ public final class Preconditions {
    */
   public static void checkState(boolean expression, String errorMessageTemplate, Object... errorMessageArgs) {
     if (!expression) {
-      throw new IllegalStateException(format(errorMessageTemplate, errorMessageArgs));
+      throw new IllegalStateException(errorMessageTemplate.formatted(errorMessageArgs));
     }
   }
 

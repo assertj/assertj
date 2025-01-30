@@ -35,9 +35,9 @@ public class BinaryRepresentation extends StandardRepresentation {
   @Override
   public String toStringOf(Object object) {
     if (hasCustomFormatterFor(object)) return customFormat(object);
-    if (object instanceof Character) return toStringOf((Character) object);
-    if (object instanceof Number) return toStringOf((Number) object);
-    if (object instanceof String) return toStringOf(this, (String) object);
+    if (object instanceof Character character) return toStringOf(character);
+    if (object instanceof Number number) return toStringOf(number);
+    if (object instanceof String string) return toStringOf(this, string);
     return super.toStringOf(object);
   }
 
@@ -47,12 +47,12 @@ public class BinaryRepresentation extends StandardRepresentation {
 
   @Override
   protected String toStringOf(Number number) {
-    if (number instanceof Byte) return toStringOf((Byte) number);
-    if (number instanceof Short) return toStringOf((Short) number);
-    if (number instanceof Integer) return toStringOf((Integer) number);
-    if (number instanceof Long) return toStringOf((Long) number);
-    if (number instanceof Float) return toStringOf((Float) number);
-    if (number instanceof Double) return toStringOf((Double) number);
+    if (number instanceof Byte byte1) return toStringOf(byte1);
+    if (number instanceof Short short1) return toStringOf(short1);
+    if (number instanceof Integer integer) return toStringOf(integer);
+    if (number instanceof Long long1) return toStringOf(long1);
+    if (number instanceof Float float1) return toStringOf(float1);
+    if (number instanceof Double double1) return toStringOf(double1);
     return number == null ? null : number.toString();
   }
 

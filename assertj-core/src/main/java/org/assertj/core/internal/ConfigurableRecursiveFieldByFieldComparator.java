@@ -12,13 +12,11 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
 
 import java.util.Comparator;
 import java.util.Objects;
-
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -60,8 +58,8 @@ public class ConfigurableRecursiveFieldByFieldComparator implements Comparator<O
 
   @Override
   public String toString() {
-    return format("recursive field/property by field/property comparator on all fields/properties using the following configuration:%n%s",
-                  configuration);
+    return "recursive field/property by field/property comparator on all fields/properties using the following configuration:%n%s".formatted(
+                                                                                                                                             configuration);
   }
 
   @Override

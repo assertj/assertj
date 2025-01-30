@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotHaveSameClass.shouldNotHaveSameClass;
 
@@ -34,6 +33,6 @@ class ShouldNotHaveSameClass_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nnot to have the same class as:%n  \"Luke\" (java.lang.String)"));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"Yoda\"%nnot to have the same class as:%n  \"Luke\" (java.lang.String)".formatted());
   }
 }

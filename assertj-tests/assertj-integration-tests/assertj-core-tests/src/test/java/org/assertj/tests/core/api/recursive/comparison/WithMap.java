@@ -12,8 +12,6 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static java.lang.String.format;
-
 import java.util.Map;
 
 public class WithMap<K, V> {
@@ -29,7 +27,7 @@ public class WithMap<K, V> {
 
   @Override
   public String toString() {
-    return format("WithMap map=r%s", map);
+    return "WithMap map=r%s".formatted(map);
   }
 
 }

@@ -18,9 +18,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.stream.Stream;
-
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -40,7 +38,7 @@ class Paths_assertIsAbsolute_Test extends PathsBaseTest {
   @MethodSource("nonAbsolutePaths")
   void should_fail_if_actual_is_not_absolute() {
     // GIVEN
-    Path actual = Paths.get("relative");
+    Path actual = Path.of("relative");
     // WHEN
     AssertionError error = expectAssertionError(() -> underTest.assertIsAbsolute(INFO, actual));
     // THEN
@@ -48,8 +46,8 @@ class Paths_assertIsAbsolute_Test extends PathsBaseTest {
   }
 
   private static Stream<Path> nonAbsolutePaths() {
-    return Stream.of(Paths.get("foo"),
-                     Paths.get("foo", "bar"));
+    return Stream.of(Path.of("foo"),
+                     Path.of("foo", "bar"));
   }
 
   @Test

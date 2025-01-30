@@ -18,11 +18,11 @@ package org.assertj.core.util;
 public final class FailureMessages {
 
   public static String actualIsEmpty() {
-    return String.format("%nExpecting actual not to be empty");
+    return "%nExpecting actual not to be empty".formatted();
   }
 
   public static String actualIsNull() {
-    return String.format("%nExpecting actual not to be null");
+    return "%nExpecting actual not to be null".formatted();
   }
 
   private FailureMessages() {}

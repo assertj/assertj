@@ -51,7 +51,7 @@ class ThrowableAssert_built_with_then_method_Test {
           // no exception
         }
       });
-    }).withMessage(String.format("%nExpecting code to raise a throwable."));
+    }).withMessage("%nExpecting code to raise a throwable.".formatted());
   }
 
 }

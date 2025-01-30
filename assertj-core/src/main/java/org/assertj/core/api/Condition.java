@@ -17,7 +17,6 @@ import static org.assertj.core.api.Condition.Status.FAIL;
 import static org.assertj.core.api.Condition.Status.SUCCESS;
 
 import java.util.function.Predicate;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.util.VisibleForTesting;
@@ -80,7 +79,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    *
    * <p>
    * You must give a description, it will be used to build a nice error message when the condition fails, you can pass
-   * args to build the description as in {@link String#format(String, Object...)}.
+   * args to build the description as in {@link String#formatted(Object...)}.
    * <p>
    * Example:
    * <pre><code class='java'> // build condition with Predicate&lt;String&gt; and set description using String#format pattern.

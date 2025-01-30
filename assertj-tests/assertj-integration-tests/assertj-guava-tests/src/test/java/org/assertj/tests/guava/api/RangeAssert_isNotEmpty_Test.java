@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.guava.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -45,7 +44,7 @@ public class RangeAssert_isNotEmpty_Test {
     Throwable throwable = catchThrowable(() -> assertThat(actual).isNotEmpty());
     // THEN
     assertThat(throwable).isInstanceOf(AssertionError.class)
-                         .hasMessage(format("%nExpecting actual not to be empty"));
+                         .hasMessage("%nExpecting actual not to be empty".formatted());
   }
 
   @Test

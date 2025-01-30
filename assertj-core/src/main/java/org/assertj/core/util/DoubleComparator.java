@@ -12,8 +12,6 @@
  */
 package org.assertj.core.util;
 
-import static java.lang.String.format;
-
 public class DoubleComparator extends NullSafeComparator<Double> {
 
   private double precision;
@@ -56,7 +54,7 @@ public class DoubleComparator extends NullSafeComparator<Double> {
 
   @Override
   public String toString() {
-    return format("DoubleComparator[precision=%s]", precision);
+    return "DoubleComparator[precision=%s]".formatted(precision);
   }
 
 }

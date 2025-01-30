@@ -27,7 +27,6 @@ import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
@@ -70,9 +69,9 @@ public class Lists {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
-                                                                     .getComparator();
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
+      return strategy
+                     .getComparator();
     }
     return null;
   }
@@ -141,9 +140,9 @@ public class Lists {
    */
   public void assertIsSorted(AssertionInfo info, List<?> actual) {
     assertNotNull(info, actual);
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
       // instead of comparing elements with their natural comparator, use the one set by client.
-      Comparator<?> comparator = ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+      Comparator<?> comparator = strategy.getComparator();
       assertIsSortedAccordingToComparator(info, actual, comparator);
       return;
     }

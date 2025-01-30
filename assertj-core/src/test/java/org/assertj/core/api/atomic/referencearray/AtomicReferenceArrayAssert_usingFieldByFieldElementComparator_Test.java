@@ -23,7 +23,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.assertj.core.internal.AtomicReferenceArrayElementComparisonStrategy;
@@ -153,8 +152,8 @@ class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
 
     @Override
     public String toString() {
-      return String.format("Person{first='%s', last='%s', info='%s'}",
-                           first, last, info);
+      return "Person{first='%s', last='%s', info='%s'}".formatted(
+                                                                  first, last, info);
     }
   }
 

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.configuration;
 
-import static java.lang.String.format;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Iterator;
@@ -35,8 +34,9 @@ class Services {
     SERVICE result = services.hasNext() ? services.next() : defaultValue;
     if (services.hasNext()) {
       result = defaultValue;
-      System.err.println(format("Found multiple implementations for the service provider %s. Using the default: %s",
-                                serviceType, result.getClass()));
+      System.err.println("Found multiple implementations for the service provider %s. Using the default: %s".formatted(
+                                                                                                                       serviceType,
+                                                                                                                       result.getClass()));
     }
     return result;
   }

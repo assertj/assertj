@@ -34,7 +34,7 @@ public final class IterableUtil {
    */
   public static boolean isNullOrEmpty(Iterable<?> iterable) {
     if (iterable == null) return true;
-    if (iterable instanceof Collection && ((Collection<?>) iterable).isEmpty()) return true;
+    if (iterable instanceof Collection<?> collection && collection.isEmpty()) return true;
     return !iterable.iterator().hasNext();
   }
 
@@ -47,7 +47,7 @@ public final class IterableUtil {
    */
   public static int sizeOf(Iterable<?> iterable) {
     requireNonNull(iterable, "Iterable must not be null");
-    if (iterable instanceof Collection) return ((Collection<?>) iterable).size();
+    if (iterable instanceof Collection<?> collection) return collection.size();
     return Math.toIntExact(Streams.stream(iterable).count());
   }
 

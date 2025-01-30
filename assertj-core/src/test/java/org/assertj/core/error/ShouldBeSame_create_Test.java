@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
 
@@ -32,8 +31,8 @@ class ShouldBeSame_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"%s\"%nand:%n  \"%s\"%nto refer to the same object", "Yoda",
-                                   "Luke"));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"%s\"%nand:%n  \"%s\"%nto refer to the same object".formatted("Yoda",
+                                                                                                                          "Luke"));
   }
 
 }

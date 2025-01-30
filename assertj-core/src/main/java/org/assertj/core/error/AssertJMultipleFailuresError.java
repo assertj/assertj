@@ -12,17 +12,17 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.util.Throwables.addLineNumberToErrorMessages;
 
+import java.io.Serial;
 import java.util.List;
-
 import org.opentest4j.MultipleFailuresError;
 
 /**
  * AssertJ version of {@link MultipleFailuresError} to get more control on the error formatting.
  */
 public class AssertJMultipleFailuresError extends MultipleFailuresError {
+  @Serial
   private static final long serialVersionUID = 1L;
   private static final String EOL = System.getProperty("line.separator");
   private static final String ERROR_SEPARATOR = EOL + "-- failure %d --";
@@ -60,7 +60,7 @@ public class AssertJMultipleFailuresError extends MultipleFailuresError {
   }
 
   private String errorSeparator(int errorNumber) {
-    return format(ERROR_SEPARATOR, errorNumber);
+    return ERROR_SEPARATOR.formatted(errorNumber);
   }
 
   private boolean hasDescription(String message) {

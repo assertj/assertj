@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.util.Strings.escapePercent;
@@ -21,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.presentation.Representation;
 
@@ -55,8 +53,8 @@ public class ShouldContainEntries extends BasicErrorMessageFactory {
     K key = entryWithWrongValue.getKey();
     MapEntry<K, ? extends V> actualEntry = entry(key, actual.get(key));
     V expectedValue = entryWithWrongValue.getValue();
-    return escapePercent(format("%s (expected: %s)", representation.toStringOf(actualEntry),
-                                representation.toStringOf(expectedValue)));
+    return escapePercent("%s (expected: %s)".formatted(representation.toStringOf(actualEntry),
+                                                       representation.toStringOf(expectedValue)));
   }
 
   private <K, V> ShouldContainEntries(Map<? extends K, ? extends V> actual,

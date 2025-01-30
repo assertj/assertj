@@ -24,7 +24,6 @@ import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 import java.util.Map;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,8 +53,8 @@ class ElementsShouldSatisfy_create_Test {
                                     "Expecting all elements of:%n" +
                                     "  [\"Leia\", \"Luke\", \"Yoda\"]%n" +
                                     "to satisfy given requirements, but these elements did not:%n%n"))
-                 .contains(format("java.lang.AssertionError: Leia mistake.%n\tat"))
-                 .contains(format("java.lang.AssertionError: Luke mistake.%n\tat"));
+                 .contains("java.lang.AssertionError: Leia mistake.%n\tat".formatted())
+                 .contains("java.lang.AssertionError: Luke mistake.%n\tat".formatted());
   }
 
   @Test
@@ -92,8 +91,8 @@ class ElementsShouldSatisfy_create_Test {
                                     "Expecting any element of:%n" +
                                     "  [\"Luke\", \"Yoda\"]%n" +
                                     "to satisfy the given assertions requirements but none did:%n%n"))
-                 .contains(format("java.lang.AssertionError: Leia mistake.%n\tat"))
-                 .contains(format("java.lang.AssertionError: Luke mistake.%n\tat"));
+                 .contains("java.lang.AssertionError: Leia mistake.%n\tat".formatted())
+                 .contains("java.lang.AssertionError: Luke mistake.%n\tat".formatted());
   }
 
   @Test
@@ -132,7 +131,7 @@ class ElementsShouldSatisfy_create_Test {
                                     "%n" +
                                     "\"Leia%%\"%n" +
                                     "- element index: 1%n"))
-                 .contains(format("- error: java.lang.AssertionError: Leia mistake.%n\tat"))
+                 .contains("- error: java.lang.AssertionError: Leia mistake.%n\tat".formatted())
                  .contains(format("%n" +
                                   "\"Luke\"%n" +
                                   "- element index: 3%n" +

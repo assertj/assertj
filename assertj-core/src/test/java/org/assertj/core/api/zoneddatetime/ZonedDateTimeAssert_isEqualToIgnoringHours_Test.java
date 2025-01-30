@@ -23,7 +23,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("deprecation")
@@ -65,7 +64,7 @@ class ZonedDateTimeAssert_isEqualToIgnoringHours_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusHours(1)));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting actual:%n  2000-01-02T00:00Z (java.time.ZonedDateTime)%nto have same year, month and day as:%n  2000-01-01T23:00Z (java.time.ZonedDateTime)%nbut had not."));
+    then(assertionError).hasMessage("%nExpecting actual:%n  2000-01-02T00:00Z (java.time.ZonedDateTime)%nto have same year, month and day as:%n  2000-01-01T23:00Z (java.time.ZonedDateTime)%nbut had not.".formatted());
   }
 
   @Test
@@ -73,8 +72,7 @@ class ZonedDateTimeAssert_isEqualToIgnoringHours_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refDatetime).isEqualToIgnoringHours(refDatetime.minusNanos(1)));
     // THEN
-    then(assertionError).hasMessage(format(
-                                           "%nExpecting actual:%n  2000-01-02T00:00Z (java.time.ZonedDateTime)%nto have same year, month and day as:%n  2000-01-01T23:59:59.999999999Z (java.time.ZonedDateTime)%nbut had not."));
+    then(assertionError).hasMessage("%nExpecting actual:%n  2000-01-02T00:00Z (java.time.ZonedDateTime)%nto have same year, month and day as:%n  2000-01-01T23:59:59.999999999Z (java.time.ZonedDateTime)%nbut had not.".formatted());
   }
 
   @Test

@@ -12,13 +12,11 @@
  */
 package org.assertj.guava.util;
 
-import static java.lang.String.format;
-
 public class ExceptionUtils {
 
   /**
    * Throws a {@link IllegalArgumentException} if given condition is true with message formatted with given arguments
-   * using {@link String#format(String, Object...)}.
+   * using {@link String#formatted(Object...)}.
    * 
    * @param condition condition that will trigger the {@link IllegalArgumentException} if true
    * @param exceptionMessage message set in thrown IllegalArgumentException
@@ -28,7 +26,7 @@ public class ExceptionUtils {
   public static void throwIllegalArgumentExceptionIfTrue(boolean condition, String exceptionMessage,
                                                          Object... exceptionMessageArgs) {
     if (condition) {
-      throw new IllegalArgumentException(format(exceptionMessage, exceptionMessageArgs));
+      throw new IllegalArgumentException(exceptionMessage.formatted(exceptionMessageArgs));
     }
   }
 

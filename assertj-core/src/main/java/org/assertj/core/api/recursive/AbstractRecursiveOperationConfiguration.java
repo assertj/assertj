@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.recursive;
 
-import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Lists.list;
@@ -24,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.util.Strings;
@@ -157,13 +155,13 @@ public abstract class AbstractRecursiveOperationConfiguration {
 
   protected void describeIgnoredFields(StringBuilder description) {
     if (!getIgnoredFields().isEmpty())
-      description.append(format("- the following fields were ignored in the comparison: %s%n", describeIgnoredFields()));
+      description.append("- the following fields were ignored in the comparison: %s%n".formatted(describeIgnoredFields()));
   }
 
   protected void describeIgnoredFieldsRegexes(StringBuilder description) {
     if (!getIgnoredFieldsRegexes().isEmpty())
-      description.append(format("- the fields matching the following regexes were ignored in the comparison: %s%n",
-                                describeRegexes(getIgnoredFieldsRegexes())));
+      description.append("- the fields matching the following regexes were ignored in the comparison: %s%n".formatted(
+                                                                                                                      describeRegexes(getIgnoredFieldsRegexes())));
   }
 
   protected String describeIgnoredTypes() {

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
@@ -23,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
-
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
@@ -86,13 +84,13 @@ public class FieldByFieldComparator implements Comparator<Object> {
 
   protected String describeUsedComparators() {
     if (comparatorsByPropertyOrField.isEmpty()) {
-      return format("%nComparators used:%n%s", describeFieldComparatorsByType());
+      return "%nComparators used:%n%s".formatted(describeFieldComparatorsByType());
     }
-    return format("%nComparators used:%n%s%n%s", describeFieldComparatorsByName(), describeFieldComparatorsByType());
+    return "%nComparators used:%n%s%n%s".formatted(describeFieldComparatorsByName(), describeFieldComparatorsByType());
   }
 
   protected String describeFieldComparatorsByType() {
-    return format("- for elements fields (by type): %s", comparatorsByType);
+    return "- for elements fields (by type): %s".formatted(comparatorsByType);
   }
 
   protected String describeFieldComparatorsByName() {
@@ -102,7 +100,7 @@ public class FieldByFieldComparator implements Comparator<Object> {
     List<String> fieldComparatorsDescription = this.comparatorsByPropertyOrField.entrySet().stream()
                                                                                 .map(FieldByFieldComparator::formatFieldComparator)
                                                                                 .collect(toList());
-    return format("- for elements fields (by name): {%s}", join(fieldComparatorsDescription).with(", "));
+    return "- for elements fields (by name): {%s}".formatted(join(fieldComparatorsDescription).with(", "));
   }
 
   private static String formatFieldComparator(Entry<String, Comparator<?>> next) {

@@ -92,7 +92,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
 import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
 import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
@@ -193,7 +192,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                                       + "  [\"1\"=\"2\"]%n"
                                                       + "but could not find the following map entries:%n"
                                                       + "  [\"1\"=\"2\"]"));
-    then(errors.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: {\"54\"=\"55\"}"));
+    then(errors.get(1)).hasMessageStartingWith("%nExpecting empty but was: {\"54\"=\"55\"}".formatted());
   }
 
   @SuppressWarnings({ "deprecation" })
@@ -311,8 +310,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       List<String> errors = e.getFailures().stream().map(Object::toString).collect(toList());
       then(errors).hasSize(55);
       then(errors.get(0)).contains(shouldBeEqualMessage("0", "1"));
-      then(errors.get(1)).contains(format("%nExpecting value to be true but was false"));
-      then(errors.get(2)).contains(format("%nExpecting value to be true but was false"));
+      then(errors.get(1)).contains("%nExpecting value to be true but was false".formatted());
+      then(errors.get(2)).contains("%nExpecting value to be true but was false".formatted());
       then(errors.get(3)).contains(shouldBeEqualMessage("[false]", "[true]"));
 
       then(errors.get(4)).contains(shouldBeEqualMessage("0", "1"));
@@ -352,7 +351,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       then(errors.get(23)).contains(shouldBeEqualMessage("[24]", "[25]"));
 
       then(errors.get(24)).contains(shouldBeEqualMessage("[\"26\"]", "[\"27\"]"));
-      then(errors.get(25)).contains(format("Expecting the iterator under test to be exhausted"));
+      then(errors.get(25)).contains("Expecting the iterator under test to be exhausted".formatted());
       then(errors.get(26)).contains(shouldBeEqualMessage("[\"30\"]", "[\"31\"]"));
 
       then(errors.get(27)).contains(shouldBeEqualMessage("32L", "33L"));
@@ -411,7 +410,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       then(errors.get(53)).contains(format("%nExpecting Duration:%n"
                                            + "  10H%n"
                                            + "to have 5L hours but had 10L"));
-      then(errors.get(54)).contains(format("%nExpecting Period:%n  P1D%nto have 2 days but had 1"));
+      then(errors.get(54)).contains("%nExpecting Period:%n  P1D%nto have 2 days but had 1".formatted());
     }
   }
 
@@ -2723,8 +2722,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     Stream.of("A", "B").forEach(runAssertions);
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly(format("[checking A] %nExpecting code to raise a throwable."),
-                                                   format("[checking B] %nExpecting code to raise a throwable."));
+                                  .containsExactly("[checking A] %nExpecting code to raise a throwable.".formatted(),
+                                                   "[checking B] %nExpecting code to raise a throwable.".formatted());
   }
 
   @ParameterizedTest

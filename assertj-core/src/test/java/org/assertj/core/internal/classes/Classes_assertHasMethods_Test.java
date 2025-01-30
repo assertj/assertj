@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.classes;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
@@ -25,7 +24,6 @@ import static org.assertj.core.util.Sets.newTreeSet;
 import static org.junit.jupiter.api.condition.JRE.JAVA_18;
 
 import java.util.SortedSet;
-
 import org.assertj.core.internal.ClassesBaseTest;
 import org.assertj.core.util.Strings;
 import org.junit.jupiter.api.BeforeEach;
@@ -95,9 +93,10 @@ class Classes_assertHasMethods_Test extends ClassesBaseTest {
     String[] expected = array("missingMethod", "publicMethod");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasMethods(someInfo(), actual,
                                                                                               expected))
-                                                   .withMessage(format(shouldHaveMethods(actual, false,
-                                                                                         newTreeSet(expected),
-                                                                                         newTreeSet("missingMethod")).create()));
+                                                   .withMessage(shouldHaveMethods(actual, false,
+                                                                                  newTreeSet(expected),
+                                                                                  newTreeSet("missingMethod")).create()
+                                                                                                              .formatted());
   }
 
   @Test

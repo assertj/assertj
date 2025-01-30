@@ -22,7 +22,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Comparator;
 import java.util.Objects;
-
 import org.assertj.core.api.ObjectArrayAssert;
 import org.assertj.core.api.ObjectArrayAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -150,8 +149,8 @@ class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends ObjectAr
 
     @Override
     public String toString() {
-      return String.format("Person{first='%s', last='%s', info='%s'}",
-                           first, last, info);
+      return "Person{first='%s', last='%s', info='%s'}".formatted(
+                                                                  first, last, info);
     }
   }
 

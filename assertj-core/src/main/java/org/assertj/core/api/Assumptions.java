@@ -77,13 +77,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
-import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.assertj.core.configuration.PreferredAssumptionException;
-import org.assertj.core.util.CheckReturnValue;
-
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
@@ -95,6 +88,11 @@ import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.This;
+import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.configuration.PreferredAssumptionException;
+import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Entry point for assumption methods for different types, which allow to skip test execution on failed assumptions.
@@ -120,8 +118,8 @@ public class Assumptions {
     public static Object intercept(@This AbstractAssert<?, ?> assertion, @SuperCall Callable<Object> proxy) throws Exception {
       try {
         Object result = proxy.call();
-        if (result != assertion && result instanceof AbstractAssert) {
-          return asAssumption((AbstractAssert<?, ?>) result).withAssertionState(assertion);
+        if (result != assertion && result instanceof AbstractAssert<?, ?> assert1) {
+          return asAssumption(assert1).withAssertionState(assertion);
         }
         return result;
       } catch (AssertionError e) {

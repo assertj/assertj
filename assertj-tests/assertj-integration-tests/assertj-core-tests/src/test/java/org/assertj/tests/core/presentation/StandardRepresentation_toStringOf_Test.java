@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.core.presentation;
 
-import static java.lang.String.format;
 import static java.time.temporal.ChronoUnit.MILLIS;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 import static org.assertj.core.api.Assertions.tuple;
@@ -28,7 +27,6 @@ import java.io.Serial;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -58,7 +56,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.stream.Stream;
-
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -133,7 +130,7 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
   @Test
   void should_return_toString_of_Path() {
     // GIVEN
-    final Path path = Paths.get("someFile.txt");
+    final Path path = Path.of("someFile.txt");
     // WHEN
     String pathStandardRepresentation = STANDARD_REPRESENTATION.toStringOf(path);
     // THEN
@@ -796,7 +793,7 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
 
     @Override
     public String toString() {
-      return format("Person [name=%s, age=%s, account=%s]", name, age, account);
+      return "Person [name=%s, age=%s, account=%s]".formatted(name, age, account);
     }
   }
 

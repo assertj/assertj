@@ -14,7 +14,6 @@ package org.assertj.core.internal;
 
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
-import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
@@ -96,7 +95,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -141,8 +139,8 @@ public class Strings {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
+      return strategy.getComparator();
     }
     return null;
   }
@@ -213,7 +211,7 @@ public class Strings {
     try {
       while (reader.readLine() != null);
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Unable to count lines in `%s`", actual), e);
+      throw new UncheckedIOException("Unable to count lines in `%s`".formatted(actual), e);
     }
     checkLineCounts(actual, reader.getLineNumber(), expectedLineCount, info);
   }
@@ -718,8 +716,8 @@ public class Strings {
     }
     // should not arrive here since we this method is used from assertContainsSubsequence at a step where we know that toFind
     // was found and we are checking whether it was at the right place/order.
-    throw new IllegalStateException(format("%s should have been found in %s, please raise an assertj-core issue", toFind,
-                                           string));
+    throw new IllegalStateException("%s should have been found in %s, please raise an assertj-core issue".formatted(toFind,
+                                                                                                                    string));
   }
 
   public void assertXmlEqualsTo(AssertionInfo info, CharSequence actualXml, CharSequence expectedXml) {

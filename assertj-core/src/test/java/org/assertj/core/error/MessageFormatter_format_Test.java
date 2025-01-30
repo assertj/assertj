@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -20,7 +19,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.BeforeEach;
@@ -83,8 +81,8 @@ class MessageFormatter_format_Test {
     return Stream.of(Arguments.of("%E", "%E"),
                      Arguments.of("%%E", "%%E"),
                      Arguments.of("%%%E", "%%%E"),
-                     Arguments.of("%n", format("%n")),
-                     Arguments.of("%%%n%E", "%%" + format("%n") + "%E"),
-                     Arguments.of("%%n", "%" + format("%n")));
+                     Arguments.of("%n", "%n".formatted()),
+                     Arguments.of("%%%n%E", "%%" + "%n".formatted() + "%E"),
+                     Arguments.of("%%n", "%" + "%n".formatted()));
   }
 }

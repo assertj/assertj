@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
@@ -62,7 +61,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
@@ -138,10 +136,10 @@ public class Files {
         }
         throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
       } catch (IOException ioe) {
-        throw new UncheckedIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), ioe);
+        throw new UncheckedIOException(UNABLE_TO_COMPARE_FILE_CONTENTS.formatted(actual, expected), ioe);
       }
     } catch (IOException e) {
-      throw new UncheckedIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), e);
+      throw new UncheckedIOException(UNABLE_TO_COMPARE_FILE_CONTENTS.formatted(actual, expected), e);
     }
   }
 
@@ -164,7 +162,7 @@ public class Files {
       BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected.toPath()));
       if (binaryDiffResult.hasDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
     } catch (IOException ioe) {
-      throw new UncheckedIOException(format(UNABLE_TO_COMPARE_FILE_CONTENTS, actual, expected), ioe);
+      throw new UncheckedIOException(UNABLE_TO_COMPARE_FILE_CONTENTS.formatted(actual, expected), ioe);
     }
   }
 
@@ -187,7 +185,7 @@ public class Files {
       if (result.hasNoDiff()) return;
       throw failures.failure(info, shouldHaveBinaryContent(actual, result));
     } catch (IOException e) {
-      String msg = format("Unable to verify binary contents of file:<%s>", actual);
+      String msg = "Unable to verify binary contents of file:<%s>".formatted(actual);
       throw new UncheckedIOException(msg, e);
     }
   }
@@ -226,7 +224,7 @@ public class Files {
       if (diffs.isEmpty()) return;
       throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {
-      String msg = format("Unable to verify text contents of file:<%s>", actual);
+      String msg = "Unable to verify text contents of file:<%s>".formatted(actual);
       throw new UncheckedIOException(msg, e);
     }
   }
@@ -394,7 +392,7 @@ public class Files {
           && java.util.Objects.equals(expected.getCanonicalFile(), actual.getParentFile().getCanonicalFile()))
         return;
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Unable to get canonical form of [%s] or [%s].", actual, expected), e);
+      throw new UncheckedIOException("Unable to get canonical form of [%s] or [%s].".formatted(actual, expected), e);
     }
     throw failures.failure(info, shouldHaveParent(actual, expected));
   }
@@ -464,7 +462,7 @@ public class Files {
       DigestDiff digestDiff = digestDiff(actualStream, digest, expected);
       if (digestDiff.digestsDiffer()) throw failures.failure(info, shouldHaveDigest(actual, digestDiff));
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Unable to calculate digest of path:<%s>", actual), e);
+      throw new UncheckedIOException("Unable to calculate digest of path:<%s>".formatted(actual), e);
     }
   }
 
@@ -478,7 +476,7 @@ public class Files {
     try {
       assertHasDigest(info, actual, MessageDigest.getInstance(algorithm), expected);
     } catch (NoSuchAlgorithmException e) {
-      throw new IllegalStateException(format("Unable to find digest implementation for: <%s>", algorithm), e);
+      throw new IllegalStateException("Unable to find digest implementation for: <%s>".formatted(algorithm), e);
     }
   }
 
@@ -505,13 +503,13 @@ public class Files {
   public void assertIsDirectoryContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     FileFilter filter = fileFilter(info, actual, syntaxAndPattern);
-    assertIsDirectoryContaining(info, actual, filter, format("the '%s' pattern", syntaxAndPattern));
+    assertIsDirectoryContaining(info, actual, filter, "the '%s' pattern".formatted(syntaxAndPattern));
   }
 
   public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     FileFilter filter = fileFilter(info, actual, syntaxAndPattern);
-    assertIsDirectoryRecursivelyContaining(info, actual, filter::accept, format("the '%s' pattern", syntaxAndPattern));
+    assertIsDirectoryRecursivelyContaining(info, actual, filter::accept, "the '%s' pattern".formatted(syntaxAndPattern));
   }
 
   public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, File actual, Predicate<File> filter) {
@@ -527,7 +525,7 @@ public class Files {
   public void assertIsDirectoryNotContaining(AssertionInfo info, File actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     FileFilter filter = fileFilter(info, actual, syntaxAndPattern);
-    assertIsDirectoryNotContaining(info, actual, filter, format("the '%s' pattern", syntaxAndPattern));
+    assertIsDirectoryNotContaining(info, actual, filter, "the '%s' pattern".formatted(syntaxAndPattern));
   }
 
   // non-public section
@@ -581,7 +579,7 @@ public class Files {
                                 .filter(p -> !p.equals(path))
                                 .map(Path::toFile);
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Unable to walk recursively the directory :<%s>", path), e);
+      throw new UncheckedIOException("Unable to walk recursively the directory :<%s>".formatted(path), e);
     }
   }
 

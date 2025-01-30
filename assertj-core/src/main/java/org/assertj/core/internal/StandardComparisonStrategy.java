@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.assertj.core.util.Objects;
 import org.assertj.core.util.Streams;
 
@@ -83,26 +82,26 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
       Class<?> otherClass = other.getClass();
       if (otherClass.isArray()) {
         if (actualClass.getComponentType().isPrimitive() && otherClass.getComponentType().isPrimitive()) {
-          if (actual instanceof byte[] && other instanceof byte[])
-            return java.util.Arrays.equals((byte[]) actual, (byte[]) other);
-          if (actual instanceof short[] && other instanceof short[])
-            return java.util.Arrays.equals((short[]) actual, (short[]) other);
-          if (actual instanceof int[] && other instanceof int[])
-            return java.util.Arrays.equals((int[]) actual, (int[]) other);
-          if (actual instanceof long[] && other instanceof long[])
-            return java.util.Arrays.equals((long[]) actual, (long[]) other);
-          if (actual instanceof char[] && other instanceof char[])
-            return java.util.Arrays.equals((char[]) actual, (char[]) other);
-          if (actual instanceof float[] && other instanceof float[])
-            return java.util.Arrays.equals((float[]) actual, (float[]) other);
-          if (actual instanceof double[] && other instanceof double[])
-            return java.util.Arrays.equals((double[]) actual, (double[]) other);
-          if (actual instanceof boolean[] && other instanceof boolean[])
-            return java.util.Arrays.equals((boolean[]) actual, (boolean[]) other);
+          if (actual instanceof byte[] bytes && other instanceof byte[] bytes1)
+            return java.util.Arrays.equals(bytes, bytes1);
+          if (actual instanceof short[] shorts && other instanceof short[] shorts1)
+            return java.util.Arrays.equals(shorts, shorts1);
+          if (actual instanceof int[] ints && other instanceof int[] ints1)
+            return java.util.Arrays.equals(ints, ints1);
+          if (actual instanceof long[] longs && other instanceof long[] longs1)
+            return java.util.Arrays.equals(longs, longs1);
+          if (actual instanceof char[] chars && other instanceof char[] chars1)
+            return java.util.Arrays.equals(chars, chars1);
+          if (actual instanceof float[] floats && other instanceof float[] floats1)
+            return java.util.Arrays.equals(floats, floats1);
+          if (actual instanceof double[] doubles && other instanceof double[] doubles1)
+            return java.util.Arrays.equals(doubles, doubles1);
+          if (actual instanceof boolean[] booleans && other instanceof boolean[] booleans1)
+            return java.util.Arrays.equals(booleans, booleans1);
         }
 
-        if (actual instanceof Object[] && other instanceof Object[])
-          return java.util.Arrays.deepEquals((Object[]) actual, (Object[]) other);
+        if (actual instanceof Object[] objects && other instanceof Object[] objects1)
+          return java.util.Arrays.deepEquals(objects, objects1);
       }
     }
     return actual.equals(other);
@@ -135,8 +134,8 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
       return;
     }
     // Avoid O(N^2) complexity of serial removal from an iterator of collections like ArrayList
-    if (iterable instanceof Collection) {
-      ((Collection<?>) iterable).removeIf(o -> areEqual(o, value));
+    if (iterable instanceof Collection<?> collection) {
+      collection.removeIf(o -> areEqual(o, value));
     } else {
       Iterator<?> iterator = iterable.iterator();
       while (iterator.hasNext()) {

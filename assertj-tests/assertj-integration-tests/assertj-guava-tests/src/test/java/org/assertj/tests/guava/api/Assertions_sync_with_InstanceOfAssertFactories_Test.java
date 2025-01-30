@@ -163,10 +163,10 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test {
   }
 
   private Type normalize(Type type) {
-    if (type instanceof ParameterizedType) {
-      return ((ParameterizedType) type).getRawType();
-    } else if (type instanceof TypeVariable) {
-      Type[] bounds = ((TypeVariable<?>) type).getBounds();
+    if (type instanceof ParameterizedType parameterizedType) {
+      return parameterizedType.getRawType();
+    } else if (type instanceof TypeVariable<?> variable) {
+      Type[] bounds = variable.getBounds();
       assertThat(bounds).hasSize(1);
       return normalize(bounds[0]);
     }

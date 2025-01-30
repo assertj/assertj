@@ -74,6 +74,6 @@ public final class MapEntry<K, V> {
 
   @Override
   public String toString() {
-    return String.format("%s[key=%s, value=%s]", getClass().getSimpleName(), quote(key), quote(value));
+    return "%s[key=%s, value=%s]".formatted(getClass().getSimpleName(), quote(key), quote(value));
   }
 }

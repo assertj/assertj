@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.localdatetime;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.AbstractLocalDateTimeAssert.NULL_LOCAL_DATE_TIME_PARAMETER_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -21,7 +20,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.LocalDateTime;
-
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("deprecation")
@@ -39,7 +37,7 @@ class LocalDateTimeAssert_isEqualToIgnoringMinutes_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refLocalDateTime).isEqualToIgnoringMinutes(refLocalDateTime.minusMinutes(1)));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting actual:%n  2000-01-01T23:00 (java.time.LocalDateTime)%nto have same year, month, day and hour as:%n  2000-01-01T22:59 (java.time.LocalDateTime)%nbut had not."));
+    then(assertionError).hasMessage("%nExpecting actual:%n  2000-01-01T23:00 (java.time.LocalDateTime)%nto have same year, month, day and hour as:%n  2000-01-01T22:59 (java.time.LocalDateTime)%nbut had not.".formatted());
   }
 
   @Test
@@ -47,7 +45,7 @@ class LocalDateTimeAssert_isEqualToIgnoringMinutes_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(refLocalDateTime).isEqualToIgnoringMinutes(refLocalDateTime.minusNanos(1)));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting actual:%n  2000-01-01T23:00 (java.time.LocalDateTime)%nto have same year, month, day and hour as:%n  2000-01-01T22:59:59.999999999 (java.time.LocalDateTime)%nbut had not."));
+    then(assertionError).hasMessage("%nExpecting actual:%n  2000-01-01T23:00 (java.time.LocalDateTime)%nto have same year, month, day and hour as:%n  2000-01-01T22:59:59.999999999 (java.time.LocalDateTime)%nbut had not.".formatted());
   }
 
   @Test

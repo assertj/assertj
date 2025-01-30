@@ -62,7 +62,7 @@ public final class Fail {
   }
 
   /**
-   * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
+   * Throws an {@link AssertionError} with the given message built as {@link String#formatted(Object...)}.
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
@@ -72,7 +72,7 @@ public final class Fail {
    */
   @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage, Object... args) {
-    return fail(String.format(failureMessage, args));
+    return fail(failureMessage.formatted(args));
   }
 
   /**

@@ -38,7 +38,7 @@ public class Person implements Comparable<Person> {
 
   @Override
   public String toString() {
-    return String.format("Person[name='%s']", name);
+    return "Person[name='%s']".formatted(name);
   }
 
   @Override

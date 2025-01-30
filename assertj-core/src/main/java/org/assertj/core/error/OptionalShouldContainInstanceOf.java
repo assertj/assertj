@@ -12,8 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
-
 import java.util.Optional;
 
 /**
@@ -38,11 +36,17 @@ public class OptionalShouldContainInstanceOf extends BasicErrorMessageFactory {
   public static OptionalShouldContainInstanceOf shouldContainInstanceOf(Object value, Class<?> clazz) {
     Optional<?> optional = (Optional<?>) value;
     if (optional.isPresent()) {
-      return new OptionalShouldContainInstanceOf(format("%nExpecting actual:%n %s%nto contain a value that is an instance of:%n %s%nbut did contain an instance of:%n %s",
-                                                        optional.getClass().getSimpleName(), clazz.getName(),
-                                                        optional.get().getClass().getName()));
+      return new OptionalShouldContainInstanceOf("%nExpecting actual:%n %s%nto contain a value that is an instance of:%n %s%nbut did contain an instance of:%n %s".formatted(
+                                                                                                                                                                             optional.getClass()
+                                                                                                                                                                                     .getSimpleName(),
+                                                                                                                                                                             clazz.getName(),
+                                                                                                                                                                             optional.get()
+                                                                                                                                                                                     .getClass()
+                                                                                                                                                                                     .getName()));
     }
-    return new OptionalShouldContainInstanceOf(format("%nExpecting actual:%n %s%nto contain a value that is an instance of:%n %s%nbut was empty",
-                                                      optional.getClass().getSimpleName(), clazz.getName()));
+    return new OptionalShouldContainInstanceOf("%nExpecting actual:%n %s%nto contain a value that is an instance of:%n %s%nbut was empty".formatted(
+                                                                                                                                                    optional.getClass()
+                                                                                                                                                            .getSimpleName(),
+                                                                                                                                                    clazz.getName()));
   }
 }

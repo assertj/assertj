@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
@@ -60,7 +59,7 @@ class Assertions_assertThatThrownBy_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(() -> {}).hasMessage("boom ?"));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting code to raise a throwable."));
+    then(assertionError).hasMessage("%nExpecting code to raise a throwable.".formatted());
   }
 
   @Test

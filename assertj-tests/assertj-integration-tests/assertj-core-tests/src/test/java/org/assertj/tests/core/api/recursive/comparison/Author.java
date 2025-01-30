@@ -42,7 +42,7 @@ class Author {
 
   @Override
   public String toString() {
-    return String.format("Author [name=%s]", name);
+    return "Author [name=%s]".formatted(name);
   }
 
 }

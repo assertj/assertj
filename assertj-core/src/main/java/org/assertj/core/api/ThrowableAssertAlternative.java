@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import java.util.IllegalFormatException;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.util.CheckReturnValue;
 
@@ -73,7 +72,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
   }
 
   /**
-   * Verifies that the message of the actual {@code Throwable} is equal to the given one built using {@link String#format(String, Object...)} syntax.
+   * Verifies that the message of the actual {@code Throwable} is equal to the given one built using {@link String#formatted(Object...)} syntax.
    * <p>
    * Examples:
    * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
@@ -215,7 +214,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} does not start with the given description.
-   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#formatted(Object...)}.
    * @see AbstractThrowableAssert#hasMessageStartingWith(String, Object...)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageStartingWith(String description, Object... parameters) {
@@ -272,7 +271,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
-   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#formatted(Object...)}.
    * @see AbstractThrowableAssert#hasMessageContaining(String, Object...)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageContaining(String description, Object... parameters) {
@@ -414,7 +413,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the stack trace of the actual {@code Throwable} does not contain the given description.
-   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#formatted(Object...)}.
    * @see AbstractThrowableAssert#hasStackTraceContaining(String, Object...)
    */
   public ThrowableAssertAlternative<ACTUAL> withStackTraceContaining(String description, Object... parameters) {
@@ -499,7 +498,7 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    * @return this assertion object.
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the message of the actual {@code Throwable} does not end with the given description.
-   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
+   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#formatted(Object...)}.
    * @see AbstractThrowableAssert#hasMessageEndingWith(String, Object...)
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageEndingWith(String description, Object... parameters) {

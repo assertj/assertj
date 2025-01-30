@@ -24,7 +24,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -293,8 +292,8 @@ class IterableAssert_usingFieldByFieldElementComparator_Test extends IterableAss
 
     @Override
     public String toString() {
-      return String.format("Person{first='%s', last='%s', info='%s'}",
-                           first, last, info);
+      return "Person{first='%s', last='%s', info='%s'}".formatted(
+                                                                  first, last, info);
     }
   }
 

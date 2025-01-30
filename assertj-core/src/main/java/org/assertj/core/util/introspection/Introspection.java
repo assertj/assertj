@@ -12,7 +12,6 @@
  */
 package org.assertj.core.util.introspection;
 
-import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
@@ -26,7 +25,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.util.VisibleForTesting;
 
@@ -71,8 +69,10 @@ public final class Introspection {
       getter.setAccessible(true);
       getter.invoke(target);
     } catch (InvocationTargetException ex) {
-      String message = format("Unable to invoke getter %s in %s, exception: %s",
-                              getter.getName(), target.getClass().getSimpleName(), ex.getTargetException());
+      String message = "Unable to invoke getter %s in %s, exception: %s".formatted(
+                                                                                   getter.getName(),
+                                                                                   target.getClass().getSimpleName(),
+                                                                                   ex.getTargetException());
       throw new IntrospectionError(message, ex, ex.getTargetException());
     } catch (Exception t) {
       throw new IntrospectionError(propertyNotFoundErrorMessage("Unable to find property %s in %s", propertyName, target), t);
@@ -93,7 +93,7 @@ public final class Introspection {
   private static String propertyNotFoundErrorMessage(String message, String propertyName, Object target) {
     String targetTypeName = target.getClass().getName();
     String property = quote(propertyName);
-    return format(message, property, targetTypeName);
+    return message.formatted(property, targetTypeName);
   }
 
   private static Method findGetter(String propertyName, Object target) {

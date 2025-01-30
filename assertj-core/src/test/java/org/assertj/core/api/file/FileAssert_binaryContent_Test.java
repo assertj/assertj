@@ -12,13 +12,11 @@
  */
 package org.assertj.core.api.file;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
-
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractByteArrayAssert;
 import org.assertj.core.api.FileAssert;
@@ -51,7 +49,7 @@ class FileAssert_binaryContent_Test extends FileAssertBaseTest implements Naviga
     // WHEN
     AbstractByteArrayAssert<?> byteArrayAssert = assertThat(file).binaryContent();
     // THEN
-    byteArrayAssert.asString(StandardCharsets.UTF_8).isEqualTo(format("actual%n"));
+    byteArrayAssert.asString(StandardCharsets.UTF_8).isEqualTo("actual%n".formatted());
   }
 
   @Override

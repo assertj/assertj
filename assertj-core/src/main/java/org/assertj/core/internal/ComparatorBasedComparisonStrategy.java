@@ -106,8 +106,8 @@ public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrateg
   public void iterableRemoves(Iterable<?> iterable, Object value) {
     if (iterable == null) return;
     // Avoid O(N^2) complexity of serial removal from an iterator of collections like ArrayList
-    if (iterable instanceof Collection) {
-      ((Collection<?>) iterable).removeIf(o -> comparator.compare(o, value) == 0);
+    if (iterable instanceof Collection<?> collection) {
+      collection.removeIf(o -> comparator.compare(o, value) == 0);
     } else {
       Iterator<?> iterator = iterable.iterator();
       while (iterator.hasNext()) {

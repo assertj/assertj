@@ -12,12 +12,7 @@
  */
 package org.assertj.core.testkit.jdk11;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamException;
-import java.io.Serializable;
+import java.io.*;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
 import java.util.AbstractSet;
@@ -376,7 +371,7 @@ class ImmutableCollections {
     public E get(int index) {
       // Replacement for Objects.checkIndex(index, size);
       if (index < 0 || index >= size) {
-        throw new IndexOutOfBoundsException(String.format("Index %s out of bounds for length %s", index, size));
+        throw new IndexOutOfBoundsException("Index %s out of bounds for length %s".formatted(index, size));
       }
       return root.get(offset + index);
     }
@@ -1081,6 +1076,7 @@ class ImmutableCollections {
  * @since 9
  */
 final class CollSer implements Serializable {
+  @Serial
   private static final long serialVersionUID = 6309168927139932177L;
 
   static final int IMM_LIST = 1;
@@ -1218,7 +1214,7 @@ final class CollSer implements Serializable {
           return new ImmutableCollections.MapN<>(array);
         }
       default:
-        throw new InvalidObjectException(String.format("invalid flags 0x%x", tag));
+        throw new InvalidObjectException("invalid flags 0x%x".formatted(tag));
       }
     } catch (NullPointerException | IllegalArgumentException ex) {
       InvalidObjectException ioe = new InvalidObjectException("invalid object");

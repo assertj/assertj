@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.strings;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shouldNotBeEqualNormalizingWhitespace;
@@ -21,7 +20,6 @@ import static org.assertj.core.testkit.CharArrays.arrayOf;
 import static org.assertj.core.testkit.TestData.someInfo;
 
 import java.util.stream.Stream;
-
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -61,8 +59,9 @@ class Strings_assertNotEqualsNormalizingWhitespace_Test extends StringsBaseTest 
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertNotEqualsNormalizingWhitespace(someInfo(),
                                                                                                                   actual,
                                                                                                                   expected))
-                                                   .withMessage(format(shouldNotBeEqualNormalizingWhitespace(actual,
-                                                                                                             expected).create()));
+                                                   .withMessage(shouldNotBeEqualNormalizingWhitespace(actual,
+                                                                                                      expected).create()
+                                                                                                               .formatted());
   }
 
   public static Stream<Arguments> equalNormalizingWhitespaceGenerator() {

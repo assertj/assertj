@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static java.time.format.DateTimeFormatter.ISO_INSTANT;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE;
@@ -53,7 +52,6 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.UnsupportedTemporalTypeException;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.data.TemporalUnitOffset;
 import org.junit.jupiter.api.Test;
@@ -127,22 +125,36 @@ class AbstractTemporalAssert_isCloseTo_Test {
   };
 
   private static final String[] differenceMessages = {
-      format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 50 Hours but difference was 96 Hours",
-             _2017_Mar_12_07_10_Instant, _2017_Mar_08_07_10_Instant),
-      format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 2 Millis but difference was PT8765837682367H10M",
-             _2017_Mar_12_07_10_Instant, Instant.MIN),
-      format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 50 Hours but difference was 96 Hours",
-             _2017_Mar_12_07_10, _2017_Mar_08_07_10),
-      format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 3 Days but difference was 15 Days",
-             _2017_Mar_12, _2017_Mar_27),
-      format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 5 Minutes but difference was 13 Minutes",
-             _07_10, _07_23),
-      format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 10 Minutes but difference was 13 Minutes",
-             OffsetDateTime.of(_2017_Mar_12_07_10, UTC), OffsetDateTime.of(_2017_Mar_12_07_23, UTC)),
-      format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nby less than 95 Hours but difference was 95 Hours",
-             ZonedDateTime.of(_2017_Mar_12_07_10, NEW_YORK_ZONE), ZonedDateTime.of(_2017_Mar_08_07_10, NEW_YORK_ZONE)),
-      format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 2 Minutes but difference was 13 Minutes",
-             OffsetTime.of(_07_10, UTC), OffsetTime.of(_07_23, UTC)),
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 50 Hours but difference was 96 Hours".formatted(
+                                                                                                                _2017_Mar_12_07_10_Instant,
+                                                                                                                _2017_Mar_08_07_10_Instant),
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 2 Millis but difference was PT8765837682367H10M".formatted(
+                                                                                                                           _2017_Mar_12_07_10_Instant,
+                                                                                                                           Instant.MIN),
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 50 Hours but difference was 96 Hours".formatted(
+                                                                                                                _2017_Mar_12_07_10,
+                                                                                                                _2017_Mar_08_07_10),
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 3 Days but difference was 15 Days".formatted(
+                                                                                                             _2017_Mar_12,
+                                                                                                             _2017_Mar_27),
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 5 Minutes but difference was 13 Minutes".formatted(
+                                                                                                                   _07_10,
+                                                                                                                   _07_23),
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 10 Minutes but difference was 13 Minutes".formatted(
+                                                                                                                    OffsetDateTime.of(_2017_Mar_12_07_10,
+                                                                                                                                      UTC),
+                                                                                                                    OffsetDateTime.of(_2017_Mar_12_07_23,
+                                                                                                                                      UTC)),
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nby less than 95 Hours but difference was 95 Hours".formatted(
+                                                                                                                      ZonedDateTime.of(_2017_Mar_12_07_10,
+                                                                                                                                       NEW_YORK_ZONE),
+                                                                                                                      ZonedDateTime.of(_2017_Mar_08_07_10,
+                                                                                                                                       NEW_YORK_ZONE)),
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 2 Minutes but difference was 13 Minutes".formatted(
+                                                                                                                   OffsetTime.of(_07_10,
+                                                                                                                                 UTC),
+                                                                                                                   OffsetTime.of(_07_23,
+                                                                                                                                 UTC)),
   };
 
   private static final TemporalUnitOffset[] offsets = {

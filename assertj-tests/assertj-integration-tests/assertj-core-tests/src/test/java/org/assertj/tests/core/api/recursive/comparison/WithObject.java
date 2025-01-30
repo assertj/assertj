@@ -12,8 +12,6 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static java.lang.String.format;
-
 class WithObject {
   public Object group;
 
@@ -23,7 +21,7 @@ class WithObject {
 
   @Override
   public String toString() {
-    return format("WithObject group=%s", group);
+    return "WithObject group=%s".formatted(group);
   }
 
 }

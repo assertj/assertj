@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.core.matcher;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.mockito.ArgumentMatchers.argThat;
@@ -89,9 +88,9 @@ class AssertionMatcher_matches_Test {
     isZeroMatcher.describeTo(description);
     verify(description).appendText("AssertionError with message: ");
     verify(description).appendText(shouldBeEqualMessage("1", "0"));
-    verify(description).appendText(format("%n%nStacktrace was: "));
+    verify(description).appendText("%n%nStacktrace was: ".formatted());
     // @format:off
-    verify(description).appendText(argThat(s -> s.contains(format("%nexpected: 0%n but was: 1"))
+    verify(description).appendText(argThat(s -> s.contains("%nexpected: 0%n but was: 1".formatted())
         && s.contains("at org.assertj.tests.core.matcher.AssertionMatcher_matches_Test$1.assertion(AssertionMatcher_matches_Test.java:")
         && s.contains("at org.assertj.core.matcher.AssertionMatcher.matches(AssertionMatcher.java:")
         && s.contains("at org.assertj.tests.core.matcher.AssertionMatcher_matches_Test.matcher_should_fill_description_when_assertion_fails(AssertionMatcher_matches_Test.java:")));

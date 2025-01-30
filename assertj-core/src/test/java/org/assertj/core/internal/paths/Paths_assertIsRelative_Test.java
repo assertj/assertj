@@ -18,8 +18,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -46,7 +44,7 @@ class Paths_assertIsRelative_Test extends PathsBaseTest {
   @Test
   void should_pass_if_actual_is_relative() {
     // GIVEN
-    Path actual = Paths.get("relative");
+    Path actual = Path.of("relative");
     // WHEN/THEN
     underTest.assertIsRelative(INFO, actual);
   }

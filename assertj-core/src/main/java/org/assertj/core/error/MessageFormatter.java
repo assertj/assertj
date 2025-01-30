@@ -40,7 +40,7 @@ public class MessageFormatter {
 
   /**
    * Interprets a printf-style format {@code String} for failed assertion messages. It is similar to
-   * <code>{@link String#format(String, Object...)}</code>, except for:
+   * <code>{@link String#formatted(Object...)}</code>, except for:
    * <ol>
    * <li>the value of the given <code>{@link Description}</code> is used as the first argument referenced in the format
    * string</li>
@@ -71,8 +71,8 @@ public class MessageFormatter {
   }
 
   private String asText(Representation p, Object o) {
-    if (o instanceof AbstractComparisonStrategy) {
-      return ((AbstractComparisonStrategy) o).asText();
+    if (o instanceof AbstractComparisonStrategy strategy) {
+      return strategy.asText();
     }
     return p.toStringOf(o);
   }

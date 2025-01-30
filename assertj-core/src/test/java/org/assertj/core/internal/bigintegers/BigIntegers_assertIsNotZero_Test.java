@@ -12,12 +12,10 @@
  */
 package org.assertj.core.internal.bigintegers;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.testkit.TestData.someInfo;
 
 import java.math.BigInteger;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.BigIntegers;
 import org.assertj.core.internal.BigIntegersBaseTest;
@@ -36,7 +34,7 @@ class BigIntegers_assertIsNotZero_Test extends BigIntegersBaseTest {
   @Test
   void should_fail_since_actual_is_not_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsNotZero(someInfo(), BigInteger.ZERO))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n".formatted());
   }
 
   @Test
@@ -48,7 +46,7 @@ class BigIntegers_assertIsNotZero_Test extends BigIntegersBaseTest {
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsNotZero(someInfo(),
                                                                                                                              BigInteger.ZERO))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n".formatted());
   }
 
 }

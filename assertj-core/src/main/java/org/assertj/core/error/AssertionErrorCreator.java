@@ -17,7 +17,6 @@ import static org.assertj.core.util.Throwables.describeErrors;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.assertj.core.api.SoftAssertionError;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
@@ -63,7 +62,7 @@ public class AssertionErrorCreator {
                                                 expected,
                                                 actual);
 
-      if (o instanceof AssertionError) return Optional.of((AssertionError) o);
+      if (o instanceof AssertionError error) return Optional.of(error);
 
     } catch (@SuppressWarnings("unused") Throwable ignored) {}
     return Optional.empty();
@@ -82,7 +81,7 @@ public class AssertionErrorCreator {
                                                 unambiguousRepresentation.getExpected(),
                                                 unambiguousRepresentation.getActual());
 
-      if (o instanceof AssertionError) return Optional.of((AssertionError) o);
+      if (o instanceof AssertionError error) return Optional.of(error);
 
     } catch (@SuppressWarnings("unused") Throwable ignored) {}
     return Optional.empty();

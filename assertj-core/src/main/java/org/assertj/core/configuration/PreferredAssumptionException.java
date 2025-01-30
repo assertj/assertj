@@ -12,8 +12,6 @@
  */
 package org.assertj.core.configuration;
 
-import static java.lang.String.format;
-
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -57,8 +55,8 @@ public enum PreferredAssumptionException {
 
     @Override
     public String toString() {
-      return format("%s(%s)", name(),
-                    "try in order org.testng.SkipException, org.junit.AssumptionViolatedException and org.opentest4j.TestAbortedException");
+      return "%s(%s)".formatted(name(),
+                                "try in order org.testng.SkipException, org.junit.AssumptionViolatedException and org.opentest4j.TestAbortedException");
     }
 
   };
@@ -82,13 +80,13 @@ public enum PreferredAssumptionException {
   }
 
   private IllegalStateException assumptionExceptionClassNotFound() {
-    return new IllegalStateException(format("Failed to load %s class, make sure it is available in the classpath.",
-                                            assumptionExceptionClassName));
+    return new IllegalStateException("Failed to load %s class, make sure it is available in the classpath.".formatted(
+                                                                                                                      assumptionExceptionClassName));
   }
 
   @Override
   public String toString() {
-    return format("%s(%s)", name(), assumptionExceptionClassName);
+    return "%s(%s)".formatted(name(), assumptionExceptionClassName);
   }
 
 }

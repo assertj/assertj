@@ -12,8 +12,6 @@
  */
 package org.assertj.core.testkit;
 
-import static java.lang.String.format;
-
 /**
  * @author Joel Costigliola
  */
@@ -82,6 +80,6 @@ public class Player {
 
   @Override
   public String toString() {
-    return format("%s[%s %s, team=%s]", getClass().getSimpleName(), name.getFirst(), name.getLast(), team);
+    return "%s[%s %s, team=%s]".formatted(getClass().getSimpleName(), name.getFirst(), name.getLast(), team);
   }
 }

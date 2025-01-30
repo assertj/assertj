@@ -15,12 +15,13 @@ package org.assertj.core.error;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.AssertionErrorMessagesAggregator.aggregateErrorMessages;
 
+import java.io.Serial;
 import java.util.List;
-
 import org.assertj.core.description.Description;
 
 public class MultipleAssertionsError extends AssertionError {
 
+  @Serial
   private static final long serialVersionUID = -5547434453993413952L;
   private final List<? extends AssertionError> errors;
 

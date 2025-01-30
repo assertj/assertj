@@ -19,12 +19,10 @@ import java.io.File;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -81,7 +79,7 @@ class EntryPointAssertions_linesOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("pathLinesOfWithCharsetFunctions")
   void should_read_path_lines_with_charset(BiFunction<Path, Charset, List<String>> linesOfWithCharsetFunction) {
     // GIVEN
-    Path sampleFile = Paths.get("src", "test", "resources", "utf8.txt");
+    Path sampleFile = Path.of("src", "test", "resources", "utf8.txt");
     // WHEN
     List<String> lines = linesOfWithCharsetFunction.apply(sampleFile, UTF_8);
     // THEN
@@ -96,7 +94,7 @@ class EntryPointAssertions_linesOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("pathLinesOfWithCharsetAsStringFunctions")
   void should_read_path_lines_with_charset_as_string(BiFunction<Path, String, List<String>> linesOfWithCharsetFunction) {
     // GIVEN
-    Path sampleFile = Paths.get("src", "test", "resources", "utf8.txt");
+    Path sampleFile = Path.of("src", "test", "resources", "utf8.txt");
     // WHEN
     List<String> lines = linesOfWithCharsetFunction.apply(sampleFile, "UTF8");
     // THEN
@@ -111,7 +109,7 @@ class EntryPointAssertions_linesOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("pathLinesOfWithDefaultCharsetFunctions")
   void should_read_path_lines_with_default_charset(Function<Path, List<String>> linesOfWithDefaultCharsetFunction) {
     // GIVEN
-    Path sampleFile = Paths.get("src", "test", "resources", "ascii.txt");
+    Path sampleFile = Path.of("src", "test", "resources", "ascii.txt");
     // WHEN
     List<String> lines = linesOfWithDefaultCharsetFunction.apply(sampleFile);
     // THEN

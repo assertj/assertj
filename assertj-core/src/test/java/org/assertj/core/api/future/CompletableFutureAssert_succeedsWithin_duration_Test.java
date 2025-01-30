@@ -108,7 +108,7 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.of(1L, MILLIS)));
     // THEN
-    then(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n"))
+    then(assertionError).hasMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n".formatted())
                         .hasMessageContaining("to be completed within 0.001S.");
   }
 

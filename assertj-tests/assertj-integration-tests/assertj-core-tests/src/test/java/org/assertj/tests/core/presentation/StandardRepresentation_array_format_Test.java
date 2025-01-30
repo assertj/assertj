@@ -18,7 +18,6 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Strings.quote;
 
 import java.util.stream.Stream;
-
 import org.apache.commons.lang3.StringUtils;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.presentation.HexadecimalRepresentation;
@@ -231,7 +230,7 @@ class StandardRepresentation_array_format_Test extends AbstractBaseRepresentatio
     // THEN
     // formattedAfterNewLine is built to show we align values on the first element.
     String formattedAfterNewLine = "  <" + formatted + ">";
-    then(formattedAfterNewLine).isEqualTo(format(expectedDescription));
+    then(formattedAfterNewLine).isEqualTo(expectedDescription.formatted());
   }
 
   private static Stream<Arguments> should_format_array_source() {

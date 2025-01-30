@@ -34,9 +34,11 @@ class Throwables_assertHasMessageFindingMatch_Test extends ThrowablesBaseTest {
   @Test
   void should_pass_if_throwable_message_matches_given_regex() {
     // GIVEN
-    Throwable actual = new RuntimeException("Blablabla...\n" +
-                                            "waiting for Foo" +
-                                            "...blablabla...\n");
+    Throwable actual = new RuntimeException("""
+        Blablabla...
+        waiting for Foo\
+        ...blablabla...
+        """);
     // THEN
     throwables.assertHasMessageFindingMatch(someInfo(), actual, REGEX);
   }
@@ -52,9 +54,11 @@ class Throwables_assertHasMessageFindingMatch_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_throwable_message_does_not_match_given_regex() {
     // GIVEN
-    Throwable actual = new RuntimeException("Blablabla...\n" +
-                                            "waiting for Bar" +
-                                            "...blablabla...\n");
+    Throwable actual = new RuntimeException("""
+        Blablabla...
+        waiting for Bar\
+        ...blablabla...
+        """);
     AssertionInfo info = someInfo();
     // THEN
     assertThatAssertionErrorIsThrownBy(() -> throwables.assertHasMessageFindingMatch(someInfo(), actual, REGEX));

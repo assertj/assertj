@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.doublearrays;
 
-import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -82,10 +81,11 @@ class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArraysBase
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                             actual,
                                                                                                             expected))
-                                                   .withMessage(format(shouldContainExactlyInAnyOrder(actual, expected,
-                                                                                                      newArrayList(20d),
-                                                                                                      newArrayList(10d),
-                                                                                                      StandardComparisonStrategy.instance()).create()));
+                                                   .withMessage(shouldContainExactlyInAnyOrder(actual, expected,
+                                                                                               newArrayList(20d),
+                                                                                               newArrayList(10d),
+                                                                                               StandardComparisonStrategy.instance()).create()
+                                                                                                                                     .formatted());
   }
 
   @Test
@@ -94,10 +94,11 @@ class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArraysBase
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                             actual,
                                                                                                             expected))
-                                                   .withMessage(format(shouldContainExactlyInAnyOrder(actual, expected,
-                                                                                                      emptyList(),
-                                                                                                      newArrayList(10d),
-                                                                                                      StandardComparisonStrategy.instance()).create()));
+                                                   .withMessage(shouldContainExactlyInAnyOrder(actual, expected,
+                                                                                               emptyList(),
+                                                                                               newArrayList(10d),
+                                                                                               StandardComparisonStrategy.instance()).create()
+                                                                                                                                     .formatted());
   }
 
   @Test
@@ -107,10 +108,11 @@ class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArraysBase
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                             actual,
                                                                                                             expected))
-                                                   .withMessage(format(shouldContainExactlyInAnyOrder(actual, expected,
-                                                                                                      emptyList(),
-                                                                                                      newArrayList(3d),
-                                                                                                      StandardComparisonStrategy.instance()).create()));
+                                                   .withMessage(shouldContainExactlyInAnyOrder(actual, expected,
+                                                                                               emptyList(),
+                                                                                               newArrayList(3d),
+                                                                                               StandardComparisonStrategy.instance()).create()
+                                                                                                                                     .formatted());
   }
 
   @Test
@@ -168,10 +170,11 @@ class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArraysBase
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                                                         actual,
                                                                                                                                         expected))
-                                                   .withMessage(format(shouldContainExactlyInAnyOrder(actual, expected,
-                                                                                                      newArrayList(20d),
-                                                                                                      newArrayList(10d),
-                                                                                                      absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldContainExactlyInAnyOrder(actual, expected,
+                                                                                               newArrayList(20d),
+                                                                                               newArrayList(10d),
+                                                                                               absValueComparisonStrategy).create()
+                                                                                                                          .formatted());
   }
 
   @Test
@@ -180,10 +183,11 @@ class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArraysBase
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                                                         actual,
                                                                                                                                         expected))
-                                                   .withMessage(format(shouldContainExactlyInAnyOrder(actual, expected,
-                                                                                                      emptyList(),
-                                                                                                      newArrayList(10d),
-                                                                                                      absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldContainExactlyInAnyOrder(actual, expected,
+                                                                                               emptyList(),
+                                                                                               newArrayList(10d),
+                                                                                               absValueComparisonStrategy).create()
+                                                                                                                          .formatted());
   }
 
   @Test
@@ -193,10 +197,11 @@ class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArraysBase
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                                                         actual,
                                                                                                                                         expected))
-                                                   .withMessage(format(shouldContainExactlyInAnyOrder(actual, expected,
-                                                                                                      emptyList(),
-                                                                                                      newArrayList(3d),
-                                                                                                      absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldContainExactlyInAnyOrder(actual, expected,
+                                                                                               emptyList(),
+                                                                                               newArrayList(3d),
+                                                                                               absValueComparisonStrategy).create()
+                                                                                                                          .formatted());
   }
 
   @Test
@@ -206,10 +211,11 @@ class DoubleArrays_assertContainsExactlyInAnyOrder_Test extends DoubleArraysBase
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactlyInAnyOrder(someInfo(),
                                                                                                                                         actual,
                                                                                                                                         expected))
-                                                   .withMessage(format(shouldContainExactlyInAnyOrder(actual, expected,
-                                                                                                      newArrayList(3d),
-                                                                                                      emptyList(),
-                                                                                                      absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldContainExactlyInAnyOrder(actual, expected,
+                                                                                               newArrayList(3d),
+                                                                                               emptyList(),
+                                                                                               absValueComparisonStrategy).create()
+                                                                                                                          .formatted());
   }
 
 }

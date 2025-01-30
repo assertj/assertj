@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.lists;
 
-import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -28,7 +27,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Lists;
@@ -69,7 +67,7 @@ class Lists_assertContains_Test extends ListsBaseTest {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> lists.assertContains(someInfo(), actual,
                                                                                                      "Yoda",
                                                                                                      atIndex(6)))
-                                                              .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <6>"));
+                                                              .withMessageContaining("Index should be between <0> and <2> (inclusive) but was:%n <6>".formatted());
   }
 
   @Test

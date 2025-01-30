@@ -12,7 +12,6 @@
  */
 package org.assertj.core.util;
 
-import static java.lang.String.format;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -431,7 +430,7 @@ public class DateUtil {
 
     StringBuilder result = new StringBuilder();
 
-    if (daysDiff > 0) result.append(format("%dd", daysDiff));
+    if (daysDiff > 0) result.append("%dd".formatted(daysDiff));
 
     if (hourFieldDiff > 0) {
       if (daysDiff > 0 && minuteFieldDiff == 0 && secondFieldDiff == 0 && millisecondsFieldDiff == 0) {
@@ -440,7 +439,7 @@ public class DateUtil {
       } else if (daysDiff > 0) {
         result.append(" ");
       }
-      result.append(format("%dh", hourFieldDiff));
+      result.append("%dh".formatted(hourFieldDiff));
     }
 
     if (minuteFieldDiff > 0) {
@@ -451,7 +450,7 @@ public class DateUtil {
       } else if (notFirstDiff) {
         result.append(" ");
       }
-      result.append(format("%dm", minuteFieldDiff));
+      result.append("%dm".formatted(minuteFieldDiff));
     }
 
     if (secondFieldDiff > 0) {
@@ -462,12 +461,12 @@ public class DateUtil {
       } else if (notFirstDiff) {
         result.append(" ");
       }
-      result.append(format("%ds", secondFieldDiff));
+      result.append("%ds".formatted(secondFieldDiff));
     }
 
     if (millisecondsFieldDiff > 0) {
       if (result.length() > 0) result.append(" and ");
-      result.append(format("%dms", millisecondsFieldDiff));
+      result.append("%dms".formatted(millisecondsFieldDiff));
     }
 
     return result.toString();

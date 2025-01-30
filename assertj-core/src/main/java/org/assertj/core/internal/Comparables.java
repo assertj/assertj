@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
@@ -21,7 +20,6 @@ import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Comparator;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeAfter;
@@ -63,8 +61,8 @@ public class Comparables {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
+      return strategy.getComparator();
     }
     return null;
   }
@@ -98,7 +96,7 @@ public class Comparables {
 
   @Override
   public String toString() {
-    return format("Comparables [comparisonStrategy=%s, failures=%s]", comparisonStrategy, failures);
+    return "Comparables [comparisonStrategy=%s, failures=%s]".formatted(comparisonStrategy, failures);
   }
 
   /**
@@ -358,8 +356,9 @@ public class Comparables {
     boolean strictBoundsCheck = !inclusiveEnd && !inclusiveStart && isLessThan(start, end);
     checkArgument(inclusiveBoundsCheck || strictBoundsCheck, () -> {
       String operator = inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to";
-      return format("The end value <%s> must not be %s the start value <%s>%s!", end, operator, start,
-                    (comparisonStrategy.isStandard() ? "" : " (using " + comparisonStrategy + ")"));
+      return "The end value <%s> must not be %s the start value <%s>%s!".formatted(end, operator, start,
+                                                                                   (comparisonStrategy.isStandard() ? ""
+                                                                                       : " (using " + comparisonStrategy + ")"));
     });
   }
 

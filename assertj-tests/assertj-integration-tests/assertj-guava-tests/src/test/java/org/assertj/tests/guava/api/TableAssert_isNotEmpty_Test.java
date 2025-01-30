@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.guava.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -51,7 +50,7 @@ class TableAssert_isNotEmpty_Test extends TableAssertBaseTest {
     Throwable thrown = catchThrowable(() -> assertThat(actual).isNotEmpty());
     // THEN
     then(thrown).isInstanceOf(AssertionError.class)
-                .hasMessage(format("%nExpecting actual not to be empty"));
+                .hasMessage("%nExpecting actual not to be empty".formatted());
   }
 
   @Test

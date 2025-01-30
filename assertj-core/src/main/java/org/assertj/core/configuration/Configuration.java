@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.AbstractDateAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Assumptions;
@@ -444,7 +443,7 @@ public class Configuration {
   }
 
   private String describe(DateFormat dateFormat) {
-    return dateFormat instanceof SimpleDateFormat ? ((SimpleDateFormat) dateFormat).toPattern() : dateFormat.toString();
+    return dateFormat instanceof SimpleDateFormat sdf ? sdf.toPattern() : dateFormat.toString();
   }
 
 }

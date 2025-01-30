@@ -41,7 +41,6 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
-
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -3596,8 +3595,9 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
     date = parseDateWithDefaultDateFormats(dateAsString);
     if (date != null) return date;
     // no matching date format, throw an error
-    throw new AssertionError(String.format("Failed to parse %s with any of these date formats:%n   %s", dateAsString,
-                                           info.representation().toStringOf(dateFormatsInOrderOfUsage())));
+    throw new AssertionError("Failed to parse %s with any of these date formats:%n   %s".formatted(dateAsString,
+                                                                                                   info.representation()
+                                                                                                       .toStringOf(dateFormatsInOrderOfUsage())));
   }
 
   private synchronized Date parseDateWithDefaultDateFormats(final String dateAsString) {
