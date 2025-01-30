@@ -782,6 +782,16 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
+   * @deprecated use {@link #hasPublicFields(String...)} instead.
+   * @param fields the fields who must be in the class.
+   * @return {@code this} assertions object
+   */
+  @Deprecated
+  public SELF hasFields(String... fields) {
+    return hasPublicFields(fields);
+  }
+
+  /**
    * Verifies that the actual {@code Class} has the given accessible public fields (as in {@link Class#getFields()}).
    * <p>
    * Example:
