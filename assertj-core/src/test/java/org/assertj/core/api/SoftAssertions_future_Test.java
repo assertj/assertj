@@ -49,6 +49,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     CompletionStage<String> completionStage = completedFuture("done");
     // WHEN
     softly.assertThat(completionStage).isDone();
+    softly.assertThat(completionStage).hasNotFailed();
     softly.assertThat(completionStage).isCancelled();
     completionStage = null;
     softly.assertThat(completionStage).isNull();
