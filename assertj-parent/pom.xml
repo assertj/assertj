@@ -16,7 +16,7 @@
 
   <properties>
     <additionalparam>-Xdoclint:none</additionalparam>
-    <java.version>8</java.version>
+    <java.version>17</java.version>
     <maven.compiler.parameters>true</maven.compiler.parameters>
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <maven.compiler.source>${java.version}</maven.compiler.source>

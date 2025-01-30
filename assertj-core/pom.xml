@@ -319,15 +319,15 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <executions>
+          <!-- FIXME https://github.com/assertj/assertj/issues/3446 -->
           <execution>
-            <id>jdk9</id>
+            <id>module</id>
             <goals>
               <goal>compile</goal>
             </goals>
             <configuration>
-              <release>9</release>
               <compileSourceRoots>
-                <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
+                <compileSourceRoot>${project.basedir}/src/main/module</compileSourceRoot>
               </compileSourceRoots>
               <multiReleaseOutput>true</multiReleaseOutput>
             </configuration>
@@ -420,6 +420,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!-- FIXME https://github.com/assertj/assertj/issues/3446 -->
+          <legacyMode>true</legacyMode>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
