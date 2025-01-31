@@ -366,7 +366,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   }
 
   /**
-   * Verifies that the actual value is equal to expected build using {@link String#formatted(Object... args)}.
+   * Verifies that the actual value is equal to expected build using {@link String#format(String, Object...)}.
    * <p>
    * Note that for this assertion to be called, <b>you must use a format template with parameters</b> otherwise {@link #isEqualTo(Object)} is called which
    * does not perform any formatting. For example, if you only use {@code %n} in the template they won't be replaced.
@@ -388,7 +388,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @param args the arguments referenced by the format specifiers in the format string.
    * @throws NullPointerException if stringTemplate parameter is {@code null}.
    * @throws AssertionError if the actual value is {@code null} as the template you provide must not be {@code null}.
-   * @throws java.util.IllegalFormatException as in {@link String#formatted(Object...)}, see
+   * @throws java.util.IllegalFormatException as in {@link String#format(String, Object...)}, see
    *         <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html#detail">Details</a> section of the
    *         formatter class specification.
    * @return this assertion object.

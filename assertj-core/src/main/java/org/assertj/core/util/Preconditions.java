@@ -119,7 +119,7 @@ public final class Preconditions {
    *
    * @param expression a boolean expression
    * @param errorMessageTemplate a template for the exception message should the check fail. The
-   *     message is formed by calling {@link String#formatted(Object...)} with the given parameters.
+   *     message is formed by calling {@link String#format(String, Object...)} with the given parameters.
    * @param errorMessageArgs the arguments to be substituted into the message template.
    * @throws IllegalArgumentException if {@code expression} is false
    * @throws NullPointerException if the check fails and either {@code errorMessageTemplate} or
@@ -149,7 +149,7 @@ public final class Preconditions {
    *
    * @param expression a boolean expression
    * @param errorMessageTemplate a template for the exception message should the check fail.The
-   *     message is formed by calling {@link String#formatted(Object...)} with the given parameters.
+   *     message is formed by calling {@link String#format(String, Object...)} with the given parameters.
    * @param errorMessageArgs the arguments to be substituted into the message template. Arguments
    *     are converted to strings using {@link String#valueOf(Object)}.
    * @throws IllegalStateException if {@code expression} is false

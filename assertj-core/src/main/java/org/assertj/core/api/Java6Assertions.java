@@ -1442,7 +1442,7 @@ public class Java6Assertions {
   }
 
   /**
-   * Throws an {@link AssertionError} with the given message built as {@link String#formatted(Object...)}.
+   * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
    *
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.

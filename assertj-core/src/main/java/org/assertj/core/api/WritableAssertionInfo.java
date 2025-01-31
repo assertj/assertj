@@ -112,7 +112,7 @@ public class WritableAssertionInfo implements AssertionInfo {
    * Sets the description of an assertion, if given null an empty {@link Description} is set.
    *
    * @param newDescription the new description.
-   * @param args           if {@code newDescription} is a format String, {@code args} is argument of {@link String#formatted(Object...)}
+   * @param args           if {@code newDescription} is a format String, {@code args} is argument of {@link String#format(String, Object...)}
    * @see #description(Description)
    */
   public void description(String newDescription, Object... args) {

@@ -2433,7 +2433,7 @@ public class BDDAssertions extends Assertions {
   }
 
   /**
-   * Throws an {@link AssertionError} with the given message built as {@link String#formatted(Object...)}.
+   * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.

@@ -75,7 +75,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   }
 
   /**
-   * Fails with the given message built like {@link String#formatted(Object...)}.
+   * Fails with the given message built like {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.

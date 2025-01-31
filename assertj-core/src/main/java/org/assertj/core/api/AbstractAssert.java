@@ -141,8 +141,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * Generate a custom assertion error using the information in this assertion.
    * <p>
-   * This is a utility method to ease writing custom assertions classes using {@link String#formatted(Object...)} specifiers
-   * in error message.
+   * This is a utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
+   * in the error message.
    * <p>
    * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
    * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
@@ -204,8 +204,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * Generate a custom assertion error using the information in this assertion, using the given actual and expected values.
    * <p>
-   * This is a utility method to ease writing custom assertions classes using {@link String#formatted(Object...)} specifiers
-   * in error message with actual and expected values.
+   * This is a utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
+   * in the error message with actual and expected values.
    * <p>
    * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
    * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
@@ -691,7 +691,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
    * the chained call by throwing an AssertionError.
    * <p>
-   * The new error message is built using {@link String#formatted(Object...)} if you provide args parameter (if you
+   * The new error message is built using {@link String#format(String, Object...)} if you provide args parameter (if you
    * don't, the error message is taken as it is).
    * <p>
    * Example:
@@ -699,7 +699,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *                              .isTrue();</code></pre>
    *
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
-   * @param args            the args used to fill error message as in {@link String#formatted(Object...)}.
+   * @param args            the args used to fill the error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
    */
   @CheckReturnValue
@@ -740,7 +740,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *                              .isTrue();</code></pre>
    *
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
-   * @param args            the args used to fill error message as in {@link String#formatted(Object...)}.
+   * @param args            the args used to fill error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
    */
   @CheckReturnValue

@@ -79,7 +79,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
    *
    * <p>
    * You must give a description, it will be used to build a nice error message when the condition fails, you can pass
-   * args to build the description as in {@link String#formatted(Object...)}.
+   * args to build the description as in {@link String#format(String, Object...)}.
    * <p>
    * Example:
    * <pre><code class='java'> // build condition with Predicate&lt;String&gt; and set description using String#format pattern.

@@ -69,14 +69,14 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
    * // returns false
    * optionalWithLineSeparator.matches(Optional.of("a"));</code></pre>
      * <p>
-   * Note that the mappingDescription argument follows {@link String#formatted(Object...)} syntax.
+   * Note that the mappingDescription argument follows {@link String#format(String, Object...)} syntax.
    *
    * @param <FROM> the type of object the given condition accept.
    * @param <TO> the type of object the nested condition accept.
    * @param mapping the Function that maps the value to test to the a value for the nested condition.
    * @param condition the nested condition to evaluate.
-   * @param mappingDescription describes the mapping, follows {@link String#formatted(Object...)} syntax.
-   * @param args for describing the mapping as in {@link String#formatted(Object...)} syntax.
+   * @param mappingDescription describes the mapping, follows {@link String#format(String, Object...)} syntax.
+   * @param args for describing the mapping as in {@link String#format(String, Object...)} syntax.
    * @return the created {@code MappedCondition}.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws NullPointerException if the given mapping is {@code null}.
