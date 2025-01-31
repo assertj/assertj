@@ -254,7 +254,7 @@ public class DeepDifference {
 
       // Special handle SortedSets because they are fast to compare
       // because their elements must be in the same order to be equivalent Sets.
-      if (key1 instanceof Collection<?> set) {
+      if (key1 instanceof SortedSet<?> set) {
         if (!compareOrderedCollection(set, (Collection<?>) key2, currentPath, toCompare, visited)) {
           differences.add(new Difference(currentPath, key1, key2));
           continue;
@@ -263,7 +263,7 @@ public class DeepDifference {
       }
 
       // Check List, as element order matters this comparison is faster than using unordered comparison.
-      if (key1 instanceof Collection<?> list) {
+      if (key1 instanceof List<?> list) {
         if (!compareOrderedCollection(list, (Collection<?>) key2, currentPath, toCompare, visited)) {
           differences.add(new Difference(currentPath, key1, key2));
           continue;
