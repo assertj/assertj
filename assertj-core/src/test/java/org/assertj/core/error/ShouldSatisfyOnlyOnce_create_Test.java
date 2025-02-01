@@ -19,8 +19,9 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.testkit.jdk11.Jdk11.List;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 /**
  * Tests for <code>{@link ShouldSatisfyOnlyOnce#create(Description)}</code>.

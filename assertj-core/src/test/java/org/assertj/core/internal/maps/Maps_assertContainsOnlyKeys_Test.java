@@ -41,7 +41,6 @@ import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.collections4.map.SingletonMap;
 import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.internal.MapsBaseTest;
-import org.assertj.core.testkit.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -111,8 +110,8 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("job", "name")),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("name", "job")),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("job", "name")),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array("name", "job")),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array("job", "name")));
+                     arguments(Map.of("name", "Yoda", "job", "Jedi"), array("name", "job")),
+                     arguments(Map.of("name", "Yoda", "job", "Jedi"), array("job", "name")));
   }
 
   private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
@@ -200,11 +199,11 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
                                array("name", "color"),
                                set("color"),
                                set("job")),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"),
+                     arguments(Map.of("name", "Yoda", "job", "Jedi"),
                                array("name", "color"),
                                set("color"),
                                set("job")),
-                     arguments(Jdk11.Map.of("name", "Yoda"),
+                     arguments(Map.of("name", "Yoda"),
                                array((String) null), // implementation not permitting null keys
                                set((String) null),
                                set("name")));

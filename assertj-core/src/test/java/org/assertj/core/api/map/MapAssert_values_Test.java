@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.map;
 
-import org.assertj.core.testkit.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -27,7 +26,7 @@ class MapAssert_values_Test {
   @Test
   void should_return_collection_assertion_after_calling_values_for_map_assertions() {
     // GIVEN
-    Map<String, Integer> map = Jdk11.Map.of("first", 1, "second", 2);
+    Map<String, Integer> map = Map.of("first", 1, "second", 2);
     // WHEN/THEN
     then(map).values().contains(1, 2);
   }
@@ -35,7 +34,7 @@ class MapAssert_values_Test {
   @Test
   void should_return_collection_assertion_with_right_generic_type() {
     // GIVEN
-    Map<String, String> map = Jdk11.Map.of("first", "one");
+    Map<String, String> map = Map.of("first", "one");
     // WHEN/THEN
     then(map).values()
              .singleElement()

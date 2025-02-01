@@ -19,12 +19,12 @@ import static org.assertj.core.error.ShouldSatisfyOnlyOnce.shouldSatisfyOnlyOnce
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
-import org.assertj.core.testkit.jdk11.Jdk11.List;
 import org.junit.jupiter.api.Test;
 
 /**
