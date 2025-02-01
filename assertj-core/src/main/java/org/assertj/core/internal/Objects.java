@@ -110,9 +110,7 @@ public class Objects {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy cbcs
-        ? cbcs.getComparator()
-        : null;
+    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }
 
   public ComparisonStrategy getComparisonStrategy() {

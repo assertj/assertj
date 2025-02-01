@@ -350,7 +350,7 @@ public class Iterables {
   }
 
   private static Collection<?> ensureActualCanBeReadMultipleTimes(Iterable<?> actual) {
-    return actual instanceof Collection<?> c ? c : newArrayList(actual);
+    return actual instanceof Collection<?> collection ? collection : newArrayList(actual);
   }
 
   private void assertIterableContainsGivenValues(@SuppressWarnings("rawtypes") Class<? extends Iterable> clazz,

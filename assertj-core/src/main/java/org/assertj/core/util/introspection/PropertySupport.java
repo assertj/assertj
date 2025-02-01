@@ -148,8 +148,7 @@ public class PropertySupport {
     try {
       return (T) getter.invoke(target);
     } catch (ClassCastException e) {
-      String msg = "Unable to obtain the value of the property <'%s'> from <%s> - wrong property type specified <%s>".formatted(
-                                                                                                                                propertyName,
+      String msg = "Unable to obtain the value of the property <'%s'> from <%s> - wrong property type specified <%s>".formatted(propertyName,
                                                                                                                                 target,
                                                                                                                                 clazz);
       throw new IntrospectionError(msg, e);

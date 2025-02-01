@@ -58,8 +58,7 @@ public class ConfigurableRecursiveFieldByFieldComparator implements Comparator<O
 
   @Override
   public String toString() {
-    return "recursive field/property by field/property comparator on all fields/properties using the following configuration:%n%s".formatted(
-                                                                                                                                             configuration);
+    return "recursive field/property by field/property comparator on all fields/properties using the following configuration:%n%s".formatted(configuration);
   }
 
   @Override

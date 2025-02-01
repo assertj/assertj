@@ -47,12 +47,12 @@ public class BinaryRepresentation extends StandardRepresentation {
 
   @Override
   protected String toStringOf(Number number) {
-    if (number instanceof Byte byte1) return toStringOf(byte1);
-    if (number instanceof Short short1) return toStringOf(short1);
-    if (number instanceof Integer integer) return toStringOf(integer);
-    if (number instanceof Long long1) return toStringOf(long1);
-    if (number instanceof Float float1) return toStringOf(float1);
-    if (number instanceof Double double1) return toStringOf(double1);
+    if (number instanceof Byte b) return toStringOf(b);
+    if (number instanceof Short s) return toStringOf(s);
+    if (number instanceof Integer i) return toStringOf(i);
+    if (number instanceof Long l) return toStringOf(l);
+    if (number instanceof Float f) return toStringOf(f);
+    if (number instanceof Double d) return toStringOf(d);
     return number == null ? null : number.toString();
   }
 
@@ -94,4 +94,5 @@ public class BinaryRepresentation extends StandardRepresentation {
   private static String toBinary(String value, int size) {
     return String.format("%" + size + "s", value).replace(' ', '0');
   }
+
 }

@@ -59,8 +59,7 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
     }
 
     public static String describe(AssertionInfo info, ZipSatisfyError satisfyError) {
-      return "(%s, %s)%nerror: %s".formatted(
-                                             info.representation().toStringOf(satisfyError.actualElement),
+      return "(%s, %s)%nerror: %s".formatted(info.representation().toStringOf(satisfyError.actualElement),
                                              info.representation().toStringOf(satisfyError.otherElement),
                                              satisfyError.error);
     }

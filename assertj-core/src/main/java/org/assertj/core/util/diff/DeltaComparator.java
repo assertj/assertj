@@ -22,8 +22,10 @@ import java.util.Comparator;
  * @author mksenzov
  */
 public class DeltaComparator implements Comparator<Delta<?>>, Serializable {
+
   @Serial
   private static final long serialVersionUID = 1L;
+
   public static final Comparator<Delta<?>> INSTANCE = new DeltaComparator();
 
   private DeltaComparator() {}
@@ -39,4 +41,5 @@ public class DeltaComparator implements Comparator<Delta<?>>, Serializable {
     }
     return 0;
   }
+
 }

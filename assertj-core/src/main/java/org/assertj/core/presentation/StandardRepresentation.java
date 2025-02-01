@@ -94,7 +94,7 @@ public class StandardRepresentation implements Representation {
 
   private static final String DEFAULT_MAX_ELEMENTS_EXCEEDED = "...";
 
-  // 4 spaces indentation : 2 space indentation after new line + '<' + '['
+  // 4 spaces indentation: 2 space indentation after new line + '<' + '['
   static final String INDENTATION_AFTER_NEWLINE = "    ";
   // used when formatting iterables to a single line
   static final String INDENTATION_FOR_SINGLE_LINE = " ";
@@ -120,9 +120,10 @@ public class StandardRepresentation implements Representation {
   };
 
   protected enum GroupType {
+
     ITERABLE("iterable"), ARRAY("array");
 
-    private String description;
+    private final String description;
 
     GroupType(String value) {
       this.description = value;
@@ -212,7 +213,7 @@ public class StandardRepresentation implements Representation {
     if (hasCustomFormatterFor(object)) return customFormat(object);
     if (object instanceof ComparatorBasedComparisonStrategy strategy) return toStringOf(strategy);
     if (object instanceof Calendar calendar) return toStringOf(calendar);
-    if (object instanceof Class<?> class1) return toStringOf(class1);
+    if (object instanceof Class<?> clazz) return toStringOf(clazz);
     if (object instanceof Date date) return toStringOf(date);
     if (object instanceof Duration duration) return toStringOf(duration);
     if (object instanceof LocalDate date) return toStringOf(date);
@@ -222,7 +223,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof ZonedDateTime time) return toStringOf(time);
     if (object instanceof LongAdder adder) return toStringOf(adder);
     // if object was a subtype of any atomic type overriding toString, use it as it's more relevant than our generic
-    // representation, if that's not the case (e.g. an AtomicReference subclass not overriding String) we use our representation.
+    // representation, if that's not the case (e.g., an AtomicReference subclass not overriding String) we use our representation.
     if (isInstanceOfNotOverridingToString(object, AtomicReference.class)) return toStringOf((AtomicReference<?>) object);
     if (isInstanceOfNotOverridingToString(object, AtomicMarkableReference.class))
       return toStringOf((AtomicMarkableReference<?>) object);
@@ -254,9 +255,9 @@ public class StandardRepresentation implements Representation {
     // ex: JsonNode is an Iterable that is best formatted with its own String
     // Path is another example, but we can deal with it specifically as it is part of the JDK.
     if (object instanceof Iterable<?> iterable && !hasOverriddenToString(object.getClass())) return smartFormat(iterable);
-    if (object instanceof AtomicInteger integer) return toStringOf(integer);
-    if (object instanceof AtomicBoolean boolean1) return toStringOf(boolean1);
-    if (object instanceof AtomicLong long1) return toStringOf(long1);
+    if (object instanceof AtomicInteger atomicInteger) return toStringOf(atomicInteger);
+    if (object instanceof AtomicBoolean atomicBoolean) return toStringOf(atomicBoolean);
+    if (object instanceof AtomicLong atomicLong) return toStringOf(atomicLong);
     if (object instanceof Number number) return toStringOf(number);
     if (object instanceof Throwable throwable) return toStringOf(throwable);
     return fallbackToStringOf(object);
@@ -322,6 +323,7 @@ public class StandardRepresentation implements Representation {
 
   protected <T> String customFormat(T object) {
     if (object == null) return null;
+    @SuppressWarnings("unchecked")
     CharSequence formatted = ((Function<T, ? extends CharSequence>) customFormatterByType.get(object.getClass())).apply(object);
     return formatted != null ? formatted.toString() : null;
   }
@@ -356,8 +358,8 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(Number number) {
-    if (number instanceof Float float1) return toStringOf(float1);
-    if (number instanceof Long long1) return toStringOf(long1);
+    if (number instanceof Float f) return toStringOf(f);
+    if (number instanceof Long l) return toStringOf(l);
     // fallback to default formatting
     return number.toString();
   }
@@ -727,8 +729,7 @@ public class StandardRepresentation implements Representation {
   }
 
   private String toStringOf(ChangeDelta<?> changeDelta) {
-    return "Changed content at line %s:%nexpecting:%n  %s%nbut was:%n  %s%n".formatted(
-                                                                                       changeDelta.lineNumber(),
+    return "Changed content at line %s:%nexpecting:%n  %s%nbut was:%n  %s%n".formatted(changeDelta.lineNumber(),
                                                                                        formatLines(changeDelta.getOriginal()
                                                                                                               .getLines()),
                                                                                        formatLines(changeDelta.getRevised()
@@ -780,4 +781,5 @@ public class StandardRepresentation implements Representation {
   private String format(Map<?, ?> map, Object o) {
     return o == map ? "(this Map)" : toStringOf(o);
   }
+
 }

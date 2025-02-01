@@ -85,8 +85,7 @@ public class ShouldContainSubsequenceOfCharSequence extends BasicErrorMessageFac
                                                                                        singleEntry.getKey());
     } else {
       detailedErrorMessage = notFoundRepeatedSubsequence.entrySet().stream()
-                                                        .map(entry -> "- the %s occurrence of \"%s\" was not found".formatted(
-                                                                                                                              ordinal(entry.getValue()
+                                                        .map(entry -> "- the %s occurrence of \"%s\" was not found".formatted(ordinal(entry.getValue()
                                                                                                                                       + 1),
                                                                                                                               entry.getKey()))
                                                         .collect(joining("%n"));

@@ -69,11 +69,7 @@ public class Lists {
 
   @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
-      return strategy
-                     .getComparator();
-    }
-    return null;
+    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }
 
   /**

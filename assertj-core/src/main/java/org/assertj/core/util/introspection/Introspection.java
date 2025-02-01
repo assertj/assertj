@@ -69,8 +69,7 @@ public final class Introspection {
       getter.setAccessible(true);
       getter.invoke(target);
     } catch (InvocationTargetException ex) {
-      String message = "Unable to invoke getter %s in %s, exception: %s".formatted(
-                                                                                   getter.getName(),
+      String message = "Unable to invoke getter %s in %s, exception: %s".formatted(getter.getName(),
                                                                                    target.getClass().getSimpleName(),
                                                                                    ex.getTargetException());
       throw new IntrospectionError(message, ex, ex.getTargetException());
@@ -168,4 +167,5 @@ public final class Introspection {
   }
 
   private Introspection() {}
+
 }

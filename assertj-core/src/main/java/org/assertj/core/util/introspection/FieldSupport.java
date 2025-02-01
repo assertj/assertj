@@ -146,17 +146,15 @@ public enum FieldSupport {
   }
 
   private String popFieldNameFrom(String fieldNameChain) {
-    if (!isNestedField(fieldNameChain)) {
-      return fieldNameChain;
-    }
-    return fieldNameChain.substring(0, fieldNameChain.indexOf(SEPARATOR));
+    return isNestedField(fieldNameChain)
+        ? fieldNameChain.substring(0, fieldNameChain.indexOf(SEPARATOR))
+        : fieldNameChain;
   }
 
   private String nextFieldNameFrom(String fieldNameChain) {
-    if (!isNestedField(fieldNameChain)) {
-      return "";
-    }
-    return fieldNameChain.substring(fieldNameChain.indexOf(SEPARATOR) + 1);
+    return isNestedField(fieldNameChain)
+        ? fieldNameChain.substring(fieldNameChain.indexOf(SEPARATOR) + 1)
+        : "";
   }
 
   /*
@@ -234,14 +232,12 @@ public enum FieldSupport {
       }
       return clazz.cast(fieldValue);
     } catch (ClassCastException e) {
-      String msg = "Unable to obtain the value of the field <'%s'> from <%s> - wrong field type specified <%s>".formatted(
-                                                                                                                          fieldName,
+      String msg = "Unable to obtain the value of the field <'%s'> from <%s> - wrong field type specified <%s>".formatted(fieldName,
                                                                                                                           target,
                                                                                                                           clazz);
       throw new IntrospectionError(msg, e);
     } catch (IllegalAccessException iae) {
-      String msg = "Unable to obtain the value of the field <'%s'> from <%s>, check that field is public.".formatted(
-                                                                                                                     fieldName,
+      String msg = "Unable to obtain the value of the field <'%s'> from <%s>, check that field is public.".formatted(fieldName,
                                                                                                                      target);
       throw new IntrospectionError(msg, iae);
     } catch (Throwable unexpected) {

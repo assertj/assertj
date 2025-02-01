@@ -118,8 +118,8 @@ public class Assumptions {
     public static Object intercept(@This AbstractAssert<?, ?> assertion, @SuperCall Callable<Object> proxy) throws Exception {
       try {
         Object result = proxy.call();
-        if (result != assertion && result instanceof AbstractAssert<?, ?> assert1) {
-          return asAssumption(assert1).withAssertionState(assertion);
+        if (result != assertion && result instanceof AbstractAssert<?, ?> abstractAssert) {
+          return asAssumption(abstractAssert).withAssertionState(assertion);
         }
         return result;
       } catch (AssertionError e) {

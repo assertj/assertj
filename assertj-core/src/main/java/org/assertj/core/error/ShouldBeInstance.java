@@ -29,7 +29,7 @@ public class ShouldBeInstance extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static ErrorMessageFactory shouldBeInstance(Object object, Class<?> type) {
-    return object instanceof Throwable t ? new ShouldBeInstance(t, type) : new ShouldBeInstance(object, type);
+    return object instanceof Throwable throwable ? new ShouldBeInstance(throwable, type) : new ShouldBeInstance(object, type);
   }
 
   /**

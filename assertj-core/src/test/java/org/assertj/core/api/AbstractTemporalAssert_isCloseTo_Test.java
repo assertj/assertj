@@ -125,33 +125,25 @@ class AbstractTemporalAssert_isCloseTo_Test {
   };
 
   private static final String[] differenceMessages = {
-      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 50 Hours but difference was 96 Hours".formatted(
-                                                                                                                _2017_Mar_12_07_10_Instant,
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 50 Hours but difference was 96 Hours".formatted(_2017_Mar_12_07_10_Instant,
                                                                                                                 _2017_Mar_08_07_10_Instant),
-      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 2 Millis but difference was PT8765837682367H10M".formatted(
-                                                                                                                           _2017_Mar_12_07_10_Instant,
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 2 Millis but difference was PT8765837682367H10M".formatted(_2017_Mar_12_07_10_Instant,
                                                                                                                            Instant.MIN),
-      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 50 Hours but difference was 96 Hours".formatted(
-                                                                                                                _2017_Mar_12_07_10,
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 50 Hours but difference was 96 Hours".formatted(_2017_Mar_12_07_10,
                                                                                                                 _2017_Mar_08_07_10),
-      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 3 Days but difference was 15 Days".formatted(
-                                                                                                             _2017_Mar_12,
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 3 Days but difference was 15 Days".formatted(_2017_Mar_12,
                                                                                                              _2017_Mar_27),
-      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 5 Minutes but difference was 13 Minutes".formatted(
-                                                                                                                   _07_10,
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 5 Minutes but difference was 13 Minutes".formatted(_07_10,
                                                                                                                    _07_23),
-      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 10 Minutes but difference was 13 Minutes".formatted(
-                                                                                                                    OffsetDateTime.of(_2017_Mar_12_07_10,
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 10 Minutes but difference was 13 Minutes".formatted(OffsetDateTime.of(_2017_Mar_12_07_10,
                                                                                                                                       UTC),
                                                                                                                     OffsetDateTime.of(_2017_Mar_12_07_23,
                                                                                                                                       UTC)),
-      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nby less than 95 Hours but difference was 95 Hours".formatted(
-                                                                                                                      ZonedDateTime.of(_2017_Mar_12_07_10,
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nby less than 95 Hours but difference was 95 Hours".formatted(ZonedDateTime.of(_2017_Mar_12_07_10,
                                                                                                                                        NEW_YORK_ZONE),
                                                                                                                       ZonedDateTime.of(_2017_Mar_08_07_10,
                                                                                                                                        NEW_YORK_ZONE)),
-      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 2 Minutes but difference was 13 Minutes".formatted(
-                                                                                                                   OffsetTime.of(_07_10,
+      "%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin 2 Minutes but difference was 13 Minutes".formatted(OffsetTime.of(_07_10,
                                                                                                                                  UTC),
                                                                                                                    OffsetTime.of(_07_23,
                                                                                                                                  UTC)),
@@ -199,10 +191,12 @@ class AbstractTemporalAssert_isCloseTo_Test {
     return parameters;
   }
 
+  @SuppressWarnings("unchecked")
   private static AbstractTemporalAssert<?, Temporal> nullAssert(ArgumentsAccessor arguments) {
     return arguments.get(0, AbstractTemporalAssert.class);
   }
 
+  @SuppressWarnings("unchecked")
   private static AbstractTemporalAssert<?, Temporal> temporalAssert(ArgumentsAccessor arguments) {
     return arguments.get(1, AbstractTemporalAssert.class);
   }

@@ -55,12 +55,12 @@ public class IterableElementComparisonStrategy<T> extends StandardComparisonStra
 
   @Override
   public String asText() {
-    return "when comparing elements using %s".formatted(
-                                                        CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator));
+    return "when comparing elements using %s".formatted(CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator));
   }
 
   @Override
   public boolean isStandard() {
     return false;
   }
+
 }

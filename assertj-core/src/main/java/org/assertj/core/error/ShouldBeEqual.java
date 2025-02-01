@@ -249,7 +249,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
                                               description,
                                               representation.toStringOf(expected),
                                               representation.toStringOf(actual));
-    return o instanceof AssertionError ae ? ae : null;
+    return o instanceof AssertionError assertionError ? assertionError : null;
   }
 
   protected String detailedActual() {

@@ -23,6 +23,7 @@ public class MultipleAssertionsError extends AssertionError {
 
   @Serial
   private static final long serialVersionUID = -5547434453993413952L;
+
   private final List<? extends AssertionError> errors;
 
   public MultipleAssertionsError(List<? extends AssertionError> errors) {
