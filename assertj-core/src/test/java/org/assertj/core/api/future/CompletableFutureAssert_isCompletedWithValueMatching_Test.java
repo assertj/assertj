@@ -39,7 +39,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
-    assertThat(assertionError).hasMessage(actualIsNull().formatted());
+    assertThat(assertionError).hasMessage(actualIsNull());
   }
 
   @Test

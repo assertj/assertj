@@ -105,8 +105,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(obj);
     // THEN
-    then(unambiguousToString).isEqualTo("my object (%s@%s)".formatted(
-                                                                      obj.getClass().getName(),
+    then(unambiguousToString).isEqualTo("my object (%s@%s)".formatted(obj.getClass().getName(),
                                                                       toHexString(identityHashCode(obj))));
   }
 
@@ -127,8 +126,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(collection);
     // THEN
-    then(unambiguousToString).isEqualTo("[\"s1\", \"s2\"] (ArrayList@%s)".formatted(
-                                                                                    toHexString(identityHashCode(collection))));
+    then(unambiguousToString).isEqualTo("[\"s1\", \"s2\"] (ArrayList@%s)".formatted(toHexString(identityHashCode(collection))));
   }
 
   @Test
@@ -138,8 +136,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(collection);
     // THEN
-    then(unambiguousToString).isEqualTo("[[true, false], [true, false, true]] (ArrayList@%s)".formatted(
-                                                                                                        toHexString(identityHashCode(collection))));
+    then(unambiguousToString).isEqualTo("[[true, false], [true, false, true]] (ArrayList@%s)".formatted(toHexString(identityHashCode(collection))));
   }
 
   @Test
@@ -154,8 +151,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(collection);
     // THEN
-    then(unambiguousToString).isEqualTo("[[true, false], [true], ... [true, false, ... false, true], [true, true]] (ArrayList@%s)".formatted(
-                                                                                                                                             toHexString(identityHashCode(collection))));
+    then(unambiguousToString).isEqualTo("[[true, false], [true], ... [true, false, ... false, true], [true, true]] (ArrayList@%s)".formatted(toHexString(identityHashCode(collection))));
   }
 
   @Test
@@ -165,8 +161,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(collection);
     // THEN
-    then(unambiguousToString).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]] (ArrayList@%s)".formatted(
-                                                                                                                toHexString(identityHashCode(collection))));
+    then(unambiguousToString).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]] (ArrayList@%s)".formatted(toHexString(identityHashCode(collection))));
   }
 
   @Test
@@ -181,8 +176,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(collection);
     // THEN
-    then(unambiguousToString).isEqualTo("[[\"s1\", \"s2\"], ... [\"s12\"]] (ArrayList@%s)".formatted(
-                                                                                                     toHexString(identityHashCode(collection))));
+    then(unambiguousToString).isEqualTo("[[\"s1\", \"s2\"], ... [\"s12\"]] (ArrayList@%s)".formatted(toHexString(identityHashCode(collection))));
   }
 
   @Test
@@ -194,8 +188,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(map);
     // THEN
-    then(unambiguousToString).isEqualTo("{\"key1\"=\"value1\", \"key2\"=\"value2\"} (LinkedHashMap@%s)".formatted(
-                                                                                                                  toHexString(identityHashCode(map))));
+    then(unambiguousToString).isEqualTo("{\"key1\"=\"value1\", \"key2\"=\"value2\"} (LinkedHashMap@%s)".formatted(toHexString(identityHashCode(map))));
   }
 
   @Test
@@ -216,8 +209,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(array);
     // THEN
-    then(unambiguousToString).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]] (String[][]@%s)".formatted(
-                                                                                                                 toHexString(identityHashCode(array))));
+    then(unambiguousToString).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", \"s5\"]] (String[][]@%s)".formatted(toHexString(identityHashCode(array))));
   }
 
   @Test
@@ -232,8 +224,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(array);
     // THEN
-    then(unambiguousToString).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ... \"s6\", \"s7\"], ... [\"s10\", \"s11\"], [\"s12\"]] (String[][]@%s)".formatted(
-                                                                                                                                                                toHexString(identityHashCode(array))));
+    then(unambiguousToString).isEqualTo("[[\"s1\", \"s2\"], [\"s3\", \"s4\", ... \"s6\", \"s7\"], ... [\"s10\", \"s11\"], [\"s12\"]] (String[][]@%s)".formatted(toHexString(identityHashCode(array))));
   }
 
   @Test
@@ -243,8 +234,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(array);
     // THEN
-    then(unambiguousToString).isEqualTo("[java.lang.String, java.io.File] (Class[]@%s)".formatted(
-                                                                                                  toHexString(identityHashCode(array))));
+    then(unambiguousToString).isEqualTo("[java.lang.String, java.io.File] (Class[]@%s)".formatted(toHexString(identityHashCode(array))));
   }
 
   @Test
@@ -274,8 +264,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(atomicReference);
     // THEN
-    then(unambiguousToString).isEqualTo("AtomicReference[\"actual\"] (AtomicReference@%s)".formatted(
-                                                                                                     toHexString(identityHashCode(atomicReference))));
+    then(unambiguousToString).isEqualTo("AtomicReference[\"actual\"] (AtomicReference@%s)".formatted(toHexString(identityHashCode(atomicReference))));
   }
 
   @Test
@@ -285,8 +274,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(atomicMarkableReference);
     // THEN
-    then(unambiguousToString).isEqualTo("AtomicMarkableReference[marked=true, reference=\"actual\"] (AtomicMarkableReference@%s)".formatted(
-                                                                                                                                            toHexString(identityHashCode(atomicMarkableReference))));
+    then(unambiguousToString).isEqualTo("AtomicMarkableReference[marked=true, reference=\"actual\"] (AtomicMarkableReference@%s)".formatted(toHexString(identityHashCode(atomicMarkableReference))));
   }
 
   @Test
@@ -296,8 +284,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(atomicStampedReference);
     // THEN
-    then(unambiguousToString).isEqualTo("AtomicStampedReference[stamp=123, reference=\"actual\"] (AtomicStampedReference@%s)".formatted(
-                                                                                                                                        toHexString(identityHashCode(atomicStampedReference))));
+    then(unambiguousToString).isEqualTo("AtomicStampedReference[stamp=123, reference=\"actual\"] (AtomicStampedReference@%s)".formatted(toHexString(identityHashCode(atomicStampedReference))));
   }
 
   @Test
@@ -307,8 +294,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(updater);
     // THEN
-    then(unambiguousToString).isEqualTo("AtomicIntegerFieldUpdater (%s@%s)".formatted(
-                                                                                      updater.getClass().getSimpleName(),
+    then(unambiguousToString).isEqualTo("AtomicIntegerFieldUpdater (%s@%s)".formatted(updater.getClass().getSimpleName(),
                                                                                       toHexString(identityHashCode(updater))));
   }
 
@@ -319,8 +305,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(updater);
     // THEN
-    then(unambiguousToString).isEqualTo("AtomicLongFieldUpdater (%s@%s)".formatted(
-                                                                                   updater.getClass().getSimpleName(),
+    then(unambiguousToString).isEqualTo("AtomicLongFieldUpdater (%s@%s)".formatted(updater.getClass().getSimpleName(),
                                                                                    toHexString(identityHashCode(updater))));
   }
 
@@ -331,8 +316,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(updater);
     // THEN
-    then(unambiguousToString).isEqualTo("AtomicReferenceFieldUpdater (%s@%s)".formatted(
-                                                                                        updater.getClass().getSimpleName(),
+    then(unambiguousToString).isEqualTo("AtomicReferenceFieldUpdater (%s@%s)".formatted(updater.getClass().getSimpleName(),
                                                                                         toHexString(identityHashCode(updater))));
   }
 
@@ -348,8 +332,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(anonymousComparator);
     // THEN
-    then(unambiguousToString).isEqualTo("'anonymous comparator class' (%s@%s)".formatted(
-                                                                                         anonymousComparator.getClass().getName(),
+    then(unambiguousToString).isEqualTo("'anonymous comparator class' (%s@%s)".formatted(anonymousComparator.getClass().getName(),
                                                                                          toHexString(identityHashCode(anonymousComparator))));
   }
 
@@ -408,8 +391,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(stringTestComparator);
     // THEN
-    then(unambiguousToString).isEqualTo("StringTestComparator (StringTestComparator@%s)".formatted(
-                                                                                                   toHexString(identityHashCode(stringTestComparator))));
+    then(unambiguousToString).isEqualTo("StringTestComparator (StringTestComparator@%s)".formatted(toHexString(identityHashCode(stringTestComparator))));
   }
 
   @Test
@@ -419,8 +401,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(otherStringTestComparator);
     // THEN
-    then(unambiguousToString).isEqualTo("other String comparator (OtherStringTestComparator@%s)".formatted(
-                                                                                                           toHexString(identityHashCode(otherStringTestComparator))));
+    then(unambiguousToString).isEqualTo("other String comparator (OtherStringTestComparator@%s)".formatted(toHexString(identityHashCode(otherStringTestComparator))));
   }
 
   @Test
@@ -430,8 +411,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     // WHEN
     String unambiguousToString = unambiguousToStringOf(otherStringTestComparatorWithAt);
     // THEN
-    then(unambiguousToString).isEqualTo("other String comparator with @ (OtherStringTestComparatorWithAt@%s)".formatted(
-                                                                                                                        toHexString(identityHashCode(otherStringTestComparatorWithAt))));
+    then(unambiguousToString).isEqualTo("other String comparator with @ (OtherStringTestComparatorWithAt@%s)".formatted(toHexString(identityHashCode(otherStringTestComparatorWithAt))));
   }
 
   @Test

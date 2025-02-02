@@ -38,7 +38,7 @@ class CompletableFutureAssert_isCompletedWithValue_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("foo"));
     // THEN
-    assertThat(assertionError).hasMessage(actualIsNull().formatted());
+    assertThat(assertionError).hasMessage(actualIsNull());
   }
 
   @Test

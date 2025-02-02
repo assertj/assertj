@@ -73,8 +73,7 @@ class RecursiveAssertionAssert_withIntrospectionStrategy_Test {
         if (superclass != null) return getFieldType(fieldName, superclass);
         throw new NoSuchFieldException();
       } catch (NoSuchFieldException | SecurityException e) {
-        throw new IllegalStateException("Could not find field %s on class %s, even though its name was retrieved from the class earlier".formatted(
-                                                                                                                                                   fieldName,
+        throw new IllegalStateException("Could not find field %s on class %s, even though its name was retrieved from the class earlier".formatted(fieldName,
                                                                                                                                                    objectClass.getCanonicalName()),
                                         e);
       }

@@ -37,8 +37,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class Paths_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends PathsSimpleBaseTest {
 
   private static final String TXT_EXTENSION_PATTERN = "regex:.+\\.txt";
-  private static final String TXT_EXTENSION_PATTERN_DESCRIPTION = "the '%s' pattern".formatted(
-                                                                                               TXT_EXTENSION_PATTERN);
+  private static final String TXT_EXTENSION_PATTERN_DESCRIPTION = "the '%s' pattern".formatted(TXT_EXTENSION_PATTERN);
 
   @ParameterizedTest
   @ValueSource(strings = { "regex:.+oo2\\.data", "regex:.+\\.json", "regex:.+bar2\\.json" })

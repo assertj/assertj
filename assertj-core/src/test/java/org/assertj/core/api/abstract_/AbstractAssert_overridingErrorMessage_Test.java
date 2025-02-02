@@ -91,8 +91,7 @@ class AbstractAssert_overridingErrorMessage_Test {
     // GIVEN
     long expected = 8L;
     // WHEN
-    ThrowingCallable code = () -> assertions.overridingErrorMessage(() -> "new error message, expected value was : '%s'".formatted(
-                                                                                                                                   expected))
+    ThrowingCallable code = () -> assertions.overridingErrorMessage(() -> "new error message, expected value was : '%s'".formatted(expected))
                                             .isEqualTo(expected);
     // THEN
     assertThatAssertionErrorIsThrownBy(code).withMessage("new error message, expected value was : '8'");
@@ -104,8 +103,7 @@ class AbstractAssert_overridingErrorMessage_Test {
     long expected = 8L;
     // WHEN
     ThrowingCallable code = () -> assertions.as("test")
-                                            .overridingErrorMessage(() -> "new error message, expected value was : '%s'".formatted(
-                                                                                                                                   expected))
+                                            .overridingErrorMessage(() -> "new error message, expected value was : '%s'".formatted(expected))
                                             .isEqualTo(expected);
     // THEN
     assertThatAssertionErrorIsThrownBy(code).withMessage("[test] new error message, expected value was : '8'");

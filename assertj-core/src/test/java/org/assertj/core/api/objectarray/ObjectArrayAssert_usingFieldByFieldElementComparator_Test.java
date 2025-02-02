@@ -149,8 +149,7 @@ class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends ObjectAr
 
     @Override
     public String toString() {
-      return "Person{first='%s', last='%s', info='%s'}".formatted(
-                                                                  first, last, info);
+      return "Person{first='%s', last='%s', info='%s'}".formatted(first, last, info);
     }
   }
 
@@ -199,7 +198,7 @@ class ObjectArrayAssert_usingFieldByFieldElementComparator_Test extends ObjectAr
 
   @Test
   void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_field_by_field_element_comparator() {
-    Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
+    Comparator<String> comparator = String::compareTo;
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 

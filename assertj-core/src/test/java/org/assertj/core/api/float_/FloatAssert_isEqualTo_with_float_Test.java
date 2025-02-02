@@ -23,18 +23,14 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import java.util.Comparator;
 import org.assertj.core.api.FloatAssert;
 import org.assertj.core.api.FloatAssertBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 /**
- * Tests for <code>{@link FloatAssert#isEqualTo(float)}</code>.
- *
  * @author Alex Ruiz
  */
-@DisplayName("FloatAssert isEqualTo with float")
-class FloatAssert_isEqualTo_float_Test extends FloatAssertBaseTest {
+class FloatAssert_isEqualTo_with_float_Test extends FloatAssertBaseTest {
 
   @SuppressWarnings({ "unchecked", "rawtypes" })
   @Override
@@ -86,6 +82,6 @@ class FloatAssert_isEqualTo_float_Test extends FloatAssertBaseTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessage("Actual and expected values were compared with == because expected was a primitive float, the assertion failed as both were Float.NaN and Float.NaN != Float.NaN (as per Float#equals javadoc)".formatted());
+    then(assertionError).hasMessage("Actual and expected values were compared with == because expected was a primitive float, the assertion failed as both were Float.NaN and Float.NaN != Float.NaN (as per Float#equals javadoc)");
   }
 }

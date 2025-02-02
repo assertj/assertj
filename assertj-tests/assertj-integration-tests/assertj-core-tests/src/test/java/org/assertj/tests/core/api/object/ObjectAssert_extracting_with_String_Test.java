@@ -90,7 +90,7 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
     Person obiwan = new Person("Obi-Wan");
     obiwan.setHeight(new BigDecimal("1.820"));
     Comparator<Object> heightComparator = (o1, o2) -> {
-      if (o1 instanceof BigDecimal decimal) return BIG_DECIMAL_COMPARATOR.compare(decimal, (BigDecimal) o2);
+      if (o1 instanceof BigDecimal bigDecimal) return BIG_DECIMAL_COMPARATOR.compare(bigDecimal, (BigDecimal) o2);
       throw new IllegalStateException("only supported for BigDecimal");
     };
     // WHEN/THEN

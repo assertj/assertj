@@ -91,10 +91,10 @@ public class TypeCanonizer {
       } else if (type instanceof WildcardType wildcardType) {
         populateAllTypeVariables(typeVariables, wildcardType.getUpperBounds());
         populateAllTypeVariables(typeVariables, wildcardType.getLowerBounds());
-      } else if (type instanceof GenericArrayType arrayType) {
-        populateAllTypeVariables(typeVariables, arrayType.getGenericComponentType());
-      } else if (type instanceof TypeVariable<?> variable) {
-        typeVariables.add(variable);
+      } else if (type instanceof GenericArrayType genericArrayType) {
+        populateAllTypeVariables(typeVariables, genericArrayType.getGenericComponentType());
+      } else if (type instanceof TypeVariable<?> typeVariable) {
+        typeVariables.add(typeVariable);
       }
     }
   }
@@ -108,9 +108,8 @@ public class TypeCanonizer {
     /**
      * Classes used as replacement types. The classes picked here are random classes, any class can be used.
      */
-    static List<Class<?>> REPLACEMENT_TYPES = Arrays.asList(
-                                                            String.class, Integer.class, Exception.class, InputStream.class,
-                                                            System.class);
+    static List<Class<?>> REPLACEMENT_TYPES = List.of(String.class, Integer.class, Exception.class, InputStream.class,
+                                                      System.class);
 
     private final Queue<Class<?>> classPool;
 

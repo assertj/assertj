@@ -180,8 +180,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                           + "  [\"1\"=\"2\"]%n"
                                                           + "but could not find the following map entries:%n"
                                                           + "  [\"1\"=\"2\"]"));
-    assertThat(errors.get(1)).hasMessageContaining("Expecting empty but was: {\"54\"=\"55\"}".formatted());
-
+    assertThat(errors.get(1)).hasMessageContaining("Expecting empty but was: {\"54\"=\"55\"}");
   }
 
   @SuppressWarnings({ "deprecation" })
