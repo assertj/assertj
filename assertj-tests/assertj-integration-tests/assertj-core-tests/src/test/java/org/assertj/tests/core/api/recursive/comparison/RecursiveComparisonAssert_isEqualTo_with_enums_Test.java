@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.api.recursive.comparison.Color.BLUE;
 import static org.assertj.tests.core.api.recursive.comparison.Color.GREEN;
@@ -177,7 +176,7 @@ class RecursiveComparisonAssert_isEqualTo_with_enums_Test extends RecursiveCompa
 
     @Override
     public String toString() {
-      return format("LightString[color=%s]", this.color);
+      return "LightString[color=%s]".formatted(this.color);
     }
   }
 
@@ -190,7 +189,7 @@ class RecursiveComparisonAssert_isEqualTo_with_enums_Test extends RecursiveCompa
 
     @Override
     public String toString() {
-      return format("LightNumber[color=%s]", this.color);
+      return "LightNumber[color=%s]".formatted(this.color);
     }
   }
 

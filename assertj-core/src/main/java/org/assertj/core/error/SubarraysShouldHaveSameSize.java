@@ -12,8 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
-
 /**
  * Creates an error message indicating that an assertion that verifies that some subarray (in multidimensional arrays)
  * has certain size failed.
@@ -56,8 +54,8 @@ public class SubarraysShouldHaveSameSize extends BasicErrorMessageFactory {
                                       Object expectedSubArray, int expectedSubArrayLength, int index) {
     // reuse %s to let representation format the arrays but don't do it for integers as we want to keep the default toString of
     // int (that would mot be the case if the representation was changed to hex representation for example).
-    super(format(MESSAGE, index, index, actualSubArrayLength, index, expectedSubArrayLength, index, "%s", index, "%s", "%s",
-                 "%s"),
+    super(MESSAGE.formatted(index, index, actualSubArrayLength, index, expectedSubArrayLength, index, "%s", index, "%s", "%s",
+                            "%s"),
           actualSubArray, expectedSubArray, actual, expected);
   }
 

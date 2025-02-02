@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.TreeSet;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.AtPrecisionComparator;
 import org.assertj.core.internal.DeepDifference.Difference;
@@ -286,9 +285,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
 
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessageContaining(format("Path to difference: <collection>%n"))
-                     .hasMessageContaining(format("- actual  : [\"bar\", \"foo\"] (LinkedHashSet@"))
-                     .hasMessageContaining(format("- expected: [\"bar\", \"foo\"] (TreeSet@"));
+                     .hasMessageContaining("Path to difference: <collection>%n".formatted())
+                     .hasMessageContaining("- actual  : [\"bar\", \"foo\"] (LinkedHashSet@".formatted())
+                     .hasMessageContaining("- expected: [\"bar\", \"foo\"] (TreeSet@".formatted());
   }
 
   @Test
@@ -304,9 +303,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
 
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessageContaining(format("Path to difference: <collection>%n"))
-                     .hasMessageContaining(format("- actual  : [\"bar\", \"foo\"] (TreeSet@"))
-                     .hasMessageContaining(format("- expected: [\"bar\", \"foo\"] (LinkedHashSet@"));
+                     .hasMessageContaining("Path to difference: <collection>%n".formatted())
+                     .hasMessageContaining("- actual  : [\"bar\", \"foo\"] (TreeSet@".formatted())
+                     .hasMessageContaining("- expected: [\"bar\", \"foo\"] (LinkedHashSet@".formatted());
   }
 
   @Test
@@ -322,9 +321,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
 
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessageContaining(format("Path to difference: <map>%n"))
-                     .hasMessageContaining(format("- actual  : {1L=true, 2L=false} (LinkedHashMap@"))
-                     .hasMessageContaining(format("- expected: {1L=true, 2L=false} (TreeMap@"));
+                     .hasMessageContaining("Path to difference: <map>%n".formatted())
+                     .hasMessageContaining("- actual  : {1L=true, 2L=false} (LinkedHashMap@".formatted())
+                     .hasMessageContaining("- expected: {1L=true, 2L=false} (TreeMap@".formatted());
   }
 
   @Test
@@ -340,9 +339,9 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
     Throwable error = catchThrowable(() -> assertThat(actual).isEqualToComparingFieldByFieldRecursively(expected));
 
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessageContaining(format("Path to difference: <map>%n"))
-                     .hasMessageContaining(format("- actual  : {1L=true, 2L=false} (TreeMap@"))
-                     .hasMessageContaining(format("- expected: {1L=true, 2L=false} (LinkedHashMap@"));
+                     .hasMessageContaining("Path to difference: <map>%n".formatted())
+                     .hasMessageContaining("- actual  : {1L=true, 2L=false} (TreeMap@".formatted())
+                     .hasMessageContaining("- expected: {1L=true, 2L=false} (LinkedHashMap@".formatted());
   }
 
   @Test
@@ -471,7 +470,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
     @Override
     public String toString() {
-      return format("WithMap [map=%s]", map);
+      return "WithMap [map=%s]".formatted(map);
     }
 
   }
@@ -485,7 +484,7 @@ public class Objects_assertIsEqualToComparingFieldByFieldRecursive_Test extends 
 
     @Override
     public String toString() {
-      return format("WithCollection [collection=%s]", collection);
+      return "WithCollection [collection=%s]".formatted(collection);
     }
 
   }

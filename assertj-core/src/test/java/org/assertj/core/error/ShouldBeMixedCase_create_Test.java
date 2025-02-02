@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeMixedCase.shouldBeMixedCase;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -27,7 +26,7 @@ class ShouldBeMixedCase_create_Test {
     // WHEN
     String message = shouldBeMixedCase("ABC").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting \"ABC\" to be mixed case"));
+    then(message).isEqualTo("[Test] %nExpecting \"ABC\" to be mixed case".formatted());
   }
 
 }

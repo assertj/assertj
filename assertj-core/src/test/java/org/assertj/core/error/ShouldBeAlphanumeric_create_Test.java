@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeAlphanumeric.shouldBeAlphanumeric;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -27,7 +26,7 @@ class ShouldBeAlphanumeric_create_Test {
     // WHEN
     String message = shouldBeAlphanumeric('*').create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting '*' to be alphanumeric"));
+    then(message).isEqualTo("[Test] %nExpecting '*' to be alphanumeric".formatted());
   }
 
   @Test
@@ -35,6 +34,6 @@ class ShouldBeAlphanumeric_create_Test {
     // WHEN
     String message = shouldBeAlphanumeric("123.abc").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting \"123.abc\" to be alphanumeric"));
+    then(message).isEqualTo("[Test] %nExpecting \"123.abc\" to be alphanumeric".formatted());
   }
 }

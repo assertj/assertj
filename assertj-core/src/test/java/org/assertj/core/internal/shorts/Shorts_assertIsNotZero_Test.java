@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.shorts;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.testkit.TestData.someInfo;
 
@@ -37,7 +36,7 @@ class Shorts_assertIsNotZero_Test extends ShortsBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsNotZero(someInfo(), (short) 0))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n".formatted());
   }
 
   @Test
@@ -49,7 +48,7 @@ class Shorts_assertIsNotZero_Test extends ShortsBaseTest {
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
                                                                                                                           (short) 0))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n".formatted());
   }
 
 }

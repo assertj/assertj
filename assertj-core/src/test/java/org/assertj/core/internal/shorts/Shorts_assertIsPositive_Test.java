@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.shorts;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.testkit.TestData.someInfo;
 
@@ -37,7 +36,7 @@ class Shorts_assertIsPositive_Test extends ShortsBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsPositive(someInfo(), (short) -6))
-                                                   .withMessage(format("%nExpecting actual:%n  -6%nto be greater than:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  -6%nto be greater than:%n  0%n".formatted());
   }
 
   @Test
@@ -49,6 +48,6 @@ class Shorts_assertIsPositive_Test extends ShortsBaseTest {
   void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(),
                                                                                                                            (short) 0))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nto be greater than:%n  0%nwhen comparing values using AbsValueComparator"));
+                                                   .withMessage("%nExpecting actual:%n  0%nto be greater than:%n  0%nwhen comparing values using AbsValueComparator".formatted());
   }
 }

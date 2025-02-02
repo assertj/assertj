@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.classes;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveNoFields.shouldHaveNoDeclaredFields;
@@ -60,20 +59,22 @@ class Classes_assertHasDeclaredFields_Test extends ClassesBaseTest {
     String[] expected = new String[] { "missingField", "publicField" };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasDeclaredFields(someInfo(), actual,
                                                                                                      expected))
-                                                   .withMessage(format(shouldHaveDeclaredFields(actual,
-                                                                                                newLinkedHashSet(expected),
-                                                                                                newLinkedHashSet("missingField")).create()));
+                                                   .withMessage(shouldHaveDeclaredFields(actual,
+                                                                                         newLinkedHashSet(expected),
+                                                                                         newLinkedHashSet("missingField")).create()
+                                                                                                                          .formatted());
   }
 
   @Test
   void should_fail_if_no_declared_fields_are_expected_and_class_has_some() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasDeclaredFields(someInfo(),
                                                                                                      actual))
-                                                   .withMessage(format(shouldHaveNoDeclaredFields(actual,
-                                                                                                  newLinkedHashSet("publicField",
-                                                                                                                   "publicField2",
-                                                                                                                   "protectedField",
-                                                                                                                   "privateField")).create()));
+                                                   .withMessage(shouldHaveNoDeclaredFields(actual,
+                                                                                           newLinkedHashSet("publicField",
+                                                                                                            "publicField2",
+                                                                                                            "protectedField",
+                                                                                                            "privateField")).create()
+                                                                                                                            .formatted());
   }
 
 }

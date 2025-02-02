@@ -21,7 +21,6 @@ import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.concurrent.atomic.AtomicLongFieldUpdater;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
-
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -96,7 +95,7 @@ class ShouldHaveValue_create_Test {
 
     @Override
     public String toString() {
-      return format("Person [name=%s, age=%s, account=%s]", name, age, account);
+      return "Person [name=%s, age=%s, account=%s]".formatted(name, age, account);
     }
   }
 

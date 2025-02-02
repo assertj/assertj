@@ -113,7 +113,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -157,7 +156,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
@@ -962,7 +960,7 @@ class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
     }
 
     Path path() {
-      return Paths.get("src/test/resources/utf8.txt");
+      return Path.of("src/test/resources/utf8.txt");
     }
 
     Period period() {

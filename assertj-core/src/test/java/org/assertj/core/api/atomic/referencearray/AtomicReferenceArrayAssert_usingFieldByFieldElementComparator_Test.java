@@ -23,7 +23,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReferenceArray;
-
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
 import org.assertj.core.internal.AtomicReferenceArrayElementComparisonStrategy;
@@ -153,8 +152,7 @@ class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
 
     @Override
     public String toString() {
-      return String.format("Person{first='%s', last='%s', info='%s'}",
-                           first, last, info);
+      return "Person{first='%s', last='%s', info='%s'}".formatted(first, last, info);
     }
   }
 
@@ -209,7 +207,7 @@ class AtomicReferenceArrayAssert_usingFieldByFieldElementComparator_Test
 
   @Test
   void comparators_for_element_field_names_should_have_precedence_over_comparators_for_element_field_types_when_using_field_by_field_element_comparator() {
-    Comparator<String> comparator = (o1, o2) -> o1.compareTo(o2);
+    Comparator<String> comparator = String::compareTo;
     Jedi actual = new Jedi("Yoda", "green");
     Jedi other = new Jedi("Luke", "green");
 

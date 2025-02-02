@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.recursive.assertion;
 
-import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
@@ -56,8 +55,9 @@ public class DefaultRecursiveAssertionIntrospectionStrategy implements Recursive
       if (superclass != null) return getFieldType(fieldName, superclass);
       throw new NoSuchFieldException();
     } catch (NoSuchFieldException | SecurityException e) {
-      throw new IllegalStateException(format("Could not find field %s on class %s, even though its name was retrieved from the class earlier",
-                                             fieldName, objectClass.getCanonicalName()),
+      throw new IllegalStateException("Could not find field %s on class %s, even though its name was retrieved from the class earlier".formatted(
+                                                                                                                                                 fieldName,
+                                                                                                                                                 objectClass.getCanonicalName()),
                                       e);
     }
   }

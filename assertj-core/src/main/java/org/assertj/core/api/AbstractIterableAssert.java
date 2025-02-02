@@ -48,7 +48,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -1880,8 +1879,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
         for (int i = 0; i < size; i++) {
           extractedValues.add(Array.get(group, i));
         }
-      } else if (group instanceof Iterable) {
-        Iterable<?> iterable = (Iterable<?>) group;
+      } else if (group instanceof Iterable<?> iterable) {
         for (Object value : iterable) {
           extractedValues.add(value);
         }
@@ -3457,8 +3455,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   private ELEMENT lastElement() {
-    if (actual instanceof List) {
-      List<? extends ELEMENT> list = (List<? extends ELEMENT>) actual;
+    if (actual instanceof List<? extends ELEMENT> list) {
       return list.get(list.size() - 1);
     }
     Iterator<? extends ELEMENT> actualIterator = actual.iterator();
@@ -3617,8 +3614,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     assertThat(index).describedAs(navigationDescription("check index validity"))
                      .isBetween(0, IterableUtil.sizeOf(actual) - 1);
     ELEMENT elementAtIndex;
-    if (actual instanceof List) {
-      List<? extends ELEMENT> list = (List<? extends ELEMENT>) actual;
+    if (actual instanceof List<? extends ELEMENT> list) {
       elementAtIndex = list.get(index);
     } else {
       Iterator<? extends ELEMENT> actualIterator = actual.iterator();
@@ -4251,16 +4247,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @SuppressWarnings({ "rawtypes" })
   @Override
   SELF withAssertionState(AbstractAssert assertInstance) {
-    if (assertInstance instanceof AbstractIterableAssert) {
-      AbstractIterableAssert iterableAssert = (AbstractIterableAssert) assertInstance;
+    if (assertInstance instanceof AbstractIterableAssert iterableAssert) {
       return (SELF) super.withAssertionState(assertInstance).withIterables(iterableAssert.iterables)
                                                             .withTypeComparators(iterableAssert.comparatorsByType)
                                                             .withComparatorsForElementPropertyOrFieldNames(iterableAssert.comparatorsForElementPropertyOrFieldNames)
                                                             .withComparatorsForElementPropertyOrFieldTypes(iterableAssert.comparatorsForElementPropertyOrFieldTypes);
     }
     // we can go from ObjectArrayAssert -> IterableAssert when using extracting on an object array
-    if (assertInstance instanceof AbstractObjectArrayAssert) {
-      AbstractObjectArrayAssert objectArrayAssert = (AbstractObjectArrayAssert) assertInstance;
+    if (assertInstance instanceof AbstractObjectArrayAssert objectArrayAssert) {
       return (SELF) super.withAssertionState(assertInstance).withIterables(objectArrayAssert.iterables)
                                                             .withTypeComparators(objectArrayAssert.comparatorsByType)
                                                             .withComparatorsForElementPropertyOrFieldNames(objectArrayAssert.comparatorsForElementPropertyOrFieldNames)

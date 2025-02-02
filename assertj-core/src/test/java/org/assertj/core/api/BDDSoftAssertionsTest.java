@@ -46,7 +46,6 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -87,7 +86,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
 import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
 import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
@@ -182,8 +180,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                           + "  [\"1\"=\"2\"]%n"
                                                           + "but could not find the following map entries:%n"
                                                           + "  [\"1\"=\"2\"]"));
-    assertThat(errors.get(1)).hasMessageContaining(format("Expecting empty but was: {\"54\"=\"55\"}"));
-
+    assertThat(errors.get(1)).hasMessageContaining("Expecting empty but was: {\"54\"=\"55\"}");
   }
 
   @SuppressWarnings({ "deprecation" })
@@ -270,7 +267,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then((LongPredicate) s -> s == 1).accepts(2);
     softly.then((DoublePredicate) s -> s == 1).accepts(2);
     softly.then(URI.create("http://assertj.org:80").toURL()).hasNoPort();
-    softly.then(Paths.get("does-not-exist")).exists();
+    softly.then(Path.of("does-not-exist")).exists();
     softly.then(Period.ZERO).hasYears(2000);
     softly.then(Duration.ZERO).withFailMessage("duration check").hasHours(23);
     softly.then(Instant.now()).withFailMessage("instant check").isBefore(Instant.now().minusSeconds(10));
@@ -285,8 +282,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
     assertThat(errors).hasSize(62);
     assertThat(errors.get(0)).contains(shouldBeEqualMessage("0", "1"));
-    assertThat(errors.get(1)).contains(format("%nExpecting value to be true but was false"));
-    assertThat(errors.get(2)).contains(format("%nExpecting value to be true but was false"));
+    assertThat(errors.get(1)).contains("%nExpecting value to be true but was false".formatted());
+    assertThat(errors.get(2)).contains("%nExpecting value to be true but was false".formatted());
     assertThat(errors.get(3)).contains(shouldBeEqualMessage("[false]", "[true]"));
     assertThat(errors.get(4)).contains(shouldBeEqualMessage("0", "1"));
     assertThat(errors.get(5)).contains(shouldBeEqualMessage("0x02", "0x03"));
@@ -315,7 +312,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(22)).contains(shouldBeEqualMessage("22", "23"));
     assertThat(errors.get(23)).contains(shouldBeEqualMessage("[24]", "[25]"));
     assertThat(errors.get(24)).contains(shouldBeEqualMessage("[\"26\"]", "[\"27\"]"));
-    assertThat(errors.get(25)).contains(format("Expecting the iterator under test to be exhausted"));
+    assertThat(errors.get(25)).contains("Expecting the iterator under test to be exhausted".formatted());
     assertThat(errors.get(26)).contains(shouldBeEqualMessage("[\"30\"]", "[\"31\"]"));
     assertThat(errors.get(27)).contains(shouldBeEqualMessage("32L", "33L"));
     assertThat(errors.get(28)).contains(shouldBeEqualMessage("34L", "35L"));
@@ -361,8 +358,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + "  <http://assertj.org:80>%n"
                                                + "not to have a port but had:%n"
                                                + "  <80>"));
-    assertThat(errors.get(53)).contains(format("does-not-exist"));
-    assertThat(errors.get(54)).contains(format("2000"));
+    assertThat(errors.get(53)).contains("does-not-exist".formatted());
+    assertThat(errors.get(54)).contains("2000".formatted());
     assertThat(errors.get(55)).contains("duration check");
     assertThat(errors.get(56)).contains("instant check");
     assertThat(errors.get(57)).contains("ZonedDateTime check");
@@ -609,8 +606,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(2);
-    assertThat(errorsCollected.get(0)).hasMessageStartingWith(format("%nExpected size: 10 but was: 1 in:%n[CartoonCharacter [name=Homer Simpson]]"));
-    assertThat(errorsCollected.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: [CartoonCharacter [name=Homer Simpson]]"));
+    assertThat(errorsCollected.get(0)).hasMessageStartingWith("%nExpected size: 10 but was: 1 in:%n[CartoonCharacter [name=Homer Simpson]]".formatted());
+    assertThat(errorsCollected.get(1)).hasMessageStartingWith("%nExpecting empty but was: [CartoonCharacter [name=Homer Simpson]]".formatted());
   }
 
   @Test
@@ -625,8 +622,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(2);
-    assertThat(errorsCollected.get(0)).hasMessageStartingWith(format("%nExpected size: 10 but was: 1 in:%n[CartoonCharacter [name=Homer Simpson]]"));
-    assertThat(errorsCollected.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: [CartoonCharacter [name=Homer Simpson]]"));
+    assertThat(errorsCollected.get(0)).hasMessageStartingWith("%nExpected size: 10 but was: 1 in:%n[CartoonCharacter [name=Homer Simpson]]".formatted());
+    assertThat(errorsCollected.get(1)).hasMessageStartingWith("%nExpecting empty but was: [CartoonCharacter [name=Homer Simpson]]".formatted());
   }
 
   @Test

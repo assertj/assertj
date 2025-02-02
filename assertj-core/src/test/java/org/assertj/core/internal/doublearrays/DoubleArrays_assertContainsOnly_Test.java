@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.doublearrays;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
@@ -138,9 +137,10 @@ class DoubleArrays_assertContainsOnly_Test extends DoubleArraysBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnly(someInfo(),
                                                                                                                            actual,
                                                                                                                            expected))
-                                                   .withMessage(format(shouldContainOnly(actual, expected,
-                                                                                         newArrayList(20d),
-                                                                                         newArrayList(10d),
-                                                                                         absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldContainOnly(actual, expected,
+                                                                                  newArrayList(20d),
+                                                                                  newArrayList(10d),
+                                                                                  absValueComparisonStrategy).create()
+                                                                                                             .formatted());
   }
 }

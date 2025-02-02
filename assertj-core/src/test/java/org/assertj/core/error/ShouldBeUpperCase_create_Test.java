@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -30,7 +29,7 @@ class ShouldBeUpperCase_create_Test {
     // WHEN
     String message = shouldBeUpperCase('a').create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting 'a' to be uppercase"));
+    then(message).isEqualTo("[Test] %nExpecting 'a' to be uppercase".formatted());
   }
 
   @Test
@@ -38,7 +37,7 @@ class ShouldBeUpperCase_create_Test {
     // WHEN
     String message = shouldBeUpperCase("abc").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting \"abc\" to be uppercase"));
+    then(message).isEqualTo("[Test] %nExpecting \"abc\" to be uppercase".formatted());
   }
 
 }

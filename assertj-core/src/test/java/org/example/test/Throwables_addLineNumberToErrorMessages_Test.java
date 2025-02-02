@@ -12,13 +12,11 @@
  */
 package org.example.test;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Throwables.addLineNumberToErrorMessages;
 
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 class Throwables_addLineNumberToErrorMessages_Test {
@@ -32,8 +30,8 @@ class Throwables_addLineNumberToErrorMessages_Test {
     // WHEN
     List<Throwable> errorsWithLineNumber = addLineNumberToErrorMessages(errors);
     // THEN
-    then(errorsWithLineNumber.get(0)).hasMessage(format("boom 1%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:29)"));
-    then(errorsWithLineNumber.get(1)).hasMessage(format("boom 2%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:30)"));
+    then(errorsWithLineNumber.get(0)).hasMessage("boom 1%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:27)".formatted());
+    then(errorsWithLineNumber.get(1)).hasMessage("boom 2%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:28)".formatted());
   }
 
 }

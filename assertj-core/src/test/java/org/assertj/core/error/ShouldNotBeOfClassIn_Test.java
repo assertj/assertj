@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeOfClassIn.shouldNotBeOfClassIn;
 import static org.assertj.core.util.Lists.list;
@@ -35,6 +34,6 @@ class ShouldNotBeOfClassIn_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nnot to be of any type in:%n  [java.lang.Long, java.lang.String]%nbut was of type: java.lang.String"));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"Yoda\"%nnot to be of any type in:%n  [java.lang.Long, java.lang.String]%nbut was of type: java.lang.String".formatted());
   }
 }

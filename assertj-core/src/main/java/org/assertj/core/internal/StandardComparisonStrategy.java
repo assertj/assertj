@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
-
 import org.assertj.core.util.Objects;
 import org.assertj.core.util.Streams;
 
@@ -83,26 +82,26 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
       Class<?> otherClass = other.getClass();
       if (otherClass.isArray()) {
         if (actualClass.getComponentType().isPrimitive() && otherClass.getComponentType().isPrimitive()) {
-          if (actual instanceof byte[] && other instanceof byte[])
-            return java.util.Arrays.equals((byte[]) actual, (byte[]) other);
-          if (actual instanceof short[] && other instanceof short[])
-            return java.util.Arrays.equals((short[]) actual, (short[]) other);
-          if (actual instanceof int[] && other instanceof int[])
-            return java.util.Arrays.equals((int[]) actual, (int[]) other);
-          if (actual instanceof long[] && other instanceof long[])
-            return java.util.Arrays.equals((long[]) actual, (long[]) other);
-          if (actual instanceof char[] && other instanceof char[])
-            return java.util.Arrays.equals((char[]) actual, (char[]) other);
-          if (actual instanceof float[] && other instanceof float[])
-            return java.util.Arrays.equals((float[]) actual, (float[]) other);
-          if (actual instanceof double[] && other instanceof double[])
-            return java.util.Arrays.equals((double[]) actual, (double[]) other);
-          if (actual instanceof boolean[] && other instanceof boolean[])
-            return java.util.Arrays.equals((boolean[]) actual, (boolean[]) other);
+          if (actual instanceof byte[] a && other instanceof byte[] o)
+            return java.util.Arrays.equals(a, o);
+          if (actual instanceof short[] a && other instanceof short[] o)
+            return java.util.Arrays.equals(a, o);
+          if (actual instanceof int[] a && other instanceof int[] o)
+            return java.util.Arrays.equals(a, o);
+          if (actual instanceof long[] a && other instanceof long[] o)
+            return java.util.Arrays.equals(a, o);
+          if (actual instanceof char[] a && other instanceof char[] o)
+            return java.util.Arrays.equals(a, o);
+          if (actual instanceof float[] a && other instanceof float[] o)
+            return java.util.Arrays.equals(a, o);
+          if (actual instanceof double[] a && other instanceof double[] o)
+            return java.util.Arrays.equals(a, o);
+          if (actual instanceof boolean[] a && other instanceof boolean[] o)
+            return java.util.Arrays.equals(a, o);
         }
 
-        if (actual instanceof Object[] && other instanceof Object[])
-          return java.util.Arrays.deepEquals((Object[]) actual, (Object[]) other);
+        if (actual instanceof Object[] a && other instanceof Object[] o)
+          return java.util.Arrays.deepEquals(a, o);
       }
     }
     return actual.equals(other);
@@ -135,8 +134,8 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
       return;
     }
     // Avoid O(N^2) complexity of serial removal from an iterator of collections like ArrayList
-    if (iterable instanceof Collection) {
-      ((Collection<?>) iterable).removeIf(o -> areEqual(o, value));
+    if (iterable instanceof Collection<?> collection) {
+      collection.removeIf(o -> areEqual(o, value));
     } else {
       Iterator<?> iterator = iterable.iterator();
       while (iterator.hasNext()) {
@@ -172,7 +171,7 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
    * @return an {@link Iterable} containing the duplicate elements of the given one. If no duplicates are found, an
    *         empty {@link Iterable} is returned.
    */
-  // overridden to write javadoc.
+  // overridden to write Javadoc.
   @Override
   public Iterable<?> duplicatesFrom(Iterable<?> iterable) {
     return super.duplicatesFrom(iterable);
@@ -196,19 +195,15 @@ public class StandardComparisonStrategy extends AbstractComparisonStrategy {
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
   public boolean isGreaterThan(Object actual, Object other) {
-    checkArgumentIsComparable(actual);
-    return ((Comparable) actual).compareTo(other) > 0;
+    if (actual instanceof Comparable comparable) return comparable.compareTo(other) > 0;
+    throw new IllegalArgumentException("argument '%s' should be Comparable but is not".formatted(actual));
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
   public boolean isLessThan(Object actual, Object other) {
-    checkArgumentIsComparable(actual);
-    return ((Comparable) actual).compareTo(other) < 0;
-  }
-
-  private void checkArgumentIsComparable(Object actual) {
-    checkArgument(actual instanceof Comparable, "argument '%s' should be Comparable but is not", actual);
+    if (actual instanceof Comparable comparable) return comparable.compareTo(other) < 0;
+    throw new IllegalArgumentException("argument '%s' should be Comparable but is not".formatted(actual));
   }
 
   @Override

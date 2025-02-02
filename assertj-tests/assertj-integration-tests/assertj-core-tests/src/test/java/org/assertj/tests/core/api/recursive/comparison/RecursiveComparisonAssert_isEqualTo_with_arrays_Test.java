@@ -12,18 +12,16 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Lists.list;
+
+import java.util.List;
+import java.util.stream.Stream;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import java.util.List;
-import java.util.stream.Stream;
-
-import static java.lang.String.format;
-import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Lists.list;
 
 class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -108,7 +106,7 @@ class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends RecursiveComp
 
     @Override
     public String toString() {
-      return format("WithArray group=%s", list(group));
+      return "WithArray group=%s".formatted(list(group));
     }
 
   }

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeASCII.shouldBeASCII;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -27,7 +26,7 @@ class ShouldBeASCII_create_Test {
     // WHEN
     String message = shouldBeASCII("\u2303").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting \"\u2303\" to be ASCII"));
+    then(message).isEqualTo("[Test] %nExpecting \"\u2303\" to be ASCII".formatted());
   }
 
   @Test
@@ -35,6 +34,6 @@ class ShouldBeASCII_create_Test {
     // WHEN
     String message = shouldBeASCII("123\u230300abc").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting \"123\u230300abc\" to be ASCII"));
+    then(message).isEqualTo("[Test] %nExpecting \"123\u230300abc\" to be ASCII".formatted());
   }
 }

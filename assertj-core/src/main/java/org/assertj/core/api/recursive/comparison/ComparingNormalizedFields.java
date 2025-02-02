@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.util.introspection.PropertyOrFieldSupport.COMPARISON;
 
@@ -21,7 +20,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.introspection.IntrospectionError;
 
@@ -136,7 +134,7 @@ public abstract class ComparingNormalizedFields implements RecursiveComparisonIn
       try {
         return COMPARISON.getSimpleValue(originalFieldName, instance);
       } catch (Exception ex) {
-        throw new IntrospectionError(format(NO_FIELD_FOUND, instance, fieldName, originalFieldName), ex);
+        throw new IntrospectionError(NO_FIELD_FOUND.formatted(instance, fieldName, originalFieldName), ex);
       }
     }
   }

@@ -21,8 +21,6 @@ import static org.mockito.Mockito.mock;
 import java.io.File;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +34,7 @@ class ShouldHaveFileSystem_create_Test {
   @Test
   void should_create_error_message_for_expected_file_system() {
     // GIVEN
-    Path actual = Paths.get("/foo/bar");
+    Path actual = Path.of("/foo/bar");
     FileSystem fileSystem = mock(FileSystem.class);
     given(fileSystem.toString()).willReturn("MySpecialFileSystem");
     // WHEN
@@ -52,7 +50,7 @@ class ShouldHaveFileSystem_create_Test {
   @Test
   void should_create_error_message_for_expected_file_system_with_test_description() {
     // GIVEN
-    Path actual = Paths.get("/foo/bar");
+    Path actual = Path.of("/foo/bar");
     FileSystem fileSystem = mock(FileSystem.class);
     given(fileSystem.toString()).willReturn("MySpecialFileSystem");
     // WHEN

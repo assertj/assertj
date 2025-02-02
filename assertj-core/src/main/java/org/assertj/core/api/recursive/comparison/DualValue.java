@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.lang.String.format;
 import static java.lang.System.identityHashCode;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
@@ -98,7 +97,7 @@ public final class DualValue {
 
   @Override
   public String toString() {
-    return format("DualValue [fieldLocation=%s, actual=%s, expected=%s]", fieldLocation, actual, expected);
+    return "DualValue [fieldLocation=%s, actual=%s, expected=%s]".formatted(fieldLocation, actual, expected);
   }
 
   public List<String> getDecomposedPath() {
@@ -166,7 +165,7 @@ public final class DualValue {
   }
 
   private boolean isActualFieldAnEmptyOptional() {
-    return isActualFieldAnOptional() && !((Optional<?>) actual).isPresent();
+    return isActualFieldAnOptional() && ((Optional<?>) actual).isEmpty();
   }
 
   private boolean isActualFieldAnEmptyOptionalInt() {

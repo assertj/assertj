@@ -12,8 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
-
 /**
  * Creates an error message indicating that an assertion - that verifies that size of a value is
  * between two given values - failed.
@@ -35,8 +33,8 @@ public class ShouldHaveSizeBetween extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveSizeBetween(Object actual, int actualSize, int lowerBoundary, int higherBoundary) {
-    super(format("%nExpected size to be between: %s and %s but was: %s in:%n%s", lowerBoundary, higherBoundary,
-                 actualSize, "%s"),
+    super("%nExpected size to be between: %s and %s but was: %s in:%n%s".formatted(lowerBoundary, higherBoundary,
+                                                                                   actualSize, "%s"),
           actual);
   }
 }

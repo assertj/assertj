@@ -24,7 +24,6 @@ import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 import java.util.function.Consumer;
-
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -125,7 +124,7 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
-    then(error).hasMessage(format("%nExpecting an array but was: null"));
+    then(error).hasMessage("%nExpecting an array but was: null".formatted());
   }
 
   @Test

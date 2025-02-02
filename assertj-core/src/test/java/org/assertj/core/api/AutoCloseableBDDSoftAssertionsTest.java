@@ -33,7 +33,6 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 import org.assertj.core.util.Lists;
@@ -150,8 +149,8 @@ class AutoCloseableBDDSoftAssertionsTest {
 
       assertThat(errors.get(0)).contains(shouldBeEqualMessage("0", "1"));
 
-      assertThat(errors.get(1)).contains(format("%nExpecting value to be true but was false"));
-      assertThat(errors.get(2)).contains(format("%nExpecting value to be true but was false"));
+      assertThat(errors.get(1)).contains("%nExpecting value to be true but was false".formatted());
+      assertThat(errors.get(2)).contains("%nExpecting value to be true but was false".formatted());
       assertThat(errors.get(3)).contains(shouldBeEqualMessage("[false]", "[true]"));
 
       assertThat(errors.get(4)).contains(shouldBeEqualMessage("0", "1"));
@@ -166,8 +165,8 @@ class AutoCloseableBDDSoftAssertionsTest {
 
       assertThat(errors.get(11)).contains(shouldBeEqualMessage("java.lang.Object", "java.lang.String"));
 
-      assertThat(errors.get(12)).contains(format(shouldBeEqualMessage("1999-12-31T23:59:59.000 (java.util.Date)",
-                                                                      "2000-01-01T00:00:01.000 (java.util.Date)")));
+      assertThat(errors.get(12)).contains(shouldBeEqualMessage("1999-12-31T23:59:59.000 (java.util.Date)",
+                                                               "2000-01-01T00:00:01.000 (java.util.Date)").formatted());
 
       assertThat(errors.get(13)).contains(shouldBeEqualMessage("6.0", "7.0"));
       assertThat(errors.get(14)).contains(shouldBeEqualMessage("8.0", "9.0"));
@@ -191,7 +190,7 @@ class AutoCloseableBDDSoftAssertionsTest {
       assertThat(errors.get(23)).contains(shouldBeEqualMessage("[24]", "[25]"));
 
       assertThat(errors.get(24)).contains(shouldBeEqualMessage("[\"26\"]", "[\"27\"]"));
-      assertThat(errors.get(25)).contains(format("Expecting the iterator under test to be exhausted"));
+      assertThat(errors.get(25)).contains("Expecting the iterator under test to be exhausted");
       assertThat(errors.get(26)).contains(shouldBeEqualMessage("[\"30\"]", "[\"31\"]"));
 
       assertThat(errors.get(27)).contains(shouldBeEqualMessage("32L", "33L"));
@@ -220,10 +219,9 @@ class AutoCloseableBDDSoftAssertionsTest {
 
       assertThat(errors.get(42)).contains(shouldBeEqualMessage("12:00", "13:00"));
       assertThat(errors.get(43)).contains(shouldBeEqualMessage("12:00Z", "13:00Z"));
-      assertThat(errors.get(44)).contains(shouldBeEqualMessage(OffsetDateTime.MIN.toString() + " (java.time.OffsetDateTime)",
-                                                               OffsetDateTime.MAX.toString() + " (java.time.OffsetDateTime)")
-                                          + format("%nwhen comparing values using '%s'",
-                                                   OffsetDateTimeByInstantComparator.getInstance()));
+      assertThat(errors.get(44)).contains(shouldBeEqualMessage(OffsetDateTime.MIN + " (java.time.OffsetDateTime)",
+                                                               OffsetDateTime.MAX + " (java.time.OffsetDateTime)")
+                                          + "%nwhen comparing values using '%s'".formatted(OffsetDateTimeByInstantComparator.getInstance()));
       return;
     }
     fail("Should not reach here");

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.classes;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
 import static org.assertj.core.error.ShouldHaveMethods.shouldNotHaveMethods;
@@ -22,7 +21,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newTreeSet;
 
 import java.lang.reflect.Modifier;
-
 import org.assertj.core.internal.ClassesBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,16 +47,17 @@ class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
   @Test
   void should_fail_if_no_methods_are_expected_but_public_methods_are_available() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasPublicMethods(someInfo(), actual))
-                                                   .withMessage(format(shouldNotHaveMethods(actual,
-                                                                                            Modifier.toString(Modifier.PUBLIC),
-                                                                                            false,
-                                                                                            newTreeSet("publicMethod",
-                                                                                                       "wait", "equals",
-                                                                                                       "toString",
-                                                                                                       "hashCode",
-                                                                                                       "getClass",
-                                                                                                       "notify",
-                                                                                                       "notifyAll")).create()));
+                                                   .withMessage(shouldNotHaveMethods(actual,
+                                                                                     Modifier.toString(Modifier.PUBLIC),
+                                                                                     false,
+                                                                                     newTreeSet("publicMethod",
+                                                                                                "wait", "equals",
+                                                                                                "toString",
+                                                                                                "hashCode",
+                                                                                                "getClass",
+                                                                                                "notify",
+                                                                                                "notifyAll")).create()
+                                                                                                             .formatted());
   }
 
   @Test
@@ -66,10 +65,11 @@ class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
     String[] expected = array("publicMethod", "protectedMethod", "privateMethod");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasPublicMethods(someInfo(), actual,
                                                                                                     expected))
-                                                   .withMessage(format(shouldHaveMethods(actual, false,
-                                                                                         newTreeSet(expected),
-                                                                                         newTreeSet("protectedMethod",
-                                                                                                    "privateMethod")).create()));
+                                                   .withMessage(shouldHaveMethods(actual, false,
+                                                                                  newTreeSet(expected),
+                                                                                  newTreeSet("protectedMethod",
+                                                                                             "privateMethod")).create()
+                                                                                                              .formatted());
   }
 
   @Test
@@ -77,8 +77,9 @@ class Classes_assertHasPublicMethods_Test extends ClassesBaseTest {
     String[] expected = array("missingMethod", "publicMethod");
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> classes.assertHasPublicMethods(someInfo(), actual,
                                                                                                     expected))
-                                                   .withMessage(format(shouldHaveMethods(actual, false,
-                                                                                         newTreeSet(expected),
-                                                                                         newTreeSet("missingMethod")).create()));
+                                                   .withMessage(shouldHaveMethods(actual, false,
+                                                                                  newTreeSet(expected),
+                                                                                  newTreeSet("missingMethod")).create()
+                                                                                                              .formatted());
   }
 }

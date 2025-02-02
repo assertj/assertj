@@ -15,7 +15,6 @@ package org.assertj.scripts;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.stream.Stream;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -57,13 +56,26 @@ public class Convert_Junit5_Assertions_To_Assertj_Test {
 
   static Stream<Object> replace_assertEquals_checking_0_size_source() {
     return Stream.of(arguments("assertEquals(0, myList.size());\n" + "assertEquals(  0,  myList.size());\n",
-                               "assertThat(myList).isEmpty();\n" + "assertThat(myList).isEmpty();\n"),
-                     arguments("assertEquals(  0,  (new String(\"\")).size());\n"
-                               + "assertEquals(  0,  multiParam( 1.1, param2).size());\n",
-                               "assertThat((new String(\"\"))).isEmpty();\n" + "assertThat(multiParam( 1.1, param2)).isEmpty();\n"),
-                     arguments("assertEquals(  0,  (new String(\"  ,  \")).size());\n"
-                               + "assertEquals(  0,  \"  ,  \".size());\n",
-                               "assertThat((new String(\"  ,  \"))).isEmpty();\n" + "assertThat(\"  ,  \").isEmpty();\n"));
+                               """
+                                   assertThat(myList).isEmpty();
+                                   assertThat(myList).isEmpty();
+                                   """),
+                     arguments("""
+                         assertEquals(  0,  (new String("")).size());
+                         assertEquals(  0,  multiParam( 1.1, param2).size());
+                         """,
+                               """
+                                   assertThat((new String(""))).isEmpty();
+                                   assertThat(multiParam( 1.1, param2)).isEmpty();
+                                   """),
+                     arguments("""
+                         assertEquals(  0,  (new String("  ,  ")).size());
+                         assertEquals(  0,  "  ,  ".size());
+                         """,
+                               """
+                                   assertThat((new String("  ,  "))).isEmpty();
+                                   assertThat("  ,  ").isEmpty();
+                                   """));
   }
 
   @ParameterizedTest(name = "{0} should be converted to {1}")
@@ -74,18 +86,30 @@ public class Convert_Junit5_Assertions_To_Assertj_Test {
   }
 
   static Stream<Object> replace_assertEquals_checking_size_source() {
-    return Stream.of(arguments("assertEquals(1234, myList.size());\n" +
-                               "assertEquals(1234, (new int[1234]).size());\n",
-                               "assertThat(myList).hasSize(1234);\n" +
-                                                                                "assertThat((new int[1234])).hasSize(1234);\n"),
-                     arguments("assertEquals( 1234, myList(123).size());\n" +
-                               "assertEquals( 1234, (\"12.\" + \",123\").size());\n",
-                               "assertThat(myList(123)).hasSize(1234);\n" +
-                                                                                      "assertThat((\"12.\" + \",123\")).hasSize(1234);\n"),
-                     arguments("assertEquals(12, multiParam(1.1,param2).size());\n" +
-                               "assertEquals( 123, multiParam(1.1, param2, hello[i]).size());\n",
-                               "assertThat(multiParam(1.1,param2)).hasSize(12);\n" +
-                                                                                                  "assertThat(multiParam(1.1, param2, hello[i])).hasSize(123);\n"));
+    return Stream.of(arguments("""
+        assertEquals(1234, myList.size());
+        assertEquals(1234, (new int[1234]).size());
+        """,
+                               """
+                                   assertThat(myList).hasSize(1234);
+                                   assertThat((new int[1234])).hasSize(1234);
+                                   """),
+                     arguments("""
+                         assertEquals( 1234, myList(123).size());
+                         assertEquals( 1234, ("12." + ",123").size());
+                         """,
+                               """
+                                   assertThat(myList(123)).hasSize(1234);
+                                   assertThat(("12." + ",123")).hasSize(1234);
+                                   """),
+                     arguments("""
+                         assertEquals(12, multiParam(1.1,param2).size());
+                         assertEquals( 123, multiParam(1.1, param2, hello[i]).size());
+                         """,
+                               """
+                                   assertThat(multiParam(1.1,param2)).hasSize(12);
+                                   assertThat(multiParam(1.1, param2, hello[i])).hasSize(123);
+                                   """));
   }
 
   @ParameterizedTest(name = "{0} should be converted to {1}")
@@ -98,10 +122,14 @@ public class Convert_Junit5_Assertions_To_Assertj_Test {
   static Stream<Object> replace_assertEquals_checking_isCloseTo_source() {
     return Stream.of(arguments("assertEquals(12.34, 13.45, 0.1);\n",
                                "assertThat(13.45).isCloseTo(12.34, within(0.1));\n"),
-                     arguments("assertEquals(expected.size(), value, EPSILON);\n" +
-                               "assertEquals( 4, (new Array(3)).size(), EPSILON);\n",
-                               "assertThat(value).isCloseTo(expected.size(), within(EPSILON));\n" +
-                                                                                      "assertThat((new Array(3)).size()).isCloseTo(4, within(EPSILON));\n"));
+                     arguments("""
+                         assertEquals(expected.size(), value, EPSILON);
+                         assertEquals( 4, (new Array(3)).size(), EPSILON);
+                         """,
+                               """
+                                   assertThat(value).isCloseTo(expected.size(), within(EPSILON));
+                                   assertThat((new Array(3)).size()).isCloseTo(4, within(EPSILON));
+                                   """));
   }
 
   @ParameterizedTest(name = "{0} should be converted to {1}")

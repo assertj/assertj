@@ -28,7 +28,7 @@ class ShouldNotContainAnyWhitespaces_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting string not to contain any whitespaces but found some, string was:%n  \"Star Wars\""));
+    then(message).isEqualTo("[Test] %nExpecting string not to contain any whitespaces but found some, string was:%n  \"Star Wars\"".formatted());
   }
 
 }

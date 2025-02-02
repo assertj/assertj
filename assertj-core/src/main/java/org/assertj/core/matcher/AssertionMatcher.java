@@ -87,7 +87,7 @@ public abstract class AssertionMatcher<T> extends BaseMatcher<T> {
     if (firstError != null) {
       description.appendText("AssertionError with message: ");
       description.appendText(firstError.getMessage());
-      description.appendText(String.format("%n%nStacktrace was: "));
+      description.appendText("%n%nStacktrace was: ".formatted());
       description.appendText(Throwables.getStackTrace(firstError));
     }
   }

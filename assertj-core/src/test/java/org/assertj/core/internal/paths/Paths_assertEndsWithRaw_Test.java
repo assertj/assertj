@@ -22,8 +22,6 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
 
@@ -65,7 +63,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
   void should_pass_if_actual_ends_with_other() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
-    Path other = Paths.get("actual");
+    Path other = Path.of("actual");
     // WHEN/THEN
     underTest.assertEndsWithRaw(INFO, actual, other);
   }
@@ -75,7 +73,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
     // GIVEN
     Path file = createFile(tempDir.resolve("file"));
     Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
-    Path other = Paths.get("file");
+    Path other = Path.of("file");
     // WHEN
     AssertionError error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));
     // THEN
@@ -86,7 +84,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
   void should_fail_if_other_is_not_normalized() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
-    Path other = Paths.get("actual", "..", "actual", ".");
+    Path other = Path.of("actual", "..", "actual", ".");
     // WHEN
     AssertionError error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));
     // THEN

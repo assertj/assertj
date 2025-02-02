@@ -31,7 +31,6 @@ import java.util.stream.Stream;
 
 import org.apache.commons.collections4.map.SingletonMap;
 import org.assertj.core.internal.MapsBaseTest;
-import org.assertj.core.testkit.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -72,9 +71,9 @@ class Maps_assertDoesNotContainValue_Test extends MapsBaseTest {
                      arguments(new SingletonMap<>("name", "Yoda"), "green"),
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), "green"),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), "green"),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), "green"),
+                     arguments(Map.of("name", "Yoda", "job", "Jedi"), "green"),
                      // implementation not permitting null keys
-                     arguments(Jdk11.Map.of("name", "Yoda"), null));
+                     arguments(Map.of("name", "Yoda"), null));
   }
 
   private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
@@ -103,7 +102,7 @@ class Maps_assertDoesNotContainValue_Test extends MapsBaseTest {
                      arguments(new SingletonMap<>("name", "Yoda"), "Yoda"),
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), "Yoda"),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), "Yoda"),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), "Yoda"));
+                     arguments(Map.of("name", "Yoda", "job", "Jedi"), "Yoda"));
   }
 
   private static Stream<Arguments> modifiableMapsFailureTestCases() {

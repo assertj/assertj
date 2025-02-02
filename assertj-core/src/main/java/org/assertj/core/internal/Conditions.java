@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBe.shouldBe;
 import static org.assertj.core.error.ShouldHave.shouldHave;
@@ -131,6 +130,6 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    */
   public void assertIsNotNull(Condition<?> condition, String format, Object... args) {
-    requireNonNull(condition, format(format, args));
+    requireNonNull(condition, format.formatted(args));
   }
 }

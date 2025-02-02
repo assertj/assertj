@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 
@@ -29,7 +28,7 @@ class ShouldContainPattern_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Frodo\"%nto contain pattern:%n  \".*Orc.*\""));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"Frodo\"%nto contain pattern:%n  \".*Orc.*\"".formatted());
   }
 
 }

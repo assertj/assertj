@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.arrays2d;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -82,7 +81,7 @@ class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
                                                                                                       actual,
                                                                                                       new int[] { 0, 2, 4 },
                                                                                                       outOfBoundsIndex))
-                                                              .withMessageContaining(format("Index should be between <0> and <1> (inclusive) but was:%n <6>"));
+                                                              .withMessageContaining("Index should be between <0> and <1> (inclusive) but was:%n <6>".formatted());
   }
 
   @Test

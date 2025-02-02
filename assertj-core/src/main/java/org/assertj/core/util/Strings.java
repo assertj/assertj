@@ -12,7 +12,6 @@
  */
 package org.assertj.core.util;
 
-import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.joining;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -82,8 +81,8 @@ public final class Strings {
     return Arrays.isNullOrEmpty(args)
         // here we need to format %n but not other % since we do not have arguments.
         // => we replace all % to %% except if they are followed by a 'n'.
-        ? format(escapePercentExceptWhenFollowedBy_n(message))
-        : format(message, args);
+        ? escapePercentExceptWhenFollowedBy_n(message).formatted()
+        : message.formatted(args);
   }
 
   /**

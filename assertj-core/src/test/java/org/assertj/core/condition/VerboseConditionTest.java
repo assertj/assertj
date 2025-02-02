@@ -26,7 +26,7 @@ class VerboseConditionTest {
 
   private static final Condition<String> VERBOSE_CONDITION = verboseCondition(actual -> actual.length() < 4,
                                                                               "shorter than 4",
-                                                                              s -> format(" but length was %s", s.length(), s));
+                                                                              s -> " but length was %s".formatted(s.length(), s));
 
   @Test
   public void should_succeed_and_display_description_without_actual() {
@@ -49,7 +49,7 @@ class VerboseConditionTest {
     // GIVEN
     Condition<String> shortLength = verboseCondition(actual -> actual.length() < 4,
                                                      "length shorter than 4",
-                                                     s -> format(" but length was %s", s.length(), s));
+                                                     s -> " but length was %s".formatted(s.length(), s));
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat("foooo").has(shortLength));
     // THEN

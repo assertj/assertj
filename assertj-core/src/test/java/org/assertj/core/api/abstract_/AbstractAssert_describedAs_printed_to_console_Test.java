@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -20,7 +19,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.function.Consumer;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -69,7 +67,7 @@ class AbstractAssert_describedAs_printed_to_console_Test {
                      .as(" ")
                      .endsWith("c");
     // THEN
-    then(systemOutContent).hasToString(format("%s%n%s%n %n", description + "1", description + "2"));
+    then(systemOutContent).hasToString("%s%n%s%n %n".formatted(description + "1", description + "2"));
   }
 
   @Test
@@ -84,7 +82,7 @@ class AbstractAssert_describedAs_printed_to_console_Test {
                                           .as("not printed as previous assertion failed")
                                           .endsWith("a"));
     // THEN
-    then(systemOutContent).hasToString(format("%s%n%s%n", description + "1", description + "2"));
+    then(systemOutContent).hasToString("%s%n%s%n".formatted(description + "1", description + "2"));
   }
 
   @Test
@@ -102,7 +100,7 @@ class AbstractAssert_describedAs_printed_to_console_Test {
           .as("3" + description)
           .endsWith("a");
     // THEN
-    then(systemOutContent).hasToString(format("%s%n%s%n%s%n", "1" + description, "2" + description, "3" + description));
+    then(systemOutContent).hasToString("%s%n%s%n%s%n".formatted("1" + description, "2" + description, "3" + description));
     // we don't care about the assertions result, we just want to check the description
   }
 
@@ -120,7 +118,7 @@ class AbstractAssert_describedAs_printed_to_console_Test {
                      .endsWith("c");
     // THEN
     then(consumedDescription).hasToString("1" + description + "2" + description + " ");
-    then(systemOutContent).hasToString(format("%s%n%s%n %n", "1" + description, "2" + description));
+    then(systemOutContent).hasToString("%s%n%s%n %n".formatted("1" + description, "2" + description));
   }
 
   @Test

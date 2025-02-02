@@ -17,6 +17,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.mock;
 
+import com.google.common.util.concurrent.Futures;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +25,7 @@ import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -59,12 +60,9 @@ import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
-
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
-
-import com.google.common.util.concurrent.Futures;
 
 /**
  * Tests for <code>{@link WithAssertions}</code>, to verify that delegate calls happen.
@@ -651,7 +649,7 @@ class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   void withAssertions_assertThat_path_Test() {
-    assertThat(Paths.get(".")).isNotNull();
+    assertThat(Path.of(".")).isNotNull();
   }
 
   /**

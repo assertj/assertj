@@ -17,7 +17,6 @@ import static org.assertj.core.api.Condition.Status.FAIL;
 import static org.assertj.core.api.Condition.Status.SUCCESS;
 
 import java.util.function.Predicate;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.util.VisibleForTesting;

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -24,7 +23,6 @@ import java.nio.charset.Charset;
 import java.nio.file.FileSystem;
 import java.security.MessageDigest;
 import java.util.function.Predicate;
-
 import org.assertj.core.internal.Files;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
@@ -1484,7 +1482,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     try {
       return readAllBytes(actual.toPath());
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Failed to read %s content", actual), e);
+      throw new UncheckedIOException("Failed to read %s content".formatted(actual), e);
     }
   }
 
@@ -1492,7 +1490,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     try {
       return new String(readAllBytes(actual.toPath()), charset);
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Failed to read %s content with %s charset", actual, charset), e);
+      throw new UncheckedIOException("Failed to read %s content with %s charset".formatted(actual, charset), e);
     }
   }
 }

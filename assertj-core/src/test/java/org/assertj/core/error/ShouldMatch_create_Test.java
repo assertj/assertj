@@ -42,7 +42,7 @@ class ShouldMatch_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto match 'green light saber' predicate."));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"Yoda\"%nto match 'green light saber' predicate.".formatted());
   }
 
   @Test

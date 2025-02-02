@@ -27,7 +27,6 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.function.BiPredicate;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Home;
@@ -257,7 +256,7 @@ class RecursiveComparisonAssert_isEqualTo_withComparatorsForFieldMatchingRegexes
 
     @Override
     public String toString() {
-      return String.format("Name[firstname=%s, lastname=%s]", this.firstname, this.lastname);
+      return "Name[firstname=%s, lastname=%s]".formatted(this.firstname, this.lastname);
     }
   }
 

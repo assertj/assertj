@@ -12,13 +12,11 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 
 import java.io.ByteArrayInputStream;
-
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
@@ -38,7 +36,7 @@ class ShouldHaveSameContent_create_Test {
     // GIVEN
     ErrorMessageFactory factory = shouldHaveSameContent(new FakeFile("abc"), new FakeFile("xyz"), emptyList());
     // WHEN
-    String expectedErrorMessage = format("[Test] %nFile:%n  abc%nand file:%n  xyz%ndo not have same content:%n%n");
+    String expectedErrorMessage = "[Test] %nFile:%n  abc%nand file:%n  xyz%ndo not have same content:%n%n".formatted();
     // THEN
     then(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(expectedErrorMessage);
   }
@@ -50,7 +48,7 @@ class ShouldHaveSameContent_create_Test {
                                                         new ByteArrayInputStream(new byte[] { 'b' }),
                                                         emptyList());
     // WHEN
-    String expectedErrorMessage = format("[Test] %nInputStreams do not have same content:%n%n");
+    String expectedErrorMessage = "[Test] %nInputStreams do not have same content:%n%n".formatted();
     // THEN
     then(factory.create(new TextDescription("Test"), new StandardRepresentation())).isEqualTo(expectedErrorMessage);
   }

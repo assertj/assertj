@@ -19,7 +19,6 @@ import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.util.Map;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -42,7 +41,7 @@ class ShouldContainKeys_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting actual:%n  {\"color\"=\"green\", \"name\"=\"Yoda\"}%nto contain key:%n  \"name\""));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  {\"color\"=\"green\", \"name\"=\"Yoda\"}%nto contain key:%n  \"name\"".formatted());
   }
 
   @Test
@@ -53,6 +52,6 @@ class ShouldContainKeys_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting actual:%n  {\"color\"=\"green\", \"name\"=\"Yoda\"}%nto contain keys:%n  [\"name\", \"color\"]"));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  {\"color\"=\"green\", \"name\"=\"Yoda\"}%nto contain keys:%n  [\"name\", \"color\"]".formatted());
   }
 }

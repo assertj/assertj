@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
 import static org.assertj.core.util.Lists.list;
@@ -39,7 +38,7 @@ class ShouldBeSubsetOf_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting :%n  [\"Yoda\", \"Luke\"]%nto be subset of%n  [\"Han\", \"Luke\"]%nbut found these extra elements:%n  [\"Yoda\"]"));
+    then(message).isEqualTo("[Test] %nExpecting :%n  [\"Yoda\", \"Luke\"]%nto be subset of%n  [\"Han\", \"Luke\"]%nbut found these extra elements:%n  [\"Yoda\"]".formatted());
   }
 
   @Test
@@ -52,6 +51,6 @@ class ShouldBeSubsetOf_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting when comparing values using CaseInsensitiveStringComparator:%n  [\"Yoda\", \"Luke\"]%nto be subset of%n  [\"Han\", \"Luke\"]%nbut found these extra elements:%n  [\"Yoda\"]"));
+    then(message).isEqualTo("[Test] %nExpecting when comparing values using CaseInsensitiveStringComparator:%n  [\"Yoda\", \"Luke\"]%nto be subset of%n  [\"Han\", \"Luke\"]%nbut found these extra elements:%n  [\"Yoda\"]".formatted());
   }
 }

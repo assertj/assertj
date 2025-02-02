@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.doublearrays;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
@@ -147,10 +146,11 @@ class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
                                                                                                                               actual,
                                                                                                                               expected))
-                                                   .withMessage(format(shouldContainExactly(actual, asList(expected),
-                                                                                            newArrayList(20d),
-                                                                                            newArrayList(10d),
-                                                                                            absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldContainExactly(actual, asList(expected),
+                                                                                     newArrayList(20d),
+                                                                                     newArrayList(10d),
+                                                                                     absValueComparisonStrategy).create()
+                                                                                                                .formatted());
   }
 
   @Test
@@ -159,9 +159,10 @@ class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
                                                                                                                               actual,
                                                                                                                               expected))
-                                                   .withMessage(format(shouldContainExactly(actual, asList(expected),
-                                                                                            newArrayList(10d),
-                                                                                            newArrayList(),
-                                                                                            absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldContainExactly(actual, asList(expected),
+                                                                                     newArrayList(10d),
+                                                                                     newArrayList(),
+                                                                                     absValueComparisonStrategy).create()
+                                                                                                                .formatted());
   }
 }

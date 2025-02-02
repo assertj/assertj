@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThrownExcept;
 
@@ -94,7 +93,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessage(String message, Object... parameters) {
-    return hasMessage(format(message, parameters));
+    return hasMessage(message.formatted(parameters));
   }
 
   /**
@@ -306,7 +305,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessageStartingWith(String description, Object... parameters) {
-    throwables.assertHasMessageStartingWith(info, actual, format(description, parameters));
+    throwables.assertHasMessageStartingWith(info, actual, description.formatted(parameters));
     return myself;
   }
 
@@ -357,7 +356,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessageContaining(String description, Object... parameters) {
-    throwables.assertHasMessageContaining(info, actual, format(description, parameters));
+    throwables.assertHasMessageContaining(info, actual, description.formatted(parameters));
     return myself;
   }
 
@@ -478,7 +477,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasStackTraceContaining(String description, Object... parameters) {
-    throwables.assertHasStackTraceContaining(info, actual, format(description, parameters));
+    throwables.assertHasStackTraceContaining(info, actual, description.formatted(parameters));
     return myself;
   }
 
@@ -599,7 +598,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessageEndingWith(String description, Object... parameters) {
-    throwables.assertHasMessageEndingWith(info, actual, format(description, parameters));
+    throwables.assertHasMessageEndingWith(info, actual, description.formatted(parameters));
     return myself;
   }
 
@@ -786,7 +785,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.14.0
    */
   public SELF hasRootCauseMessage(String message, Object... parameters) {
-    return hasRootCauseMessage(format(message, parameters));
+    return hasRootCauseMessage(message.formatted(parameters));
   }
 
   /**

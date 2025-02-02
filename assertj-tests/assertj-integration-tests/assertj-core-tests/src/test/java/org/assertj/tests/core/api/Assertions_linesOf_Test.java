@@ -19,7 +19,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -36,7 +35,7 @@ class Assertions_linesOf_Test {
 
   @Test
   void should_read_lines_of_path_with_UTF8_charset() {
-    Path path = Paths.get("src", "test", "resources", "utf8.txt");
+    Path path = Path.of("src", "test", "resources", "utf8.txt");
     assertThat(linesOf(path, "UTF-8")).isEqualTo(EXPECTED_CONTENT);
     assertThat(linesOf(path, StandardCharsets.UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }

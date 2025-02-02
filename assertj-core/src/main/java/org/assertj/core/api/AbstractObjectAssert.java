@@ -27,7 +27,6 @@ import java.util.TreeMap;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
@@ -1293,8 +1292,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @SuppressWarnings({ "rawtypes" })
   @Override
   SELF withAssertionState(AbstractAssert assertInstance) {
-    if (assertInstance instanceof AbstractObjectAssert) {
-      AbstractObjectAssert objectAssert = (AbstractObjectAssert) assertInstance;
+    if (assertInstance instanceof AbstractObjectAssert objectAssert) {
       return (SELF) super.withAssertionState(assertInstance).withTypeComparator(objectAssert.comparatorsByType)
                                                             .withComparatorByPropertyOrField(objectAssert.comparatorsByPropertyOrField);
     }

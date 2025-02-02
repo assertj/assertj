@@ -110,7 +110,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -148,7 +148,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
 import org.assertj.core.testkit.TolkienCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -262,7 +261,7 @@ class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest 
                      arguments(OptionalDouble.empty(), OPTIONAL_DOUBLE),
                      arguments(OptionalInt.empty(), OPTIONAL_INT),
                      arguments(OptionalLong.empty(), OPTIONAL_LONG),
-                     arguments(Paths.get("."), PATH),
+                     arguments(Path.of("."), PATH),
                      arguments((Predicate<String>) String::isEmpty, PREDICATE),
                      arguments(set("foo"), SET),
                      arguments(Short.MIN_VALUE, SHORT),

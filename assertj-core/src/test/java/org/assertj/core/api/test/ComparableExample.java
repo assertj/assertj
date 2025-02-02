@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api.test;
 
-import static java.lang.String.format;
-
 public class ComparableExample implements Comparable<ComparableExample> {
 
   private int id;
@@ -29,7 +27,7 @@ public class ComparableExample implements Comparable<ComparableExample> {
 
   @Override
   public String toString() {
-    return format("ComparableExample [id=%s]", id);
+    return "ComparableExample [id=%s]".formatted(id);
   }
 
 }

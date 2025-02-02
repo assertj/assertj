@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
 import org.junit.jupiter.api.Test;
@@ -373,7 +372,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
 
     @Override
     public String toString() {
-      return String.format("Person [name=%s, type=%s]", name, type);
+      return "Person [name=%s, type=%s]".formatted(name, type);
     }
 
   }
@@ -417,7 +416,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
 
     @Override
     public String toString() {
-      return String.format("Person [name=%s, type=%s]", name, type);
+      return "Person [name=%s, type=%s]".formatted(name, type);
     }
 
   }
@@ -444,7 +443,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
 
     @Override
     public String toString() {
-      return format("DataStore[field1=%s, field2=%s]", this.field1, this.field2);
+      return "DataStore[field1=%s, field2=%s]".formatted(this.field1, this.field2);
     }
   }
 
@@ -541,7 +540,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     // GIVEN
     List<Item> expectedItems = List.of(new Item("Shoes", 2), new Item("Pants", 3));
     List<Item> actualItems = List.of(new Item("Pants", 3), new Item("Loafers", 1));
-    registerFormatterForType(Item.class, item -> String.format("Item(%s, %d)", item.name(), item.quantity()));
+    registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison()
                                                                                       .ignoringCollectionOrder()

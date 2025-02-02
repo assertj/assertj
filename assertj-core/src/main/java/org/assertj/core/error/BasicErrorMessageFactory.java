@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
@@ -23,7 +22,6 @@ import static org.assertj.core.util.Strings.quote;
 
 import java.util.Arrays;
 import java.util.Objects;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
@@ -156,8 +154,8 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
 
   @Override
   public String toString() {
-    return format("%s[format=%s, arguments=%s]", getClass().getSimpleName(), quote(format),
-                  CONFIGURATION_PROVIDER.representation().toStringOf(arguments));
+    return "%s[format=%s, arguments=%s]".formatted(getClass().getSimpleName(), quote(format),
+                                                   CONFIGURATION_PROVIDER.representation().toStringOf(arguments));
   }
 
 }

@@ -42,7 +42,6 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.ThrowingExtractor;
@@ -2877,8 +2876,7 @@ public class AtomicReferenceArrayAssert<T>
         for (int i = 0; i < size; i++) {
           extractedValues.add(Array.get(group, i));
         }
-      } else if (group instanceof Iterable) {
-        Iterable<?> iterable = (Iterable<?>) group;
+      } else if (group instanceof Iterable<?> iterable) {
         for (Object value : iterable) {
           extractedValues.add(value);
         }

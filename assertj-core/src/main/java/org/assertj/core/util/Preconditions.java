@@ -12,11 +12,9 @@
  */
 package org.assertj.core.util;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 import java.util.function.Supplier;
-
 import org.assertj.core.api.filter.FilterOperator;
 
 /**
@@ -128,7 +126,7 @@ public final class Preconditions {
    *     {@code errorMessageArgs} is null (don't let this happen)
    */
   public static void checkArgument(boolean expression, String errorMessageTemplate, Object... errorMessageArgs) {
-    if (!expression) throw new IllegalArgumentException(format(errorMessageTemplate, errorMessageArgs));
+    if (!expression) throw new IllegalArgumentException(errorMessageTemplate.formatted(errorMessageArgs));
   }
 
   /**
@@ -160,7 +158,7 @@ public final class Preconditions {
    */
   public static void checkState(boolean expression, String errorMessageTemplate, Object... errorMessageArgs) {
     if (!expression) {
-      throw new IllegalStateException(format(errorMessageTemplate, errorMessageArgs));
+      throw new IllegalStateException(errorMessageTemplate.formatted(errorMessageArgs));
     }
   }
 

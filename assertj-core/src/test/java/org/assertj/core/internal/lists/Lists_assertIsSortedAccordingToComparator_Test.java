@@ -25,7 +25,6 @@ import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
 import java.util.List;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.ListsBaseTest;
@@ -96,7 +95,7 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
     AssertionInfo info = someInfo();
     List<Object> actual = newArrayList();
     actual.add("bar");
-    actual.add(new Integer(5));
+    actual.add(Integer.valueOf(5));
     actual.add("foo");
 
     Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual,

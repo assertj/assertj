@@ -22,7 +22,6 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import static org.mockito.Mockito.mock;
 
 import java.nio.file.Path;
-
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,7 @@ class ShouldExist_create_Test {
     // WHEN
     String actualMessage = shouldExist(new FakeFile("xyz")).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] %nExpecting file:%n  xyz%nto exist."));
+    then(actualMessage).isEqualTo("[Test] %nExpecting file:%n  xyz%nto exist.".formatted());
   }
 
   @Test

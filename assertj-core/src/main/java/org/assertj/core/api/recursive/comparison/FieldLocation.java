@@ -73,7 +73,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   @Override
   public String toString() {
-    return String.format("<%s>", pathToUseInRules);
+    return "<%s>".formatted(pathToUseInRules);
   }
 
   public String shortDescription() {

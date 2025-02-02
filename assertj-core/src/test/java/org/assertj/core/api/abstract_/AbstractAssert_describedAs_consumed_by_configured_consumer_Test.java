@@ -12,13 +12,11 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.function.Consumer;
-
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.SoftAssertions;
@@ -35,8 +33,7 @@ class AbstractAssert_describedAs_consumed_by_configured_consumer_Test {
   private static String consumedDescription;
   private final static boolean originalIsPrintAssertionsDescriptionEnabled = assertJConfig().printAssertionsDescription();
   private final static Consumer<Description> originalDescriptionConsumer = assertJConfig().descriptionConsumer();
-  private final static Consumer<Description> DESCRIPTION_CONSUMER = description -> consumedDescription += format("%s/",
-                                                                                                                 description);
+  private final static Consumer<Description> DESCRIPTION_CONSUMER = description -> consumedDescription += "%s/".formatted(description);
 
   private static Configuration assertJConfig() {
     return ConfigurationProvider.CONFIGURATION_PROVIDER.configuration();

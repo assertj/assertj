@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static java.lang.System.lineSeparator;
 import static java.util.Objects.deepEquals;
 import static org.assertj.core.util.Arrays.array;
@@ -20,7 +19,6 @@ import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.hashCodeFor;
 
 import java.util.Objects;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
@@ -185,13 +183,13 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   private String messageForMultilineValues(String actualRepresentation, String expectedRepresentation,
                                            Representation representation) {
     return comparisonStrategy.isStandard()
-        ? format(EXPECTED_BUT_WAS_MESSAGE, indent(expectedRepresentation), indent(actualRepresentation))
-        : format(EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR, indent(expectedRepresentation), indent(actualRepresentation),
-                 comparisonStrategy.asText());
+        ? EXPECTED_BUT_WAS_MESSAGE.formatted(indent(expectedRepresentation), indent(actualRepresentation))
+        : EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR.formatted(indent(expectedRepresentation), indent(actualRepresentation),
+                                                              comparisonStrategy.asText());
   }
 
   protected String indent(String valueRepresentation) {
-    return String.format("%n%s", valueRepresentation).replace(lineSeparator(), lineSeparator() + "  ");
+    return "%n%s".formatted(valueRepresentation).replace(lineSeparator(), lineSeparator() + "  ");
   }
 
   /**
@@ -225,8 +223,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
                                                 message,
                                                 representation.toStringOf(expected),
                                                 representation.toStringOf(actual));
-      if (o instanceof AssertionError) {
-        AssertionError assertionError = (AssertionError) o;
+      if (o instanceof AssertionError assertionError) {
         Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
         return assertionError;
       }
@@ -252,7 +249,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
                                               description,
                                               representation.toStringOf(expected),
                                               representation.toStringOf(actual));
-    return o instanceof AssertionError ? (AssertionError) o : null;
+    return o instanceof AssertionError assertionError ? assertionError : null;
   }
 
   protected String detailedActual() {

@@ -189,15 +189,15 @@ public class Files {
   }
 
   private static UncheckedIOException cannotCreateNewFile(String path, String reason, Exception cause) {
-    String message = String.format("Unable to create the new file %s", quote(path));
+    String message = "Unable to create the new file %s".formatted(quote(path));
     if (!Strings.isNullOrEmpty(reason)) {
       message = concat(message, ": ", reason);
     }
     if (cause == null) {
       throw new RuntimeException(message);
     }
-    if (cause instanceof IOException) {
-      throw new UncheckedIOException(message, (IOException) cause);
+    if (cause instanceof IOException exception) {
+      throw new UncheckedIOException(message, exception);
     }
     throw new RuntimeException(message, cause);
   }

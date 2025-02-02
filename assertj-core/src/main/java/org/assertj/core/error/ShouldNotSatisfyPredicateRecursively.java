@@ -12,18 +12,16 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
 import java.util.List;
-
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 
 public class ShouldNotSatisfyPredicateRecursively extends BasicErrorMessageFactory {
 
   private static final String INDENT = "  ";
-  private static final String NEW_LINE = format("%n");
+  private static final String NEW_LINE = "%n".formatted();
 
   public static ErrorMessageFactory shouldNotSatisfyRecursively(RecursiveAssertionConfiguration recursiveAssertionConfiguration,
                                                                 List<FieldLocation> failedFields) {

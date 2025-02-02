@@ -12,21 +12,19 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.BYTE;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.DOUBLE;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.FLOAT;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.INTEGER;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.LONG;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.SHORT;
+import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Comparator;
-
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
@@ -368,7 +366,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   }
 
   /**
-   * Verifies that the actual value is equal to expected build using {@link String#format(String stringTemplate, Object... args)}.
+   * Verifies that the actual value is equal to expected build using {@link String#format(String, Object...)}.
    * <p>
    * Note that for this assertion to be called, <b>you must use a format template with parameters</b> otherwise {@link #isEqualTo(Object)} is called which
    * does not perform any formatting. For example, if you only use {@code %n} in the template they won't be replaced.
@@ -399,7 +397,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    */
   public SELF isEqualTo(String expectedStringTemplate, Object... args) {
     requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
-    return super.isEqualTo(format(expectedStringTemplate, args));
+    return super.isEqualTo(expectedStringTemplate.formatted(args));
   }
 
   /**

@@ -12,14 +12,12 @@
  */
 package org.assertj.core.api.future;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.Warning.WARNING;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
@@ -70,7 +68,7 @@ class CompletableFutureAssert_hasNotFailed_Test {
     // WHEN
     ThrowingCallable code = () -> assertThat(future).hasNotFailed();
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException"))
+    assertThatAssertionErrorIsThrownBy(code).withMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException".formatted())
                                             .withMessageEndingWith("to not have failed.%n%s", WARNING);
 
   }

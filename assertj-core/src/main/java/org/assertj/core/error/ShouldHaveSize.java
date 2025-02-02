@@ -12,8 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -67,14 +65,14 @@ public class ShouldHaveSize extends BasicErrorMessageFactory {
   private ShouldHaveSize(Object actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
-    super(format("%nExpected size: %s but was: %s in:%n%s", expectedSize, actualSize, "%s"), actual);
+    super("%nExpected size: %s but was: %s in:%n%s".formatted(expectedSize, actualSize, "%s"), actual);
   }
 
   private ShouldHaveSize(Object actual, int actualSize, int expectedSize, int firstDimensionArrayIndex) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     // @format:off
-    super(format("%nExpected size: %s but was: %s in actual[%d]:%n%s", expectedSize, actualSize, firstDimensionArrayIndex, "%s"), actual);
+    super("%nExpected size: %s but was: %s in actual[%d]:%n%s".formatted(expectedSize, actualSize, firstDimensionArrayIndex, "%s"), actual);
     // @format:on
   }
 

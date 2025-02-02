@@ -12,14 +12,12 @@
  */
 package org.assertj.core.api.iterable;
 
-import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.util.List;
-
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
@@ -46,7 +44,7 @@ class IterableAssert_hasOnlyOneElementSatisfying_Test {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       List<Jedi> jedis = asList(new Jedi("Yoda", "red"));
       assertThat(jedis).hasOnlyOneElementSatisfying(yoda -> assertThat(yoda.getName()).startsWith("L"));
-    }).withMessage(format("%nExpecting actual:%n  \"Yoda\"%nto start with:%n  \"L\"%n"));
+    }).withMessage("%nExpecting actual:%n  \"Yoda\"%nto start with:%n  \"L\"%n".formatted());
   }
 
   @Test
@@ -57,7 +55,7 @@ class IterableAssert_hasOnlyOneElementSatisfying_Test {
         assertThat(yoda.getName()).startsWith("Y");
         assertThat(yoda.getName()).startsWith("L");
       });
-    }).withMessage(format("%nExpecting actual:%n  \"Yoda\"%nto start with:%n  \"L\"%n"));
+    }).withMessage("%nExpecting actual:%n  \"Yoda\"%nto start with:%n  \"L\"%n".formatted());
   }
 
   @Test
@@ -73,8 +71,8 @@ class IterableAssert_hasOnlyOneElementSatisfying_Test {
       });
     });
 
-    assertThat(assertionError).hasMessageContaining(format("Expecting actual:%n  \"Yoda\"%nto start with:%n  \"L\""))
-                              .hasMessageContaining(format("Expecting actual:%n  \"Yoda\"%nto start with:%n  \"M\""));
+    assertThat(assertionError).hasMessageContaining("Expecting actual:%n  \"Yoda\"%nto start with:%n  \"L\"".formatted())
+                              .hasMessageContaining("Expecting actual:%n  \"Yoda\"%nto start with:%n  \"M\"".formatted());
   }
 
   @Test

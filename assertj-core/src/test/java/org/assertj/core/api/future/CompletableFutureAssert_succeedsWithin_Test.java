@@ -23,7 +23,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
-
 import org.junit.jupiter.api.Test;
 
 class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
@@ -106,7 +105,7 @@ class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(1, MILLISECONDS));
     // THEN
-    then(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n"))
+    then(assertionError).hasMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n".formatted())
                         .hasMessageContaining("to be completed within 1L Millis.");
   }
 }

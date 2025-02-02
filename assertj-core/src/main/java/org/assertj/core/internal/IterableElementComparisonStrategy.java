@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 
@@ -56,12 +55,12 @@ public class IterableElementComparisonStrategy<T> extends StandardComparisonStra
 
   @Override
   public String asText() {
-    return format("when comparing elements using %s",
-                  CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator));
+    return "when comparing elements using %s".formatted(CONFIGURATION_PROVIDER.representation().toStringOf(elementComparator));
   }
 
   @Override
   public boolean isStandard() {
     return false;
   }
+
 }

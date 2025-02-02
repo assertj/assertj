@@ -12,12 +12,9 @@
  */
 package org.assertj.guava.error;
 
-import static java.lang.String.format;
-
+import com.google.common.collect.Table;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
-
-import com.google.common.collect.Table;
 
 /**
  * @author David Harris
@@ -44,8 +41,9 @@ public class TableShouldContainCell extends BasicErrorMessageFactory {
 
   private <R, C, V> TableShouldContainCell(Table<R, C, V> actual, R row, C column, V expectedValue, V actualValue) {
     // Except for actual, format values using the standard representation instead of a specific one like Hexadecimal
-    super(format("%nExpecting row: %s and column: %s to have value:%n  %s%nbut was:%n  %s%nin:%n  %s", row, column,
-                 expectedValue, actualValue, "%s"),
+    super("%nExpecting row: %s and column: %s to have value:%n  %s%nbut was:%n  %s%nin:%n  %s".formatted(row, column,
+                                                                                                         expectedValue,
+                                                                                                         actualValue, "%s"),
           actual);
   }
 

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -29,7 +28,6 @@ import java.nio.file.ProviderMismatchException;
 import java.nio.file.spi.FileSystemProvider;
 import java.security.MessageDigest;
 import java.util.function.Predicate;
-
 import org.assertj.core.api.exception.PathsException;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.util.CheckReturnValue;
@@ -54,7 +52,7 @@ import org.assertj.core.util.VisibleForTesting;
  *
  * <p>
  * These assertions are filesystem independent. You may use them on {@code Path} instances issued from the default
- * filesystem (ie, instances you get when using {@link java.nio.file.Paths#get(String, String...)}) or from other
+ * filesystem (ie, instances you get when using {@link Path#of(String, String...)}) or from other
  * filesystems. For more information, see the javadoc for {@link FileSystem}.
  * </p>
  *
@@ -77,7 +75,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @param <SELF> self type
  *
  * @see Path
- * @see java.nio.file.Paths#get(String, String...)
+ * @see Path#of(String, String...)
  * @see FileSystem
  * @see FileSystem#getPath(String, String...)
  * @see java.nio.file.FileSystems#getDefault()
@@ -1980,7 +1978,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     try {
       return readAllBytes(actual);
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Failed to read %s binary content", actual), e);
+      throw new UncheckedIOException("Failed to read %s binary content".formatted(actual), e);
     }
   }
 
@@ -1988,7 +1986,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     try {
       return new String(readAllBytes(actual), charset);
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Failed to read %s content with %s charset", actual, charset), e);
+      throw new UncheckedIOException("Failed to read %s content with %s charset".formatted(actual, charset), e);
     }
   }
 

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.doublearrays;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -119,8 +118,9 @@ class DoubleArrays_assertDoesNotContain_Test extends DoubleArraysBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertDoesNotContain(someInfo(),
                                                                                                                              actual,
                                                                                                                              expected))
-                                                   .withMessage(format(shouldNotContain(actual, expected,
-                                                                                        newLinkedHashSet(6d, -8d),
-                                                                                        absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldNotContain(actual, expected,
+                                                                                 newLinkedHashSet(6d, -8d),
+                                                                                 absValueComparisonStrategy).create()
+                                                                                                            .formatted());
   }
 }

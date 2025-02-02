@@ -27,7 +27,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.IndexedDiff;
@@ -87,7 +86,7 @@ class ShouldContainExactly_create_Test {
     final String message = factory.create(new TextDescription("Test"));
 
     // THEN
-    then(message).contains(format("only showing the first %d mismatches", MAX_INDICES_FOR_PRINTING));
+    then(message).contains("only showing the first %d mismatches".formatted(MAX_INDICES_FOR_PRINTING));
   }
 
   @Test

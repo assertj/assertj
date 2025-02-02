@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.strings;
 
-import static java.lang.String.format;
 import static java.util.stream.Stream.concat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -23,7 +22,6 @@ import static org.assertj.core.testkit.TestData.someInfo;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.stream.Stream;
-
 import org.assertj.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -43,8 +41,8 @@ class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsNormalizingWhitespace(someInfo(),
                                                                                                                null,
                                                                                                                "Luke"))
-                                                   .withMessage(format(shouldBeEqualNormalizingWhitespace(null,
-                                                                                                          "Luke").create()));
+                                                   .withMessage(shouldBeEqualNormalizingWhitespace(null,
+                                                                                                   "Luke").create().formatted());
   }
 
   @Test
@@ -59,8 +57,8 @@ class Strings_assertEqualsNormalizingWhitespace_Test extends StringsBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertEqualsNormalizingWhitespace(someInfo(),
                                                                                                                "Yoda",
                                                                                                                "Luke"))
-                                                   .withMessage(format(shouldBeEqualNormalizingWhitespace("Yoda",
-                                                                                                          "Luke").create()));
+                                                   .withMessage(shouldBeEqualNormalizingWhitespace("Yoda",
+                                                                                                   "Luke").create().formatted());
   }
 
   @ParameterizedTest

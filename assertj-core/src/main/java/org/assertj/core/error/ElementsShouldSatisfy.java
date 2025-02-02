@@ -12,14 +12,12 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
 import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import org.assertj.core.api.AssertionInfo;
 
 public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
@@ -67,7 +65,7 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
   private static String describeErrors(Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements, AssertionInfo info) {
     return escapePercent(unsatisfiedRequirements.entrySet().stream()
                                                 .map(requirementAtIndex -> describe(requirementAtIndex, info))
-                                                .collect(joining(format("%n%n"))));
+                                                .collect(joining("%n%n".formatted())));
   }
 
   private static String describe(Entry<Integer, UnsatisfiedRequirement> requirementsAtIndex, AssertionInfo info) {
@@ -79,7 +77,7 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
   private static String describeErrors(List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements, AssertionInfo info) {
     return escapePercent(elementsNotSatisfyingRequirements.stream()
                                                           .map(unsatisfiedRequirement -> unsatisfiedRequirement.describe(info))
-                                                          .collect(joining(format("%n%n"))));
+                                                          .collect(joining("%n%n".formatted())));
   }
 
   public static UnsatisfiedRequirement unsatisfiedRequirement(Object elementNotSatisfyingRequirements, String errorMessage) {

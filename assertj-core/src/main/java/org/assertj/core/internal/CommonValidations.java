@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ActualIsNotEmpty.actualIsNotEmpty;
 import static org.assertj.core.error.ShouldHaveLineCount.shouldHaveLinesCount;
@@ -34,7 +33,6 @@ import static org.assertj.core.util.IterableUtil.sizeOf;
 
 import java.lang.reflect.Array;
 import java.util.Map;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.data.Offset;
@@ -54,7 +52,7 @@ public final class CommonValidations {
     requireNonNull(index, "Index should not be null");
     if (index.value <= maximum) return;
     String errorMessage = "Index should be between <0> and <%d> (inclusive) but was:%n <%d>";
-    throw new IndexOutOfBoundsException(format(errorMessage, maximum, index.value));
+    throw new IndexOutOfBoundsException(errorMessage.formatted(maximum, index.value));
   }
 
   static void checkOffsetIsNotNull(Offset<?> offset) {
@@ -155,8 +153,9 @@ public final class CommonValidations {
   public static void checkSizeBetween(Object actual, int lowerBoundary, int higherBoundary,
                                       int sizeOfActual, AssertionInfo info) {
     if (!(higherBoundary >= lowerBoundary))
-      throw new IllegalArgumentException(format("The higher boundary <%s> must be greater than the lower boundary <%s>.",
-                                                higherBoundary, lowerBoundary));
+      throw new IllegalArgumentException("The higher boundary <%s> must be greater than the lower boundary <%s>.".formatted(
+                                                                                                                            higherBoundary,
+                                                                                                                            lowerBoundary));
 
     if (!(lowerBoundary <= sizeOfActual && sizeOfActual <= higherBoundary))
       throw FAILURES.failure(info, shouldHaveSizeBetween(actual, sizeOfActual, lowerBoundary, higherBoundary));

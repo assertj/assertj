@@ -71,8 +71,8 @@ public class MessageFormatter {
   }
 
   private String asText(Representation p, Object o) {
-    if (o instanceof AbstractComparisonStrategy) {
-      return ((AbstractComparisonStrategy) o).asText();
+    if (o instanceof AbstractComparisonStrategy strategy) {
+      return strategy.asText();
     }
     return p.toStringOf(o);
   }

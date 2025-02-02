@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import java.util.IllegalFormatException;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.util.CheckReturnValue;
 

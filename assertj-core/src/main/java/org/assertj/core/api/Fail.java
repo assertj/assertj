@@ -72,7 +72,7 @@ public final class Fail {
    */
   @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage, Object... args) {
-    return fail(String.format(failureMessage, args));
+    return fail(failureMessage.formatted(args));
   }
 
   /**

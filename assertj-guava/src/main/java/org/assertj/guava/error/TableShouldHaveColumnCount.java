@@ -12,8 +12,6 @@
  */
 package org.assertj.guava.error;
 
-import static java.lang.String.format;
-
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 
@@ -36,7 +34,7 @@ public class TableShouldHaveColumnCount extends BasicErrorMessageFactory {
   private TableShouldHaveColumnCount(Object actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
-    super(format("%nExpected column count: %s but was: %s in:%n%s", expectedSize, actualSize, "%s"), actual);
+    super("%nExpected column count: %s but was: %s in:%n%s".formatted(expectedSize, actualSize, "%s"), actual);
   }
 
 }

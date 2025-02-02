@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.error.ShouldNotAccept.shouldNotAccept;
@@ -31,7 +30,7 @@ class ShouldNotAccept_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  given predicate%nnot to accept \"Yoda\" but it did."));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  given predicate%nnot to accept \"Yoda\" but it did.".formatted());
   }
 
   @Test
@@ -42,7 +41,7 @@ class ShouldNotAccept_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  'red light saber' predicate%nnot to accept \"Yoda\" but it did."));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  'red light saber' predicate%nnot to accept \"Yoda\" but it did.".formatted());
   }
 
   @Test

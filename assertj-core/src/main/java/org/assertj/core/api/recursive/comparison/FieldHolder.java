@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Strings.join;
 
@@ -89,11 +88,11 @@ abstract class FieldHolder<T> {
     List<String> registeredEntitiesDescription = fieldHolder.entrySet().stream()
                                                             .map(FieldHolder::formatRegisteredEntity)
                                                             .collect(toList());
-    return format("{%s}", join(registeredEntitiesDescription).with(", "));
+    return "{%s}".formatted(join(registeredEntitiesDescription).with(", "));
   }
 
   private static <T> String formatRegisteredEntity(Entry<String, T> entry) {
-    return format("%s -> %s", entry.getKey(), entry.getValue());
+    return "%s -> %s".formatted(entry.getKey(), entry.getValue());
   }
 
   @Override

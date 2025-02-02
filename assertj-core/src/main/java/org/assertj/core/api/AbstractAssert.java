@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -36,7 +35,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
@@ -144,7 +142,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Generate a custom assertion error using the information in this assertion.
    * <p>
    * This is a utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
-   * in error message.
+   * in the error message.
    * <p>
    * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
    * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
@@ -174,7 +172,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     if (assertionError == null) {
       // error message was not overridden, build it.
       String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
-      assertionError = new AssertionError(description + format(errorMessage, arguments));
+      assertionError = new AssertionError(description + errorMessage.formatted(arguments));
     }
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
@@ -207,7 +205,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Generate a custom assertion error using the information in this assertion, using the given actual and expected values.
    * <p>
    * This is a utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
-   * in error message with actual and expected values.
+   * in the error message with actual and expected values.
    * <p>
    * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
    * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
@@ -240,7 +238,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   protected AssertionError failureWithActualExpected(Object actual, Object expected, String errorMessageFormat,
                                                      Object... arguments) {
     String errorMessage = Optional.ofNullable(info.overridingErrorMessage())
-                                  .orElse(format(errorMessageFormat, arguments));
+                                  .orElse(errorMessageFormat.formatted(arguments));
     String description = MessageFormatter.instance().format(info.description(), info.representation(), errorMessage);
     AssertionError assertionError = assertionErrorCreator.assertionError(description, actual, expected, info.representation());
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
@@ -589,7 +587,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   public SELF hasToString(String expectedStringTemplate, Object... args) {
     requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
-    return hasToString(format(expectedStringTemplate, args));
+    return hasToString(expectedStringTemplate.formatted(args));
   }
 
   /**
@@ -607,7 +605,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   public SELF doesNotHaveToString(String expectedStringTemplate, Object... args) {
     requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
-    return doesNotHaveToString(format(expectedStringTemplate, args));
+    return doesNotHaveToString(expectedStringTemplate.formatted(args));
   }
 
   /**
@@ -701,7 +699,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *                              .isTrue();</code></pre>
    *
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
-   * @param args            the args used to fill error message as in {@link String#format(String, Object...)}.
+   * @param args            the args used to fill the error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
    */
   @CheckReturnValue
@@ -1028,8 +1026,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   protected SELF satisfiesForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
     checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
     List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchOptionalAssertionError)
-                                                                   .filter(Optional::isPresent)
-                                                                   .map(Optional::get)
+                                                                   .flatMap(Optional::stream)
                                                                    .collect(toList());
     if (!assertionErrors.isEmpty()) {
       throw multipleAssertionsError(assertionErrors);
@@ -1124,7 +1121,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     List<AssertionError> assertionErrors = list();
     for (Consumer<? super ACTUAL> assertionsGroup : assertionsGroups) {
       Optional<AssertionError> maybeError = catchOptionalAssertionError(assertionsGroup);
-      if (!maybeError.isPresent()) {
+      if (maybeError.isEmpty()) {
         return myself;
       }
       assertionErrors.add(maybeError.get());

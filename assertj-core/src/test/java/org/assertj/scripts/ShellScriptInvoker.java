@@ -14,7 +14,6 @@ package org.assertj.scripts;
 
 import static com.google.common.base.Charsets.UTF_8;
 import static java.lang.Runtime.getRuntime;
-import static java.lang.String.format;
 import static org.apache.commons.io.FileUtils.deleteQuietly;
 import static org.apache.commons.io.FileUtils.writeStringToFile;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +22,6 @@ import static org.assertj.core.util.Files.currentFolder;
 
 import java.io.File;
 import java.io.IOException;
-
 import org.assertj.core.util.Files;
 
 /**
@@ -59,9 +57,9 @@ public class ShellScriptInvoker {
   }
 
   private void convertAssertionsInTempFile() throws Exception {
-    String shellCommand = format("cd %s/%s && ", root, TEMP_DIRECTORY) + // go to TEMP_DIRECTORY
-                          format("chmod +x %s/%s && ", root, conversionScript) + // make sure the script is executable
-                          format("%s/%s %s", root, conversionScript, TEMP_FILE_NAME); // run the script
+    String shellCommand = "cd %s/%s && ".formatted(root, TEMP_DIRECTORY) + // go to TEMP_DIRECTORY
+                          "chmod +x %s/%s && ".formatted(root, conversionScript) + // make sure the script is executable
+                          "%s/%s %s".formatted(root, conversionScript, TEMP_FILE_NAME); // run the script
     Process process = getRuntime().exec(array("sh", "-c", shellCommand), null, null);
     int status = process.waitFor();
     if (status != 0) throw new RuntimeException("return status of shell script is " + status);

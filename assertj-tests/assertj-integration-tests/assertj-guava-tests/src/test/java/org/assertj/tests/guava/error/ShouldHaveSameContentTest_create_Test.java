@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.guava.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.guava.error.ShouldHaveSameContent.shouldHaveSameContent;
 
@@ -31,7 +30,7 @@ class ShouldHaveSameContentTest_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), StandardRepresentation.STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nexpected: ByteSource.wrap(01)%n but was: ByteSource.wrap(00)"));
+    then(message).isEqualTo("[Test] %nexpected: ByteSource.wrap(01)%n but was: ByteSource.wrap(00)".formatted());
   }
 
 }

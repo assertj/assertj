@@ -12,19 +12,17 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
-
 import org.assertj.tests.core.api.recursive.data.AlwaysDifferentPerson;
 import org.assertj.tests.core.api.recursive.data.AlwaysEqualPerson;
 import org.assertj.tests.core.api.recursive.data.Person;
@@ -126,7 +124,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
 
     @Override
     public String toString() {
-      return format("Person [name=%s, color=%s]", name, color);
+      return "Person [name=%s, color=%s]".formatted(name, color);
     }
   }
 
@@ -201,7 +199,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
 
     @Override
     public String toString() {
-      return format("A[name=%s, neverEquals=%s, alwaysEquals=%s]", this.name, this.neverEquals, this.alwaysEquals);
+      return "A[name=%s, neverEquals=%s, alwaysEquals=%s]".formatted(this.name, this.neverEquals, this.alwaysEquals);
     }
   }
 
@@ -219,7 +217,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
 
     @Override
     public String toString() {
-      return format("NeverEquals[name=%s]", this.name);
+      return "NeverEquals[name=%s]".formatted(this.name);
     }
   }
 
@@ -237,7 +235,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
 
     @Override
     public String toString() {
-      return format("AlwaysEquals[name=%s]", this.name);
+      return "AlwaysEquals[name=%s]".formatted(this.name);
     }
   }
 }

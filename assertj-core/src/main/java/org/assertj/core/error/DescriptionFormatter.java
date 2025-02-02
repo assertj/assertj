@@ -46,7 +46,7 @@ public class DescriptionFormatter {
   public String format(Description d) {
     String s = (d != null) ? d.value() : null;
     if (isNullOrEmpty(s)) return "";
-    return String.format("[%s] ", s);
+    return "[%s] ".formatted(s);
   }
 
 }

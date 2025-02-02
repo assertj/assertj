@@ -12,13 +12,11 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +35,7 @@ class EntryPointAssertions_registerFormatterForType_Test extends EntryPointAsser
   @MethodSource("registerFormatterForTypeFunctions")
   void should_register_DateFormat(BiConsumer<Class<Long>, Function<Long, String>> registerFormatterForTypeFunction) {
     // WHEN
-    registerFormatterForTypeFunction.accept(Long.class, l -> format("%s long", l));
+    registerFormatterForTypeFunction.accept(Long.class, l -> "%s long".formatted(l));
     // THEN
     then(StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(3L)).isEqualTo("3 long");
   }

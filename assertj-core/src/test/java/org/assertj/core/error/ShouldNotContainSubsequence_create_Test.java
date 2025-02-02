@@ -32,7 +32,7 @@ class ShouldNotContainSubsequence_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  [\"Yoda\", \"Luke\", \"Leia\"]%nto not contain subsequence:%n  [\"Luke\", \"Leia\"]%nbut was found starting at index 1%n"));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  [\"Yoda\", \"Luke\", \"Leia\"]%nto not contain subsequence:%n  [\"Luke\", \"Leia\"]%nbut was found starting at index 1%n".formatted());
   }
 
   @Test

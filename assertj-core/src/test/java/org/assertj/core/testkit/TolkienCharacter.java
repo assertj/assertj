@@ -51,7 +51,7 @@ public class TolkienCharacter {
 
   @Override
   public String toString() {
-    return String.format("TolkienCharacter [name=%s, age=%s, race=%s]", name, age, race);
+    return "TolkienCharacter [name=%s, age=%s, race=%s]".formatted(name, age, race);
   }
 
 }

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ConditionAndGroupGenericParameterTypeShouldBeTheSame.shouldBeSameGenericBetweenIterableAndCondition;
 import static org.assertj.core.util.Lists.list;
@@ -38,7 +37,7 @@ class ShouldBeSameGenericBetweenIterableAndCondition_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual: [\"Yoda\", \"Leia\"] to have the same generic type as condition Not a Jedi"));
+    then(message).isEqualTo("[Test] %nExpecting actual: [\"Yoda\", \"Leia\"] to have the same generic type as condition Not a Jedi".formatted());
   }
 
 }

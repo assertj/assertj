@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeSame.shouldNotBeSame;
 
@@ -35,6 +34,6 @@ class ShouldNotBeSame_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpected not same: \"Yoda\""));
+    then(message).isEqualTo("[Test] %nExpected not same: \"Yoda\"".formatted());
   }
 }

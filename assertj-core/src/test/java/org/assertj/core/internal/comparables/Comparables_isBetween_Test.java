@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.comparables;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
@@ -25,7 +24,6 @@ import static org.mockito.Mockito.verify;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ComparablesBaseTest;
 import org.junit.jupiter.api.Test;
@@ -51,14 +49,14 @@ class Comparables_isBetween_Test extends ComparablesBaseTest {
   void fails_if_actual_is_less_than_start() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 6, 8, 10, true,
                                                                                                  true))
-                                                   .withMessage(format("%nExpecting actual:%n  6%nto be between:%n  [8, 10]%n"));
+                                                   .withMessage("%nExpecting actual:%n  6%nto be between:%n  [8, 10]%n".formatted());
   }
 
   @Test
   void fails_if_actual_is_greater_than_end() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 12, 8, 10, true,
                                                                                                  true))
-                                                   .withMessage(format("%nExpecting actual:%n  12%nto be between:%n  [8, 10]%n"));
+                                                   .withMessage("%nExpecting actual:%n  12%nto be between:%n  [8, 10]%n".formatted());
   }
 
   @Test

@@ -25,10 +25,8 @@ import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
@@ -327,7 +325,7 @@ class ShouldContain_create_Test {
   @Test
   void should_create_error_message_for_path_directory() {
     // GIVEN
-    Path directory = Paths.get("root");
+    Path directory = Path.of("root");
     List<Path> directoryContent = list(directory.resolve("foo.txt"), directory.resolve("bar.txt"));
     ErrorMessageFactory factory = directoryShouldContain(directory, directoryContent, "glob:**.java");
     // WHEN

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.util.introspection;
 
-import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
@@ -24,7 +23,6 @@ import static org.assertj.core.util.introspection.Introspection.getPropertyGette
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
-
 import org.assertj.core.util.VisibleForTesting;
 
 /**
@@ -150,11 +148,12 @@ public class PropertySupport {
     try {
       return (T) getter.invoke(target);
     } catch (ClassCastException e) {
-      String msg = format("Unable to obtain the value of the property <'%s'> from <%s> - wrong property type specified <%s>",
-                          propertyName, target, clazz);
+      String msg = "Unable to obtain the value of the property <'%s'> from <%s> - wrong property type specified <%s>".formatted(propertyName,
+                                                                                                                                target,
+                                                                                                                                clazz);
       throw new IntrospectionError(msg, e);
     } catch (Exception unexpected) {
-      String msg = format("Unable to obtain the value of the property <'%s'> from <%s>", propertyName, target);
+      String msg = "Unable to obtain the value of the property <'%s'> from <%s>".formatted(propertyName, target);
       throw new IntrospectionError(msg, unexpected);
     }
   }

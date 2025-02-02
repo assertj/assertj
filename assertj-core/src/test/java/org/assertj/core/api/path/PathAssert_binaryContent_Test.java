@@ -12,14 +12,12 @@
  */
 package org.assertj.core.api.path;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractByteArrayAssert;
 import org.assertj.core.api.NavigationMethodBaseTest;
@@ -55,7 +53,7 @@ class PathAssert_binaryContent_Test extends PathAssertBaseTest implements Naviga
     // WHEN
     AbstractByteArrayAssert<?> byteAssert = assertThat(path).binaryContent();
     // THEN
-    byteAssert.asString(StandardCharsets.UTF_8).isEqualTo(format("actual%n"));
+    byteAssert.asString(StandardCharsets.UTF_8).isEqualTo("actual%n".formatted());
   }
 
   @Override
