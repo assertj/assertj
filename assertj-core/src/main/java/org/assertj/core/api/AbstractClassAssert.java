@@ -1189,16 +1189,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     if (isSealed(actual)) throw assertionError(shouldNotBeSealed(actual));
   }
 
-  // TODO https://github.com/assertj/assertj/issues/3081
   private static boolean isSealed(Class<?> actual) {
-    try {
-      Method isSealed = Class.class.getMethod("isSealed");
-      return (boolean) isSealed.invoke(actual);
-    } catch (NoSuchMethodException e) {
-      return false;
-    } catch (ReflectiveOperationException e) {
-      throw new IllegalStateException(e);
-    }
+    return actual.isSealed();
   }
 
   /**
