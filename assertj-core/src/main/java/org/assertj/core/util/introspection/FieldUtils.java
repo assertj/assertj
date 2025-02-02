@@ -140,7 +140,7 @@ class FieldUtils {
    */
   private static Object readField(Field field, Object target, boolean forceAccess) throws IllegalAccessException {
     checkArgument(field != null, "The field must not be null");
-    if (forceAccess && !field.isAccessible()) {
+    if (forceAccess && !field.canAccess(target)) {
       field.setAccessible(true);
     } else {
       MemberUtils.setAccessibleWorkaround(field);
