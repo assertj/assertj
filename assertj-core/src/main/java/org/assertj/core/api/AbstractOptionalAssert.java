@@ -278,7 +278,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    *                               .isEqualTo(frodoClone);</code></pre>
    * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   @SuppressWarnings({ "DeprecatedIsStillUsed", "deprecation" })
   public SELF usingFieldByFieldValueComparator() {

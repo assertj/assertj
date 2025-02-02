@@ -88,7 +88,7 @@ import org.junit.platform.commons.support.HierarchyTraversalMode;
  * @deprecated This functionality (and more) has been rolled into {@link SoftAssertionsExtension}
  * as of AssertJ 3.18.0.
  **/
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 public class SoftlyExtension implements AfterTestExecutionCallback, TestInstancePostProcessor {
 
   private static final Namespace SOFTLY_EXTENSION_NAMESPACE = Namespace.create(SoftlyExtension.class);

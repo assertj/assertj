@@ -394,7 +394,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @deprecated Use {@link #isCloseTo(ZonedDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringSeconds(ZonedDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertDateTimeParameterIsNotNull(other);

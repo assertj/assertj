@@ -352,7 +352,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    *
    * @return this assertion object.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF hasFailed() {
     isNotNull();
     if (!(actual.isCompletedExceptionally() && !actual.isCancelled())) throwAssertionError(shouldHaveFailed(actual));
@@ -385,7 +385,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    *
    * @return this assertion object.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF hasNotFailed() {
     isNotNull();
     if (actual.isCompletedExceptionally() && !actual.isCancelled()) throwAssertionError(shouldNotHaveFailed(actual));
@@ -571,7 +571,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    *
    * @return an exception assertion object.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public AbstractThrowableAssert<?, ? extends Throwable> hasFailedWithThrowableThat() {
     hasFailed();
     try {

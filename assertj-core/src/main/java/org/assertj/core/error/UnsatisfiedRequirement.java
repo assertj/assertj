@@ -28,7 +28,7 @@ public class UnsatisfiedRequirement {
    * @param errorMessage                     requirement error message
    * @deprecated use {@link UnsatisfiedRequirement#UnsatisfiedRequirement(Object, AssertionError)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public UnsatisfiedRequirement(Object elementNotSatisfyingRequirements, String errorMessage) {
     this.elementNotSatisfyingRequirements = elementNotSatisfyingRequirements;
     this.errorMessage = errorMessage;

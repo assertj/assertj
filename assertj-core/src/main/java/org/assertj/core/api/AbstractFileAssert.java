@@ -298,7 +298,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    *
    * @deprecated use {@link #hasSameTextualContentAs(File)} instead
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF hasContentEqualTo(File expected) {
     return hasSameContentAs(expected);
   }
@@ -336,7 +336,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF hasSameContentAs(File expected) {
     return hasSameTextualContentAs(expected);
   }
@@ -437,7 +437,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
    * @deprecated use {@link #hasSameTextualContentAs(File, Charset)} instead
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF hasSameContentAs(File expected, Charset expectedCharset) {
     return hasSameTextualContentAs(expected, expectedCharset);
   }

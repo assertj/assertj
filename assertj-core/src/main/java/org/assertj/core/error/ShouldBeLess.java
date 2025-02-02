@@ -43,7 +43,7 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    * @deprecated Use {@link #shouldBeLess(Object, Object, ComparisonStrategy)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeLess(T actual, T other,
                                                                                    ComparisonStrategy comparisonStrategy) {
     return new ShouldBeLess(actual, other, comparisonStrategy);

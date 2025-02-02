@@ -1116,7 +1116,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @return {@code this} assertion object.
    * @deprecated
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable);
 
   /**

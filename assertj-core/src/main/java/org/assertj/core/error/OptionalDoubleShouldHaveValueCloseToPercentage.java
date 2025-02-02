@@ -82,7 +82,7 @@ public class OptionalDoubleShouldHaveValueCloseToPercentage extends BasicErrorMe
    * Indicates that the provided {@link java.util.OptionalDouble} has a value, but it is not within the given positive
    * percentage.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static OptionalDoubleShouldHaveValueCloseToPercentage shouldHaveValueCloseToPercentage(OptionalDouble optional,
                                                                                                 double expectedValue,
                                                                                                 Percentage percentage,

@@ -21,7 +21,7 @@ import java.lang.reflect.Constructor;
  * @deprecated Use {@link FactoryBasedNavigableIterableAssert} instead.
  */
 //@format:off
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 public class ClassBasedNavigableIterableAssert<SELF extends ClassBasedNavigableIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                                ACTUAL extends Iterable<? extends ELEMENT>, 
                                                ELEMENT, 
@@ -51,7 +51,7 @@ public class ClassBasedNavigableIterableAssert<SELF extends ClassBasedNavigableI
    * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
    * preferred way to create type-specific assertions in AssertJ API.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @SuppressWarnings({ "rawtypes", "unchecked" })
    public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
           ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual,

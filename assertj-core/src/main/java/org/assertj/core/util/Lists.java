@@ -94,7 +94,7 @@ public final class Lists {
    * @param <T> the generic type of the {@code List}.
    * @return an empty, <em>immutable</em> {@code List}.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static <T> List<T> emptyList() {
     return Collections.emptyList();
   }

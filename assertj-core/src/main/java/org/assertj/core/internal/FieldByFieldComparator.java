@@ -40,7 +40,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * field by field but the fields are compared with equals, use {@link AbstractIterableAssert#usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)}
  * or {@link AbstractObjectAssert#usingRecursiveComparison()} instead to perform a true recursive comparison.
  */
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 public class FieldByFieldComparator implements Comparator<Object> {
 
   protected final Map<String, Comparator<?>> comparatorsByPropertyOrField;

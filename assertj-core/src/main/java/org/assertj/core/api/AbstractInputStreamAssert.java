@@ -121,7 +121,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    *
    * @deprecated use {@link #hasSameContentAs(InputStream)} instead
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF hasContentEqualTo(InputStream expected) {
     return hasSameContentAs(expected);
   }

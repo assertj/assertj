@@ -129,7 +129,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
    * @throws PathsException if an I/O error occurs.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF hasSameContentAs(Path expected) {
     return hasSameTextualContentAs(expected);
   }
@@ -230,7 +230,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the content of the given one.
    * @throws PathsException if an I/O error occurs.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF hasSameContentAs(Path expected, Charset expectedCharset) {
     return hasSameTextualContentAs(expected, expectedCharset);
   }

@@ -302,7 +302,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    *
    * @since 3.16.0
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public AbstractByteArrayAssert<?> decodedAsBase64() {
     return asBase64Decoded();

@@ -44,7 +44,7 @@ public class ShouldBeGreaterOrEqual extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    * @deprecated Use {@link #shouldBeGreaterOrEqual(Object, Object, ComparisonStrategy)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static <T> ErrorMessageFactory shouldBeGreaterOrEqual(Comparable<? super T> actual, Comparable<? super T> other,
                                                                ComparisonStrategy comparisonStrategy) {
     return new ShouldBeGreaterOrEqual(actual, other, comparisonStrategy);

@@ -1949,7 +1949,7 @@ public class AtomicReferenceArrayAssert<T>
    * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForFields(Comparator, String...)}</li>
    * </ul>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public <C> AtomicReferenceArrayAssert<T> usingComparatorForElementFieldsWithNames(Comparator<C> comparator,
                                                                                     String... elementPropertyOrFieldNames) {
@@ -2044,7 +2044,7 @@ public class AtomicReferenceArrayAssert<T>
    * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForType(Comparator, Class)}</li>
    * </ul>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public <C> AtomicReferenceArrayAssert<T> usingComparatorForElementFieldsWithType(Comparator<C> comparator,
                                                                                    Class<C> type) {
@@ -2122,7 +2122,7 @@ public class AtomicReferenceArrayAssert<T>
    * or {@link #usingRecursiveComparison()} instead to perform a true recursive comparison.
    * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingFieldByFieldElementComparator() {
     return usingExtendedByTypesElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
@@ -2334,7 +2334,7 @@ public class AtomicReferenceArrayAssert<T>
    * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorOnFields(String...)} instead.
    * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingElementComparatorOnFields(String... fields) {
     return usingExtendedByTypesElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
@@ -2426,7 +2426,7 @@ public class AtomicReferenceArrayAssert<T>
    * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorIgnoringFields(String...)} instead.
    * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingElementComparatorIgnoringFields(String... fields) {
     return usingExtendedByTypesElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,

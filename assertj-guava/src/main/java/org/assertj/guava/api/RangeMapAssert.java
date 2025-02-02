@@ -125,7 +125,7 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
    * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} does not contain the given entries.
    */
   @SafeVarargs
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public final RangeMapAssert<K, V> contains(org.assertj.guava.data.MapEntry<K, V>... entries) {
     isNotNull();
     throwIllegalArgumentExceptionIfTrue(entries == null, "The entries to look for should not be null");

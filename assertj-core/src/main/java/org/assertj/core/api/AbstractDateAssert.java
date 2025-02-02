@@ -228,7 +228,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringHours(String dateAsString) {
     return isEqualToIgnoringHours(parse(dateAsString));
   }
@@ -247,7 +247,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Instant, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringHours(Instant instant) {
     return isEqualToIgnoringHours(dateFrom(instant));
   }
@@ -274,7 +274,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringHours(Date date) {
     dates.assertIsEqualWithPrecision(info, actual, date, HOURS);
     return myself;
@@ -328,7 +328,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringMinutes(String dateAsString) {
     return isEqualToIgnoringMinutes(parse(dateAsString));
   }
@@ -347,7 +347,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Instant, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringMinutes(Instant instant) {
     return isEqualToIgnoringMinutes(dateFrom(instant));
   }
@@ -375,7 +375,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringMinutes(Date date) {
     dates.assertIsEqualWithPrecision(info, actual, date, MINUTES);
     return myself;
@@ -431,7 +431,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringSeconds(String dateAsString) {
     return isEqualToIgnoringSeconds(parse(dateAsString));
   }
@@ -450,7 +450,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Instant, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringSeconds(Instant instant) {
     return isEqualToIgnoringSeconds(dateFrom(instant));
   }
@@ -478,7 +478,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringSeconds(Date date) {
     dates.assertIsEqualWithPrecision(info, actual, date, SECONDS);
     return myself;
@@ -532,7 +532,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringMillis(String dateAsString) {
     return isEqualToIgnoringMillis(parse(dateAsString));
   }
@@ -551,7 +551,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Instant, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringMillis(Instant instant) {
     return isEqualToIgnoringMillis(dateFrom(instant));
   }
@@ -578,7 +578,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringMillis(Date date) {
     dates.assertIsEqualWithPrecision(info, actual, date, MILLISECONDS);
     return myself;
@@ -1005,7 +1005,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not before or equals to the given one.
    * @deprecated prefer calling {@link #isBeforeOrEqualTo(Date)}
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isBeforeOrEqualsTo(Date other) {
     return isBeforeOrEqualTo(other);
   }
@@ -1107,7 +1107,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the given date as String could not be converted to a Date.
    * @deprecated prefer calling {@link #isBeforeOrEqualTo(String)}
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isBeforeOrEqualsTo(String dateAsString) {
     return isBeforeOrEqualTo(dateAsString);
   }
@@ -1282,7 +1282,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the actual {@code Date} is not after or equals to the given one.
    * @deprecated prefer calling {@link #isAfterOrEqualTo(Date)}
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isAfterOrEqualsTo(Date other) {
     return isAfterOrEqualTo(other);
   }
@@ -1383,7 +1383,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @throws AssertionError if the given date as String could not be converted to a Date.
    * @deprecated prefer calling {@link #isAfterOrEqualTo(String)}
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isAfterOrEqualsTo(String dateAsString) {
     return isAfterOrEqualTo(dateAsString);
   }
@@ -1994,7 +1994,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param year the year to compare actual year to
    * @return this assertion object.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isWithinYear(int year) {
     return hasYear(year);
   }
@@ -2028,7 +2028,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param month the month to compare actual month to, <b>month value starting at 1</b> (January=1, February=2, ...).
    * @return this assertion object.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isWithinMonth(int month) {
     return hasMonth(month);
   }
@@ -2061,7 +2061,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param dayOfMonth the day of month to compare actual day of month to
    * @return this assertion object.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isWithinDayOfMonth(int dayOfMonth) {
     return hasDayOfMonth(dayOfMonth);
   }
@@ -2096,7 +2096,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *          values
    * @return this assertion object.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isWithinDayOfWeek(int dayOfWeek) {
     return hasDayOfWeek(dayOfWeek);
   }
@@ -2128,7 +2128,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param hourOfDay the hour of day to compare actual hour of day to (24-hour clock)
    * @return this assertion object.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isWithinHourOfDay(int hourOfDay) {
     return hasHourOfDay(hourOfDay);
   }
@@ -2160,7 +2160,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param minute the minute to compare actual minute to
    * @return this assertion object.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isWithinMinute(int minute) {
     return hasMinute(minute);
   }
@@ -2192,7 +2192,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param second the second to compare actual second to
    * @return this assertion object.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isWithinSecond(int second) {
     return hasSecond(second);
   }
@@ -2224,7 +2224,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @param millisecond the millisecond to compare actual millisecond to
    * @return this assertion object.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isWithinMillisecond(int millisecond) {
     return hasMillisecond(millisecond);
   }
@@ -2651,7 +2651,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isInSameHourAs(Date other) {
     dates.assertIsInSameHourAs(info, actual, other);
     return myself;
@@ -2698,7 +2698,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isInSameHourAs(String dateAsString) {
     return isInSameHourAs(parse(dateAsString));
   }
@@ -2853,7 +2853,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isInSameMinuteAs(Date other) {
     dates.assertIsInSameMinuteAs(info, actual, other);
     return myself;
@@ -2900,7 +2900,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isInSameMinuteAs(String dateAsString) {
     return isInSameMinuteAs(parse(dateAsString));
   }
@@ -3069,7 +3069,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isInSameSecondAs(Date other) {
     dates.assertIsInSameSecondAs(info, actual, other);
     return myself;
@@ -3113,7 +3113,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isInSameSecondAs(String dateAsString) {
     return isInSameSecondAs(parse(dateAsString));
   }

@@ -942,7 +942,7 @@ public class AssertionsForClassTypes {
    * @since 3.9.0
    * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
                                                                              Class<THROWABLE> type) {
     return catchThrowableOfType(type, shouldRaiseThrowable);

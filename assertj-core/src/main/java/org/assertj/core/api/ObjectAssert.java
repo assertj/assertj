@@ -36,7 +36,7 @@ public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTU
   /**
    * @deprecated use {@code assertThat(actual.get())} or {@link AtomicReferenceAssert#hasValueSatisfying(Consumer)}.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public ObjectAssert(AtomicReference<ACTUAL> actual) {
     this(actual == null ? null : actual.get());
   }

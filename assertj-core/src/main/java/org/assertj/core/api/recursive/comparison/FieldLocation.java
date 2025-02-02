@@ -103,7 +103,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
    * @return true if it exactly matches this field, false otherwise
    * @deprecated use {@link #exactlyMatches(String)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public boolean matches(String fieldPath) {
     return exactlyMatches(fieldPath);
   }
@@ -115,7 +115,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
    * @return true if it exactly matches this field, false otherwise
    * @deprecated use {@link #exactlyMatches(String)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public boolean matches(FieldLocation field) {
     return exactlyMatches(field);
   }

@@ -25,7 +25,7 @@ import static org.assertj.core.util.Strings.quote;
  *
  * @deprecated use {@link org.assertj.core.data.MapEntry org.assertj.core.data.MapEntry} instead.
  */
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 public final class MapEntry<K, V> {
   public final K key;
 

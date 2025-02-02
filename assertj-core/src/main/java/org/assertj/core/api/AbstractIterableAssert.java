@@ -324,7 +324,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.5.0
    * @deprecated use {@link #singleElement()} instead
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @Override
   public SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions) {
     iterables.assertHasSize(info, actual, 1);
@@ -2055,7 +2055,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * {@inheritDoc}
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @Override
   public SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable) {
     return containsOnly(toArray(iterable));
@@ -2155,7 +2155,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForFields(Comparator, String...)}</li>
    * </ul>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public <T> SELF usingComparatorForElementFieldsWithNames(Comparator<T> comparator,
                                                            String... elementPropertyOrFieldNames) {
@@ -2240,7 +2240,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForType(Comparator, Class)}</li>
    * </ul>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public <T> SELF usingComparatorForElementFieldsWithType(Comparator<T> comparator, Class<T> type) {
     getComparatorsForElementPropertyOrFieldTypes().registerComparator(type, comparator);
@@ -2318,7 +2318,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    */
   @CheckReturnValue
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF usingFieldByFieldElementComparator() {
     return usingExtendedByTypesElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
                                                                             getComparatorsForElementPropertyOrFieldTypes()));
@@ -2745,7 +2745,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorOnFields(String...)} instead.
    * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public SELF usingElementComparatorOnFields(String... fields) {
     return usingExtendedByTypesElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
@@ -2842,7 +2842,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorIgnoringFields(String...)} instead.
    * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public SELF usingElementComparatorIgnoringFields(String... fields) {
     return usingExtendedByTypesElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,

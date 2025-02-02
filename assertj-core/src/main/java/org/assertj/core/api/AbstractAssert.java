@@ -660,7 +660,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @Override
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList() {
@@ -846,7 +846,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @deprecated use {@link #isEqualTo} instead
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public boolean equals(Object obj) {
     if (throwUnsupportedExceptionOnEquals) {
       throw new UnsupportedOperationException("'equals' is not supported... maybe you intended to call 'isEqualTo'");
@@ -1298,7 +1298,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @deprecated {@link ComparisonStrategy} will become part of the public API in the next major release and this method
    * will be removed.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   protected boolean areEqual(Object actual, Object other) {
     return objects.getComparisonStrategy().areEqual(actual, other);
   }

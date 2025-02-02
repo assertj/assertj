@@ -22,7 +22,7 @@ import org.assertj.core.presentation.Representation;
  * @author Yvonne Wang
  * @deprecated don't use it or favor {@link AssertionErrorCreator} instead.
  */
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 public interface AssertionErrorFactory {
 
   /**

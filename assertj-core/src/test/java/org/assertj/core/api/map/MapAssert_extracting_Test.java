@@ -25,7 +25,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 class MapAssert_extracting_Test {
 
   private static final Object NAME = "name";

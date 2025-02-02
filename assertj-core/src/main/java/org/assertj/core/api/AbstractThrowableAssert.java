@@ -149,7 +149,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.13.0
    * @see  #cause()
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF hasCauseReference(Throwable expected) {
     throwables.assertHasCauseReference(info, actual, expected);
     return myself;
@@ -208,7 +208,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * @since 3.16.0
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public AbstractThrowableAssert<?, ?> getCause() {
     throwables.assertHasCause(info, actual);
     return new ThrowableAssert<>(actual.getCause()).withAssertionState(myself);
@@ -257,7 +257,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * @since 3.16.0
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public AbstractThrowableAssert<?, ?> getRootCause() {
     throwables.assertHasRootCause(info, actual);
     return new ThrowableAssert<>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);

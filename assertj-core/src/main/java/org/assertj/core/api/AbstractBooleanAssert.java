@@ -136,7 +136,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public final SELF usingComparator(Comparator<? super Boolean> customComparator) {
     return usingComparator(customComparator, null);
   }
@@ -148,7 +148,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public final SELF usingComparator(Comparator<? super Boolean> customComparator, String customComparatorDescription) {
     throw new UnsupportedOperationException("custom Comparator is not supported for Boolean comparison");
   }

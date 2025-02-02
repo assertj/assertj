@@ -608,7 +608,7 @@ public class BDDAssertions extends Assertions {
    * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
    * preferred way to create type-specific assertions in AssertJ API.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
 //@format:off
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(Iterable<? extends ELEMENT> actual,
@@ -664,7 +664,7 @@ public class BDDAssertions extends Assertions {
    * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
    * preferred way to create type-specific assertions in AssertJ API.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(ACTUAL actual,
                                                                                     Class<ELEMENT_ASSERT> assertClass) {
@@ -727,7 +727,7 @@ public class BDDAssertions extends Assertions {
    * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
    * preferred way to create type-specific assertions in AssertJ API.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                                         AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -782,7 +782,7 @@ public class BDDAssertions extends Assertions {
    * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
    * preferred way to create type-specific assertions in AssertJ API.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                                 Class<ELEMENT_ASSERT> assertClass) {
@@ -2012,7 +2012,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.20.0
    * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable throwingCallable,
                                                                              Class<THROWABLE> type) {
     return catchThrowableOfType(type, throwingCallable);

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
  * 
  * @author Christian Rösch
  */
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 class Preconditions_checkNotNull_GenericObject_Test {
 
   @Test

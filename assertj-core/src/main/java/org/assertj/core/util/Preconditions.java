@@ -79,7 +79,7 @@ public final class Preconditions {
    * 
    * @deprecated use {@link java.util.Objects#requireNonNull(Object)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static <T> T checkNotNull(T reference) {
     if (reference == null) throw new NullPointerException();
     return reference;
@@ -96,7 +96,7 @@ public final class Preconditions {
    * 
    * @deprecated use {@link java.util.Objects#requireNonNull(Object, String)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static <T> T checkNotNull(T reference, String message) {
     if (reference == null) throw new NullPointerException(message);
     return reference;

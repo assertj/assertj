@@ -1475,7 +1475,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF usingElementComparator(Comparator<? super Map.Entry<? extends K, ? extends V>> customComparator) {
     throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
   }
@@ -1487,7 +1487,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
   }
@@ -1733,7 +1733,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *
    * @deprecated use {@link #extractingByKeys(Object[])} instead
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Object... keys) {
     isNotNull();
@@ -1810,7 +1810,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.13.0
    * @deprecated use {@link #extractingByKey(Object)} instead
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(Object key) {
     isNotNull();

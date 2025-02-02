@@ -141,7 +141,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError   if one of actual's field to compare can't be found in the other object.
    * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringNullFields(Object other) {
     objects.assertIsEqualToIgnoringNullFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType());
     return myself;
@@ -216,7 +216,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError   if a property/field does not exist in actual.
    * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and specify the fields to ignore.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
     objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType(),
                                                     propertiesOrFieldsUsedInComparison);
@@ -285,7 +285,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * {@link RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...) by type} or
    * {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) matching regexes}.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType(),
                                                propertiesOrFieldsToIgnore);
@@ -462,7 +462,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * // frodo and frodoClone are equals when doing a field by field comparison.
    * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);</code></pre>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToComparingFieldByField(Object other) {
     objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType());
     return myself;
@@ -525,7 +525,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertions object
    * @deprecated reason: only used in deprecated assertions which are replaced by the {@link #usingRecursiveComparison()} recursive comparison}. Will be removed in AssertJ 4.0
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public <T> SELF usingComparatorForFields(Comparator<T> comparator, String... propertiesOrFields) {
     for (String propertyOrField : propertiesOrFields) {
@@ -1027,7 +1027,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws IntrospectionError if one property/field to compare can not be found.
    * @deprecated Prefer calling {@link #usingRecursiveComparison()} for comparing objects field by field as it offers more flexibility, better reporting and an easier to use API.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToComparingFieldByFieldRecursively(Object other) {
     objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorsByPropertyOrField,
                                                             getComparatorsByType());

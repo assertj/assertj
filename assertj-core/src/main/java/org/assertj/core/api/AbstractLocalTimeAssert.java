@@ -373,7 +373,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @deprecated Use {@link #isCloseTo(LocalTime, TemporalOffset)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringNanos(LocalTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertLocalTimeParameterIsNotNull(other);
@@ -412,7 +412,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @deprecated Use {@link #isCloseTo(LocalTime, TemporalOffset)} instead, although not exactly the same semantics,
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringSeconds(LocalTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertLocalTimeParameterIsNotNull(other);

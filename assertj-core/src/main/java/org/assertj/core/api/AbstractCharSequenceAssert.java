@@ -355,7 +355,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.6.0 / 3.6.0
    * @deprecated Use {@link #isBlank()} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isJavaBlank() {
     assertJavaBlank(actual);
     return myself;
@@ -386,7 +386,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.6.0 / 3.6.0
    * @deprecated Use {@link #isNotBlank()} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isNotJavaBlank() {
     assertNotJavaBlank(actual);
     return myself;
@@ -1455,7 +1455,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see <a href="https://github.com/xmlunit/user-guide/wiki">XML Unit</a>
    * @see <a href="https://github.com/xmlunit/user-guide/wiki/Providing-Input-to-XMLUnit">XML Unit XML source input</a>
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isXmlEqualTo(CharSequence expectedXml) {
     strings.assertXmlEqualsTo(info, actual, expectedXml);
     return myself;
@@ -1477,7 +1477,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the content of
    *           given {@code File}.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isXmlEqualToContentOf(File xmlFile) {
     isXmlEqualTo(contentOf(xmlFile));
     return myself;
@@ -1490,7 +1490,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public final SELF usingElementComparator(Comparator<? super Character> customComparator) {
     throw new UnsupportedOperationException("custom element Comparator is not supported for CharSequence comparison");
   }
@@ -1502,7 +1502,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public final SELF usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for CharSequence comparison");
   }

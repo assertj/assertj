@@ -38,7 +38,7 @@ public class Maps {
    * 
    * @deprecated use {@link StandardRepresentation#toStringOf(Map)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static String format(Map<?, ?> map) {
     return CONFIGURATION_PROVIDER.representation().toStringOf(map);
   }
@@ -52,7 +52,7 @@ public class Maps {
    * 
    * @deprecated use {@link StandardRepresentation#toStringOf(Map)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static String format(Representation p, Map<?, ?> map) {
     return CONFIGURATION_PROVIDER.representation().toStringOf(map);
   }

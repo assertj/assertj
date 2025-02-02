@@ -21,6 +21,6 @@ package org.assertj.core.api;
  *
  * @since 2.5.0 / 3.5.0
  */
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 public class Java6BDDSoftAssertions extends AbstractSoftAssertions implements Java6BDDSoftAssertionsProvider {
 }

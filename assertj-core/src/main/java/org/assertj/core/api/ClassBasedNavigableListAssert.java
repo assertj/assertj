@@ -24,7 +24,7 @@ import java.util.List;
  * @deprecated Use {@link FactoryBasedNavigableListAssert} instead.
  */
 //@format:off
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
                                            ACTUAL extends List<? extends ELEMENT>, 
                                            ELEMENT, 
@@ -54,7 +54,7 @@ public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListA
    * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
    * preferred way to create type-specific assertions in AssertJ API.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
    @SuppressWarnings({ "unchecked", "rawtypes" })
    public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
           ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,

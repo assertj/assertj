@@ -1357,7 +1357,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    *
    * @since 3.16.0
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @CheckReturnValue
   public AbstractStringAssert<?> encodedAsBase64() {
     return asBase64Encoded();

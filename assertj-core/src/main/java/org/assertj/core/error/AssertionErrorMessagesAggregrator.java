@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * @deprecated use {@link AssertionErrorMessagesAggregator} instead
  */
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 public class AssertionErrorMessagesAggregrator {
 
   public static String aggregrateErrorMessages(List<String> errors) {

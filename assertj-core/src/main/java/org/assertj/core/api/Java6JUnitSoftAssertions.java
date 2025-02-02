@@ -26,7 +26,7 @@ import org.junit.runners.model.Statement;
  *
  * @since 2.5.0 / 3.5.0
  */
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 public class Java6JUnitSoftAssertions extends AbstractSoftAssertions
     implements Java6StandardSoftAssertionsProvider, SoftAssertionsRule {
 

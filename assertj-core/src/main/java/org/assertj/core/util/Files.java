@@ -89,7 +89,7 @@ public class Files {
    *
    * @deprecated Use either {@link org.junit.jupiter.api.io.TempDir} or {@link org.junit.rules.TemporaryFolder}
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static File temporaryFolder() {
     File temp = new File(temporaryFolderPath());
     if (!temp.isDirectory()) {
@@ -223,7 +223,7 @@ public class Files {
    *
    * @deprecated use https://commons.apache.org/proper/commons-io/javadocs/api-release/org/apache/commons/io/FileUtils.html#forceDelete-java.io.File- instead
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static void delete(File file) {
     if (file.isFile()) {
       if (!file.delete()) {

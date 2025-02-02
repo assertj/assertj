@@ -624,7 +624,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringNanos(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
@@ -694,7 +694,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringSeconds(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
@@ -734,7 +734,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringMinutes(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);
@@ -773,7 +773,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringHours(OffsetDateTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetDateTimeParameterIsNotNull(other);

@@ -390,7 +390,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @deprecated Use {@link #isCloseTo(OffsetTime, TemporalOffset)} instead, although not exactly the same semantics, 
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringNanos(OffsetTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetTimeParameterIsNotNull(other);
@@ -430,7 +430,7 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @deprecated Use {@link #isCloseTo(OffsetTime, TemporalOffset)} instead, although not exactly the same semantics, 
    * this is the right way to compare with a given precision.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public SELF isEqualToIgnoringSeconds(OffsetTime other) {
     Objects.instance().assertNotNull(info, actual);
     assertOffsetTimeParameterIsNotNull(other);

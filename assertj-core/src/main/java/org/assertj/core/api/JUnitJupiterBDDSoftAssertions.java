@@ -39,7 +39,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
  *
  * Second, the failures are recognized by IDE's (like IntelliJ IDEA) which open a comparison window.
  */
-@Deprecated
+@Deprecated(since = "3", forRemoval = true)
 public class JUnitJupiterBDDSoftAssertions extends AbstractSoftAssertions
     implements BDDSoftAssertionsProvider, AfterEachCallback {
 

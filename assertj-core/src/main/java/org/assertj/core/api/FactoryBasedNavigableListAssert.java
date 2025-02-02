@@ -52,7 +52,7 @@ public class FactoryBasedNavigableListAssert<SELF extends FactoryBasedNavigableL
    * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
    * preferred way to create type-specific assertions in AssertJ API.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,

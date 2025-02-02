@@ -685,7 +685,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @return a list assertion object
    * @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList();
 
   /**
@@ -711,7 +711,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * <code>equals(Object)</code> instead of <code>{@link #isEqualTo(Object)}</code>.
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   boolean equals(Object obj);
 
   /**

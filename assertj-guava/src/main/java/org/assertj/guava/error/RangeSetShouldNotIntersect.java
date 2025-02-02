@@ -24,7 +24,7 @@ public class RangeSetShouldNotIntersect extends BasicErrorMessageFactory {
     return new RangeSetShouldNotIntersect(actual, unexpected, intersected);
   }
 
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static ErrorMessageFactory shouldNotIntersects(Object actual, Object unexpected, Iterable<?> intersected) {
     return new RangeSetShouldNotIntersect(actual, unexpected, intersected);
   }

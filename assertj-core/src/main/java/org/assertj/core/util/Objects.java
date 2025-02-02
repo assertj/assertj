@@ -39,7 +39,7 @@ public final class Objects {
    * 
    * @deprecated Use {@link java.util.Objects#deepEquals(Object, Object)} instead.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static boolean areEqual(Object o1, Object o2) {
     return java.util.Objects.deepEquals(o1, o2);
   }
@@ -57,7 +57,7 @@ public final class Objects {
    * @deprecated Use either {@link java.util.Objects#deepEquals(Object, Object)} or
    *             {@link java.util.Arrays#deepEquals(Object[], Object[])}.
    */
-  @Deprecated
+  @Deprecated(since = "3", forRemoval = true)
   public static boolean areEqualArrays(Object o1, Object o2) {
     if (!isArray(o1) || !isArray(o2)) {
       return false;
