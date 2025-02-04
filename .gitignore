@@ -1,7 +1,8 @@
 #Maven build result directory
 target
 #IntelliJ project files
-.idea
+.idea/*
+!/.idea/icon.svg
 *.iml
 out
 #Eclipse project files
