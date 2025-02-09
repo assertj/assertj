@@ -10,21 +10,23 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.tests.core.api;
 
 import static org.assertj.core.util.Lists.list;
 
+import org.assertj.core.api.JUnitBDDSoftAssertions;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class Java6JUnitBDDSoftAssertionsSuccessTest {
-  @SuppressWarnings("deprecation")
+public class JUnitBDDSoftAssertionsSuccessTest {
+
   @Rule
-  public final Java6JUnitBDDSoftAssertions softly = new Java6JUnitBDDSoftAssertions();
+  public final JUnitBDDSoftAssertions softly = new JUnitBDDSoftAssertions();
 
   @Test
   public void all_assertions_should_pass() {
     softly.then(1).isEqualTo(1);
     softly.then(list(1, 2)).containsOnly(1, 2);
   }
+
 }

@@ -10,31 +10,31 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.tests.core.api;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
-import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 
 import java.util.List;
-
+import org.assertj.core.api.Java6JUnitSoftAssertions;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.junit.runners.model.MultipleFailureException;
 
-public class Java6JUnitBDDSoftAssertionsFailureTest {
+public class Java6JUnitSoftAssertionsFailureTest {
   // we cannot make it a rule here, because we need to test the failure without this test failing!
   // @Rule
   @SuppressWarnings("deprecation")
-  public final Java6JUnitBDDSoftAssertions softly = new Java6JUnitBDDSoftAssertions();
+  public final Java6JUnitSoftAssertions softly = new Java6JUnitSoftAssertions();
 
   @Test
   public void should_report_all_errors() throws Throwable {
     try {
-      softly.then(1).isEqualTo(1);
-      softly.then(1).isEqualTo(2);
-      softly.then(list(1, 2)).containsOnly(1, 3);
+      softly.assertThat(1).isEqualTo(1);
+      softly.assertThat(1).isEqualTo(2);
+      softly.assertThat(Lists.newArrayList(1, 2)).containsOnly(1, 3);
       MultipleFailureException.assertEmpty(softly.errorsCollected());
       fail("Should not reach here");
     } catch (MultipleFailureException e) {
