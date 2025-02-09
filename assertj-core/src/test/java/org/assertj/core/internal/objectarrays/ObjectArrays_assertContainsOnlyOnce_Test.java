@@ -25,16 +25,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
-import java.awt.*;
-
+import java.util.Locale;
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.ObjectArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ObjectArrays#assertContainsOnlyOnce(AssertionInfo, Object[], Object[])}</code>.
- * 
  * @author William Delanoue
  */
 class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
@@ -46,10 +42,8 @@ class ObjectArrays_assertContainsOnlyOnce_Test extends ObjectArraysBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_values_only_once_even_if_actual_type_is_not_comparable() {
-    // Rectangle class does not implement Comparable
-    Rectangle r1 = new Rectangle(1, 1);
-    Rectangle r2 = new Rectangle(2, 2);
-    arrays.assertContainsOnlyOnce(someInfo(), array(r1, r2, r2), array(r1));
+    // Locale class does not implement Comparable
+    arrays.assertContainsOnlyOnce(someInfo(), array(Locale.ROOT, Locale.US, Locale.US), array(Locale.ROOT));
   }
 
   @Test

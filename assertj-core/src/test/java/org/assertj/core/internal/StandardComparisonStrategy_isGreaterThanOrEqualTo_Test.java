@@ -15,14 +15,12 @@ package org.assertj.core.internal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
-import java.awt.*;
-
 import org.assertj.core.util.Employee;
 import org.junit.jupiter.api.Test;
 
+import java.util.Locale;
+
 /**
- * Tests for {@link StandardComparisonStrategy#isGreaterThanOrEqualTo(Object, Object)}.
- * 
  * @author Joel Costigliola
  */
 class StandardComparisonStrategy_isGreaterThanOrEqualTo_Test extends AbstractTest_StandardComparisonStrategy {
@@ -38,11 +36,8 @@ class StandardComparisonStrategy_isGreaterThanOrEqualTo_Test extends AbstractTes
 
   @Test
   void should_fail_if_a_parameter_is_not_comparable() {
-    assertThatIllegalArgumentException().isThrownBy(() -> {
-      Rectangle r1 = new Rectangle(10, 20);
-      Rectangle r2 = new Rectangle(20, 10);
-      standardComparisonStrategy.isGreaterThanOrEqualTo(r1, r2);
-    });
+    assertThatIllegalArgumentException().isThrownBy(() -> standardComparisonStrategy.isGreaterThanOrEqualTo(Locale.ROOT,
+                                                                                                            Locale.US));
   }
 
 }
