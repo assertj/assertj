@@ -21,12 +21,11 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.FloatArrays;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractFloatArrayAssert<SELF extends AbstractFloatArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, float[], Float> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected FloatArrays arrays = FloatArrays.instance();
 
   protected AbstractFloatArrayAssert(float[] actual, Class<?> selfType) {

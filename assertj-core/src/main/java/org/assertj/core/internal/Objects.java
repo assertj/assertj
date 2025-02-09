@@ -65,10 +65,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.GroupTypeDescription;
 import org.assertj.core.internal.DeepDifference.Difference;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
@@ -88,10 +88,10 @@ public class Objects {
   private static final GroupTypeDescription FIELDS_GROUP_DESCRIPTION = new GroupTypeDescription("non static/synthetic fields of",
                                                                                                 "fields");
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final PropertySupport propertySupport = PropertySupport.instance();
   private final ComparisonStrategy comparisonStrategy;
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
   private final FieldSupport fieldSupport = FieldSupport.comparison();
 
@@ -99,7 +99,7 @@ public class Objects {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Objects() {
     this(StandardComparisonStrategy.instance());
   }
@@ -108,7 +108,7 @@ public class Objects {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
     return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }

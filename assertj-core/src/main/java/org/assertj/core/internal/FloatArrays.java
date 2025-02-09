@@ -17,7 +17,6 @@ import java.util.Comparator;
 import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for arrays of {@code float}s.
@@ -40,10 +39,10 @@ public class FloatArrays {
 
   private Arrays arrays = Arrays.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   FloatArrays() {
     this(StandardComparisonStrategy.instance());
   }
@@ -52,12 +51,12 @@ public class FloatArrays {
     setArrays(new Arrays(comparisonStrategy));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void setArrays(Arrays arrays) {
     this.arrays = arrays;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
     return arrays.getComparator();
   }

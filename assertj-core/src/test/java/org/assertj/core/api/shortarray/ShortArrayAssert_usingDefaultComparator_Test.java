@@ -12,14 +12,17 @@
  */
 package org.assertj.core.api.shortarray;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.ShortArrays.emptyArray;
+import static org.assertj.core.util.introspection.FieldSupport.EXTRACTION;
+
+import java.util.Comparator;
 
 import org.assertj.core.api.ShortArrayAssert;
-import org.assertj.core.api.ShortArrayAssertBaseTest;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ShortArrays;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#usingDefaultComparator()}</code>.
@@ -27,25 +30,21 @@ import org.junit.jupiter.api.BeforeEach;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-class ShortArrayAssert_usingDefaultComparator_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_usingDefaultComparator_Test {
 
-  private ShortArrays arraysBefore;
-
-  @BeforeEach
-  void before() {
-    arraysBefore = getArrays(assertions);
-  }
-
-  @Override
-  protected ShortArrayAssert invoke_api_method() {
-    return assertions.usingComparator(alwaysEqual())
-                     .usingDefaultComparator();
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    assertThat(getObjects(assertions).getComparator()).isNull();
-    assertThat(getObjects(assertions)).isSameAs(Objects.instance());
-    assertThat(getArrays(assertions)).isSameAs(arraysBefore);
+  @Test
+  public void should_revert_to_default_comparator() {
+    // GIVEN
+    Comparator<short[]> comparator = alwaysEqual();
+    ShortArrayAssert assertions = new ShortArrayAssert(emptyArray());
+    ShortArrays defaultShortArrays = EXTRACTION.fieldValue("arrays", ShortArrays.class, assertions);
+    // WHEN
+    assertions.usingComparator(comparator)
+              .usingDefaultComparator();
+    // THEN
+    Objects objects = EXTRACTION.fieldValue("objects", Objects.class, assertions);
+    then(objects).isSameAs(Objects.instance());
+    ShortArrays shortArrays = EXTRACTION.fieldValue("arrays", ShortArrays.class, assertions);
+    then(shortArrays).isSameAs(defaultShortArrays);
   }
 }

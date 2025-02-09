@@ -24,12 +24,11 @@ import org.assertj.core.data.Index;
 import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, byte[], Byte> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected ByteArrays arrays = ByteArrays.instance();
 
   protected AbstractByteArrayAssert(byte[] actual, Class<?> selfType) {

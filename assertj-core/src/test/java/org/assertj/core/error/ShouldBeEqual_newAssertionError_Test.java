@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -41,11 +42,12 @@ class ShouldBeEqual_newAssertionError_Test {
   private DescriptionFormatter formatter;
 
   @BeforeEach
-  public void setUp() {
+  public void setUp() throws IllegalAccessException {
     description = new TestDescription("Jedi");
     factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
-    factory.descriptionFormatter = mock(DescriptionFormatter.class);
-    formatter = factory.descriptionFormatter;
+    DescriptionFormatter descriptionFormatterMock = mock(DescriptionFormatter.class);
+    writeField(factory, "descriptionFormatter", descriptionFormatterMock, true);
+    formatter = descriptionFormatterMock;
   }
 
   @ParameterizedTest

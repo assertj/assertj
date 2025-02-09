@@ -24,14 +24,13 @@ import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 public class AtomicLongAssert extends AbstractAssert<AtomicLongAssert, AtomicLong> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables = new Comparables();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Longs longs = Longs.instance();
 
   public AtomicLongAssert(AtomicLong actual) {

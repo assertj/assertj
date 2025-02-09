@@ -50,7 +50,7 @@ public class ObjectArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     arrays = new ObjectArrays();
     arrays.failures = failures;
     caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());

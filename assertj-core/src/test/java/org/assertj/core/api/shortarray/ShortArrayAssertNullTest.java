@@ -22,9 +22,9 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Adds a test to verify null behavior against empty arrays.
- * 
+ * <p>
  * Should be used for methods with an int[] or int... parameter.
- * 
+ *
  * @author Dan Avila
  */
 public abstract class ShortArrayAssertNullTest extends ShortArrayAssertBaseTest {
@@ -34,8 +34,8 @@ public abstract class ShortArrayAssertNullTest extends ShortArrayAssertBaseTest 
     // GIVEN
     int[] nullContent = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> invoke_api_with_null_value(assertThat(new short[] {}), nullContent),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchThrowableOfType(NullPointerException.class,
+                                                    () -> invoke_api_with_null_value(assertThat(new short[] {}), nullContent));
     // THEN
     then(npe).hasMessage("The array of values to look for should not be null");
   }

@@ -35,7 +35,7 @@ public class CharactersBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     characters = new Characters();
     characters.failures = failures;
     caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveCharacterComparator.INSTANCE);

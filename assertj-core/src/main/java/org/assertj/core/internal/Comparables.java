@@ -20,6 +20,7 @@ import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Comparator;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeAfter;
@@ -31,7 +32,6 @@ import org.assertj.core.error.ShouldBeGreaterOrEqual;
 import org.assertj.core.error.ShouldBeLess;
 import org.assertj.core.error.ShouldBeLessOrEqual;
 import org.assertj.core.util.TriFunction;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for types that can be compared between each other, most of the time it means <code>{@link Comparable}</code>s 
@@ -44,13 +44,13 @@ public class Comparables {
 
   private final ComparisonStrategy comparisonStrategy;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
   /**
    * Build a {@link Comparables} using a {@link StandardComparisonStrategy}.
    */
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparables() {
     this(StandardComparisonStrategy.instance());
   }
@@ -59,7 +59,7 @@ public class Comparables {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
       return strategy.getComparator();
@@ -67,12 +67,12 @@ public class Comparables {
     return null;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   void setFailures(Failures failures) {
     this.failures = failures;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   void resetFailures() {
     this.failures = Failures.instance();
   }

@@ -19,7 +19,6 @@ import java.util.function.Predicate;
 
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for {@link Predicate}.
@@ -32,10 +31,10 @@ import org.assertj.core.util.VisibleForTesting;
 abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAssert<SELF, PRIMITIVE_PREDICATE, PRIMITIVE>, PRIMITIVE_PREDICATE, PRIMITIVE>
     extends AbstractAssert<SELF, PRIMITIVE_PREDICATE> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Predicate<PRIMITIVE> primitivePredicate;
 
   protected AbstractPredicateLikeAssert(PRIMITIVE_PREDICATE actual, Predicate<PRIMITIVE> wrappedPredicate,

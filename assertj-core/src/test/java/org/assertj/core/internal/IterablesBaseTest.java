@@ -47,7 +47,7 @@ public class IterablesBaseTest {
   @BeforeEach
   public void setUp() {
     actual = newArrayList("Luke", "Yoda", "Leia");
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     iterables = new Iterables();
     iterables.failures = failures;
     comparisonStrategy = new ComparatorBasedComparisonStrategy(CASE_INSENSITIVE_ORDER);

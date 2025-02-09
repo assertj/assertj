@@ -40,7 +40,7 @@ public class FloatsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     floats = new Floats();
     floats.setFailures(failures);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Float>());

@@ -25,7 +25,6 @@ import java.util.Map;
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -55,7 +54,7 @@ public class OnFieldsComparator extends FieldByFieldComparator {
     this(new HashMap<>(), defaultTypeComparators(), fields);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public String[] getFields() {
     return fields;
   }

@@ -27,7 +27,7 @@ class TextDescription_toString_Test {
   @Test
   void should_return_value() {
     TextDescription description = new TextDescription("Flash");
-    assertThat(description).hasToString(description.value);
+    assertThat(description).hasToString("Flash");
   }
 
   @Test

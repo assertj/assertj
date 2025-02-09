@@ -38,7 +38,7 @@ public class DoublesBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     doubles = new Doubles();
     doubles.setFailures(failures);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Double>());

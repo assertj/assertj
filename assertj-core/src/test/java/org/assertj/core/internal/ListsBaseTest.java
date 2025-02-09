@@ -36,7 +36,7 @@ public class ListsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     lists = new Lists();
     lists.failures = failures;
     comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);

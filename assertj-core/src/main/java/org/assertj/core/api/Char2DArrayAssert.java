@@ -23,7 +23,6 @@ import org.assertj.core.data.Index;
 import org.assertj.core.internal.Char2DArrays;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion methods for two-dimensional arrays of {@code char}s.
@@ -38,7 +37,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
 
   private final Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected Char2DArrays char2dArrays = Char2DArrays.instance();
 
   public Char2DArrayAssert(char[][] actual) {

@@ -34,7 +34,7 @@ public class BytesBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     bytes = new Bytes();
     bytes.setFailures(failures);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Byte>());

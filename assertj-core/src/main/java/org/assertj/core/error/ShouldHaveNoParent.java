@@ -15,8 +15,6 @@ package org.assertj.core.error;
 import java.io.File;
 import java.nio.file.Path;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Creates an error message when a {@code File} should not have a parent.
  * 
@@ -24,11 +22,9 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class ShouldHaveNoParent extends BasicErrorMessageFactory {
 
-  @VisibleForTesting
-  public static final String PATH_HAS_PARENT = "%nExpected actual path:%n  %s%n not to have a parent, but parent was:%n  %s";
+  private static final String PATH_HAS_PARENT = "%nExpected actual path:%n  %s%n not to have a parent, but parent was:%n  %s";
 
-  @VisibleForTesting
-  public static final String FILE_HAS_PARENT = "%nExpecting file (or directory):%n  %s%nnot to have a parent, but parent was:%n  %s";
+  private static final String FILE_HAS_PARENT = "%nExpecting file (or directory):%n  %s%nnot to have a parent, but parent was:%n  %s";
 
   /**
    * Creates a new <code>{@link ShouldHaveNoParent}</code>.

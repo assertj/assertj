@@ -35,7 +35,7 @@ public class IteratorsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     iterators = new Iterators();
     iterators.failures = failures;
   }

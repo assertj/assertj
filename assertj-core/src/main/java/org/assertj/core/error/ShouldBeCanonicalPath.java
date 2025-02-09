@@ -14,15 +14,13 @@ package org.assertj.core.error;
 
 import java.nio.file.Path;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Creates an error message indicating that an assertion that verifies that a
  * {@link Path} is canonical has failed.
  */
 public class ShouldBeCanonicalPath extends BasicErrorMessageFactory {
-  @VisibleForTesting
-  public static final String SHOULD_BE_CANONICAL = "%nExpecting actual:%n  %s%nto be a canonical path";
+
+  private static final String SHOULD_BE_CANONICAL = "%nExpecting actual:%n  %s%nto be a canonical path";
 
   public static ErrorMessageFactory shouldBeCanonicalPath(final Path actual) {
     return new ShouldBeCanonicalPath(actual);

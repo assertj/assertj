@@ -12,12 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveParent.FILE_NOT_EXPECTED_PARENT;
-import static org.assertj.core.error.ShouldHaveParent.FILE_NO_PARENT;
-import static org.assertj.core.error.ShouldHaveParent.PATH_NOT_EXPECTED_PARENT;
-import static org.assertj.core.error.ShouldHaveParent.PATH_NO_PARENT;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
@@ -54,7 +49,8 @@ class ShouldHaveParent_create_Test {
     // WHEN
     String actualMessage = factory.create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + FILE_NO_PARENT, actual, expectedFileParent));
+    then(actualMessage).isEqualTo("[Test] %nExpecting file%n  %s%nto have parent:%n  %s%nbut did not have one.".formatted(actual,
+                                                                                                                          expectedFileParent));
   }
 
   @Test
@@ -64,7 +60,9 @@ class ShouldHaveParent_create_Test {
     // WHEN
     String actualMessage = shouldHaveParent(actual, expectedFileParent).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + FILE_NOT_EXPECTED_PARENT, actual, expectedFileParent, tempDir));
+    then(actualMessage).isEqualTo("[Test] %nExpecting file%n  %s%nto have parent:%n  %s%nbut had:%n  %s.".formatted(actual,
+                                                                                                                    expectedFileParent,
+                                                                                                                    tempDir));
   }
 
   @Test
@@ -74,7 +72,8 @@ class ShouldHaveParent_create_Test {
     // WHEN
     String actualMessage = shouldHaveParent(actual, expectedPathParent).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + PATH_NO_PARENT, actual, expectedPathParent));
+    then(actualMessage).isEqualTo("[Test] %nExpecting path%n  %s%nto have parent:%n  %s%nbut did not have one.".formatted(actual,
+                                                                                                                          expectedPathParent));
   }
 
   @Test
@@ -86,6 +85,8 @@ class ShouldHaveParent_create_Test {
     String actualMessage = shouldHaveParent(actual, actualParent, expectedPathParent).create(description,
                                                                                              STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + PATH_NOT_EXPECTED_PARENT, actual, expectedPathParent, actualParent));
+    then(actualMessage).isEqualTo("[Test] %nExpecting path%n  %s%nto have parent:%n  %s%nbut had:%n  %s.".formatted(actual,
+                                                                                                                    expectedPathParent,
+                                                                                                                    actualParent));
   }
 }

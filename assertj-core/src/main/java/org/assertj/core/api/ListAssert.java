@@ -26,7 +26,6 @@ import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion methods for {@link List}s.
@@ -226,7 +225,7 @@ public class ListAssert<ELEMENT> extends
     return (ListFromStream<ELEMENT, Stream<ELEMENT>>) actual;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   static class ListFromStream<ELEMENT, STREAM extends BaseStream<ELEMENT, STREAM>> extends AbstractList<ELEMENT> {
     private BaseStream<ELEMENT, STREAM> stream;
     private List<ELEMENT> list;

@@ -20,13 +20,11 @@ import org.assertj.core.data.Index;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ShortArrays;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, short[], Short> {
 
-  @VisibleForTesting
-  protected ShortArrays arrays = ShortArrays.instance();
+  private ShortArrays arrays = ShortArrays.instance();
 
   protected AbstractShortArrayAssert(short[] actual, Class<?> selfType) {
     super(actual, selfType);

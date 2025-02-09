@@ -39,7 +39,7 @@ public class Float2DArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     float2dArrays = new Float2DArrays();
     float2dArrays.failures = failures;
     arrays2d = mock(Arrays2D.class);

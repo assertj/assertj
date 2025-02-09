@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
@@ -33,10 +34,10 @@ public abstract class UrisBaseTest {
   protected AssertionInfo info;
 
   @BeforeEach
-  void setUp() {
-    failures = spy(new Failures());
+  void setUp() throws IllegalAccessException {
+    failures = spy(Failures.instance());
     uris = new Uris();
-    uris.failures = failures;
+    writeField(uris, "failures", failures, true);
     info = someInfo();
   }
 

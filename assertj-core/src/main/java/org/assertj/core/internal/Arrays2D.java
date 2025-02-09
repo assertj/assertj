@@ -27,10 +27,10 @@ import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid
 import static org.assertj.core.util.Arrays.sizeOf;
 
 import java.lang.reflect.Array;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.error.ShouldHaveDimensions;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for object and primitive two-dimensional arrays. It trades off performance for DRY.
@@ -51,13 +51,13 @@ public class Arrays2D {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void assertNullOrEmpty(AssertionInfo info, Failures failures, Object array) {
     if (array == null) return;
     if (countArrayElements(array) > 0) throw failures.failure(info, shouldBeNullOrEmpty(array));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void assertEmpty(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
     // need to check that all rows are empty
@@ -68,7 +68,7 @@ public class Arrays2D {
     }
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void assertHasDimensions(AssertionInfo info, Failures failures, Object array2d, int expectedNumberOfRows,
                                   int expectedRowSize) {
     assertNumberOfRows(info, failures, array2d, expectedNumberOfRows);
@@ -78,7 +78,7 @@ public class Arrays2D {
     }
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void assertNumberOfRows(AssertionInfo info, Failures failures, Object array, int expectedSize) {
     assertNotNull(info, array);
     int sizeOfActual = sizeOf(array);
@@ -98,7 +98,7 @@ public class Arrays2D {
     }
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void assertHasSameDimensionsAs(AssertionInfo info, Object actual, Object other) {
     assertNotNull(info, actual);
     assertIsArray(info, actual);
@@ -129,7 +129,7 @@ public class Arrays2D {
                                                                          otherRow, actual, other));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void assertContains(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
     assertNotNull(info, array);
     assertNotEmpty(info, failures, array);
@@ -140,7 +140,7 @@ public class Arrays2D {
     }
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void assertNotEmpty(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
     if (countArrayElements(array) == 0) throw failures.failure(info, shouldNotBeEmpty());
@@ -158,7 +158,7 @@ public class Arrays2D {
     return allRowsElementsCount;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void assertDoesNotContain(AssertionInfo info, Failures failures, Object array, Object value, Index index) {
     assertNotNull(info, array);
     checkIndexValueIsValid(index, Integer.MAX_VALUE);

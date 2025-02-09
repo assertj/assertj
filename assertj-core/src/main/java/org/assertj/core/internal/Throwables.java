@@ -43,7 +43,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Throwable}</code>s.
@@ -66,11 +65,9 @@ public class Throwables {
     return INSTANCE;
   }
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
+  private final Failures failures = Failures.instance();
 
-  @VisibleForTesting
-  Throwables() {}
+  private Throwables() {}
 
   /**
    * Asserts that the given actual {@code Throwable} message is equal to the given one.

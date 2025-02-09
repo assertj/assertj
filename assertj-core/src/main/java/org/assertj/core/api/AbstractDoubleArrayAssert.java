@@ -20,12 +20,11 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.DoubleArrays;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, double[], Double> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected DoubleArrays arrays = DoubleArrays.instance();
 
   protected AbstractDoubleArrayAssert(double[] actual, Class<?> selfType) {

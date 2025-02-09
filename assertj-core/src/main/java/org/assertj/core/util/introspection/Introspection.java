@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+
 import org.assertj.core.configuration.ConfigurationProvider;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Utility methods related to <a
@@ -84,7 +84,7 @@ public final class Introspection {
     Introspection.bareNamePropertyMethods = bareNamePropertyMethods;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public static boolean canExtractBareNamePropertyMethods() {
     return bareNamePropertyMethods;
   }

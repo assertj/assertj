@@ -18,10 +18,10 @@ import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThro
 import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.regex.Pattern;
+
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
@@ -42,7 +42,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAssert<SELF, ACTUAL>, ACTUAL extends Throwable>
     extends AbstractObjectAssert<SELF, ACTUAL> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Throwables throwables = Throwables.instance();
 
   protected AbstractThrowableAssert(ACTUAL actual, Class<?> selfType) {

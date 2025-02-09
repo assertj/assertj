@@ -25,7 +25,6 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Double}s.
@@ -49,7 +48,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
 
   private static final Double NEGATIVE_ZERO = -0.0;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Doubles doubles = Doubles.instance();
 
   private final boolean isPrimitive;

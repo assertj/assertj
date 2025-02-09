@@ -36,7 +36,7 @@ public class IntegersBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     integers = new Integers();
     integers.setFailures(failures);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>());

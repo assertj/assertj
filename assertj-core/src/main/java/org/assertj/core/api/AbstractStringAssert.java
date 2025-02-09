@@ -25,22 +25,22 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Comparator;
+
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> extends AbstractCharSequenceAssert<SELF, String> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
   protected AbstractStringAssert(String actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables = new Comparables();
 
   /**

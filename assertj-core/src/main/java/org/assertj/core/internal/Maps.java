@@ -65,11 +65,11 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.error.UnsatisfiedRequirement;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Map}</code>s.
@@ -86,13 +86,13 @@ public class Maps {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Maps() {}
 
   public <K, V> void assertAllSatisfy(AssertionInfo info, Map<K, V> actual,

@@ -23,7 +23,6 @@ import static org.assertj.core.util.introspection.Introspection.getPropertyGette
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Utility methods for properties access.
@@ -48,7 +47,7 @@ public class PropertySupport {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   PropertySupport() {}
 
   /**

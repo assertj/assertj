@@ -39,7 +39,7 @@ public class Short2DArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     short2DArrays = new Short2DArrays();
     short2DArrays.failures = failures;
     arrays2d = mock(Arrays2D.class);

@@ -12,8 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Reusable assertions for <code>{@link Long}</code>s.
  * 
@@ -35,7 +33,7 @@ public class Longs extends Numbers<Long> implements WholeNumbers<Long> {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Longs() {
     super();
   }

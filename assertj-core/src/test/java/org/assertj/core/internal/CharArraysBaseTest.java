@@ -44,7 +44,7 @@ public class CharArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     arrays = new CharArrays();
     arrays.failures = failures;
     caseInsensitiveComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());

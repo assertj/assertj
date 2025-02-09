@@ -38,7 +38,7 @@ public class BooleanArraysBaseTest {
   @BeforeEach
   public void setUp() {
     actual = arrayOf(true, false);
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     arrays = new BooleanArrays();
     arrays.failures = failures;
   }

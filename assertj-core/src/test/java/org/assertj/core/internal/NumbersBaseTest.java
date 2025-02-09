@@ -38,7 +38,7 @@ public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMBER_TY
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     numbers = getNumbers();
     numbers.setFailures(failures);
     comparatorComparisonStrategy = new ComparatorBasedComparisonStrategy(getComparator());

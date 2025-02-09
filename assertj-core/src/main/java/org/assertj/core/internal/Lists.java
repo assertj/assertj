@@ -27,10 +27,10 @@ import static org.assertj.core.internal.CommonValidations.checkIndexValueIsValid
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Consumer;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link List}</code>s.
@@ -55,10 +55,10 @@ public class Lists {
 
   private final ComparisonStrategy comparisonStrategy;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Lists() {
     this(StandardComparisonStrategy.instance());
   }
@@ -67,7 +67,7 @@ public class Lists {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
     return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }
@@ -268,7 +268,7 @@ public class Lists {
     return comparisonStrategy.areEqual(actual, other);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }

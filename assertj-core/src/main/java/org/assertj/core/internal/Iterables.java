@@ -102,13 +102,13 @@ import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Iterable}</code>s.
@@ -124,11 +124,11 @@ public class Iterables {
 
   private static final Iterables INSTANCE = new Iterables();
   private final ComparisonStrategy comparisonStrategy;
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Predicates predicates = Predicates.instance();
 
   /**
@@ -140,7 +140,7 @@ public class Iterables {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables() {
     this(StandardComparisonStrategy.instance());
   }
@@ -149,7 +149,7 @@ public class Iterables {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
     if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
       return strategy.getComparator();
@@ -157,7 +157,7 @@ public class Iterables {
     return null;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }

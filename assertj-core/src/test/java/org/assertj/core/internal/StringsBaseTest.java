@@ -12,26 +12,17 @@
  */
 package org.assertj.core.internal;
 
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
-/**
- * 
- * Base class for {@link Strings} tests.
- * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Strings#failures} appropriately.
- * 
- * @author Joel Costigliola
- * 
- */
 public class StringsBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();
@@ -42,25 +33,23 @@ public class StringsBaseTest {
   protected ComparatorBasedComparisonStrategy comparisonStrategy;
   protected Strings stringsWithCaseInsensitiveComparisonStrategy;
 
-  protected static final Set<Character> NON_BREAKING_SPACES;
-
-  static {
-    Set<Character> nonBreakingSpaces = new HashSet<>();
-    nonBreakingSpaces.add('\u00A0');
-    nonBreakingSpaces.add('\u2007');
-    nonBreakingSpaces.add('\u202F');
-
-    NON_BREAKING_SPACES = Collections.unmodifiableSet(nonBreakingSpaces);
-  }
+  protected static final Set<Character> NON_BREAKING_SPACES = Set.of('\u00A0', '\u2007', '\u202F');
 
   @BeforeEach
-  public void setUp() {
-    failures = spy(new Failures());
-    strings = new Strings();
-    strings.failures = failures;
+  public void setUp() throws IllegalAccessException {
+    failures = spy(Failures.instance());
+
+    strings = Strings.instance();
+    writeField(strings, "failures", failures, true);
+
     comparisonStrategy = new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE);
     stringsWithCaseInsensitiveComparisonStrategy = new Strings(comparisonStrategy);
-    stringsWithCaseInsensitiveComparisonStrategy.failures = failures;
+    writeField(stringsWithCaseInsensitiveComparisonStrategy, "failures", failures, true);
+  }
+
+  @AfterEach
+  public void tearDown() throws IllegalAccessException {
+    writeField(strings, "failures", Failures.instance(), true);
   }
 
 }

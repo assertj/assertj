@@ -19,7 +19,6 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Integers;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Integer}s.
@@ -41,7 +40,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<SELF>> extends
     AbstractComparableAssert<SELF, Integer> implements NumberAssert<SELF, Integer> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();
 
   protected AbstractIntegerAssert(Integer actual, Class<?> selfType) {

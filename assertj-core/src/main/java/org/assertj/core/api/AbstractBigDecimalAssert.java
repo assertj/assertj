@@ -22,7 +22,6 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link BigDecimal}s.
@@ -42,7 +41,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAssert<SELF>> extends
     AbstractComparableAssert<SELF, BigDecimal> implements NumberAssert<SELF, BigDecimal> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigDecimals bigDecimals = BigDecimals.instance();
 
   protected AbstractBigDecimalAssert(BigDecimal actual, Class<?> selfType) {

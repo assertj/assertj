@@ -10,22 +10,26 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error;
+package org.assertj.tests.core.testkit;
 
-import java.nio.file.Path;
+import org.apache.commons.lang3.reflect.FieldUtils;
 
-/**
- * Creates an error message indicating that an assertion that verifies that a {@link Path} is a regular file has failed.
- */
-public class ShouldBeSymbolicLink extends BasicErrorMessageFactory {
+public class FieldTestUtils {
 
-  private static final String SHOULD_BE_SYMBOLIC_LINK = "%nExpecting path:%n  %s%nto be a symbolic link.";
-
-  public static ErrorMessageFactory shouldBeSymbolicLink(final Path actual) {
-    return new ShouldBeSymbolicLink(actual);
+  public static void writeField(Object target, String fieldName, Object value) {
+    try {
+      FieldUtils.writeField(target, fieldName, value, true);
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  private ShouldBeSymbolicLink(final Path actual) {
-    super(SHOULD_BE_SYMBOLIC_LINK, actual);
+  public static <T> T readField(Object target, String fieldName, Class<T> unused) {
+
+    try {
+      return (T) FieldUtils.readField(target, fieldName, true);
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

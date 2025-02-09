@@ -10,14 +10,13 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shortarrays;
+package org.assertj.tests.core.internal.shortarrays;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSizeLessThanOrEqualTo.shouldHaveSizeLessThanOrEqualTo;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.assertj.core.internal.ShortArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 class ShortArrays_assertHasSizeLessThanOrEqualTo_Test extends ShortArraysBaseTest {

@@ -23,9 +23,9 @@ import java.nio.charset.Charset;
 import java.nio.file.FileSystem;
 import java.security.MessageDigest;
 import java.util.function.Predicate;
+
 import org.assertj.core.internal.Files;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link File}s.
@@ -47,10 +47,10 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> extends AbstractAssert<SELF, File> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Files files = Files.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Charset charset = Charset.defaultCharset();
 
   protected AbstractFileAssert(File actual, Class<?> selfType) {

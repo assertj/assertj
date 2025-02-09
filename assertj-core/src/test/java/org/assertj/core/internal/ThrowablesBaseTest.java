@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
@@ -20,14 +21,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-/**
- *
- * Base class for {@link Throwables} tests.
- * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Throwables#failures} appropriately.
- *
- * @author Joel Costigliola
- */
 public class ThrowablesBaseTest {
 
   protected static final AssertionInfo INFO = someInfo();
@@ -41,15 +34,16 @@ public class ThrowablesBaseTest {
   }
 
   @BeforeEach
-  public void setUp() {
-    failures = spy(new Failures());
-    throwables = new Throwables();
-    throwables.failures = failures;
+  public void setUp() throws IllegalAccessException {
+    failures = spy(Failures.instance());
+    throwables = Throwables.instance();
+    writeField(throwables, "failures", failures, true);
     Objects.instance().failures = failures;
   }
 
   @AfterEach
-  public void tearDown() {
+  public void tearDown() throws IllegalAccessException {
+    writeField(throwables, "failures", Failures.instance(), true);
     Objects.instance().failures = Failures.instance();
   }
 

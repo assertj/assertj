@@ -15,8 +15,6 @@ package org.assertj.core.error;
 import java.io.File;
 import java.nio.file.Path;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Creates an error message indicating that a {@code File} should have a parent.
  * 
@@ -24,17 +22,10 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class ShouldHaveParent extends BasicErrorMessageFactory {
 
-  @VisibleForTesting
-  public static final String PATH_NO_PARENT = "%nExpecting path%n  %s%nto have parent:%n  %s%nbut did not have one.";
-
-  @VisibleForTesting
-  public static final String PATH_NOT_EXPECTED_PARENT = "%nExpecting path%n  %s%nto have parent:%n  %s%nbut had:%n  %s.";
-
-  @VisibleForTesting
-  public static final String FILE_NO_PARENT = "%nExpecting file%n  %s%nto have parent:%n  %s%nbut did not have one.";
-
-  @VisibleForTesting
-  public static final String FILE_NOT_EXPECTED_PARENT = "%nExpecting file%n  %s%nto have parent:%n  %s%nbut had:%n  %s.";
+  private static final String PATH_NO_PARENT = "%nExpecting path%n  %s%nto have parent:%n  %s%nbut did not have one.";
+  private static final String PATH_NOT_EXPECTED_PARENT = "%nExpecting path%n  %s%nto have parent:%n  %s%nbut had:%n  %s.";
+  private static final String FILE_NO_PARENT = "%nExpecting file%n  %s%nto have parent:%n  %s%nbut did not have one.";
+  private static final String FILE_NOT_EXPECTED_PARENT = "%nExpecting file%n  %s%nto have parent:%n  %s%nbut had:%n  %s.";
 
   public static ShouldHaveParent shouldHaveParent(File actual, File expected) {
     return actual.getParentFile() == null ? new ShouldHaveParent(actual, expected)

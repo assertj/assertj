@@ -20,7 +20,6 @@ import static org.assertj.core.util.Objects.hashCodeFor;
 
 import java.util.Collection;
 import java.util.Iterator;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * The {@code Description} combining multiple {@code Description}s. It'll honor the nested descriptions and will indent
@@ -37,11 +36,11 @@ public class JoinDescription extends Description {
    */
   private static final String DELIMITER = ',' + LINE_SEPARATOR;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final Collection<Description> descriptions;
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final String prefix;
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final String suffix;
 
   /**

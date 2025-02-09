@@ -14,11 +14,15 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
+import static org.assertj.core.testkit.FieldTestUtils.readField;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
+import java.util.Comparator;
+
 import org.assertj.core.api.abstract_.AbstractAssert_isNull_Test;
 import org.assertj.core.error.AssertionErrorCreator;
+import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +49,6 @@ import org.junit.jupiter.api.Test;
  *
  * @param <S> the "self" type of the assertion under test.
  * @param <A> the type of the "actual" value.
- *
  * @author Olivier Michallat
  */
 public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
@@ -63,14 +66,14 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
 
   /**
    * Builds an instance of the {@link Assert} implementation under test.
-   *
+   * <p>
    * This object will be accessible through the {@link #assertions} field.
    */
   protected abstract S create_assertions();
 
   /**
    * Injects any additional internal objects (typically mocks) into {@link #assertions}.
-   *
+   * <p>
    * Subclasses that override this method must call the superclass implementation.
    */
   protected void inject_internal_objects() {
@@ -118,7 +121,7 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
    * Invokes the API method under test.
    *
    * @return the assertion object that is returned by the method. If the method is {@code void}, return {@code null} and override
-   *         {@link #should_return_this()}.
+   * {@link #should_return_this()}.
    */
   protected abstract S invoke_api_method();
 
@@ -127,4 +130,10 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
    * object).
    */
   protected abstract void verify_internal_effects();
+
+  protected Comparator<?> getComparisonStrategyComparatorOf(Object object) {
+    ComparisonStrategy comparisonStrategy = readField(object, "comparisonStrategy", ComparisonStrategy.class);
+    return readField(comparisonStrategy, "comparator", Comparator.class);
+  }
+
 }

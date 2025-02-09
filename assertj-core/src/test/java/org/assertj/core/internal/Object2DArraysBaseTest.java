@@ -39,7 +39,7 @@ public class Object2DArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     object2dArrays = new Object2DArrays<>();
     object2dArrays.failures = failures;
     arrays2d = mock(Arrays2D.class);

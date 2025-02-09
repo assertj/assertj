@@ -19,13 +19,13 @@ import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.hashCodeFor;
 
 import java.util.Objects;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Creates an <code>{@link AssertionError}</code> indicating that an assertion that verifies that two objects are equal
@@ -50,11 +50,9 @@ public class ShouldBeEqual implements AssertionErrorFactory {
   protected final Object expected;
   protected final MessageFormatter messageFormatter = MessageFormatter.instance();
   protected final ComparisonStrategy comparisonStrategy;
-  private Representation representation;
-  @VisibleForTesting
-  ConstructorInvoker constructorInvoker = new ConstructorInvoker();
-  @VisibleForTesting
-  DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
+  private final Representation representation;
+  private final ConstructorInvoker constructorInvoker = new ConstructorInvoker();
+  private final DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
 
   /**
    * Creates a new <code>{@link ShouldBeEqual}</code>.

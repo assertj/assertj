@@ -92,6 +92,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
 import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
 import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
 import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
@@ -106,7 +107,6 @@ import org.assertj.core.testkit.Person;
 import org.assertj.core.testkit.TolkienCharacter;
 import org.assertj.core.testkit.TolkienCharacterAssert;
 import org.assertj.core.util.Lists;
-import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -1970,11 +1970,9 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.assertThat(actual)
           .hasAnnotations(MyAnnotation.class, AnotherAnnotation.class)
-          .hasAnnotations(SafeVarargs.class, VisibleForTesting.class);
+          .hasAnnotations(SafeVarargs.class);
     // THEN
-    then(softly.errorsCollected()).singleElement(as(THROWABLE))
-                                  .hasMessageContaining("SafeVarargs")
-                                  .hasMessageContaining("VisibleForTesting");
+    then(softly.errorsCollected()).singleElement(as(THROWABLE)).hasMessageContaining("SafeVarargs");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught

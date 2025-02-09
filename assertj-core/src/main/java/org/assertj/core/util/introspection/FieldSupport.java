@@ -24,8 +24,8 @@ import static org.assertj.core.util.introspection.FieldUtils.readField;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.List;
+
 import org.assertj.core.configuration.ConfigurationProvider;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Utility methods for fields access.
@@ -76,7 +76,7 @@ public enum FieldSupport {
     this.allowUsingPrivateFields = allowUsingPrivateFields;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public boolean isAllowedToUsePrivateFields() {
     return allowUsingPrivateFields;
   }

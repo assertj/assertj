@@ -18,7 +18,6 @@ import java.util.Comparator;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for {@link Comparable} assertions.
@@ -56,7 +55,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUniversalComparableAssert<SELF, T>, T>
     extends AbstractObjectAssert<SELF, Comparable<T>> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables = new Comparables();
 
   protected AbstractUniversalComparableAssert(Comparable<T> actual, Class<?> selfType) {

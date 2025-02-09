@@ -35,7 +35,7 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
 
   @BeforeEach
   @Override
-  public void setUp() {
+  public void setUp() throws IllegalAccessException {
     super.setUp();
     throwableSuppressedException = new Throwable();
     throwableSuppressedException.addSuppressed(new IllegalArgumentException(IAE_EXCEPTION_MESSAGE));

@@ -42,6 +42,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.ThrowingExtractor;
@@ -65,7 +66,6 @@ import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
@@ -77,9 +77,9 @@ public class AtomicReferenceArrayAssert<T>
     ArraySortedAssert<AtomicReferenceArrayAssert<T>, T> {
 
   private final T[] array;
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
   private TypeComparators comparatorsByType;

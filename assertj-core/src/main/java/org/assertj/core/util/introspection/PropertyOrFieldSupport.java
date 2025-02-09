@@ -17,7 +17,6 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Map;
 import java.util.Optional;
-import org.assertj.core.util.VisibleForTesting;
 
 public class PropertyOrFieldSupport {
   private static final String SEPARATOR = ".";
@@ -33,7 +32,7 @@ public class PropertyOrFieldSupport {
     this.fieldSupport = FieldSupport.extraction();
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   PropertyOrFieldSupport(PropertySupport propertySupport, FieldSupport fieldSupport) {
     this.propertySupport = propertySupport;
     this.fieldSupport = fieldSupport;

@@ -14,7 +14,6 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeCanonicalPath.SHOULD_BE_CANONICAL;
 import static org.assertj.core.error.ShouldBeCanonicalPath.shouldBeCanonicalPath;
 import static org.mockito.Mockito.mock;
 
@@ -34,6 +33,6 @@ class ShouldBeCanonicalPath_create_Test {
     // WHEN
     String actualMessage = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_CANONICAL, actual));
+    then(actualMessage).isEqualTo(format("[Test] %nExpecting actual:%n  %s%nto be a canonical path", actual));
   }
 }

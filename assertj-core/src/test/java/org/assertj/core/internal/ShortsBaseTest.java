@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.testkit.FieldTestUtils.writeField;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.util.AbsValueComparator;
@@ -35,10 +36,11 @@ public class ShortsBaseTest {
   protected Shorts shortsWithAbsValueComparisonStrategy;
 
   @BeforeEach
-  public void setUp() {
-    failures = spy(new Failures());
-    shorts = new Shorts();
-    shorts.setFailures(failures);
+  public void setUp() throws IllegalAccessException {
+    failures = spy(Failures.instance());
+    shorts = new Shorts(StandardComparisonStrategy.instance());
+    writeField(shorts, "failures", failures);
+
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Short>());
     shortsWithAbsValueComparisonStrategy = new Shorts(absValueComparisonStrategy);
     shortsWithAbsValueComparisonStrategy.failures = failures;

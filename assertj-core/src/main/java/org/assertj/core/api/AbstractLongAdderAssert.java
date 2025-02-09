@@ -23,7 +23,6 @@ import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link LongAdder}s.
@@ -38,7 +37,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extends AbstractAssert<SELF, LongAdder>
     implements NumberAssert<SELF, Long>, ComparableAssert<SELF, Long> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Longs longs = Longs.instance();
 
   protected AbstractLongAdderAssert(LongAdder longAdder, Class<?> selfType) {

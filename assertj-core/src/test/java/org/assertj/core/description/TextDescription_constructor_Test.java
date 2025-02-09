@@ -13,12 +13,13 @@
 package org.assertj.core.description;
 
 import static java.util.UUID.randomUUID;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.apache.commons.lang3.reflect.FieldUtils.readField;
+import static org.assertj.core.api.BDDAssertions.then;
 
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link TextDescription#TextDescription(String)}</code>.
+ * Tests for <code>{@link TextDescription#TextDescription(String, Object...)}  TextDescription(String)}</code>.
  * 
  * @author Yvonne Wang
  * @author Alex Ruiz
@@ -26,10 +27,13 @@ import org.junit.jupiter.api.Test;
 class TextDescription_constructor_Test {
 
   @Test
-  void should_set_value() {
+  void should_set_value() throws IllegalAccessException {
+    // GIVEN
     String value = randomText();
+    // WHEN
     TextDescription description = new TextDescription(value);
-    assertThat(description.value).isEqualTo(value);
+    // THEN
+    then(readField(description, "value", true)).isEqualTo(value);
   }
 
   private static String randomText() {
@@ -37,8 +41,8 @@ class TextDescription_constructor_Test {
   }
 
   @Test
-  void should_return_empty_description_if_value_is_null() {
+  void should_return_empty_description_if_value_is_null() throws IllegalAccessException {
     TextDescription description = new TextDescription(null);
-    assertThat(description.value).isEmpty();
+    then(readField(description, "value", true)).isEqualTo("");
   }
 }

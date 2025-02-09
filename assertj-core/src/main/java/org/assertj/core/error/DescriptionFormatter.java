@@ -15,7 +15,6 @@ package org.assertj.core.error;
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Formats the <code>{@link Description}</code>s to be included in assertion errors.
@@ -34,7 +33,7 @@ public class DescriptionFormatter {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   DescriptionFormatter() {}
 
   /**

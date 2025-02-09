@@ -35,6 +35,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
@@ -51,7 +52,6 @@ import org.assertj.core.internal.Objects;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all assertions.
@@ -74,24 +74,24 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   protected Objects objects = Objects.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public WritableAssertionInfo info;
 
   // visibility is protected to allow us write custom assertions that need access to actual
   protected final ACTUAL actual;
   protected final SELF myself;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   // = ConfigurationProvider.CONFIGURATION_PROVIDER.representation(); ?
   static Representation customRepresentation = null;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   AssertionErrorCreator assertionErrorCreator;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   static boolean printAssertionsDescription;
 
   private static Consumer<Description> descriptionConsumer;

@@ -10,25 +10,28 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.core.testkit.ShortArrays.arrayOf;
+import static org.assertj.tests.core.testkit.FieldTestUtils.writeField;
+import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
 import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 
-import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.ShortArrays;
+import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
  * Base class for testing <code>{@link ShortArrays}</code>, set up an instance with {@link StandardComparisonStrategy} and another
  * with {@link ComparatorBasedComparisonStrategy}. *
- * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link ShortArrays#failures} appropriately.
- * 
+ *
  * @author Joel Costigliola
  */
-public class ShortArraysBaseTest {
+class ShortArraysBaseTest {
 
   /**
    * is initialized with {@link #initActualArray()} with default value = {6, 8, 10}
@@ -40,17 +43,19 @@ public class ShortArraysBaseTest {
   protected ComparatorBasedComparisonStrategy absValueComparisonStrategy;
   protected ShortArrays arraysWithCustomComparisonStrategy;
 
-  private AbsValueComparator<Short> absValueComparator = new AbsValueComparator<>();
+  private final AbsValueComparator<Short> absValueComparator = new AbsValueComparator<>();
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
-    arrays = new ShortArrays();
-    arrays.failures = failures;
+    initActualArray();
+    failures = spy(Failures.instance());
+
+    arrays = new ShortArrays(StandardComparisonStrategy.instance());
+    writeField(arrays, "failures", failures);
+
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());
     arraysWithCustomComparisonStrategy = new ShortArrays(absValueComparisonStrategy);
-    arraysWithCustomComparisonStrategy.failures = failures;
-    initActualArray();
+    writeField(arraysWithCustomComparisonStrategy, "failures", failures);
   }
 
   protected void initActualArray() {
@@ -59,10 +64,6 @@ public class ShortArraysBaseTest {
 
   protected Comparator<?> comparatorForCustomComparisonStrategy() {
     return absValueComparator;
-  }
-
-  protected void setArrays(Arrays internalArrays) {
-    arrays.setArrays(internalArrays);
   }
 
 }

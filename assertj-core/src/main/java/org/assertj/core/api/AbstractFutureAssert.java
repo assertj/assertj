@@ -22,13 +22,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.assertj.core.internal.Futures;
-import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SELF, ACTUAL, RESULT>, ACTUAL extends Future<RESULT>, RESULT>
     extends
     AbstractAssert<SELF, ACTUAL> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Futures futures = Futures.instance();
 
   protected AbstractFutureAssert(ACTUAL actual, Class<?> selfType) {

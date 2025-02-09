@@ -37,7 +37,7 @@ public class ComparablesBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     comparables = new Comparables();
     comparables.failures = failures;
     customComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());

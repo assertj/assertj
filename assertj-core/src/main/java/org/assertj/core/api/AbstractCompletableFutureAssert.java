@@ -40,7 +40,6 @@ import java.util.function.Predicate;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Futures;
 import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for {@link CompletableFuture}.
@@ -51,7 +50,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, RESULT>, RESULT> extends
     AbstractAssert<SELF, CompletableFuture<RESULT>> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Futures futures = Futures.instance();
 
   protected AbstractCompletableFutureAssert(CompletableFuture<RESULT> actual, Class<?> selfType) {

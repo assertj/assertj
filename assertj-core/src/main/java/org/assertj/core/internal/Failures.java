@@ -29,7 +29,6 @@ import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.error.ShouldBeEqual;
 import org.assertj.core.util.Throwables;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Failure actions.
@@ -82,8 +81,7 @@ public class Failures {
     return removeAssertJRelatedElementsFromStackTrace;
   }
 
-  @VisibleForTesting
-  Failures() {}
+  private Failures() {}
 
   /**
    * Creates a <code>{@link AssertionError}</code> following this pattern:

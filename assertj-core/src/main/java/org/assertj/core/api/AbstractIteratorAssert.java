@@ -18,7 +18,6 @@ import java.util.Iterator;
 
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.internal.Iterators;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * <p>Base class for all implementations of assertions for {@link Iterator}s.</p>
@@ -34,7 +33,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert<SELF, ELEMENT>, ELEMENT>
     extends AbstractAssert<SELF, Iterator<? extends ELEMENT>> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterators iterators = Iterators.instance();
 
   /**

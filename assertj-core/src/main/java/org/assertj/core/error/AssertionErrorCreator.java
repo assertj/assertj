@@ -17,12 +17,12 @@ import static org.assertj.core.util.Throwables.describeErrors;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.assertj.core.api.SoftAssertionError;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 public class AssertionErrorCreator {
@@ -33,7 +33,7 @@ public class AssertionErrorCreator {
 
   private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ConstructorInvoker constructorInvoker;
 
   public AssertionErrorCreator() {

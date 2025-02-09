@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.description.Description;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion class checking {@link Throwable} type.
@@ -30,7 +29,6 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<ThrowableTypeAssert<T>> {
 
-  @VisibleForTesting
   protected final Class<? extends T> expectedThrowableType;
 
   protected Description description;

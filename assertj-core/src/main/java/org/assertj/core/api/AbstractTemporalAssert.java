@@ -25,7 +25,6 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Temporal}s.
@@ -34,7 +33,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert<SELF, TEMPORAL>, TEMPORAL extends Temporal>
     extends AbstractAssert<SELF, TEMPORAL> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables;
 
   /**

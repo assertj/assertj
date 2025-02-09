@@ -10,20 +10,19 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shortarrays;
+package org.assertj.tests.core.internal.shortarrays;
 
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
-import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.internal.ShortArrays;
-import org.assertj.core.internal.ShortArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**

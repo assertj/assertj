@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal;
 
+import static org.apache.commons.lang3.reflect.FieldUtils.readField;
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
@@ -20,10 +22,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- *
  * Base class for {@link Spliterators} tests.
- * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Spliterators#setFailures(Failures)} appropriately.
  *
  * @author William Bakker
  */
@@ -36,14 +35,24 @@ public class SpliteratorsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     spliterators = new Spliterators();
-    spliterators.setFailures(failures);
+    setFailures(spliterators, failures);
   }
 
   @AfterEach
   public void tearDown() {
-    spliterators.setFailures(Failures.instance());
+    setFailures(spliterators, Failures.instance());
+  }
+
+  private void setFailures(Spliterators spliterators, Failures failures) {
+    try {
+      Object iterables = readField(spliterators, "iterables", true);
+      writeField(iterables, "failures", failures, true);
+    } catch (IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+
   }
 
 }

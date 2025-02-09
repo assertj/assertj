@@ -23,7 +23,6 @@ import static org.assertj.core.error.ShouldSatisfy.shouldSatisfyAll;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.condition.AllOf;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Verifies that a value satisfies a <code>{@link Condition}</code>.
@@ -42,10 +41,10 @@ public class Conditions {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions() {}
 
   /**

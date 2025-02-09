@@ -12,10 +12,13 @@
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.testkit.FieldTestUtils.readField;
+import static org.assertj.core.testkit.FieldTestUtils.writeField;
 import static org.assertj.core.testkit.ShortArrays.emptyArray;
 import static org.mockito.Mockito.mock;
 
 import org.assertj.core.internal.ShortArrays;
+import org.junit.jupiter.api.AfterEach;
 
 /**
  * Base class for {@link ShortArrayAssert} tests.
@@ -34,10 +37,15 @@ public abstract class ShortArrayAssertBaseTest extends BaseTestTemplate<ShortArr
   protected void inject_internal_objects() {
     super.inject_internal_objects();
     arrays = mock(ShortArrays.class);
-    assertions.arrays = arrays;
+    writeField(assertions, "arrays", arrays);
   }
 
   protected ShortArrays getArrays(ShortArrayAssert someAssertions) {
-    return someAssertions.arrays;
+    return readField(someAssertions, "arrays", ShortArrays.class);
+  }
+
+  @AfterEach
+  public void tearDown() {
+    arrays = ShortArrays.instance();
   }
 }

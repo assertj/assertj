@@ -29,7 +29,7 @@ public class BaseArraysTest {
   @BeforeEach
   public void setUp() {
     actual = array("Luke", "Yoda", "Leia");
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     arrays = Arrays.instance();
     caseInsensitiveStringComparisonStrategy = new ComparatorBasedComparisonStrategy(new CaseInsensitiveStringComparator());
     arraysWithCustomComparisonStrategy = new Arrays(caseInsensitiveStringComparisonStrategy);

@@ -14,8 +14,6 @@ package org.assertj.core.internal;
 
 import static java.lang.Math.abs;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Reusable assertions for <code>{@link Float}</code>s.
  *
@@ -37,7 +35,7 @@ public class Floats extends RealNumbers<Float> {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Floats() {
     super();
   }

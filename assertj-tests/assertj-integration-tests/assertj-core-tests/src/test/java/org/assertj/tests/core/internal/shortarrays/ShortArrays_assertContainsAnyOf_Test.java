@@ -10,14 +10,14 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shortarrays;
+package org.assertj.tests.core.internal.shortarrays;
 
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.testkit.FieldTestUtils.writeField;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.internal.Arrays;
-import org.assertj.core.internal.ShortArraysBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -30,11 +30,11 @@ class ShortArrays_assertContainsAnyOf_Test extends ShortArraysBaseTest {
   public void setUp() {
     super.setUp();
     internalArrays = mock(Arrays.class);
-    setArrays(internalArrays);
+    writeField(arrays, "arrays", internalArrays);
   }
 
   @Test
-  void should_delegate_to_shorternal_Arrays() {
+  void should_delegate_to_internal_Arrays() {
     arrays.assertContainsAnyOf(someInfo(), actual, new short[] { 1, 2, 3 });
     verify(internalArrays).assertContainsAnyOf(someInfo(), failures, actual, new short[] { 1, 2, 3 });
   }

@@ -49,7 +49,6 @@ import java.util.regex.PatternSyntaxException;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
@@ -70,7 +69,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends CharSequence>
     extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Strings strings = Strings.instance();
 
   protected AbstractCharSequenceAssert(ACTUAL actual, Class<?> selfType) {

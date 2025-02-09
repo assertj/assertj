@@ -39,7 +39,7 @@ public class LongsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     longs = new Longs();
     longs.setFailures(failures);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Long>());

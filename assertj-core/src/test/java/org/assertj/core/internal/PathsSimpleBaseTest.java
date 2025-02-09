@@ -45,7 +45,7 @@ public abstract class PathsSimpleBaseTest {
   @BeforeEach
   public void setUp(@TempDir Path tempDir) {
     this.tempDir = tempDir;
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     paths = Paths.instance();
     paths.failures = failures;
   }

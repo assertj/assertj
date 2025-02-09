@@ -39,6 +39,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
+
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -46,7 +47,6 @@ import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Map}s.
@@ -69,7 +69,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends Map<K, V>, K, V>
     extends AbstractObjectAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Maps maps = Maps.instance();
 
   protected AbstractMapAssert(ACTUAL actual, Class<?> selfType) {

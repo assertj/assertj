@@ -61,8 +61,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 
 /**
@@ -89,16 +89,16 @@ public class Files {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Diff diff = new Diff();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BinaryDiff binaryDiff = new BinaryDiff();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   NioFilesWrapper nioFilesWrapper = NioFilesWrapper.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Files() {}
 
   /**

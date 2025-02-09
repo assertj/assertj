@@ -48,7 +48,7 @@ public abstract class FilesSimpleBaseTest {
   public void setUp(@TempDir Path tempDir) {
     this.tempDir = tempDir;
     tempDirAsFile = tempDir.toFile();
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     files = new Files();
     files.failures = failures;
   }

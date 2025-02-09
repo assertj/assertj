@@ -41,12 +41,12 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Date}s.
@@ -80,7 +80,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   private static List<DateFormat> DEFAULT_DATE_FORMATS = defaultDateFormats();
   private static boolean lenientParsing = Configuration.LENIENT_DATE_PARSING;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   static List<DateFormat> defaultDateFormats() {
     if (DEFAULT_DATE_FORMATS == null || defaultDateFormatMustBeRecreated()) {
       DEFAULT_DATE_FORMATS = list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(lenientParsing),
@@ -104,10 +104,10 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * to Date.<br>
    * It keeps the insertion order, so the first format added will be the first format used.
    */
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   static ThreadLocal<LinkedHashSet<DateFormat>> userDateFormats = ThreadLocal.withInitial(LinkedHashSet::new);
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Dates dates = Dates.instance();
 
   protected AbstractDateAssert(Date actual, Class<?> selfType) {
@@ -3584,7 +3584,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * @return the corresponding Date, null if dateAsString parameter is null.
    * @throws AssertionError if the string can't be parsed as a Date
    */
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Date parse(String dateAsString) {
     if (dateAsString == null) return null;
     // parse with date format specified by user if any, otherwise use default formats

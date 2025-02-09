@@ -16,8 +16,6 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.function.Predicate;
 
-import org.assertj.core.util.VisibleForTesting;
-
 public class Predicates {
 
   private static final Predicates INSTANCE = new Predicates();
@@ -30,11 +28,7 @@ public class Predicates {
     return INSTANCE;
   }
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
-
-  @VisibleForTesting
-  Predicates() {}
+  private Predicates() {}
 
   /**
    * Asserts the given <code>{@link Predicate}</code> is not null.

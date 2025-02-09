@@ -27,7 +27,7 @@ class TextDescription_value_Test {
   @Test
   void should_return_value() {
     TextDescription description = new TextDescription("Robin");
-    assertThat(description.value()).isEqualTo(description.value);
+    assertThat(description.value()).isEqualTo("Robin");
   }
 
   @Test

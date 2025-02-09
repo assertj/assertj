@@ -14,6 +14,7 @@ package org.assertj.core.error;
 
 import static java.lang.Integer.toHexString;
 import static java.lang.String.format;
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -39,7 +40,7 @@ import org.opentest4j.AssertionFailedError;
  */
 class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
 
-  private String formattedDescription = "[my test]";
+  private final String formattedDescription = "[my test]";
   private Description description;
 
   @BeforeEach
@@ -48,13 +49,11 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
   }
 
   @Test
-  void should_create_AssertionError_with_message_differentiating_expected_double_and_actual_float() {
+  void should_create_AssertionError_with_message_differentiating_expected_double_and_actual_float() throws IllegalAccessException {
     // GIVEN
     Float actual = 42f;
     Double expected = 42d;
-    ShouldBeEqual shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, STANDARD_REPRESENTATION);
-    shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
-    when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
+    ShouldBeEqual shouldBeEqual = initShouldBeEqual(actual, expected);
     // WHEN
     AssertionError error = shouldBeEqual.newAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
@@ -65,13 +64,14 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
   }
 
   @Test
-  void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons() {
+  void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons() throws IllegalAccessException {
     // GIVEN
     Person actual = new Person("Jake", 43);
     Person expected = new Person("Jake", 47);
     ShouldBeEqual shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, STANDARD_REPRESENTATION);
-    shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
-    when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
+    DescriptionFormatter descriptionFormatterMock = mock(DescriptionFormatter.class);
+    writeField(shouldBeEqual, "descriptionFormatter", descriptionFormatterMock, true);
+    when(descriptionFormatterMock.format(description)).thenReturn(formattedDescription);
     // WHEN
     AssertionError error = shouldBeEqual.newAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
@@ -83,14 +83,15 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
   }
 
   @Test
-  void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons_even_if_a_comparator_based_comparison_strategy_is_used() {
+  void should_create_AssertionError_with_message_differentiating_expected_and_actual_persons_even_if_a_comparator_based_comparison_strategy_is_used() throws IllegalAccessException {
     // GIVEN
     Person actual = new Person("Jake", 43);
     Person expected = new Person("Jake", 47);
     ComparisonStrategy ageComparisonStrategy = new ComparatorBasedComparisonStrategy(new PersonComparator());
     ShouldBeEqual shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, ageComparisonStrategy, STANDARD_REPRESENTATION);
-    shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
-    when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
+    DescriptionFormatter descriptionFormatterMock = mock(DescriptionFormatter.class);
+    writeField(shouldBeEqual, "descriptionFormatter", descriptionFormatterMock, true);
+    when(descriptionFormatterMock.format(description)).thenReturn(formattedDescription);
     // WHEN
     AssertionError error = shouldBeEqual.newAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
@@ -103,13 +104,14 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
   }
 
   @Test
-  void should_create_AssertionError_with_message_differentiating_null_and_object_with_null_toString() {
+  void should_create_AssertionError_with_message_differentiating_null_and_object_with_null_toString() throws IllegalAccessException {
     // GIVEN
     Object actual = null;
     Object expected = new ToStringIsNull();
     ShouldBeEqual shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, STANDARD_REPRESENTATION);
-    shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
-    when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
+    DescriptionFormatter descriptionFormatterMock = mock(DescriptionFormatter.class);
+    writeField(shouldBeEqual, "descriptionFormatter", descriptionFormatterMock, true);
+    when(descriptionFormatterMock.format(description)).thenReturn(formattedDescription);
     // WHEN
     AssertionError error = shouldBeEqual.newAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
@@ -121,13 +123,14 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
   }
 
   @Test
-  void should_create_AssertionError_with_message_differentiating_object_with_null_toString_and_null() {
+  void should_create_AssertionError_with_message_differentiating_object_with_null_toString_and_null() throws IllegalAccessException {
     // GIVEN
     Object actual = new ToStringIsNull();
     Object expected = null;
     ShouldBeEqual shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, STANDARD_REPRESENTATION);
-    shouldBeEqual.descriptionFormatter = mock(DescriptionFormatter.class);
-    when(shouldBeEqual.descriptionFormatter.format(description)).thenReturn(formattedDescription);
+    DescriptionFormatter descriptionFormatterMock = mock(DescriptionFormatter.class);
+    writeField(shouldBeEqual, "descriptionFormatter", descriptionFormatterMock, true);
+    when(descriptionFormatterMock.format(description)).thenReturn(formattedDescription);
     // WHEN
     AssertionError error = shouldBeEqual.newAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
@@ -136,6 +139,14 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
                            "expected: null%n" +
                            " but was: \"null (ToStringIsNull@%s)\"",
                            toHexString(actual.hashCode()));
+  }
+
+  private ShouldBeEqual initShouldBeEqual(Object actual, Object expected) throws IllegalAccessException {
+    ShouldBeEqual shouldBeEqual = (ShouldBeEqual) shouldBeEqual(actual, expected, STANDARD_REPRESENTATION);
+    DescriptionFormatter descriptionFormatterMock = mock(DescriptionFormatter.class);
+    writeField(shouldBeEqual, "descriptionFormatter", descriptionFormatterMock, true);
+    when(descriptionFormatterMock.format(description)).thenReturn(formattedDescription);
+    return shouldBeEqual;
   }
 
   private static class Person {

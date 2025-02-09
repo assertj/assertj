@@ -28,10 +28,10 @@ import java.nio.file.ProviderMismatchException;
 import java.nio.file.spi.FileSystemProvider;
 import java.security.MessageDigest;
 import java.util.function.Predicate;
+
 import org.assertj.core.api.exception.PathsException;
 import org.assertj.core.internal.Paths;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for {@link Path} objects
@@ -85,10 +85,10 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> extends AbstractComparableAssert<SELF, Path> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected Paths paths = Paths.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Charset charset = Charset.defaultCharset();
 
   protected AbstractPathAssert(final Path actual, final Class<?> selfType) {

@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal;
 
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
@@ -25,10 +26,10 @@ public abstract class UrlsBaseTest {
   protected AssertionInfo info;
 
   @BeforeEach
-  public void setUp() {
-    failures = spy(new Failures());
+  public void setUp() throws IllegalAccessException {
+    failures = spy(Failures.instance());
     urls = new Urls();
-    urls.failures = failures;
+    writeField(urls, "failures", failures, true);
     info = someInfo();
   }
 }

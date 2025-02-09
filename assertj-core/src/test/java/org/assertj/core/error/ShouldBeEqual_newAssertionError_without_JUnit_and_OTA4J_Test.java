@@ -13,6 +13,7 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -45,12 +46,12 @@ class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
   private ConstructorInvoker constructorInvoker;
 
   @BeforeEach
-  public void setUp() {
+  public void setUp() throws NoSuchFieldException, IllegalAccessException {
     Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
     description = new TestDescription("Jedi");
     factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
     constructorInvoker = mock(ConstructorInvoker.class);
-    factory.constructorInvoker = constructorInvoker;
+    writeField(factory, "constructorInvoker", constructorInvoker, true);
   }
 
   @Test

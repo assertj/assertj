@@ -25,7 +25,6 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Float}s.
@@ -47,7 +46,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
 
   private static final Float NEGATIVE_ZERO = -0.0f;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Floats floats = Floats.instance();
 
   private final boolean isPrimitive;

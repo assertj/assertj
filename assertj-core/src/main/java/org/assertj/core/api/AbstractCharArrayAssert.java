@@ -20,12 +20,11 @@ import org.assertj.core.data.Index;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, char[], Character> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected CharArrays arrays = CharArrays.instance();
 
   protected AbstractCharArrayAssert(char[] actual, Class<?> selfType) {

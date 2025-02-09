@@ -41,10 +41,10 @@ public class ArrayWrapperList extends AbstractList<Object> {
     return new ArrayWrapperList(array);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final Object array;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ArrayWrapperList(Object array) {
     this.array = array;
   }

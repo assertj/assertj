@@ -22,7 +22,6 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Long2DArrays;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion methods for two-dimensional arrays of {@code long}s.
@@ -37,7 +36,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
 
   private final Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected Long2DArrays long2dArrays = Long2DArrays.instance();
 
   public Long2DArrayAssert(long[][] actual) {

@@ -17,7 +17,6 @@ import java.util.Comparator;
 import org.assertj.core.internal.Characters;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Character}s.
@@ -36,7 +35,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAssert<SELF>> extends
     AbstractComparableAssert<SELF, Character> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Characters characters = Characters.instance();
 
   protected AbstractCharacterAssert(Character actual, Class<?> selfType) {

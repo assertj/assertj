@@ -38,12 +38,12 @@ import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.TypeMessages;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.VisibleForTesting;
 
 public class RecursiveComparisonConfiguration extends AbstractRecursiveOperationConfiguration {
 
@@ -274,7 +274,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return !comparedFields.isEmpty();
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public boolean isOrIsChildOfAnyComparedFields(FieldLocation currentFieldLocation) {
     return comparedFields.stream()
                          .anyMatch(comparedField -> comparedField.equals(currentFieldLocation)
@@ -690,14 +690,14 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return description.toString();
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public boolean shouldNotEvaluate(DualValue dualValue) {
     // if we have some compared types, we can't discard any values since they could have fields we need to compare.
     if (!comparedTypes.isEmpty()) return false;
     return shouldIgnore(dualValue);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public boolean shouldIgnore(DualValue dualValue) {
     return shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation)
            || shouldIgnoreFieldBasedOnFieldValue(dualValue);
@@ -721,7 +721,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                             || field.hasChild(comparedField); // ex: field "name" and "name.first" compared field
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Set<String> getActualChildrenNodeNamesToCompare(DualValue dualValue) {
     Set<String> actualChildrenNodeNames = getChildrenNodeNamesOf(dualValue.actual);
     // if we have some compared types, we can't discard any nodes since they could have fields we need to compare.
@@ -792,7 +792,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return hasComparatorForType(valueType);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
     // root objects are not compared with equals as it makes the recursive comparison pointless (use isEqualsTo instead)
     if (dualValue.fieldLocation.isRoot()) return true;
@@ -808,12 +808,12 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
            || (dualValue.actual != null && shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass()));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public boolean shouldIgnoreOverriddenEqualsOf(Class<?> clazz) {
     return matchesAnIgnoredOverriddenEqualsType(clazz);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public boolean shouldIgnoreCollectionOrder(FieldLocation fieldLocation) {
     return ignoreCollectionOrder
            || matchesAnIgnoredCollectionOrderInField(fieldLocation)

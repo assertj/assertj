@@ -20,7 +20,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
 import org.assertj.core.internal.ShortsBaseTest;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -29,7 +28,6 @@ import org.junit.jupiter.params.provider.ValueSource;
  *
  * @author Cal027
  */
-@DisplayName("Shorts assertIsEven")
 class Shorts_assertIsEven_Test extends ShortsBaseTest {
 
   @ParameterizedTest

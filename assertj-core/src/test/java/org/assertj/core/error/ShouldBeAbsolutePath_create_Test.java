@@ -14,7 +14,6 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeAbsolutePath.SHOULD_BE_ABSOLUTE_PATH;
 import static org.assertj.core.error.ShouldBeAbsolutePath.shouldBeAbsolutePath;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
@@ -47,7 +46,7 @@ class ShouldBeAbsolutePath_create_Test {
     // WHEN
     String actualMessage = shouldBeAbsolutePath(file).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_ABSOLUTE_PATH, file));
+    then(actualMessage).isEqualTo(format("[Test] %nExpecting actual:%n  %s%nto be an absolute path.", file));
   }
 
   @Test
@@ -57,6 +56,6 @@ class ShouldBeAbsolutePath_create_Test {
     // WHEN
     String actualMessage = shouldBeAbsolutePath(path).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_ABSOLUTE_PATH, path));
+    then(actualMessage).isEqualTo(format("[Test] %nExpecting actual:%n  %s%nto be an absolute path.", path));
   }
 }

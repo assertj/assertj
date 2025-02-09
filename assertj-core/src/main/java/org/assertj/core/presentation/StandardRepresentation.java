@@ -62,13 +62,13 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
+
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.Closeables;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.ChangeDelta;
 import org.assertj.core.util.diff.DeleteDelta;
 import org.assertj.core.util.diff.InsertDelta;
@@ -155,7 +155,6 @@ public class StandardRepresentation implements Representation {
     maxLengthForSingleLineDescription = value;
   }
 
-  @VisibleForTesting
   public static int getMaxLengthForSingleLineDescription() {
     return maxLengthForSingleLineDescription;
   }
@@ -166,7 +165,6 @@ public class StandardRepresentation implements Representation {
     maxElementsForPrinting = value;
   }
 
-  @VisibleForTesting
   public static int getMaxStackTraceElementsDisplayed() {
     return maxStackTraceElementsDisplayed;
   }
@@ -177,7 +175,6 @@ public class StandardRepresentation implements Representation {
     maxStackTraceElementsDisplayed = value;
   }
 
-  @VisibleForTesting
   public static int getMaxElementsForPrinting() {
     return maxElementsForPrinting;
   }

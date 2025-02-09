@@ -10,48 +10,48 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shortarrays;
+package org.assertj.tests.core.internal.shortarrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
-import static org.assertj.core.testkit.ShortArrays.emptyArray;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
+import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ShortArrays;
-import org.assertj.core.internal.ShortArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShortArrays#assertEmpty(AssertionInfo, short[])}</code>.
+ * Tests for <code>{@link ShortArrays#assertNotEmpty(AssertionInfo, short[])}</code>.
  * 
  * @author Alex Ruiz
+ * @author Joel Costigliola
  */
-class ShortArrays_assertEmpty_Test extends ShortArraysBaseTest {
+class ShortArrays_assertNotEmpty_Test extends ShortArraysBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertEmpty(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertNotEmpty(someInfo(), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_actual_is_not_empty() {
+  void should_fail_if_actual_is_empty() {
     AssertionInfo info = someInfo();
-    short[] actual = { 6, 8 };
 
-    Throwable error = catchThrowable(() -> arrays.assertEmpty(info, actual));
+    Throwable error = catchThrowable(() -> arrays.assertNotEmpty(info, emptyArray()));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldBeEmpty(actual));
+    verify(failures).failure(info, shouldNotBeEmpty());
   }
 
   @Test
-  void should_pass_if_actual_is_empty() {
-    arrays.assertEmpty(someInfo(), emptyArray());
+  void should_pass_if_actual_is_not_empty() {
+    arrays.assertNotEmpty(someInfo(), arrayOf(8));
   }
 }

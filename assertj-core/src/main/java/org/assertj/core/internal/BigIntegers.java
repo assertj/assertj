@@ -17,8 +17,6 @@ import static java.math.BigInteger.ZERO;
 
 import java.math.BigInteger;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Reusable assertions for <code>{@link BigInteger}</code>s.
  */
@@ -35,7 +33,7 @@ public class BigIntegers extends Numbers<BigInteger> {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigIntegers() {
     super();
   }

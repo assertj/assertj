@@ -12,16 +12,14 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldExist.PATH_SHOULD_EXIST;
-import static org.assertj.core.error.ShouldExist.PATH_SHOULD_EXIST_NO_FOLLOW_LINKS;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
 
 import java.nio.file.Path;
+
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -53,7 +51,7 @@ class ShouldExist_create_Test {
     // WHEN
     String actualMessage = shouldExist(actual).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + PATH_SHOULD_EXIST, actual));
+    then(actualMessage).isEqualTo("[Test] %nExpecting path:%n  %s%nto exist (symbolic links were followed).".formatted(actual));
   }
 
   @Test
@@ -63,6 +61,6 @@ class ShouldExist_create_Test {
     // WHEN
     String actualMessage = shouldExistNoFollowLinks(actual).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + PATH_SHOULD_EXIST_NO_FOLLOW_LINKS, actual));
+    then(actualMessage).isEqualTo("[Test] %nExpecting path:%n  %s%nto exist (symbolic links were not followed).".formatted(actual));
   }
 }

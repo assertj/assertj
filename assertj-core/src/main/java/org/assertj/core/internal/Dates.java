@@ -53,9 +53,9 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.error.ShouldBeEqualWithTimePrecision;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Date}</code>s.
@@ -75,10 +75,10 @@ public class Dates {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Dates() {
     this(StandardComparisonStrategy.instance());
   }
@@ -89,7 +89,7 @@ public class Dates {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
     return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }

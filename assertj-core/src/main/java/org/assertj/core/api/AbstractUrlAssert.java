@@ -15,7 +15,6 @@ package org.assertj.core.api;
 import java.net.URL;
 
 import org.assertj.core.internal.Urls;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link URL}s.
@@ -25,7 +24,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> extends AbstractAssert<SELF, URL> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected Urls urls = Urls.instance();
 
   protected AbstractUrlAssert(final URL actual, final Class<?> selfType) {

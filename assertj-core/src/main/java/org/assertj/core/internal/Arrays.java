@@ -87,11 +87,11 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.ArrayWrapperList;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for object and primitive arrays. It trades off performance for DRY.
@@ -123,13 +123,13 @@ public class Arrays {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
     if (!(comparisonStrategy instanceof ComparatorBasedComparisonStrategy)) return null;
     return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }
@@ -195,7 +195,7 @@ public class Arrays {
     hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, failures, actual, values)) return;
     Set<Object> notFound = new LinkedHashSet<>();

@@ -10,22 +10,21 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shortarrays;
+package org.assertj.tests.core.internal.shortarrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplicates;
-import static org.assertj.core.testkit.ShortArrays.arrayOf;
-import static org.assertj.core.testkit.ShortArrays.emptyArray;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.testkit.ShortArrays.arrayOf;
+import static org.assertj.tests.core.testkit.ShortArrays.emptyArray;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ShortArrays;
-import org.assertj.core.internal.ShortArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**

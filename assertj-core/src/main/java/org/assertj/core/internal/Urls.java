@@ -38,14 +38,12 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 
 public class Urls {
 
   private static final Urls INSTANCE = new Urls();
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
+  private final Failures failures = Failures.instance();
 
   public static Urls instance() {
     return INSTANCE;

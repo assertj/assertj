@@ -27,7 +27,7 @@ import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Shorts#assertEqual(AssertionInfo, Short, short)}</code>.
+ * Tests for <code>{@link Shorts#assertEqual(AssertionInfo, Object, Object)}</code>.
  * 
  * @author Alex Ruiz
  * @author Joel Costigliola
