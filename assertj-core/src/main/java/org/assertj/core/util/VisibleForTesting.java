@@ -20,6 +20,6 @@ package org.assertj.core.util;
  * @author Alex Ruiz
  * @deprecated this was meant for internal use only.
  */
-@Deprecated(since = "3", forRemoval = true)
+@Deprecated(since = "4.0", forRemoval = true)
 public @interface VisibleForTesting {
 }
