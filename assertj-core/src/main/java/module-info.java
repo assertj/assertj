@@ -10,6 +10,10 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
+
+/**
+ * Helpful assertions for the JVM.
+ */
 module org.assertj.core {
   // AssertJ Core's package API
   exports org.assertj.core.annotations;
@@ -18,6 +22,7 @@ module org.assertj.core {
   exports org.assertj.core.api.filter;
   exports org.assertj.core.api.iterable;
   exports org.assertj.core.api.junit.jupiter;
+  exports org.assertj.core.api.recursive.assertion;
   exports org.assertj.core.api.recursive.comparison;
   exports org.assertj.core.condition;
   exports org.assertj.core.configuration;
@@ -35,6 +40,9 @@ module org.assertj.core {
   exports org.assertj.core.util.diff.myers;
   exports org.assertj.core.util.introspection;
   exports org.assertj.core.util.xml;
+
+  // FIXME refactor tests and remove
+  exports org.assertj.core.internal to org.assertj.tests.core;
 
   requires static java.logging; // required when printThreadDump is true
   requires static java.management;

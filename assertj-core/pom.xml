@@ -26,9 +26,10 @@
       --add-opens=java.base/java.util=ALL-UNNAMED
       --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
     </argLine>
+    <jacoco.skip>true</jacoco.skip> <!-- https://github.com/assertj/assertj/issues/3580 -->
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
-    <jacoco.skip>true</jacoco.skip> <!-- https://github.com/assertj/assertj/issues/3580 -->
+    <surefire.useModulePath>false</surefire.useModulePath> <!-- FIXME https://youtrack.jetbrains.com/issue/IDEA-290669 -->
     <!-- Dependency versions -->
     <byte-buddy.version>1.17.1</byte-buddy.version>
     <hamcrest.version>3.0</hamcrest.version>
@@ -301,60 +302,6 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <executions>
-          <!-- FIXME https://github.com/assertj/assertj/issues/3446 -->
-          <execution>
-            <id>module</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <compileSourceRoots>
-                <compileSourceRoot>${project.basedir}/src/main/module</compileSourceRoot>
-              </compileSourceRoots>
-              <multiReleaseOutput>true</multiReleaseOutput>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <trimStackTrace>false</trimStackTrace>
-          <excludes>
-            <exclude>org/assertj/core/internal/objects/Objects_assertHasOnlyFields_Test*</exclude>
-          </excludes>
-          <runOrder>random</runOrder>
-
-          <!--
-            These blocks are needed to show @DisplayName and @ParameterizedTest
-            in reports with the provided names, as well as with console output.
-          -->
-          <consoleOutputReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
-            <!-- Set to true to suppress log output being included in Surefire output -->
-            <disable>false</disable>
-          </consoleOutputReporter>
-
-          <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
-            <disable>false</disable>
-            <usePhrasedFileName>false</usePhrasedFileName>
-            <usePhrasedClassNameInRunning>true</usePhrasedClassNameInRunning>
-            <usePhrasedClassNameInTestCaseSummary>true</usePhrasedClassNameInTestCaseSummary>
-          </statelessTestsetInfoReporter>
-
-          <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
-            <disable>false</disable>
-            <usePhrasedFileName>false</usePhrasedFileName>
-            <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
-            <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
-            <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
-          </statelessTestsetReporter>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <configuration>
@@ -401,14 +348,6 @@
             </configuration>
           </execution>
         </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <!-- FIXME https://github.com/assertj/assertj/issues/3446 -->
-          <legacyMode>true</legacyMode>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
