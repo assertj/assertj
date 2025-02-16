@@ -10,7 +10,7 @@
 
   <artifactId>assertj-core-tests</artifactId>
 
-  <name>AssertJ Core Tests</name>
+  <name>AssertJ Core Integration Tests</name>
 
   <properties>
     <argLine>
