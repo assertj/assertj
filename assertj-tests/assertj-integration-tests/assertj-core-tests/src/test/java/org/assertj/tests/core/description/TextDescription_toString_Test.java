@@ -10,35 +10,28 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.description;
+package org.assertj.tests.core.description;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link TextDescription#value()}</code>.
- * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  */
-class TextDescription_value_Test {
+class TextDescription_toString_Test {
 
   @Test
   void should_return_value() {
-    TextDescription description = new TextDescription("Robin");
-    assertThat(description.value()).isEqualTo("Robin");
+    TextDescription description = new TextDescription("Flash");
+    assertThat(description).hasToString("Flash");
   }
 
   @Test
   void should_return_formatted_value() {
-    TextDescription description = new TextDescription("Robin %s", "Hood");
-    assertThat(description.value()).isEqualTo("Robin Hood");
-  }
-
-  @Test
-  void should_not_format_curly_brace() {
-    TextDescription description = new TextDescription("{} Robin %s", "Hood");
-    assertThat(description.value()).isEqualTo("{} Robin Hood");
+    TextDescription description = new TextDescription("Flash %s {}", "MacQueen");
+    assertThat(description).hasToString("Flash MacQueen {}");
   }
 }

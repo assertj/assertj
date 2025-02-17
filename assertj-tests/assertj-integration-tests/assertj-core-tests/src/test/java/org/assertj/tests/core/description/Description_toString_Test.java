@@ -10,18 +10,17 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.description;
+package org.assertj.tests.core.description;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.assertj.core.description.Description;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Description#toString()}</code>.
- * 
  * @author Yvonne Wang
  */
 class Description_toString_Test {

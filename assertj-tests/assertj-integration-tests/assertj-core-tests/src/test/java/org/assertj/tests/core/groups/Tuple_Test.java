@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.tests.core.groups;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;

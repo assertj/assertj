@@ -10,20 +10,19 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.description;
+package org.assertj.tests.core.description;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.testkit.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
-import static org.assertj.core.testkit.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
-import static org.assertj.core.testkit.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
-import static org.assertj.core.testkit.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
+import static org.assertj.tests.core.testkit.EqualsHashCodeContractAssert.assertEqualsIsReflexive;
+import static org.assertj.tests.core.testkit.EqualsHashCodeContractAssert.assertEqualsIsSymmetric;
+import static org.assertj.tests.core.testkit.EqualsHashCodeContractAssert.assertEqualsIsTransitive;
+import static org.assertj.tests.core.testkit.EqualsHashCodeContractAssert.assertMaintainsEqualsAndHashCodeContract;
 
+import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link TextDescription#equals(Object)}</code> and <code>{@link TextDescription#hashCode()}</code>.
- * 
  * @author Alex Ruiz
  */
 class TextDescription_equals_hashCode_Test {

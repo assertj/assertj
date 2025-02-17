@@ -10,17 +10,16 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.description;
+package org.assertj.tests.core.description;
 
 import static java.util.UUID.randomUUID;
 import static org.apache.commons.lang3.reflect.FieldUtils.readField;
 import static org.assertj.core.api.BDDAssertions.then;
 
+import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link TextDescription#TextDescription(String, Object...)}  TextDescription(String)}</code>.
- * 
  * @author Yvonne Wang
  * @author Alex Ruiz
  */

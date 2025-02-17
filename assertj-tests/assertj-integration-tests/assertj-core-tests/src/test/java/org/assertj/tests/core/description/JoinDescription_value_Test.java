@@ -10,22 +10,20 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.description;
+package org.assertj.tests.core.description;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Lists.list;
 
-import org.assertj.core.internal.TestDescription;
-import org.junit.jupiter.api.DisplayName;
+import org.assertj.core.description.Description;
+import org.assertj.core.description.JoinDescription;
+import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link JoinDescription#value()}.
- *
  * @author Edgar Asatryan
  */
-@DisplayName("JoinDescription value()")
 class JoinDescription_value_Test {
 
   @Test

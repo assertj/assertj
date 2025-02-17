@@ -10,29 +10,25 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.description;
+package org.assertj.tests.core.testkit;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import org.junit.jupiter.api.Test;
+import org.assertj.core.description.Description;
 
 /**
- * Tests for <code>{@link TextDescription#toString()}</code>.
+ * A description to be used for testing.
  * 
- * @author Yvonne Wang
  * @author Alex Ruiz
  */
-class TextDescription_toString_Test {
+public class TestDescription extends Description {
 
-  @Test
-  void should_return_value() {
-    TextDescription description = new TextDescription("Flash");
-    assertThat(description).hasToString("Flash");
+  private final String value;
+
+  public TestDescription(String value) {
+    this.value = value;
   }
 
-  @Test
-  void should_return_formatted_value() {
-    TextDescription description = new TextDescription("Flash %s {}", "MacQueen");
-    assertThat(description).hasToString("Flash MacQueen {}");
+  @Override
+  public String value() {
+    return value;
   }
 }

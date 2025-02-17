@@ -10,11 +10,13 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.description;
+package org.assertj.tests.core.description;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 
+import org.assertj.core.description.Description;
+import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
 class Description_mostRelevantDescription_Test {
