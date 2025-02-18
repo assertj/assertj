@@ -13,7 +13,6 @@
 package org.assertj.tests.core.description;
 
 import static java.util.UUID.randomUUID;
-import static org.apache.commons.lang3.reflect.FieldUtils.readField;
 import static org.assertj.core.api.BDDAssertions.then;
 
 import org.assertj.core.description.TextDescription;
@@ -26,13 +25,13 @@ import org.junit.jupiter.api.Test;
 class TextDescription_constructor_Test {
 
   @Test
-  void should_set_value() throws IllegalAccessException {
+  void should_set_value() {
     // GIVEN
     String value = randomText();
     // WHEN
     TextDescription description = new TextDescription(value);
     // THEN
-    then(readField(description, "value", true)).isEqualTo(value);
+    then(description).extracting("value").isEqualTo(value);
   }
 
   private static String randomText() {
@@ -40,8 +39,11 @@ class TextDescription_constructor_Test {
   }
 
   @Test
-  void should_return_empty_description_if_value_is_null() throws IllegalAccessException {
+  void should_return_empty_description_if_value_is_null() {
+    // WHEN
     TextDescription description = new TextDescription(null);
-    then(readField(description, "value", true)).isEqualTo("");
+    // THEN
+    then(description).extracting("value").isEqualTo("");
   }
+
 }

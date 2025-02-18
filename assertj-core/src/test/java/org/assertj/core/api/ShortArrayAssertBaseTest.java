@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.testkit.FieldTestUtils.readField;
 import static org.assertj.core.testkit.FieldTestUtils.writeField;
 import static org.assertj.core.testkit.ShortArrays.emptyArray;
 import static org.mockito.Mockito.mock;
@@ -38,10 +37,6 @@ public abstract class ShortArrayAssertBaseTest extends BaseTestTemplate<ShortArr
     super.inject_internal_objects();
     arrays = mock(ShortArrays.class);
     writeField(assertions, "arrays", arrays);
-  }
-
-  protected ShortArrays getArrays(ShortArrayAssert someAssertions) {
-    return readField(someAssertions, "arrays", ShortArrays.class);
   }
 
   @AfterEach

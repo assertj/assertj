@@ -19,7 +19,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
-
 import org.assertj.core.api.abstract_.AbstractAssert_isNull_Test;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.ComparisonStrategy;
@@ -132,8 +131,8 @@ public abstract class BaseTestTemplate<S extends AbstractAssert<S, A>, A> {
   protected abstract void verify_internal_effects();
 
   protected Comparator<?> getComparisonStrategyComparatorOf(Object object) {
-    ComparisonStrategy comparisonStrategy = readField(object, "comparisonStrategy", ComparisonStrategy.class);
-    return readField(comparisonStrategy, "comparator", Comparator.class);
+    ComparisonStrategy comparisonStrategy = readField(object, "comparisonStrategy");
+    return readField(comparisonStrategy, "comparator");
   }
 
 }

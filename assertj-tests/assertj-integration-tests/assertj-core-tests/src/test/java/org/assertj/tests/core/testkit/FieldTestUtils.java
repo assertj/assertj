@@ -12,6 +12,8 @@
  */
 package org.assertj.tests.core.testkit;
 
+import static org.assertj.core.util.introspection.PropertyOrFieldSupport.EXTRACTION;
+
 import org.apache.commons.lang3.reflect.FieldUtils;
 
 public class FieldTestUtils {
@@ -24,12 +26,9 @@ public class FieldTestUtils {
     }
   }
 
-  public static <T> T readField(Object target, String fieldName, Class<T> unused) {
-
-    try {
-      return (T) FieldUtils.readField(target, fieldName, true);
-    } catch (IllegalAccessException e) {
-      throw new RuntimeException(e);
-    }
+  @SuppressWarnings("unchecked")
+  public static <T> T readField(Object target, String fieldName) {
+    return (T) EXTRACTION.getValueOf(fieldName, target);
   }
+
 }
