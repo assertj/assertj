@@ -30,7 +30,7 @@ class AssertionMatcher_matches_Test {
   private static final Integer ZERO = 0;
   private static final Integer ONE = 1;
 
-  private final AssertionMatcher<Integer> isZeroMatcher = new AssertionMatcher<Integer>() {
+  private final AssertionMatcher<Integer> isZeroMatcher = new AssertionMatcher<>() {
     @Override
     public void assertion(Integer actual) throws AssertionError {
       assertThat(actual).isZero();
