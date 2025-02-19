@@ -51,7 +51,7 @@ class Assertions_assertThatNoException_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThatNoException().isThrownBy(boom));
     // THEN
     then(assertionError).hasMessageContaining("java.lang.Exception: %s", "boom")
-                        .hasMessageContaining("at org.assertj.tests.core.api.Assertions_assertThatNoException_Test.error_message_contains_stacktrace");
+                        .hasMessageContaining("at org.assertj.tests.core/org.assertj.tests.core.api.Assertions_assertThatNoException_Test.error_message_contains_stacktrace");
   }
 
   private ThrowingCallable raisingException(Exception exception) {

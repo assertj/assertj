@@ -13,10 +13,11 @@
 package org.assertj.tests.core.matcher;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.assertArg;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 
 import org.assertj.core.internal.Failures;
@@ -25,6 +26,7 @@ import org.hamcrest.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
 
 class AssertionMatcher_matches_Test {
   private static final Integer ZERO = 0;
@@ -81,19 +83,19 @@ class AssertionMatcher_matches_Test {
    */
   @Test
   void matcher_should_fill_description_when_assertion_fails() {
-    Description description = mock();
-
+    // WHEN
     assertThat(isZeroMatcher.matches(ONE)).isFalse();
-
+    // THEN
+    Description description = mock();
+    InOrder inOrder = inOrder(description);
     isZeroMatcher.describeTo(description);
-    verify(description).appendText("AssertionError with message: ");
-    verify(description).appendText(shouldBeEqualMessage("1", "0"));
-    verify(description).appendText("%n%nStacktrace was: ".formatted());
-    // @format:off
-    verify(description).appendText(argThat(s -> s.contains("%nexpected: 0%n but was: 1".formatted())
-        && s.contains("at org.assertj.tests.core.matcher.AssertionMatcher_matches_Test$1.assertion(AssertionMatcher_matches_Test.java:")
-        && s.contains("at org.assertj.core.matcher.AssertionMatcher.matches(AssertionMatcher.java:")
-        && s.contains("at org.assertj.tests.core.matcher.AssertionMatcher_matches_Test.matcher_should_fill_description_when_assertion_fails(AssertionMatcher_matches_Test.java:")));
-    // @format:on
+    inOrder.verify(description).appendText("AssertionError with message: ");
+    inOrder.verify(description).appendText(shouldBeEqualMessage("1", "0"));
+    inOrder.verify(description).appendText("%n%nStacktrace was: ".formatted());
+    inOrder.verify(description).appendText(assertArg(s -> then(s).contains("%nexpected: 0%n but was: 1".formatted(),
+                                                                           "org.assertj.tests.core.matcher.AssertionMatcher_matches_Test$1.assertion(AssertionMatcher_matches_Test.java:",
+                                                                           "org.assertj.core.matcher.AssertionMatcher.matches(AssertionMatcher.java:",
+                                                                           "org.assertj.tests.core.matcher.AssertionMatcher_matches_Test.matcher_should_fill_description_when_assertion_fails(AssertionMatcher_matches_Test.java:")));
   }
+
 }
