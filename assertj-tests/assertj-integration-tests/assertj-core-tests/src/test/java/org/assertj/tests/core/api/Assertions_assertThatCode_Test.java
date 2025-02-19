@@ -88,7 +88,7 @@ class Assertions_assertThatCode_Test {
     AssertionError error = expectAssertionError(() -> assertThatCode(boom).doesNotThrowAnyException());
     // THEN
     then(error).hasMessageContainingAll("java.lang.Exception: boom",
-                                        "at org.assertj.tests.core.api.Assertions_assertThatCode_Test.error_message_contains_stacktrace");
+                                        "at org.assertj.tests.core/org.assertj.tests.core.api.Assertions_assertThatCode_Test.error_message_contains_stacktrace");
   }
 
   @Test
