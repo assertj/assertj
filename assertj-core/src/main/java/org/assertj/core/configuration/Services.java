@@ -34,9 +34,8 @@ class Services {
     SERVICE result = services.hasNext() ? services.next() : defaultValue;
     if (services.hasNext()) {
       result = defaultValue;
-      System.err.println("Found multiple implementations for the service provider %s. Using the default: %s".formatted(
-                                                                                                                       serviceType,
-                                                                                                                       result.getClass()));
+      System.err.printf("Found multiple implementations for the service provider %s. Using the default: %s%n",
+                        serviceType, result.getClass());
     }
     return result;
   }

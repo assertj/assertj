@@ -17,6 +17,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.loadRegisteredConfiguration;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.util.introspection.Introspection.setExtractBareNamePropertyMethods;
 
 import java.util.Map;
 import java.util.OptionalInt;
@@ -29,15 +30,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ByNameSingleExtractor")
 class ByNameSingleExtractorTest {
 
   private static final Employee YODA = new Employee(1L, new Name("Yoda"), 800);
-
-  @BeforeEach
-  void setUp() {
-    loadRegisteredConfiguration();
-  }
 
   @Test
   void should_extract_field_values_even_if_property_does_not_exist() {
@@ -210,6 +205,7 @@ class ByNameSingleExtractorTest {
   @Test
   void should_extract_property_with_bare_name_method() {
     // GIVEN
+    setExtractBareNamePropertyMethods(true);
     BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
     ByNameSingleExtractor underTest = new ByNameSingleExtractor("value");
     // WHEN
@@ -220,18 +216,14 @@ class ByNameSingleExtractorTest {
 
   @Test
   void should_ignore_property_with_bare_name_method_when_disabled() {
-    try {
-      // GIVEN
-      Introspection.setExtractBareNamePropertyMethods(false);
-      BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
-      ByNameSingleExtractor underTest = new ByNameSingleExtractor("value");
-      // WHEN
-      Object result = underTest.apply(holder);
-      // THEN
-      then(result).isEqualTo(42);
-    } finally {
-      Introspection.setExtractBareNamePropertyMethods(true);
-    }
+    // GIVEN
+    setExtractBareNamePropertyMethods(false);
+    BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
+    ByNameSingleExtractor underTest = new ByNameSingleExtractor("value");
+    // WHEN
+    Object result = underTest.apply(holder);
+    // THEN
+    then(result).isEqualTo(42);
   }
 
   /** This style of Optional handling is emitted by Immutables code gen library. */

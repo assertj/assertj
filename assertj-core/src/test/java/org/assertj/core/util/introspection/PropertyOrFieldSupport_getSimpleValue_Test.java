@@ -15,6 +15,7 @@ package org.assertj.core.util.introspection;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.configuration.ConfigurationProvider.loadRegisteredConfiguration;
+import static org.assertj.core.util.introspection.Introspection.setExtractBareNamePropertyMethods;
 
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -53,6 +54,7 @@ class PropertyOrFieldSupport_getSimpleValue_Test {
     @Test
     void should_extract_field_value_even_if_map_key_matches_given_name() {
       // GIVEN
+      setExtractBareNamePropertyMethods(true);
       input.put("keySet", "value"); // key clashes with AbstractMap#keySet
       // WHEN
       Object value = underTest.getSimpleValue("keySet", input);

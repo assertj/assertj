@@ -10,20 +10,20 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error;
+package org.assertj.tests.core.error;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.StackTraceUtils.checkNoAssertjStackTraceElementIn;
-import static org.assertj.core.util.StackTraceUtils.hasAssertJStackTraceElement;
+import static org.assertj.tests.core.testkit.StackTraceUtils.checkNoAssertjStackTraceElementIn;
+import static org.assertj.tests.core.testkit.StackTraceUtils.hasAssertJStackTraceElement;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
+import org.assertj.core.api.BDDAssertions;
 import org.assertj.core.api.Fail;
+import org.assertj.core.error.ShouldBeEqual;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShouldBeEqual}</code> related to AssertionError stack trace filtering.
- *
  * @author Joel Costigliola
  */
 class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
@@ -45,7 +45,7 @@ class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
     // WHEN
     AssertionError error = expectAssertionError(() -> then("Messi").isEqualTo("Ronaldo"));
     // THEN
-    then(hasAssertJStackTraceElement(error)).isTrue();
+    BDDAssertions.then(hasAssertJStackTraceElement(error)).isTrue();
   }
 
 }

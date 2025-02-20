@@ -29,6 +29,7 @@ module org.assertj.core {
   exports org.assertj.core.data;
   exports org.assertj.core.description;
   exports org.assertj.core.error;
+  exports org.assertj.core.error.array2d;
   exports org.assertj.core.error.future;
   exports org.assertj.core.error.uri;
   exports org.assertj.core.extractor;

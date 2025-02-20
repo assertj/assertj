@@ -10,12 +10,12 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.util;
-
-import java.util.Arrays;
+package org.assertj.tests.core.testkit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
+
+import java.util.Arrays;
 
 public class StackTraceUtils {
 
@@ -27,12 +27,12 @@ public class StackTraceUtils {
    */
   public static boolean hasAssertJStackTraceElement(Throwable throwable) {
     return Arrays.stream(throwable.getStackTrace())
-                 .anyMatch(stackTraceElement -> stackTraceElement.getClassName().contains("org.assertj"));
+                 .anyMatch(stackTraceElement -> stackTraceElement.getClassName().contains("org.assertj.core"));
   }
 
   public static void checkNoAssertjStackTraceElementIn(Throwable throwable) {
     StackTraceElement[] stackTrace = throwable.getStackTrace();
-    then(stackTrace).noneSatisfy(stackTraceElement -> assertThat(stackTraceElement.toString()).contains("org.assertj"));
+    then(stackTrace).noneSatisfy(stackTraceElement -> assertThat(stackTraceElement.toString()).contains("org.assertj.core"));
   }
 
 }
