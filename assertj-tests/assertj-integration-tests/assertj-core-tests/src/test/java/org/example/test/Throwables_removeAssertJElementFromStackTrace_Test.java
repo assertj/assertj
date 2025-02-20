@@ -12,18 +12,15 @@
  */
 package org.example.test;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.assertj.core.util.StackTraceUtils.checkNoAssertjStackTraceElementIn;
-import static org.assertj.core.util.StackTraceUtils.hasAssertJStackTraceElement;
 import static org.assertj.core.util.Throwables.removeAssertJRelatedElementsFromStackTrace;
+import static org.assertj.tests.core.testkit.StackTraceUtils.checkNoAssertjStackTraceElementIn;
+import static org.assertj.tests.core.testkit.StackTraceUtils.hasAssertJStackTraceElement;
 
-import org.assertj.core.util.Throwables;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Throwables#removeAssertJRelatedElementsFromStackTrace(Throwable)}</code>.
- * 
  * @author Joel Costigliola
  */
 class Throwables_removeAssertJElementFromStackTrace_Test {
@@ -32,8 +29,7 @@ class Throwables_removeAssertJElementFromStackTrace_Test {
   void should_add_stack_trace_of_current_thread() {
     // GIVEN
     Throwable throwable = catchThrowable(this::throwAssertJThrowable);
-    // THEN
-    assertThat(hasAssertJStackTraceElement(throwable)).isTrue();
+    Assertions.assertThat(hasAssertJStackTraceElement(throwable)).isTrue();
     // WHEN
     removeAssertJRelatedElementsFromStackTrace(throwable);
     // THEN
@@ -45,6 +41,6 @@ class Throwables_removeAssertJElementFromStackTrace_Test {
   }
 
   private static class AssertJThrowable extends Throwable {
-    private static final long serialVersionUID = 1L;
   }
+
 }
