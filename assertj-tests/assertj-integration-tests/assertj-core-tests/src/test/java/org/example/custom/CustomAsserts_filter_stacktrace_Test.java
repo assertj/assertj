@@ -14,10 +14,9 @@ package org.example.custom;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.stream.Stream;
-
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
@@ -29,11 +28,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class CustomAsserts_filter_stacktrace_Test {
+class CustomAsserts_filter_stacktrace_Test {
 
-  public static final String ORG_ASSERTJ = "org.assertj";
-
-  public static Stream<ThrowingCallable> stacktrace_should_not_include_assertj_elements_nor_elements_coming_from_assertj() {
+  static Stream<ThrowingCallable> stacktrace_should_not_include_assertj_elements_nor_elements_coming_from_assertj() {
     return Stream.of(() -> assertThat(0).isEqualTo(1),
                      () -> assertThat(0).satisfies(x -> assertThat(x).isEqualTo(1)));
   }
@@ -45,12 +42,12 @@ public class CustomAsserts_filter_stacktrace_Test {
     AssertionError assertionError = expectAssertionError(throwingCallable);
     // THEN
     StackTraceElement[] stackTrace = assertionError.getStackTrace();
-    then(stackTrace).noneSatisfy(stackTraceElement -> assertThat(stackTraceElement.toString()).contains(ORG_ASSERTJ));
+    then(stackTrace).noneSatisfy(stackTraceElement -> assertThat(stackTraceElement.toString()).contains("org.assertj.core"));
     then(stackTrace[0].toString()).contains("CustomAsserts_filter_stacktrace_Test");
   }
 
   @Test
-  public void should_filter_when_custom_assert_fails_with_message() {
+  void should_filter_when_custom_assert_fails_with_message() {
     try {
       new CustomAssert("").fail();
     } catch (AssertionError e) {
@@ -59,7 +56,7 @@ public class CustomAsserts_filter_stacktrace_Test {
   }
 
   @Test
-  public void should_filter_when_custom_assert_fails_with_overridden_message() {
+  void should_filter_when_custom_assert_fails_with_overridden_message() {
     try {
       new CustomAssert("").overridingErrorMessage("overridden message").fail();
     } catch (AssertionError e) {
@@ -68,7 +65,7 @@ public class CustomAsserts_filter_stacktrace_Test {
   }
 
   @Test
-  public void should_filter_when_custom_assert_throws_assertion_error() {
+  void should_filter_when_custom_assert_throws_assertion_error() {
     try {
       new CustomAssert("").throwAnAssertionError();
     } catch (AssertionError e) {
@@ -77,7 +74,7 @@ public class CustomAsserts_filter_stacktrace_Test {
   }
 
   @Test
-  public void should_filter_when_abstract_custom_assert_fails() {
+  void should_filter_when_abstract_custom_assert_fails() {
     try {
       new CustomAssert("").failInAbstractAssert();
     } catch (AssertionError e) {
@@ -86,7 +83,7 @@ public class CustomAsserts_filter_stacktrace_Test {
   }
 
   @Test
-  public void should_not_filter_when_global_remove_option_is_disabled() {
+  void should_not_filter_when_global_remove_option_is_disabled() {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     try {
       new CustomAssert("").fail();
@@ -97,7 +94,7 @@ public class CustomAsserts_filter_stacktrace_Test {
 
   @BeforeEach
   @AfterEach
-  public void enableStackTraceFiltering() {
+  void enableStackTraceFiltering() {
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(true);
   }
 

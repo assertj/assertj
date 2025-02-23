@@ -27,7 +27,6 @@ import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ByNameSingleExtractor")
 class ByNameSingleExtractorTest {
 
   private static final Employee YODA = new Employee(1L, new Name("Yoda"), 800);
