@@ -14,6 +14,7 @@ package org.assertj.core.extractor;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.configuration.ConfigurationProvider.loadRegisteredConfiguration;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.testkit.Maps.mapOf;
 
@@ -24,6 +25,7 @@ import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.Introspection;
 import org.assertj.core.util.introspection.IntrospectionError;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -31,6 +33,11 @@ import org.junit.jupiter.api.Test;
 class ByNameSingleExtractorTest {
 
   private static final Employee YODA = new Employee(1L, new Name("Yoda"), 800);
+
+  @BeforeEach
+  void setUp() {
+    loadRegisteredConfiguration();
+  }
 
   @Test
   void should_extract_field_values_even_if_property_does_not_exist() {

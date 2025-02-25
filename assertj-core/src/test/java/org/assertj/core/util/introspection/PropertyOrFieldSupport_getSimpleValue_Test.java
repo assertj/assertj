@@ -14,12 +14,13 @@ package org.assertj.core.util.introspection;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.configuration.ConfigurationProvider.loadRegisteredConfiguration;
 
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,6 +29,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 class PropertyOrFieldSupport_getSimpleValue_Test {
 
   private final PropertyOrFieldSupport underTest = PropertyOrFieldSupport.EXTRACTION;
+
+  @BeforeEach
+  void setUp() {
+    loadRegisteredConfiguration();
+  }
 
   @Nested
   class With_Map_input {
