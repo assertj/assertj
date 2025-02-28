@@ -14,6 +14,7 @@ package org.assertj.core.internal.files;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
@@ -25,10 +26,9 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 /**
- * Tests for <code>{@link Files#assertIsRelative(AssertionInfo, File)}</code>.
- * 
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
@@ -57,7 +57,7 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_is_relative_path() {
     // GIVEN
-    File actual = new File("src/test/resources/actual_file.txt");
+    File actual = new File("file.txt");
     // THEN
     underTest.assertIsRelative(INFO, actual);
   }

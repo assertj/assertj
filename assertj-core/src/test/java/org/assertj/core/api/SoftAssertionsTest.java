@@ -34,6 +34,8 @@ import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
+import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.testkit.Name.lastNameComparator;
@@ -195,7 +197,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     then(errors.get(1)).hasMessageStartingWith("%nExpecting empty but was: {\"54\"=\"55\"}".formatted());
   }
 
-  @SuppressWarnings({ "deprecation" })
+  @SuppressWarnings("removal")
   @Test
   void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     try {
@@ -1976,7 +1978,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings("removal")
   @Test
   void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
@@ -2560,7 +2562,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void path_soft_assertions_should_work_with_content() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = resourcePath("actual_file.txt");
     // WHEN
     softly.assertThat(path)
           .overridingErrorMessage("error message")
@@ -2583,7 +2585,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = resourceFile("actual_file.txt");
     // WHEN
     softly.assertThat(file)
           .overridingErrorMessage("error message")
@@ -2606,7 +2608,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = resourceFile("actual_file.txt");
     // WHEN
     softly.assertThat(file)
           .overridingErrorMessage("error message")
@@ -2627,7 +2629,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_work_with_binaryContent() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = resourceFile("actual_file.txt");
     // WHEN
     softly.assertThat(file)
           .overridingErrorMessage("error message")
@@ -2648,7 +2650,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void path_soft_assertions_should_work_with_binaryContent() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = resourcePath("actual_file.txt");
     // WHEN
     softly.assertThat(path)
           .overridingErrorMessage("error message")

@@ -13,6 +13,7 @@
 package org.assertj.core.api.path;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
@@ -43,13 +44,13 @@ class PathAssert_binaryContent_Test extends PathAssertBaseTest implements Naviga
 
   @Override
   protected PathAssert create_assertions() {
-    return new PathAssert(new File("src/test/resources/actual_file.txt").toPath());
+    return new PathAssert(resourcePath("actual_file.txt"));
   }
 
   @Test
   void should_return_ByteArrayAssert_on_path_content() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = resourcePath("actual_file.txt");
     // WHEN
     AbstractByteArrayAssert<?> byteAssert = assertThat(path).binaryContent();
     // THEN

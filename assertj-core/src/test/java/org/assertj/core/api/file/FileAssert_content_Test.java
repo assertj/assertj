@@ -13,6 +13,7 @@
 package org.assertj.core.api.file;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
@@ -38,13 +39,13 @@ class FileAssert_content_Test extends FileAssertBaseTest implements NavigationMe
 
   @Override
   protected FileAssert create_assertions() {
-    return new FileAssert(new File("src/test/resources/actual_file.txt"));
+    return new FileAssert(resourceFile("actual_file.txt"));
   }
 
   @Test
   public void should_return_StringAssert_on_path_content() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = resourceFile("actual_file.txt");
     // WHEN
     AbstractStringAssert<?> stringAssert = assertThat(file).content();
     // THEN

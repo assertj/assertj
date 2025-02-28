@@ -15,6 +15,7 @@ package org.assertj.tests.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.linesOf;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.tests.core.testkit.ClasspathResources.resourceFile;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -28,7 +29,7 @@ class Assertions_linesOf_Test {
 
   @Test
   void should_read_lines_of_file_with_UTF8_charset() {
-    File file = new File("src/test/resources/utf8.txt");
+    File file = resourceFile("utf8.txt");
     assertThat(linesOf(file, "UTF-8")).isEqualTo(EXPECTED_CONTENT);
     assertThat(linesOf(file, StandardCharsets.UTF_8)).isEqualTo(EXPECTED_CONTENT);
   }

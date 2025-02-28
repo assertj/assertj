@@ -13,6 +13,7 @@
 package org.assertj.core.api.charsequence;
 
 import static org.assertj.core.api.Assertions.contentOf;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
@@ -21,13 +22,11 @@ import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
 
 /**
- * Tests for <code>{@link org.assertj.core.api.CharSequenceAssert#isXmlEqualToContentOf(java.io.File)}</code>.
- * 
  * @author Joel Costigliola
  */
 class CharSequenceAssert_isXmlEqualToContentOf_Test extends CharSequenceAssertBaseTest {
 
-  private File xmlFile = new File("src/test/resources/expected.xml");
+  private final File xmlFile = resourceFile("expected.xml");
 
   @Override
   protected CharSequenceAssert invoke_api_method() {
