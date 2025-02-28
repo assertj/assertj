@@ -26,7 +26,7 @@ public class TemporalUnitLessThanOffset extends TemporalUnitOffset {
   }
 
   /**
-   * Checks if difference between temporal values is less then offset.
+   * Checks if difference between temporal values is less than offset.
    * @param temporal1 first temporal value to be validated against second temporal value.
    * @param temporal2 second temporal value.
    * @return true if difference between temporal values is more or equal to offset value.
