@@ -13,6 +13,7 @@
 package org.assertj.core.util.diff;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 
 import java.io.File;
 import java.nio.charset.Charset;
@@ -25,17 +26,8 @@ import org.junit.jupiter.api.Test;
 
 class GenerateUnifiedDiffTest {
 
-  /** File separator. */
-  private static final String FS = File.separator;
-
-  /** The base resource path. */
-  private static String BASE_FOLDER_RESOURCES = "src" + FS + "test" + FS + "resources";
-
-  /** The base folder containing the test files. Ends with {@link #FS}. */
-  private static final String MOCK_FOLDER = BASE_FOLDER_RESOURCES + FS + "diffs" + FS;
-
   private List<String> fileToLines(String filename) {
-    return Files.linesOf(new File(MOCK_FOLDER, filename), Charset.defaultCharset());
+    return Files.linesOf(resourceFile("diffs/" + filename), Charset.defaultCharset());
   }
 
   @Test
@@ -56,7 +48,7 @@ class GenerateUnifiedDiffTest {
 
   @Test
   void testGenerateUnifiedDiffWithoutAnyDeltas() {
-    List<String> test = Arrays.asList("abc");
+    List<String> test = List.of("abc");
 
     Patch<String> patch = DiffUtils.diff(test, test);
 

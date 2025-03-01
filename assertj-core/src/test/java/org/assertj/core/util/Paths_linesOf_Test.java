@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Paths.linesOf;
 
@@ -34,11 +35,9 @@ import org.junit.jupiter.api.Test;
  */
 class Paths_linesOf_Test {
 
-  private static final Path RESOURCES_DIRECTORY = Path.of("src", "test", "resources");
-
-  private static final Path SAMPLE_UNIX_FILE = RESOURCES_DIRECTORY.resolve("utf8.txt");
-  private static final Path SAMPLE_WIN_FILE = RESOURCES_DIRECTORY.resolve("utf8_win.txt");
-  private static final Path SAMPLE_MAC_FILE = RESOURCES_DIRECTORY.resolve("utf8_mac.txt");
+  private static final Path SAMPLE_UNIX_FILE = resourcePath("utf8.txt");
+  private static final Path SAMPLE_WIN_FILE = resourcePath("utf8_win.txt");
+  private static final Path SAMPLE_MAC_FILE = resourcePath("utf8_mac.txt");
 
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
   public static final String UTF_8 = "UTF-8";

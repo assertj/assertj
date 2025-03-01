@@ -12,10 +12,15 @@
  */
 package org.assertj.tests.core.testkit;
 
+import static org.junit.platform.commons.support.ReflectionSupport.findAllResourcesInPackage;
+
 import java.io.File;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
+import java.util.List;
+import org.junit.platform.commons.support.Resource;
 
 public class ClasspathResources {
 
@@ -34,6 +39,13 @@ public class ClasspathResources {
   }
 
   public static URL resourceURL(String resourceName) {
-    return ClassLoader.getSystemResource(resourceName);
+    try {
+      List<Resource> resources = findAllResourcesInPackage("", resource -> resource.getName().equals(resourceName));
+      if (resources.size() != 1) throw new IllegalStateException("Unique resource not found: " + resources);
+      return resources.getFirst().getUri().toURL();
+    } catch (MalformedURLException e) {
+      throw new RuntimeException(e);
+    }
   }
+
 }
