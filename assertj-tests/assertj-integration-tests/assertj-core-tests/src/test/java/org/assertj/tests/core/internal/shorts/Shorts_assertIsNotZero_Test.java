@@ -10,22 +10,13 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shorts;
+package org.assertj.tests.core.internal.shorts;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Shorts;
-import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Shorts#assertIsNotZero(AssertionInfo, Comparable)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
 class Shorts_assertIsNotZero_Test extends ShortsBaseTest {
 
   @Test
@@ -35,8 +26,8 @@ class Shorts_assertIsNotZero_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_since_actual_is_zero() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsNotZero(someInfo(), (short) 0))
-                                                   .withMessage("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n".formatted());
+    assertThatAssertionErrorIsThrownBy(() -> shorts.assertIsNotZero(someInfo(), (short) 0))
+                                                                                           .withMessage("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n".formatted());
   }
 
   @Test
@@ -46,9 +37,8 @@ class Shorts_assertIsNotZero_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
-                                                                                                                          (short) 0))
-                                                   .withMessage("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n".formatted());
+    assertThatAssertionErrorIsThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(), (short) 0))
+                                                                                                                         .withMessage("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n".formatted());
   }
 
 }

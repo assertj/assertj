@@ -10,15 +10,14 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shorts;
+package org.assertj.tests.core.internal.shorts;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
-import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,8 +35,9 @@ class Shorts_assertIsZero_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_zero() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsZero(someInfo(), (short) 2))
-                                                   .withMessage(shouldBeEqualMessage("2", "0"));
+    assertThatAssertionErrorIsThrownBy(() -> shorts.assertIsZero(someInfo(), (short) 2))
+                                                                                        .withMessage(shouldBeEqualMessage("2",
+                                                                                                                          "0"));
   }
 
   @Test
@@ -47,9 +47,9 @@ class Shorts_assertIsZero_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsZero(someInfo(),
-                                                                                                                       (short) 2))
-                                                   .withMessage(shouldBeEqualMessage("2", "0"));
+    assertThatAssertionErrorIsThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsZero(someInfo(), (short) 2))
+                                                                                                                      .withMessage(shouldBeEqualMessage("2",
+                                                                                                                                                        "0"));
   }
 
 }

@@ -10,14 +10,13 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shorts;
+package org.assertj.tests.core.internal.shorts;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
-import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,8 +34,8 @@ class Shorts_assertIsPositive_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_positive() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsPositive(someInfo(), (short) -6))
-                                                   .withMessage("%nExpecting actual:%n  -6%nto be greater than:%n  0%n".formatted());
+    assertThatAssertionErrorIsThrownBy(() -> shorts.assertIsPositive(someInfo(), (short) -6))
+                                                                                             .withMessage("%nExpecting actual:%n  -6%nto be greater than:%n  0%n".formatted());
   }
 
   @Test
@@ -46,8 +45,7 @@ class Shorts_assertIsPositive_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(),
-                                                                                                                           (short) 0))
-                                                   .withMessage("%nExpecting actual:%n  0%nto be greater than:%n  0%nwhen comparing values using AbsValueComparator".formatted());
+    assertThatAssertionErrorIsThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(), (short) 0))
+                                                                                                                          .withMessage("%nExpecting actual:%n  0%nto be greater than:%n  0%nwhen comparing values using AbsValueComparator".formatted());
   }
 }

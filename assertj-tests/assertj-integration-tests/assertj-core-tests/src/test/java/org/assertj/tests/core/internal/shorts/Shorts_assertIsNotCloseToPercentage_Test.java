@@ -10,23 +10,21 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shorts;
+package org.assertj.tests.core.internal.shorts;
 
 import static java.lang.Math.abs;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.withinPercentage;
 import static org.assertj.core.data.Percentage.withPercentage;
 import static org.assertj.core.error.ShouldNotBeEqualWithinPercentage.shouldNotBeEqualWithinPercentage;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -40,9 +38,8 @@ class Shorts_assertIsNotCloseToPercentage_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsNotCloseToPercentage(someInfo(), null, ONE,
-                                                                                                         withPercentage(ONE)))
-                                                   .withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> shorts.assertIsNotCloseToPercentage(someInfo(), null, ONE,
+                                                                                 withPercentage(ONE))).withMessage(actualIsNull());
   }
 
   @Test
@@ -84,25 +81,22 @@ class Shorts_assertIsNotCloseToPercentage_Test extends ShortsBaseTest {
       "-1, -2, 50"
   })
   void should_fail_if_difference_is_equal_to_given_percentage(Short actual, Short other, Short percentage) {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shorts.assertIsNotCloseToPercentage(someInfo(), actual, other,
-                                                                               withPercentage(percentage)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqualWithinPercentage(actual, other, withPercentage(percentage),
-                                                                    abs(actual - other)));
+    // WHEN
+    expectAssertionError(() -> shorts.assertIsNotCloseToPercentage(someInfo(), actual, other, withPercentage(percentage)));
+    // THEN
+    verify(failures).failure(info,
+                             shouldNotBeEqualWithinPercentage(actual, other, withPercentage(percentage), abs(actual - other)));
   }
 
   @Test
   void should_fail_if_actual_is_too_close_to_expected_value() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shorts.assertIsNotCloseToPercentage(someInfo(), ONE, TEN,
-                                                                               withPercentage(ONE_HUNDRED)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100),
-                                                                    TEN - ONE));
+    // WHEN
+    expectAssertionError(() -> shorts.assertIsNotCloseToPercentage(someInfo(), ONE, TEN, withPercentage(ONE_HUNDRED)));
+    // THEN
+    verify(failures).failure(info, shouldNotBeEqualWithinPercentage(ONE, TEN, withinPercentage(100), TEN - ONE));
   }
 }

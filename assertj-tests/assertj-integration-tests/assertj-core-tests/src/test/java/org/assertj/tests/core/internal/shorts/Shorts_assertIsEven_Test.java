@@ -10,16 +10,15 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shorts;
+package org.assertj.tests.core.internal.shorts;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEven.shouldBeEven;
-import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
-import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -33,7 +32,6 @@ class Shorts_assertIsEven_Test extends ShortsBaseTest {
   @ParameterizedTest
   @ValueSource(shorts = { 0, 2, -4, 6 })
   void should_pass_since_actual_is_even(short actual) {
-    // WHEN/THEN
     shorts.assertIsEven(someInfo(), actual);
   }
 
@@ -49,7 +47,6 @@ class Shorts_assertIsEven_Test extends ShortsBaseTest {
   @ParameterizedTest
   @ValueSource(shorts = { 0, 2, -4, 6 })
   void should_pass_since_actual_is_even_whatever_custom_comparison_strategy_is(short actual) {
-    // WHEN/THEN
     shortsWithAbsValueComparisonStrategy.assertIsEven(someInfo(), actual);
   }
 

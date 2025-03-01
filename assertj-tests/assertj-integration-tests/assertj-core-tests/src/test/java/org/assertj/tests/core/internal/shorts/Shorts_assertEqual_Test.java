@@ -10,25 +10,23 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shorts;
+package org.assertj.tests.core.internal.shorts;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
-import org.assertj.core.internal.ShortsBaseTest;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Shorts#assertEqual(AssertionInfo, Object, Object)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -36,8 +34,7 @@ class Shorts_assertEqual_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertEqual(someInfo(), null, (short) 8))
-                                                   .withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> shorts.assertEqual(someInfo(), null, (short) 8)).withMessage(actualIsNull());
   }
 
   @Test
@@ -47,20 +44,18 @@ class Shorts_assertEqual_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_shorts_are_not_equal() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shorts.assertEqual(info, (short) 6, (short) 8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shorts.assertEqual(info, (short) 6, (short) 8));
+    // THEN
     verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, info.representation()));
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertEqual(someInfo(),
-                                                                                                                      null,
-                                                                                                                      (short) 8))
-                                                   .withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertEqual(someInfo(), null,
+                                                                                              (short) 8)).withMessage(actualIsNull());
   }
 
   @Test
@@ -70,11 +65,11 @@ class Shorts_assertEqual_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_shorts_are_not_equal_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shortsWithAbsValueComparisonStrategy.assertEqual(info, (short) 6, (short) 8));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertEqual(info, (short) 6, (short) 8));
+    // THEN
     verify(failures).failure(info, shouldBeEqual((short) 6, (short) 8, absValueComparisonStrategy,
                                                  new StandardRepresentation()));
   }

@@ -10,15 +10,14 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shorts;
+package org.assertj.tests.core.internal.shorts;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
-import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,8 +34,8 @@ class Shorts_assertIsOne_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_since_actual_is_not_one() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsOne(someInfo(), (short) 0))
-                                                   .withMessage(shouldBeEqualMessage("0", "1"));
+    assertThatAssertionErrorIsThrownBy(() -> shorts.assertIsOne(someInfo(), (short) 0)).withMessage(shouldBeEqualMessage("0",
+                                                                                                                         "1"));
   }
 
   @Test
@@ -46,9 +45,9 @@ class Shorts_assertIsOne_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_since_actual_is_one_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsOne(someInfo(),
-                                                                                                                      (short) 0))
-                                                   .withMessage(shouldBeEqualMessage("0", "1"));
+    assertThatAssertionErrorIsThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertIsOne(someInfo(), (short) 0))
+                                                                                                                     .withMessage(shouldBeEqualMessage("0",
+                                                                                                                                                       "1"));
   }
 
 }

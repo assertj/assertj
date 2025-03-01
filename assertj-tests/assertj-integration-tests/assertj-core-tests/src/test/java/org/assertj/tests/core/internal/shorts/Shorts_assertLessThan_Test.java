@@ -10,33 +10,23 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shorts;
+package org.assertj.tests.core.internal.shorts;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeLess.shouldBeLess;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Shorts;
-import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Shorts#assertLessThan(AssertionInfo, Short, short)}</code>.
- * 
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
 class Shorts_assertLessThan_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertLessThan(someInfo(), null, (short) 8))
-                                                   .withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> shorts.assertLessThan(someInfo(), null, (short) 8)).withMessage(actualIsNull());
   }
 
   @Test
@@ -46,30 +36,28 @@ class Shorts_assertLessThan_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_equal_to_other() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shorts.assertLessThan(info, (short) 6, (short) 6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shorts.assertLessThan(info, (short) 6, (short) 6));
+    // THEN
     verify(failures).failure(info, shouldBeLess((short) 6, (short) 6));
   }
 
   @Test
   void should_fail_if_actual_is_greater_than_other() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shorts.assertLessThan(info, (short) 8, (short) 6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shorts.assertLessThan(info, (short) 8, (short) 6));
+    // THEN
     verify(failures).failure(info, shouldBeLess((short) 8, (short) 6));
   }
 
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(someInfo(),
-                                                                                                                         null,
-                                                                                                                         (short) 8))
-                                                   .withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(someInfo(), null,
+                                                                                                 (short) 8)).withMessage(actualIsNull());
   }
 
   @Test
@@ -79,21 +67,21 @@ class Shorts_assertLessThan_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_equal_to_other_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(info, (short) 6, (short) -6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(info, (short) 6, (short) -6));
+    // THEN
     verify(failures).failure(info, shouldBeLess((short) 6, (short) -6, absValueComparisonStrategy));
   }
 
   @Test
   void should_fail_if_actual_is_greater_than_other_according_to_custom_comparison_strategy() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(info, (short) -8, (short) 6));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertLessThan(info, (short) -8, (short) 6));
+    // THEN
     verify(failures).failure(info, shouldBeLess((short) -8, (short) 6, absValueComparisonStrategy));
   }
 }

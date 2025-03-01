@@ -10,22 +10,20 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shorts;
+package org.assertj.tests.core.internal.shorts;
 
 import static java.lang.Math.abs;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.byLessThan;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.within;
 import static org.assertj.core.error.ShouldNotBeEqualWithinOffset.shouldNotBeEqual;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -67,12 +65,13 @@ class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
       "0, 1, 2"
   })
   void should_fail_if_actual_is_too_close_to_the_other_value(short actual, short other, short offset) {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shorts.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shorts.assertIsNotCloseTo(someInfo(), actual, other, byLessThan(offset)));
+    // THEN
     verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), (short) abs(actual - other)));
+
   }
 
   @ParameterizedTest
@@ -81,13 +80,12 @@ class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
       "1, 0, 2",
       "0, 1, 2"
   })
-  void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(short actual, short other,
-                                                                                short offset) {
+  void should_fail_if_actual_is_too_close_to_the_other_value_with_strict_offset(short actual, short other, short offset) {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shorts.assertIsNotCloseTo(info, actual, other, byLessThan(offset)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shorts.assertIsNotCloseTo(info, actual, other, byLessThan(offset)));
+    // THEN
     verify(failures).failure(info, shouldNotBeEqual(actual, other, byLessThan(offset), (short) abs(actual - other)));
   }
 
@@ -98,19 +96,18 @@ class Shorts_assertIsNotCloseTo_Test extends ShortsBaseTest {
       "1, 2, 1"
   })
   void should_fail_if_difference_is_equal_to_given_offset(short actual, short other, short offset) {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shorts.assertIsNotCloseTo(someInfo(), actual, other, within(offset)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shorts.assertIsNotCloseTo(someInfo(), actual, other, within(offset)));
+    // THEN
     verify(failures).failure(info, shouldNotBeEqual(actual, other, within(offset), (short) abs(actual - other)));
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsNotCloseTo(someInfo(), null, ONE,
-                                                                                               byLessThan(ONE)))
-                                                   .withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> shorts.assertIsNotCloseTo(someInfo(), null, ONE,
+                                                                       byLessThan(ONE))).withMessage(actualIsNull());
   }
 
   @Test

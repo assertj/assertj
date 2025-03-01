@@ -10,26 +10,24 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.shorts;
+package org.assertj.tests.core.internal.shorts;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Shorts;
-import org.assertj.core.internal.ShortsBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Shorts#assertIsStrictlyBetween(AssertionInfo, Short, Short, Short)}</code>.
- * 
+ *
  * @author William Delanoue
  */
 class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
@@ -41,8 +39,8 @@ class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> shorts.assertIsStrictlyBetween(someInfo(), null, ZERO, ONE))
-                                                   .withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> shorts.assertIsStrictlyBetween(someInfo(), null, ZERO,
+                                                                            ONE)).withMessage(actualIsNull());
   }
 
   @Test
@@ -62,31 +60,31 @@ class Shorts_assertIsStrictlyBetween_Test extends ShortsBaseTest {
 
   @Test
   void should_fail_if_actual_is_equal_to_range_start() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shorts.assertIsStrictlyBetween(info, ONE, ONE, TEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shorts.assertIsStrictlyBetween(info, ONE, ONE, TEN));
+    // THEN
     verify(failures).failure(info, shouldBeBetween(ONE, ONE, TEN, false, false));
   }
 
   @Test
   void should_fail_if_actual_is_equal_to_range_end() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shorts.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shorts.assertIsStrictlyBetween(info, ONE, ZERO, ONE));
+    // THEN
     verify(failures).failure(info, shouldBeBetween(ONE, ZERO, ONE, false, false));
   }
 
   @Test
   void should_fail_if_actual_is_not_in_range_start() {
+    // GIVEN
     AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> shorts.assertIsStrictlyBetween(info, ONE, TWO, TEN));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
+    // WHEN
+    expectAssertionError(() -> shorts.assertIsStrictlyBetween(info, ONE, TWO, TEN));
+    // THEN
     verify(failures).failure(info, shouldBeBetween(ONE, TWO, TEN, false, false));
   }
 
