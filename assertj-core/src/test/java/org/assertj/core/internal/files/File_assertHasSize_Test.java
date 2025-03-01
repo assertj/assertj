@@ -15,6 +15,7 @@ package org.assertj.core.internal.files;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
@@ -38,7 +39,7 @@ class File_assertHasSize_Test extends FilesBaseTest {
 
   @BeforeAll
   static void setUpOnce() {
-    actual = new File("src/test/resources/actual_file.txt");
+    actual = resourceFile("actual_file.txt");
   }
 
   @Test

@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
@@ -43,8 +44,8 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
   @BeforeAll
   static void setUpOnce() throws IOException {
     // Does not matter if the values differ, the actual comparison is mocked in this test
-    actual = new File("src/test/resources/actual_file.txt");
-    expected = new File("src/test/resources/expected_file.txt");
+    actual = resourceFile("actual_file.txt");
+    expected = resourceFile("expected_file.txt");
     expectedBytes = readAllBytes(expected.toPath());
   }
 

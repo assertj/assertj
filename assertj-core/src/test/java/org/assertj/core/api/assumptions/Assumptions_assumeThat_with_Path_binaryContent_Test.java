@@ -15,6 +15,7 @@ package org.assertj.core.api.assumptions;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.BDDAssertions.thenCode;
+import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.io.File;
@@ -30,7 +31,7 @@ import org.junit.jupiter.api.Test;
  */
 class Assumptions_assumeThat_with_Path_binaryContent_Test {
 
-  private static final Path PATH = new File("src/test/resources/actual_file.txt").toPath();
+  private static final Path PATH = resourcePath("actual_file.txt");
 
   @Test
   void should_run_test_when_assumption_using_path_binaryContent_succeeds() {

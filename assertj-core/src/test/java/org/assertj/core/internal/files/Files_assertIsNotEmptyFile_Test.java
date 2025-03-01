@@ -15,6 +15,7 @@ package org.assertj.core.internal.files;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
@@ -37,7 +38,7 @@ class Files_assertIsNotEmptyFile_Test extends FilesBaseTest {
   @Test
   void should_pass_if_actual_is_not_empty() {
     // GIVEN
-    File actual = new File("src/test/resources/actual_file.txt");
+    File actual = resourceFile("actual_file.txt");
     // WHEN
     underTest.assertIsNotEmptyFile(INFO, actual);
     // THEN

@@ -12,10 +12,12 @@
  */
 package org.assertj.core.util;
 
+import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.Files.linesOf;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -34,9 +36,9 @@ import org.junit.jupiter.api.Test;
  */
 class Files_linesOf_Test {
 
-  private static final File SAMPLE_UNIX_FILE = new File("src/test/resources/utf8.txt");
-  private static final File SAMPLE_WIN_FILE = new File("src/test/resources/utf8_win.txt");
-  private static final File SAMPLE_MAC_FILE = new File("src/test/resources/utf8_mac.txt");
+  private static final File SAMPLE_UNIX_FILE = resourceFile("utf8.txt");
+  private static final File SAMPLE_WIN_FILE = resourceFile("utf8_win.txt");
+  private static final File SAMPLE_MAC_FILE = resourceFile("utf8_mac.txt");
 
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
   public static final String UTF_8 = "UTF-8";
@@ -57,8 +59,7 @@ class Files_linesOf_Test {
     File missingFile = new File("missing.txt");
     assertThat(missingFile).doesNotExist();
 
-    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> linesOf(missingFile,
-                                                                                   Charset.defaultCharset()));
+    assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> linesOf(missingFile, defaultCharset()));
   }
 
   @Test

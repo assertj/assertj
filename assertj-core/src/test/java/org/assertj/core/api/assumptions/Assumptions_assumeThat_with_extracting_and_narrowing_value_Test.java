@@ -101,6 +101,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.ZONED_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.list;
+import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.io.ByteArrayInputStream;
@@ -960,7 +961,7 @@ class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
     }
 
     Path path() {
-      return Path.of("src/test/resources/utf8.txt");
+      return resourcePath("utf8.txt");
     }
 
     Period period() {
