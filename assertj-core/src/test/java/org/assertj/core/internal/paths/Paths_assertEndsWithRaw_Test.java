@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 
 class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
 
@@ -69,6 +71,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
   }
 
   @Test
+  @DisabledOnOs(value = OS.WINDOWS, disabledReason = "Fails on Windows due to missing privileges")
   void should_fail_if_actual_is_not_canonical() throws IOException {
     // GIVEN
     Path file = createFile(tempDir.resolve("file"));
