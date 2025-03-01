@@ -16,7 +16,6 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -25,19 +24,18 @@ import org.junit.jupiter.params.provider.MethodSource;
  *
  * @author XiaoMingZHM, Eveneko
  */
+class Convert_JUnit_Assertions_To_AssertJ_Test {
 
-@DisplayName("Convert JUnit assertions to AssertJ")
-public class Convert_Junit_Assertions_To_Assertj_Test {
   private ShellScriptInvoker conversionScriptInvoker;
 
   @BeforeEach
-  public void init() {
+  void init() {
     conversionScriptInvoker = new ShellScriptInvoker("src/main/scripts/convert-junit-assertions-to-assertj.sh");
   }
 
   @ParameterizedTest(name = "{0} should be converted to {1}")
   @MethodSource("script_test_template_source")
-  public void script_test_template(String input, String expected) throws Exception {
+  void script_test_template(String input, String expected) throws Exception {
     conversionScriptInvoker.startTest(input, expected);
   }
 
@@ -51,7 +49,7 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   @ParameterizedTest(name = "{0} should be converted to {1}")
   @MethodSource("replace_assertEquals_checking_0_size_source")
   // Replacing : assertEquals(0, myList.size()) ................. by : assertThat(myList).isEmpty()'
-  public void replace_assertEquals_checking_0_size(String input, String expected) throws Exception {
+  void replace_assertEquals_checking_0_size(String input, String expected) throws Exception {
     conversionScriptInvoker.startTest(input, expected);
   }
 
@@ -85,7 +83,7 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   @ParameterizedTest(name = "{0} should be converted to {1}")
   @MethodSource("replace_assertEquals_checking_size_source")
   // Replacing : assertEquals(expectedSize, myList.size()) ...... by : assertThat(myList).hasSize(expectedSize)'
-  public void replace_assertEquals_checking_size(String input, String expected) throws Exception {
+  void replace_assertEquals_checking_size(String input, String expected) throws Exception {
     conversionScriptInvoker.startTest(input, expected);
   }
 
@@ -119,7 +117,7 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   @ParameterizedTest(name = "{0} should be converted to {1}")
   @MethodSource("replace_assertEquals_checking_isCloseTo_source")
   // Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))
-  public void replace_assertEquals_checking_isCloseTo(String input, String expected) throws Exception {
+  void replace_assertEquals_checking_isCloseTo(String input, String expected) throws Exception {
     conversionScriptInvoker.startTest(input, expected);
   }
 
@@ -139,7 +137,7 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   @ParameterizedTest(name = "{0} should be converted to {1}")
   @MethodSource("replace_assertEquals_by_default_source")
   // Replacing : assertEquals(expected, actual) ................. by : assertThat(actual).isEqualTo(expected)
-  public void replace_assertEquals_by_default(String input, String expected) throws Exception {
+  void replace_assertEquals_by_default(String input, String expected) throws Exception {
     // multi lines for one test should be considered.
     input += "assertEquals(expected, actual);\n";
     expected += "assertThat(actual).isEqualTo(expected);\n";
@@ -172,7 +170,7 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   @ParameterizedTest(name = "{0} should be converted to {1}")
   @MethodSource("replace_assertArrayEquals_source")
   // Replacing : assertArrayEquals(expectedArray, actual) ....... by : assertThat(actual).isEqualTo(expectedArray)
-  public void replace_assertArrayEquals(String input, String expected) throws Exception {
+  void replace_assertArrayEquals(String input, String expected) throws Exception {
     // multi lines for one test should be considered.
     input += "assertArrayEquals(expectedArray, actual);\n";
     expected += "assertThat(actual).isEqualTo(expectedArray);\n";
@@ -193,7 +191,7 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   @ParameterizedTest(name = "{0} should be converted to {1}")
   @MethodSource("replace_assertNull_source")
   // Replacing : assertNull(actual) ............................. by : assertThat(actual).isNull()
-  public void replace_assertNull(String input, String expected) throws Exception {
+  void replace_assertNull(String input, String expected) throws Exception {
     input += "assertNull(actual);\n";
     expected += "assertThat(actual).isNull();\n";
     conversionScriptInvoker.startTest(input, expected);
@@ -213,7 +211,7 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   @ParameterizedTest(name = "{0} should be converted to {1}")
   @MethodSource("replace_assertSame_source")
   // Replacing : assertSame(expected, actual) ................. by : assertThat(actual).isSameAs(expected)
-  public void replace_assertSame(String input, String expected) throws Exception {
+  void replace_assertSame(String input, String expected) throws Exception {
     // multi lines for one test should be considered.
     input += "assertSame(expected, actual);\n";
     expected += "assertThat(actual).isSameAs(expected);\n";
@@ -248,7 +246,7 @@ public class Convert_Junit_Assertions_To_Assertj_Test {
   @ParameterizedTest(name = "{0} should be converted to {1}")
   @MethodSource("replace_imports_source")
   // Replacing JUnit static imports by AssertJ ones, at this point you will probably need to
-  public void replace_imports(String input, String expected) throws Exception {
+  void replace_imports(String input, String expected) throws Exception {
     input += "import static org.junit.Assert.assertEquals;\n";
     expected += "import static org.assertj.core.api.Assertions.assertThat;\n";
     conversionScriptInvoker.startTest(input, expected);

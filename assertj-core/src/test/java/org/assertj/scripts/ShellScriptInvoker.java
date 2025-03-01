@@ -12,8 +12,8 @@
  */
 package org.assertj.scripts;
 
-import static com.google.common.base.Charsets.UTF_8;
 import static java.lang.Runtime.getRuntime;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.apache.commons.io.FileUtils.deleteQuietly;
 import static org.apache.commons.io.FileUtils.writeStringToFile;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -22,6 +22,7 @@ import static org.assertj.core.util.Files.currentFolder;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.assertj.core.util.Files;
 
 /**
@@ -30,14 +31,16 @@ import org.assertj.core.util.Files;
  * <p>It will use a temporary file to write the input and call the script, then it will compare the file to the expected value</p>
  * @author XiaoMingZHM, Eveneko
  */
-public class ShellScriptInvoker {
+class ShellScriptInvoker {
+
   private static final String TEMP_FILE_NAME = "convert-junit-assertions-to-assertj-test-temp-file.txt";
   private static final String TEMP_DIRECTORY = "target";
   private static final File TEMP_FILE = new File(TEMP_DIRECTORY, TEMP_FILE_NAME);
-  private String conversionScript;
-  private String root;
 
-  public ShellScriptInvoker(String conversionScript) {
+  private final String conversionScript;
+  private final String root;
+
+  ShellScriptInvoker(String conversionScript) {
     // get the absolute path for this repository.
     this.root = currentFolder().getAbsolutePath().replace(File.separator, "/");
     // target directory is created by maven for each build, it is a temporary directory (deleted by mvn clean)
@@ -45,7 +48,7 @@ public class ShellScriptInvoker {
     this.conversionScript = conversionScript;
   }
 
-  public void startTest(String input, String expected) throws Exception {
+  void startTest(String input, String expected) throws Exception {
     try {
       writeToTempFile(input);
       convertAssertionsInTempFile();
@@ -77,4 +80,5 @@ public class ShellScriptInvoker {
   private void deleteTempFile() {
     deleteQuietly(TEMP_FILE);
   }
+
 }
