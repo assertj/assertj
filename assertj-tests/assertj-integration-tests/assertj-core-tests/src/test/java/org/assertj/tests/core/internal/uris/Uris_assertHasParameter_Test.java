@@ -10,16 +10,15 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.urls;
+package org.assertj.tests.core.internal.uris;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.net.URI;
 
-import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -109,5 +108,4 @@ class Uris_assertHasParameter_Test extends UrisBaseTest {
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(uri, name, expected, list(actual1, actual2)).create());
   }
-
 }

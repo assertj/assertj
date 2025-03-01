@@ -10,20 +10,19 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.urls;
+package org.assertj.tests.core.internal.uris;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameter;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveNoParameters;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.net.URI;
 import java.util.List;
 import java.util.Set;
 
-import org.assertj.core.internal.UrisBaseTest;
 import org.junit.jupiter.api.Test;
 
 class Uris_assertHasNoParameter_Test extends UrisBaseTest {

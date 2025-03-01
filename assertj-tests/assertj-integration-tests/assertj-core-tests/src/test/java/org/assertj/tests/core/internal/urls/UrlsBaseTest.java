@@ -10,39 +10,29 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.tests.core.internal.urls;
 
 import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
-import java.util.List;
-import java.util.Map;
-
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.Urls;
 import org.junit.jupiter.api.BeforeEach;
 
-/**
- * Base test class for {@link java.net.URI} tests.
- *
- * @author Alexander Bischof
- */
-public abstract class UrisBaseTest {
+public abstract class UrlsBaseTest {
 
   protected Failures failures;
-  protected Uris uris;
+  protected Urls urls;
   protected AssertionInfo info;
 
   @BeforeEach
   void setUp() throws IllegalAccessException {
     failures = spy(Failures.instance());
-    uris = new Uris();
-    writeField(uris, "failures", failures, true);
+    urls = Urls.instance();
+    writeField(urls, "failures", failures, true);
     info = someInfo();
-  }
-
-  protected static Map<String, List<String>> getParameters(String query) {
-    return Uris.getParameters(query);
   }
 
 }

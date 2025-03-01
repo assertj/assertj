@@ -10,18 +10,17 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.urls;
+package org.assertj.tests.core.internal.urls;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveParameter.shouldHaveParameter;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.newArrayList;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
-import org.assertj.core.internal.UrlsBaseTest;
 import org.junit.jupiter.api.Test;
 
 class Urls_assertHasParameter_Test extends UrlsBaseTest {
