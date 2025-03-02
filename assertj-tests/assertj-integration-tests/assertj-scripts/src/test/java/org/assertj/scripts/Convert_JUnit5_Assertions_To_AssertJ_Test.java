@@ -12,136 +12,86 @@
  */
 package org.assertj.scripts;
 
+import static java.nio.file.Files.copy;
+import static java.nio.file.Files.writeString;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.scripts.ShellScriptExecutor.execute;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.stream.Stream;
-import org.junit.jupiter.api.BeforeEach;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 /**
- * Tests for convert script {@code src/main/scripts/convert-junit5-assertions-to-assertj.sh}.
- *
  * @author XiaoMingZHM, Eveneko
  */
 class Convert_JUnit5_Assertions_To_AssertJ_Test {
 
-  private ShellScriptInvoker tester;
+  @TempDir
+  private static Path tempDir;
 
-  @BeforeEach
-  void init() {
-    tester = new ShellScriptInvoker("src/main/scripts/convert-junit5-assertions-to-assertj.sh");
+  private static Path script;
+
+  @BeforeAll
+  static void setUp() throws IOException {
+    script = copy(ClasspathResources.resourcePath("convert-junit5-assertions-to-assertj.sh"), tempDir.resolve("script.sh"));
   }
 
-  @ParameterizedTest(name = "{0} should be converted to {1}")
-  @MethodSource("script_test_template_source")
-  void script_test_template(String input, String expected) throws Exception {
-    tester.startTest(input, expected);
+  @ParameterizedTest
+  @MethodSource({
+      "replace_assertEquals_with_isEmpty",
+      "replace_assertEquals_with_hasSize",
+      "replace_assertEquals_with_isCloseTo",
+      "replace_assertEquals_with_isEqualTo",
+      "replace_assertNotEquals_with_isNotEqualTo",
+      "replace_assertArrayEquals_with_isEqualTo",
+      "replace_assertNull_with_isNull",
+      "replace_assertSame_with_isSameAs",
+      "replace_imports"
+  })
+  void test(String input, String expected) throws Exception {
+    // GIVEN
+    Path inputFile = writeString(tempDir.resolve("input.txt"), input);
+    // WHEN
+    execute(script, inputFile);
+    // THEN
+    then(inputFile).hasContent(expected);
   }
 
-  static Stream<Object> script_test_template_source() {
+  static Stream<Arguments> replace_assertEquals_with_isEmpty() {
     return Stream.of(arguments("assertEquals(0, myList.size());\n",
                                "assertThat(myList).isEmpty();\n"),
-                     arguments("assertEquals(0, myList.size());\n",
-                               "assertThat(myList).isEmpty();\n"));
+                     arguments("assertEquals(0, myList.size());\nassertEquals(  0,  myList.size());\n",
+                               "assertThat(myList).isEmpty();\nassertThat(myList).isEmpty();\n"),
+                     arguments("assertEquals(  0,  (new String(\"\")).size());\nassertEquals(  0,  multiParam( 1.1, param2).size());\n",
+                               "assertThat((new String(\"\"))).isEmpty();\nassertThat(multiParam( 1.1, param2)).isEmpty();\n"),
+                     arguments("assertEquals(  0,  (new String(\"  ,  \")).size());\nassertEquals(  0,  \"  ,  \".size());\n",
+                               "assertThat((new String(\"  ,  \"))).isEmpty();\nassertThat(\"  ,  \").isEmpty();\n"));
   }
 
-  @ParameterizedTest(name = "{0} should be converted to {1}")
-  @MethodSource("replace_assertEquals_checking_0_size_source")
-  // Replacing : assertEquals(0, myList.size()) ................. by : assertThat(myList).isEmpty()'
-  void replace_assertEquals_checking_0_size(String input, String expected) throws Exception {
-    tester.startTest(input, expected);
+  static Stream<Arguments> replace_assertEquals_with_hasSize() {
+    return Stream.of(arguments("assertEquals(1234, myList.size());\nassertEquals(1234, (new int[1234]).size());\n",
+                               "assertThat(myList).hasSize(1234);\nassertThat((new int[1234])).hasSize(1234);\n"),
+                     arguments("assertEquals( 1234, myList(123).size());\nassertEquals( 1234, (\"12.\" + \",123\").size());\n",
+                               "assertThat(myList(123)).hasSize(1234);\nassertThat((\"12.\" + \",123\")).hasSize(1234);\n"),
+                     arguments("assertEquals(12, multiParam(1.1,param2).size());\nassertEquals( 123, multiParam(1.1, param2, hello[i]).size());\n",
+                               "assertThat(multiParam(1.1,param2)).hasSize(12);\nassertThat(multiParam(1.1, param2, hello[i])).hasSize(123);\n"));
   }
 
-  static Stream<Object> replace_assertEquals_checking_0_size_source() {
-    return Stream.of(arguments("assertEquals(0, myList.size());\n" + "assertEquals(  0,  myList.size());\n",
-                               """
-                                   assertThat(myList).isEmpty();
-                                   assertThat(myList).isEmpty();
-                                   """),
-                     arguments("""
-                         assertEquals(  0,  (new String("")).size());
-                         assertEquals(  0,  multiParam( 1.1, param2).size());
-                         """,
-                               """
-                                   assertThat((new String(""))).isEmpty();
-                                   assertThat(multiParam( 1.1, param2)).isEmpty();
-                                   """),
-                     arguments("""
-                         assertEquals(  0,  (new String("  ,  ")).size());
-                         assertEquals(  0,  "  ,  ".size());
-                         """,
-                               """
-                                   assertThat((new String("  ,  "))).isEmpty();
-                                   assertThat("  ,  ").isEmpty();
-                                   """));
-  }
-
-  @ParameterizedTest(name = "{0} should be converted to {1}")
-  @MethodSource("replace_assertEquals_checking_size_source")
-  // Replacing : assertEquals(expectedSize, myList.size()) ...... by : assertThat(myList).hasSize(expectedSize)'
-  void replace_assertEquals_checking_size(String input, String expected) throws Exception {
-    tester.startTest(input, expected);
-  }
-
-  static Stream<Object> replace_assertEquals_checking_size_source() {
-    return Stream.of(arguments("""
-        assertEquals(1234, myList.size());
-        assertEquals(1234, (new int[1234]).size());
-        """,
-                               """
-                                   assertThat(myList).hasSize(1234);
-                                   assertThat((new int[1234])).hasSize(1234);
-                                   """),
-                     arguments("""
-                         assertEquals( 1234, myList(123).size());
-                         assertEquals( 1234, ("12." + ",123").size());
-                         """,
-                               """
-                                   assertThat(myList(123)).hasSize(1234);
-                                   assertThat(("12." + ",123")).hasSize(1234);
-                                   """),
-                     arguments("""
-                         assertEquals(12, multiParam(1.1,param2).size());
-                         assertEquals( 123, multiParam(1.1, param2, hello[i]).size());
-                         """,
-                               """
-                                   assertThat(multiParam(1.1,param2)).hasSize(12);
-                                   assertThat(multiParam(1.1, param2, hello[i])).hasSize(123);
-                                   """));
-  }
-
-  @ParameterizedTest(name = "{0} should be converted to {1}")
-  @MethodSource("replace_assertEquals_checking_isCloseTo_source")
-  // Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))
-  void replace_assertEquals_checking_isCloseTo(String input, String expected) throws Exception {
-    tester.startTest(input, expected);
-  }
-
-  static Stream<Object> replace_assertEquals_checking_isCloseTo_source() {
+  static Stream<Arguments> replace_assertEquals_with_isCloseTo() {
     return Stream.of(arguments("assertEquals(12.34, 13.45, 0.1);\n",
                                "assertThat(13.45).isCloseTo(12.34, within(0.1));\n"),
-                     arguments("""
-                         assertEquals(expected.size(), value, EPSILON);
-                         assertEquals( 4, (new Array(3)).size(), EPSILON);
-                         """,
-                               """
-                                   assertThat(value).isCloseTo(expected.size(), within(EPSILON));
-                                   assertThat((new Array(3)).size()).isCloseTo(4, within(EPSILON));
-                                   """));
+                     arguments("assertEquals(expected.size(), value, EPSILON);\nassertEquals( 4, (new Array(3)).size(), EPSILON);\n",
+                               "assertThat(value).isCloseTo(expected.size(), within(EPSILON));\nassertThat((new Array(3)).size()).isCloseTo(4, within(EPSILON));\n"));
   }
 
-  @ParameterizedTest(name = "{0} should be converted to {1}")
-  @MethodSource("replace_assertEquals_by_default_source")
-  // Replacing : assertEquals(expected, actual) ................. by : assertThat(actual).isEqualTo(expected)
-  void replace_assertEquals_by_default(String input, String expected) throws Exception {
-    // multi lines for one test should be considered.
-    input += "assertEquals(expected, actual);\n";
-    expected += "assertThat(actual).isEqualTo(expected);\n";
-    tester.startTest(input, expected);
-  }
-
-  static Stream<Object> replace_assertEquals_by_default_source() {
+  static Stream<Object> replace_assertEquals_with_isEqualTo() {
     return Stream.of(arguments("assertEquals(2.14, actual);\n",
                                "assertThat(actual).isEqualTo(2.14);\n"),
                      arguments("assertEquals(\"12.34\", StringHandling.fixFPNumberFormat(\"12.34\"));\n",
@@ -164,17 +114,7 @@ class Convert_JUnit5_Assertions_To_AssertJ_Test {
                                "assertThat(StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\")).isEqualTo(\"123\\\",5\\\"67.34\");\n"));
   }
 
-  @ParameterizedTest(name = "{0} should be converted to {1}")
-  @MethodSource("replace_assertNotEquals_source")
-  // Replacing : assertNotEquals(expected, actual) ................. by : assertThat(actual).isNotEqualTo(expected)
-  void replace_assertNotEquals(String input, String expected) throws Exception {
-    // multi lines for one test should be considered.
-    input += "assertNotEquals(expected, actual);\n";
-    expected += "assertThat(actual).isNotEqualTo(expected);\n";
-    tester.startTest(input, expected);
-  }
-
-  static Stream<Object> replace_assertNotEquals_source() {
+  static Stream<Object> replace_assertNotEquals_with_isNotEqualTo() {
     return Stream.of(arguments("assertNotEquals(2.14, actual);\n",
                                "assertThat(actual).isNotEqualTo(2.14);\n"),
                      arguments("assertNotEquals(\"12.34\", StringHandling.fixFPNumberFormat(\"12.34\"));\n",
@@ -197,17 +137,7 @@ class Convert_JUnit5_Assertions_To_AssertJ_Test {
                                "assertThat(StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\")).isNotEqualTo(\"123\\\",5\\\"67.34\");\n"));
   }
 
-  @ParameterizedTest(name = "{0} should be converted to {1}")
-  @MethodSource("replace_assertArrayEquals_source")
-  // Replacing : assertArrayEquals(expectedArray, actual) ....... by : assertThat(actual).isEqualTo(expectedArray)
-  void replace_assertArrayEquals(String input, String expected) throws Exception {
-    // multi lines for one test should be considered.
-    input += "assertArrayEquals(expectedArray, actual);\n";
-    expected += "assertThat(actual).isEqualTo(expectedArray);\n";
-    tester.startTest(input, expected);
-  }
-
-  static Stream<Object> replace_assertArrayEquals_source() {
+  static Stream<Object> replace_assertArrayEquals_with_isEqualTo() {
     return Stream.of(arguments("assertArrayEquals(expectedArray, actual);\n",
                                "assertThat(actual).isEqualTo(expectedArray);\n"),
                      arguments("assertArrayEquals(\"123,4,56\".getBytes(), actual);\n",
@@ -218,16 +148,7 @@ class Convert_JUnit5_Assertions_To_AssertJ_Test {
                                "assertThat(actual).isEqualTo(houses.getList(\" \\\",123 \", \"house_name\"));\n"));
   }
 
-  @ParameterizedTest(name = "{0} should be converted to {1}")
-  @MethodSource("replace_assertNull_source")
-  // Replacing : assertNull(actual) ............................. by : assertThat(actual).isNull()
-  void replace_assertNull(String input, String expected) throws Exception {
-    input += "assertNull(actual);\n";
-    expected += "assertThat(actual).isNull();\n";
-    tester.startTest(input, expected);
-  }
-
-  static Stream<Object> replace_assertNull_source() {
+  static Stream<Object> replace_assertNull_with_isNull() {
     return Stream.of(arguments("assertNull(actual);\n",
                                "assertThat(actual).isNull();\n"),
                      arguments("assertNull(Invoker.invoke(clazz, args));\n",
@@ -238,17 +159,7 @@ class Convert_JUnit5_Assertions_To_AssertJ_Test {
                                "assertThat(calculate(abcd, \",\\\",123\\\",\", 1234)).isNull();\n"));
   }
 
-  @ParameterizedTest(name = "{0} should be converted to {1}")
-  @MethodSource("replace_assertSame_source")
-  // Replacing : assertSame(expected, actual) ................. by : assertThat(actual).isSameAs(expected)
-  void replace_assertSame(String input, String expected) throws Exception {
-    // multi lines for one test should be considered.
-    input += "assertSame(expected, actual);\n";
-    expected += "assertThat(actual).isSameAs(expected);\n";
-    tester.startTest(input, expected);
-  }
-
-  static Stream<Object> replace_assertSame_source() {
+  static Stream<Object> replace_assertSame_with_isSameAs() {
     // similar to the test source in assertEquals by default
     return Stream.of(arguments("assertSame(2.14, actual);\n",
                                "assertThat(actual).isSameAs(2.14);\n"),
@@ -272,16 +183,7 @@ class Convert_JUnit5_Assertions_To_AssertJ_Test {
                                "assertThat(StringHandling.fixFPNumberFormat(\"1.234\\.567\\,34\")).isSameAs(\"123\\\",5\\\"67.34\");\n"));
   }
 
-  @ParameterizedTest(name = "{0} should be converted to {1}")
-  @MethodSource("replace_imports_source")
-  // Replacing : assertEquals(expectedDouble, actual, delta) .... by : assertThat(actual).isCloseTo(expectedDouble, within(delta))
-  void replace_imports(String input, String expected) throws Exception {
-    input += "import static org.junit.jupiter.api.Assertions.fail;\n";
-    expected += "import static org.assertj.core.api.Assertions.fail;\n";
-    tester.startTest(input, expected);
-  }
-
-  static Stream<Object> replace_imports_source() {
+  static Stream<Object> replace_imports() {
     return Stream.of(arguments("import static org.junit.jupiter.api.Assertions.fail;\n",
                                "import static org.assertj.core.api.Assertions.fail;\n"),
                      arguments("import static org.junit.jupiter.api.Assertions.*;\n",
