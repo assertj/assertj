@@ -33,6 +33,17 @@
         <module>assertj-core-osgi</module> <!-- https://github.com/bndtools/bnd/issues/6370 -->
       </modules>
     </profile>
+    <profile>
+      <id>unix</id>
+      <activation>
+        <os>
+          <family>!windows</family>
+        </os>
+      </activation>
+      <modules>
+        <module>assertj-scripts</module>
+      </modules>
+    </profile>
   </profiles>
 
 </project>

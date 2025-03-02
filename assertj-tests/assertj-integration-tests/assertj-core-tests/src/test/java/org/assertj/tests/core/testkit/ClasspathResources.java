@@ -16,7 +16,7 @@ import static org.junit.platform.commons.support.ReflectionSupport.findAllResour
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
@@ -24,28 +24,26 @@ import org.junit.platform.commons.support.Resource;
 
 public class ClasspathResources {
 
-  private ClasspathResources() {}
-
   public static File resourceFile(String resourceName) {
-    return resourcePath(resourceName).toFile();
+    return new File(resourceURI(resourceName));
   }
 
   public static Path resourcePath(String resourceName) {
-    try {
-      return Path.of(resourceURL(resourceName).toURI());
-    } catch (URISyntaxException e) {
-      throw new RuntimeException(e);
-    }
+    return Path.of(resourceURI(resourceName));
   }
 
   public static URL resourceURL(String resourceName) {
     try {
-      List<Resource> resources = findAllResourcesInPackage("", resource -> resource.getName().equals(resourceName));
-      if (resources.size() != 1) throw new IllegalStateException("Unique resource not found: " + resources);
-      return resources.getFirst().getUri().toURL();
+      return resourceURI(resourceName).toURL();
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  public static URI resourceURI(String resourceName) {
+    List<Resource> resources = findAllResourcesInPackage("", resource -> resource.getName().equals(resourceName));
+    if (resources.size() != 1) throw new IllegalStateException("Unique resource not found: " + resources);
+    return resources.getFirst().getUri();
   }
 
 }
