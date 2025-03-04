@@ -59,7 +59,7 @@ class Paths_assertIsCanonical_Test extends PathsBaseTest {
   void should_fail_if_actual_is_not_canonical() throws IOException {
     // GIVEN
     Path file = createFile(tempDir.resolve("file"));
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN
     AssertionError error = expectAssertionError(() -> underTest.assertIsCanonical(INFO, actual));
     // THEN

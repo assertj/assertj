@@ -77,7 +77,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
   void should_fail_if_actual_is_not_canonical() throws IOException {
     // GIVEN
     Path file = createFile(tempDir.resolve("file"));
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), file);
     Path other = Paths.get("file");
     // WHEN
     AssertionError error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));

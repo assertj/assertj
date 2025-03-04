@@ -15,6 +15,7 @@
  */
 package org.assertj.core.internal;
 
+import static java.nio.file.Files.createSymbolicLink;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.mockingDetails;
 import static org.mockito.Mockito.reset;
@@ -27,6 +28,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.io.TempDir;
+import org.junit.platform.commons.function.Try;
+import org.opentest4j.TestAbortedException;
 
 /**
  * Base class for {@link Paths} tests.
@@ -69,6 +72,12 @@ public abstract class PathsBaseTest {
   @BeforeEach
   void resetSpies() {
     reset(nioFilesWrapper, failures, diff, binaryDiff);
+  }
+
+  // https://github.com/assertj/assertj/issues/3183
+  protected static Path tryToCreateSymbolicLink(Path link, Path target) {
+    return Try.call(() -> createSymbolicLink(link, target))
+              .getOrThrow(e -> new TestAbortedException("Failed to create symbolic link", e));
   }
 
 }

@@ -77,7 +77,7 @@ class Paths_assertHasNoParent_Test extends PathsBaseTest {
   void should_pass_if_actual_is_not_canonical() throws IOException {
     // GIVEN
     Path root = tempDir.getRoot();
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), root);
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), root);
     // WHEN/THEN
     underTest.assertHasNoParent(INFO, actual);
   }
