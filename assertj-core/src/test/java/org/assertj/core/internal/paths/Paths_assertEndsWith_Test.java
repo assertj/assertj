@@ -27,6 +27,8 @@ import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import org.assertj.core.internal.PathsBaseTest;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.function.Try;
+import org.opentest4j.TestAbortedException;
 
 class Paths_assertEndsWith_Test extends PathsBaseTest {
 
@@ -89,7 +91,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
   void should_pass_if_actual_is_not_canonical() throws IOException {
     // GIVEN
     Path file = createFile(tempDir.resolve("file"));
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), file);
     Path other = Path.of("file");
     // WHEN/THEN
     underTest.assertEndsWith(INFO, actual, other);

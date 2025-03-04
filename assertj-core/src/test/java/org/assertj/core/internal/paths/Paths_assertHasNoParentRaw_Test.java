@@ -57,7 +57,7 @@ class Paths_assertHasNoParentRaw_Test extends PathsBaseTest {
   void should_fail_if_actual_is_not_canonical() throws IOException {
     // GIVEN
     Path root = tempDir.getRoot();
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), root);
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), root);
     // WHEN
     AssertionError error = expectAssertionError(() -> underTest.assertHasNoParentRaw(INFO, actual));
     // THEN
