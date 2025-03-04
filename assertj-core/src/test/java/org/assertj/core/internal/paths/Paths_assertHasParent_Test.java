@@ -117,7 +117,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     // GIVEN
     Path expected = createDirectory(tempDir.resolve("expected"));
     Path file = createFile(expected.resolve("file"));
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN/THEN
     underTest.assertHasParent(INFO, actual, expected);
   }
@@ -126,7 +126,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
   void should_pass_if_expected_is_not_canonical() throws IOException {
     // GIVEN
     Path directory = createDirectory(tempDir.resolve("directory"));
-    Path expected = createSymbolicLink(tempDir.resolve("expected"), directory);
+    Path expected = tryToCreateSymbolicLink(tempDir.resolve("expected"), directory);
     Path actual = createFile(directory.resolve("actual"));
     // WHEN/THEN
     underTest.assertHasParent(INFO, actual, expected);

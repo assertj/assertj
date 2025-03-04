@@ -86,7 +86,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
     // GIVEN
     Path expected = createDirectory(tempDir.resolve("expected"));
     Path file = createFile(expected.resolve("file"));
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN
     AssertionError error = expectAssertionError(() -> underTest.assertHasParentRaw(INFO, actual, expected));
     // THEN
@@ -97,7 +97,7 @@ class Paths_assertHasParentRaw_Test extends PathsBaseTest {
   void should_fail_if_expected_is_not_canonical() throws IOException {
     // GIVEN
     Path directory = createDirectory(tempDir.resolve("directory"));
-    Path expected = createSymbolicLink(tempDir.resolve("expected"), directory);
+    Path expected = tryToCreateSymbolicLink(tempDir.resolve("expected"), directory);
     Path actual = createFile(directory.resolve("actual"));
     // WHEN
     AssertionError error = expectAssertionError(() -> underTest.assertHasParentRaw(INFO, actual, expected));

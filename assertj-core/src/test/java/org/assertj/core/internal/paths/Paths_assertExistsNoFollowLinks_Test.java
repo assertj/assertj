@@ -57,7 +57,7 @@ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
   void should_pass_if_actual_is_a_symbolic_link_and_target_exists() throws IOException {
     // GIVEN
     Path target = createFile(tempDir.resolve("target"));
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), target);
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), target);
     // WHEN/THEN
     underTest.assertExistsNoFollowLinks(INFO, actual);
   }
@@ -66,7 +66,7 @@ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
   void should_pass_if_actual_is_a_symbolic_link_and_target_does_not_exist() throws IOException {
     // GIVEN
     Path target = tempDir.resolve("non-existent");
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), target);
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), target);
     // WHEN/THEN
     underTest.assertExistsNoFollowLinks(INFO, actual);
   }

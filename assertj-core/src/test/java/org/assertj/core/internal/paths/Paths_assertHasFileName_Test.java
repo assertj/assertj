@@ -92,7 +92,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
   @Test
   void should_pass_with_existing_symbolic_link() throws IOException {
     // GIVEN
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), tempDir);
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), tempDir);
     String filename = "actual";
     // WHEN/THEN
     underTest.assertHasFileName(INFO, actual, filename);
