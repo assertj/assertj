@@ -15,8 +15,8 @@ package org.example.test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.util.StackTraceUtils.checkNoAssertjStackTraceElementIn;
+import static org.assertj.tests.core.testkit.StackTraceUtils.checkNoAssertjStackTraceElementIn;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.stream.Stream;
 
@@ -27,7 +27,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-public class Remove_assertJ_stacktrace_elements_Test {
+class Remove_assertJ_stacktrace_elements_Test {
 
   private boolean initialRemoveAssertJRelatedElementsFromStackTraceValue;
 

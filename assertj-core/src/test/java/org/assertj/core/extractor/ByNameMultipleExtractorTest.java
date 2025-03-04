@@ -19,15 +19,12 @@ import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.testkit.Maps.mapOf;
 
 import java.util.Map;
-
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ByNameMultipleExtractor")
 class ByNameMultipleExtractorTest {
 
   private static final Employee YODA = new Employee(1L, new Name("Yoda"), 800);
