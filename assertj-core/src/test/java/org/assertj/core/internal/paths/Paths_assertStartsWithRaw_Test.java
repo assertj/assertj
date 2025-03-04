@@ -78,7 +78,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
     // GIVEN
     Path other = createDirectory(tempDir.resolve("other"));
     Path file = createFile(other.resolve("file"));
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), file);
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN
     AssertionError error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, actual, other));
     // THEN
@@ -89,7 +89,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
   void should_fail_if_other_is_not_canonical() throws IOException {
     // GIVEN
     Path directory = createDirectory(tempDir.resolve("directory"));
-    Path other = createSymbolicLink(tempDir.resolve("other"), directory);
+    Path other = tryToCreateSymbolicLink(tempDir.resolve("other"), directory);
     Path actual = createFile(directory.resolve("actual"));
     // WHEN
     AssertionError error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, actual, other));

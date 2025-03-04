@@ -62,7 +62,7 @@ class Paths_assertIsSymbolicLink_Test extends PathsBaseTest {
   @Test
   void should_succeed_if_actual_is_a_symbolic_link() throws IOException {
     // GIVEN
-    Path actual = createSymbolicLink(tempDir.resolve("actual"), tempDir.resolve("target"));
+    Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), tempDir.resolve("target"));
     // WHEN/THEN
     underTest.assertIsSymbolicLink(INFO, actual);
   }
