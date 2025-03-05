@@ -18,7 +18,7 @@ import static org.mockito.Mockito.spy;
 import java.util.Comparator;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMBER_TYPE extends Number> {
