@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.inputstreams;
+package org.assertj.tests.core.internal.inputstreams;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,8 +24,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link BinaryDiff#diff(java.io.InputStream, java.io.InputStream)}</code>.
- *
  * @author Olivier Michallat
  */
 class BinaryDiff_diff_InputStream_Test {

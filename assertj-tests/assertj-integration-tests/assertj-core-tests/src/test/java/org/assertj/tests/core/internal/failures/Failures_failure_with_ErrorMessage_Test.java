@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.failures;
+package org.assertj.tests.core.internal.failures;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -21,7 +21,7 @@ import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.description.Description;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.TestDescription;
+import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

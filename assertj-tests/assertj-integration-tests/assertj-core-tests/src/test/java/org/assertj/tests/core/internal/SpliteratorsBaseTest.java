@@ -10,14 +10,16 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.tests.core.internal;
 
 import static org.apache.commons.lang3.reflect.FieldUtils.readField;
 import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.Spliterators;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 

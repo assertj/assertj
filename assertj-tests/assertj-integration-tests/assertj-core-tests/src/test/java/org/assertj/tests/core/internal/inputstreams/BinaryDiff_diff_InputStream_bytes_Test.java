@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.inputstreams;
+package org.assertj.tests.core.internal.inputstreams;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
@@ -24,8 +24,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link BinaryDiff#diff(InputStream, byte[])}</code>.
- *
  * @author Olivier Michallat, Stefan Birkner
  */
 @DisplayName("BinaryDiff diff(InputStream)")

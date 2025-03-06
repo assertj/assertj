@@ -10,29 +10,25 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.spliterator;
+package org.assertj.tests.core.internal.spliterator;
 
 import static java.lang.String.format;
 import static java.util.Spliterator.DISTINCT;
 import static java.util.Spliterator.SORTED;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Spliterator;
 
-import org.assertj.core.api.SpliteratorAssert;
-import org.assertj.core.internal.SpliteratorsBaseTest;
-import org.assertj.core.testkit.StringSpliterator;
+import org.assertj.tests.core.internal.SpliteratorsBaseTest;
+import org.assertj.tests.core.testkit.StringSpliterator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link SpliteratorAssert#hasCharacteristics(int...)}</code>.
- *
  * @author William Bakker
  */
-@DisplayName("Spliterators assertHasCharacteristics")
 class Spliterators_assertHasCharacteristics_Test extends SpliteratorsBaseTest {
 
   @Test
