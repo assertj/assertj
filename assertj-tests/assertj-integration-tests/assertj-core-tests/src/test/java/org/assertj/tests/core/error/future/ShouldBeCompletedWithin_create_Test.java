@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error.future;
+package org.assertj.tests.core.error.future;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.ShouldBeCompletedWithin.shouldBeCompletedWithin;
@@ -19,8 +19,7 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-
-import org.assertj.core.internal.TestDescription;
+import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
 class ShouldBeCompletedWithin_create_Test {

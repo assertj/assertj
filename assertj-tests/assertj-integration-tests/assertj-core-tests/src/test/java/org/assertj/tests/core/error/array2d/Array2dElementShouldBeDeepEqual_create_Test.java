@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error.array2d;
+package org.assertj.tests.core.error.array2d;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;

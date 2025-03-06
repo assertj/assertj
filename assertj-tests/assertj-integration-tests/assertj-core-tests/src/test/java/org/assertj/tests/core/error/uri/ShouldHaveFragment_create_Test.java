@@ -10,15 +10,14 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error.uri;
+package org.assertj.tests.core.error.uri;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.uri.ShouldHaveFragment.shouldHaveFragment;
 
 import java.net.URI;
-
-import org.assertj.core.internal.TestDescription;
+import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
 class ShouldHaveFragment_create_Test {

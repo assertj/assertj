@@ -10,29 +10,27 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error.future;
+package org.assertj.tests.core.error.future;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
+import static org.assertj.core.error.future.ShouldNotHaveFailed.shouldNotHaveFailed;
 import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.util.concurrent.CompletableFuture;
-
-import org.assertj.core.internal.TestDescription;
+import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
-class ShouldBeDone_create_Test {
+class ShouldNotHaveFailed_create_Test {
 
   @Test
   void should_create_error_message() {
+    // GIVEN
+    CompletableFuture<Object> future = new CompletableFuture<>();
+    future.completeExceptionally(new RuntimeException());
     // WHEN
-    String error = shouldBeDone(new CompletableFuture<>()).create(new TestDescription("TEST"));
+    String error = shouldNotHaveFailed(future).create(new TestDescription("TEST"));
     // THEN
-    then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting%n" +
-                                 "  <CompletableFuture[Incomplete]>%n" +
-                                 "to be done.%n%s", WARNING));
+    then(error).startsWith("[TEST] %nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException".formatted())
+               .endsWith("to not have failed.%n%s".formatted(WARNING));
   }
-
 }

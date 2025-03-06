@@ -10,32 +10,28 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error.future;
+package org.assertj.tests.core.error.future;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
+import static org.assertj.core.error.future.ShouldHaveFailed.shouldHaveFailed;
 import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.util.concurrent.CompletableFuture;
-
-import org.assertj.core.internal.TestDescription;
+import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
-class ShouldNotBeCancelled_create_Test {
+class ShouldHaveFailed_create_Test {
 
   @Test
   void should_create_error_message() {
-    // GIVEN
-    CompletableFuture<Object> future = new CompletableFuture<>();
-    future.cancel(true);
     // WHEN
-    String error = shouldNotBeCancelled(future).create(new TestDescription("TEST"));
+    String error = shouldHaveFailed(new CompletableFuture<>()).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting%n" +
-                                 "  <CompletableFuture[Cancelled]>%n" +
-                                 "not to be cancelled.%n%s",
+                                 "  <CompletableFuture[Incomplete]>%n" +
+                                 "to have failed (i.e. completed exceptionally and not cancelled).%n%s",
                                  WARNING));
   }
 

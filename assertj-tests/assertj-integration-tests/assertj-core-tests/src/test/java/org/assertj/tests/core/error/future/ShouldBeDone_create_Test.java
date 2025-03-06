@@ -10,30 +10,28 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error.future;
+package org.assertj.tests.core.error.future;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
+import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
 import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.util.concurrent.CompletableFuture;
-
-import org.assertj.core.internal.TestDescription;
+import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
-class ShouldNotBeDone_create_Test {
+class ShouldBeDone_create_Test {
 
   @Test
   void should_create_error_message() {
     // WHEN
-    String error = shouldNotBeDone(CompletableFuture.completedFuture("done")).create(new TestDescription("TEST"));
+    String error = shouldBeDone(new CompletableFuture<>()).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting%n" +
-                                 "  <CompletableFuture[Completed: \"done\"]>%n" +
-                                 "not to be done.%n%s",
-                                 WARNING));
+                                 "  <CompletableFuture[Incomplete]>%n" +
+                                 "to be done.%n%s", WARNING));
   }
 
 }

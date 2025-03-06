@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error.uri;
+package org.assertj.tests.core.error.uri;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -21,9 +21,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-
 import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.internal.TestDescription;
+import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
 class ShouldHaveNoHost_create_Test {

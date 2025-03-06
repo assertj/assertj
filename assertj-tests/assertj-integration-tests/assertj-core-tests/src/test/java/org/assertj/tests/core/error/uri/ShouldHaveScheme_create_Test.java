@@ -10,30 +10,30 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error.future;
+package org.assertj.tests.core.error.uri;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
-import static org.assertj.core.error.future.Warning.WARNING;
+import static org.assertj.core.error.uri.ShouldHaveScheme.shouldHaveScheme;
 
-import java.util.concurrent.CompletableFuture;
-
-import org.assertj.core.internal.TestDescription;
+import java.net.URI;
+import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
-class ShouldBeCancelled_create_Test {
+class ShouldHaveScheme_create_Test {
 
   @Test
   void should_create_error_message() {
     // WHEN
-    String error = shouldBeCancelled(new CompletableFuture<>()).create(new TestDescription("TEST"));
+    String error = shouldHaveScheme(URI.create("http://assertj.org/"), "ftp").create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting%n" +
-                                 "  <CompletableFuture[Incomplete]>%n" +
-                                 "to be cancelled.%n%s",
-                                 WARNING));
+                                 "Expecting scheme of%n" +
+                                 "  <http://assertj.org/>%n" +
+                                 "to be:%n" +
+                                 "  <\"ftp\">%n" +
+                                 "but was:%n" +
+                                 "  <\"http\">"));
   }
 
 }

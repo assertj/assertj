@@ -10,29 +10,28 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error.future;
+package org.assertj.tests.core.error.future;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.future.ShouldNotBeCompletedExceptionally.shouldNotHaveCompletedExceptionally;
+import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
 import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.util.concurrent.CompletableFuture;
-
-import org.assertj.core.internal.TestDescription;
+import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
-class ShouldNotHaveCompletedExceptionally_create_Test {
+class ShouldNotBeDone_create_Test {
 
   @Test
   void should_create_error_message() {
     // WHEN
-    String error = shouldNotHaveCompletedExceptionally(new CompletableFuture<>()).create(new TestDescription("TEST"));
+    String error = shouldNotBeDone(CompletableFuture.completedFuture("done")).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting%n" +
-                                 "  <CompletableFuture[Incomplete]>%n" +
-                                 "to not be completed exceptionally.%n%s",
+                                 "  <CompletableFuture[Completed: \"done\"]>%n" +
+                                 "not to be done.%n%s",
                                  WARNING));
   }
 

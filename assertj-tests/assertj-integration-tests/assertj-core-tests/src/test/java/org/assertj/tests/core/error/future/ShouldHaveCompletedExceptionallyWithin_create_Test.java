@@ -10,50 +10,44 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error.future;
+package org.assertj.tests.core.error.future;
 
 import static java.lang.String.format;
-import static java.util.concurrent.CompletableFuture.completedFuture;
+import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.future.ShouldHaveFailedWithin.shouldHaveFailedWithin;
+import static org.assertj.core.error.future.ShouldHaveCompletedExceptionallyWithin.shouldHaveCompletedExceptionallyWithin;
 import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
-import org.assertj.core.internal.TestDescription;
+import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
-class ShouldHaveFailedWithin_create_Test {
+class ShouldHaveCompletedExceptionallyWithin_create_Test {
+
+  private final CompletableFuture<Object> future = new CompletableFuture<>();
+  private final TestDescription description = new TestDescription("TEST");
 
   @Test
-  void should_create_error_message_with_duration() {
-    // GIVEN
-    CompletableFuture<Object> actual = completedFuture("ok");
+  void should_create_error_message() {
     // WHEN
-    String error = shouldHaveFailedWithin(actual, Duration.ofHours(1)).create(new TestDescription("TEST"));
-    // THEN
-    then(error).isEqualTo(format("[TEST] %n" +
-                                 "Expecting%n" +
-                                 "  <CompletableFuture[Completed: \"ok\"]>%n" +
-                                 "to have failed within 1H.%n%s",
-                                 WARNING));
-  }
-
-  @Test
-  void should_create_error_message_with_time_unit() {
-    // GIVEN
-    Future<Object> actual = new CompletableFuture<>();
-    // WHEN
-    String error = shouldHaveFailedWithin(actual, 1, TimeUnit.HOURS).create(new TestDescription("TEST"));
+    String error = shouldHaveCompletedExceptionallyWithin(future, 1, SECONDS).create(description);
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting%n" +
                                  "  <CompletableFuture[Incomplete]>%n" +
-                                 "to have failed within 1L HOURS.%n%s",
-                                 WARNING));
+                                 "to have completed exceptionally within 1L SECONDS.%n%s", WARNING));
+  }
+
+  @Test
+  void should_create_error_message_Duration() {
+    // WHEN
+    String error = shouldHaveCompletedExceptionallyWithin(future, Duration.ofSeconds(1)).create(description);
+    // THEN
+    then(error).isEqualTo(format("[TEST] %n" +
+                                 "Expecting%n" +
+                                 "  <CompletableFuture[Incomplete]>%n" +
+                                 "to have completed exceptionally within 1S.%n%s", WARNING));
   }
 
 }
