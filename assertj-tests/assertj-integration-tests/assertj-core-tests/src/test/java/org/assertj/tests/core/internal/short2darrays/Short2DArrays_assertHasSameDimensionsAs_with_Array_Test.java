@@ -10,18 +10,13 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.short2darrays;
+package org.assertj.tests.core.internal.short2darrays;
 
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Short2DArrays;
-import org.assertj.core.internal.Short2DArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Short2DArrays#assertHasSameDimensionsAs(AssertionInfo, short[][], Object)}}</code>.
- *
  * @author Maciej Wajcht
  */
 class Short2DArrays_assertHasSameDimensionsAs_with_Array_Test extends Short2DArraysBaseTest {

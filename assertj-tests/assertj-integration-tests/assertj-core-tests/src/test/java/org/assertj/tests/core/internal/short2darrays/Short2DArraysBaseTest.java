@@ -10,38 +10,36 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.tests.core.internal.short2darrays;
 
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.tests.core.testkit.FieldTestUtils.writeField;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Arrays2D;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.Short2DArrays;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
- * Base class for testing <code>{@link Short2DArrays}</code>.
- * <p>
- * Is in <code>org.assertj.core.internal</code> package to be able to set {@link Short2DArrays#failures} appropriately.
- *
  * @author Maciej Wajcht
  */
-public class Short2DArraysBaseTest {
+class Short2DArraysBaseTest {
 
-  /**
-   * is initialized with {@link #initActualArray()} with default value = {{0, 2, 4}, {6, 8, 10}}
-   */
   protected short[][] actual;
   protected Failures failures;
   protected Short2DArrays short2DArrays;
   protected Arrays2D arrays2d;
-  protected AssertionInfo info = someInfo();
+  protected AssertionInfo info = TestData.someInfo();
 
   @BeforeEach
   public void setUp() {
     failures = spy(Failures.instance());
     short2DArrays = new Short2DArrays();
-    short2DArrays.failures = failures;
+    writeField(short2DArrays, "failures", failures);
+
     arrays2d = mock(Arrays2D.class);
     short2DArrays.setArrays(arrays2d);
     initActualArray();

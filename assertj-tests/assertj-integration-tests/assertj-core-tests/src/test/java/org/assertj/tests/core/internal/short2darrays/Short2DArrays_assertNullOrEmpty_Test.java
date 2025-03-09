@@ -10,27 +10,22 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.short2darrays;
+package org.assertj.tests.core.internal.short2darrays;
 
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Short2DArrays;
-import org.assertj.core.internal.Short2DArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Short2DArrays#assertHasDimensions(AssertionInfo, short[][], int, int)}</code>.
- *
  * @author Maciej Wajcht
  */
-class Short2DArrays_assertHasDimensions_Test extends Short2DArraysBaseTest {
+class Short2DArrays_assertNullOrEmpty_Test extends Short2DArraysBaseTest {
 
   @Test
   void should_delegate_to_Arrays2D() {
     // WHEN
-    short2DArrays.assertHasDimensions(info, actual, 2, 3);
+    short2DArrays.assertNullOrEmpty(info, actual);
     // THEN
-    verify(arrays2d).assertHasDimensions(info, failures, actual, 2, 3);
+    verify(arrays2d).assertNullOrEmpty(info, failures, actual);
   }
 }

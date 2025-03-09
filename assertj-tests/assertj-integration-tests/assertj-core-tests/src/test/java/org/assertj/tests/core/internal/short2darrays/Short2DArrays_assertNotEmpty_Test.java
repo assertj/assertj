@@ -10,31 +10,22 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.short2darrays;
+package org.assertj.tests.core.internal.short2darrays;
 
-import static org.assertj.core.data.Index.atIndex;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.data.Index;
-import org.assertj.core.internal.Short2DArrays;
-import org.assertj.core.internal.Short2DArraysBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Short2DArrays#assertDoesNotContain(AssertionInfo, short[][], short[], Index)}</code>.
- *
  * @author Maciej Wajcht
  */
-class Short2DArrays_assertDoesNotContain_at_Index_Test extends Short2DArraysBaseTest {
+class Short2DArrays_assertNotEmpty_Test extends Short2DArraysBaseTest {
 
   @Test
   void should_delegate_to_Arrays2D() {
-    // GIVEN
-    short[] shorts = new short[] { 0, 2, 4 };
     // WHEN
-    short2DArrays.assertDoesNotContain(info, actual, shorts, atIndex(1));
+    short2DArrays.assertNotEmpty(info, actual);
     // THEN
-    verify(arrays2d).assertDoesNotContain(info, failures, actual, shorts, atIndex(1));
+    verify(arrays2d).assertNotEmpty(info, failures, actual);
   }
 }
