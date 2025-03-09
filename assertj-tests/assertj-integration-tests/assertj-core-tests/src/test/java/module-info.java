@@ -18,7 +18,7 @@ open module org.assertj.tests.core {
   requires java.sql;
   requires javax.servlet.api;
   requires junit;
-  requires net.bytebuddy;
+  requires net.bytebuddy; // FIXME remove when upgrading to Mockito 5.16.0
   requires nl.jqno.equalsverifier;
   requires org.apache.commons.lang3;
   requires org.assertj.core;
