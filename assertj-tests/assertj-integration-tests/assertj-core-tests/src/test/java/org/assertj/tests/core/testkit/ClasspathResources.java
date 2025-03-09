@@ -12,7 +12,7 @@
  */
 package org.assertj.tests.core.testkit;
 
-import static org.junit.platform.commons.support.ReflectionSupport.findAllResourcesInPackage;
+import static org.junit.platform.commons.support.ReflectionSupport.findAllResourcesInModule;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -41,7 +41,8 @@ public class ClasspathResources {
   }
 
   public static URI resourceURI(String resourceName) {
-    List<Resource> resources = findAllResourcesInPackage("", resource -> resource.getName().equals(resourceName));
+    List<Resource> resources = findAllResourcesInModule(ClasspathResources.class.getModule().getName(),
+                                                        resource -> resource.getName().equals(resourceName));
     if (resources.size() != 1) throw new IllegalStateException("Unique resource not found: " + resources);
     return resources.getFirst().getUri();
   }

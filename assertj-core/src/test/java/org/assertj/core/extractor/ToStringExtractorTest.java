@@ -16,13 +16,11 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ToStringExtractor")
 class ToStringExtractorTest {
 
-  private ToStringExtractor underTest = new ToStringExtractor();
+  private final ToStringExtractor underTest = new ToStringExtractor();
 
   @Test
   void should_extract_toString() {

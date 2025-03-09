@@ -13,11 +13,10 @@
 package org.assertj.tests.core.description;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import org.assertj.core.description.Description;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -25,26 +24,22 @@ import org.junit.jupiter.api.Test;
  */
 class Description_toString_Test {
 
-  private ValueSource valueSource;
-  private Description description;
-
-  @BeforeEach
-  public void setUp() {
-    valueSource = mock(ValueSource.class);
-    description = new TestDescription(valueSource);
-  }
-
   @Test
   void should_return_value_in_toString() {
-    when(valueSource.value()).thenReturn("Yoda");
-    assertThat(description).hasToString("Yoda");
+    // GIVEN
+    ValueSource valueSource = mock();
+    given(valueSource.value()).willReturn("Yoda");
+    Description underTest = new TestDescription(valueSource);
+    // WHEN/THEN
+    assertThat(underTest).hasToString("Yoda");
   }
 
-  private interface ValueSource {
+  interface ValueSource {
     String value();
   }
 
   private static class TestDescription extends Description {
+
     private final ValueSource source;
 
     TestDescription(ValueSource source) {
@@ -55,5 +50,7 @@ class Description_toString_Test {
     public String value() {
       return source.value();
     }
+
   }
+
 }

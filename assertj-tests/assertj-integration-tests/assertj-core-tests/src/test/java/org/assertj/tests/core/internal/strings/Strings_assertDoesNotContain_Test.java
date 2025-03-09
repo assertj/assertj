@@ -18,17 +18,14 @@ import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotConta
 import static org.assertj.core.internal.ErrorMessages.arrayOfValuesToLookForIsNull;
 import static org.assertj.tests.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.mockito.internal.util.collections.Sets.newSet;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.StandardComparisonStrategy;
-import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.internal.StringsBaseTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 /**
- * Tests for <code>{@link Strings#assertDoesNotContain(AssertionInfo, CharSequence, CharSequence...)}</code>.
- *
  * @author Alex Ruiz
  */
 class Strings_assertDoesNotContain_Test extends StringsBaseTest {
@@ -99,8 +96,7 @@ class Strings_assertDoesNotContain_Test extends StringsBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> strings.assertDoesNotContain(someInfo(),
                                                                                                   "Practice makes perfect",
                                                                                                   values))
-                                                   .withMessage(shouldNotContain("Practice makes perfect",
-                                                                                 values, newSet("make"),
+                                                   .withMessage(shouldNotContain("Practice makes perfect", values, Set.of("make"),
                                                                                  StandardComparisonStrategy.instance()).create()
                                                                                                                        .formatted());
   }
@@ -117,8 +113,9 @@ class Strings_assertDoesNotContain_Test extends StringsBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> stringsWithCaseInsensitiveComparisonStrategy.assertDoesNotContain(someInfo(),
                                                                                                                                        "Practice makes perfect",
                                                                                                                                        values))
-                                                   .withMessage(shouldNotContain("Practice makes perfect",
-                                                                                 values, newSet("practice"),
-                                                                                 comparisonStrategy).create().formatted());
+                                                   .withMessage(shouldNotContain("Practice makes perfect", values,
+                                                                                 Set.of("practice"), comparisonStrategy).create()
+                                                                                                                        .formatted());
   }
+
 }

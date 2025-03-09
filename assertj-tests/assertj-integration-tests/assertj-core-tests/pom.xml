@@ -10,18 +10,24 @@
 
   <artifactId>assertj-core-tests</artifactId>
 
-  <name>AssertJ Core Tests</name>
+  <name>AssertJ Core Integration Tests</name>
 
   <properties>
     <argLine>
       <!-- https://github.com/mockito/mockito/issues/3037 -->
       -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
-      -Dfile.encoding=${project.build.sourceEncoding}
-      -Dnet.bytebuddy.experimental=true
-      --add-opens=java.base/java.lang=ALL-UNNAMED
-      --add-opens=java.base/java.math=ALL-UNNAMED
-      --add-opens=java.base/java.util=ALL-UNNAMED
-      --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
+      <!-- java.base -->
+      --add-opens java.base/java.lang=org.assertj.core
+      --add-opens java.base/java.math=ALL-UNNAMED
+      --add-opens java.base/java.util=ALL-UNNAMED
+      --add-opens java.base/sun.nio.fs=ALL-UNNAMED
+      <!-- com.fasterxml.jackson.databind -->
+      --add-opens com.fasterxml.jackson.databind/com.fasterxml.jackson.databind.node=org.assertj.core
+      <!-- nl.jqno.equalsverifier -->
+      --add-opens org.assertj.core/org.assertj.core.api.recursive.comparison=nl.jqno.equalsverifier
+      --add-opens org.assertj.core/org.assertj.core.groups=nl.jqno.equalsverifier
+      <!-- org.apache.commons.lang3 -->
+      --add-opens org.assertj.core/org.assertj.core.internal=org.apache.commons.lang3
     </argLine>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
     <spotless.skip>false</spotless.skip>
