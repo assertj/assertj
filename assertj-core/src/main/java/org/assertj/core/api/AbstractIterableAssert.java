@@ -1065,7 +1065,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *         Iterable's element.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String propertyOrField) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String propertyOrField) {
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
     String extractedDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -1112,7 +1112,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *           return void, or method accepts arguments.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
     // can't refactor by calling extractingResultOf(method, Object.class) as SoftAssertion would fail
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
@@ -1708,7 +1708,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(Function<? super ELEMENT, ?>... extractors) {
+  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(Function<? super ELEMENT, ?>... extractors) {
     return flatExtractingForProxy(extractors);
   }
 
@@ -1740,14 +1740,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   @SafeVarargs
-  public final AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatMap(Function<? super ELEMENT, ?>... mappers) {
+  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatMap(Function<? super ELEMENT, ?>... mappers) {
     return flatExtractingForProxy(mappers);
   }
 
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtractingForProxy(Function<? super ELEMENT, ?>[] extractors) {
+  protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtractingForProxy(Function<? super ELEMENT, ?>[] extractors) {
     if (actual == null) throwAssertionError(shouldNotBeNull());
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors).map(extractor -> extractor.apply(element)))
@@ -1792,7 +1792,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   @SafeVarargs
-  public final <EXCEPTION extends Exception> AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
+  public final <EXCEPTION extends Exception> AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
     return flatExtractingForProxy(extractors);
   }
 
@@ -1833,7 +1833,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   @SafeVarargs
-  public final <EXCEPTION extends Exception> AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatMap(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... mappers) {
+  public final <EXCEPTION extends Exception> AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatMap(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... mappers) {
     return flatExtractingForProxy(mappers);
   }
 
@@ -1869,7 +1869,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @throws IllegalArgumentException if one of the extracted property value was not an array or an iterable.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String fieldOrPropertyName) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String fieldOrPropertyName) {
     List<Object> extractedValues = newArrayList();
     List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyName));
     for (Object group : extractedGroups) {
@@ -2035,7 +2035,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 2.5.0 / 3.5.0
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String... fieldOrPropertyNames) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String... fieldOrPropertyNames) {
     List<Object> extractedValues = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyNames)).stream()
                                                               .flatMap(tuple -> tuple.toList().stream())
                                                               .collect(toList());

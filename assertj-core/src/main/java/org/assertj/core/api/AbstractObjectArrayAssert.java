@@ -2408,7 +2408,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IntrospectionError if no field or property exists with the given name
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String fieldOrProperty) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String fieldOrProperty) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
     String extractedDescription = extractedDescriptionOf(fieldOrProperty);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -2787,7 +2787,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IllegalArgumentException if one of the extracted property value was not an array or an iterable.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String propertyName) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String propertyName) {
     List<Object> extractedValues = newArrayList();
     List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertyName));
     for (Object group : extractedGroups) {
@@ -2846,7 +2846,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *           return void, or method accepts arguments.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
