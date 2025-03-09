@@ -10,28 +10,23 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.throwables;
+package org.assertj.tests.core.internal.throwables;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCause.shouldHaveCause;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
-import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import java.util.stream.Stream;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class Throwables_assertHasCause_Test extends ThrowablesBaseTest {
-
-  private static final AssertionInfo INFO = someInfo();
 
   @Test
   void should_pass_if_cause_has_expected_type_and_message() {

@@ -10,30 +10,21 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.throwables;
+package org.assertj.tests.core.internal.throwables;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
-import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.internal.Throwables;
-import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Throwables#assertHasMessageNotContaining(AssertionInfo, Throwable, String)}</code>.
- *
  * @author Sandra Parsick
  * @author Georg Berky
  */
 class Throwables_assertHasMessageNotContaining_Test extends ThrowablesBaseTest {
-
-  private static final AssertionInfo INFO = someInfo();
 
   @Test
   void should_pass_if_actual_has_a_message_not_containing_the_given_content() {
@@ -47,10 +38,10 @@ class Throwables_assertHasMessageNotContaining_Test extends ThrowablesBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    // GIVEN
-    ThrowingCallable code = () -> throwables.assertHasMessageNotContaining(INFO, null, "foo");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> throwables.assertHasMessageNotContaining(INFO, null, "foo"));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test

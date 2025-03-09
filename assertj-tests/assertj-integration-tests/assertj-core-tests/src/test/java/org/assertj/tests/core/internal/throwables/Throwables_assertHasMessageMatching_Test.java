@@ -10,24 +10,20 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.throwables;
+package org.assertj.tests.core.internal.throwables;
 
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveMessageMatchingRegex.shouldHaveMessageMatchingRegex;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
-
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.ThrowableAssert;
-import org.assertj.core.internal.ThrowablesBaseTest;
-import org.junit.jupiter.api.Test;
 
 import java.util.regex.Pattern;
 
+import org.junit.jupiter.api.Test;
+
 /**
- * Tests for <code>{@link ThrowableAssert#hasMessageMatching(String)}</code>.
- * 
  * @author Libor Ondrusek
  */
 class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest {
@@ -37,48 +33,51 @@ class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest {
   @Test
   void should_pass_if_throwable_message_matches_given_regex() {
     actual = new RuntimeException("Given id='259' not exists");
-    throwables.assertHasMessageMatching(someInfo(), actual, REGEX);
+    throwables.assertHasMessageMatching(INFO, actual, REGEX);
   }
 
   @Test
   void should_pass_if_throwable_message_is_empty_and_regex_is_too() {
     actual = new RuntimeException("");
-    throwables.assertHasMessageMatching(someInfo(), actual, "");
+    throwables.assertHasMessageMatching(INFO, actual, "");
   }
 
   @Test
   void should_fail_if_throwable_message_does_not_match_given_regex() {
-    AssertionInfo info = someInfo();
-    try {
-      throwables.assertHasMessageMatching(info, actual, REGEX);
-      fail("AssertionError expected");
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveMessageMatchingRegex(actual, REGEX));
-    }
+    // WHEN
+    expectAssertionError(() -> throwables.assertHasMessageMatching(INFO, actual, REGEX));
+    // THEN
+    verify(failures).failure(INFO, shouldHaveMessageMatchingRegex(actual, REGEX));
+  }
+
+  @Test
+  void should_fail_if_actual_is_null() {
+    // WHEN
+    AssertionError error = expectAssertionError(() -> throwables.assertHasMessageMatching(INFO, null, REGEX));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_given_regex_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(someInfo(), actual, (String) null))
+    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(INFO, actual, (String) null))
                                     .withMessage("regex must not be null");
   }
 
   @Test
   void should_fail_if_given_pattern_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(someInfo(), actual, (Pattern) null))
+    assertThatNullPointerException().isThrownBy(() -> throwables.assertHasMessageMatching(INFO, actual, (Pattern) null))
                                     .withMessage("regex must not be null");
   }
 
   @Test
   void should_fail_if_throwable_does_not_have_a_message() {
+    // GIVEN
     actual = new RuntimeException();
-    AssertionInfo info = someInfo();
-    try {
-      throwables.assertHasMessageMatching(info, actual, REGEX);
-      fail("AssertionError expected");
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveMessageMatchingRegex(actual, REGEX));
-    }
+    // WHEN
+    expectAssertionError(() -> throwables.assertHasMessageMatching(INFO, actual, REGEX));
+    // THEN
+    verify(failures).failure(INFO, shouldHaveMessageMatchingRegex(actual, REGEX));
   }
 
 }

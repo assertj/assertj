@@ -10,20 +10,22 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.tests.core.internal.throwables;
 
 import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.Throwables;
+import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
 public class ThrowablesBaseTest {
 
-  protected static final AssertionInfo INFO = someInfo();
+  protected static final AssertionInfo INFO = TestData.someInfo();
   protected Failures failures;
   protected Throwables throwables;
   protected static Throwable actual;
@@ -38,13 +40,11 @@ public class ThrowablesBaseTest {
     failures = spy(Failures.instance());
     throwables = Throwables.instance();
     writeField(throwables, "failures", failures, true);
-    Objects.instance().failures = failures;
   }
 
   @AfterEach
   public void tearDown() throws IllegalAccessException {
     writeField(throwables, "failures", Failures.instance(), true);
-    Objects.instance().failures = Failures.instance();
   }
 
 }

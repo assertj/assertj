@@ -10,49 +10,40 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.throwables;
+package org.assertj.tests.core.internal.throwables;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
-import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Throwables;
-import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Throwables#assertHasMessage(AssertionInfo, Throwable, String)}</code>.
- *
- * @author Joel Costigliola
- */
 class Throwables_assertHasMessage_Test extends ThrowablesBaseTest {
 
   @Test
   void should_pass_if_actual_has_expected_message() {
-    throwables.assertHasMessage(someInfo(), actual, "Throwable message");
+    throwables.assertHasMessage(INFO, actual, "Throwable message");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
-    AssertionInfo info = someInfo();
     Throwable actual = null;
+    // WHEN
+    AssertionError error = expectAssertionError(() -> throwables.assertHasMessage(INFO, actual, "message"));
     // THEN
-    assertThatAssertionErrorIsThrownBy(() -> throwables.assertHasMessage(info, actual, "message")).withMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_has_not_expected_message() {
     // GIVEN
-    AssertionInfo info = someInfo();
     String expectedMessage = "expected message";
     // WHEN
-    expectAssertionError(() -> throwables.assertHasMessage(info, actual, expectedMessage));
+    expectAssertionError(() -> throwables.assertHasMessage(INFO, actual, expectedMessage));
     // THEN
-    verify(failures).failure(info, shouldHaveMessage(actual, expectedMessage), "Throwable message", expectedMessage);
+    verify(failures).failure(INFO, shouldHaveMessage(actual, expectedMessage), "Throwable message", expectedMessage);
   }
 }

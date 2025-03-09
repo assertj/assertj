@@ -10,21 +10,19 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.throwables;
+package org.assertj.tests.core.internal.throwables;
 
 import static org.assertj.core.error.ShouldHaveNoSuppressedExceptions.shouldHaveNoSuppressedExceptions;
-import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
 class Throwables_assertHasNoSuppressedExceptions_Test extends ThrowablesBaseTest {
 
   @Test
   void should_pass_if_throwable_has_no_suppressed_exceptions() {
-    throwables.assertHasNoSuppressedExceptions(someInfo(), new Throwable());
+    throwables.assertHasNoSuppressedExceptions(INFO, new Throwable());
   }
 
   @Test
@@ -33,8 +31,8 @@ class Throwables_assertHasNoSuppressedExceptions_Test extends ThrowablesBaseTest
     Throwable actual = new Throwable();
     actual.addSuppressed(new IllegalArgumentException("Suppressed Message"));
     // WHEN
-    expectAssertionError(() -> throwables.assertHasNoSuppressedExceptions(someInfo(), actual));
+    expectAssertionError(() -> throwables.assertHasNoSuppressedExceptions(INFO, actual));
     // THEN
-    verify(failures).failure(someInfo(), shouldHaveNoSuppressedExceptions(actual));
+    verify(failures).failure(INFO, shouldHaveNoSuppressedExceptions(actual));
   }
 }

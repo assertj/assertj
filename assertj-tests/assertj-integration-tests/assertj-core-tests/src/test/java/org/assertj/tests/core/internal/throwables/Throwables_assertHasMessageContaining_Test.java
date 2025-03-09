@@ -10,40 +10,33 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.throwables;
+package org.assertj.tests.core.internal.throwables;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
-import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Throwables;
-import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Throwables#assertHasMessageContaining(AssertionInfo, Throwable, String)}</code>.
- * 
  * @author Joel Costigliola
  * @author Phillip Webb
  */
 class Throwables_assertHasMessageContaining_Test extends ThrowablesBaseTest {
 
-  private static final AssertionInfo INFO = someInfo();
-
   @Test
   void should_pass_if_actual_has_message_containing_with_expected_description() {
-    throwables.assertHasMessageContaining(someInfo(), actual, "able");
+    throwables.assertHasMessageContaining(INFO, actual, "able");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasMessageContaining(someInfo(), null,
-                                                                                                           "Throwable"))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> throwables.assertHasMessageContaining(INFO, null, "Throwable"));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test

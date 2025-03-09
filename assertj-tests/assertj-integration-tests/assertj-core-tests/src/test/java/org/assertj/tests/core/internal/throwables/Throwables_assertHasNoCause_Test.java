@@ -10,47 +10,38 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.throwables;
+package org.assertj.tests.core.internal.throwables;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.fail;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNoCause.shouldHaveNoCause;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Throwables;
-import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Throwables#assertHasNoCause(AssertionInfo, Throwable)}</code>.
- * 
- * @author Joel Costigliola
- */
 class Throwables_assertHasNoCause_Test extends ThrowablesBaseTest {
 
   @Test
   void should_pass_if_actual_has_no_cause() {
-    throwables.assertHasNoCause(someInfo(), actual);
+    throwables.assertHasNoCause(INFO, actual);
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> throwables.assertHasNoCause(someInfo(), null))
-                                                   .withMessage(actualIsNull());
+    // WHEN
+    AssertionError error = expectAssertionError(() -> throwables.assertHasNoCause(INFO, null));
+    // THEN
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_has_a_cause() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     Throwable throwableWithCause = new Throwable(new NullPointerException());
-    try {
-      throwables.assertHasNoCause(info, throwableWithCause);
-      fail("AssertionError expected");
-    } catch (AssertionError err) {
-      verify(failures).failure(info, shouldHaveNoCause(throwableWithCause));
-    }
+    // WHEN
+    expectAssertionError(() -> throwables.assertHasNoCause(INFO, throwableWithCause));
+    // THEN
+    verify(failures).failure(INFO, shouldHaveNoCause(throwableWithCause));
   }
 }

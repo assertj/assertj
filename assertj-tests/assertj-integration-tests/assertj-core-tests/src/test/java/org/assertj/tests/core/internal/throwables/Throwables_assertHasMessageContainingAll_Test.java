@@ -10,49 +10,40 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.throwables;
+package org.assertj.tests.core.internal.throwables;
 
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.internal.ErrorMessages.charSequenceToLookForIsNull;
-import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.internal.Throwables;
-import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Throwables#assertHasMessageContainingAll(AssertionInfo, Throwable, CharSequence...)}</code>.
- *
  * @author Phillip Webb
  */
 class Throwables_assertHasMessageContainingAll_Test extends ThrowablesBaseTest {
 
-  private static final AssertionInfo INFO = someInfo();
-
   @Test
   void should_pass_if_actual_has_message_containing_the_expected_string() {
-    throwables.assertHasMessageContainingAll(someInfo(), actual, "able");
+    throwables.assertHasMessageContainingAll(INFO, actual, "able");
   }
 
   @Test
   void should_pass_if_actual_has_message_containing_all_the_expected_strings() {
-    throwables.assertHasMessageContainingAll(someInfo(), actual, "able", "message");
+    throwables.assertHasMessageContainingAll(INFO, actual, "able", "message");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    // GIVEN
-    ThrowingCallable code = () -> throwables.assertHasMessageContainingAll(INFO, null, "Throwable");
+    // WHEN
+    AssertionError error = expectAssertionError(() -> throwables.assertHasMessageContainingAll(INFO, null, "Boom"));
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test

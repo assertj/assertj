@@ -10,33 +10,27 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal.throwables;
+package org.assertj.tests.core.internal.throwables;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveCauseExactlyInstance.shouldHaveCauseExactlyInstance;
-import static org.assertj.core.testkit.TestData.someInfo;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
-import org.assertj.core.internal.ThrowablesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for
- * {@link org.assertj.core.internal.Throwables#assertHasCauseExactlyInstanceOf(org.assertj.core.api.AssertionInfo, Throwable, Class)}
- * .
- *
  * @author Jean-Christophe Gay
  */
 class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest {
 
-  private Throwable throwableWithCause = new Throwable(new IllegalArgumentException());
+  private final Throwable throwableWithCause = new Throwable(new IllegalArgumentException());
 
   @Test
   void should_pass_if_cause_is_exactly_instance_of_expected_type() {
-    throwables.assertHasCauseExactlyInstanceOf(someInfo(), throwableWithCause, IllegalArgumentException.class);
+    throwables.assertHasCauseExactlyInstanceOf(INFO, throwableWithCause, IllegalArgumentException.class);
   }
 
   @Test
