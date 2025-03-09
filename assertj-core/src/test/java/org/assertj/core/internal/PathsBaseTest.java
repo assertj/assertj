@@ -38,7 +38,6 @@ public abstract class PathsBaseTest {
   protected static Paths underTest = Paths.instance();
 
   protected static NioFilesWrapper nioFilesWrapper = spy(underTest.nioFilesWrapper);
-  protected static Failures failures = spy(underTest.failures);
   protected static Diff diff = spy(underTest.diff);
   protected static BinaryDiff binaryDiff = spy(underTest.binaryDiff);
 
@@ -48,7 +47,6 @@ public abstract class PathsBaseTest {
   @BeforeAll
   static void injectSpies() {
     underTest.nioFilesWrapper = nioFilesWrapper;
-    underTest.failures = failures;
     underTest.diff = diff;
     underTest.binaryDiff = binaryDiff;
   }
@@ -56,7 +54,6 @@ public abstract class PathsBaseTest {
   @AfterAll
   static void removeSpies() {
     underTest.nioFilesWrapper = getSpiedInstance(nioFilesWrapper);
-    underTest.failures = getSpiedInstance(failures);
     underTest.diff = getSpiedInstance(diff);
     underTest.binaryDiff = getSpiedInstance(binaryDiff);
   }
@@ -68,7 +65,7 @@ public abstract class PathsBaseTest {
 
   @BeforeEach
   void resetSpies() {
-    reset(nioFilesWrapper, failures, diff, binaryDiff);
+    reset(nioFilesWrapper, diff, binaryDiff);
   }
 
   // https://github.com/assertj/assertj/issues/3183

@@ -26,7 +26,7 @@ import org.opentest4j.AssertionFailedError;
 
 class AssertionErrorCreator_assertionError_Test {
 
-  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   @Test
   void should_create_AssertionFailedError_using_reflection() {
@@ -53,8 +53,8 @@ class AssertionErrorCreator_assertionError_Test {
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
     ComparisonFailure expectedFailure = new ComparisonFailure(message, "expected", "actual");
     // @format:off
-    given(constructorInvoker.newInstance(eq(AssertionFailedError.class.getName()), any(Class[].class), any())).willThrow(Exception.class);
-    given(constructorInvoker.newInstance(eq(ComparisonFailure.class.getName()), any(Class[].class), any())).willReturn(expectedFailure);
+    given(constructorInvoker.newInstance(eq(AssertionFailedError.class.getName()), any(Class[].class), any(Object[].class))).willThrow(Exception.class);
+    given(constructorInvoker.newInstance(eq(ComparisonFailure.class.getName()), any(Class[].class), any(Object[].class))).willReturn(expectedFailure);
     // @format:on
     assertionErrorCreator.constructorInvoker = constructorInvoker;
     // WHEN
