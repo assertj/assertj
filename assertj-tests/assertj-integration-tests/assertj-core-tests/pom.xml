@@ -14,6 +14,8 @@
 
   <properties>
     <argLine>
+      <!-- https://github.com/mockito/mockito/issues/3037 -->
+      -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
       -Dfile.encoding=${project.build.sourceEncoding}
       -Dnet.bytebuddy.experimental=true
       --add-opens=java.base/java.lang=ALL-UNNAMED

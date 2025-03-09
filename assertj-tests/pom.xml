@@ -24,8 +24,6 @@
     <gpg.skip>true</gpg.skip>
     <maven.install.skip>true</maven.install.skip>
     <maven.deploy.skip>true</maven.deploy.skip>
-    <!-- Dependency versions -->
-    <mockito.version>5.14.2</mockito.version>
   </properties>
 
   <build>
