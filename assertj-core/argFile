@@ -131,7 +131,6 @@
 --add-opens org.assertj.core/org.assertj.core.internal.object2darrays=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.internal.objectarrays=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.internal.objects=org.junit.platform.commons
---add-opens org.assertj.core/org.assertj.core.internal.paths=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.presentation=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.testkit=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.testkit.junit.jupiter=org.junit.platform.commons
