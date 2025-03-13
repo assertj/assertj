@@ -27,7 +27,7 @@
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <byte-buddy.version>1.17.1</byte-buddy.version>
+    <byte-buddy.version>1.17.2</byte-buddy.version>
     <hamcrest.version>3.0</hamcrest.version>
     <!-- Plugin versions -->
     <cdg.pitest.version>1.1.4</cdg.pitest.version>
