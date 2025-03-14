@@ -15,8 +15,8 @@ package org.assertj.core.error;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Sets.set;
 import static org.assertj.core.util.Throwables.getStackTrace;
-import static org.mockito.internal.util.collections.Sets.newSet;
 
 import java.util.Set;
 
@@ -24,9 +24,6 @@ import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShouldNotContainCharSequence#shouldNotContain(Throwable, CharSequence[], Set)})}</code> and
- * <code>{@link ShouldNotContainCharSequence#shouldNotContain(Throwable, CharSequence)})}</code>.
- *
  * @author Usman Shaikh
  */
 class ShouldNotContainThrowable_create_Test {
@@ -53,7 +50,7 @@ class ShouldNotContainThrowable_create_Test {
     // GIVEN
     RuntimeException actual = new RuntimeException("You know nothing Jon Snow");
     String[] sequence = array("You", "know", "nothing");
-    Set<String> found = newSet("You", "know", "nothing");
+    Set<String> found = set("You", "know", "nothing");
     // WHEN
     String errorMessage = shouldNotContain(actual, sequence, found).create(new TestDescription("TEST"));
     // THEN
@@ -68,4 +65,5 @@ class ShouldNotContainThrowable_create_Test {
                                  "Throwable that failed the check:%n" +
                                  "%n%s", getStackTrace(actual));
   }
+
 }

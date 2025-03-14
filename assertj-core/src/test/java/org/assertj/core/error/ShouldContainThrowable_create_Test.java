@@ -15,22 +15,17 @@ package org.assertj.core.error;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainCharSequence.shouldContain;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.Sets.set;
 import static org.assertj.core.util.Throwables.getStackTrace;
-import static org.mockito.internal.util.collections.Sets.newSet;
 
 import java.util.Set;
 
 import org.assertj.core.internal.TestDescription;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link ShouldContainCharSequence#shouldContain(Throwable, CharSequence[], Set)})}</code> and
- * <code>{@link ShouldContainCharSequence#shouldContain(Throwable, CharSequence)})}</code>.
- *
  * @author Benoit Dupont
  */
-@DisplayName("ShouldContainThrowable create")
 class ShouldContainThrowable_create_Test {
   @Test
   void should_create_error_message_with_escaping_percent() {
@@ -55,7 +50,7 @@ class ShouldContainThrowable_create_Test {
     // GIVEN
     RuntimeException actual = new RuntimeException("You know nothing");
     String[] sequence = array("You", "know", "nothing", "Jon", "Snow");
-    Set<String> notFound = newSet("Jon", "Snow");
+    Set<String> notFound = set("Jon", "Snow");
     // WHEN
     String errorMessage = shouldContain(actual, sequence, notFound).create(new TestDescription("TEST"));
     // THEN

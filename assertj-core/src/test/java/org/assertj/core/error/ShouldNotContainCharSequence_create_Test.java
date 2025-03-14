@@ -18,24 +18,22 @@ import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotConta
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContainIgnoringCase;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
-import static org.mockito.internal.util.collections.Sets.newSet;
+import static org.assertj.core.util.Sets.set;
 
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 /**
- * Tests for <code>{@link ShouldNotContainCharSequence#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>.
- *
  * @author Alex Ruiz
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-@DisplayName("ShouldNotContainCharSequence create")
 class ShouldNotContainCharSequence_create_Test {
 
   @Test
@@ -71,7 +69,7 @@ class ShouldNotContainCharSequence_create_Test {
   @Test
   void should_create_error_message_with_several_string_values() {
     // GIVEN
-    ErrorMessageFactory factory = shouldNotContain("Yoda", array("od", "ya"), newSet("ya"),
+    ErrorMessageFactory factory = shouldNotContain("Yoda", array("od", "ya"), set("ya"),
                                                    StandardComparisonStrategy.instance());
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
@@ -102,7 +100,7 @@ class ShouldNotContainCharSequence_create_Test {
   @Test
   void should_create_error_message_for_ignoring_case_with_multiple_findings() {
     // GIVEN
-    ErrorMessageFactory factory = shouldNotContainIgnoringCase("Yoda", array("OD", "da", "Luke"), newSet("OD", "da"));
+    ErrorMessageFactory factory = shouldNotContainIgnoringCase("Yoda", array("OD", "da", "Luke"), set("OD", "da"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
