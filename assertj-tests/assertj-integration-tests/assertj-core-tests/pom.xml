@@ -32,6 +32,7 @@
       --add-exports org.mockito/org.mockito.internal=java.instrument
       --add-exports org.mockito/org.mockito.internal.creation.bytebuddy=hamcrest.core
       --add-exports org.mockito/org.mockito.internal.creation.bytebuddy=org.assertj.core
+      --add-exports org.mockito/org.mockito.internal.creation.bytebuddy=org.assertj.tests.core
     </argLine>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
     <spotless.skip>false</spotless.skip>
