@@ -30,6 +30,7 @@
       --add-opens org.assertj.core/org.assertj.core.internal=org.apache.commons.lang3
       <!-- org.mockito -->
       --add-exports org.mockito/org.mockito.internal=java.instrument
+      --add-exports org.mockito/org.mockito.internal.creation.bytebuddy=hamcrest.core
     </argLine>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
     <spotless.skip>false</spotless.skip>
