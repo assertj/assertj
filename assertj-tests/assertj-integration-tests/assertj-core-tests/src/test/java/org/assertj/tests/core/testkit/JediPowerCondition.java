@@ -10,15 +10,17 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error;
+package org.assertj.tests.core.testkit;
 
-public class ActualIsNotEmpty extends BasicErrorMessageFactory {
+/**
+ * same as {@link JediCondition}, only the description is different, it works better on error message
+ *
+ * @author Nicolas François
+ */
+public class JediPowerCondition extends JediCondition {
 
-  public static ErrorMessageFactory actualIsNotEmpty(Object actual) {
-    return new ActualIsNotEmpty(actual);
+  public JediPowerCondition() {
+    super("Jedi Power");
   }
 
-  private ActualIsNotEmpty(Object actual) {
-    super("%nActual:%n  %s%nis not empty while group of values to look for is.", actual);
-  }
 }

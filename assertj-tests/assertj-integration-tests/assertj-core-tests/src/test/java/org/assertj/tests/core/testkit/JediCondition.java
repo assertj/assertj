@@ -10,15 +10,34 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.error;
+package org.assertj.tests.core.testkit;
 
-public class ActualIsNotEmpty extends BasicErrorMessageFactory {
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
-  public static ErrorMessageFactory actualIsNotEmpty(Object actual) {
-    return new ActualIsNotEmpty(actual);
+import java.util.Set;
+
+import org.assertj.core.api.Condition;
+
+/**
+ * A {@code Condition} checking is a Jedi
+ *
+ * @author Nicolas François
+ */
+public class JediCondition extends Condition<String> {
+
+  private final Set<String> jedis = newLinkedHashSet("Luke", "Yoda", "Obiwan");
+
+  JediCondition(String description) {
+    super(description);
   }
 
-  private ActualIsNotEmpty(Object actual) {
-    super("%nActual:%n  %s%nis not empty while group of values to look for is.", actual);
+  public JediCondition() {
+    super("Jedi");
   }
+
+  @Override
+  public boolean matches(String value) {
+    return jedis.contains(value);
+  }
+
 }
