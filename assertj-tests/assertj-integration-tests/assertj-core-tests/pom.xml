@@ -28,6 +28,11 @@
       --add-opens org.assertj.core/org.assertj.core.groups=nl.jqno.equalsverifier
       <!-- org.apache.commons.lang3 -->
       --add-opens org.assertj.core/org.assertj.core.internal=org.apache.commons.lang3
+      <!-- org.mockito -->
+      --add-exports org.mockito/org.mockito.internal=java.instrument
+      --add-exports org.mockito/org.mockito.internal.creation.bytebuddy=hamcrest.core
+      --add-exports org.mockito/org.mockito.internal.creation.bytebuddy=org.assertj.core
+      --add-exports org.mockito/org.mockito.internal.creation.bytebuddy=org.assertj.tests.core
     </argLine>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
     <spotless.skip>false</spotless.skip>
