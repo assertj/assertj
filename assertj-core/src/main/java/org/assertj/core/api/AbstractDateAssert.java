@@ -51,7 +51,7 @@ import org.assertj.core.util.CheckReturnValue;
  * {@link String} representing a Date.<br>
  * For the latter, the default format follows ISO 8901: "yyyy-MM-dd", user can override it with a custom format by
  * calling {@link #withDateFormat(DateFormat)}.<br>
- * The user custom format will then be used for all next Date assertions (i.e not limited to the current assertion) in
+ * The user custom format will then be used for all next Date assertions (i.e. not limited to the current assertion) in
  * the test suite.<br>
  * To turn back to default format, simply call {@link #withDefaultDateFormatsOnly()}.
  *
@@ -2450,88 +2450,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Verifies that actual and given {@code Date} have same second, minute, hour, day, month and year fields values.
-   *
-   * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-01-01T12:00:01.000");
-   * Date date2 = parseDatetimeWithMs("2003-01-01T12:00:01.250");
-   *
-   * // succeeds because the all the time fields up to seconds are the same
-   * assertThat(date1).isInSameSecondAs(date2);</code></pre>
-   *
-   * <b>It does not make a true chronological comparison</b> since two dates can have different second fields and yet
-   * be
-   * in the same chronological second, e.g:
-   * <pre><code class='java'> Date date1 = parseDatetimeWithMs("2003-01-01T12:00:01.000");
-   * Date date3 = parseDatetimeWithMs("2003-01-01T12:00:00.999");
-   *
-   * // fails because seconds fields differ even though time difference is only 1ms !
-   * assertThat(date1).isInSameSecondAs(date3); // ERROR</code></pre>
-   *
-   * If you want to assert that two dates are in the same second time window use
-   * {@link #isInSameSecondWindowAs(java.util.Date) isInSameSecondWindowAs} assertion.
-   * <p>
-   * If you want to compare second fields only (without minute, hour, day, month and year), you could write :
-   * <code>assertThat(myDate).hasSecond(secondOf(otherDate))</code><br>
-   * using {@link org.assertj.core.util.DateUtil#secondOf(Date)} to get the second of a given Date.
-   * <p>
-   * Note that using a {@link #usingComparator(Comparator) custom comparator}  has no effect on this assertion.
-   *
-   * @param other the given {@code Date} to compare actual {@code Date} to.
-   * @return this assertion object.
-   * @throws NullPointerException if {@code Date} parameter is {@code null}.
-   * @throws AssertionError if the actual {@code Date} is {@code null}.
-   * @throws AssertionError if actual and given {@code Date} are not in the same second.
-   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isInSameSecondAs(Date other) {
-    dates.assertIsInSameSecondAs(info, actual, other);
-    return myself;
-  }
-
-  /**
-   * Same assertion as {@link #isInSameSecondAs(Date)} but given date is represented as String either with one of the
-   * supported defaults date format or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p>
-   * User custom date format take precedence over the default ones.
-   * <p>
-   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
-   * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
-   * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
-   * </ul>
-   * <p>
-   * Example of valid string date representations:
-   * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
-   * <li><code>2003-04-26T03:01:02.999</code></li>
-   * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
-   * <li><code>2003-04-26</code></li>
-   * </ul>
-   * <p>
-   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitly specify the date format to use so that the default ones are bypassed.
-   *
-   * @param dateAsString the given Date represented as String.
-   * @return this assertion object.
-   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isInSameSecondAs(String dateAsString) {
-    return isInSameSecondAs(parse(dateAsString));
-  }
-
-  /**
    * Verifies that the actual {@code Date} is close to the other date by less than delta (expressed in milliseconds),
    * if
    * difference is equal to delta it's ok.
@@ -2834,7 +2752,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * User date formats are used before default ones in the order they have been registered (first registered, first
    * used).
    * <p>
-   * AssertJ is gonna use any date formats registered with one of these methods :
+   * AssertJ is going to use any date formats registered with one of these methods :
    * <ul>
    * <li>{@link #withDateFormat(String)}</li>
    * <li>{@link #withDateFormat(java.text.DateFormat)}</li>
