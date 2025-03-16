@@ -99,7 +99,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
-  @SuppressWarnings("unchecked")
   protected AbstractAssert(ACTUAL actual, Class<?> selfType) {
     myself = (SELF) selfType.cast(this);
     this.actual = actual;
@@ -506,7 +505,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * {@inheritDoc}
    */
-  @SuppressWarnings("unchecked")
   @Override
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
@@ -527,7 +525,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * {@inheritDoc}
    */
-  @SuppressWarnings("unchecked")
   @Override
   public <T> SELF isInstanceOfSatisfying(Class<T> type, Consumer<T> requirements) {
     objects.assertIsInstanceOf(info, actual, type);
@@ -1235,7 +1232,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
    * @since 3.16.0
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   protected <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                     AssertFactory<Object, ASSERT> assertFactory) {
@@ -1262,7 +1258,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
    * @since 3.16.0
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   protected <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, ? extends T> extractor,
                                                                        AssertFactory<T, ASSERT> assertFactory) {
