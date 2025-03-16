@@ -80,7 +80,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    */
   public SELF isFalse() {
     objects.assertNotNull(info, actual);
-    if (actual == false) return myself;
+    if (!actual) return myself;
     throw Failures.instance().failure(info, shouldBeFalse(actual), actual, false);
   }
 
