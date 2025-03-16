@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -178,105 +177,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    */
   public SELF isEqualTo(Instant instant) {
     return isEqualTo(dateFrom(instant));
-  }
-
-  /**
-   * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringHours(Date)} but given Date is represented as String
-   * either with one of the default supported date formats or user custom date format (set with method
-   * {@link #withDateFormat(DateFormat)}).
-   * <p>
-   * User custom date format take precedence over the default ones.
-   * <p>
-   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // OK : all dates fields are the same up to minutes excluded
-   * assertThat("2003-04-26T13:01:35").isEqualToIgnoringHours("2003-04-26T14:02:35");
-   *
-   * // KO : fail as day fields differ
-   * assertThat("2003-04-26T14:01:35").isEqualToIgnoringHours("2003-04-27T13:02:35")</code></pre>
-   * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
-   * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
-   * </ul>
-   * <p>
-   * Example of valid string date representations:
-   * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
-   * <li><code>2003-04-26T03:01:02.999</code></li>
-   * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
-   * <li><code>2003-04-26</code></li>
-   * </ul>
-   * <p>
-   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitly specify the date format to use so that the default ones are bypassed.
-   *
-   * @param dateAsString the given Date represented as String in default or custom date format.
-   * @return this assertion object.
-   * @throws AssertionError if actual and given Date represented as String are not equal ignoring hours, minutes,
-   *           seconds and milliseconds.
-   * @throws AssertionError if the given date as String could not be converted to a Date.
-   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isEqualToIgnoringHours(String dateAsString) {
-    return isEqualToIgnoringHours(parse(dateAsString));
-  }
-
-  /**
-   * Same assertion as {@link AbstractDateAssert#isEqualToIgnoringHours(Date)} but given Date is represented as
-   * an {@code java.time.Instant}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> assertThat(new Date()).isEqualToIgnoringHours(Instant.now());</code></pre>
-   *
-   * @param instant the given {@code Instant}.
-   * @return this assertion object.
-   * @throws AssertionError if actual {@code Date} and given {@code Instant} are not equal ignoring hours, minutes, seconds and milliseconds.
-   * @since 3.19.0
-   * @deprecated Use {@link #isCloseTo(Instant, long)} instead, although not exactly the same semantics,
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isEqualToIgnoringHours(Instant instant) {
-    return isEqualToIgnoringHours(dateFrom(instant));
-  }
-
-  /**
-   * Same assertion as {@link AbstractAssert#isEqualTo(Object)} but the comparison ignores hours, minutes, seconds and milliseconds.
-   * <p>
-   * Example:
-   * <pre><code class='java'> Date date1 = parseDatetime("2003-04-26T13:01:35");
-   * Date date2 = parseDatetime("2003-04-26T14:01:00");
-   * Date date3 = parseDatetime("2003-04-27T13:01:35");
-   *
-   * // OK : all dates fields are the same up to hours excluded
-   * assertThat(date1).isEqualToIgnoringHours(date2);
-   *
-   * // KO : fail as day fields differ
-   * assertThat(date1).isEqualToIgnoringHours(date3);</code></pre>
-   *
-   * @param date the given Date.
-   * @return this assertion object.
-   * @throws AssertionError if actual and given Date represented as String are not equal ignoring hours, minutes,
-   *           seconds and milliseconds.
-   * @throws AssertionError if the given date as String could not be converted to a Date.
-   * @deprecated Use {@link #isCloseTo(Date, long)} instead, although not exactly the same semantics,
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isEqualToIgnoringHours(Date date) {
-    dates.assertIsEqualWithPrecision(info, actual, date, HOURS);
-    return myself;
   }
 
   /**
@@ -2420,7 +2320,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * <p>
    * Note that using a {@link #usingComparator(Comparator) custom comparator}  has no effect on this assertion.
    * <p>
-   * This assertion is logically equivalent to {@link #isEqualToIgnoringHours(Date)}.
    *
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
@@ -2444,7 +2343,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    *
    * Note that using a {@link #usingComparator(Comparator) custom comparator}  has no effect on this assertion.
    * <p>
-   * This assertion is logically equivalent to {@link #isEqualToIgnoringHours(Instant)}.
    *
    * @param other the given {@code Date} to compare actual {@code Date} to.
    * @return this assertion object.
@@ -2493,7 +2391,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
    * you can explicitly specify the date format to use so that the default ones are bypassed.
    * <p>
-   * This assertion is logically equivalent to {@link #isEqualToIgnoringHours(String)}.
    *
    * @param dateAsString the given Date represented as String in default or custom date format.
    * @return this assertion object.
