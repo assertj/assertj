@@ -655,18 +655,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /**
    * {@inheritDoc}
-   *
-   * @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  @Override
-  @CheckReturnValue
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList() {
-    return asInstanceOf(InstanceOfAssertFactories.LIST);
-  }
-
-  /**
-   * {@inheritDoc}
    */
   @Override
   @CheckReturnValue

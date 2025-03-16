@@ -1642,10 +1642,6 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .asString()
           .startsWith("abc")
           .startsWith("123");
-    softly.then(vowels)
-          .asList()
-          .startsWith("a", "e")
-          .startsWith("1", "2");
     softly.then(name)
           .as("extracting(Name::getFirst)")
           .overridingErrorMessage("error message")
@@ -1658,13 +1654,12 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .isEqualTo("Jack");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(6);
+    assertThat(errorsCollected).hasSize(5);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
     assertThat(errorsCollected.get(2)).hasMessageContaining("123");
-    assertThat(errorsCollected.get(3)).hasMessageContaining("\"1\", \"2\"");
-    assertThat(errorsCollected.get(4)).hasMessage("[extracting(Name::getFirst)] error message");
-    assertThat(errorsCollected.get(5)).hasMessage("[extracting(first)] error message");
+    assertThat(errorsCollected.get(3)).hasMessage("[extracting(Name::getFirst)] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[extracting(first)] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught

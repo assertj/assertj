@@ -14,7 +14,6 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 
@@ -665,28 +664,6 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @throws NullPointerException if the given types is null.
    */
   SELF isNotOfAnyClassIn(Class<?>... types);
-
-  /**
-   * Verifies that the actual value is an instance of List,
-   * and returns a list assertion, to allow chaining of list-specific
-   * assertions from this call.
-   * <p>
-   * Example :
-   * <pre><code class='java'> Object sortedListAsObject = Arrays.asList(1, 2, 3);
-   *
-   * // assertion succeeds
-   * assertThat(sortedListAsObject).asList().isSorted();
-   *
-   * Object unsortedListAsObject = Arrays.asList(3, 1, 2);
-   *
-   * // assertions fails
-   * assertThat(unsortedListAsObject).asList().isSorted();</code></pre>
-   *
-   * @return a list assertion object
-   * @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList();
 
   /**
    * Returns a String assertion for the <code>toString()</code> of the actual

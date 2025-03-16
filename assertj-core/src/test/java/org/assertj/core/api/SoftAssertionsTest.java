@@ -2002,12 +2002,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .asString()
           .startsWith("abc")
           .startsWith("123");
-    softly.assertThat(vowels)
-          .as("asList()")
-          .overridingErrorMessage("error message")
-          .asList()
-          .startsWith("a", "e")
-          .startsWith("1", "2");
     softly.assertThat(name)
           .as("extracting(Name::getFirst)")
           .overridingErrorMessage("error message")
@@ -2020,13 +2014,12 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .isEqualTo("Jack");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    then(errorsCollected).hasSize(6);
+    then(errorsCollected).hasSize(5);
     then(errorsCollected.get(0)).hasMessage("[extracting(\"first\", \"last\")] error message");
     then(errorsCollected.get(1)).hasMessage("[extracting(Name::getFirst, Name::getLast)] error message");
     then(errorsCollected.get(2)).hasMessage("[asString()] error message");
-    then(errorsCollected.get(3)).hasMessage("[asList()] error message");
-    then(errorsCollected.get(4)).hasMessage("[extracting(Name::getFirst)] error message");
-    then(errorsCollected.get(5)).hasMessage("[extracting(first)] error message");
+    then(errorsCollected.get(3)).hasMessage("[extracting(Name::getFirst)] error message");
+    then(errorsCollected.get(4)).hasMessage("[extracting(first)] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught

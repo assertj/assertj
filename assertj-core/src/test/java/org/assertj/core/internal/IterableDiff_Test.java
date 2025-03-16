@@ -156,12 +156,11 @@ class IterableDiff_Test {
     Address address1 = new Address(12, "xyz", "abc", "432432", "asdsa");
     Address address2 = new Address(13, "xyzx", "abcds", "32432432", "asdsdfsa");
     Address address3 = new Address(14, "xyzsa", "axbc", "4sd32432", "asdsfsda");
-    List<AddressDto> addressDtoList = list(AddressDto.from(address1), AddressDto.from(address2), AddressDto.from(address3));
+    List<Object> addressDtoList = list(AddressDto.from(address1), AddressDto.from(address2), AddressDto.from(address3));
     // WHEN/THEN
     assertThat(addressDtoList).usingRecursiveComparison()
                               .isEqualTo(list(address1, address2, address3));
-    assertThat(addressDtoList).asList()
-                              .usingRecursiveFieldByFieldElementComparator()
+    assertThat(addressDtoList).usingRecursiveFieldByFieldElementComparator()
                               .containsExactly(address1, address2, address3);
   }
 
