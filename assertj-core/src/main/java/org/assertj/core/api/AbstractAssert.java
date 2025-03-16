@@ -832,7 +832,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @deprecated use {@link #isEqualTo} instead
    */
   @Override
-  @Deprecated(since = "3", forRemoval = true)
+  @Deprecated(since = "3")
   public boolean equals(Object obj) {
     if (throwUnsupportedExceptionOnEquals) {
       throw new UnsupportedOperationException("'equals' is not supported... maybe you intended to call 'isEqualTo'");

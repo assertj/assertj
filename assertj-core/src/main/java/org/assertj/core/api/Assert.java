@@ -688,7 +688,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * <code>equals(Object)</code> instead of <code>{@link #isEqualTo(Object)}</code>.
    */
   @Override
-  @Deprecated(since = "3", forRemoval = true)
+  @Deprecated(since = "3")
   boolean equals(Object obj);
 
   /**
