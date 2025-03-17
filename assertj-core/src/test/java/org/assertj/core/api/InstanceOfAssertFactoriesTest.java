@@ -1849,7 +1849,7 @@ class InstanceOfAssertFactoriesTest {
     @Test
     void getRawClass() {
       // WHEN
-      Class<?> result = array(Integer[].class).getRawClass();
+      Class<?> result = array(Integer.class).getRawClass();
       // THEN
       then(result).isEqualTo(Integer[].class);
     }
@@ -1857,7 +1857,7 @@ class InstanceOfAssertFactoriesTest {
     @Test
     void createAssert() {
       // WHEN
-      ObjectArrayAssert<Integer> result = array(Integer[].class).createAssert(actual);
+      ObjectArrayAssert<Integer> result = array(Integer.class).createAssert(actual);
       // THEN
       result.containsExactly(0, 1);
     }
@@ -1868,7 +1868,7 @@ class InstanceOfAssertFactoriesTest {
       // GIVEN
       ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
       // WHEN
-      ObjectArrayAssert<Integer> result = array(Integer[].class).createAssert(valueProvider);
+      ObjectArrayAssert<Integer> result = array(Integer.class).createAssert(valueProvider);
       // THEN
       result.containsExactly(0, 1);
       verify(valueProvider).apply(Integer[].class);
@@ -1923,7 +1923,7 @@ class InstanceOfAssertFactoriesTest {
     @Test
     void getRawClass() {
       // WHEN
-      Class<?> result = array2D(Integer[][].class).getRawClass();
+      Class<?> result = array2D(Integer.class).getRawClass();
       // THEN
       then(result).isEqualTo(Integer[][].class);
     }
@@ -1931,7 +1931,7 @@ class InstanceOfAssertFactoriesTest {
     @Test
     void createAssert() {
       // WHEN
-      Object2DArrayAssert<Integer> result = array2D(Integer[][].class).createAssert(actual);
+      Object2DArrayAssert<Integer> result = array2D(Integer.class).createAssert(actual);
       // THEN
       result.hasDimensions(2, 2);
     }
@@ -1941,12 +1941,11 @@ class InstanceOfAssertFactoriesTest {
       // GIVEN
       ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
       // WHEN
-      Object2DArrayAssert<Integer> result = array2D(Integer[][].class).createAssert(valueProvider);
+      Object2DArrayAssert<Integer> result = array2D(Integer.class).createAssert(valueProvider);
       // THEN
       result.hasDimensions(2, 2);
       verify(valueProvider).apply(Integer[][].class);
     }
-
   }
 
   @Nested

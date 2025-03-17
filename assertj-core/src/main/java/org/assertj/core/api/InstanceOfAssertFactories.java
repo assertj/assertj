@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import java.io.File;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -434,18 +435,20 @@ public interface InstanceOfAssertFactories {
    *
    * @see #array(Class)
    */
-  InstanceOfAssertFactory<Object[], ObjectArrayAssert<Object>> ARRAY = array(Object[].class);
+  InstanceOfAssertFactory<Object[], ObjectArrayAssert<Object>> ARRAY = array(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for an array of elements.
    *
-   * @param <ELEMENT> the element type.
-   * @param arrayType the element type instance.
+   * @param <COMPONENT> the component type.
+   * @param componentType the component type instance.
    * @return the factory instance.
    *
    * @see #ARRAY
    */
-  static <ELEMENT> InstanceOfAssertFactory<ELEMENT[], ObjectArrayAssert<ELEMENT>> array(Class<ELEMENT[]> arrayType) {
+  static <COMPONENT> InstanceOfAssertFactory<COMPONENT[], ObjectArrayAssert<COMPONENT>> array(Class<COMPONENT> componentType) {
+    @SuppressWarnings("unchecked")
+    Class<COMPONENT[]> arrayType = (Class<COMPONENT[]>) Array.newInstance(componentType, 0).getClass();
     return new InstanceOfAssertFactory<>(arrayType, Assertions::assertThat);
   }
 
@@ -454,18 +457,20 @@ public interface InstanceOfAssertFactories {
    *
    * @see #array(Class)
    */
-  InstanceOfAssertFactory<Object[][], Object2DArrayAssert<Object>> ARRAY_2D = array2D(Object[][].class);
+  InstanceOfAssertFactory<Object[][], Object2DArrayAssert<Object>> ARRAY_2D = array2D(Object.class);
 
   /**
    * {@link InstanceOfAssertFactory} for a two-dimensional array of elements.
    *
-   * @param <ELEMENT> the element type.
-   * @param arrayType the element type instance.
+   * @param <COMPONENT> the component type.
+   * @param componentType the component type instance.
    * @return the factory instance.
    *
    * @see #ARRAY
    */
-  static <ELEMENT> InstanceOfAssertFactory<ELEMENT[][], Object2DArrayAssert<ELEMENT>> array2D(Class<ELEMENT[][]> arrayType) {
+  static <COMPONENT> InstanceOfAssertFactory<COMPONENT[][], Object2DArrayAssert<COMPONENT>> array2D(Class<COMPONENT> componentType) {
+    @SuppressWarnings("unchecked")
+    Class<COMPONENT[][]> arrayType = (Class<COMPONENT[][]>) Array.newInstance(componentType, 0, 0).getClass();
     return new InstanceOfAssertFactory<>(arrayType, Assertions::assertThat);
   }
 
