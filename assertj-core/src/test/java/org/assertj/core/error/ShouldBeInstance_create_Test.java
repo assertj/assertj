@@ -65,14 +65,12 @@ class ShouldBeInstance_create_Test {
   @Test
   void should_create_shouldBeInstanceButWasNull_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeInstanceButWasNull("other", File.class);
+    ErrorMessageFactory factory = shouldBeInstanceButWasNull(File.class);
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting object:%n" +
-                                   "  \"other\"%n" +
-                                   "to be an instance of:%n" +
+                                   "Expecting actual to be an instance of:%n" +
                                    "  <java.io.File>%n" +
                                    "but was null"));
   }
