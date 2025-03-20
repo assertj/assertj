@@ -83,11 +83,11 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * Although {@code 0.0 == -0.0} (primitives), {@code Double(-0.0)} is not zero as {@code Double.doubleToRawLongBits(0.0) == Double.doubleToRawLongBits(-0.0)} is false.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(0.0).isZero();
    * assertThat(-0.0).isZero();
    *
-   * // assertions will fail
+   * // assertions fail:
    * assertThat(new Double(-0.0)).isZero();
    * assertThat(3.142).isZero();</code></pre>
    *
@@ -108,11 +108,11 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * Although {@code 0.0 == -0.0} (primitives), {@code Double(-0.0)} is not zero as {@code Double.doubleToRawLongBits(0.0) == Double.doubleToRawLongBits(-0.0)} is false.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(3.142).isNotZero();
    * assertThat(new Double(-0.0)).isNotZero();
    *
-   * // assertions will fail
+   * // assertions fail:
    * assertThat(0.0).isNotZero();
    * assertThat(new Double(0.0)).isNotZero();
    * assertThat(-0.0).isNotZero();</code></pre>
@@ -177,7 +177,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * use {@link Assertions#within(Double)} to get the old behavior.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions succeed
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(8.1).isCloseTo(8.0, within(0.2));
    * assertThat(8.1).isCloseTo(8.0, offset(0.2)); // alias of within
    * assertThat(8.1).isCloseTo(8.0, byLessThan(0.2)); // strict
@@ -188,7 +188,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * // ... except when using byLessThan which implies a strict comparison
    * assertThat(0.1).isCloseTo(0.0, byLessThan(0.1)); // strict =&gt; fail
    *
-   * // this assertion also fails
+   * // this assertion also fails:
    * assertThat(8.1).isCloseTo(8.0, within(0.001));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
@@ -217,14 +217,14 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * use {@link Assertions#within(Double)} to get the old behavior.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions succeed
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.01));
    * assertThat(8.1).isNotCloseTo(8.0, within(0.01));
    * assertThat(8.1).isNotCloseTo(8.0, offset(0.01));
    * // diff == offset but isNotCloseTo succeeds as we use byLessThan
    * assertThat(0.1).isNotCloseTo(0.0, byLessThan(0.1));
    *
-   * // assertions fail
+   * // assertions fail:
    * assertThat(0.1).isNotCloseTo(0.0, within(0.1));
    * assertThat(0.1).isNotCloseTo(0.0, offset(0.1));
    * assertThat(8.1).isNotCloseTo(8.0, within(0.2));
@@ -259,7 +259,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * use {@link Assertions#within(Double)} to get the old behavior.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions succeed
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(8.1).isCloseTo(8.0, within(0.2));
    * assertThat(8.1).isCloseTo(8.0, offset(0.2)); // alias of within
    * assertThat(8.1).isCloseTo(8.0, byLessThan(0.2)); // strict
@@ -270,7 +270,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * // ... except when using byLessThan which implies a strict comparison
    * assertThat(0.1).isCloseTo(0.0, byLessThan(0.1)); // strict =&gt; fail
    *
-   * // this assertion also fails
+   * // this assertion also fails:
    * assertThat(8.1).isCloseTo(8.0, within(0.001));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
@@ -299,14 +299,14 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * use {@link Assertions#within(Double)} to get the old behavior.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions succeed
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(8.1).isNotCloseTo(8.0, byLessThan(0.01));
    * assertThat(8.1).isNotCloseTo(8.0, within(0.01));
    * assertThat(8.1).isNotCloseTo(8.0, offset(0.01));
    * // diff == offset but isNotCloseTo succeeds as we use byLessThan
    * assertThat(0.1).isNotCloseTo(0.0, byLessThan(0.1));
    *
-   * // assertions fail
+   * // assertions fail:
    * assertThat(8.1).isNotCloseTo(8.0, within(0.1));
    * assertThat(8.1).isNotCloseTo(8.0, offset(0.1));
    * assertThat(8.1).isNotCloseTo(8.0, within(0.2));
@@ -333,13 +333,13 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with double:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(11.0).isCloseTo(Double.valueOf(10.0), withinPercentage(20d));
    *
    * // if difference is exactly equals to the computed offset (1.0), it's ok
    * assertThat(11.0).isCloseTo(Double.valueOf(10.0), withinPercentage(10d));
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThat(11.0).isCloseTo(Double.valueOf(10.0), withinPercentage(5d));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
@@ -361,10 +361,10 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with double:
-   * <pre><code class='java'> // assertion will pass:
+   * <pre><code class='java'> // assertion succeeds:
    * assertThat(11.0).isNotCloseTo(Double.valueOf(10.0), withinPercentage(5d));
    *
-   * // assertions will fail
+   * // assertions fail:
    * assertThat(11.0).isNotCloseTo(Double.valueOf(10.0), withinPercentage(10d));
    * assertThat(11.0).isNotCloseTo(Double.valueOf(10.0), withinPercentage(20d));</code></pre>
    *
@@ -387,13 +387,13 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * If difference is equal to the percentage value, assertion is considered valid.
    * <p>
    * Example with double:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(11.0).isCloseTo(10.0, withinPercentage(20d));
    *
    * // if difference is exactly equals to the computed offset (1.0), it's ok
    * assertThat(11.0).isCloseTo(10.0, withinPercentage(10d));
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThat(11.0).isCloseTo(10.0, withinPercentage(5d));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
@@ -413,10 +413,10 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * If difference is equal to the percentage value, the assertion fails.
    * <p>
    * Example with double:
-   * <pre><code class='java'> // assertion will pass:
+   * <pre><code class='java'> // assertion succeeds:
    * assertThat(11.0).isNotCloseTo(10.0, withinPercentage(5d));
    *
-   * // assertions will fail
+   * // assertions fail:
    * assertThat(11.0).isNotCloseTo(10.0, withinPercentage(10d));
    * assertThat(11.0).isNotCloseTo(10.0, withinPercentage(20d));</code></pre>
    *
@@ -444,12 +444,12 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * </ul>
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(1.0).isEqualTo(1.0);
    * assertThat(1D).isEqualTo(1.0);
    * assertThat(-0.0).isEqualTo(0.0);
    *
-   * // assertions will fail:
+   * // assertions fail:
    * assertThat(0.0).isEqualTo(1.0);
    * assertThat(Double.NaN).isEqualTo(Double.NaN);
    * assertThat(-1.0).isEqualTo(1.0);</code></pre>
@@ -487,12 +487,12 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * </ul>
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(1.0).isEqualTo(Double.valueOf(1.0));
    * assertThat(1D).isEqualTo(Double.valueOf(1.0));
    * assertThat(Double.NaN).isEqualTo(Double.valueOf(Double.NaN));
    *
-   * // assertions will fail:
+   * // assertions fail:
    * assertThat(0.0).isEqualTo(Double.valueOf(1.0));
    * assertThat(-1.0).isEqualTo(Double.valueOf(1.0));
    * assertThat(-0.0).isEqualTo(Double.valueOf(0.0));</code></pre>
@@ -527,7 +527,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * </ul>
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(8.1).isEqualTo(8.0, within(0.2));
    * assertThat(8.1).isEqualTo(8.0, offset(0.2)); // alias of within
    * assertThat(8.1).isEqualTo(8.0, byLessThan(0.2)); // strict
@@ -538,7 +538,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * // ... except when using byLessThan which implies a strict comparison
    * assertThat(0.1).isEqualTo(0.0, byLessThan(0.1)); // strict =&gt; fail
    *
-   * // this assertion also fails
+   * // this assertion also fails:
    * assertThat(8.1).isEqualTo(8.0, within(0.001));</code></pre>
    *
    * @param expected the given value to compare the actual value to.
@@ -563,12 +563,12 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * </ul>
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(0.0).isNotEqualTo(1.0);
    * assertThat(-1.0).isNotEqualTo(1.0);
    * assertThat(Double.NaN).isNotEqualTo(Double.NaN);
    *
-   * // assertions will fail:
+   * // assertions fail:
    * assertThat(1.0).isNotEqualTo(1.0);
    * assertThat(0.0).isNotEqualTo(-0.0);
    * assertThat(1D).isNotEqualTo(1.0);</code></pre>
@@ -600,12 +600,12 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * </ul>
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(0.0).isNotEqualTo(Double.valueOf(1.0));
    * assertThat(-1.0).isNotEqualTo(Double.valueOf(1.0));
    * assertThat(0.0).isNotEqualTo(Double.valueOf(-0.0));
    *
-   * // assertions will fail:
+   * // assertions fail:
    * assertThat(1.0).isNotEqualTo(Double.valueOf(1.0));
    * assertThat(0.0).isNotEqualTo(Double.valueOf(0.0));
    * assertThat(Double.NaN).isNotEqualTo(Double.valueOf(Double.NaN));</code></pre>
@@ -626,10 +626,10 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * Verifies that the actual value is less than the given one.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertion will pass:
+   * <pre><code class='java'> // assertion succeeds:
    * assertThat(1.0).isLessThan(2.0);
    *
-   * // assertions will fail:
+   * // assertions fail:
    * assertThat(2.0).isLessThan(1.0);
    * assertThat(1.0).isLessThan(1.0);</code></pre>
    *
@@ -650,14 +650,14 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * this assertion will use {@code <=} semantics where notably {@code 0.0} == {@code -0.0}.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(-1.0).isLessThanOrEqualTo(1.0);
    * assertThat(1.0).isLessThanOrEqualTo(1.0);
    * // 0.0 == -0.0
    * assertThat(-0.0).isLessThanOrEqualTo(0.0);
    * assertThat(0.0).isLessThanOrEqualTo(-0.0);
    *
-   * // assertion will fail:
+   * // assertion fails:
    * assertThat(2.0).isLessThanOrEqualTo(1.0);</code></pre>
    * <p>
    * Note that this assertion behaves differently from {@link #isLessThanOrEqualTo(Double)} which uses {@link Double#compareTo(Double)} semantics.
@@ -681,12 +681,12 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * Verifies that the actual value is less than or equal to the given one using {@link Double#compareTo(Double)} semantics where notably {@code -0.0} is <b>strictly</b> less than {@code 0.0}.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(-1.0).isLessThanOrEqualTo(Double.valueOf(1.0));
    * assertThat(1.0).isLessThanOrEqualTo(Double.valueOf(1.0));
    * assertThat(-0.0).isLessThanOrEqualTo(Double.valueOf(0.0));
    *
-   * // assertions will fail:
+   * // assertions fail:
    * assertThat(2.0).isLessThanOrEqualTo(Double.valueOf(1.0));
    * // 0.0 is not considered equal to -0.0
    * assertThat(0.0).isLessThanOrEqualTo(Double.valueOf(-0.0));</code></pre>
@@ -708,10 +708,10 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * Verifies that the actual value is greater than the given one.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertion will pass:
+   * <pre><code class='java'> // assertion succeeds:
    * assertThat(2.0).isGreaterThan(1.0);
    *
-   * // assertions will fail:
+   * // assertions fail:
    * assertThat(1.0).isGreaterThan(1.0);
    * assertThat(1.0).isGreaterThan(2.0);</code></pre>
    *
@@ -732,14 +732,14 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * this assertion will use {@code >=} semantics where notably {@code 0.0} == {@code -0.0}.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(2.0).isGreaterThanOrEqualTo(1.0);
    * assertThat(1.0).isGreaterThanOrEqualTo(1.0);
    * // 0.0 == -0.0
    * assertThat(-0.0).isGreaterThanOrEqualTo(0.0);
    * assertThat(0.0).isGreaterThanOrEqualTo(-0.0);
    *
-   * // assertion will fail:
+   * // assertion fails:
    * assertThat(1.0).isGreaterThanOrEqualTo(2.0);</code></pre>
    * <p>
    * Note that this assertion behaves differently from {@link #isGreaterThanOrEqualTo(Double)} which uses {@link Double#compareTo(Double)} semantics.
@@ -763,12 +763,12 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * Verifies that the actual value is greater than or equal to the given one using {@link Double#compareTo(Double)} semantics where notably {@code 0.0} is <b>strictly</b> greater than {@code -0.0}.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass:
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(2.0).isGreaterThanOrEqualTo(Double.valueOf(1.0));
    * assertThat(1.0).isGreaterThanOrEqualTo(Double.valueOf(1.0));
    * assertThat(0.0).isGreaterThanOrEqualTo(Double.valueOf(-0.0));
    *
-   * // assertions will fail:
+   * // assertions fail:
    * assertThat(1.0).isGreaterThanOrEqualTo(Double.valueOf(2.0));
    * // 0.0 is not considered equal to -0.0
    * assertThat(-0.0).isGreaterThanOrEqualTo(Double.valueOf(0.0));</code></pre>
@@ -791,12 +791,12 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    *
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(1d).isBetween(-1d, 2d);
    * assertThat(1d).isBetween(1d, 2d);
    * assertThat(1d).isBetween(0d, 1d);
    *
-   * // assertion will fail
+   * // assertion fails:
    * assertThat(1d).isBetween(2d, 3d);</code></pre>
    */
   @Override
@@ -810,10 +810,10 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    *
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertion will pass
+   * <pre><code class='java'> // assertion succeeds:
    * assertThat(1d).isStrictlyBetween(-1d, 2d);
    *
-   * // assertions will fail
+   * // assertions fail:
    * assertThat(1d).isStrictlyBetween(1d, 2d);
    * assertThat(1d).isStrictlyBetween(0d, 1d);
    * assertThat(1d).isStrictlyBetween(2d, 3d);</code></pre>
@@ -863,10 +863,10 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * Verifies that the double value is a finite floating-point value.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertion succeeds
+   * <pre><code class='java'> // assertion succeeds:
    * assertThat(1.0d).isFinite();
    *
-   * // assertions fail
+   * // assertions fail:
    * assertThat(Double.NaN).isFinite();
    * assertThat(Double.NEGATIVE_INFINITY).isFinite();
    * assertThat(Double.POSITIVE_INFINITY).isFinite();</code></pre>
@@ -889,15 +889,15 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   /**
    * Verifies that the double value is not a finite floating-point value.
    * <p>
-   * Note that 'not finite' is not equivalent to infinite as `NaN` is neither finite or infinite.
+   * Note that 'not finite' is not equivalent to infinite as `NaN` is neither finite nor infinite.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions succeed
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(Double.POSITIVE_INFINITY).isNotFinite();
    * assertThat(Double.NEGATIVE_INFINITY).isNotFinite();
    * assertThat(Double.NaN).isNotFinite();
    *
-   * // assertion fails
+   * // assertion fails:
    * assertThat(1.0).isNotFinite();</code></pre>
    *
    * @return this assertion object.
@@ -919,11 +919,11 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * Verifies that the double value represents positive infinity or negative infinity.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions succeed
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(Double.NEGATIVE_INFINITY).isInfinite();
    * assertThat(Double.POSITIVE_INFINITY).isInfinite();
    *
-   * // assertions fail
+   * // assertions fail:
    * assertThat(1.0d).isInfinite();
    * assertThat(Double.NaN).isInfinite();</code></pre>
    *
@@ -946,11 +946,11 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * Verifies that the double value represents neither positive infinity nor negative infinity.
    * <p>
    * Examples:
-   * <pre><code class='java'> // assertions succeed
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(1.0).isNotInfinite();
    * assertThat(Double.NaN).isNotInfinite();
    *
-   * // assertions fail
+   * // assertions fail:
    * assertThat(Double.POSITIVE_INFINITY).isNotInfinite();
    * assertThat(Double.NEGATIVE_INFINITY).isNotInfinite();</code></pre>
    *
