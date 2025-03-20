@@ -799,7 +799,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param fields the fields who must be in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contain all of the fields.
+   * @throws AssertionError if the actual {@code Class} doesn't contain all the specified fields.
    */
   public SELF hasPublicFields(String... fields) {
     classes.assertHasPublicFields(info, actual, fields);
@@ -860,7 +860,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param fields the fields who must be declared in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all the specified fields.
    */
   public SELF hasDeclaredFields(String... fields) {
     classes.assertHasDeclaredFields(info, actual, fields);
@@ -923,7 +923,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param methodNames the method names which must be in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the method names.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all the specified methods.
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -957,7 +957,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param methodNames the method names which must be declared in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given methods.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all the given methods.
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -987,7 +987,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param methodNames the public method names which must be in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given public methods.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all the given public methods.
    *
    * @since 2.7.0 / 3.7.0
    */
