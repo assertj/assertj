@@ -80,14 +80,14 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * If you do not want to accept a {@code null} value, use
    * {@link org.assertj.core.api.AbstractCharSequenceAssert#isEmpty()} instead.
    * <p>
-   * Both of these assertions will succeed:
+   * Both of these assertions succeeds:
    * <pre><code class='java'> String emptyString = &quot;&quot;
    * assertThat(emptyString).isNullOrEmpty();
    *
    * String nullString = null;
    * assertThat(nullString).isNullOrEmpty();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> assertThat(&quot;a&quot;).isNullOrEmpty();
    * assertThat(&quot;   &quot;).isNullOrEmpty();</code></pre>
    *
@@ -104,11 +104,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * If you want to accept a {@code null} value as well as a 0 length, use
    * {@link org.assertj.core.api.AbstractCharSequenceAssert#isNullOrEmpty()} instead.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String emptyString = &quot;&quot;
    * assertThat(emptyString).isEmpty();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> String nullString = null;
    * assertThat(nullString).isEmpty();
    * assertThat(&quot;a&quot;).isEmpty();
@@ -125,11 +125,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} is not empty, i.e., is not {@code null} and has a length of 1 or
    * more.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).isNotEmpty();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> String emptyString = &quot;&quot;
    * assertThat(emptyString).isNotEmpty();
    *
@@ -215,12 +215,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} contains one or more whitespace characters (according to
    * {@link Character#isWhitespace(char)}).
    * <p>
-   * These assertions will succeed:
+   * These assertions succeed:
    * <pre><code class='java'> assertThat(" ").containsWhitespaces();
    * assertThat("a b").containsWhitespaces();
    * assertThat(" c ").containsWhitespaces();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> assertThat("").containsWhitespaces();
    * assertThat("a").containsWhitespaces();
    * String nullString = null;
@@ -243,11 +243,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} consists of one or more whitespace characters (according to
    * {@link Character#isWhitespace(char)}).
    * <p>
-   * These assertions will succeed:
+   * These assertions succeed:
    * <pre><code class='java'> assertThat(" ").containsOnlyWhitespaces();
    * assertThat("    ").containsOnlyWhitespaces();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> assertThat("a").containsOnlyWhitespaces();
    * assertThat("").containsOnlyWhitespaces();
    * assertThat(" b").containsOnlyWhitespaces();
@@ -272,7 +272,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} is either {@code null}, empty or does not contain any whitespace characters (according to {@link Character#isWhitespace(char)}).
    * <p>
-   * These assertions will succeed:
+   * These assertions succeed:
    * <pre><code class='java'> assertThat("a").doesNotContainAnyWhitespaces();
    * assertThat("").doesNotContainAnyWhitespaces();
    * assertThat("ab").doesNotContainAnyWhitespaces();
@@ -280,7 +280,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * String nullString = null;
    * assertThat(nullString).doesNotContainAnyWhitespaces();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> assertThat(" ").doesNotContainAnyWhitespaces();
    * assertThat(" a").doesNotContainAnyWhitespaces();</code></pre>
    *
@@ -307,7 +307,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <p>
    * The main difference with {@link #isNotBlank()} is that it accepts null or empty {@code CharSequence}.
    * <p>
-   * These assertions will succeed:
+   * These assertions succeed:
    * <pre><code class='java'> assertThat("a").doesNotContainOnlyWhitespaces();
    * assertThat("").doesNotContainOnlyWhitespaces();
    * assertThat(" b").doesNotContainOnlyWhitespaces();
@@ -315,7 +315,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * String nullString = null;
    * assertThat(nullString).doesNotContainOnlyWhitespaces();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> assertThat(" ").doesNotContainOnlyWhitespaces();
    * assertThat("    ").doesNotContainOnlyWhitespaces();</code></pre>
    *
@@ -335,11 +335,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} has the expected length using the {@code length()} method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).hasSize(17);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
    * assertThat(bookName).hasSize(4);</code></pre>
    *
@@ -354,12 +354,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} has has a length less than the given value using the {@code length()} method.
+   * Verifies that the actual {@code CharSequence} has a length less than the given value using the {@code length()} method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(4);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(3);</code></pre>
    *
    * @param expected the expected maximum length of the actual {@code CharSequence}.
@@ -376,10 +376,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} has a length less than or equal to the given value using the {@code length()}  method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(3);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(2);</code></pre>
    *
    * @param expected the expected maximum length of the actual {@code CharSequence}.
@@ -396,10 +396,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} has a length greater than the given value using the {@code length()}  method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abcs&quot;).hasSizeGreaterThan(2);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThan(3);</code></pre>
    *
    * @param expected the expected minimum length of the actual {@code CharSequence}.
@@ -416,10 +416,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} has a length greater than or equal to the given value using the {@code length()}  method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
    *
    * @param expected the expected minimum length of the actual {@code CharSequence}.
@@ -437,12 +437,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} has length between the given boundaries (inclusive)
    * using the {@code length()} method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).hasSizeBetween(5, 25);
    * assertThat(bookName).hasSizeBetween(16, 17);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
    * assertThat(bookName).hasSizeBetween(2, 5);</code></pre>
    *
@@ -464,12 +464,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * A line is considered to be <i>terminated</i> by any one of a line feed ({@code '\n'}), a carriage return ({@code '\r'}),
    * or a carriage return followed immediately by a linefeed (see {@link LineNumberReader}).
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String multiLine = &quot;First line\n&quot; +
    *                    &quot;Last line&quot;;
    * assertThat(multiLine).hasLineCount(2);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;;
    * assertThat(bookName).hasLineCount(3);</code></pre>
    *
@@ -1393,9 +1393,9 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Use unicode character representation instead of standard representation in error messages.
+   * Use Unicode character representation instead of standard representation in error messages.
    * <p>
-   * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned, it is
+   * It can be useful when comparing UNICODE characters - many Unicode chars have duplicate characters assigned, it is
    * thus impossible to find differences from the standard error message:
    * <p>
    * With standard message:
@@ -1700,11 +1700,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * {@code CharSequence} after normalizing new line characters
    * (i.e. '\r\n' == '\n').
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String bookName = &quot;Lord of the Rings\r\n&quot;;
    * assertThat(bookName).isEqualToNormalizingNewlines(&quot;Lord of the Rings\n&quot;);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'> String singleLine = &quot;\n&quot;;
    * assertThat(singleLine).isEqualToNormalizingNewlines(&quot;&quot;);</code></pre>
    *
@@ -1923,8 +1923,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * // assertions will fail
    * assertThat(&quot;&quot;).isASCII();
    * assertThat(&quot;♪&quot;).isASCII();
-   * assertThat(&quot;\u2303&quot;).isASCII();
-   * assertThat(&quot;L3go123\u230300abc&quot;).isASCII();</code></pre>
+   * assertThat(&quot;⌃&quot;).isASCII();
+   * assertThat(&quot;L3go123⌃00abc&quot;).isASCII();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not ASCII.
@@ -2036,9 +2036,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see Character#isWhitespace(int)
    * @since 3.26.0
    */
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public SELF doesNotStartWithWhitespaces() {
     isNotNull();
-    if (actual.length() > 0 && isWhitespace(actual.codePoints().findFirst().getAsInt()))
+    if (!actual.isEmpty() && isWhitespace(actual.codePoints().findFirst().getAsInt()))
       throwAssertionError(shouldNotStartWithWhitespaces(actual));
     return myself;
   }
@@ -2064,9 +2065,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see Character#isWhitespace(int)
    * @since 3.26.0
    */
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public SELF doesNotEndWithWhitespaces() {
     isNotNull();
-    if (actual.length() > 0 && Character.isWhitespace(actual.codePoints().reduce((v1, v2) -> v2).getAsInt()))
+    if (!actual.isEmpty() && Character.isWhitespace(actual.codePoints().reduce((v1, v2) -> v2).getAsInt()))
       throwAssertionError(shouldNotEndWithWhitespaces(actual));
     return myself;
   }
@@ -2084,7 +2086,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   private static boolean isNullOrEmpty(CharSequence actual) {
-    return actual == null || actual.length() == 0;
+    return actual == null || actual.isEmpty();
   }
 
   private static boolean strictlyContainsWhitespaces(CharSequence actual) {
