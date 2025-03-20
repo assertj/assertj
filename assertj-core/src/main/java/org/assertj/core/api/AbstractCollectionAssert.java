@@ -88,7 +88,7 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
 
     expectUnsupportedOperationException(() -> actual.add(null), "Collection.add(null)");
     expectUnsupportedOperationException(() -> actual.addAll(emptyCollection()), "Collection.addAll(emptyCollection())");
-    expectUnsupportedOperationException(() -> actual.clear(), "Collection.clear()");
+    expectUnsupportedOperationException(actual::clear, "Collection.clear()");
     expectUnsupportedOperationException(() -> actual.iterator().remove(), "Collection.iterator().remove()");
     expectUnsupportedOperationException(() -> actual.remove(null), "Collection.remove(null)");
     expectUnsupportedOperationException(() -> actual.removeAll(emptyCollection()), "Collection.removeAll(emptyCollection())");
@@ -111,8 +111,8 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
     if (actual instanceof NavigableSet) {
       NavigableSet<ELEMENT> set = (NavigableSet<ELEMENT>) actual;
       expectUnsupportedOperationException(() -> set.descendingIterator().remove(), "NavigableSet.descendingIterator().remove()");
-      expectUnsupportedOperationException(() -> set.pollFirst(), "NavigableSet.pollFirst()");
-      expectUnsupportedOperationException(() -> set.pollLast(), "NavigableSet.pollLast()");
+      expectUnsupportedOperationException(set::pollFirst, "NavigableSet.pollFirst()");
+      expectUnsupportedOperationException(set::pollLast, "NavigableSet.pollLast()");
     }
   }
 
