@@ -69,7 +69,6 @@ import org.assertj.core.internal.IterableElementComparisonStrategy;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
-import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
@@ -2084,7 +2083,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * To be used, comparators need to be specified by this method <b>before</b> calling any of:
    * <ul>
-   * <li>{@link #usingElementComparatorOnFields}</li>
    * <li>{@link #usingElementComparatorIgnoringFields}</li>
    * </ul>
    * <p>
@@ -2170,7 +2168,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * To be used, comparators need to be specified by this method <b>before</b> calling any of:
    * <ul>
-   * <li>{@link #usingElementComparatorOnFields}</li>
    * <li>{@link #usingElementComparatorIgnoringFields}</li>
    * </ul>
    * <p>
@@ -2250,7 +2247,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * Usage of this method affects comparators set by next methods:
    * <ul>
-   * <li>{@link #usingElementComparatorOnFields}</li>
    * <li>{@link #usingElementComparatorIgnoringFields}</li>
    * </ul>
    * <p>
@@ -2664,49 +2660,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   public RecursiveAssertionAssert usingRecursiveAssertion(RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
     return super.usingRecursiveAssertion(recursiveAssertionConfiguration);
-  }
-
-  /**
-   * <b><u>Deprecated javadoc</u></b>
-   * <p>
-   * Use field/property by field/property comparison on the <b>given fields/properties only</b> (including inherited
-   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare group elements for
-   * incoming assertion checks. Private fields are included but this can be disabled using
-   * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
-   * <p>
-   * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
-   * <p>
-   * You can specify a custom comparator per name or type of element field with
-   * {@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}
-   * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
-   * <p>
-   * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
-   * to the other field/property using its <code>equals</code> method.
-   * </p>
-   * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
-   *
-   * // frodo and sam both are hobbits, so they are equals when comparing only race
-   * assertThat(newArrayList(frodo)).usingElementComparatorOnFields("race").contains(sam); // OK
-   *
-   * // ... but not when comparing both name and race
-   * assertThat(newArrayList(frodo)).usingElementComparatorOnFields("name", "race").contains(sam); // FAIL</code></pre>
-   *
-   * @param fields the fields/properties to compare using element comparators
-   * @return {@code this} assertion object.
-   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
-   * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are
-   * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorOnFields(String...)} instead.
-   * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  @CheckReturnValue
-  public SELF usingElementComparatorOnFields(String... fields) {
-    return usingExtendedByTypesElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                        getComparatorsForElementPropertyOrFieldTypes(),
-                                                                        fields));
   }
 
   /**
