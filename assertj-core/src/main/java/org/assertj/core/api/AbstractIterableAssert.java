@@ -64,7 +64,6 @@ import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ExtendedByTypesComparator;
-import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.IterableElementComparisonStrategy;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.ObjectArrays;
@@ -2081,11 +2080,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Allows to set a comparator to compare properties or fields of elements with the given names.
    * A typical usage is for comparing fields of numeric type at a given precision.
    * <p>
-   * To be used, comparators need to be specified by this method <b>before</b> calling any of:
-   * <ul>
-   * <li>{@link #usingElementComparatorIgnoringFields}</li>
-   * </ul>
-   * <p>
    * Comparators specified by this method have precedence over comparators specified by
    * {@link #usingComparatorForElementFieldsWithType(Comparator, Class) usingComparatorForElementFieldsWithType}.
    * <p>
@@ -2115,10 +2109,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * assertThat(asList(frodo)).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
    *                          .usingElementComparatorOnFields(&quot;height&quot;)
-   *                          .contains(tallerFrodo);
-   *
-   * assertThat(asList(frodo)).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                          .usingElementComparatorIgnoringFields(&quot;name&quot;)
    *                          .contains(tallerFrodo);
    *
    * assertThat(asList(frodo)).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
@@ -2166,11 +2156,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Allows to set a specific comparator to compare properties or fields of elements with the given type.
    * A typical usage is for comparing fields of numeric type at a given precision.
    * <p>
-   * To be used, comparators need to be specified by this method <b>before</b> calling any of:
-   * <ul>
-   * <li>{@link #usingElementComparatorIgnoringFields}</li>
-   * </ul>
-   * <p>
    * Comparators specified by {@link #usingComparatorForElementFieldsWithNames(Comparator, String...) usingComparatorForElementFieldsWithNames}
    * have precedence over comparators specified by this method.
    * <p>
@@ -2198,10 +2183,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * assertThat(Arrays.asList(frodo)).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
    *                                 .usingElementComparatorOnFields(&quot;height&quot;)
-   *                                 .contains(tallerFrodo);
-   *
-   * assertThat(Arrays.asList(frodo)).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                                 .usingElementComparatorIgnoringFields(&quot;name&quot;)
    *                                 .contains(tallerFrodo);
    *
    * assertThat(Arrays.asList(frodo)).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
@@ -2244,11 +2225,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Allows to set a specific comparator for the given type of elements or their fields.
    * Extends {@link #usingComparatorForElementFieldsWithType} by applying comparator specified for given type
    * to elements themselves, not only to their fields.
-   * <p>
-   * Usage of this method affects comparators set by next methods:
-   * <ul>
-   * <li>{@link #usingElementComparatorIgnoringFields}</li>
-   * </ul>
    * <p>
    * Example:
    * <pre><code class='java'>
@@ -2714,49 +2690,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   protected SELF usingComparisonStrategy(ComparisonStrategy comparisonStrategy) {
     iterables = new Iterables(comparisonStrategy);
     return myself;
-  }
-
-  /**
-   * <b><u>Deprecated javadoc</u></b>
-   * <p>
-   * Use field/property by field/property comparison on all fields/properties <b>except</b> the given ones (including inherited
-   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare group elements for
-   * incoming assertion checks. Private fields are included but this can be disabled using
-   * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
-   * <p>
-   * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
-   * <p>
-   * You can specify a custom comparator per name or type of element field with
-   * {@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}
-   * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
-   * <p>
-   * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
-   * to the other field/property using its <code>equals</code> method.
-   * </p>
-   * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
-   *
-   * // frodo and sam both are hobbits, so they are equals when comparing only race (i.e. ignoring all other fields)
-   * assertThat(newArrayList(frodo)).usingElementComparatorIgnoringFields("name", "age").contains(sam); // OK
-   *
-   * // ... but not when comparing both name and race
-   * assertThat(newArrayList(frodo)).usingElementComparatorIgnoringFields("age").contains(sam); // FAIL</code></pre>
-   *
-   * @param fields the field names to exclude in the elements comparison.
-   * @return {@code this} assertion object.
-   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
-   * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are
-   * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorIgnoringFields(String...)} instead.
-   * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  @CheckReturnValue
-  public SELF usingElementComparatorIgnoringFields(String... fields) {
-    return usingExtendedByTypesElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                              getComparatorsForElementPropertyOrFieldTypes(),
-                                                                              fields));
   }
 
   /**

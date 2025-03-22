@@ -12,13 +12,10 @@
  */
 package org.assertj.core.api.iterable;
 
-import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.testkit.NeverEqualComparator.NEVER_EQUALS_STRING;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.assertj.core.util.Lists.list;
 
@@ -73,38 +70,6 @@ class IterableAssert_usingComparatorForType_Test extends IterableAssertBaseTest 
                     .contains("other", "any", new BigDecimal("42.0"))
                     .containsOnly("other", "any", new BigDecimal("42.00"))
                     .containsExactly("other", "any", new BigDecimal("42.000"));
-  }
-
-  @Test
-  void should_use_comparator_for_type_when_using_element_comparator_ignoring_fields() {
-    assertThat(asList(actual, "some")).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
-                                      .usingElementComparatorIgnoringFields("name")
-                                      .isNotEmpty()
-                                      .contains(other, "any")
-                                      .containsExactly(other, "any");
-  }
-
-  @Test
-  void should_only_use_comparator_on_fields_element_but_not_the_element_itself() {
-    // GIVEN
-    List<Comparable<? extends Comparable<?>>> list = list(actual, "some");
-    // WHEN
-    AssertionError error = expectAssertionError(() -> {
-      assertThat(list).usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_STRING, String.class)
-                      .usingElementComparatorIgnoringFields("name")
-                      .contains(other, "any");
-    });
-    // THEN
-    then(error).hasMessage(format("%nExpecting ArrayList:%n"
-                                  + "  [Yoda the Jedi, \"some\"]%n"
-                                  + "to contain:%n"
-                                  + "  [Luke the Jedi, \"any\"]%n"
-                                  + "but could not find the following element(s):%n"
-                                  + "  [\"any\"]%n"
-                                  + "when comparing values using field/property by field/property comparator on all fields/properties except [\"name\"]%n"
-                                  + "Comparators used:%n"
-                                  + "- for elements fields (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], String -> AlwaysEqualComparator, Path -> lexicographic comparator (Path natural order)}%n"
-                                  + "- for elements (by type): {Double -> DoubleComparator[precision=1.0E-15], Float -> FloatComparator[precision=1.0E-6], Path -> lexicographic comparator (Path natural order)}"));
   }
 
   @Test
