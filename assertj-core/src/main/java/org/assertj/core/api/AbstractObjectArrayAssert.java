@@ -1789,18 +1789,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * // assertions will pass
    * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingElementComparatorOnFields(&quot;height&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingElementComparatorIgnoringFields(&quot;name&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
    *                    .usingRecursiveFieldByFieldElementComparator()
    *                    .contains(tallerFrodo);
    *
@@ -1851,9 +1839,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <li>{@link #usingElementComparatorOnFields(String...)}</li>
    * <li>{@link #usingElementComparatorIgnoringFields(String...)}</li>
    * </ul>
-   * <p>
-   * Comparators specified by {@link #usingComparatorForElementFieldsWithNames(Comparator, String...) usingComparatorForElementFieldsWithNames}
-   * have precedence over comparators specified by this method.
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -1978,7 +1963,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
    * <p>
    * You can specify a custom comparator per name or type of element field with
-   * {@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}
    * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
    * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
@@ -2018,7 +2002,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *   <li>{@link #withTypeComparators(TypeComparators)}</li>
    *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
    * <p>
@@ -2101,7 +2084,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *   <li>{@link #withTypeComparators(TypeComparators)}</li>
    *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
    * <p>
@@ -2192,7 +2174,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
    * <p>
    * You can specify a custom comparator per name or type of element field with
-   * {@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}
    * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
    * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
@@ -2284,7 +2265,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
    * <p>
    * You can specify a custom comparator per name or type of element field with
-   * {@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}
    * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
    * <p>
    * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared

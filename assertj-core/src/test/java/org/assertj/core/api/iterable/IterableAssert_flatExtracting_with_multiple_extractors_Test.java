@@ -16,11 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.testkit.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.testkit.TolkienCharacter.Race.ELF;
@@ -136,7 +134,6 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
       = assertThat(fellowshipOfTheRing).as("test description")
       .withFailMessage("error message")
       .withRepresentation(UNICODE_REPRESENTATION)
-      .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
       .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
       .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE, String.class)
       .flatExtracting(age, name)
@@ -150,7 +147,6 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
                                                                            .isSameAs(CaseInsensitiveStringComparator.INSTANCE);
     then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
                                                                                                .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @SuppressWarnings("deprecation")
@@ -163,7 +159,6 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
       = assertThat(fellowshipOfTheRing).as("test description")
       .withFailMessage("error message")
       .withRepresentation(UNICODE_REPRESENTATION)
-      .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
       .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
       .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE, String.class)
       .flatExtracting(ageThrowingExtractor, nameThrowingExtractor)
@@ -177,6 +172,5 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
                                                                            .isSameAs(CaseInsensitiveStringComparator.INSTANCE);
     then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
                                                                                                .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 }

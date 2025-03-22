@@ -16,11 +16,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -270,7 +268,6 @@ class IterableAssert_flatExtracting_Test {
       = assertThat(list(homer, fred)).as("test description")
       .withFailMessage("error message")
       .withRepresentation(UNICODE_REPRESENTATION)
-      .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
       .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
       .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
       .flatExtracting(childrenExtractor)
@@ -284,7 +281,6 @@ class IterableAssert_flatExtracting_Test {
                                                                                      .isSameAs(cartoonCharacterAlwaysEqualComparator);
     then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
                                                                                                .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @SuppressWarnings("deprecation")
@@ -299,7 +295,6 @@ class IterableAssert_flatExtracting_Test {
       = assertThat(list(homer, fred)).as("test description")
       .withFailMessage("error message")
       .withRepresentation(UNICODE_REPRESENTATION)
-      .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
       .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
       .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
       .flatExtracting(children)
@@ -313,7 +308,6 @@ class IterableAssert_flatExtracting_Test {
                                                                                      .isSameAs(cartoonCharacterAlwaysEqualComparator);
     then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
                                                                                                .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @SuppressWarnings("deprecation")
@@ -328,7 +322,6 @@ class IterableAssert_flatExtracting_Test {
       = assertThat(list(homer, fred)).as("test description")
       .withFailMessage("error message")
       .withRepresentation(UNICODE_REPRESENTATION)
-      .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
       .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
       .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
       .flatExtracting(childrenThrowingExtractor)
@@ -342,7 +335,6 @@ class IterableAssert_flatExtracting_Test {
                                                                                      .isSameAs(cartoonCharacterAlwaysEqualComparator);
     then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
                                                                                                .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    then(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
 }

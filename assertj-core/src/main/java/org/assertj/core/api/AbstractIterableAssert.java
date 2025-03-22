@@ -2077,87 +2077,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * <u><b>Deprecated javadoc</b></u>
    * <p>
-   * Allows to set a comparator to compare properties or fields of elements with the given names.
-   * A typical usage is for comparing fields of numeric type at a given precision.
-   * <p>
-   * Comparators specified by this method have precedence over comparators specified by
-   * {@link #usingComparatorForElementFieldsWithType(Comparator, Class) usingComparatorForElementFieldsWithType}.
-   * <p>
-   * Example:
-   *
-   * <pre><code class='java'> public class TolkienCharacter {
-   *   private String name;
-   *   private double height;
-   *   // constructor omitted
-   * }
-   *
-   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
-   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
-   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
-   *
-   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
-   *   double precision = 0.5;
-   *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
-   *   }
-   * };
-   *
-   * // assertions will pass
-   * assertThat(asList(frodo)).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                          .usingFieldByFieldElementComparator()
-   *                          .contains(tallerFrodo);
-   *
-   * assertThat(asList(frodo)).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                          .usingElementComparatorOnFields(&quot;height&quot;)
-   *                          .contains(tallerFrodo);
-   *
-   * assertThat(asList(frodo)).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                          .usingRecursiveFieldByFieldElementComparator()
-   *                          .contains(tallerFrodo);
-   *
-   * // assertion will fail
-   * assertThat(asList(frodo)).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                          .usingFieldByFieldElementComparator()
-   *                          .containsExactly(reallyTallFrodo);</code></pre>
-   *
-   * @param <T> the type of elements to compare.
-   * @param comparator the {@link java.util.Comparator} to use
-   * @param elementPropertyOrFieldNames the names of the properties and/or fields of the elements the comparator should be used for
-   * @return {@code this} assertions object
-   * @since 2.5.0 / 3.5.0
-   * @deprecated This method is used with usingFieldByFieldElementComparator() which is deprecated in favor of
-   * {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} or {@link #usingRecursiveComparison()}.
-   * <p>
-   * When using {@link #usingRecursiveComparison()} the equivalent is:
-   * <ul>
-   * <li>{@link RecursiveComparisonAssert#withEqualsForFields(java.util.function.BiPredicate, String...)}</li>
-   * <li>{@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...)}</li>
-   * </ul>
-   * <p>
-   * and when using {@link RecursiveComparisonConfiguration}:
-   * <ul>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withEqualsForFields(java.util.function.BiPredicate, String...)}</li>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForFields(Comparator, String...)}</li>
-   * </ul>
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  @CheckReturnValue
-  public <T> SELF usingComparatorForElementFieldsWithNames(Comparator<T> comparator,
-                                                           String... elementPropertyOrFieldNames) {
-    for (String elementPropertyOrField : elementPropertyOrFieldNames) {
-      comparatorsForElementPropertyOrFieldNames.put(elementPropertyOrField, comparator);
-    }
-    return myself;
-  }
-
-  /**
-   * <u><b>Deprecated javadoc</b></u>
-   * <p>
    * Allows to set a specific comparator to compare properties or fields of elements with the given type.
    * A typical usage is for comparing fields of numeric type at a given precision.
-   * <p>
-   * Comparators specified by {@link #usingComparatorForElementFieldsWithNames(Comparator, String...) usingComparatorForElementFieldsWithNames}
-   * have precedence over comparators specified by this method.
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -2263,7 +2184,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *   <li>{@link #withTypeComparators(TypeComparators)}</li>
    *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
    * <p>
@@ -2346,7 +2266,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *   <li>{@link #withTypeComparators(TypeComparators)}</li>
    *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
    * <p>
