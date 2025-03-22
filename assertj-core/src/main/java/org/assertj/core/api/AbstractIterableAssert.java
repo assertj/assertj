@@ -2135,7 +2135,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param elementPropertyOrFieldNames the names of the properties and/or fields of the elements the comparator should be used for
    * @return {@code this} assertions object
    * @since 2.5.0 / 3.5.0
-   * @deprecated This method is used with {@link #usingFieldByFieldElementComparator()} which is deprecated in favor of
+   * @deprecated This method is used with usingFieldByFieldElementComparator() which is deprecated in favor of
    * {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} or {@link #usingRecursiveComparison()}.
    * <p>
    * When using {@link #usingRecursiveComparison()} the equivalent is:
@@ -2218,7 +2218,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param type the {@link java.lang.Class} of the type of the element fields the comparator should be used for
    * @return {@code this} assertions object
    * @since 2.5.0 / 3.5.0
-   * @deprecated This method is used with {@link #usingFieldByFieldElementComparator()} which is deprecated in favor of
+   * @deprecated This method is used with usingFieldByFieldElementComparator() which is deprecated in favor of
    * {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} or {@link #usingRecursiveComparison()}.
    * <p>
    * When using {@link #usingRecursiveComparison()} the equivalent is:
