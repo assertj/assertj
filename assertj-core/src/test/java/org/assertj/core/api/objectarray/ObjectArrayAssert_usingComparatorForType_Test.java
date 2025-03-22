@@ -13,7 +13,6 @@
 package org.assertj.core.api.objectarray;
 
 import static java.lang.String.format;
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
@@ -133,24 +132,6 @@ class ObjectArrayAssert_usingComparatorForType_Test extends ObjectArrayAssertBas
                      .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                      .usingFieldByFieldElementComparator()
                      .contains(other, other);
-  }
-
-  @Test
-  void should_be_able_to_replace_a_registered_comparator_by_type() {
-    assertThat(asList(actual, actual)).usingComparatorForType(NEVER_EQUALS_STRING, String.class)
-                                      .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
-                                      .usingFieldByFieldElementComparator()
-                                      .contains(other, other);
-  }
-
-  @Test
-  void should_be_able_to_replace_a_registered_comparator_by_field() {
-    // @format:off
-    assertThat(asList(actual, actual)).usingComparatorForElementFieldsWithNames(NEVER_EQUALS_STRING, "name", "lightSaberColor")
-                                      .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "name", "lightSaberColor")
-                                      .usingFieldByFieldElementComparator()
-                                      .contains(other, other);
-    // @format:on
   }
 
   @Test
