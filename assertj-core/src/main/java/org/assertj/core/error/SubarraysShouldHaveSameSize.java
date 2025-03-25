@@ -37,9 +37,9 @@ public class SubarraysShouldHaveSameSize extends BasicErrorMessageFactory {
    * @param actual the actual 2D array in the failed assertion.
    * @param expected the actual 2D array to compare actual with.
    * @param actualSubArray actual[index] array
-   * @param actualSubArrayLength actual[index] lentgth
+   * @param actualSubArrayLength actual[index] length
    * @param expectedSubArray expected[index]
-   * @param expectedSubArrayLength actual[index] lentgth
+   * @param expectedSubArrayLength actual[index] length
    * @param index index of {@code actualSubArray}, e.g. {@code 3} when checking size (length) of {@code actual[3]}
    * @return the created {@code ErrorMessageFactory}
    */

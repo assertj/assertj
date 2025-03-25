@@ -65,7 +65,7 @@ public interface Representation {
   String toStringOf(Object object);
 
   /**
-   * Override this method to return a {@code String} representation of the given object that is unambigous so that it can 
+   * Override this method to return a {@code String} representation of the given object that is unambiguous so that it can 
    * be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
    * <p>
    * The default implementation calls {@link #toStringOf(Object)} but the {@link StandardRepresentation} adds 

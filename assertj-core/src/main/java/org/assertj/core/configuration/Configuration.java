@@ -296,7 +296,7 @@ public class Configuration {
   }
 
   /**
-   * Sets the threshold for how many elements at most from one iterable/array/map will be displaye in error messages.
+   * Sets the threshold for how many elements at most from one iterable/array/map will be displayed in error messages.
    * <p>
    * See {@link Assertions#setMaxElementsForPrinting(int)} for a detailed description.
    * <p>
