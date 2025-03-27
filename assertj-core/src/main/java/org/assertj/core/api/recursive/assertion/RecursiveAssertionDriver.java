@@ -66,7 +66,7 @@ public class RecursiveAssertionDriver {
     boolean nodeAlreadyVisited = markNodeAsVisited(node);
     if (nodeAlreadyVisited) return;
 
-    if (!isRootObject(fieldLocation) && shouldEvaluateAssertion(nodeType)) {
+    if (!isRootObject(fieldLocation) && (node == null || shouldEvaluateAssertion(nodeType))) {
       evaluateAssertion(predicate, node, fieldLocation);
     }
     recurseIntoFieldsOfCurrentNode(predicate, node, nodeType, fieldLocation);
