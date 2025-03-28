@@ -180,8 +180,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                           + "  {\"54\"=\"55\"}%n"
                                                           + "to contain entries:%n"
                                                           + "  [\"1\"=\"2\"]%n"
-                                                          + "but could not find the following map entries:%n"
-                                                          + "  [\"1\"=\"2\"]"));
+                                                          + "but could not find the following map keys:%n"
+                                                          + "  [\"1\"]"));
     assertThat(errors.get(1)).hasMessageContaining("Expecting empty but was: {\"54\"=\"55\"}");
   }
 
@@ -337,8 +337,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + "  {\"54\"=\"55\"}%n"
                                                + "to contain entries:%n"
                                                + "  [\"1\"=\"2\"]%n"
-                                               + "but could not find the following map entries:%n"
-                                               + "  [\"1\"=\"2\"]"));
+                                               + "but could not find the following map keys:%n"
+                                               + "  [\"1\"]"));
     assertThat(errors.get(40)).contains(shouldBeEqualMessage("12:00", "13:00"));
     assertThat(errors.get(41)).contains(shouldBeEqualMessage("12:00Z", "13:00Z"));
     assertThat(errors.get(42)).contains(shouldBeEqualMessage("Optional[not empty]", "\"empty\""));
