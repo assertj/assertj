@@ -24,13 +24,13 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.FieldByFieldComparator;
 import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
 
@@ -242,46 +242,6 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     assertValueIsPresent();
     if (!clazz.isInstance(actual.get())) throwAssertionError(shouldContainInstanceOf(actual, clazz));
     return myself;
-  }
-
-  /**
-   * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
-   * actual type A <code>equals</code> method to compare the {@link Optional} value's object for incoming assertion
-   * checks. Private fields are included but this can be disabled using {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
-   * <p>
-   * This can be handy if <code>equals</code> method of the {@link Optional} value's object to compare does not suit
-   * you.
-   * </p>
-   * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be
-   * compared to the other field/property using its <code>equals</code> method.
-   * <p>
-   * Example:
-   *
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
-   *
-   * // Fail if equals has not been overridden in TolkienCharacter as equals default implementation only compares references
-   * assertThat(Optional.of(frodo)).contains(frodoClone);
-   *
-   * // frodo and frodoClone are equals when doing a field by field comparison.
-   * assertThat(Optional.of(frodo)).usingFieldByFieldValueComparator().contains(frodoClone);</code></pre>
-   *
-   * @return {@code this} assertion object.
-   * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are compared
-   * field by field but the fields are compared with equals, use {@link #get()} chained with {@link AbstractObjectAssert#usingRecursiveComparison()} instead.
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
-   *
-   * // frodo and frodoClone are equals when doing a field by field comparison.
-   * assertThat(Optional.of(frodo)).get().usingRecursiveComparison()
-   *                               .isEqualTo(frodoClone);</code></pre>
-   * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  @CheckReturnValue
-  @SuppressWarnings({ "DeprecatedIsStillUsed", "deprecation" })
-  public SELF usingFieldByFieldValueComparator() {
-    return usingValueComparator(new FieldByFieldComparator());
   }
 
   /**
