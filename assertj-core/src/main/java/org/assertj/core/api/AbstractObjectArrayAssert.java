@@ -446,7 +446,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array is empty or contains a non null element
+   * @throws AssertionError if the actual array is empty or contains a non-null element
    * @since 2.9.0 / 3.9.0
    */
   @Override
@@ -501,7 +501,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param elementAssertions the assertions to perform on the unique element.
    * @throws AssertionError if the array does not have a unique element.
-   * @throws AssertionError if the array's unique element does not satisfies the given assertions.
+   * @throws AssertionError if the array's unique element does not satisfy the given assertions.
    * @since 3.5.0
    */
   @Override
@@ -635,7 +635,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws NullPointerException if the given argument is {@code null}.
    * @throws AssertionError if the actual array is {@code null}.
    * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
-   * @throws AssertionError if the actual arrray does not contain the given values, i.e. the actual array
+   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array
    *           contains some or none of the given values, or the actual array contains more values than the given ones.
    */
   @Override
@@ -1703,7 +1703,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Examples :
    * <pre><code class='java'> // compares invoices by payee
-   * assertThat(invoiceArray).usingComparator(invoicePayeeComparator).isEqualTo(expectedinvoiceArray).
+   * assertThat(invoiceArray).usingComparator(invoicePayeeComparator).isEqualTo(expectedInvoiceArray).
    *
    * // compares invoices by date, doesNotHaveDuplicates and contains both use the given invoice date comparator
    * assertThat(invoiceArray).usingComparator(invoiceDateComparator).doesNotHaveDuplicates().contains(may2010Invoice)
@@ -1735,10 +1735,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return myself;
   }
 
-  private SELF usingExtendedByTypesElementComparator(Comparator<Object> elementComparator) {
-    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, getComparatorsByType()));
-  }
-
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
@@ -1748,182 +1744,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * <u><b>Deprecated javadoc</b></u>
-   * <p>
-   * Allows to set a comparator to compare properties or fields of elements with the given names.
-   * A typical usage is for comparing fields of numeric type at a given precision.
-   * <p>
-   * To be used, comparators need to be specified by this method <b>before</b> calling any of:
-   * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator}</li>
-   * <li>{@link #usingElementComparatorOnFields}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields}</li>
-   * <li>{@link #usingRecursiveFieldByFieldElementComparator}</li>
-   * </ul>
-   * <p>
-   * Comparators specified by this method have precedence over comparators specified by
-   * {@link #usingComparatorForElementFieldsWithType(Comparator, Class) usingComparatorForElementFieldsWithType}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> public class TolkienCharacter {
-   *   private String name;
-   *   private double height;
-   *   // constructor omitted
-   * }
-   *
-   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
-   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
-   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
-   *
-   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
-   *   double precision = 0.5;
-   *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
-   *   }
-   * };
-   *
-   * TolkienCharacter[] hobbits = new TolkienCharacter[] {frodo};
-   *
-   * // assertions will pass
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingRecursiveFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * // assertion will fail
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .containsExactly(reallyTallFrodo);</code></pre>
-   *
-   * @param <C> the type of elements to compare.
-   * @param comparator the {@link java.util.Comparator} to use
-   * @param elementPropertyOrFieldNames the names of the properties and/or fields of the elements the comparator should be used for
-   * @return {@code this} assertions object
-   * @since 2.5.0 / 3.5.0
-   * @deprecated This method is used with {@link #usingFieldByFieldElementComparator()} which is deprecated in favor of
-   * {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} or {@link #usingRecursiveComparison()}.
-   * <p>
-   * When using {@link #usingRecursiveComparison()} the equivalent is:
-   * <ul>
-   * <li>{@link RecursiveComparisonAssert#withEqualsForFields(java.util.function.BiPredicate, String...)}</li>
-   * <li>{@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...)}</li>
-   * </ul>
-   * <p>
-   * and when using {@link RecursiveComparisonConfiguration}:
-   * <ul>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withEqualsForFields(java.util.function.BiPredicate, String...)}</li>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForFields(Comparator, String...)}</li>
-   * </ul>
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  @CheckReturnValue
-  public <C> SELF usingComparatorForElementFieldsWithNames(Comparator<C> comparator,
-                                                           String... elementPropertyOrFieldNames) {
-    for (String elementPropertyOrField : elementPropertyOrFieldNames) {
-      comparatorsForElementPropertyOrFieldNames.put(elementPropertyOrField, comparator);
-    }
-    return myself;
-  }
-
-  /**
-   * <u><b>Deprecated javadoc</b></u>
-   * <p>
-   * Allows to set a specific comparator to compare properties or fields of elements with the given type.
-   * A typical usage is for comparing fields of numeric type at a given precision.
-   * <p>
-   * To be used, comparators need to be specified by this method <b>before</b> calling any of:
-   * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator()}</li>
-   * <li>{@link #usingElementComparatorOnFields(String...)}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields(String...)}</li>
-   * </ul>
-   * <p>
-   * Example:
-   * <pre><code class='java'> public class TolkienCharacter {
-   *   private String name;
-   *   private double height;
-   *   // constructor omitted
-   * }
-   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
-   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
-   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
-   *
-   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
-   *   double precision = 0.5;
-   *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
-   *   }
-   * };
-   *
-   * TolkienCharacter[] hobbits = new TolkienCharacter[] {frodo};
-   *
-   * // assertions will pass
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingElementComparatorOnFields(&quot;height&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingElementComparatorIgnoringFields(&quot;name&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingRecursiveFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * // assertion will fail
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .contains(reallyTallFrodo);</code></pre>
-   *
-   * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance
-   * chain to the given {@code type} is chosen in the following order:
-   * <ol>
-   * <li>The comparator for the exact given {@code type}</li>
-   * <li>The comparator of a superclass of the given {@code type}</li>
-   * <li>The comparator of an interface implemented by the given {@code type}</li>
-   * </ol>
-   *
-   * @param <C> the type of elements to compare.
-   * @param comparator the {@link java.util.Comparator} to use
-   * @param type the {@link java.lang.Class} of the type of the element fields the comparator should be used for
-   * @return {@code this} assertions object
-   * @since 2.5.0 / 3.5.0
-   * @deprecated This method is used with {@link #usingFieldByFieldElementComparator()} which is deprecated in favor of
-   * {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} or {@link #usingRecursiveComparison()}.
-   * <p>
-   * When using {@link #usingRecursiveComparison()} the equivalent is:
-   * <ul>
-   * <li>{@link RecursiveComparisonAssert#withEqualsForType(java.util.function.BiPredicate, Class)}</li>
-   * <li>{@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)}</li>
-   * </ul>
-   * <p>
-   * and when using {@link RecursiveComparisonConfiguration}:
-   * <ul>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withEqualsForType(java.util.function.BiPredicate, Class)}</li>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForType(Comparator, Class)}</li>
-   * </ul>
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  @CheckReturnValue
-  public <C> SELF usingComparatorForElementFieldsWithType(Comparator<C> comparator, Class<C> type) {
-    getComparatorsForElementPropertyOrFieldTypes().registerComparator(type, comparator);
-    return myself;
-  }
-
-  /**
    * Allows to set a specific comparator for the given type of elements or their fields.
-   * Extends {@link #usingComparatorForElementFieldsWithType} by applying comparator specified for given type
-   * to elements themselves, not only to their fields.
-   * <p>
-   * Usage of this method affects comparators set by the following methods:
-   * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator()}</li>
-   * <li>{@link #usingElementComparatorOnFields(String...)}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields(String...)}</li>
-   * </ul>
    * <p>
    * Example:
    * <pre><code class='java'> Person obiwan = new Person("Obi-Wan");
@@ -1959,7 +1780,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <ul>
    *   <li>{@link #usingComparatorForType(Comparator, Class)}</li>
    *   <li>{@link #withTypeComparators(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
@@ -2019,7 +1839,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Another point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
    * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
-   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * use the more fine-grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @return {@code this} assertion object.
@@ -2041,7 +1861,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <ul>
    *   <li>{@link #usingComparatorForType(Comparator, Class)}</li>
    *   <li>{@link #withTypeComparators(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
@@ -2109,7 +1928,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * A point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
    * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
-   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * use the more fine-grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @param configuration the recursive comparison configuration.
@@ -2364,8 +2183,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *                                          tuple(&quot;Sam&quot;, 38, &quot;Hobbit&quot;),
    *                                          tuple(&quot;Legolas&quot;, 1000, &quot;Elf&quot;));</code></pre>
    *
-   * A property with the given name is looked for first, if it does not exist the a field with the given name is
-   * looked for.
+   * A property with the given name is looked for first, if it does not exist a field with the given name is looked for.
    * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the array under
    * test.
@@ -2471,7 +2289,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * It allows you to test values from the array's elements instead of testing the elements themselves, which sometimes can be
    * much less work!
    * <p>
-   * The {@link Tuple} data corresponds to the extracted values from the arrays's elements, for instance if you pass functions
+   * The {@link Tuple} data corresponds to the extracted values from the array's elements, for instance if you pass functions
    * extracting "id", "name" and "email" values then each {@link Tuple}'s data will be composed of an id, a name and an email
    * extracted from the element of the initial array (the Tuple's data order is the same as the given functions order).
    * <p>
@@ -2551,7 +2369,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(parents).flatExtracting(CartoonCharacter::getChildren)
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
    * @param <V> the type of elements to extract.
@@ -2591,7 +2409,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *   return input.getChildren();
    * }).containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
    * @param <V> the type of elements to extract.
@@ -2634,7 +2452,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(parents).flatExtracting("children")
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
    * @param propertyName the object transforming input object to an Iterable of desired ones
@@ -2797,7 +2615,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Filter the array under test into a list composed of the elements elements having a property or field equal to
+   * Filter the array under test into a list composed of the elements having a property or field equal to
    * {@code expectedValue}, the property/field is specified by {@code propertyOrFieldName} parameter.
    * <p>
    * The filter first tries to get the value from a property (named {@code propertyOrFieldName}), if no such property
@@ -3275,15 +3093,15 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Verifies that the zipped pairs of actual and other elements, i.e: (actual 1st element, other 1st element), (actual 2nd element, other 2nd element), ...
    * all satisfy the given {@code zipRequirements}.
    * <p>
-   * This assertion assumes that actual and other have the same size but they can contain different type of elements
+   * This assertion assumes that actual and other have the same size, but they can contain different type of elements
    * making it handy to compare objects converted to another type, for example Domain and View/DTO objects.
    * <p>
    * Example:
-   * <pre><code class='java'> Adress[] addressModels = findGoodRestaurants();
-   * AdressView[] addressViews = convertToView(addressModels);
+   * <pre><code class='java'> Address[] addressModels = findGoodRestaurants();
+   * AddressView[] addressViews = convertToView(addressModels);
    *
    * // compare addressViews and addressModels respective paired elements.
-   * assertThat(addressViews).zipSatisfy(addressModels, (AdressView view, Adress model) -&gt; {
+   * assertThat(addressViews).zipSatisfy(addressModels, (AddressView view, Address model) -&gt; {
    *    assertThat(view.getZipcode() + ' ' + view.getCity()).isEqualTo(model.getCityLine());
    *    assertThat(view.getStreet()).isEqualTo(model.getStreet().toUpperCase());
    * });</code></pre>
@@ -3411,7 +3229,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
    * <p>
-   * Each requirements are expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
+   * Each requirement is expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
    * <p>
    * Example:
    * <pre><code class='java'> TolkienCharacter[] characters = {frodo, aragorn, legolas};
@@ -3457,7 +3275,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
    * <p>
-   * Each requirements are expressed as a {@link ThrowingConsumer}, there must be as many requirements as there are iterable elements.
+   * Each requirement is expressed as a {@link ThrowingConsumer}, there must be as many requirements as there are iterable elements.
    * <p>
    * This is the same assertion as {@link #satisfiesExactly(Consumer...)} but the given consumers can throw checked exceptions.<br>
    * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
@@ -4028,7 +3846,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   /**
    * Verifies that the array under test contains a single element and allows to perform assertions on that element.
    * <p>
-   * By default available assertions after {@code singleElement()} are {@code Object} assertions, it is possible though to
+   * By default, available assertions after {@code singleElement()} are {@code Object} assertions, it is possible though to
    * get more specific assertions by using {@link #singleElement(InstanceOfAssertFactory) singleElement(element assert factory)}
    * <p>
    * Example:

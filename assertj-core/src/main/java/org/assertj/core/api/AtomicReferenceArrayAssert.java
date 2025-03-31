@@ -36,8 +36,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -80,7 +78,6 @@ public class AtomicReferenceArrayAssert<T>
   Iterables iterables = Iterables.instance();
 
   private TypeComparators comparatorsByType;
-  private final Map<String, Comparator<?>> comparatorsForElementPropertyOrFieldNames = new TreeMap<>();
   private TypeComparators comparatorsForElementPropertyOrFieldTypes;
 
   public AtomicReferenceArrayAssert(AtomicReferenceArray<T> actual) {
@@ -232,7 +229,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param elementAssertions the assertions to perform on the unique element.
    * @throws AssertionError if the {@link Iterable} does not have a unique element.
-   * @throws AssertionError if the {@link Iterable}'s unique element does not satisfies the given assertions.
+   * @throws AssertionError if the {@link Iterable}'s unique element does not satisfy the given assertions.
    * @since 3.12.0
    */
   @Override
@@ -471,7 +468,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * Verifies that the actual AtomicReferenceArray contains only the given values and nothing else, <b>in any order</b>  and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found)..
+   * Verifies that the actual AtomicReferenceArray contains only the given values and nothing else, <b>in any order</b>  and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
    * <p>
    * Example :
    * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; abc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"});
@@ -550,7 +547,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray is empty or contains non null elements.
+   * @throws AssertionError if the actual AtomicReferenceArray is empty or contains non-null elements.
    * @since 2.9.0 / 3.9.0
    */
   @Override
@@ -1826,7 +1823,7 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Examples :
    * <pre><code class='java'> // compares invoices by payee
-   * assertThat(invoiceArray).usingComparator(invoicePayeeComparator).isEqualTo(expectedinvoiceArray).
+   * assertThat(invoiceArray).usingComparator(invoicePayeeComparator).isEqualTo(expectedInvoiceArray).
    *
    * // compares invoices by date, doesNotHaveDuplicates and contains both use the given invoice date comparator
    * assertThat(invoiceArray).usingComparator(invoiceDateComparator).doesNotHaveDuplicates().contains(may2010Invoice)
@@ -1855,10 +1852,6 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
-  private AtomicReferenceArrayAssert<T> usingExtendedByTypesElementComparator(Comparator<Object> elementComparator) {
-    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, getComparatorsByType()));
-  }
-
   /** {@inheritDoc} */
   @Override
   @CheckReturnValue
@@ -1868,197 +1861,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * <u><b>Deprecated javadoc</b></u>
-   * <p>
-   * Allows to set a comparator to compare properties or fields of elements with the given names.
-   * A typical usage is for comparing fields of numeric type at a given precision.
-   * <p>
-   * To be used, comparators need to be specified by this method <b>before</b> calling any of:
-   * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator()}</li>
-   * <li>{@link #usingElementComparatorOnFields(String...)}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields(String...)}</li>
-   * </ul>
-   * <p>
-   * Comparators specified by this method have precedence over comparators specified by
-   * {@link #usingComparatorForElementFieldsWithType(Comparator, Class) usingComparatorForElementFieldsWithType}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> public class TolkienCharacter {
-   *   private String name;
-   *   private double height;
-   *   // constructor omitted
-   * }
-   *
-   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
-   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
-   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
-   *
-   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
-   *   double precision = 0.5;
-   *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
-   *   }
-   * };
-   *
-   * AtomicReferenceArray&lt;TolkienCharacter&gt; hobbits = new AtomicReferenceArray&lt;&gt;(new TolkienCharacter[]{frodo});
-   *
-   * // assertions will pass
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingElementComparatorOnFields(&quot;height&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingElementComparatorIgnoringFields(&quot;name&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingRecursiveFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * // assertion will fail
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .containsExactly(reallyTallFrodo);</code></pre>
-   *
-   * @param <C> the type to compare.
-   * @param comparator the {@link java.util.Comparator} to use
-   * @param elementPropertyOrFieldNames the names of the properties and/or fields of the elements the comparator should be used for
-   * @return {@code this} assertions object
-   * @since 2.7.0 / 3.7.0
-   * @deprecated This method is used with {@link #usingFieldByFieldElementComparator()} which is deprecated in favor of
-   * {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} or {@link #usingRecursiveComparison()}.
-   * <p>
-   * When using {@link #usingRecursiveComparison()} the equivalent is:
-   * <ul>
-   * <li>{@link RecursiveComparisonAssert#withEqualsForFields(java.util.function.BiPredicate, String...)}</li>
-   * <li>{@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...)}</li>
-   * </ul>
-   * <p>
-   * and when using {@link RecursiveComparisonConfiguration}:
-   * <ul>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withEqualsForFields(java.util.function.BiPredicate, String...)}</li>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForFields(Comparator, String...)}</li>
-   * </ul>
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  @CheckReturnValue
-  public <C> AtomicReferenceArrayAssert<T> usingComparatorForElementFieldsWithNames(Comparator<C> comparator,
-                                                                                    String... elementPropertyOrFieldNames) {
-    for (String elementPropertyOrField : elementPropertyOrFieldNames) {
-      comparatorsForElementPropertyOrFieldNames.put(elementPropertyOrField, comparator);
-    }
-    return myself;
-  }
-
-  /**
-   * <u><b>Deprecated javadoc</b></u>
-   * <p>
-   * Allows to set a specific comparator to compare properties or fields of elements with the given type.
-   * A typical usage is for comparing fields of numeric type at a given precision.
-   * <p>
-   * To be used, comparators need to be specified by this method <b>before</b> calling any of:
-   * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator()}</li>
-   * <li>{@link #usingElementComparatorOnFields(String...)}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields(String...)}</li>
-   * </ul>
-   * <p>
-   * Comparators specified by {@link #usingComparatorForElementFieldsWithNames(Comparator, String...) usingComparatorForElementFieldsWithNames}
-   * have precedence over comparators specified by this method.
-   * <p>
-   * Example:
-   * <pre><code class='java'> public class TolkienCharacter {
-   *   private String name;
-   *   private double height;
-   *   // constructor omitted
-   * }
-   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
-   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
-   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
-   *
-   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
-   *   double precision = 0.5;
-   *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
-   *   }
-   * };
-   *
-   * AtomicReferenceArray&lt;TolkienCharacter&gt; hobbits = new AtomicReferenceArray&lt;&gt;(new TolkienCharacter[]{frodo});
-   *
-   * // assertions will pass
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingElementComparatorOnFields(&quot;height&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingElementComparatorIgnoringFields(&quot;name&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingRecursiveFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * // assertion will fail
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .contains(reallyTallFrodo);</code></pre>
-   *
-   * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance
-   * chain to the given {@code type} is chosen in the following order:
-   * <ol>
-   * <li>The comparator for the exact given {@code type}</li>
-   * <li>The comparator of a superclass of the given {@code type}</li>
-   * <li>The comparator of an interface implemented by the given {@code type}</li>
-   * </ol>
-   *
-   * @param <C> the type to compare.
-   * @param comparator the {@link java.util.Comparator} to use
-   * @param type the {@link java.lang.Class} of the type of the element fields the comparator should be used for
-   * @return {@code this} assertions object
-   * @since 2.7.0 / 3.7.0
-   * @deprecated This method is used with {@link #usingFieldByFieldElementComparator()} which is deprecated in favor of
-   * {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} or {@link #usingRecursiveComparison()}.
-   * <p>
-   * When using {@link #usingRecursiveComparison()} the equivalent is:
-   * <ul>
-   * <li>{@link RecursiveComparisonAssert#withEqualsForType(java.util.function.BiPredicate, Class)}</li>
-   * <li>{@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)}</li>
-   * </ul>
-   * <p>
-   * and when using {@link RecursiveComparisonConfiguration}:
-   * <ul>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withEqualsForType(java.util.function.BiPredicate, Class)}</li>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForType(Comparator, Class)}</li>
-   * </ul>
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  @CheckReturnValue
-  public <C> AtomicReferenceArrayAssert<T> usingComparatorForElementFieldsWithType(Comparator<C> comparator,
-                                                                                   Class<C> type) {
-    getComparatorsForElementPropertyOrFieldTypes().registerComparator(type, comparator);
-    return myself;
-  }
-
-  /**
    * Allows to set a specific comparator for the given type of elements or their fields.
-   * Extends {@link #usingComparatorForElementFieldsWithType} by applying comparator specified for given type
-   * to elements themselves, not only to their fields.
-   * <p>
-   * Usage of this method affects comparators set by next methods:
-   * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator()}</li>
-   * <li>{@link #usingElementComparatorOnFields(String...)}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields(String...)}</li>
-   * </ul>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -2093,8 +1896,6 @@ public class AtomicReferenceArrayAssert<T>
    * <b>Breaking change:</b> since 3.20.0 the comparison won't use any comparators set with:
    * <ul>
    *   <li>{@link #usingComparatorForType(Comparator, Class)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}</li>
    * </ul>
    * <p>
    * These features (and many more) are provided through {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} with a customized {@link RecursiveComparisonConfiguration} where there methods are called:
@@ -2174,8 +1975,6 @@ public class AtomicReferenceArrayAssert<T>
    * <b>Warning:</b> the comparison won't use any comparators set with:
    * <ul>
    *   <li>{@link #usingComparatorForType(Comparator, Class)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}</li>
    * </ul>
    * <p>
    * These features (and many more) are provided through {@link RecursiveComparisonConfiguration} with:
@@ -2241,7 +2040,7 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * A point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
    * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
-   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * use the more fine-grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @param configuration the recursive comparison configuration.
@@ -2497,8 +2296,7 @@ public class AtomicReferenceArrayAssert<T>
    *                                          tuple(&quot;Sam&quot;, 38, &quot;Hobbit&quot;),
    *                                          tuple(&quot;Legolas&quot;, 1000, &quot;Elf&quot;));</code></pre>
    *
-   * A property with the given name is looked for first, if it does not exist the a field with the given name is
-   * looked for.
+   * A property with the given name is looked for first, if it does not exist a field with the given name is looked for.
    * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the array under
    * test.
@@ -2643,7 +2441,7 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(parents).flatExtracting(childrenOf)
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
    * @param <U> the type of elements to extract.
@@ -2684,7 +2482,7 @@ public class AtomicReferenceArrayAssert<T>
    *   return input.getChildren();
    * }).containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
    * @param <U> the type of elements to extract.
@@ -2727,7 +2525,7 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(parents).flatExtracting("children")
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
    *
-   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
    * @param propertyName the object transforming input object to an Iterable of desired ones
@@ -3496,7 +3294,7 @@ public class AtomicReferenceArrayAssert<T>
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
    * <p>
-   * Each requirements are expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
+   * Each requirement is expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
    * <p>
    * Example:
    * <pre><code class='java'> AtomicReferenceArray&lt;TolkienCharacter&gt; characters = new AtomicReferenceArray&lt;&gt;(new TolkienCharacter[] {frodo, aragorn, legolas});
@@ -3542,7 +3340,7 @@ public class AtomicReferenceArrayAssert<T>
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
    * <p>
-   * Each requirements are expressed as a {@link ThrowingConsumer}, there must be as many requirements as there are iterable elements.
+   * Each requirement is expressed as a {@link ThrowingConsumer}, there must be as many requirements as there are iterable elements.
    * <p>
    * This is the same assertion as {@link #satisfiesExactly(Consumer...)} but the given consumers can throw checked exceptions.<br>
    * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
