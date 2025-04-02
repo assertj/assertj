@@ -533,8 +533,7 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all elements of the
-   * given {@code Iterable} and nothing else, <b>in any order</b>.
+   * Verifies that actual contains all elements of the given {@code Iterable} and nothing else, <b>in any order</b>.
    * <p>
    * Example:
    * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});

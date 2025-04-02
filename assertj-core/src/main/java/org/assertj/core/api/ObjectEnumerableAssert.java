@@ -86,8 +86,6 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(abc).containsOnly("a", "b", "c", "d");</code></pre>
    * <p>
    * If you need to check that actual is a subset of the given values, use {@link #isSubsetOf(Object...)}.
-   * <p>
-   * If you want to specify the elements to check with an {@link Iterable}, use {@link #containsOnlyElementsOf(Iterable) containsOnlyElementsOf(Iterable)} instead.
    *
    * @param values the given values.
    * @return {@code this} assertion object.

@@ -487,8 +487,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all elements of the
-   * given {@code Iterable} and nothing else, <b>in any order</b>.
+   * Verifies that actual contains all elements of the given {@code Iterable} and nothing else, <b>in any order</b>.
    * <p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};

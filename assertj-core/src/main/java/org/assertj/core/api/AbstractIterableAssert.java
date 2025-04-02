@@ -2067,8 +2067,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   /**
    * Allows to set a specific comparator for the given type of elements or their fields.
-   * Extends {@link #usingComparatorForElementFieldsWithType} by applying comparator specified for given type
-   * to elements themselves, not only to their fields.
    * <p>
    * Example:
    * <pre><code class='java'>
@@ -2105,7 +2103,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <ul>
    *   <li>{@link #usingComparatorForType(Comparator, Class)}</li>
    *   <li>{@link #withTypeComparators(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
@@ -2187,7 +2184,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <ul>
    *   <li>{@link #usingComparatorForType(Comparator, Class)}</li>
    *   <li>{@link #withTypeComparators(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
