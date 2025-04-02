@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.firstNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.lastNameFunction;
@@ -27,7 +26,6 @@ import static org.assertj.core.api.GroupAssertTestHelper.throwingFirstNameExtrac
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
 import static org.assertj.core.testkit.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.testkit.TolkienCharacter.Race.ELF;
@@ -36,7 +34,6 @@ import static org.assertj.core.testkit.TolkienCharacter.Race.MAIA;
 import static org.assertj.core.testkit.TolkienCharacter.Race.MAN;
 import static org.assertj.core.util.Lists.list;
 
-import java.sql.Timestamp;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Function;
@@ -54,7 +51,6 @@ import org.junit.jupiter.api.Test;
 class IterableAssert_extracting_with_SortedSet_Test {
 
   private Employee yoda;
-  private Employee luke;
   private SortedSet<Employee> jedis;
   private SortedSet<TolkienCharacter> fellowshipOfTheRing;
 
@@ -79,9 +75,8 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @BeforeEach
   void setUp() {
     yoda = new Employee(1L, new Name("Yoda"), 800);
-    luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     jedis = new TreeSet<>(comparing(Employee::getAge));
-    jedis.add(luke);
+    jedis.add(new Employee(2L, new Name("Luke", "Skywalker"), 26));
     jedis.add(yoda);
 
     fellowshipOfTheRing = new TreeSet<>(comparing(TolkienCharacter::getName));
@@ -441,8 +436,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .extracting(firstNameFunction, lastNameFunction)
                                                                 .usingComparatorForType(ALWAYS_EQUALS_TUPLE, Tuple.class)
                                                                 .contains(tuple("YODA", null), tuple("Luke", "Skywalker"));
@@ -451,7 +444,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
   }
 
   @Test
@@ -461,8 +453,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .extracting("name.first")
                                                                 .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                                                 .contains("YODA", "Luke");
@@ -471,7 +461,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
   }
 
   @Test
@@ -481,8 +470,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .extracting("name.first", String.class)
                                                                 .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                                                 .contains("YODA", "Luke");
@@ -491,7 +478,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
   }
 
   @Test
@@ -501,8 +487,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .extracting("name.first", "name.last")
                                                                 .usingComparatorForType(ALWAYS_EQUALS_TUPLE, Tuple.class)
                                                                 .contains(tuple("YODA", null), tuple("Luke", "Skywalker"));
@@ -511,7 +495,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
   }
 
   @Test
@@ -521,8 +504,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .extracting(byName("name.first"))
                                                                 .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                                                 .contains("YODA", "Luke");
@@ -531,7 +512,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
   }
 
   @Test
@@ -541,8 +521,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .extracting(throwingFirstNameExtractor)
                                                                 .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                                                 .contains("YODA", "Luke");
@@ -551,7 +529,6 @@ class IterableAssert_extracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
   }
 
   @Test

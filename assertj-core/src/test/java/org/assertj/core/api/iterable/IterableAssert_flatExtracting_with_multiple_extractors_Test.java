@@ -16,10 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.testkit.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.testkit.TolkienCharacter.Race.ELF;
 import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
@@ -27,7 +25,6 @@ import static org.assertj.core.testkit.TolkienCharacter.Race.MAIA;
 import static org.assertj.core.testkit.TolkienCharacter.Race.MAN;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
@@ -132,21 +129,17 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     // @format:off
     AbstractListAssert<?, ?, ?, ?> assertion
       = assertThat(fellowshipOfTheRing).as("test description")
-      .withFailMessage("error message")
-      .withRepresentation(UNICODE_REPRESENTATION)
-      .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
-      .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE, String.class)
-      .flatExtracting(age, name)
-      .contains(33, "frodo", 38, "SAM");
+                                       .withFailMessage("error message")
+                                       .withRepresentation(UNICODE_REPRESENTATION)
+                                       .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE, String.class)
+                                       .flatExtracting(age, name)
+                                       .contains(33, "frodo", 38, "SAM");
     // @format:on
     // THEN
     then(assertion.descriptionText()).isEqualTo("test description");
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    then(comparatorsByTypeOf(assertion).getComparatorForType(String.class))
-                                                                           .isSameAs(CaseInsensitiveStringComparator.INSTANCE);
-    then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
-                                                                                               .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
+    then(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(CaseInsensitiveStringComparator.INSTANCE);
   }
 
   @SuppressWarnings("deprecation")
@@ -157,20 +150,16 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     // @format:off
     AbstractListAssert<?, ?, ?, ?> assertion
       = assertThat(fellowshipOfTheRing).as("test description")
-      .withFailMessage("error message")
-      .withRepresentation(UNICODE_REPRESENTATION)
-      .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
-      .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE, String.class)
-      .flatExtracting(ageThrowingExtractor, nameThrowingExtractor)
-      .contains(33, "frodo", 38, "SAM");
+                                       .withFailMessage("error message")
+                                       .withRepresentation(UNICODE_REPRESENTATION)
+                                       .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE, String.class)
+                                       .flatExtracting(ageThrowingExtractor, nameThrowingExtractor)
+                                       .contains(33, "frodo", 38, "SAM");
     // @format:on
     // THEN
     then(assertion.descriptionText()).isEqualTo("test description");
     then(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(assertion.info.overridingErrorMessage()).isEqualTo("error message");
-    then(comparatorsByTypeOf(assertion).getComparatorForType(String.class))
-                                                                           .isSameAs(CaseInsensitiveStringComparator.INSTANCE);
-    then(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
-                                                                                               .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
+    then(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(CaseInsensitiveStringComparator.INSTANCE);
   }
 }

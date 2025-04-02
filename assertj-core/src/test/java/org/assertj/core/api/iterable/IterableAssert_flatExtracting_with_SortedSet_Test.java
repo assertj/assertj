@@ -16,13 +16,10 @@ import static java.util.Comparator.comparing;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -225,7 +222,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
             = assertThat(newSortedSet(homer, fred)).as("test description")
                                                    .withFailMessage("error message")
                                                    .withRepresentation(UNICODE_REPRESENTATION)
-                                                   .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
                                                    .flatExtracting(childrenExtractor)
                                                    .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
                                                    .contains(bart, lisa, new CartoonCharacter("Unknown"));
@@ -235,7 +231,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
   }
 
   @SuppressWarnings("deprecation")
@@ -250,7 +245,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
             = assertThat(newSortedSet(homer, fred)).as("test description")
                                                    .withFailMessage("error message")
                                                    .withRepresentation(UNICODE_REPRESENTATION)
-                                                   .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
                                                    .flatExtracting(children)
                                                    .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
                                                    .contains(bart, lisa, new CartoonCharacter("Unknown"));
@@ -260,7 +254,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
   }
 
   @SuppressWarnings("deprecation")
@@ -275,7 +268,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
            = assertThat(newSortedSet(homer, fred)).as("test description")
                                                   .withFailMessage("error message")
                                                   .withRepresentation(UNICODE_REPRESENTATION)
-                                                  .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
                                                   .flatExtracting(childrenThrowingExtractor)
                                                   .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
                                                   .contains(bart, lisa, new CartoonCharacter("Unknown"));
@@ -285,7 +277,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
   }
 
   private static SortedSet<CartoonCharacter> newSortedSet(CartoonCharacter... cartoonCharacters) {
