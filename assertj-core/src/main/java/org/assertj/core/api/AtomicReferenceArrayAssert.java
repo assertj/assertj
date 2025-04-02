@@ -506,30 +506,6 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all elements of the given
-   * {@code Iterable} and nothing else, <b>in any order</b>  and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
-   * <p>
-   * Example :
-   * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; rings = new AtomicReferenceArray&lt;&gt;(new Ring[]{nenya, vilya});
-   *
-   * // assertions will pass
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya))
-   *                  .containsOnlyElementsOf(newArrayList(nenya, nenya, vilya, vilya));
-   *
-   * // assertion will fail as actual does not contain narya
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya, narya));
-   * // assertion will fail as actual contains nenya
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(vilya));</code></pre>
-   *
-   * @param iterable the given {@code Iterable} we will get elements from.
-   * @since 2.7.0 / 3.7.0
-   */
-  @Override
-  public AtomicReferenceArrayAssert<T> containsOnlyElementsOf(Iterable<? extends T> iterable) {
-    return containsOnly(toArray(iterable));
-  }
-
-  /**
    * Verifies that the actual AtomicReferenceArray contains only null elements and nothing else.
    * <p>
    * Example :
@@ -581,7 +557,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasSameElementsAs(Iterable<? extends T> iterable) {
-    return containsOnlyElementsOf(iterable);
+    return containsOnly(toArray(iterable));
   }
 
   /**

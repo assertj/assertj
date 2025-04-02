@@ -1083,43 +1083,6 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF containsExactlyElementsOf(Iterable<? extends ELEMENT> iterable);
 
   /**
-   * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
-   * iterable and nothing else, <b>in any order</b> and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
-   * <p>
-   * <b>This assertion has been deprecated because its name is confusing</b>, users were expecting it to behave like {@link #isSubsetOf(Iterable)}.
-   * <p>
-   * For example this assertion fails when users expected it to pass:
-   * <pre><code class='java'> Iterable&lt;Ring&gt; rings = list(nenya, vilya);
-   *
-   * // assertion fails because narya is not in rings, confusing!
-   * assertThat(rings).containsOnlyElementsOf(list(nenya, vilya, narya));</code></pre>
-   * <p>
-   * Use {@link #isSubsetOf(Iterable)} to check that actual is a subset of given iterable, or if you need to same assertion semantics use {@link #hasSameElementsAs(Iterable)}.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
-   *
-   * // assertion will pass
-   * assertThat(rings).containsOnlyElementsOf(list(nenya, vilya))
-   *                  .containsOnlyElementsOf(list(nenya, nenya, vilya, vilya));
-   * assertThat(list(nenya, nenya, vilya, vilya)).containsOnlyElementsOf(rings);
-   *
-   * // assertion will fail as actual does not contain narya
-   * assertThat(rings).containsOnlyElementsOf(list(nenya, vilya, narya));
-   * // assertion will fail as actual contains nenya
-   * assertThat(rings).containsOnlyElementsOf(list(vilya));</code></pre>
-   * <p>
-   * If you want to directly specify the elements to check, use {@link #containsOnly(Object...) containsOnly(Object...)} instead.
-   *
-   * @param iterable the given {@code Iterable} we will get elements from.
-   *
-   * @return {@code this} assertion object.
-   * @deprecated
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable);
-
-  /**
    * Same semantic as {@link #containsOnlyOnce(Object...)} : verifies that the actual group contains the elements of
    * the given iterable only once.
    * <p>

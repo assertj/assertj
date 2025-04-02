@@ -407,30 +407,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all elements of the given
-   * {@code Iterable} and nothing else, <b>in any order</b>  and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
-   * <p>
-   * Example :
-   * <pre><code class='java'> Ring[] rings = {nenya, vilya};
-   *
-   * // assertions will pass
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya));
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, nenya, vilya, vilya));
-   * assertThat(newArrayList(nenya, nenya, vilya, vilya)).containsOnlyElementsOf(rings);
-   *
-   * // assertion will fail as actual does not contain narya
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya, narya));
-   * // assertion will fail as actual contains nenya
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(vilya));</code></pre>
-   *
-   * @param iterable the given {@code Iterable} we will get elements from.
-   */
-  @Override
-  public SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable) {
-    return containsOnly(toArray(iterable));
-  }
-
-  /**
    * Verifies that the actual array contains only null elements.
    * <p>
    * Example :
@@ -534,7 +510,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSameElementsAs(Iterable<? extends ELEMENT> iterable) {
-    return containsOnlyElementsOf(iterable);
+    return containsOnly(toArray(iterable));
   }
 
   /**
