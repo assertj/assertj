@@ -321,7 +321,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   }
 
   /**
-   * Call {@link Optional#flatMap(Function) flatMap} on the {@code Optional} under test, assertions chained afterwards are performed on the {@code Optional} resulting from the flatMap call.
+   * Call {@link Optional#flatMap(Function) flatMap} on the {@code Optional} under test, assertions chained afterward are performed on the {@code Optional} resulting from the flatMap call.
    * <p>
    * Examples:
    * <pre><code class='java'> Function&lt;String, Optional&lt;String&gt;&gt; UPPER_CASE_OPTIONAL_STRING =
@@ -355,7 +355,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   }
 
   /**
-   * Call {@link Optional#map(Function) map} on the {@code Optional} under test, assertions chained afterwards are performed on the {@code Optional} resulting from the map call.
+   * Call {@link Optional#map(Function) map} on the {@code Optional} under test, assertions chained afterward are performed on the {@code Optional} resulting from the map call.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -410,7 +410,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   }
 
   /**
-   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns an new assertion instance
+   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns a new assertion instance
    * to chain assertions on the optional value.
    * <p>
    * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the

@@ -49,7 +49,7 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
    */
   public SELF isPresent() {
     isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    if (actual.isEmpty()) throwAssertionError(shouldBePresent(actual));
     return myself;
   }
 
@@ -123,7 +123,7 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
    */
   public SELF hasValue(long expectedValue) {
     isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+    if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
     if (expectedValue != actual.getAsLong())
       throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsLong(), expectedValue);
     return myself;
