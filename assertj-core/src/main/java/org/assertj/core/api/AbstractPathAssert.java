@@ -165,7 +165,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
 
   /**
    * Verifies that the binary content of the actual {@code Path} is <b>exactly</b> equal to the given one.
-   *
+   * <p>
    * Examples:
    * <pre><code class="java"> // using the default charset, the following assertion succeeds:
    * Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
@@ -230,7 +230,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   /**
    * Specifies the name of the charset to use for text-based assertions on the path's contents (path must be a readable
    * file).
-   *
+   * <p>
    * Examples:
    * <pre><code class="java"> Charset turkishCharset = Charset.forName("windows-1254");
    * Path xFileTurkish = Files.write(Paths.get("xfile.turk"), Collections.singleton("Gerçek Başka bir yerde mi"), turkishCharset);
@@ -250,7 +250,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
 
   /**
    * Specifies the charset to use for text-based assertions on the path's contents (path must be a readable file).
-   *
+   * <p>
    * Examples:
    * <pre><code class="java"> Charset turkishCharset = Charset.forName("windows-1254");
    * Path xFileTurkish = Files.write(Paths.get("xfile.turk"), Collections.singleton("Gerçek Başka bir yerde mi"), turkishCharset);
@@ -278,7 +278,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * The charset to use when reading the actual path should be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
-   *
+   * <p>
    * Examples:
    * <pre><code class="java"> // use the default charset
    * Path xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes());
@@ -343,7 +343,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
 
   /**
    * Verifies that the path file system is the same as the given path file system.
-   *
+   * <p>
    * Examples:
    * <pre><code class="java"> Path jarFile = Paths.get("assertj-core.jar");
    * try (FileSystem fs = FileSystems.newFileSystem(jarFile, (ClassLoader) null)) {
@@ -371,7 +371,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   /**
    * Assert that the tested {@link Path} is a readable file, it checks that the file exists (according to
    * {@link Files#exists(Path, LinkOption...)}) and that it is readable(according to {@link Files#isReadable(Path)}).
-   *
+   * <p>
    * Examples:
    * <pre><code class="java"> // Create a file and set permissions to be readable by all.
    * Path readableFile = Paths.get("readableFile");
@@ -408,7 +408,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   /**
    * Assert that the tested {@link Path} is a writable file, it checks that the file exists (according to
    * {@link Files#exists(Path, LinkOption...)}) and that it is writable(according to {@link Files#isWritable(Path)}).
-   *
+   * <p>
    * Examples:
    * <pre><code class="java"> Create a file and set permissions to be writable by all.
    * Path writableFile = Paths.get("writableFile");
@@ -446,7 +446,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * Assert that the tested {@link Path} is an executable file, it checks that the file exists (according to
    * {@link Files#exists(Path, LinkOption...)}) and that it is executable(according to {@link Files#isExecutable(Path)}
    * ).
-   *
+   * <p>
    * Examples:
    * <pre><code class="java"> // Create a file and set permissions to be executable by all.
    * Path executableFile = Paths.get("executableFile");
@@ -572,7 +572,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * </p>
    *
    * <p>
-   * This means that even if the link exists this assertion will fail even if the link's target does not exists - note
+   * This means that even if the link exists this assertion will fail even if the link's target does not exist - note
    * that this is unlike the default behavior of {@link #exists()}.
    * </p>
    *
@@ -797,7 +797,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
 
   /**
    * Assert that the tested {@link Path} is relative (opposite to {@link Path#isAbsolute()}).
-   *
+   * <p>
    * Examples:
    * <pre><code class="java"> // unixFs is a Unix FileSystem
    *
@@ -861,7 +861,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * path}.
    *
    * <p>
-   * For Windows users, this assertion is no different than {@link #isAbsolute()} expect that the file must exist. For
+   * For Windows users, this assertion is no different from {@link #isAbsolute()} expect that the file must exist. For
    * Unix users, this assertion ensures that the tested path is the actual file system resource, that is, it is not a
    * {@link Files#isSymbolicLink(Path) symbolic link} to the actual resource, even if the path is absolute.
    * </p>
@@ -1323,7 +1323,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws NullPointerException if the given digest is {@code null}.
    * @throws AssertionError       if the actual {@code Path} is {@code null}.
    * @throws AssertionError       if the actual {@code Path} does not exist.
-   * @throws AssertionError       if the actual {@code Path} is not an file.
+   * @throws AssertionError       if the actual {@code Path} is not a file.
    * @throws AssertionError       if the actual {@code Path} is not readable.
    * @throws UncheckedIOException if any I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code Path}'s digest is not equal to the given one.
@@ -1359,7 +1359,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws NullPointerException if the given digest is {@code null}.
    * @throws AssertionError       if the actual {@code Path} is {@code null}.
    * @throws AssertionError       if the actual {@code Path} does not exist.
-   * @throws AssertionError       if the actual {@code Path} is not an file.
+   * @throws AssertionError       if the actual {@code Path} is not a file.
    * @throws AssertionError       if the actual {@code Path} is not readable.
    * @throws UncheckedIOException if any I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code Path}'s digest is not equal to the given one.
@@ -1395,7 +1395,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws NullPointerException if the given digest is {@code null}.
    * @throws AssertionError       if the actual {@code Path} is {@code null}.
    * @throws AssertionError       if the actual {@code Path} does not exist.
-   * @throws AssertionError       if the actual {@code Path} is not an file.
+   * @throws AssertionError       if the actual {@code Path} is not a file.
    * @throws AssertionError       if the actual {@code Path} is not readable.
    * @throws UncheckedIOException if any I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code Path}'s digest is not equal to the given one.
@@ -1430,7 +1430,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws NullPointerException if the given digest is {@code null}.
    * @throws AssertionError       if the actual {@code Path} is {@code null}.
    * @throws AssertionError       if the actual {@code Path} does not exist.
-   * @throws AssertionError       if the actual {@code Path} is not an file.
+   * @throws AssertionError       if the actual {@code Path} is not a file.
    * @throws AssertionError       if the actual {@code Path} is not readable.
    * @throws UncheckedIOException if any I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code Path}'s digest is not equal to the given one.
@@ -1529,7 +1529,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * Verify that the actual {@code Path} directory or any of its subdirectories (recursively) contains at least one file
    * matching the given {@code String} interpreted as a path matcher (as per {@link FileSystem#getPathMatcher(String)}).
    * <p>
-   * That methods performs the same assertion as {@link #isDirectoryContaining(String syntaxAndPattern)}  but recursively.
+   * This method performs the same assertion as {@link #isDirectoryContaining(String syntaxAndPattern)} but recursively.
    * <p>
    * Note that the actual {@link Path} must exist and be a directory.
    * <p>
@@ -1574,7 +1574,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * Verify that the actual {@code Path} directory or any of its subdirectories (recursively) contains at least one file
    * matching the given {@code Predicate<Path>}.
    * <p>
-   * That methods performs the same assertion as {@link #isDirectoryContaining(Predicate filter)}  but recursively.
+   * This method performs the same assertion as {@link #isDirectoryContaining(Predicate filter)} but recursively.
    * <p>
    * Note that the actual {@link Path} must exist and be a directory.
    * <p>
@@ -1735,7 +1735,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
   }
 
   /**
-   * Verify that the actual {@code Path} is a non empty directory.
+   * Verify that the actual {@code Path} is a non-empty directory.
    * <p>
    * Note that the actual {@link Path} must exist and be a directory.
    * <p>
@@ -1914,7 +1914,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
 
   private String readPath(Charset charset) {
     try {
-      return new String(readAllBytes(actual), charset);
+      return Files.readString(actual, charset);
     } catch (IOException e) {
       throw new UncheckedIOException("Failed to read %s content with %s charset".formatted(actual, charset), e);
     }
