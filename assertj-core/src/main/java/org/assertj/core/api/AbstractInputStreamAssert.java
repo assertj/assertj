@@ -112,23 +112,6 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
 
   /**
    * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
-   *
-   * @param expected the given {@code InputStream} to compare the actual {@code InputStream} to.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@code InputStream} is {@code null}.
-   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
-   * @throws UncheckedIOException if an I/O error occurs.
-   *
-   * @deprecated use {@link #hasSameContentAs(InputStream)} instead
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF hasContentEqualTo(InputStream expected) {
-    return hasSameContentAs(expected);
-  }
-
-  /**
-   * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
    * <p>
    * <b>Warning: this will consume the whole input streams in case the underlying
    * implementations do not support {@link InputStream#markSupported() marking}.</b>
