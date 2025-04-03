@@ -68,24 +68,11 @@ public class OptionalDoubleShouldHaveValueCloseToPercentage extends BasicErrorMe
   public static OptionalDoubleShouldHaveValueCloseToPercentage shouldHaveValueCloseToPercentage(OptionalDouble actual,
                                                                                                 double expectedValue,
                                                                                                 Percentage percentage) {
-    return new OptionalDoubleShouldHaveValueCloseToPercentage(actual, expectedValue, percentage,
-                                                              abs(expectedValue - actual.getAsDouble()));
+    return shouldHaveValueCloseToPercentage(actual, expectedValue, percentage, abs(expectedValue - actual.getAsDouble()));
   }
 
 
-  /**
-   * @param optional      the {@link java.util.OptionalDouble} which has a value
-   * @param expectedValue the value we expect to be in the provided {@link java.util.OptionalDouble}
-   * @param percentage    the given positive percentage
-   * @param difference    the effective distance between actual and expected
-   * @return an error message factory
-   * @deprecated use {@link #shouldHaveValueCloseToPercentage(OptionalDouble, double, Percentage)} instead.
-   * <p>
-   * Indicates that the provided {@link java.util.OptionalDouble} has a value, but it is not within the given positive
-   * percentage.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static OptionalDoubleShouldHaveValueCloseToPercentage shouldHaveValueCloseToPercentage(OptionalDouble optional,
+  private static OptionalDoubleShouldHaveValueCloseToPercentage shouldHaveValueCloseToPercentage(OptionalDouble optional,
                                                                                                 double expectedValue,
                                                                                                 Percentage percentage,
                                                                                                 double difference) {
