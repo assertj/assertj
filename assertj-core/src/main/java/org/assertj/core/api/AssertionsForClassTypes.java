@@ -1192,11 +1192,7 @@ public class AssertionsForClassTypes {
 
   /**
    * Globally sets whether the use of private fields is allowed for comparison.
-   * The following (incomplete) list of methods will be impacted by this change :
-   * <ul>
-   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
-   * </ul>
-   *
+   * <p>
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
    *
    * @param allowComparingPrivateFields allow private fields comparison. Default {@code true}.
