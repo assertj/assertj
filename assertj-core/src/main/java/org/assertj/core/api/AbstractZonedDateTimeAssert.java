@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
-import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
 import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -318,89 +316,6 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   public SELF isAfter(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
     return isAfter(parse(dateTimeAsString));
-  }
-
-  /**
-   * Verifies that actual and given {@code ZonedDateTime} have same year, month, day, hour, minute and second fields,
-   * (nanosecond fields are ignored in comparison).
-   * <p>
-   * Note that given {@link ZonedDateTime} is converted in the actual's {@link java.time.ZoneId} before comparison.
-   * <p>
-   * Assertion can fail with dateTimes in same chronological nanosecond time window, e.g :
-   * <p>
-   * 2000-01-01T00:00:<b>01.000000000</b> and 2000-01-01T00:00:<b>00.999999999</b>.
-   * <p>
-   * Assertion fails as second fields differ even if time difference is only 1ns.
-   * <p>
-   * Code example :
-   * <pre><code class='java'> // successful assertions
-   * ZonedDateTime dateTime1 = ZonedDateTime.of(2000, 1, 1, 0, 0, 1, 0);
-   * ZonedDateTime dateTime2 = ZonedDateTime.of(2000, 1, 1, 0, 0, 1, 456);
-   * assertThat(dateTime1).isEqualToIgnoringNanos(dateTime2);
-   *
-   * // failing assertions (even if time difference is only 1ms)
-   * ZonedDateTime dateTimeA = ZonedDateTime.of(2000, 1, 1, 0, 0, 1, 0);
-   * ZonedDateTime dateTimeB = ZonedDateTime.of(2000, 1, 1, 0, 0, 0, 999999999);
-   * assertThat(dateTimeA).isEqualToIgnoringNanos(dateTimeB);</code></pre>
-   *
-   * @param other the given {@link ZonedDateTime}.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal with nanoseconds ignored.
-   * @deprecated Use {@link #isCloseTo(ZonedDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
-   * this is the right way to compare with a given precision.
-   */
-  public SELF isEqualToIgnoringNanos(ZonedDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertDateTimeParameterIsNotNull(other);
-    ZonedDateTime otherInActualTimeZone = sameInstantInActualTimeZone(other);
-    if (!areEqualIgnoringNanos(actual, otherInActualTimeZone)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringNanos(actual, otherInActualTimeZone));
-    }
-    return myself;
-  }
-
-  /**
-   * Verifies that actual and given {@link ZonedDateTime} have same year, month, day, hour and minute fields (second and
-   * nanosecond fields are ignored in comparison).
-   * <p>
-   * Note that given {@link ZonedDateTime} is converted in the actual's {@link java.time.ZoneId} before comparison.
-   * <p>
-   * Assertion can fail with ZonedDateTimes in same chronological second time window, e.g :
-   * <p>
-   * 2000-01-01T00:<b>01:00</b>.000 and 2000-01-01T00:<b>00:59</b>.000.
-   * <p>
-   * Assertion fails as minute fields differ even if time difference is only 1ns.
-   * <p>
-   * Code example :
-   * <pre><code class='java'> // successful assertions
-   * ZonedDateTime dateTime1 = ZonedDateTime.of(2000, 1, 1, 23, 50, 0, 0);
-   * ZonedDateTime dateTime2 = ZonedDateTime.of(2000, 1, 1, 23, 50, 10, 456);
-   * assertThat(dateTime1).isEqualToIgnoringSeconds(dateTime2);
-   *
-   * // failing assertions (even if time difference is only 1ns)
-   * ZonedDateTime dateTimeA = ZonedDateTime.of(2000, 1, 1, 23, 50, 00, 0);
-   * ZonedDateTime dateTimeB = ZonedDateTime.of(2000, 1, 1, 23, 49, 59, 999999999);
-   * assertThat(dateTimeA).isEqualToIgnoringSeconds(dateTimeB);</code></pre>
-   *
-   * @param other the given {@link ZonedDateTime}.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code ZonedDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code ZonedDateTime} is are not equal with second and nanosecond fields ignored.
-   * @deprecated Use {@link #isCloseTo(ZonedDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isEqualToIgnoringSeconds(ZonedDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertDateTimeParameterIsNotNull(other);
-    ZonedDateTime otherInActualTimeZone = sameInstantInActualTimeZone(other);
-    if (!areEqualIgnoringSeconds(actual, otherInActualTimeZone)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringSeconds(actual, otherInActualTimeZone));
-    }
-    return myself;
   }
 
   /**
