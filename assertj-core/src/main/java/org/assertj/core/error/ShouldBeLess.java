@@ -36,21 +36,6 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldBeLess}</code>.
-   * @param <T> guarantees that the values used in this factory have the same type.
-   * @param actual the actual value in the failed assertion.
-   * @param other the value used in the failed assertion to compare the actual value to.
-   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   * @deprecated Use {@link #shouldBeLess(Object, Object, ComparisonStrategy)} instead.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeLess(T actual, T other,
-                                                                                   ComparisonStrategy comparisonStrategy) {
-    return new ShouldBeLess(actual, other, comparisonStrategy);
-  }
-
-  /**
-   * Creates a new <code>{@link ShouldBeLess}</code>.
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.

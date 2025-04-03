@@ -38,22 +38,6 @@ public class ShouldBeGreater extends BasicErrorMessageFactory {
   /**
    * Creates a new <code>{@link ShouldBeGreater}</code>.
    *
-   * @param <T> guarantees that the values used in this factory have the same type.
-   * @param actual the actual value in the failed assertion.
-   * @param other the value used in the failed assertion to compare the actual value to.
-   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   * @deprecated Use {@link #shouldBeGreater(Object, Object, ComparisonStrategy)} instead.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static <T> ErrorMessageFactory shouldBeGreater(Comparable<? super T> actual, Comparable<? super T> other,
-                                                        ComparisonStrategy comparisonStrategy) {
-    return new ShouldBeGreater(actual, other, comparisonStrategy);
-  }
-
-  /**
-   * Creates a new <code>{@link ShouldBeGreater}</code>.
-   *
    * @param actual the actual value in the failed assertion.
    * @param other the value used in the failed assertion to compare the actual value to.
    * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.

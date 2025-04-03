@@ -68,8 +68,10 @@ public class OptionalDoubleShouldHaveValueCloseToPercentage extends BasicErrorMe
   public static OptionalDoubleShouldHaveValueCloseToPercentage shouldHaveValueCloseToPercentage(OptionalDouble actual,
                                                                                                 double expectedValue,
                                                                                                 Percentage percentage) {
-    return shouldHaveValueCloseToPercentage(actual, expectedValue, percentage, abs(expectedValue - actual.getAsDouble()));
+    return new OptionalDoubleShouldHaveValueCloseToPercentage(actual, expectedValue, percentage,
+                                                              abs(expectedValue - actual.getAsDouble()));
   }
+
 
   /**
    * @param optional      the {@link java.util.OptionalDouble} which has a value
