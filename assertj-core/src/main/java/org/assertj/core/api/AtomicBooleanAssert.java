@@ -74,7 +74,7 @@ public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, Ato
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated(since = "3", forRemoval = true)
+  @Deprecated
   public AtomicBooleanAssert usingComparator(Comparator<? super AtomicBoolean> customComparator) {
     return usingComparator(customComparator, null);
   }
@@ -86,7 +86,7 @@ public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, Ato
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated(since = "3", forRemoval = true)
+  @Deprecated
   public AtomicBooleanAssert usingComparator(Comparator<? super AtomicBoolean> customComparator,
                                              String customComparatorDescription) {
     throw new UnsupportedOperationException("custom Comparator is not supported for AtomicBoolean comparison");
