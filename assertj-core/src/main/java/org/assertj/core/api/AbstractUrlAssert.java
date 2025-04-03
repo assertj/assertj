@@ -263,7 +263,7 @@ public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> ex
    * assertThat(new URL("http://www.helloworld.org/news.html#sport")).hasNoAnchor();</code></pre>
    *
    * @return {@code this} assertion object.
-   * @throws AssertionError if {@code actual} has a anchor.
+   * @throws AssertionError if {@code actual} has an anchor.
    */
   public SELF hasNoAnchor() {
     urls.assertHasAnchor(info, actual, null);
