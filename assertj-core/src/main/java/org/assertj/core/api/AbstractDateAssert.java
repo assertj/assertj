@@ -578,31 +578,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Verifies that the actual {@code Date} is before or equals to the given one.
-   * <p>
-   * Example:
-   * <pre><code class='java'> SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-   *
-   * // assertions will pass
-   * assertThat(dateFormat.parse(&quot;1990-12-01&quot;)).isBeforeOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));
-   * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isBeforeOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));
-   *
-   * // assertion will fail
-   * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isBeforeOrEqualsTo(dateFormat.parse(&quot;1990-12-01&quot;));</code></pre>
-   *
-   * @param other the given Date.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Date} is {@code null}.
-   * @throws NullPointerException if other {@code Date} is {@code null}.
-   * @throws AssertionError if the actual {@code Date} is not before or equals to the given one.
-   * @deprecated prefer calling {@link #isBeforeOrEqualTo(Date)}
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isBeforeOrEqualsTo(Date other) {
-    return isBeforeOrEqualTo(other);
-  }
-
-  /**
    * Verifies that the actual {@code Date} is before or equal to the given one.
    * <p>
    * Example:
@@ -648,60 +623,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   public SELF isBeforeOrEqualTo(Instant other) {
     dates.assertIsBeforeOrEqualTo(info, actual, dateFrom(other));
     return myself;
-  }
-
-  /**
-   * Same assertion as {@link #isBeforeOrEqualsTo(Date)} but given date is represented as String either with one of the
-   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p>
-   * User custom date format takes precedence over the default ones.
-   * <p>
-   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass
-   * // theTwoTowers release date : 2002-12-18
-   * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualsTo("2002-12-19");
-   * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualsTo("2002-12-18");
-   *
-   * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isBeforeOrEqualsTo("2002-12-17")</code></pre>
-   * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
-   * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
-   * </ul>
-   * <p>
-   * Example of valid string date representations:
-   * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
-   * <li><code>2003-04-26T03:01:02.999</code></li>
-   * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
-   * <li><code>2003-04-26</code></li>
-   * </ul>
-   * <p>
-   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitly specify the date format to use so that the default ones are bypassed.
-   *
-   * @param dateAsString the given Date represented as String in default or custom date format.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Date} is {@code null}.
-   * @throws NullPointerException if given date as String is {@code null}.
-   * @throws AssertionError if the actual {@code Date} is not before or equals to the given Date represented as
-   *           String.
-   * @throws AssertionError if the given date as String could not be converted to a Date.
-   * @deprecated prefer calling {@link #isBeforeOrEqualTo(String)}
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isBeforeOrEqualsTo(String dateAsString) {
-    return isBeforeOrEqualTo(dateAsString);
   }
 
   /**
@@ -855,31 +776,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * Verifies that the actual {@code Date} is after or equals to the given one.
-   * <p>
-   * Example:
-   * <pre><code class='java'> SimpleDateFormat dateFormat = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);
-   *
-   * // assertions will pass
-   * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isAfterOrEqualsTo(dateFormat.parse(&quot;1990-12-01&quot;));
-   * assertThat(dateFormat.parse(&quot;2000-12-01&quot;)).isAfterOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));
-   *
-   * // assertion will fail
-   * assertThat(dateFormat.parse(&quot;1990-12-01&quot;)).isAfterOrEqualsTo(dateFormat.parse(&quot;2000-12-01&quot;));</code></pre>
-   *
-   * @param other the given Date.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Date} is {@code null}.
-   * @throws NullPointerException if other {@code Date} is {@code null}.
-   * @throws AssertionError if the actual {@code Date} is not after or equals to the given one.
-   * @deprecated prefer calling {@link #isAfterOrEqualTo(Date)}
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isAfterOrEqualsTo(Date other) {
-    return isAfterOrEqualTo(other);
-  }
-
-  /**
    * Verifies that the actual {@code Date} is after or equal to the given one.
    * <p>
    * Example:
@@ -924,60 +820,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   public SELF isAfterOrEqualTo(Instant other) {
     dates.assertIsAfterOrEqualTo(info, actual, dateFrom(other));
     return myself;
-  }
-
-  /**
-   * Same assertion as {@link #isAfterOrEqualsTo(Date)} but given date is represented as String either with one of the
-   * supported default date formats or a user custom date format (set with method {@link #withDateFormat(DateFormat)}).
-   * <p>
-   * User custom date format takes precedence over the default ones.
-   * <p>
-   * Unless specified otherwise, beware that the default formats are expressed in the current local timezone.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // assertion will pass
-   * // theTwoTowers release date : 2002-12-18
-   * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualsTo("2002-12-17");
-   * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualsTo("2002-12-18");
-   *
-   * // assertion will fail
-   * assertThat(theTwoTowers.getReleaseDate()).isAfterOrEqualsTo("2002-12-19")</code></pre>
-   * <p>
-   * Defaults date format (expressed in the local time zone unless specified otherwise) are:
-   * <ul>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSSX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd HH:mm:ss.SSS</code></li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ssX</code> (in ISO Time zone)</li>
-   * <li><code>yyyy-MM-dd'T'HH:mm:ss</code></li>
-   * <li><code>yyyy-MM-dd</code></li>
-   * </ul>
-   * <p>
-   * Example of valid string date representations:
-   * <ul>
-   * <li><code>2003-04-26T03:01:02.758+00:00</code></li>
-   * <li><code>2003-04-26T03:01:02.999</code></li>
-   * <li><code>2003-04-26 03:01:02.999</code></li>
-   * <li><code>2003-04-26T03:01:02+00:00</code></li>
-   * <li><code>2003-04-26T13:01:02</code></li>
-   * <li><code>2003-04-26</code></li>
-   * </ul>
-   * <p>
-   * If you are getting an {@code IllegalArgumentException} with <i>"Unknown pattern character 'X'"</i> message (some Android versions don't support it),
-   * you can explicitly specify the date format to use so that the default ones are bypassed.
-   *
-   * @param dateAsString the given Date represented as String in default or custom date format.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Date} is {@code null}.
-   * @throws NullPointerException if given date as String is {@code null}.
-   * @throws AssertionError if the actual {@code Date} is not after or equals to the given Date represented as
-   *           String.
-   * @throws AssertionError if the given date as String could not be converted to a Date.
-   * @deprecated prefer calling {@link #isAfterOrEqualTo(String)}
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isAfterOrEqualsTo(String dateAsString) {
-    return isAfterOrEqualTo(dateAsString);
   }
 
   /**
@@ -1582,16 +1424,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasYear(int)} instead.
-   * @param year the year to compare actual year to
-   * @return this assertion object.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isWithinYear(int year) {
-    return hasYear(year);
-  }
-
-  /**
    * Verifies that the actual {@code Date} month is equal to the given month, <b>month value starting at 1</b>
    * (January=1, February=2, ...).
    * <p>
@@ -1616,16 +1448,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasMonth(int)} instead.
-   * @param month the month to compare actual month to, <b>month value starting at 1</b> (January=1, February=2, ...).
-   * @return this assertion object.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isWithinMonth(int month) {
-    return hasMonth(month);
-  }
-
-  /**
    * Verifies that the actual {@code Date} day of month is equal to the given day of month.
    * <p>
    * Note that using a {@link #usingComparator(Comparator) custom comparator}  has no effect on this assertion.
@@ -1646,16 +1468,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   public SELF hasDayOfMonth(int dayOfMonth) {
     dates.assertHasDayOfMonth(info, actual, dayOfMonth);
     return myself;
-  }
-
-  /**
-   * @deprecated use {@link #hasDayOfMonth(int)} instead.
-   * @param dayOfMonth the day of month to compare actual day of month to
-   * @return this assertion object.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isWithinDayOfMonth(int dayOfMonth) {
-    return hasDayOfMonth(dayOfMonth);
   }
 
   /**
@@ -1683,17 +1495,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasDayOfWeek(int)} instead.
-   * @param dayOfWeek the day of week to compare actual day of week to, see {@link Calendar#DAY_OF_WEEK} for valid
-   *          values
-   * @return this assertion object.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isWithinDayOfWeek(int dayOfWeek) {
-    return hasDayOfWeek(dayOfWeek);
-  }
-
-  /**
    * Verifies that the actual {@code Date} hour of day is equal to the given hour of day (24-hour clock).
    * <p>
    * Note that using a {@link #usingComparator(Comparator) custom comparator}  has no effect on this assertion.
@@ -1713,16 +1514,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   public SELF hasHourOfDay(int hourOfDay) {
     dates.assertHasHourOfDay(info, actual, hourOfDay);
     return myself;
-  }
-
-  /**
-   * @deprecated use {@link #hasHourOfDay(int)} instead.
-   * @param hourOfDay the hour of day to compare actual hour of day to (24-hour clock)
-   * @return this assertion object.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isWithinHourOfDay(int hourOfDay) {
-    return hasHourOfDay(hourOfDay);
   }
 
   /**
@@ -1748,16 +1539,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasMinute(int)} instead.
-   * @param minute the minute to compare actual minute to
-   * @return this assertion object.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isWithinMinute(int minute) {
-    return hasMinute(minute);
-  }
-
-  /**
    * Verifies that the actual {@code Date} second is equal to the given second.
    * <p>
    * Note that using a {@link #usingComparator(Comparator) custom comparator}  has no effect on this assertion.
@@ -1780,16 +1561,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   }
 
   /**
-   * @deprecated use {@link #hasSecond(int)} instead.
-   * @param second the second to compare actual second to
-   * @return this assertion object.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isWithinSecond(int second) {
-    return hasSecond(second);
-  }
-
-  /**
    * Verifies that the actual {@code Date} millisecond is equal to the given millisecond.
    * <p>
    * Examples:
@@ -1809,16 +1580,6 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   public SELF hasMillisecond(int millisecond) {
     dates.assertHasMillisecond(info, actual, millisecond);
     return myself;
-  }
-
-  /**
-   * @deprecated use {@link #hasMillisecond(int)} instead.
-   * @param millisecond the millisecond to compare actual millisecond to
-   * @return this assertion object.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isWithinMillisecond(int millisecond) {
-    return hasMillisecond(millisecond);
   }
 
   /**
@@ -2799,7 +2560,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * User date formats are used before default ones in the order they have been registered (first registered, first
    * used).
    * <p>
-   * AssertJ is gonna use any date formats registered with one of these methods :
+   * AssertJ is going to use any date formats registered with one of these methods:
    * <ul>
    * <li>{@link #withDateFormat(String)}</li>
    * <li>{@link #withDateFormat(java.text.DateFormat)}</li>
