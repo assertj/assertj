@@ -88,16 +88,5 @@ public final class Lists {
     return new ArrayList<>();
   }
 
-  /**
-   * @deprecated use {@link Collections#emptyList()} instead.
-   *
-   * @param <T> the generic type of the {@code List}.
-   * @return an empty, <em>immutable</em> {@code List}.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static <T> List<T> emptyList() {
-    return Collections.emptyList();
-  }
-
   private Lists() {}
 }
