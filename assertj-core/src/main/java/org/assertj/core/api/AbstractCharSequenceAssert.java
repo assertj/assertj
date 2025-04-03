@@ -1343,7 +1343,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated(since = "3", forRemoval = true)
+  @Deprecated
   public final SELF usingElementComparator(Comparator<? super Character> customComparator) {
     throw new UnsupportedOperationException("custom element Comparator is not supported for CharSequence comparison");
   }
@@ -1355,7 +1355,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated(since = "3", forRemoval = true)
+  @Deprecated
   public final SELF usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for CharSequence comparison");
   }

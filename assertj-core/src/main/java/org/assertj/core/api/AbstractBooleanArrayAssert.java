@@ -668,7 +668,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated(since = "3", forRemoval = true)
+  @Deprecated
   public final SELF usingElementComparator(Comparator<? super Boolean> customComparator) {
     throw new UnsupportedOperationException("custom element Comparator is not supported for Boolean array comparison");
   }
@@ -680,7 +680,7 @@ public abstract class AbstractBooleanArrayAssert<SELF extends AbstractBooleanArr
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated(since = "3", forRemoval = true)
+  @Deprecated
   public final SELF usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for Boolean array comparison");
   }
