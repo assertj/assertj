@@ -1474,7 +1474,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated(since = "3", forRemoval = true)
+  @Deprecated
   public SELF usingElementComparator(Comparator<? super Map.Entry<? extends K, ? extends V>> customComparator) {
     throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
   }
@@ -1486,7 +1486,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws UnsupportedOperationException if this method is called.
    */
   @Override
-  @Deprecated(since = "3", forRemoval = true)
+  @Deprecated
   public SELF usingDefaultElementComparator() {
     throw new UnsupportedOperationException("custom element Comparator is not supported for MapEntry comparison");
   }
