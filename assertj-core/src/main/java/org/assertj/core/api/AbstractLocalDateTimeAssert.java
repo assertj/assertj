@@ -14,8 +14,6 @@ package org.assertj.core.api;
 
 import static java.time.Clock.systemUTC;
 import static java.time.LocalDateTime.now;
-import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
-import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
 import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
@@ -463,81 +461,6 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    */
   private static void assertLocalDateTimeParameterIsNotNull(LocalDateTime other) {
     checkArgument(other != null, "The LocalDateTime to compare actual with should not be null");
-  }
-
-  /**
-   * Verifies that actual and given {@code LocalDateTime} have same year, month, day, hour, minute and second fields,
-   * (nanosecond fields are ignored in comparison).
-   * <p>
-   * Assertion can fail with localDateTimes in same chronological nanosecond time window, e.g :
-   * <p>
-   * 2000-01-01T00:00:<b>01.000000000</b> and 2000-01-01T00:00:<b>00.999999999</b>.
-   * <p>
-   * Assertion fails as second fields differ even if time difference is only 1ns.
-   * <p>
-   * Code example :
-   * <pre><code class='java'> // successful assertions
-   * LocalDateTime localDateTime1 = LocalDateTime.of(2000, 1, 1, 0, 0, 1, 0);
-   * LocalDateTime localDateTime2 = LocalDateTime.of(2000, 1, 1, 0, 0, 1, 456);
-   * assertThat(localDateTime1).isEqualToIgnoringNanos(localDateTime2);
-   *
-   * // failing assertions (even if time difference is only 1ms)
-   * LocalDateTime localDateTimeA = LocalDateTime.of(2000, 1, 1, 0, 0, 1, 0);
-   * LocalDateTime localDateTimeB = LocalDateTime.of(2000, 1, 1, 0, 0, 0, 999999999);
-   * assertThat(localDateTimeA).isEqualToIgnoringNanos(localDateTimeB);</code></pre>
-   *
-   * @param other the given {@link LocalDateTime}.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code LocalDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code LocalDateTime} is are not equal with nanoseconds ignored.
-   */
-  public SELF isEqualToIgnoringNanos(LocalDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertLocalDateTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringNanos(actual, other)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringNanos(actual, other));
-    }
-    return myself;
-  }
-
-  /**
-   * Verifies that actual and given {@link LocalDateTime} have same year, month, day, hour and minute fields (second and
-   * nanosecond fields are ignored in comparison).
-   * <p>
-   * Assertion can fail with LocalDateTimes in same chronological second time window, e.g :
-   * <p>
-   * 2000-01-01T00:<b>01:00</b>.000 and 2000-01-01T00:<b>00:59</b>.000.
-   * <p>
-   * Assertion fails as minute fields differ even if time difference is only 1s.
-   * <p>
-   * Code example :
-   * <pre><code class='java'> // successful assertions
-   * LocalDateTime localDateTime1 = LocalDateTime.of(2000, 1, 1, 23, 50, 0, 0);
-   * LocalDateTime localDateTime2 = LocalDateTime.of(2000, 1, 1, 23, 50, 10, 456);
-   * assertThat(localDateTime1).isEqualToIgnoringSeconds(localDateTime2);
-   *
-   * // failing assertions (even if time difference is only 1ms)
-   * LocalDateTime localDateTimeA = LocalDateTime.of(2000, 1, 1, 23, 50, 00, 000);
-   * LocalDateTime localDateTimeB = LocalDateTime.of(2000, 1, 1, 23, 49, 59, 999);
-   * assertThat(localDateTimeA).isEqualToIgnoringSeconds(localDateTimeB);</code></pre>
-   *
-   * @param other the given {@link LocalDateTime}.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code LocalDateTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code LocalDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code LocalDateTime} is are not equal with second and nanosecond fields ignored.
-   * @deprecated Use {@link #isCloseTo(LocalDateTime, TemporalOffset)} instead, although not exactly the same semantics,
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public SELF isEqualToIgnoringSeconds(LocalDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertLocalDateTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringSeconds(actual, other)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringSeconds(actual, other));
-    }
-    return myself;
   }
 
   /**
