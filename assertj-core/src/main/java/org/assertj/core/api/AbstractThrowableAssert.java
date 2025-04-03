@@ -891,9 +891,9 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
 
   /**
    * A shortcut for <code>extracting(Throwable::getMessage, as(InstanceOfAssertFactories.STRING))</code> which allows 
-   * to extract a throwable's message and then execute assertions on it.
+   * to extract a throwable message and then execute assertions on it.
    * <p>
-   * Note that once you have navigated to the throwable's message you can't navigate back to the throwable.
+   * Note that once you have navigated to the throwable message you can't navigate back to the throwable.
    * <p>
    * Example :
    * <pre><code class='java'> Throwable throwable = new Throwable("boom!");
