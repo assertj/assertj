@@ -121,7 +121,6 @@ import org.assertj.core.util.CheckReturnValue;
  * Use <code>{@link #and}</code> to avoid clash with other libraries (like BDDMockito) exposing '<code>then(object)</code>'.
  * You might have to ignore a warning like: <i>The static method BDDAssertions.then() should be accessed in a static way</i>.
  *
- *
  * @author Gonzalo Müller
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -189,9 +188,8 @@ public class BDDAssertions extends Assertions {
    * Create assertion for {@link Predicate}.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link Predicate}.
+   * @param <T>    the type of the value contained in the {@link Predicate}.
    * @return the created assertion object.
-   *
    * @since 3.5.0
    */
   public static <T> PredicateAssert<T> then(Predicate<T> actual) {
@@ -201,11 +199,11 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link Predicate}.
    * <p>
-   * Use this over {@link #then(Predicate)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Predicate)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param actual the actual value.
-   * @param <T> the type of the value contained in the {@link Predicate}.
+   * @param <T>    the type of the value contained in the {@link Predicate}.
    * @return the created assertion object.
    * @since 3.23.0
    */
@@ -218,7 +216,6 @@ public class BDDAssertions extends Assertions {
    *
    * @param actual the actual value.
    * @return the created assertion object.
-   *
    * @since 3.5.0
    */
   public static IntPredicateAssert then(IntPredicate actual) {
@@ -230,7 +227,6 @@ public class BDDAssertions extends Assertions {
    *
    * @param actual the actual value.
    * @return the created assertion object.
-   *
    * @since 3.5.0
    */
   public static LongPredicateAssert then(LongPredicate actual) {
@@ -242,7 +238,6 @@ public class BDDAssertions extends Assertions {
    *
    * @param actual the actual value.
    * @return the created assertion object.
-   *
    * @since 3.5.0
    */
   public static DoublePredicateAssert then(DoublePredicate actual) {
@@ -252,9 +247,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link java.util.Optional}.
    *
-   * @param <VALUE> the type of the value contained in the {@link java.util.Optional}.
+   * @param <VALUE>  the type of the value contained in the {@link java.util.Optional}.
    * @param optional the actual value.
-   *
    * @return the created assertion object.
    */
   public static <VALUE> OptionalAssert<VALUE> then(Optional<VALUE> optional) {
@@ -265,7 +259,6 @@ public class BDDAssertions extends Assertions {
    * Create assertion for {@link java.util.OptionalInt}.
    *
    * @param optional the actual value.
-   *
    * @return the created assertion object.
    */
   public static OptionalIntAssert then(OptionalInt optional) {
@@ -276,7 +269,6 @@ public class BDDAssertions extends Assertions {
    * Create assertion for {@link java.util.OptionalLong}.
    *
    * @param optional the actual value.
-   *
    * @return the created assertion object.
    */
   public static OptionalLongAssert then(OptionalLong optional) {
@@ -287,7 +279,6 @@ public class BDDAssertions extends Assertions {
    * Create assertion for {@link java.util.regex.Matcher}
    *
    * @param actual the actual matcher
-   *
    * @return the created assertion object.
    */
   public static MatcherAssert then(Matcher actual) {
@@ -298,7 +289,6 @@ public class BDDAssertions extends Assertions {
    * Create assertion for {@link java.util.OptionalDouble}.
    *
    * @param optional the actual value.
-   *
    * @return the created assertion object.
    */
   public static OptionalDoubleAssert then(OptionalDouble optional) {
@@ -463,7 +453,7 @@ public class BDDAssertions extends Assertions {
    * Creates a new instance of <code>{@link org.assertj.core.api.GenericComparableAssert}</code> with
    * standard comparison semantics.
    *
-   * @param <T> the actual type
+   * @param <T>    the actual type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -475,10 +465,10 @@ public class BDDAssertions extends Assertions {
    * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with
    * standard comparison semantics.
    * <p>
-   * Use this over {@link #then(Comparable)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Comparable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
-   * @param <T> the type of actual.
+   * @param <T>    the type of actual.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.23.0
@@ -490,7 +480,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.IterableAssert}</code>.
    *
-   * @param <T> the actual elements type
+   * @param <T>    the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -501,11 +491,11 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    * <p>
-   * Use this over {@link #then(Iterable)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Iterable)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param <ELEMENT> the type of elements.
-   * @param actual the actual value.
+   * @param actual    the actual value.
    * @return the created assertion object.
    * @since 3.23.0
    */
@@ -528,8 +518,7 @@ public class BDDAssertions extends Assertions {
    *                            .toIterable() // switch to Iterable assertions
    *                            .contains("Jordan", "Magic", "Lebron"); // Iterable assertion </code></pre>
    *
-   *
-   * @param <T> the actual elements type
+   * @param <T>    the actual elements type
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -540,256 +529,17 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
-   * Use this over {@link #then(Iterator)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Iterator)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param <ELEMENT> the type of elements.
-   * @param actual the actual value.
+   * @param actual    the actual value.
    * @return the created assertion object.
    * @since 3.23.0
    */
   public static <ELEMENT> IteratorAssert<ELEMENT> thenIterator(Iterator<? extends ELEMENT> actual) {
     return then(actual);
   }
-
-  /**
-   * Creates a new instance of <code>{@link FactoryBasedNavigableIterableAssert}</code> allowing to navigate to any {@code Iterable} element
-   * in order to perform assertions on it.
-   * <p>
-   * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
-   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
-   * </ul>
-   * <p>
-   * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
-   * {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} (AssertJ can't figure it out because of Java type erasure).
-   * <p>
-   * Example with {@code String} element assertions:
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newHashSet("frodo", "sam", "pippin");
-   *
-   * // build an AssertFactory for StringAssert (much nicer with Java 8 lambdas)
-   * AssertFactory&lt;String, StringAssert&gt; stringAssertFactory = new AssertFactory&lt;String, StringAssert&gt;() {
-   *   {@literal @}Override
-   *   public StringAssert createAssert(String string) {
-   *     return new StringAssert(string);
-   *   }
-   * };
-   *
-   * // assertion succeeds with String assertions chained after first()
-   * then(hobbits, stringAssertFactory).first()
-   *                                   .startsWith("fro")
-   *                                   .endsWith("do");</code></pre>
-   *
-   * @param <ACTUAL> The actual type
-   * @param <ELEMENT> The actual elements type
-   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
-   * @param actual the actual value.
-   * @param assertFactory the factory used to create the elements assert instance.
-   * @return the created assertion object.
-   * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
-   * <p>
-   * Deprecated way:
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
-   * then(hobbits, StringAssert::new).first()
-   *                                 .startsWith("fro")
-   *                                 .endsWith("do");</code></pre>
-   *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *              .startsWith("fro")
-   *              .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
-   * preferred way to create type-specific assertions in AssertJ API.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-//@format:off
-  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(Iterable<? extends ELEMENT> actual,
-                                                                                 AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
-    return assertThat(actual, assertFactory);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link ClassBasedNavigableIterableAssert}</code> allowing to navigate to any {@code Iterable} element
-   * in order to perform assertions on it.
-   * <p>
-   * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
-   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
-   * </ul>
-   * <p>
-   * The available assertions after navigating to an element depend on the given {@code assertClass}
-   * (AssertJ can't find the element assert type by itself because of Java type erasure).
-   * <p>
-   * Example with {@code String} element assertions:
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newHashSet("frodo", "sam", "pippin");
-   *
-   * // assertion succeeds with String assertions chained after first()
-   * then(hobbits, StringAssert.class).first()
-   *                                  .startsWith("fro")
-   *                                  .endsWith("do");</code></pre>
-   *
-   * @param <ACTUAL> The actual type
-   * @param <ELEMENT> The actual elements type
-   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
-   * @param actual the actual value.
-   * @param assertClass the class used to create the elements assert instance.
-   * @return the created assertion object.
-   * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
-   * <p>
-   * Deprecated way:
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
-   * then(hobbits, StringAssert.class).first()
-   *                                  .startsWith("fro")
-   *                                  .endsWith("do");</code></pre>
-   *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *              .startsWith("fro")
-   *              .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
-   * preferred way to create type-specific assertions in AssertJ API.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(ACTUAL actual,
-                                                                                    Class<ELEMENT_ASSERT> assertClass) {
-    return assertThat(actual, assertClass);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link FactoryBasedNavigableListAssert}</code> allowing to navigate to any {@code List} element
-   * in order to perform assertions on it.
-   * <p>
-   * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
-   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
-   * </ul>
-   * <p>
-   * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
-   * {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} (AssertJ can't figure it out because of Java type erasure).
-   * <p>
-   * Example with {@code String} element assertions:
-   * <pre><code class='java'> List&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
-   *
-   * // build an AssertFactory for StringAssert (much nicer with Java 8 lambdas)
-   * AssertFactory&lt;String, StringAssert&gt; stringAssertFactory = new AssertFactory&lt;String, StringAssert&gt;() {
-   *   {@literal @}Override
-   *   public StringAssert createAssert(String string) {
-   *     return new StringAssert(string);
-   *   }
-   * };
-   *
-   * // assertion succeeds with String assertions chained after first()
-   * then(hobbits, stringAssertFactory).first()
-   *                                   .startsWith("fro")
-   *                                   .endsWith("do");</code></pre>
-   *
-   * @param <ACTUAL> The actual type
-   * @param <ELEMENT> The actual elements type
-   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
-   * @param actual the actual value.
-   * @param assertFactory the factory used to create the elements assert instance.
-   * @return the created assertion object.
-   * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
-   * <p>
-   * Deprecated way:
-   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
-   * then(hobbits, StringAssert::new).first()
-   *                                 .startsWith("fro")
-   *                                 .endsWith("do");</code></pre>
-   *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *              .startsWith("fro")
-   *              .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
-   * preferred way to create type-specific assertions in AssertJ API.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
-                                                                                        AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
-    return assertThat(actual, assertFactory);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link ClassBasedNavigableListAssert}</code> allowing to navigate to any {@code List} element
-   * in order to perform assertions on it.
-   * <p>
-   * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
-   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
-   * </ul>
-   * <p>
-   * The available assertions after navigating to an element depend on the given {@code assertClass}
-   * (AssertJ can't find the element assert type by itself because of Java type erasure).
-   * <p>
-   * Example with {@code String} element assertions:
-   * <pre><code class='java'> List&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
-   *
-   * // assertion succeeds with String assertions chained after first()
-   * then(hobbits, StringAssert.class).first()
-   *                                  .startsWith("fro")
-   *                                  .endsWith("do");</code></pre>
-   *
-   * @param <ACTUAL> The actual type
-   * @param <ELEMENT> The actual elements type
-   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
-   * @param actual the actual value.
-   * @param assertClass the class used to create the elements assert instance.
-   * @return the created assertion object.
-   * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
-   * <p>
-   * Deprecated way:
-   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
-   * then(hobbits, StringAssert.class).first()
-   *                                  .startsWith("fro")
-   *                                  .endsWith("do");</code></pre>
-   *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *              .startsWith("fro")
-   *              .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
-   * preferred way to create type-specific assertions in AssertJ API.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
-                                                                                Class<ELEMENT_ASSERT> assertClass) {
-    return assertThat(actual, assertClass);
-  }
-
-//@format:on
 
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.DoubleAssert}</code>.
@@ -855,8 +605,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of {@link PathAssert}
    * <p>
-   * Use this over {@link #then(Path)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Path)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param actual the path to test
    * @return the created assertion object
@@ -870,7 +620,7 @@ public class BDDAssertions extends Assertions {
    * Creates a new instance of {@link FutureAssert}
    *
    * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.Future}.
-   * @param actual the future to test
+   * @param actual   the future to test
    * @return the created assertion object
    * @since 2.7.0 / 3.7.0
    */
@@ -973,7 +723,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    *
-   * @param <E> the type of elements.
+   * @param <E>    the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.21.0
@@ -985,10 +735,10 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    * <p>
-   * Use this over {@link #then(Collection)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Collection)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
-   * @param <E> the type of elements.
+   * @param <E>    the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.23.0
@@ -1000,7 +750,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ListAssert}</code>.
    *
-   * @param <T> the type of elements.
+   * @param <T>    the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -1011,11 +761,11 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    * <p>
-   * Use this over {@link #then(List)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(List)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    *
    * @param <ELEMENT> the type of elements.
-   * @param actual the actual value.
+   * @param actual    the actual value.
    * @return the created assertion object.
    * @since 3.23.0
    */
@@ -1067,7 +817,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ObjectAssert}</code>.
    *
-   * @param <T> the type of the actual value.
+   * @param <T>    the type of the actual value.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -1078,7 +828,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ObjectArrayAssert}</code>.
    *
-   * @param <T> the actual's elements type.
+   * @param <T>    the actual's elements type.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -1089,7 +839,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.Object2DArrayAssert}</code>.
    *
-   * @param <T> the actual's elements type.
+   * @param <T>    the actual's elements type.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.17.0
@@ -1101,8 +851,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.MapAssert}</code>.
    *
-   * @param <K> the type of keys in the map.
-   * @param <V> the type of values in the map.
+   * @param <K>    the type of keys in the map.
+   * @param <V>    the type of values in the map.
    * @param actual the actual value.
    * @return the created assertion object.
    */
@@ -1253,7 +1003,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link AtomicIntegerFieldUpdater}.
    *
-   * @param actual the actual value.
+   * @param actual   the actual value.
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -1298,7 +1048,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link AtomicLongFieldUpdater}.
    *
-   * @param actual the actual value.
+   * @param actual   the actual value.
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -1310,7 +1060,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link AtomicReference}.
    *
-   * @param actual the actual value.
+   * @param actual  the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicReference}.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -1322,7 +1072,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link AtomicReferenceArray}.
    *
-   * @param actual the actual value.
+   * @param actual    the actual value.
    * @param <ELEMENT> the type of the value contained in the {@link AtomicReferenceArray}.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -1334,8 +1084,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link AtomicReferenceFieldUpdater}.
    *
-   * @param actual the actual value.
-   * @param <FIELD> the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
+   * @param actual   the actual value.
+   * @param <FIELD>  the type of the field which gets updated by the {@link AtomicReferenceFieldUpdater}.
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -1347,7 +1097,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link AtomicMarkableReference}.
    *
-   * @param actual the actual value.
+   * @param actual  the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicMarkableReference}.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -1359,7 +1109,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link AtomicStampedReference}.
    *
-   * @param actual the actual value.
+   * @param actual  the actual value.
    * @param <VALUE> the type of the value contained in the {@link AtomicStampedReference}.
    * @return the created assertion object.
    * @since 2.7.0 / 3.7.0
@@ -1371,7 +1121,7 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.ThrowableAssert}</code>.
    *
-   * @param <T> the type of the actual throwable.
+   * @param <T>    the type of the actual throwable.
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */
@@ -1388,7 +1138,7 @@ public class BDDAssertions extends Assertions {
    *    thenThrownBy(() -&gt; { throw new Exception("boom!") }).isInstanceOf(Exception.class)
    *                                                        .hasMessageContaining("boom");
    * }</code></pre>
-   *
+   * <p>
    * If the provided {@link ThrowingCallable} does not raise an exception, an error is immediately thrown,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below:
@@ -1400,7 +1150,7 @@ public class BDDAssertions extends Assertions {
    * Throwable thrown = catchThrowable(() -&gt; {});
    * assertThat(thrown).as("display me")
    *                   .isInstanceOf(Exception.class);</code></pre>
-   *
+   * <p>
    * Alternatively you can also use <code>assertThatCode(ThrowingCallable)</code> for the test description provided
    * with {@link AbstractAssert#as(String, Object...) as(String, Object...)} to always be honored.
    *
@@ -1424,7 +1174,7 @@ public class BDDAssertions extends Assertions {
    *             .isInstanceOf(IOException.class)
    *             .hasMessageContaining("boom");
    * }</code></pre>
-   *
+   * <p>
    * If the provided {@link ThrowingCallable ThrowingCallable} does not raise an exception, an error is immediately thrown.
    * <p>
    * The test description provided is honored but not the one with {@link AbstractAssert#as(String, Object...) as(String, Object...)}, example:
@@ -1436,11 +1186,9 @@ public class BDDAssertions extends Assertions {
    * thenThrownBy(() -&gt; {}, "display me").isInstanceOf(Exception.class);</code></pre>
    *
    * @param shouldRaiseThrowable The {@link ThrowingCallable} or lambda with the code that should raise the throwable.
-   * @param description the new description to set.
-   * @param args optional parameter if description is a format String.
-   *
+   * @param description          the new description to set.
+   * @param args                 optional parameter if description is a format String.
    * @return the created {@link ThrowableAssert}.
-   *
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
@@ -1466,7 +1214,7 @@ public class BDDAssertions extends Assertions {
    *
    * // assertion fails
    * thenCode(callable).doesNotThrowAnyException();</code></pre>
-   *
+   * <p>
    * If the provided {@link ThrowingCallable} does not validate against next assertions, an error is immediately raised,
    * in that case the test description provided with {@link AbstractAssert#as(String, Object...) as(String, Object...)} is not honored.<br>
    * To use a test description, use {@link #catchThrowable(ThrowingCallable)} as shown below.
@@ -1506,7 +1254,7 @@ public class BDDAssertions extends Assertions {
    * No cast needed, but also no additional list assertions:
    * <pre>{@code thenObject(new LinkedList<>(asList("abc"))).matches(list -> list.getFirst().equals("abc")); }</pre>
    *
-   * @param <T> the type of the actual value.
+   * @param <T>    the type of the actual value.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.12.0
@@ -1530,8 +1278,8 @@ public class BDDAssertions extends Assertions {
    * <p>
    * {@code thenWith} is variation of {@link AbstractAssert#satisfies(Consumer[])} hopefully easier to find for some users.
    *
-   * @param <T> the type of the actual value.
-   * @param actual the actual value.
+   * @param <T>          the type of the actual value.
+   * @param actual       the actual value.
    * @param requirements to assert on the actual object - must not be null.
    * @return the created assertion object.
    * @since 3.20.0
@@ -1680,9 +1428,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Create assertion for {@link java.util.concurrent.CompletableFuture}.
    *
-   * @param future the actual value.
+   * @param future   the actual value.
    * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletableFuture}.
-   *
    * @return the created assertion object.
    */
   public static <RESULT> CompletableFutureAssert<RESULT> then(CompletableFuture<RESULT> future) {
@@ -1694,9 +1441,8 @@ public class BDDAssertions extends Assertions {
    * <p>
    * If the given {@link java.util.concurrent.CompletionStage} is null, the {@link CompletableFuture} in the returned {@link CompletableFutureAssert} will also be null.
    *
-   * @param actual the actual value.
+   * @param actual   the actual value.
    * @param <RESULT> the type of the value contained in the {@link java.util.concurrent.CompletionStage}.
-   *
    * @return the created assertion object.
    */
   public static <RESULT> CompletableFutureAssert<RESULT> then(CompletionStage<RESULT> actual) {
@@ -1732,7 +1478,7 @@ public class BDDAssertions extends Assertions {
    *     then(button.isBlinking()).isFalse();
    *   }
    * }</code></pre>
-   *
+   * <p>
    * As MyButtonAssert implements AssertDelegateTarget, you can use <code>then(buttonAssert).isBlinking();</code>
    * instead of <code>buttonAssert.isBlinking();</code> to have easier to read assertions:
    * <pre><code class='java'> {@literal @}Test
@@ -1749,7 +1495,7 @@ public class BDDAssertions extends Assertions {
    *   then(buttonAssert).isBlinking(); // same as : buttonAssert.isBlinking();
    * }</code></pre>
    *
-   * @param <T> the generic type of the user-defined assert.
+   * @param <T>       the generic type of the user-defined assert.
    * @param assertion the assertion to return.
    * @return the given assertion.
    */
@@ -1764,9 +1510,8 @@ public class BDDAssertions extends Assertions {
    * Read the comments on {@link AssertProvider} for an example of its usage.
    * </p>
    *
-   * @param <T> the AssertProvider wrapped type.
-   * @param component
-   *          the component that creates its own assert
+   * @param <T>       the AssertProvider wrapped type.
+   * @param component the component that creates its own assert
    * @return the associated {@link Assert} of the given component
    */
   public static <T> T then(final AssertProvider<T> component) {
@@ -1797,7 +1542,7 @@ public class BDDAssertions extends Assertions {
    *             .isSameAs(stream);</code></pre>
    *
    * @param <ELEMENT> the type of elements.
-   * @param actual the actual {@link Stream} value.
+   * @param actual    the actual {@link Stream} value.
    * @return the created assertion object.
    */
   public static <ELEMENT> ListAssert<ELEMENT> then(Stream<? extends ELEMENT> actual) {
@@ -1807,8 +1552,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * Use this over {@link #then(Stream)} in case of ambiguous method resolution when the object under test 
-   * implements several interfaces Assertj provides <code>then</code> for. 
+   * Use this over {@link #then(Stream)} in case of ambiguous method resolution when the object under test
+   * implements several interfaces Assertj provides <code>then</code> for.
    * <p>
    * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
    * Once this is done the {@code Stream} can't reused as it would have been consumed.</b>
@@ -1831,7 +1576,7 @@ public class BDDAssertions extends Assertions {
    *             .isSameAs(stream);</code></pre>
    *
    * @param <ELEMENT> the type of elements.
-   * @param actual the actual value.
+   * @param actual    the actual value.
    * @return the created assertion object.
    * @since 3.23.0
    */
@@ -1937,7 +1682,7 @@ public class BDDAssertions extends Assertions {
    * then(spliterator).hasCharacteristics(Spliterator.SIZED); </code></pre>
    *
    * @param <ELEMENT> the type of elements.
-   * @param actual the spliterator to test.
+   * @param actual    the spliterator to test.
    * @return the created assertion object.
    * @since 3.14.0
    */
@@ -1966,7 +1711,6 @@ public class BDDAssertions extends Assertions {
    * @param throwingCallable The lambda with the code that should raise the exception.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowableOfType(Class, ThrowingCallable)
-   *
    * @since 3.20.0
    */
   public static Throwable catchThrowable(ThrowingCallable throwingCallable) {
@@ -2004,9 +1748,9 @@ public class BDDAssertions extends Assertions {
    * // fails as TextException is not a RuntimeException
    * catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); }, RuntimeException.class);</code></pre>
    *
-   * @param <THROWABLE> the {@link Throwable} type.
+   * @param <THROWABLE>      the {@link Throwable} type.
    * @param throwingCallable The lambda with the code that should raise the exception.
-   * @param type The type of exception that the code is expected to raise.
+   * @param type             The type of exception that the code is expected to raise.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.20.0
@@ -2049,9 +1793,9 @@ public class BDDAssertions extends Assertions {
    * // fails as TextException is not a RuntimeException
    * catchThrowableOfType(RuntimeException.class, () -&gt; { throw new TextException("boom!", 1, 5); });</code></pre>
    *
-   * @param <THROWABLE> the {@link Throwable} type.
+   * @param <THROWABLE>      the {@link Throwable} type.
    * @param throwingCallable The lambda with the code that should raise the exception.
-   * @param type The type of exception that the code is expected to raise.
+   * @param type             The type of exception that the code is expected to raise.
    * @return The captured exception or <code>null</code> if none was raised by the callable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.26.0
@@ -2156,7 +1900,7 @@ public class BDDAssertions extends Assertions {
    *
    * // succeeds as catchNullPointerException returns null when the code does not throw any exceptions
    * assertThat(catchIllegalArgumentException(() -&gt; {})).isNull();</code></pre>
-   *
+   * <p>
    * // fails as the thrown instance is not an IllegalArgumentException
    * catchIllegalArgumentException(() -&gt; {throw new Exception("boom!");});
    *
@@ -2285,10 +2029,10 @@ public class BDDAssertions extends Assertions {
    * <pre><code class='java'> thenExceptionOfType(IOException.class)
    *           .isThrownBy(() -&gt; { throw new IOException("boom!"); })
    *           .withMessage("boom!"); </code></pre>
-   *
+   * <p>
    * This method is more or less the same of {@link #thenThrownBy(ThrowingCallable)} but in a more natural way.
    *
-   * @param <T> the exception type.
+   * @param <T>           the exception type.
    * @param exceptionType the exception type class.
    * @return the created {@link ThrowableTypeAssert}.
    */
@@ -2301,7 +2045,7 @@ public class BDDAssertions extends Assertions {
    * <p>
    * Example:
    * <pre><code class='java'>thenNoException().isThrownBy(() -&gt; { System.out.println("OK"); });</code></pre>
-   *
+   * <p>
    * This method is more or less the same of {@code thenCode(...).doesNotThrowAnyException();} but in a more natural way.
    *
    * @return the created {@link NotThrownAssert}.
@@ -2397,7 +2141,6 @@ public class BDDAssertions extends Assertions {
    * Default is {@value org.assertj.core.configuration.Configuration#REMOVE_ASSERTJ_RELATED_ELEMENTS_FROM_STACK_TRACE}.
    *
    * @param removeAssertJRelatedElementsFromStackTrace flag.
-   *
    * @since 3.20.0
    */
   public static void setRemoveAssertJRelatedElementsFromStackTrace(boolean removeAssertJRelatedElementsFromStackTrace) {
@@ -2407,11 +2150,10 @@ public class BDDAssertions extends Assertions {
   /**
    * Throws an {@link AssertionError} with the given message.
    *
-   * @param <T> dummy return value type
+   * @param <T>            dummy return value type
    * @param failureMessage error message.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
    * @throws AssertionError with the given message.
-   *
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
@@ -2436,12 +2178,11 @@ public class BDDAssertions extends Assertions {
   /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
    *
-   * @param <T> dummy return value type
+   * @param <T>            dummy return value type
    * @param failureMessage error message.
-   * @param args Arguments referenced by the format specifiers in the format string.
+   * @param args           Arguments referenced by the format specifiers in the format string.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("b%s", ""oom)));}.
    * @throws AssertionError with the given built message.
-   *
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
@@ -2451,12 +2192,12 @@ public class BDDAssertions extends Assertions {
 
   /**
    * Throws an {@link AssertionError} with the given message and with the {@link Throwable} that caused the failure.
-   * @param <T> dummy return value type
+   *
+   * @param <T>            dummy return value type
    * @param failureMessage the description of the failed assertion. It can be {@code null}.
-   * @param realCause cause of the error.
+   * @param realCause      cause of the error.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom", cause)));}.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
-   *
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
@@ -2466,7 +2207,8 @@ public class BDDAssertions extends Assertions {
 
   /**
    * Throws an {@link AssertionError} with the {@link Throwable} that caused the failure.
-   * @param <T> dummy return value type
+   *
+   * @param <T>       dummy return value type
    * @param realCause cause of the error.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
    * @throws AssertionError with the {@link Throwable} that caused the failure.
@@ -2479,12 +2221,12 @@ public class BDDAssertions extends Assertions {
   /**
    * Throws an {@link AssertionError} with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
-   * @param <T> dummy return value type
+   *
+   * @param <T>            dummy return value type
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> shouldHaveThrown(IOException.class)));}.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
-   *           not been.
-   *
+   *                        not been.
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
@@ -2512,7 +2254,6 @@ public class BDDAssertions extends Assertions {
    *  "Guards! Guards! (Discworld)"]</code></pre>
    *
    * @param maxLengthForSingleLineDescription the maximum length for an iterable/array to be displayed on one line
-   *
    * @since 3.20.0
    */
   public static void setMaxLengthForSingleLineDescription(int maxLengthForSingleLineDescription) {
@@ -2528,14 +2269,13 @@ public class BDDAssertions extends Assertions {
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice");
    * // formatted as:
    * ["A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice"]</code></pre>
-   *
+   * <p>
    * whereas for this 6 elements array, only the first and last two elements are displayed (4 in total):
    * <pre><code class='java'> String[] greatBooks = array("A Game of Thrones", "The Lord of the Rings", "Assassin's Apprentice", "Guards! Guards!", "The Lies of Locke Lamora", "Aux Ombres d’Abyme");
    * // formatted as:
    * ["A Game of Thrones", "The Lord of the Rings", ... "The Lies of Locke Lamora", "Aux Ombres d’Abyme"]</code></pre>
    *
    * @param maxElementsForPrinting the maximum elements that would be printed for iterables, arrays and maps.
-   *
    * @since 3.20.0
    */
   public static void setMaxElementsForPrinting(int maxElementsForPrinting) {
@@ -2550,7 +2290,6 @@ public class BDDAssertions extends Assertions {
    * If you want to process the description differently, create a {@link Consumer Consumer&lt;Description&gt;} and register it with {@link #setDescriptionConsumer(Consumer)}.
    *
    * @param printAssertionsDescription whether to print assertions description.
-   *
    * @since 3.20.0
    */
   public static void setPrintAssertionsDescription(boolean printAssertionsDescription) {
@@ -2565,7 +2304,6 @@ public class BDDAssertions extends Assertions {
    * To unset the descriptionConsumer, call {@code setDescriptionConsumer(null);}
    *
    * @param descriptionConsumer the {@link Description} consumer
-   *
    * @since 3.20.0
    */
   public static void setDescriptionConsumer(Consumer<Description> descriptionConsumer) {
@@ -2588,7 +2326,7 @@ public class BDDAssertions extends Assertions {
    *     }
    *   }
    * }</code></pre>
-   *
+   * <p>
    * {@code Test1.boom()} exception should be represented like this in error messages:
    * <pre><code class='text'> java.lang.RuntimeException
    *  at org.assertj.core.presentation.Test1$Test2.boom2(StandardRepresentation_throwable_format_Test.java:35)
@@ -2596,9 +2334,8 @@ public class BDDAssertions extends Assertions {
    *  at org.assertj.core.presentation.Test1.lambda$1(StandardRepresentation_throwable_format_Test.java:63)org.assertj.core.util.Throwables_Description_Test$test1$test2.exception_layer_2(Throwables_Description_Test.java:24)
    *  ...(69 remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)org.assertj.core.util.Throwables_Description_Test$test1.exception_layer_1(Throwables_Description_Test.java:30)</code></pre>
    *
-   * @param maxStackTraceElementsDisplayed  the maximum number of lines for a stacktrace to be displayed on one throw.
+   * @param maxStackTraceElementsDisplayed the maximum number of lines for a stacktrace to be displayed on one throw.
    * @see Configuration
-   *
    * @since 3.20.0
    */
   public static void setMaxStackTraceElementsDisplayed(int maxStackTraceElementsDisplayed) {
@@ -2629,14 +2366,14 @@ public class BDDAssertions extends Assertions {
    * assertThat(extractProperty(&quot;race.name&quot;, String.class).from(fellowshipOfTheRing))
    *           .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *           .doesNotContain(&quot;Orc&quot;);</code></pre>
-   * @param <T> the type of value to extract.
+   *
+   * @param <T>          the type of value to extract.
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
-   *          property (e.g. "address.street.number").
+   *                     property (e.g. "address.street.number").
    * @param propertyType the type of property to extract
    * @return the created {@code Properties}.
-   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws NullPointerException     if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
-   *
    * @since 3.20.0
    */
   public static <T> Properties<T> extractProperty(String propertyName, Class<T> propertyType) {
@@ -2664,11 +2401,10 @@ public class BDDAssertions extends Assertions {
    * assertThat(extractProperty(&quot;race.name&quot;).from(fellowshipOfTheRing)).contains(&quot;Hobbit&quot;, &quot;Elf&quot;).doesNotContain(&quot;Orc&quot;); </code></pre>
    *
    * @param propertyName the name of the property to be read from the elements of a {@code Iterable}. It may be a nested
-   *          property (e.g. "address.street.number").
-   * @throws NullPointerException if the given property name is {@code null}.
-   * @throws IllegalArgumentException if the given property name is empty.
+   *                     property (e.g. "address.street.number").
    * @return the created {@code Properties}.
-   *
+   * @throws NullPointerException     if the given property name is {@code null}.
+   * @throws IllegalArgumentException if the given property name is empty.
    * @since 3.20.0
    */
   public static Properties<Object> extractProperty(String propertyName) {
@@ -2681,7 +2417,6 @@ public class BDDAssertions extends Assertions {
    *
    * @param values the values stored in the {@link Tuple}
    * @return the built {@link Tuple}
-   *
    * @since 3.20.0
    */
   public static Tuple tuple(Object... values) {
@@ -2696,7 +2431,6 @@ public class BDDAssertions extends Assertions {
    * should be allowed to extract private fields, if not and they try it fails with exception.
    *
    * @param allowExtractingPrivateFields allow private fields extraction. Default is {@value org.assertj.core.configuration.Configuration#ALLOW_EXTRACTING_PRIVATE_FIELDS}.
-   *
    * @since 3.20.0
    */
   public static void setAllowExtractingPrivateFields(boolean allowExtractingPrivateFields) {
@@ -2709,7 +2443,6 @@ public class BDDAssertions extends Assertions {
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
    *
    * @param allowComparingPrivateFields allow private fields comparison. Default is {@value org.assertj.core.configuration.Configuration#ALLOW_COMPARING_PRIVATE_FIELDS}.
-   *
    * @since 3.20.0
    */
   public static void setAllowComparingPrivateFields(boolean allowComparingPrivateFields) {
@@ -2719,8 +2452,8 @@ public class BDDAssertions extends Assertions {
   /**
    * Globally sets whether the extractor considers bare-named property methods like {@code String name()}.
    * Defaults to enabled.
-   * @param barenamePropertyMethods whether bare-named property methods are found
    *
+   * @param barenamePropertyMethods whether bare-named property methods are found
    * @since 3.20.0
    */
   public static void setExtractBareNamePropertyMethods(boolean barenamePropertyMethods) {
@@ -2741,12 +2474,12 @@ public class BDDAssertions extends Assertions {
    * <pre><code class='java'> Map&lt;Ring, TolkienCharacter&gt; ringBearers = ... // init omitted
    *
    * assertThat(ringBearers).contains(entry(oneRing, frodo), entry(nenya, galadriel));</code></pre>
-   * @param <K> the type of keys in the map.
-   * @param <V> the type of values in the map.
-   * @param key the key of the entry to create.
+   *
+   * @param <K>   the type of keys in the map.
+   * @param <V>   the type of values in the map.
+   * @param key   the key of the entry to create.
    * @param value the value of the entry to create.
    * @return the created {@code MapEntry}.
-   *
    * @since 3.20.0
    */
   public static <K, V> MapEntry<K, V> entry(K key, V value) {
@@ -2764,7 +2497,6 @@ public class BDDAssertions extends Assertions {
    * @param index the value of the index.
    * @return the created {@code Index}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Index atIndex(int index) {
@@ -2776,11 +2508,11 @@ public class BDDAssertions extends Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(0.1).isCloseTo(0.0, within(0.1));</code></pre>
+   *
    * @param value the allowed offset
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Double> within(Double value) {
@@ -2792,11 +2524,11 @@ public class BDDAssertions extends Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(0.1).isEqualTo(0.0, withPrecision(0.1));</code></pre>
+   *
    * @param value the required precision
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Double> withPrecision(Double value) {
@@ -2811,9 +2543,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the allowed offset
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Float> within(Float value) {
@@ -2825,11 +2556,11 @@ public class BDDAssertions extends Assertions {
    * <p>
    * Typical usage :
    * <pre><code class='java'> assertThat(0.2f).isEqualTo(0.0f, withPrecision(0.2f));</code></pre>
+   *
    * @param value the required precision
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Float> withPrecision(Float value) {
@@ -2844,9 +2575,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the allowed offset
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<BigDecimal> within(BigDecimal value) {
@@ -2859,12 +2589,11 @@ public class BDDAssertions extends Assertions {
    * Typical usage :
    * <pre><code class='java'> assertThat(BigInteger.TEN).isCloseTo(new BigInteger("11"), within(new BigInteger("2")));</code></pre>
    *
-   * @since 2.7.0 / 3.7.0
    * @param value the allowed offset
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
+   * @since 2.7.0 / 3.7.0
    * @since 3.20.0
    */
   public static Offset<BigInteger> within(BigInteger value) {
@@ -2879,9 +2608,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Byte> within(Byte value) {
@@ -2896,9 +2624,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Integer> within(Integer value) {
@@ -2913,9 +2640,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the allowed offset
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Short> within(Short value) {
@@ -2930,9 +2656,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the allowed offset
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Long> within(Long value) {
@@ -2949,9 +2674,8 @@ public class BDDAssertions extends Assertions {
    * assertThat(_07_10).isCloseTo(_07_12, within(5, ChronoUnit.MINUTES));</code></pre>
    *
    * @param value the allowed offset
-   * @param unit the {@link TemporalUnit} of the offset
+   * @param unit  the {@link TemporalUnit} of the offset
    * @return the created {@code Offset}.
-   *
    * @since 3.20.0
    */
   public static TemporalUnitOffset within(long value, TemporalUnit unit) {
@@ -2968,8 +2692,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param duration the {@link Duration} of the offset
    * @return the created {@code Offset}.
-   * @since 3.27.0
    * @see #byLessThan(Duration)
+   * @since 3.27.0
    */
   public static TemporalUnitOffset within(Duration duration) {
     return Assertions.within(duration);
@@ -2983,7 +2707,6 @@ public class BDDAssertions extends Assertions {
    *
    * @param allowedDifference the allowed difference {@link Duration}.
    * @return the given value.
-   *
    * @since 3.20.0
    */
   public static Duration withMarginOf(Duration allowedDifference) {
@@ -2999,9 +2722,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Percentage withinPercentage(Double value) {
@@ -3017,9 +2739,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Percentage withinPercentage(Integer value) {
@@ -3035,9 +2756,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the required precision percentage
    * @return the created {@code Percentage}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Percentage withinPercentage(Long value) {
@@ -3059,9 +2779,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Double> byLessThan(Double value) {
@@ -3076,9 +2795,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Float> byLessThan(Float value) {
@@ -3093,9 +2811,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<BigDecimal> byLessThan(BigDecimal value) {
@@ -3110,9 +2827,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<BigInteger> byLessThan(BigInteger value) {
@@ -3127,9 +2843,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Byte> byLessThan(Byte value) {
@@ -3144,9 +2859,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Integer> byLessThan(Integer value) {
@@ -3161,9 +2875,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Short> byLessThan(Short value) {
@@ -3178,9 +2891,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param value the value of the offset.
    * @return the created {@code Offset}.
-   * @throws NullPointerException if the given value is {@code null}.
+   * @throws NullPointerException     if the given value is {@code null}.
    * @throws IllegalArgumentException if the given value is negative.
-   *
    * @since 3.20.0
    */
   public static Offset<Long> byLessThan(Long value) {
@@ -3197,9 +2909,8 @@ public class BDDAssertions extends Assertions {
    * assertThat(_07_10).isCloseTo(_07_12, byLessThan(5, ChronoUnit.MINUTES));</code></pre>
    *
    * @param value the value of the offset.
-   * @param unit the {@link TemporalUnit} of the offset.
+   * @param unit  the {@link TemporalUnit} of the offset.
    * @return the created {@code Offset}.
-   *
    * @since 3.20.0
    */
   public static TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
@@ -3216,8 +2927,8 @@ public class BDDAssertions extends Assertions {
    *
    * @param duration the {@link Duration} of the offset.
    * @return the created {@code Offset}.
-   * @since 3.27.0
    * @see #within(Duration)
+   * @since 3.27.0
    */
   public static TemporalUnitOffset byLessThan(Duration duration) {
     return Assertions.byLessThan(duration);
@@ -3234,10 +2945,9 @@ public class BDDAssertions extends Assertions {
    *                 .doesNotReturn(null, from(Jedi::getWeight)); </code></pre>
    *
    * @param extractor A function to extract test subject's property
-   * @param <F> Type of test subject
-   * @param <T> Type of the property under the assertion
+   * @param <F>       Type of test subject
+   * @param <T>       Type of the property under the assertion
    * @return same instance of {@code extractor}
-   *
    * @since 3.20.0
    */
   public static <F, T> Function<F, T> from(Function<F, T> extractor) {
@@ -3256,8 +2966,6 @@ public class BDDAssertions extends Assertions {
    * @param <T>           the type to use for the cast.
    * @param <ASSERT>      the type of the resulting {@code Assert}
    * @return same instance of {@code assertFactory}
-   *
-   * @since 3.20.0
    * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
    * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
    * @see AbstractMapAssert#extractingByKey(Object, InstanceOfAssertFactory)
@@ -3265,7 +2973,7 @@ public class BDDAssertions extends Assertions {
    * @see AbstractIterableAssert#first(InstanceOfAssertFactory)
    * @see AbstractIterableAssert#last(InstanceOfAssertFactory)
    * @see AbstractIterableAssert#element(int, InstanceOfAssertFactory)
-   *
+   * @since 3.20.0
    * @since 3.20.0
    */
   public static <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
@@ -3278,12 +2986,11 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new <code>{@link AllOf}</code>
    *
-   * @param <T> the type of object the given condition accept.
+   * @param <T>        the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AllOf}.
    * @throws NullPointerException if the given array is {@code null}.
    * @throws NullPointerException if any of the elements in the given array is {@code null}.
-   *
    * @since 3.20.0
    */
   @SafeVarargs
@@ -3294,12 +3001,11 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new <code>{@link AllOf}</code>
    *
-   * @param <T> the type of object the given condition accept.
+   * @param <T>        the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AllOf}.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
-   *
    * @since 3.20.0
    */
   public static <T> Condition<T> allOf(Iterable<? extends Condition<? super T>> conditions) {
@@ -3310,10 +3016,9 @@ public class BDDAssertions extends Assertions {
    * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
    * given consumers to {@link AbstractAssert#satisfies(ThrowingConsumer[])}.
    *
-   * @param <T> the type of object the given consumers accept
+   * @param <T>       the type of object the given consumers accept
    * @param consumers the consumers to evaluate
    * @return the {@code ThrowingConsumer} instance
-   *
    * @since 3.25.0
    */
   @SafeVarargs
@@ -3329,10 +3034,9 @@ public class BDDAssertions extends Assertions {
    *
    * <pre><code class='java'> assertThat(&quot;Vader&quot;).is(anyOf(jedi, sith));</code></pre>
    *
-   * @param <T> the type of object the given condition accept.
+   * @param <T>        the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
-   *
    * @since 3.20.0
    */
   @SafeVarargs
@@ -3343,12 +3047,11 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new <code>{@link AnyOf}</code>
    *
-   * @param <T> the type of object the given condition accept.
+   * @param <T>        the type of object the given condition accept.
    * @param conditions the conditions to evaluate.
    * @return the created {@code AnyOf}.
    * @throws NullPointerException if the given iterable is {@code null}.
    * @throws NullPointerException if any of the elements in the given iterable is {@code null}.
-   *
    * @since 3.20.0
    */
   public static <T> Condition<T> anyOf(Iterable<? extends Condition<? super T>> conditions) {
@@ -3359,10 +3062,9 @@ public class BDDAssertions extends Assertions {
    * Create a new <code>{@link ThrowingConsumer}</code> that delegates the evaluation of the
    * given consumers to {@link AbstractAssert#satisfiesAnyOf(ThrowingConsumer[])}.
    *
-   * @param <T> the type of object the given consumers accept
+   * @param <T>       the type of object the given consumers accept
    * @param consumers the consumers to evaluate
    * @return the {@code ThrowingConsumer} instance
-   *
    * @since 3.25.0
    */
   @SafeVarargs
@@ -3373,10 +3075,9 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new <code>{@link DoesNotHave}</code>.
    *
-   * @param <T> the type of object the given condition accept.
+   * @param <T>       the type of object the given condition accept.
    * @param condition the condition to inverse.
    * @return The DoesNotHave condition created.
-   *
    * @since 3.20.0
    */
   public static <T> DoesNotHave<T> doesNotHave(Condition<? super T> condition) {
@@ -3386,10 +3087,9 @@ public class BDDAssertions extends Assertions {
   /**
    * Creates a new <code>{@link Not}</code>.
    *
-   * @param <T> the type of object the given condition accept.
+   * @param <T>       the type of object the given condition accept.
    * @param condition the condition to inverse.
    * @return The Not condition created.
-   *
    * @since 3.20.0
    */
   public static <T> Not<T> not(Condition<? super T> condition) {
@@ -3418,7 +3118,6 @@ public class BDDAssertions extends Assertions {
    *
    * @param values values to match (one match is sufficient)
    * @return the created "in" filter
-   *
    * @since 3.20.0
    */
   public static InFilter in(Object... values) {
@@ -3443,7 +3142,6 @@ public class BDDAssertions extends Assertions {
    *
    * @param valuesNotToMatch values not to match (none of the values must match)
    * @return the created "not in" filter
-   *
    * @since 3.20.0
    */
   public static NotInFilter notIn(Object... valuesNotToMatch) {
@@ -3468,7 +3166,6 @@ public class BDDAssertions extends Assertions {
    *
    * @param valueNotToMatch the value not to match
    * @return the created "not" filter
-   *
    * @since 3.20.0
    */
   public static NotFilter not(Object valueNotToMatch) {
@@ -3486,12 +3183,11 @@ public class BDDAssertions extends Assertions {
    * with {@link #assertThat(File)}.
    * </p>
    *
-   * @param file the file.
+   * @param file    the file.
    * @param charset the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.20.0
    */
   public static String contentOf(File file, Charset charset) {
@@ -3505,12 +3201,11 @@ public class BDDAssertions extends Assertions {
    * with {@link #assertThat(File)}.
    * </p>
    *
-   * @param file the file.
+   * @param file        the file.
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
-   * @throws UncheckedIOException if an I/O exception occurs.
-   *
+   * @throws UncheckedIOException     if an I/O exception occurs.
    * @since 3.20.0
    */
   public static String contentOf(File file, String charsetName) {
@@ -3528,7 +3223,6 @@ public class BDDAssertions extends Assertions {
    * @param file the file.
    * @return the content of the file.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.20.0
    */
   public static String contentOf(File file) {
@@ -3544,7 +3238,6 @@ public class BDDAssertions extends Assertions {
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.20.0
    */
   public static List<String> linesOf(File file) {
@@ -3555,12 +3248,11 @@ public class BDDAssertions extends Assertions {
    * Loads the text content of a file into a list of strings, each string corresponding to a line.
    * The line endings are either \n, \r or \r\n.
    *
-   * @param file the file.
+   * @param file    the file.
    * @param charset the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.20.0
    */
   public static List<String> linesOf(File file, Charset charset) {
@@ -3571,12 +3263,11 @@ public class BDDAssertions extends Assertions {
    * Loads the text content of a file into a list of strings, each string corresponding to a line. The line endings are
    * either \n, \r or \r\n.
    *
-   * @param file the file.
+   * @param file        the file.
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.20.0
    */
   public static List<String> linesOf(File file, String charsetName) {
@@ -3592,7 +3283,6 @@ public class BDDAssertions extends Assertions {
    * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.23.0
    */
   public static List<String> linesOf(Path path) {
@@ -3603,12 +3293,11 @@ public class BDDAssertions extends Assertions {
    * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line.
    * The line endings are either \n, \r or \r\n.
    *
-   * @param path the path.
+   * @param path    the path.
    * @param charset the character set to use.
    * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.23.0
    */
   public static List<String> linesOf(Path path, Charset charset) {
@@ -3619,12 +3308,11 @@ public class BDDAssertions extends Assertions {
    * Loads the text content of a file at a given path into a list of strings, each string corresponding to a line. The line endings are
    * either \n, \r or \r\n.
    *
-   * @param path the path.
+   * @param path        the path.
    * @param charsetName the name of the character set to use.
    * @return the content of the file at the given path.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.23.0
    */
   public static List<String> linesOf(Path path, String charsetName) {
@@ -3641,12 +3329,11 @@ public class BDDAssertions extends Assertions {
    * Note that this will load the entire contents in memory.
    * </p>
    *
-   * @param url the URL.
+   * @param url     the URL.
    * @param charset the character set to use.
    * @return the content of the URL.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.20.0
    */
   public static String contentOf(URL url, Charset charset) {
@@ -3659,12 +3346,11 @@ public class BDDAssertions extends Assertions {
    * Note that this will load the entire contents in memory.
    * </p>
    *
-   * @param url the URL.
+   * @param url         the URL.
    * @param charsetName the name of the character set to use.
    * @return the content of the URL.
    * @throws IllegalArgumentException if the given character set is not supported on this platform.
-   * @throws UncheckedIOException if an I/O exception occurs.
-   *
+   * @throws UncheckedIOException     if an I/O exception occurs.
    * @since 3.20.0
    */
   public static String contentOf(URL url, String charsetName) {
@@ -3681,7 +3367,6 @@ public class BDDAssertions extends Assertions {
    * @param url the URL.
    * @return the content of the file.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.20.0
    */
   public static String contentOf(URL url) {
@@ -3697,7 +3382,6 @@ public class BDDAssertions extends Assertions {
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.20.0
    */
   public static List<String> linesOf(URL url) {
@@ -3708,12 +3392,11 @@ public class BDDAssertions extends Assertions {
    * Loads the text content of a URL into a list of strings, each string corresponding to a line.
    * The line endings are either \n, \r or \r\n.
    *
-   * @param url the URL.
+   * @param url     the URL.
    * @param charset the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.20.0
    */
   public static List<String> linesOf(URL url, Charset charset) {
@@ -3724,12 +3407,11 @@ public class BDDAssertions extends Assertions {
    * Loads the text content of a URL into a list of strings, each string corresponding to a line. The line endings are
    * either \n, \r or \r\n.
    *
-   * @param url the URL.
+   * @param url         the URL.
    * @param charsetName the name of the character set to use.
    * @return the content of the file.
    * @throws NullPointerException if the given charset is {@code null}.
    * @throws UncheckedIOException if an I/O exception occurs.
-   *
    * @since 3.20.0
    */
   public static List<String> linesOf(URL url, String charsetName) {
@@ -3765,11 +3447,10 @@ public class BDDAssertions extends Assertions {
    * // assertions will fail
    * assertThat(date).hasSameTimeAs("2001-02-04"); // different date
    * assertThat(dateTime).hasSameTimeAs("2001-02-03 04:05:06"); // leniency does not help here</code></pre>
-   *
+   * <p>
    * To revert to default strict date parsing, call {@code setLenientDateParsing(false)}.
    *
    * @param value whether lenient parsing mode should be enabled or not
-   *
    * @since 3.20.0
    */
   public static void setLenientDateParsing(boolean value) {
@@ -3818,7 +3499,6 @@ public class BDDAssertions extends Assertions {
    * assertThat(date).isEqualTo("2003-04-26");</code></pre>
    *
    * @param userCustomDateFormat the new Date format used for String based Date assertions.
-   *
    * @since 3.20.0
    */
   public static void registerCustomDateFormat(DateFormat userCustomDateFormat) {
@@ -3867,7 +3547,6 @@ public class BDDAssertions extends Assertions {
    * assertThat(date).isEqualTo("2003-04-26");</code></pre>
    *
    * @param userCustomDateFormatPattern the new Date format pattern used for String based Date assertions.
-   *
    * @since 3.20.0
    */
   public static void registerCustomDateFormat(String userCustomDateFormatPattern) {
@@ -3948,7 +3627,6 @@ public class BDDAssertions extends Assertions {
    * //   &lt;$bar$&gt;</code></pre>
    *
    * @param customRepresentation the {@link Representation} to use
-   *
    * @since 3.20.0
    */
   public static void useRepresentation(Representation customRepresentation) {
@@ -3982,10 +3660,9 @@ public class BDDAssertions extends Assertions {
    * // fails with error : expected:&lt;$456$&gt; but was:&lt;$123$&gt;
    * assertThat(123L).isEqualTo(456L);</code></pre>
    *
-   * @param <T> the type of format.
-   * @param type the class of the type to format
+   * @param <T>       the type of format.
+   * @param type      the class of the type to format
    * @param formatter the formatter {@link Function}
-   *
    * @since 3.5.0
    */
   public static <T> void registerFormatterForType(Class<T> type, Function<T, String> formatter) {

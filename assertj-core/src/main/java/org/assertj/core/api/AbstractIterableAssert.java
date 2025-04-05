@@ -2972,13 +2972,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Navigate and allow to perform assertions on the first element of the {@link Iterable} under test.
    * <p>
    * By default, available assertions after {@code first()} are {@code Object} assertions, it is possible though to
-   * get more specific assertions if you create {@code IterableAssert} with either:
-   * <ul>
-   * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
-   * <li>an assert factory used that knows how to create elements assertion, see: {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable, element assert factory)}</li>
-   * </ul>
+   * get more specific assertions with {@link #first(InstanceOfAssertFactory)}.
    * <p>
-   * Example: default {@code Object} assertions
+   * Example:
    * <pre><code class='java'> // default iterable assert =&gt; element assert is ObjectAssert
    * Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
    *
@@ -2989,21 +2985,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // assertion fails
    * assertThat(hobbits).first()
    *                    .isEqualTo(pippin);</code></pre>
-   * <p>
-   * If you have created the Iterable assertion using an {@link AssertFactory} or the element assert class,
-   * you will be able to chain {@code first()} with more specific typed assertion.
-   * <p>
-   * Example: use of {@code String} assertions after {@code first()}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
-   *
-   * // assertion succeeds
-   * // String assertions are available after first()
-   * assertThat(hobbits, StringAssert.class).first()
-   *                                        .startsWith("Fro")
-   *                                        .endsWith("do");
-   * // assertion fails
-   * assertThat(hobbits, StringAssert.class).first()
-   *                                        .startsWith("Pip");</code></pre>
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} is empty.
@@ -3056,15 +3037,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Navigate and allow to perform assertions on the last element of the {@link Iterable} under test.
    * <p>
    * By default, available assertions after {@code last()} are {@code Object} assertions, it is possible though to
-   * get more specific assertions if you create {@code IterableAssert} with either:
-   * <ul>
-   * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
-   * <li>an assert factory used that knows how to create elements assertion, see: {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable, element assert factory)}</li>
-   * </ul>
+   * get more specific assertions with {@link #last(InstanceOfAssertFactory)}.
    * <p>
    * Example: default {@code Object} assertions
-   * <pre><code class='java'> // default iterable assert =&gt; element assert is ObjectAssert
-   * Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
+   * <pre><code class='java'> Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
    *
    * // assertion succeeds, only Object assertions are available after last()
    * assertThat(hobbits).last()
@@ -3073,21 +3049,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // assertion fails
    * assertThat(hobbits).last()
    *                    .isEqualTo(frodo);</code></pre>
-   * <p>
-   * If you have created the Iterable assertion using an {@link AssertFactory} or the element assert class,
-   * you will be able to chain {@code last()} with more specific typed assertion.
-   * <p>
-   * Example: use of {@code String} assertions after {@code last()}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
-   *
-   * // assertion succeeds
-   * // String assertions are available after last()
-   * assertThat(hobbits, StringAssert.class).last()
-   *                                        .startsWith("Pi")
-   *                                        .endsWith("in");
-   * // assertion fails
-   * assertThat(hobbits, StringAssert.class).last()
-   *                                        .startsWith("Fro");</code></pre>
    *
    * @return the assertion on the last element
    * @throws AssertionError if the actual {@link Iterable} is empty.
@@ -3152,11 +3113,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Navigate and allow to perform assertions on the chosen element of the {@link Iterable} under test.
    * <p>
    * By default, available assertions after {@code element(index)} are {@code Object} assertions, it is possible though to
-   * get more specific assertions if you create {@code IterableAssert} with either:
-   * <ul>
-   * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
-   * <li>an assert factory used that knows how to create elements assertion, see: {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable, element assert factory)}</li>
-   * </ul>
+   * get more specific assertions with {@link #element(int, InstanceOfAssertFactory)}.
    * <p>
    * Example: default {@code Object} assertions
    * <pre><code class='java'> // default iterable assert =&gt; element assert is ObjectAssert
@@ -3169,21 +3126,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // assertion fails
    * assertThat(hobbits).element(1)
    *                    .isEqualTo(pippin);</code></pre>
-   * <p>
-   * If you have created the Iterable assertion using an {@link AssertFactory} or the element assert class,
-   * you will be able to chain {@code element(index)} with more specific typed assertion.
-   * <p>
-   * Example: use of {@code String} assertions after {@code element(index)}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
-   *
-   * // assertion succeeds
-   * // String assertions are available after element(index)
-   * assertThat(hobbits, StringAssert.class).element(1)
-   *                                        .startsWith("Sa")
-   *                                        .endsWith("am");
-   * // assertion fails
-   * assertThat(hobbits, StringAssert.class).element(1)
-   *                                        .startsWith("Fro");</code></pre>
    *
    * @param index the element's index
    * @return the assertion on the given element
@@ -3315,12 +3257,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * This is a shorthand for <code>hasSize(1).first()</code>.
    * <p>
    * By default, available assertions after {@code singleElement()} are {@code Object} assertions, it is possible though to
-   * get more specific assertions if you create {@code IterableAssert} with either:
-   * <ul>
-   * <li>the element assert class, see: {@link Assertions#assertThat(Iterable, Class) assertThat(Iterable, element assert class)}</li>
-   * <li>an assert factory used that knows how to create elements assertion, see: {@link Assertions#assertThat(Iterable, AssertFactory) assertThat(Iterable, element assert factory)}</li>
-   * <li>the general <code>assertThat(Iterable)</code> and narrow down the single element with an assert factory, see: {@link #singleElement(InstanceOfAssertFactory) singleElement(element assert factory)}</li>
-   * </ul>
+   * get more specific assertions with {@link #singleElement(InstanceOfAssertFactory)}.
    * <p>
    * Example:
    * <pre><code class='java'> List&lt;String&gt; babySimpsons = list("Maggie");
@@ -3340,31 +3277,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * // assertion fails because list contains more than one element
    * List&lt;String&gt; simpsons = list("Homer", "Marge", "Lisa", "Bart", "Maggie");
    * assertThat(simpsons).singleElement();</code></pre>
-   * <p>
-   * If you have created the Iterable assertion using an {@link AssertFactory} or the element assert class,
-   * you will be able to chain {@code singleElement()} with more specific typed assertion.
-   * <p>
-   * Example: use of {@code String} assertions after {@code singleElement()}
-   * <pre><code class='java'> List&lt;String&gt; babySimpsons = list("Maggie");
-   *
-   * // assertion succeeds
-   * // String assertions are available after singleElement()
-   * assertThat(babySimpsons, StringAssert.class).singleElement()
-   *                                             .startsWith("Mag");
-   *
-   * // InstanceOfAssertFactories.STRING is an AssertFactory for String assertions
-   * assertThat(babySimpsons, InstanceOfAssertFactories.STRING).singleElement()
-   *                                                           .startsWith("Mag");
-   * // better readability with import static InstanceOfAssertFactories.STRING and Assertions.as
-   * assertThat(babySimpsons, as(STRING)).singleElement()
-   *                                     .startsWith("Mag");
-   *
-   * // assertions fail
-   * assertThat(babySimpsons, StringAssert.class).singleElement()
-   *                                             .startsWith("Lis");
-   * // failure as the single element is not an int/Integer
-   * assertThat(babySimpsons, IntegerAssert.class).singleElement()
-   *                                              .startsWith("Lis");</code></pre>
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual {@link Iterable} does not contain exactly one element.
