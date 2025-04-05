@@ -48,7 +48,6 @@ public abstract class BaseAssertionsTest {
                                                                FactoryBasedNavigableListAssert.class,
                                                                FactoryBasedNavigableIterableAssert.class,
                                                                ClassBasedNavigableListAssert.class,
-                                                               ClassBasedNavigableIterableAssert.class,
                                                                Object.class);
 
   static Method[] findMethodsWithName(Class<?> clazz, String name, Class<?>... ignoredReturnTypes) {
