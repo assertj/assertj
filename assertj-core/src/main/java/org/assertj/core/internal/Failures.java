@@ -22,9 +22,7 @@ import java.lang.management.ThreadMXBean;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
-import org.assertj.core.description.Description;
 import org.assertj.core.error.AssertionErrorCreator;
-import org.assertj.core.error.AssertionErrorFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.error.ShouldBeEqual;
@@ -83,24 +81,11 @@ public class Failures {
 
   private Failures() {}
 
-  /**
-   * Creates a <code>{@link AssertionError}</code> following this pattern:
-   * <ol>
-   * <li>creates a <code>{@link AssertionError}</code> using <code>{@link AssertionInfo#overridingErrorMessage()}</code>
-   * as the error message if such value is not {@code null}, or</li>
-   * <li>uses the given <code>{@link AssertionErrorFactory}</code> to create an <code>{@link AssertionError}</code>,
-   * prepending the value of <code>{@link AssertionInfo#description()}</code> to the error message</li>
-   * </ol>
-   *
-   * @param info contains information about the failed assertion.
-   * @param factory knows how to create {@code AssertionError}s.
-   * @return the created <code>{@link AssertionError}</code>.
-   */
-  public AssertionError failure(AssertionInfo info, AssertionErrorFactory factory) {
+  public AssertionError failure(AssertionInfo info, ShouldBeEqual shouldBeEqual) {
     AssertionError error = failureIfErrorMessageIsOverridden(info);
     if (error != null) return error;
     printThreadDumpIfNeeded();
-    return factory.newAssertionError(info.description(), info.representation());
+    return shouldBeEqual.toAssertionError(info.description(), info.representation());
   }
 
   /**
@@ -206,8 +191,6 @@ public class Failures {
   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:20)</code></pre>
-   *
-   * Method is public because we need to call it from {@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)} that is building a junit ComparisonFailure by reflection.
    *
    * @param assertionError the {@code AssertionError} to filter stack trace if option is set.
    */

@@ -35,7 +35,7 @@ import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests for
- * <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
+ * <code>{@link ShouldBeEqual#toAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
  *
  * @author Filip Hrisafov
  */
@@ -59,7 +59,7 @@ class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
     // GIVEN
     given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willReturn(null);
     // WHEN
-    AssertionError error = factory.newAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = factory.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     check(error);
   }
@@ -70,7 +70,7 @@ class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
     given(constructorInvoker.newInstance(anyString(), any(Class[].class),
                                          any(Object[].class))).willThrow(new AssertionError("Thrown on purpose"));
     // WHEN
-    AssertionError error = factory.newAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = factory.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     check(error);
   }

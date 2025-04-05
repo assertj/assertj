@@ -30,7 +30,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for <code>{@link ShouldBeEqual#toAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
  *
  * @author Alex Ruiz
  * @author Dan Corder
@@ -56,7 +56,7 @@ class ShouldBeEqual_newAssertionError_Test {
     // GIVEN
     given(formatter.format(description)).willReturn(formattedDescription);
     // WHEN
-    AssertionError error = factory.newAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = factory.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage(format("[Jedi] %n" +

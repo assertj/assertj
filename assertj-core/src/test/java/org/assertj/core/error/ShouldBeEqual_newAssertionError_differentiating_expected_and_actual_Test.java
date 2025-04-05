@@ -34,7 +34,7 @@ import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests for
- * <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
+ * <code>{@link ShouldBeEqual#toAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
  *
  * @author Joel Costigliola (based on Tomasz Nurkiewicz ideas)
  */
@@ -55,7 +55,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     Double expected = 42d;
     ShouldBeEqual shouldBeEqual = initShouldBeEqual(actual, expected);
     // WHEN
-    AssertionError error = shouldBeEqual.newAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = shouldBeEqual.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage(format("[my test] %n" +
@@ -73,7 +73,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     writeField(shouldBeEqual, "descriptionFormatter", descriptionFormatterMock, true);
     when(descriptionFormatterMock.format(description)).thenReturn(formattedDescription);
     // WHEN
-    AssertionError error = shouldBeEqual.newAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = shouldBeEqual.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
@@ -93,7 +93,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     writeField(shouldBeEqual, "descriptionFormatter", descriptionFormatterMock, true);
     when(descriptionFormatterMock.format(description)).thenReturn(formattedDescription);
     // WHEN
-    AssertionError error = shouldBeEqual.newAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = shouldBeEqual.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
@@ -113,7 +113,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     writeField(shouldBeEqual, "descriptionFormatter", descriptionFormatterMock, true);
     when(descriptionFormatterMock.format(description)).thenReturn(formattedDescription);
     // WHEN
-    AssertionError error = shouldBeEqual.newAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = shouldBeEqual.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +
@@ -132,7 +132,7 @@ class ShouldBeEqual_newAssertionError_differentiating_expected_and_actual_Test {
     writeField(shouldBeEqual, "descriptionFormatter", descriptionFormatterMock, true);
     when(descriptionFormatterMock.format(description)).thenReturn(formattedDescription);
     // WHEN
-    AssertionError error = shouldBeEqual.newAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = shouldBeEqual.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage("[my test] %n" +

@@ -39,7 +39,7 @@ import org.assertj.core.presentation.Representation;
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
-public class ShouldBeEqual implements AssertionErrorFactory {
+public class ShouldBeEqual {
 
   private static final String EXPECTED_BUT_WAS_MESSAGE = "%nexpected: %s%n but was: %s";
   private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = EXPECTED_BUT_WAS_MESSAGE + "%n%s";
@@ -62,7 +62,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * @param representation the {@link Representation} used to format values.
    * @return the created {@code AssertionErrorFactory}.
    */
-  public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected, Representation representation) {
+  public static ShouldBeEqual shouldBeEqual(Object actual, Object expected, Representation representation) {
     return new ShouldBeEqual(actual, expected, StandardComparisonStrategy.instance(), representation);
   }
 
@@ -75,9 +75,9 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * @param representation the {@link Representation} used to format values.
    * @return the created {@code AssertionErrorFactory}.
    */
-  public static AssertionErrorFactory shouldBeEqual(Object actual, Object expected,
-                                                    ComparisonStrategy comparisonStrategy,
-                                                    Representation representation) {
+  public static ShouldBeEqual shouldBeEqual(Object actual, Object expected,
+                                            ComparisonStrategy comparisonStrategy,
+                                            Representation representation) {
     return new ShouldBeEqual(actual, expected, comparisonStrategy, representation);
   }
 
@@ -108,8 +108,7 @@ public class ShouldBeEqual implements AssertionErrorFactory {
    * @param representation the {@link Representation} used to format values.
    * @return the created {@code AssertionError}.
    */
-  @Override
-  public AssertionError newAssertionError(Description description, Representation representation) {
+  public AssertionError toAssertionError(Description description, Representation representation) {
     String message = smartErrorMessage(description, representation);
     // only use JUnit error message if the comparison strategy used was standard, otherwise we need to mention
     // comparison strategy in the assertion error message to make it clear to the user it was used.

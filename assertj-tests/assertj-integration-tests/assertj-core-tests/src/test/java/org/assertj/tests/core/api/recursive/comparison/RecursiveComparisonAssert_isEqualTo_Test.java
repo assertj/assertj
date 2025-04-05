@@ -27,9 +27,6 @@ import static org.assertj.tests.core.testkit.Maps.mapOf;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Stopwatch;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.file.Path;
@@ -41,6 +38,7 @@ import java.util.Map;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javax.xml.datatype.DatatypeFactory;
+
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
@@ -56,6 +54,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Stopwatch;
 
 class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -89,7 +91,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison().isEqualTo(expected));
     // THEN
     var shouldBeEqual = shouldBeEqual(actual, null, StandardComparisonStrategy.instance(), info.representation());
-    var expectedAssertionError = shouldBeEqual.newAssertionError(null, STANDARD_REPRESENTATION);
+    var expectedAssertionError = shouldBeEqual.toAssertionError(null, STANDARD_REPRESENTATION);
     then(assertionError).hasMessage(expectedAssertionError.getMessage());
   }
 

@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for <code>{@link ShouldBeEqual#toAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -56,14 +56,14 @@ class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   @Test
   void should_create_AssertionFailedError_if_created_ComparisonFailure_is_null() throws Exception {
     when(createComparisonFailure()).thenReturn(null);
-    AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
+    AssertionError error = factory.toAssertionError(description, new StandardRepresentation());
     check(error);
   }
 
   @Test
   void should_create_AssertionFailedError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
     when(createComparisonFailure()).thenThrow(new AssertionError("Thrown on purpose"));
-    AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
+    AssertionError error = factory.toAssertionError(description, new StandardRepresentation());
     check(error);
   }
 
