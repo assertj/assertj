@@ -47,7 +47,7 @@ class ObjectArrayAssert_satisfiesExactlyInAnyOrder_with_ThrowingConsumer_Test ex
     Throwable throwable = catchThrowable(() -> assertThat(array("foo")).satisfiesExactlyInAnyOrder(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

@@ -47,7 +47,7 @@ class ObjectArrayAssert_satisfiesOnlyOnce_with_ThrowingConsumer_Test extends Obj
     Throwable throwable = catchThrowable(() -> assertThat(array("foo")).satisfiesOnlyOnce(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

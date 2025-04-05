@@ -52,7 +52,7 @@ class IterableAssert_noneSatisfy_with_ThrowingConsumer_Test extends IterableAsse
     Throwable throwable = catchThrowable(() -> assertThat(list("foo")).noneSatisfy(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

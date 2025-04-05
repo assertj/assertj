@@ -53,7 +53,7 @@ class ObjectArrayAssert_noneSatisfy_with_ThrowingConsumer_Test extends ObjectArr
     Throwable throwable = catchThrowable(() -> assertThat(array("foo")).noneSatisfy(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

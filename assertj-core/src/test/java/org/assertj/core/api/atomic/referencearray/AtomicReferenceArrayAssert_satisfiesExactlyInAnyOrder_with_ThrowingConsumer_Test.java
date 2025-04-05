@@ -60,7 +60,7 @@ class AtomicReferenceArrayAssert_satisfiesExactlyInAnyOrder_with_ThrowingConsume
     Throwable throwable = catchThrowable(() -> assertThat(atomicArrayOf("foo")).satisfiesExactlyInAnyOrder(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

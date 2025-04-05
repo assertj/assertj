@@ -47,7 +47,7 @@ class AtomicReferenceArrayAssert_satisfiesExactly_with_ThrowingConsumer_Test ext
     Throwable throwable = catchThrowable(() -> assertThat(atomicArrayOf("foo")).satisfiesExactly(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

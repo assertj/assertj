@@ -46,7 +46,7 @@ class IterableAssert_satisfiesOnlyOnce_with_ThrowingConsumer_Test extends Iterab
     Throwable throwable = catchThrowable(() -> assertThat(list("foo")).satisfiesOnlyOnce(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

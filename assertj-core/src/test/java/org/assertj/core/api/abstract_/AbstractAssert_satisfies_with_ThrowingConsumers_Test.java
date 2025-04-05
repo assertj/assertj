@@ -23,6 +23,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.ThrowingConsumerFactory.throwingConsumer;
 
 import java.nio.file.Path;
+
 import org.assertj.core.api.ThrowingConsumer;
 import org.junit.jupiter.api.Test;
 
@@ -100,7 +101,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
     Throwable throwable = catchThrowable(() -> assertThat("foo").satisfies(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

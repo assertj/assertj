@@ -47,7 +47,7 @@ class IterableAssert_satisfiesExactlyInAnyOrder_with_ThrowingConsumer_Test exten
     Throwable throwable = catchThrowable(() -> assertThat(list("foo")).satisfiesExactlyInAnyOrder(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

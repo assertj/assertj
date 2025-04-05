@@ -42,7 +42,7 @@ class IterableAssert_filteredOnAssertions_ThrowingConsumer_Test extends Iterable
     Throwable throwable = catchThrowable(() -> assertThat(employees).filteredOnAssertions(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test
