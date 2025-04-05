@@ -71,11 +71,10 @@ public class OptionalDoubleShouldHaveValueCloseToPercentage extends BasicErrorMe
     return shouldHaveValueCloseToPercentage(actual, expectedValue, percentage, abs(expectedValue - actual.getAsDouble()));
   }
 
-
   private static OptionalDoubleShouldHaveValueCloseToPercentage shouldHaveValueCloseToPercentage(OptionalDouble optional,
-                                                                                                double expectedValue,
-                                                                                                Percentage percentage,
-                                                                                                double difference) {
+                                                                                                 double expectedValue,
+                                                                                                 Percentage percentage,
+                                                                                                 double difference) {
     double actualPercentage = difference / expectedValue * 100d;
     return new OptionalDoubleShouldHaveValueCloseToPercentage(optional, expectedValue, percentage, actualPercentage);
   }

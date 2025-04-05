@@ -278,7 +278,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
     isBase64();
     return new ByteArrayAssert(Base64.getDecoder().decode(actual)).withAssertionState(myself);
   }
-  
+
   /**
    * Use the given custom comparator instead of relying on {@link String} natural comparator for the incoming assertions.
    * <p>
