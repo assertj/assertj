@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.AbstractSoftAssertions;
 import org.assertj.core.api.AssertionErrorCollector;
@@ -175,7 +176,7 @@ import org.junit.platform.commons.support.ReflectionSupport;
  * </pre>
  *
  * @author Sam Brannen
- * @author Arthur Mita (author of {@link SoftlyExtension})
+ * @author Arthur Mita (author of the removed SoftlyExtension that inspired this extension)
  * @author Fr Jeremy Krieg
  * @since 3.13
  */
