@@ -620,19 +620,6 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
   }
 
   /**
-   * Returns true if both localtime are in the same year, month and day of month, hour, minute and second, false
-   * otherwise.
-   *
-   * @param actual the actual localtime. expected not be null
-   * @param other the other localtime. expected not be null
-   * @return true if both localtime are in the same year, month and day of month, hour, minute and second, false
-   *         otherwise.
-   */
-  private static boolean areEqualIgnoringNanos(LocalTime actual, LocalTime other) {
-    return areEqualIgnoringSeconds(actual, other) && actual.getSecond() == other.getSecond();
-  }
-
-  /**
    * Returns true if both localtime are in the same year, month, day of month, hour and minute, false otherwise.
    *
    * @param actual the actual localtime. expected not be null

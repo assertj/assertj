@@ -34,6 +34,7 @@ public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalInt
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();
 
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalIntAssert(OptionalInt actual, Class<?> selfType) {
     super(actual, selfType);
   }

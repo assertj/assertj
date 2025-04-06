@@ -99,7 +99,6 @@ import org.assertj.core.util.introspection.IntrospectionError;
  */
 //@format:off
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
-@SuppressWarnings("deprecation")
 public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                              ACTUAL extends Iterable<? extends ELEMENT>,
                                              ELEMENT,

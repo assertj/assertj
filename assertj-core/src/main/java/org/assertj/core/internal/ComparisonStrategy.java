@@ -88,8 +88,8 @@ public interface ComparisonStrategy {
    * Look for given value in given {@link Iterable} according to the implemented comparison strategy, if value is found it is
    * removed from it.<br>
    * If given {@link Iterable} is null, does nothing.
-   * 
-   * @param iterable the {@link Iterable} we want remove value from
+   *
+   * @param iterable the {@link Iterable} we want to remove value from
    * @param value object to remove from given {@link Iterable}
    */
   void iterableRemoves(Iterable<?> iterable, Object value);
@@ -98,7 +98,7 @@ public interface ComparisonStrategy {
    * Removes the first value in {@code iterable} that matches the {@code value} according to the implemented comparison
    * strategy. If given {@link Iterable} is null, does nothing.
    *
-   * @param iterable the {@link Iterable} we want remove value from
+   * @param iterable the {@link Iterable} we want to remove value from
    * @param value object to remove from given {@link Iterable}
    */
   void iterablesRemoveFirst(Iterable<?> iterable, Object value);
@@ -164,6 +164,6 @@ public interface ComparisonStrategy {
    */
   default String asText() {
     return "";
-  };
+  }
 
 }

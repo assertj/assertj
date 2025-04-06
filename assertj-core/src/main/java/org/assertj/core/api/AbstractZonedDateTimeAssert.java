@@ -836,19 +836,6 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   }
 
   /**
-   * Returns true if both datetime are in the same year, month and day of month, hour, minute and second, false
-   * otherwise.
-   *
-   * @param actual the actual datetime. expected not be null
-   * @param other the other datetime. expected not be null
-   * @return true if both datetime are in the same year, month and day of month, hour, minute and second, false
-   *         otherwise.
-   */
-  private static boolean areEqualIgnoringNanos(ZonedDateTime actual, ZonedDateTime other) {
-    return areEqualIgnoringSeconds(actual, other) && actual.getSecond() == other.getSecond();
-  }
-
-  /**
    * Returns true if both datetime are in the same year, month, day of month, hour and minute, false otherwise.
    *
    * @param actual the actual datetime. expected not be null

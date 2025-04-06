@@ -30,6 +30,7 @@ import org.assertj.core.internal.Failures;
 public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLongAssert<SELF>> extends
     AbstractAssert<SELF, OptionalLong> {
 
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalLongAssert(OptionalLong actual, Class<?> selfType) {
     super(actual, selfType);
   }

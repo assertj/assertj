@@ -39,6 +39,7 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Doubles doubles = Doubles.instance();
 
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalDoubleAssert(OptionalDouble actual, Class<?> selfType) {
     super(actual, selfType);
   }

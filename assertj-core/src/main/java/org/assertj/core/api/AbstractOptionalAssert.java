@@ -51,6 +51,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   private ComparisonStrategy optionalValueComparisonStrategy;
 
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalAssert(Optional<VALUE> actual, Class<?> selfType) {
     super(actual, selfType);
     this.optionalValueComparisonStrategy = StandardComparisonStrategy.instance();
