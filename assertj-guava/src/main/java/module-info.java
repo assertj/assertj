@@ -19,7 +19,6 @@ module org.assertj.guava {
   requires com.google.common;
 
   exports org.assertj.guava.api;
-  exports org.assertj.guava.data;
   exports org.assertj.guava.error;
   exports org.assertj.guava.util;
 }
