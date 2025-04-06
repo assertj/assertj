@@ -67,12 +67,6 @@ public class ThrowableAssert<ACTUAL extends Throwable> extends AbstractThrowable
     return null;
   }
 
-  @Deprecated(since = "3", forRemoval = true)
-  public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
-                                                                             Class<THROWABLE> type) {
-    return catchThrowableOfType(type, shouldRaiseThrowable);
-  }
-
   @SuppressWarnings("unchecked")
   public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(Class<THROWABLE> type,
                                                                              ThrowingCallable shouldRaiseThrowable) {
