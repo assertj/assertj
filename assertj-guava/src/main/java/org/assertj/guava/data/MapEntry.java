@@ -13,9 +13,10 @@
 package org.assertj.guava.data;
 
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
-import static org.assertj.core.util.Objects.areEqual;
 import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Strings.quote;
+
+import java.util.Objects;
 
 /**
  * This is generic version of {@link org.assertj.core.data.MapEntry}
@@ -61,7 +62,8 @@ public final class MapEntry<K, V> {
       return false;
     }
     MapEntry<?, ?> other = (MapEntry<?, ?>) obj;
-    return areEqual(key, other.key) && areEqual(value, other.value);
+    if (!Objects.deepEquals(key, other.key)) return false;
+    return Objects.deepEquals(value, other.value);
   }
 
   @Override
