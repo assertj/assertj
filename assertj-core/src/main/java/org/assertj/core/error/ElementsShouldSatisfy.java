@@ -18,6 +18,7 @@ import static org.assertj.core.util.Strings.escapePercent;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.assertj.core.api.AssertionInfo;
 
 public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
@@ -78,10 +79,6 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
     return escapePercent(elementsNotSatisfyingRequirements.stream()
                                                           .map(unsatisfiedRequirement -> unsatisfiedRequirement.describe(info))
                                                           .collect(joining("%n%n".formatted())));
-  }
-
-  public static UnsatisfiedRequirement unsatisfiedRequirement(Object elementNotSatisfyingRequirements, String errorMessage) {
-    return new UnsatisfiedRequirement(elementNotSatisfyingRequirements, errorMessage);
   }
 
 }

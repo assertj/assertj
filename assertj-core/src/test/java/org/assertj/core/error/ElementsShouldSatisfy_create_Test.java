@@ -18,25 +18,19 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyExactly;
-import static org.assertj.core.error.ElementsShouldSatisfy.unsatisfiedRequirement;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
 import java.util.Map;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.description.TextDescription;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ElementsShouldSatisfy_create_Test {
 
-  private AssertionInfo info;
-
-  @BeforeEach
-  public void setUp() {
-    info = someInfo();
-  }
+  private static final AssertionInfo INFO = someInfo();
 
   @Test
   void should_create_error_message_all() {
@@ -45,35 +39,37 @@ class ElementsShouldSatisfy_create_Test {
                                                                                            catchAssertionError("Leia mistake.")),
                                                                 new UnsatisfiedRequirement("Luke",
                                                                                            catchAssertionError("Luke mistake.")));
-    ErrorMessageFactory factory = elementsShouldSatisfy(list("Leia", "Luke", "Yoda"), unsatisfiedRequirements, info);
+    ErrorMessageFactory factory = elementsShouldSatisfy(list("Leia", "Luke", "Yoda"), unsatisfiedRequirements, INFO);
     // WHEN
-    String message = factory.create(new TextDescription("Test"), info.representation());
+    String message = factory.create(new TextDescription("Test"), INFO.representation());
     // THEN
     then(message).startsWith(format("[Test] %n" +
                                     "Expecting all elements of:%n" +
                                     "  [\"Leia\", \"Luke\", \"Yoda\"]%n" +
                                     "to satisfy given requirements, but these elements did not:%n%n"))
-                 .contains("java.lang.AssertionError: Leia mistake.%n\tat".formatted())
-                 .contains("java.lang.AssertionError: Luke mistake.%n\tat".formatted());
+                 .contains("java.lang.AssertionError: Leia mistake.%n\tat".formatted(),
+                           "java.lang.AssertionError: Luke mistake.%n\tat".formatted());
   }
 
   @Test
   void should_create_error_message_all_and_escape_percent_correctly() {
     // GIVEN
-    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia%s", "Leia mistake."),
-                                                                unsatisfiedRequirement("Luke", "Luke mistake."));
-    ErrorMessageFactory factory = elementsShouldSatisfy(list("Leia%s", "Luke", "Yoda"), unsatisfiedRequirements, info);
+    var unsatisfiedRequirements = list(new UnsatisfiedRequirement("Leia%s", new AssertionError("Leia mistake.")),
+                                       new UnsatisfiedRequirement("Luke", new AssertionError("Luke mistake.")));
+    ErrorMessageFactory factory = elementsShouldSatisfy(list("Leia%s", "Luke", "Yoda"), unsatisfiedRequirements, INFO);
     // WHEN
-    String message = factory.create(new TextDescription("Test"), info.representation());
+    String message = factory.create(new TextDescription("Test"), INFO.representation());
     // THEN
-    then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting all elements of:%n" +
-                                   "  [\"Leia%%s\", \"Luke\", \"Yoda\"]%n" +
-                                   "to satisfy given requirements, but these elements did not:%n%n" +
-                                   "\"Leia%%s\"%n" +
-                                   "error: Leia mistake.%n%n" +
-                                   "\"Luke\"%n" +
-                                   "error: Luke mistake."));
+    then(message).startsWith(format("[Test] %n" +
+                                    "Expecting all elements of:%n" +
+                                    "  [\"Leia%%s\", \"Luke\", \"Yoda\"]%n" +
+                                    "to satisfy given requirements, but these elements did not:%n%n" +
+                                    "\"Leia%%s\"%n"))
+                 .contains("error: java.lang.AssertionError: Leia mistake.%n\tat".formatted())
+                 .contains(format("%n" +
+                                  "\"Luke\"%n" +
+                                  "error: java.lang.AssertionError: Luke mistake.%n\tat"));
+
   }
 
   @Test
@@ -83,35 +79,36 @@ class ElementsShouldSatisfy_create_Test {
                                                                                            catchAssertionError("Leia mistake.")),
                                                                 new UnsatisfiedRequirement("Luke",
                                                                                            catchAssertionError("Luke mistake.")));
-    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Luke", "Yoda"), unsatisfiedRequirements, info);
+    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Luke", "Yoda"), unsatisfiedRequirements, INFO);
     // WHEN
-    String message = factory.create(new TextDescription("Test"), info.representation());
+    String message = factory.create(new TextDescription("Test"), INFO.representation());
     // THEN
     then(message).startsWith(format("[Test] %n" +
                                     "Expecting any element of:%n" +
                                     "  [\"Luke\", \"Yoda\"]%n" +
                                     "to satisfy the given assertions requirements but none did:%n%n"))
-                 .contains("java.lang.AssertionError: Leia mistake.%n\tat".formatted())
-                 .contains("java.lang.AssertionError: Luke mistake.%n\tat".formatted());
+                 .contains("java.lang.AssertionError: Leia mistake.%n\tat".formatted(),
+                           "java.lang.AssertionError: Luke mistake.%n\tat".formatted());
   }
 
   @Test
   void should_create_error_message_any_and_escape_percent_correctly() {
     // GIVEN
-    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(unsatisfiedRequirement("Leia", "Leia mistake."),
-                                                                unsatisfiedRequirement("Luke", "Luke mistake."));
-    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Lu%dke", "Yoda"), unsatisfiedRequirements, info);
+    var unsatisfiedRequirements = list(new UnsatisfiedRequirement("Leia", new AssertionError("Leia mistake.")),
+                                       new UnsatisfiedRequirement("Luke", new AssertionError("Luke mistake.")));
+    ErrorMessageFactory factory = elementsShouldSatisfyAny(list("Lu%dke", "Yoda"), unsatisfiedRequirements, INFO);
     // WHEN
-    String message = factory.create(new TextDescription("Test"), info.representation());
+    String message = factory.create(new TextDescription("Test"), INFO.representation());
     // THEN
-    then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting any element of:%n" +
-                                   "  [\"Lu%%dke\", \"Yoda\"]%n" +
-                                   "to satisfy the given assertions requirements but none did:%n%n" +
-                                   "\"Leia\"%n" +
-                                   "error: Leia mistake.%n%n" +
-                                   "\"Luke\"%n" +
-                                   "error: Luke mistake."));
+    then(message).startsWith(format("[Test] %n" +
+                                    "Expecting any element of:%n" +
+                                    "  [\"Lu%%dke\", \"Yoda\"]%n" +
+                                    "to satisfy the given assertions requirements but none did:%n%n" +
+                                    "\"Leia\"%n"))
+                 .contains("error: java.lang.AssertionError: Leia mistake.%n\tat".formatted())
+                 .contains(format("%n" +
+                                  "\"Luke\"%n" +
+                                  "error: java.lang.AssertionError: Luke mistake.%n\tat"));
   }
 
   @Test
@@ -120,9 +117,9 @@ class ElementsShouldSatisfy_create_Test {
     Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements = newHashMap();
     unsatisfiedRequirements.put(1, new UnsatisfiedRequirement("Leia%", catchAssertionError("Leia mistake.")));
     unsatisfiedRequirements.put(3, new UnsatisfiedRequirement("Luke", catchAssertionError("Luke mistake.")));
-    ErrorMessageFactory factory = elementsShouldSatisfyExactly(list("Luke%", "Yoda"), unsatisfiedRequirements, info);
+    ErrorMessageFactory factory = elementsShouldSatisfyExactly(list("Luke%", "Yoda"), unsatisfiedRequirements, INFO);
     // WHEN
-    String message = factory.create(new TextDescription("Test"), info.representation());
+    String message = factory.create(new TextDescription("Test"), INFO.representation());
     // THEN
     then(message).startsWith(format("[Test] %n" +
                                     "Expecting each element of:%n" +

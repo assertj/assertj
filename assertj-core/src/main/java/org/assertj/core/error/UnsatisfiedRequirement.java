@@ -23,18 +23,6 @@ public class UnsatisfiedRequirement {
   private final String errorMessage;
   private final AssertionError error;
 
-  /**
-   * @param elementNotSatisfyingRequirements object not satisfying the requirement
-   * @param errorMessage                     requirement error message
-   * @deprecated use {@link UnsatisfiedRequirement#UnsatisfiedRequirement(Object, AssertionError)} instead.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public UnsatisfiedRequirement(Object elementNotSatisfyingRequirements, String errorMessage) {
-    this.elementNotSatisfyingRequirements = elementNotSatisfyingRequirements;
-    this.errorMessage = errorMessage;
-    this.error = null;
-  }
-
   public UnsatisfiedRequirement(Object elementNotSatisfyingRequirements, AssertionError error) {
     this.elementNotSatisfyingRequirements = elementNotSatisfyingRequirements;
     this.errorMessage = error.getMessage();
