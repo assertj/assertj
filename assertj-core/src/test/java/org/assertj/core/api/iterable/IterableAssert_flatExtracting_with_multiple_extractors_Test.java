@@ -40,7 +40,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
   @SuppressWarnings("deprecation")
-  private static final Extractor<TolkienCharacter, String> name = TolkienCharacter::getName;
+  private static final Function<TolkienCharacter, String> name = TolkienCharacter::getName;
   private static final Function<TolkienCharacter, Integer> age = TolkienCharacter::getAge;
   private static final ThrowingExtractor<TolkienCharacter, String, Exception> nameThrowingExtractor = TolkienCharacter::getName;
   private static final ThrowingExtractor<TolkienCharacter, Integer, Exception> ageThrowingExtractor = TolkienCharacter::getAge;

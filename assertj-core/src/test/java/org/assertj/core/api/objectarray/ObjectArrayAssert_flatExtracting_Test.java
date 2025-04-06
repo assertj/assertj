@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.testkit.AlwaysEqualComparator;
 import org.assertj.core.testkit.CartoonCharacter;
@@ -44,9 +43,9 @@ class ObjectArrayAssert_flatExtracting_Test {
 
   private static final Function<CartoonCharacter, List<CartoonCharacter>> children = CartoonCharacter::getChildren;
 
-  private static final Extractor<CartoonCharacter, List<CartoonCharacter>> childrenExtractor = new Extractor<CartoonCharacter, List<CartoonCharacter>>() {
+  private static final Function<CartoonCharacter, List<CartoonCharacter>> childrenExtractor = new Function<CartoonCharacter, List<CartoonCharacter>>() {
     @Override
-    public List<CartoonCharacter> extract(CartoonCharacter input) {
+    public List<CartoonCharacter> apply(CartoonCharacter input) {
       return input.getChildren();
     }
   };

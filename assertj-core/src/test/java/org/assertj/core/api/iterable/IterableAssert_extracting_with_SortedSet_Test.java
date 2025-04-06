@@ -55,9 +55,9 @@ class IterableAssert_extracting_with_SortedSet_Test {
   private SortedSet<TolkienCharacter> fellowshipOfTheRing;
 
   @SuppressWarnings("deprecation")
-  private static final Extractor<Employee, String> firstName = new Extractor<Employee, String>() {
+  private static final Function<Employee, String> firstName = new Function<Employee, String>() {
     @Override
-    public String extract(Employee input) {
+    public String apply(Employee input) {
       return input.getName().getFirst();
     }
   };
@@ -185,9 +185,9 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @SuppressWarnings("deprecation")
   @Test
   void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_runtimeexception() {
-    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(new Extractor<Employee, String>() {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(new Function<Employee, String>() {
       @Override
-      public String extract(Employee input) {
+      public String apply(Employee input) {
         if (input.getAge() > 100) {
           throw new RuntimeException("age > 100");
         }
@@ -239,9 +239,9 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @SuppressWarnings("deprecation")
   @Test
   void should_allow_extracting_multiple_values_using_extractor() {
-    assertThat(jedis).extracting(new Extractor<Employee, Tuple>() {
+    assertThat(jedis).extracting(new Function<Employee, Tuple>() {
       @Override
-      public Tuple extract(Employee input) {
+      public Tuple apply(Employee input) {
         return new Tuple(input.getName().getFirst(), input.getAge(), input.id);
       }
     }).containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
@@ -405,9 +405,9 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @Test
   void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
-                                                                                      .extracting(new Extractor<Employee, String>() {
+                                                                                      .extracting(new Function<Employee, String>() {
                                                                                         @Override
-                                                                                        public String extract(Employee input) {
+                                                                                        public String apply(Employee input) {
                                                                                           return input.getName()
                                                                                                       .getFirst();
                                                                                         }
