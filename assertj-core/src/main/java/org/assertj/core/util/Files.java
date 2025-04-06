@@ -82,23 +82,6 @@ public class Files {
   }
 
   /**
-   * Returns the system's temporary directory.
-   *
-   * @return the system's temporary directory.
-   * @throws RuntimeException if this method cannot find or create the system's temporary directory.
-   *
-   * @deprecated Use either {@link org.junit.jupiter.api.io.TempDir} or {@link org.junit.rules.TemporaryFolder}
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static File temporaryFolder() {
-    File temp = new File(temporaryFolderPath());
-    if (!temp.isDirectory()) {
-      throw new RuntimeException("Unable to find temporary directory");
-    }
-    return temp;
-  }
-
-  /**
    * Returns the path of the system's temporary directory. This method appends the system's file separator at the end of
    * the path.
    *
@@ -213,35 +196,6 @@ public class Files {
       return new File(".").getCanonicalFile();
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to get current directory", e);
-    }
-  }
-
-  /**
-   * Deletes the given file or directory.
-   *
-   * @param file the file or directory to delete.
-   *
-   * @deprecated use https://commons.apache.org/proper/commons-io/javadocs/api-release/org/apache/commons/io/FileUtils.html#forceDelete-java.io.File- instead
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static void delete(File file) {
-    if (file.isFile()) {
-      if (!file.delete()) {
-        System.out.println("Fail to delete " + file);
-      }
-      return;
-    }
-    if (!file.isDirectory()) {
-      return;
-    }
-    File[] existingFiles = file.listFiles();
-    if (!isNullOrEmpty(existingFiles)) {
-      for (File f : existingFiles) {
-        delete(f);
-      }
-    }
-    if (!file.delete()) {
-      System.out.println("Fail to delete " + file);
     }
   }
 
