@@ -97,30 +97,6 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   }
 
   /**
-   * Reruns true if it exactly matches this field, false otherwise.
-   *
-   * @param fieldPath field path to check
-   * @return true if it exactly matches this field, false otherwise
-   * @deprecated use {@link #exactlyMatches(String)} instead.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public boolean matches(String fieldPath) {
-    return exactlyMatches(fieldPath);
-  }
-
-  /**
-   * Reruns true if it exactly matches this field, false otherwise.
-   *
-   * @param field field to check
-   * @return true if it exactly matches this field, false otherwise
-   * @deprecated use {@link #exactlyMatches(String)} instead.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public boolean matches(FieldLocation field) {
-    return exactlyMatches(field);
-  }
-
-  /**
    * Checks whether this fieldLocation or any of its parents matches the given fieldPath.
    * <p>
    * Examples:
