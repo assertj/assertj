@@ -97,7 +97,7 @@ class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
     given(actual.isDirectory()).willReturn(true);
     given(actual.listFiles(any(FileFilter.class))).willReturn(null);
     // WHEN
-    Throwable error = catchThrowableOfType(() -> underTest.assertIsEmptyDirectory(INFO, actual), NullPointerException.class);
+    Throwable error = catchThrowableOfType(NullPointerException.class, () -> underTest.assertIsEmptyDirectory(INFO, actual));
     // THEN
     then(error).hasMessage("Directory listing should not be null");
   }

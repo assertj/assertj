@@ -12,8 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
@@ -99,8 +98,8 @@ class Files_assertIsNotEmptyDirectory_Test extends FilesBaseTest {
     given(actual.isDirectory()).willReturn(true);
     given(actual.listFiles(any(FileFilter.class))).willReturn(null);
     // WHEN
-    Throwable error = catchThrowableOfType(() -> underTest.assertIsNotEmptyDirectory(INFO, actual), NullPointerException.class);
+    Throwable error = catchNullPointerException(() -> underTest.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
-    assertThat(error).hasMessage("Directory listing should not be null");
+    then(error).hasMessage("Directory listing should not be null");
   }
 }

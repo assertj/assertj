@@ -23,6 +23,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErro
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.io.IOException;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
@@ -79,7 +80,7 @@ class Assertions_assertThat_with_Throwable_Test {
     final Exception exception = new Exception("boom!!");
     ThrowingCallable codeThrowingException = codeThrowing(exception);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> catchThrowableOfType(codeThrowingException, IOException.class));
+    AssertionError assertionError = expectAssertionError(() -> catchThrowableOfType(IOException.class, codeThrowingException));
     // THEN
     assertThat(assertionError).hasMessageContainingAll(IOException.class.getName(),
                                                        Exception.class.getName(),
@@ -91,14 +92,14 @@ class Assertions_assertThat_with_Throwable_Test {
     // GIVEN
     final Exception expected = new RuntimeException("boom!!");
     // WHEN
-    Exception exception = catchThrowableOfType(codeThrowing(expected), Exception.class);
+    Exception exception = catchThrowableOfType(Exception.class, codeThrowing(expected));
     // THEN
     assertThat(exception).isSameAs(expected);
   }
 
   @Test
   void catchThrowableOfType_should_succeed_and_return_null_if_no_exception_thrown() {
-    IOException actual = catchThrowableOfType(() -> {}, IOException.class);
+    IOException actual = catchThrowableOfType(IOException.class, () -> {});
     assertThat(actual).isNull();
   }
 

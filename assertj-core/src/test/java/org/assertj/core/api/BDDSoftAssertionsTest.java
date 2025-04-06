@@ -278,7 +278,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(emptySpliterator()).withFailMessage("Spliterator check").hasCharacteristics(123);
     softly.then(new LongAdder()).withFailMessage("LongAdder check").hasValue(123L);
     // WHEN
-    MultipleFailuresError error = catchThrowableOfType(() -> softly.assertAll(), MultipleFailuresError.class);
+    MultipleFailuresError error = catchThrowableOfType(MultipleFailuresError.class, () -> softly.assertAll());
     // THEN
     List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
     assertThat(errors).hasSize(61);

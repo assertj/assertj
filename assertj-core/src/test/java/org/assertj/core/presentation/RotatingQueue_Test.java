@@ -16,15 +16,17 @@ import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 
-import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import com.google.common.collect.ImmutableList;
 
 class RotatingQueue_Test {
 
@@ -46,8 +48,8 @@ class RotatingQueue_Test {
     // GIVEN
     Queue<Integer> rotating = new RotatingQueue<>(0);
     // WHEN
-    IllegalStateException exception = catchThrowableOfType(() -> rotating.add(random.nextInt()),
-                                                           IllegalStateException.class);
+    IllegalStateException exception = catchThrowableOfType(IllegalStateException.class,
+                                                           () -> rotating.add(random.nextInt()));
     // THEN
     then(exception).hasMessageContaining("full");
   }

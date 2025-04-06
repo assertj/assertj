@@ -14,7 +14,7 @@ package org.assertj.core.internal.iterables;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.error.ShouldStartWith.shouldStartWith;
 import static org.assertj.core.error.ZippedElementsShouldSatisfy.zippedElementsShouldSatisfy;
@@ -63,9 +63,8 @@ class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
     ThrowingCallable assertion = () -> iterables.assertZipSatisfy(someInfo(), actual, other,
                                                                   (s1, s2) -> assertThat(s1).startsWith(s2));
     // WHEN
-    AssertionError assertionError = catchThrowableOfType(assertion, AssertionError.class);
+    AssertionError assertionError = expectAssertionError(assertion);
     // THEN
-    assertThat(assertionError).isNotNull();
     List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LUKE", shouldStartWith("Luke", "LUKE").create()),
                                         new ZipSatisfyError("Yoda", "YODA", shouldStartWith("Yoda", "YODA").create()),
                                         new ZipSatisfyError("Leia", "LEIA", shouldStartWith("Leia", "LEIA").create()));
@@ -80,7 +79,7 @@ class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
     AssertionError error = expectAssertionError(() -> iterables.assertZipSatisfy(someInfo(), actual, other,
                                                                                  (s1, s2) -> assertThat(s1).startsWith(s2)));
     // THEN
-    assertThat(error).hasMessageContaining(shouldHaveSameSizeAs(actual, other, actual.size(), other.size()).create());
+    then(error).hasMessageContaining(shouldHaveSameSizeAs(actual, other, actual.size(), other.size()).create());
   }
 
   @Test

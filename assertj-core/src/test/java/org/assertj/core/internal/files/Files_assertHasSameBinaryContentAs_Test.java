@@ -14,6 +14,7 @@ package org.assertj.core.internal.files;
 
 import static java.nio.file.Files.readAllBytes;
 import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -66,8 +67,7 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     // GIVEN
     File expected = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> underTest.assertSameBinaryContentAs(INFO, actual, expected),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> underTest.assertSameBinaryContentAs(INFO, actual, expected));
     // THEN
     then(npe).hasMessage("The file to compare to should not be null");
   }
@@ -97,8 +97,8 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     // GIVEN
     File notAFile = new File("xyz");
     // WHEN
-    IllegalArgumentException iae = catchThrowableOfType(() -> underTest.assertSameBinaryContentAs(INFO, actual, notAFile),
-                                                        IllegalArgumentException.class);
+    IllegalArgumentException iae = catchThrowableOfType(IllegalArgumentException.class,
+                                                        () -> underTest.assertSameBinaryContentAs(INFO, actual, notAFile));
     // THEN
     then(iae).hasMessage("Expected file:<'%s'> should be an existing file", notAFile);
   }
@@ -109,8 +109,8 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     IOException cause = new IOException();
     given(binaryDiff.diff(actual, expectedBytes)).willThrow(cause);
     // WHEN
-    UncheckedIOException uioe = catchThrowableOfType(() -> underTest.assertSameBinaryContentAs(INFO, actual, expected),
-                                                     UncheckedIOException.class);
+    UncheckedIOException uioe = catchThrowableOfType(UncheckedIOException.class,
+                                                     () -> underTest.assertSameBinaryContentAs(INFO, actual, expected));
     // THEN
     then(uioe).hasCause(cause);
   }

@@ -16,15 +16,17 @@ import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 
-import com.google.common.collect.ImmutableList;
 import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+
+import com.google.common.collect.ImmutableList;
 
 class BoundedQueue_Test {
 
@@ -84,7 +86,7 @@ class BoundedQueue_Test {
     Queue<Integer> bounded = new BoundedQueue<>(1);
     bounded.add(random.nextInt());
     // WHEN
-    IllegalStateException exception = catchThrowableOfType(() -> bounded.add(random.nextInt()), IllegalStateException.class);
+    IllegalStateException exception = catchThrowableOfType(IllegalStateException.class, () -> bounded.add(random.nextInt()));
     // THEN
     then(exception).hasMessageContaining("full");
     then(bounded).hasSize(1);

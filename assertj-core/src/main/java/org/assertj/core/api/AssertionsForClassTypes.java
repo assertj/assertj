@@ -923,50 +923,6 @@ public class AssertionsForClassTypes {
    *   }
    * }
    *
-   * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
-   *                                               CustomParseException.class);
-   * // assertions pass
-   * assertThat(e).hasMessageContaining("boom");
-   * assertThat(e.line).isEqualTo(1);
-   * assertThat(e.column).isEqualTo(5);
-   *
-   * // fails as CustomParseException is not a RuntimeException
-   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
-   *                      RuntimeException.class);</code></pre>
-   *
-   * @param <THROWABLE> the {@link Throwable} type.
-   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
-   * @param type The type of exception that the code is expected to raise.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowableAssert.ThrowingCallable)
-   * @since 3.9.0
-   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
-                                                                             Class<THROWABLE> type) {
-    return catchThrowableOfType(type, shouldRaiseThrowable);
-  }
-
-  /**
-   * Allows catching a {@link Throwable} of a specific type.
-   * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
-   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it,
-   * making it convenient to perform subtype-specific assertions on the result.
-   * <p>
-   * Example:
-   * <pre><code class='java'> class CustomParseException extends Exception {
-   *   int line;
-   *   int column;
-   *
-   *   public CustomParseException(String msg, int l, int c) {
-   *     super(msg);
-   *     line = l;
-   *     column = c;
-   *   }
-   * }
-   *
    * CustomParseException e = catchThrowableOfType(CustomParseException.class,
    *                                               () -&gt; { throw new CustomParseException("boom!", 1, 5); });
    * // assertions pass

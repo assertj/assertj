@@ -13,6 +13,7 @@
 package org.assertj.core.internal.files;
 
 import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -58,8 +59,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     // GIVEN
     byte[] expectedContent = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasBinaryContent(INFO, actual, expectedContent),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> underTest.assertHasBinaryContent(INFO, actual, expectedContent));
     // THEN
     then(npe).hasMessage("The binary content to compare to should not be null");
   }
@@ -100,8 +100,8 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(binaryDiff.diff(actual, expected)).thenThrow(cause);
     // THEN
-    UncheckedIOException uioe = catchThrowableOfType(() -> underTest.assertHasBinaryContent(INFO, actual, expected),
-                                                     UncheckedIOException.class);
+    UncheckedIOException uioe = catchThrowableOfType(UncheckedIOException.class,
+                                                     () -> underTest.assertHasBinaryContent(INFO, actual, expected));
     // THEN
     then(uioe).hasCause(cause);
   }

@@ -15,6 +15,7 @@ package org.assertj.core.util;
 import static java.util.Objects.requireNonNull;
 
 import java.util.function.Supplier;
+
 import org.assertj.core.api.filter.FilterOperator;
 
 /**
@@ -65,39 +66,6 @@ public final class Preconditions {
     T[] checked = requireNonNull(array);
     if (checked.length == 0) throwExceptionForBeingEmpty();
     return checked;
-  }
-
-  /**
-   * Verifies that the given object reference is not {@code null}.
-   * 
-   * @param <T> the type of the reference to check.
-   * @param reference the given object reference.
-   * @return the non-{@code null} reference that was validated.
-   * @throws NullPointerException if the given object reference is {@code null}.
-   * 
-   * @deprecated use {@link java.util.Objects#requireNonNull(Object)} instead.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static <T> T checkNotNull(T reference) {
-    if (reference == null) throw new NullPointerException();
-    return reference;
-  }
-
-  /**
-   * Verifies that the given object reference is not {@code null}.
-   * 
-   * @param <T> the type of the reference to check.
-   * @param reference the given object reference.
-   * @param message error message in case of null reference.
-   * @return the non-{@code null} reference that was validated.
-   * @throws NullPointerException if the given object reference is {@code null}.
-   * 
-   * @deprecated use {@link java.util.Objects#requireNonNull(Object, String)} instead.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  public static <T> T checkNotNull(T reference, String message) {
-    if (reference == null) throw new NullPointerException(message);
-    return reference;
   }
 
   /**

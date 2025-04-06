@@ -12,6 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
@@ -38,7 +39,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Files#assertHasContent(AssertionInfo, File, String, Charset)}</code>.
- * 
+ *
  * @author Olivier Michallat
  * @author Joel Costigliola
  */
@@ -61,8 +62,8 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     // GIVEN
     String expectedContent = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasContent(INFO, actual, expectedContent, charset),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> underTest.assertHasContent(INFO, actual, expectedContent,
+                                                                                          charset));
     // THEN
     then(npe).hasMessage("The text to compare to should not be null");
   }
@@ -99,8 +100,8 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(diff.diff(actual, expected, charset)).thenThrow(cause);
     // WHEN
-    UncheckedIOException uioe = catchThrowableOfType(() -> underTest.assertHasContent(INFO, actual, expected, charset),
-                                                     UncheckedIOException.class);
+    UncheckedIOException uioe = catchThrowableOfType(UncheckedIOException.class,
+                                                     () -> underTest.assertHasContent(INFO, actual, expected, charset));
     // THEN
     then(uioe).hasCause(cause);
   }
