@@ -21,10 +21,10 @@ import static org.assertj.core.util.Objects.hashCodeFor;
 import java.util.Objects;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.presentation.Representation;
 
 /**

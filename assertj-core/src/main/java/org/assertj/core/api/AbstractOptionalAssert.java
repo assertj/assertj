@@ -28,10 +28,10 @@ import java.util.function.Function;
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
 
 /**

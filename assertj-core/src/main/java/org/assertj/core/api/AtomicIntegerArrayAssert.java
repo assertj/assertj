@@ -18,7 +18,7 @@ import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
 import org.assertj.core.data.Index;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.IntArrays;
 import org.assertj.core.util.CheckReturnValue;
 

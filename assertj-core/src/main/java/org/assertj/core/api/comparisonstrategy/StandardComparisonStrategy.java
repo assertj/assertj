@@ -10,14 +10,13 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal;
-
-import static org.assertj.core.util.Preconditions.checkArgument;
+package org.assertj.core.api.comparisonstrategy;
 
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
+
 import org.assertj.core.util.Objects;
 import org.assertj.core.util.Streams;
 

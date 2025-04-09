@@ -24,6 +24,7 @@ import static org.assertj.core.internal.CommonValidations.checkPercentageIsNotNu
 import java.util.Objects;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 

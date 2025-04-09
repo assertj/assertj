@@ -16,7 +16,7 @@ import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Integers;
 import org.assertj.core.util.CheckReturnValue;
 

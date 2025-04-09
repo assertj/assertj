@@ -20,7 +20,7 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

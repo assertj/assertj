@@ -41,6 +41,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import org.assertj.core.api.comparisonstrategy.AtomicReferenceArrayElementComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.ThrowingExtractor;
@@ -50,9 +52,7 @@ import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.AtomicReferenceArrayElementComparisonStrategy;
 import org.assertj.core.internal.CommonErrors;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.Iterables;

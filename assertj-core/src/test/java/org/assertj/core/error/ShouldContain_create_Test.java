@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;

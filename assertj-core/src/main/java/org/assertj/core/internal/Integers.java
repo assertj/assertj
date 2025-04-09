@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+
 /**
  * Reusable assertions for <code>{@link Integer}</code>s.
  * 

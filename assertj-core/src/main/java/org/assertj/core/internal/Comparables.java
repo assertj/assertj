@@ -22,6 +22,9 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.util.Comparator;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeAfter;
 import org.assertj.core.error.ShouldBeAfterOrEqualTo;

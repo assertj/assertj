@@ -12,6 +12,9 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+
 import static java.util.Collections.unmodifiableList;
 import static org.assertj.core.util.Lists.newArrayList;
 

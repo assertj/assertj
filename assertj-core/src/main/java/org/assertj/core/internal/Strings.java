@@ -94,6 +94,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * @author Alex Ruiz

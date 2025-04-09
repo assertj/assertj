@@ -16,6 +16,8 @@ import java.util.Comparator;
 
 import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
 
 /**

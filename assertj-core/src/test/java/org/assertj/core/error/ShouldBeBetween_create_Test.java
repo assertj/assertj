@@ -20,7 +20,7 @@ import static org.assertj.core.util.DateUtil.parse;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**

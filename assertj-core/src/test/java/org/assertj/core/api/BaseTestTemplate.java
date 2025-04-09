@@ -21,7 +21,7 @@ import static org.mockito.Mockito.spy;
 import java.util.Comparator;
 import org.assertj.core.api.abstract_.AbstractAssert_isNull_Test;
 import org.assertj.core.error.AssertionErrorCreator;
-import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.BeforeEach;

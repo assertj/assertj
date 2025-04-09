@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.assertj.core.api.ConcreteIterableAssert;
 import org.assertj.core.api.IterableAssertBaseTest;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.testkit.Jedi;

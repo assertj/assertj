@@ -19,7 +19,7 @@ import static org.mockito.Mockito.verify;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 
-import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.internal.Objects;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

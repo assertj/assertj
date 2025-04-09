@@ -44,6 +44,7 @@ module org.assertj.core {
 
   // FIXME refactor tests and remove
   exports org.assertj.core.internal to org.assertj.tests.core;
+  exports org.assertj.core.api.comparisonstrategy to org.assertj.tests.core;
 
   requires static java.logging; // required when printThreadDump is true
   requires static java.management;

@@ -17,9 +17,9 @@ import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
 import org.assertj.core.configuration.Configuration;
-import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.internal.IndexedDiff;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains exactly a given set

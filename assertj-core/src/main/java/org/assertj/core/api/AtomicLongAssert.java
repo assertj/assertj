@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.util.CheckReturnValue;
 

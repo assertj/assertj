@@ -10,18 +10,19 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.api.comparisonstrategy;
 
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.Arrays.isArray;
 
 import java.util.Comparator;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
-public class ObjectArrayElementComparisonStrategy<T> extends StandardComparisonStrategy {
+public class AtomicReferenceArrayElementComparisonStrategy<T> extends StandardComparisonStrategy {
 
   private final Comparator<? super T> elementComparator;
 
-  public ObjectArrayElementComparisonStrategy(Comparator<? super T> elementComparator) {
+  public AtomicReferenceArrayElementComparisonStrategy(Comparator<? super T> elementComparator) {
     this.elementComparator = elementComparator;
   }
 
@@ -31,22 +32,24 @@ public class ObjectArrayElementComparisonStrategy<T> extends StandardComparisonS
     if (actual == null && other == null) return true;
     if (actual == null || other == null) return false;
     // expecting actual and other to be T[]
-    return isArray(actual) && isArray(other) && compareElementsOf((T[]) actual, (T[]) other);
+    return actual instanceof AtomicReferenceArray && isArray(other)
+           && compareElementsOf((AtomicReferenceArray<T>) actual, (T[]) other);
   }
 
-  private boolean compareElementsOf(T[] actual, T[] other) {
-    if (actual.length != other.length) return false;
+  private boolean compareElementsOf(AtomicReferenceArray<T> actual, T[] other) {
+    if (actual.length() != other.length) return false;
     // compare their elements with elementComparator
-    for (int i = 0; i < actual.length; i++) {
-      if (elementComparator.compare(actual[i], other[i]) != 0) return false;
+    for (int i = 0; i < actual.length(); i++) {
+      if (elementComparator.compare(actual.get(i), other[i]) != 0) return false;
     }
     return true;
   }
 
   @Override
   public String toString() {
-    return "ObjectArrayElementComparisonStrategy using " + CONFIGURATION_PROVIDER.representation()
-                                                                                 .toStringOf(elementComparator);
+    return "AtomicReferenceArrayElementComparisonStrategy using " + CONFIGURATION_PROVIDER.representation()
+                                                                                          .toStringOf(
+                                                                                                      elementComparator);
   }
 
   @Override

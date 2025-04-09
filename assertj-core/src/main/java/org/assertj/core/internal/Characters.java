@@ -18,6 +18,7 @@ import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 
 /**
  * Reusable assertions for <code>{@link Character}</code>s.

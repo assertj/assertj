@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
 
 /**

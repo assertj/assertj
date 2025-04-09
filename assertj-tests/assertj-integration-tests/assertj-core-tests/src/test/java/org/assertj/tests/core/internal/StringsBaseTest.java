@@ -19,7 +19,7 @@ import static org.mockito.Mockito.spy;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Strings;
 import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;

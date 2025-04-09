@@ -15,8 +15,8 @@ package org.assertj.core.error;
 import static java.util.stream.Collectors.joining;
 
 import java.util.Map;
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} contains a Subsequence of

@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.api.comparisonstrategy;
 
 /**
  * Describes the contract to implement a <b>consistent</b> comparison strategy that covers :<br>
@@ -157,7 +157,7 @@ public interface ComparisonStrategy {
   /**
    * Used in error messages when a custom comparison strategy was used to compare values.
    * <p>
-   * For example {@link ComparatorBasedComparisonStrategy} returns: 
+   * For example {@link ComparatorBasedComparisonStrategy} returns:
    * <pre><code>"when comparing values using " + toString()</code></pre>
    *   
    * @return the comparison strategy description used in error messages.

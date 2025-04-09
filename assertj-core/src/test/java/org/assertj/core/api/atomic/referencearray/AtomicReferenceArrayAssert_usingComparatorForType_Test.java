@@ -23,7 +23,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 
 import org.assertj.core.api.AtomicReferenceArrayAssert;
 import org.assertj.core.api.AtomicReferenceArrayAssertBaseTest;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ExtendedByTypesComparator;
 import org.assertj.core.internal.ObjectArrays;
 import org.junit.jupiter.api.BeforeEach;

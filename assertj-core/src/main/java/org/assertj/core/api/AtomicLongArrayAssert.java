@@ -18,7 +18,7 @@ import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicLongArray;
 
 import org.assertj.core.data.Index;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.LongArrays;
 import org.assertj.core.util.CheckReturnValue;
 

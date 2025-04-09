@@ -22,7 +22,7 @@ import java.util.Comparator;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ByteArrays;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
 
 public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAssert<SELF>>

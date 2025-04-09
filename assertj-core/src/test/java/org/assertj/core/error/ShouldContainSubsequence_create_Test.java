@@ -21,8 +21,8 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
