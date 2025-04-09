@@ -18,6 +18,7 @@ module org.assertj.core {
   // AssertJ Core's package API
   exports org.assertj.core.annotations;
   exports org.assertj.core.api;
+  exports org.assertj.core.api.comparisonstrategy;
   exports org.assertj.core.api.exception;
   exports org.assertj.core.api.filter;
   exports org.assertj.core.api.iterable;
@@ -44,7 +45,6 @@ module org.assertj.core {
 
   // FIXME refactor tests and remove
   exports org.assertj.core.internal to org.assertj.tests.core;
-  exports org.assertj.core.api.comparisonstrategy to org.assertj.tests.core;
 
   requires static java.logging; // required when printThreadDump is true
   requires static java.management;

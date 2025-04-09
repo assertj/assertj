@@ -36,6 +36,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
@@ -44,8 +46,6 @@ import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
-import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
@@ -115,6 +115,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   public WritableAssertionInfo getWritableAssertionInfo() {
     return info;
+  }
+
+  protected ComparisonStrategy getComparisonStrategy() {
+    return objects.getComparisonStrategy();
   }
 
   /**
@@ -1266,21 +1270,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     isNotNull();
     T extractedValue = extractor.apply(actual);
     return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
-  }
-
-  /**
-   * Returns true if actual and other are equal according to the current comparison strategy.
-   *
-   * @param actual the object to compare to other
-   * @param other  the object to compare to actual
-   * @return true if actual and other are equal according to the underlying comparison strategy.
-   * @since 3.23.0
-   * @deprecated {@link ComparisonStrategy} will become part of the public API in the next major release and this method
-   * will be removed.
-   */
-  @Deprecated(since = "3", forRemoval = true)
-  protected boolean areEqual(Object actual, Object other) {
-    return objects.getComparisonStrategy().areEqual(actual, other);
   }
 
   /**
