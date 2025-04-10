@@ -20,11 +20,11 @@ import java.util.Comparator;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Arrays;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.ObjectArrays;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.tests.core.testkit.TestData;
 import org.junit.jupiter.api.BeforeEach;

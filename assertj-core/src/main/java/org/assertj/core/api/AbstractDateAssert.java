@@ -40,7 +40,7 @@ import java.util.function.Function;
 
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Dates;
 import org.assertj.core.util.CheckReturnValue;
 

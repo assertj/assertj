@@ -42,6 +42,8 @@ import java.util.Set;
 import java.util.SortedSet;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.util.Arrays;
 
 /**

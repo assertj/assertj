@@ -17,6 +17,7 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**

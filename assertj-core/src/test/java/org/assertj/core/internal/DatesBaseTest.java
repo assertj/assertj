@@ -19,6 +19,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 import org.assertj.core.api.WritableAssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.DateUtil;
 import org.assertj.core.util.YearAndMonthComparator;
 import org.junit.jupiter.api.BeforeEach;

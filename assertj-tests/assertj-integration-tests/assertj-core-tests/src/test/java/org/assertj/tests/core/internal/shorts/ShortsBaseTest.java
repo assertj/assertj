@@ -15,10 +15,10 @@ package org.assertj.tests.core.internal.shorts;
 import static org.assertj.tests.core.testkit.FieldTestUtils.writeField;
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Shorts;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.tests.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 

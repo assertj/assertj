@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
+import static org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy.NOT_EQUAL;
 
 import java.util.Comparator;
 import java.util.Objects;

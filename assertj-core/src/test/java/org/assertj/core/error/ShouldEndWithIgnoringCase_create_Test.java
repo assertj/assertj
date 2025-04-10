@@ -18,8 +18,8 @@ import static org.assertj.core.error.ShouldEndWithIgnoringCase.shouldEndWithIgno
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.util.OtherStringTestComparator;
 import org.junit.jupiter.api.Test;
 

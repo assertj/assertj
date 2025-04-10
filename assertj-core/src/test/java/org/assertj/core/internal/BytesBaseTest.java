@@ -14,6 +14,7 @@ package org.assertj.core.internal;
 
 import static org.mockito.Mockito.spy;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 

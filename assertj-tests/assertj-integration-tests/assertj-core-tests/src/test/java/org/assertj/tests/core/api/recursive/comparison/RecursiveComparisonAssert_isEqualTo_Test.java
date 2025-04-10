@@ -42,7 +42,7 @@ import javax.xml.datatype.DatatypeFactory;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.util.DoubleComparator;
 import org.assertj.tests.core.api.recursive.data.AlwaysEqualPerson;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;

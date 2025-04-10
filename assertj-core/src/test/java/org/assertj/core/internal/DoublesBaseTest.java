@@ -16,6 +16,7 @@ import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.WritableAssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 

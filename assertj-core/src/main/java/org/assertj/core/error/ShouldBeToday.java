@@ -15,8 +15,8 @@ package org.assertj.core.error;
 import java.time.LocalDate;
 import java.util.Date;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} is today (matching only year, month and

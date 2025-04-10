@@ -16,7 +16,7 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.internal.AbstractComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.AbstractComparisonStrategy;
 import org.assertj.core.presentation.Representation;
 
 /**

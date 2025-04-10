@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+
 /**
  * Reusable assertions for <code>{@link Byte}</code>s.
  *

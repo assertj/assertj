@@ -18,8 +18,9 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.guava.api.Assertions.assertThat;
 
-import com.google.common.base.Optional;
 import org.junit.jupiter.api.Test;
+
+import com.google.common.base.Optional;
 
 /**
  * @author Kornel

@@ -29,6 +29,7 @@ import static org.assertj.core.util.Arrays.sizeOf;
 import java.lang.reflect.Array;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.error.ShouldHaveDimensions;
 

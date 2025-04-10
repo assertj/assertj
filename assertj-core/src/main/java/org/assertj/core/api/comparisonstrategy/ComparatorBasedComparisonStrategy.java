@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.internal;
+package org.assertj.core.api.comparisonstrategy;
 
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
@@ -21,6 +21,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.assertj.core.internal.DescribableComparator;
+
 /**
  * Implements {@link ComparisonStrategy} contract with a comparison strategy based on a {@link Comparator}.
  *
@@ -28,7 +30,7 @@ import java.util.TreeSet;
  */
 public class ComparatorBasedComparisonStrategy extends AbstractComparisonStrategy {
 
-  static final int NOT_EQUAL = -1;
+  public static final int NOT_EQUAL = -1;
 
   // A raw type is necessary because we can't make assumptions on object to be compared.
   @SuppressWarnings("rawtypes")

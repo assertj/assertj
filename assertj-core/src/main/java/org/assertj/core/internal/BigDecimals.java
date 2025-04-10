@@ -19,6 +19,8 @@ import static org.assertj.core.error.ShouldHaveScale.shouldHaveScale;
 import java.math.BigDecimal;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Reusable assertions for <code>{@link BigDecimal}</code>s.

@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Comparator;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**
