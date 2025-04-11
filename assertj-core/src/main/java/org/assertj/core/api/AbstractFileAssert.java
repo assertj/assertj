@@ -46,7 +46,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Nikolaos Georgiou
  * @author Rostyslav Ivankiv
  */
-public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> extends AbstractAssert<SELF, File> {
+public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> extends AbstractAssertWithComparator<SELF, File> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Files files = Files.instance();

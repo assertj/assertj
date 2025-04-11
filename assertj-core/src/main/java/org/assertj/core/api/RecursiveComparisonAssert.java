@@ -34,7 +34,8 @@ import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
 
-public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>> extends AbstractAssert<SELF, Object> {
+public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>>
+    extends AbstractAssertWithComparator<SELF, Object> {
 
   private final RecursiveComparisonConfiguration recursiveComparisonConfiguration;
   private final RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator;

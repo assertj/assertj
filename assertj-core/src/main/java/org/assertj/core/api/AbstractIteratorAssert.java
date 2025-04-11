@@ -31,7 +31,7 @@ import org.assertj.core.internal.Iterators;
  * @since 3.12.0
  */
 public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert<SELF, ELEMENT>, ELEMENT>
-    extends AbstractAssert<SELF, Iterator<? extends ELEMENT>> {
+    extends AbstractAssertWithComparator<SELF, Iterator<? extends ELEMENT>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterators iterators = Iterators.instance();

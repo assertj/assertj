@@ -67,7 +67,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
 public class AtomicReferenceArrayAssert<T>
-    extends AbstractAssert<AtomicReferenceArrayAssert<T>, AtomicReferenceArray<T>>
+    extends AbstractAssertWithComparator<AtomicReferenceArrayAssert<T>, AtomicReferenceArray<T>>
     implements IndexedObjectEnumerableAssert<AtomicReferenceArrayAssert<T>, T>,
     ArraySortedAssert<AtomicReferenceArrayAssert<T>, T> {
 

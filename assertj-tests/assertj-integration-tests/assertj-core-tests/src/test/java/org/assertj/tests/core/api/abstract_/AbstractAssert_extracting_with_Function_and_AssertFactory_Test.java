@@ -21,7 +21,9 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.function.Function;
+
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.AbstractAssertWithComparator;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.AssertFactory;
@@ -135,7 +137,7 @@ class AbstractAssert_extracting_with_Function_and_AssertFactory_Test implements 
     return assertion.extracting(Employee::getAge, Assertions::assertThat);
   }
 
-  static class TestAssert extends AbstractAssert<TestAssert, Employee> {
+  static class TestAssert extends AbstractAssertWithComparator<TestAssert, Employee> {
 
     TestAssert(Employee actual) {
       super(actual, TestAssert.class);

@@ -28,11 +28,11 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
@@ -54,7 +54,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  */
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
-    extends AbstractAssert<SELF, ACTUAL> {
+    extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
   private Map<String, Comparator<?>> comparatorsByPropertyOrField = new TreeMap<>();
   private TypeComparators comparatorsByType;

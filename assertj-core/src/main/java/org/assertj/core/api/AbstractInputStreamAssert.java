@@ -52,7 +52,7 @@ import org.assertj.core.util.diff.Delta;
  * @author Stefan Birkner
  */
 public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStreamAssert<SELF, ACTUAL>, ACTUAL extends InputStream>
-    extends AbstractAssert<SELF, ACTUAL> {
+    extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
   private final Diff diff = new Diff();
   private final BinaryDiff binaryDiff = new BinaryDiff();

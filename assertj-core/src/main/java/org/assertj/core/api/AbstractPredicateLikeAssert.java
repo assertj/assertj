@@ -29,7 +29,7 @@ import org.assertj.core.presentation.PredicateDescription;
  * @author Filip Hrisafov
  */
 abstract class AbstractPredicateLikeAssert<SELF extends AbstractPredicateLikeAssert<SELF, PRIMITIVE_PREDICATE, PRIMITIVE>, PRIMITIVE_PREDICATE, PRIMITIVE>
-    extends AbstractAssert<SELF, PRIMITIVE_PREDICATE> {
+    extends AbstractAssertWithComparator<SELF, PRIMITIVE_PREDICATE> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables iterables = Iterables.instance();

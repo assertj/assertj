@@ -103,7 +103,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
                                              ACTUAL extends Iterable<? extends ELEMENT>,
                                              ELEMENT,
                                              ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-       extends AbstractAssert<SELF, ACTUAL>
+       extends AbstractAssertWithComparator<SELF, ACTUAL>
        implements ObjectEnumerableAssert<SELF, ELEMENT> {
 //@format:on
 

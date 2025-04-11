@@ -65,7 +65,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Daniel Weber
  */
 public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends CharSequence>
-    extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {
+    extends AbstractAssertWithComparator<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Strings strings = Strings.instance();

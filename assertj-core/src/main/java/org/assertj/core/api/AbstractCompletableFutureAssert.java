@@ -44,7 +44,7 @@ import org.assertj.core.presentation.PredicateDescription;
  */
 // TODO deprecate completed for succeeds?
 public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, RESULT>, RESULT> extends
-    AbstractAssert<SELF, CompletableFuture<RESULT>> {
+    AbstractAssertWithComparator<SELF, CompletableFuture<RESULT>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Futures futures = Futures.instance();

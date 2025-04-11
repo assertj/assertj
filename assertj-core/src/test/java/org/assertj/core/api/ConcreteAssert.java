@@ -19,7 +19,7 @@ import org.opentest4j.AssertionFailedError;
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ConcreteAssert extends AbstractAssert<ConcreteAssert, Object> {
+public class ConcreteAssert extends AbstractAssertWithComparator<ConcreteAssert, Object> {
 
   public ConcreteAssert(Object actual) {
     super(actual, ConcreteAssert.class);

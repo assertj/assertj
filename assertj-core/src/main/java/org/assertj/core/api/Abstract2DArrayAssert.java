@@ -23,7 +23,7 @@ package org.assertj.core.api;
  * @since 3.17.0
  */
 public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
-    extends AbstractAssert<SELF, ACTUAL> implements Array2DAssert<SELF, ELEMENT> {
+    extends AbstractAssertWithComparator<SELF, ACTUAL> implements Array2DAssert<SELF, ELEMENT> {
 
   protected Abstract2DArrayAssert(final ACTUAL actual, final Class<?> selfType) {
     super(actual, selfType);

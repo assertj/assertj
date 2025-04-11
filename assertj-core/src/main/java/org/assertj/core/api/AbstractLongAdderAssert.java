@@ -18,9 +18,9 @@ import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue
 import java.util.Comparator;
 import java.util.concurrent.atomic.LongAdder;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.util.CheckReturnValue;
 
@@ -34,7 +34,8 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Grzegorz Piwowarek
  * @since 3.16.0
  */
-public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extends AbstractAssert<SELF, LongAdder>
+public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
+    extends AbstractAssertWithComparator<SELF, LongAdder>
     implements NumberAssert<SELF, Long>, ComparableAssert<SELF, Long> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting

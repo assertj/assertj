@@ -26,17 +26,14 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -755,55 +752,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   public SELF withFailMessage(Supplier<String> supplier) {
     return overridingErrorMessage(supplier);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
-    return usingComparator(customComparator, null);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
-    // using a specific strategy to compare actual with other objects.
-    this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
-    return myself;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @CheckReturnValue
-  public SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate) {
-    return usingEquals(predicate, null);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @CheckReturnValue
-  public SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate, String customEqualsDescription) {
-    return usingComparator((o1, o2) -> predicate.test(o1, o2) ? 0 : -1, customEqualsDescription);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @CheckReturnValue
-  public SELF usingDefaultComparator() {
-    // fall back to default strategy to compare actual with other objects.
-    this.objects = Objects.instance();
-    return myself;
   }
 
   /**

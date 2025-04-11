@@ -24,8 +24,7 @@ import java.util.concurrent.TimeoutException;
 import org.assertj.core.internal.Futures;
 
 public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SELF, ACTUAL, RESULT>, ACTUAL extends Future<RESULT>, RESULT>
-    extends
-    AbstractAssert<SELF, ACTUAL> {
+    extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Futures futures = Futures.instance();
@@ -55,7 +54,6 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * assertThat(future).isCancelled();</code></pre>
    *
    * @return this assertion object.
-   *
    * @see Future#isCancelled()
    * @since 2.7.0 / 3.7.0
    */
@@ -85,7 +83,6 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * assertThat(future).isNotCancelled();</code></pre>
    *
    * @return this assertion object.
-   *
    * @see Future#isCancelled()
    * @since 2.7.0 / 3.7.0
    */
@@ -122,7 +119,6 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * assertThat(future).isDone();</code></pre>
    *
    * @return this assertion object.
-   *
    * @see Future#isDone()
    * @since 2.7.0 / 3.7.0
    */
@@ -159,7 +155,6 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * assertThat(future).isNotDone();</code></pre>
    *
    * @return this assertion object.
-   *
    * @see Future#isDone()
    * @since 2.7.0 / 3.7.0
    */
@@ -251,7 +246,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * assertThat(future).succeedsWithin(200, TimeUnit.MILLISECONDS);</code></pre>
    *
    * @param timeout the maximum time to wait
-   * @param unit the time unit of the timeout argument
+   * @param unit    the time unit of the timeout argument
    * @return a new assertion object on the future's result.
    * @throws AssertionError if the actual {@code Future} is {@code null}.
    * @throws AssertionError if the actual {@code Future} does not succeed within the given timeout.
@@ -298,11 +293,11 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * assertThat(future).succeedsWithin(timeout, InstanceOfAssertFactories.DATE)
    *                   .isToday();</code></pre>
    *
-   * @param <ASSERT> the type of the resulting {@code Assert}
-   * @param timeout the maximum time to wait
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param timeout       the maximum time to wait
    * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
    * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the {@link Future}
-   * @throws AssertionError if the actual {@code Future} is {@code null}.
+   * @throws AssertionError        if the actual {@code Future} is {@code null}.
    * @throws IllegalStateException if the actual {@code Future} does not succeed within the given timeout.
    * @since 3.17.0
    */
@@ -347,9 +342,9 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * assertThat(future).succeedsWithin(200, TimeUnit.MILLISECONDS, InstanceOfAssertFactories.DATE)
    *                   .isToday();</code></pre>
    *
-   * @param <ASSERT> the type of the resulting {@code Assert}
-   * @param timeout the maximum time to wait
-   * @param unit the time unit of the timeout argument
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param timeout       the maximum time to wait
+   * @param unit          the time unit of the timeout argument
    * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
    * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the {@link Future}
    * @throws AssertionError if the actual {@code Future} is {@code null}.
@@ -431,7 +426,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * assertThat(future).failsWithin(200, TimeUnit.MILLISECONDS);</code></pre>
    *
    * @param timeout the maximum time to wait
-   * @param unit the time unit
+   * @param unit    the time unit
    * @return a new assertion instance on the future's exception.
    * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
    * @throws AssertionError if the actual {@code CompletableFuture} succeeds within the given timeout.

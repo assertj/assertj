@@ -22,7 +22,7 @@ import org.assertj.core.internal.Urls;
  * @param <SELF> the "self" type of this assertion class.
  * @see java.net.URL
  */
-public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> extends AbstractAssert<SELF, URL> {
+public abstract class AbstractUrlAssert<SELF extends AbstractUrlAssert<SELF>> extends AbstractAssertWithComparator<SELF, URL> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected Urls urls = Urls.instance();

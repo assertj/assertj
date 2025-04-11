@@ -29,7 +29,7 @@ import org.assertj.core.internal.Integers;
  * @author Grzegorz Piwowarek
  */
 public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalIntAssert<SELF>> extends
-    AbstractAssert<SELF, OptionalInt> {
+    AbstractAssertWithComparator<SELF, OptionalInt> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();

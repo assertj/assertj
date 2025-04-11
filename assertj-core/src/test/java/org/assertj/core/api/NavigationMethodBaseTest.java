@@ -26,7 +26,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Stefano Cordio
  */
-public interface NavigationMethodBaseTest<ASSERT extends AbstractAssert<ASSERT, ?>> {
+public interface NavigationMethodBaseTest<ASSERT extends AbstractAssertWithComparator<ASSERT, ?>> {
 
   ASSERT getAssertion();
 

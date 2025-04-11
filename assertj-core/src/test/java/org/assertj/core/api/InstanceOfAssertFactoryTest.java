@@ -92,7 +92,7 @@ class InstanceOfAssertFactoryTest {
       int actual = 0;
       willReturn(abstractAssert).given(delegate).createAssert(actual);
       // WHEN
-      Assert<?, ?> result = underTest.createAssert(actual);
+      Assert<? extends Assert<?, ?>, ?> result = underTest.createAssert(actual);
       // THEN
       then(result).isSameAs(abstractAssert);
     }
@@ -115,7 +115,7 @@ class InstanceOfAssertFactoryTest {
       ValueProvider<Integer> valueProvider = mockThatDelegatesTo(type -> actual);
       willReturn(abstractAssert).given(delegate).createAssert(actual);
       // WHEN
-      Assert<?, ?> result = underTest.createAssert(valueProvider);
+      Assert<? extends Assert<?, ?>, ?> result = underTest.createAssert(valueProvider);
       // THEN
       then(result).isSameAs(abstractAssert);
       verify(valueProvider).apply(Integer.class);
@@ -200,7 +200,7 @@ class InstanceOfAssertFactoryTest {
       List<Integer> actual = Collections.emptyList();
       willReturn(abstractAssert).given(delegate).createAssert(actual);
       // WHEN
-      Assert<?, ?> result = underTest.createAssert(actual);
+      Assert<? extends Assert<?, ?>, ?> result = underTest.createAssert(actual);
       // THEN
       then(result).isSameAs(abstractAssert);
     }
@@ -223,7 +223,7 @@ class InstanceOfAssertFactoryTest {
       ValueProvider<List<Integer>> valueProvider = mockThatDelegatesTo(type -> actual);
       willReturn(abstractAssert).given(delegate).createAssert(actual);
       // WHEN
-      Assert<?, ?> result = underTest.createAssert(valueProvider);
+      Assert<? extends Assert<?, ?>, ?> result = underTest.createAssert(valueProvider);
       // THEN
       then(result).isSameAs(abstractAssert);
       verify(valueProvider).apply(parameterizedType(List.class, Integer.class));

@@ -26,12 +26,12 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.assertj.core.annotations.Beta;
-import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
-import org.assertj.core.internal.Failures;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
@@ -47,7 +47,7 @@ import org.assertj.core.util.CheckReturnValue;
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
 public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert<SELF, VALUE>, VALUE> extends
-    AbstractAssert<SELF, Optional<VALUE>> {
+    AbstractAssertWithComparator<SELF, Optional<VALUE>> {
 
   private ComparisonStrategy optionalValueComparisonStrategy;
 

@@ -33,7 +33,7 @@ import org.assertj.core.api.recursive.comparison.FieldLocation;
  * @since 3.24.0
  */
 @Beta
-public class RecursiveAssertionAssert extends AbstractAssert<RecursiveAssertionAssert, Object> {
+public class RecursiveAssertionAssert extends AbstractAssertWithComparator<RecursiveAssertionAssert, Object> {
 
   private final RecursiveAssertionConfiguration recursiveAssertionConfiguration;
   private final RecursiveAssertionDriver recursiveAssertionDriver;

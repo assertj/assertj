@@ -64,7 +64,7 @@ import org.assertj.core.internal.Classes;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>>
-    extends AbstractAssert<SELF, Class<?>> {
+    extends AbstractAssertWithComparator<SELF, Class<?>> {
 
   Classes classes = Classes.instance();
 

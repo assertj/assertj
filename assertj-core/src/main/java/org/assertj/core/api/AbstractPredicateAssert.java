@@ -29,7 +29,7 @@ import org.assertj.core.presentation.PredicateDescription;
  * @author Filip Hrisafov
  */
 public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAssert<SELF, T>, T> extends
-    AbstractAssert<SELF, Predicate<T>> {
+    AbstractAssertWithComparator<SELF, Predicate<T>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables iterables = Iterables.instance();

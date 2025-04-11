@@ -26,7 +26,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Joel Costigliola
  */
 public abstract class AbstractEnumerableAssert<SELF extends AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
-    extends AbstractAssert<SELF, ACTUAL>
+    extends AbstractAssertWithComparator<SELF, ACTUAL>
     implements EnumerableAssert<AbstractEnumerableAssert<SELF, ACTUAL, ELEMENT>, ELEMENT> {
 
   protected AbstractEnumerableAssert(final ACTUAL actual, final Class<?> selfType) {

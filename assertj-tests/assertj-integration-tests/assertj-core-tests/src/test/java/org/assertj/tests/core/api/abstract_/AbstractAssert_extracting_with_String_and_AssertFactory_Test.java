@@ -20,6 +20,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.AbstractAssertWithComparator;
 import org.assertj.core.api.AbstractIntegerAssert;
 import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.Assertions;
@@ -126,7 +127,7 @@ class AbstractAssert_extracting_with_String_and_AssertFactory_Test implements Na
     return assertion.extracting("age", Assertions::assertThat);
   }
 
-  static class TestAssert extends AbstractAssert<TestAssert, Object> {
+  static class TestAssert extends AbstractAssertWithComparator<TestAssert, Object> {
 
     TestAssert(Object actual) {
       super(actual, TestAssert.class);

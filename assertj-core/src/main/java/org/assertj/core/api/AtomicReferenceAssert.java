@@ -23,7 +23,7 @@ import java.util.function.Predicate;
 
 import org.assertj.core.presentation.PredicateDescription;
 
-public class AtomicReferenceAssert<V> extends AbstractAssert<AtomicReferenceAssert<V>, AtomicReference<V>> {
+public class AtomicReferenceAssert<V> extends AbstractAssertWithComparator<AtomicReferenceAssert<V>, AtomicReference<V>> {
 
   public AtomicReferenceAssert(AtomicReference<V> actual) {
     super(actual, AtomicReferenceAssert.class);

@@ -34,7 +34,7 @@ import org.assertj.core.internal.Failures;
  * @author Grzegorz Piwowarek
  */
 public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptionalDoubleAssert<SELF>>
-    extends AbstractAssert<SELF, OptionalDouble> {
+    extends AbstractAssertWithComparator<SELF, OptionalDouble> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Doubles doubles = Doubles.instance();

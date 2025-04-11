@@ -25,7 +25,7 @@ import org.assertj.core.internal.Spliterators;
  * @author William Bakker
  */
 public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SELF, ELEMENT>, ELEMENT> extends
-    AbstractAssert<SELF, Spliterator<ELEMENT>> {
+    AbstractAssertWithComparator<SELF, Spliterator<ELEMENT>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Spliterators spliterators = Spliterators.instance();
