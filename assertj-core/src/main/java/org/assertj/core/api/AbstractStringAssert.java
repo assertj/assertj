@@ -26,8 +26,8 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Comparator;
 
-import org.assertj.core.internal.Comparables;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
 
@@ -46,7 +46,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is less than the given {@link String} according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -76,7 +76,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is less than or equal to the given {@link String} according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -106,7 +106,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is greater than the given {@link String} according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -136,7 +136,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is greater than or equal to the given {@link String} according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -166,7 +166,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is in [start, end] range (start included, end included) according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -200,7 +200,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is strictly in ]start, end[ range (start excluded, end excluded) according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
