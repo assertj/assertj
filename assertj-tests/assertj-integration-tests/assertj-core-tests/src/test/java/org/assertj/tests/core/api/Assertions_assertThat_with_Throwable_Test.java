@@ -117,7 +117,7 @@ class Assertions_assertThat_with_Throwable_Test {
   @Test
   void should_fail_with_good_message_when_vararg_has_message_containing_assertion_is_failing() {
     // GIVEN
-    ThrowingCallable code = () -> assertThatThrownBy(raisingException("boom")).hasMessageContaining("%s", "bam");
+    ThrowingCallable code = () -> assertThatThrownBy(raisingException("boom")).hasMessageContaining("bam");
     // THEN
     assertThatAssertionErrorIsThrownBy(code).withMessageContainingAll("Expecting throwable message:",
                                                                       "\"boom\"",

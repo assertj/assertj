@@ -76,7 +76,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer, directoryConsumer));
     // THEN
-    then(assertionError).hasMessageContaining("empty check", "directory check");
+    then(assertionError).hasMessageContainingAll("empty check", "directory check");
   }
 
   @Test

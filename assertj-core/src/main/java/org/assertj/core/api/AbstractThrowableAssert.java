@@ -251,33 +251,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * Verifies that the message of the actual {@code Throwable} contains the given description, after being formatted using
-   * the {@link String#format} method.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
-   * Throwable throwableWithoutMessage = new IllegalArgumentException();
-   *
-   * // assertion will pass:
-   * assertThat(throwableWithMessage).hasMessageContaining("amount %d", 123);
-   *
-   * // assertions will fail:
-   * assertThat(throwableWithoutMessage).hasMessageContaining("amount %d", 123);
-   * assertThat(throwableWithMessage).hasMessageContaining("%s amount", "right"); </code></pre>
-   *
-   * @param description the description expected to be contained in the actual {@code Throwable}'s message.
-   * @param parameters argument referenced by the format specifiers in the format string
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
-   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
-   */
-  public SELF hasMessageContaining(String description, Object... parameters) {
-    throwables.assertHasMessageContaining(info, actual, description.formatted(parameters));
-    return myself;
-  }
-
-  /**
    * Verifies that the message of the actual {@code Throwable} contains all the given values.
    * <p>
    * Examples:
