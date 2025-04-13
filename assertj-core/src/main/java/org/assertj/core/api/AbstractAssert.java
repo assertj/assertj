@@ -1221,25 +1221,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Returns actual (the object currently under test).
-   * <p>
-   * This can be useful if after chaining assertions, the object under test has changed and you want to get it.
-   * <p>
-   * Examples of method changing actual:
-   * {@link AbstractObjectAssert#extracting(Function) extracting(Function)} or a navigation methods like
-   * {@link AbstractThrowableAssert#rootCause() rootCause()}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
-   *
-   * String newActual = assertThat(frodo).extracting(TolkienCharacter::getName).actual();
-   *
-   * // newActual == frodo.getName()
-   * assertThat(newActual).isSameAs(frodo.name);</code></pre>
-   *
-   * @return actual the object currently under test.
-   * @since 3.27.0
+   * {@inheritDoc}
    */
+  @Override
   public ACTUAL actual() {
     return actual;
   }
