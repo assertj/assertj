@@ -69,8 +69,8 @@ class ShouldContainEntries_create_Test {
                                    "  {\"color\"=\"green\", \"name\"=\"yoda\"}%n" +
                                    "to contain entries:%n" +
                                    "  [\"NAME\"=\"vador\", \"COLOR\"=\"red\"]%n" +
-                                   "but could not find the following map entries:%n" +
-                                   "  [\"NAME\"=\"vador\", \"COLOR\"=\"red\"]"));
+                                   "but could not find the following map keys:%n" +
+                                   "  [\"NAME\", \"COLOR\"]"));
   }
 
   @Test
@@ -90,8 +90,8 @@ class ShouldContainEntries_create_Test {
                                    "  {\"color\"=\"green\", \"name\"=\"yoda\"}%n" +
                                    "to contain entries:%n" +
                                    "  [\"NAME\"=\"yoda\", \"COLOR\"=\"green\"]%n" +
-                                   "but could not find the following map entries:%n" +
-                                   "  [\"NAME\"=\"yoda\", \"COLOR\"=\"green\"]"));
+                                   "but could not find the following map keys:%n" +
+                                   "  [\"NAME\", \"COLOR\"]"));
   }
 
   @Test
@@ -111,8 +111,8 @@ class ShouldContainEntries_create_Test {
                                    "  {\"color\"=\"%%d\", \"name\"=\"yoda\", \"power\"=\"99%%\"}%n" +
                                    "to contain entries:%n" +
                                    "  [\"NAME\"=\"yoda\", \"color\"=\"red\", \"power\"=\"%%s\"]%n" +
-                                   "but could not find the following map entries:%n" +
-                                   "  [\"NAME\"=\"yoda\"]%n" +
+                                   "but could not find the following map keys:%n" +
+                                   "  [\"NAME\"]%n" +
                                    "and the following map entries had different values:%n" +
                                    "  [\"color\"=\"%%d\" (expected: \"red\"), \"power\"=\"99%%\" (expected: \"%%s\")]"));
   }
