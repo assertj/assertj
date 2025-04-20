@@ -77,6 +77,14 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
+import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.configuration.PreferredAssumptionException;
+import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.Throwables;
+
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
@@ -88,11 +96,6 @@ import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.This;
-import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.assertj.core.configuration.PreferredAssumptionException;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Entry point for assumption methods for different types, which allow to skip test execution on failed assumptions.
@@ -1159,7 +1162,7 @@ public class Assumptions {
    * @since 3.9.0
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assumeThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
-    return assumeThat(catchThrowable(shouldRaiseOrNotThrowable));
+    return assumeThat(Throwables.catchThrowable(shouldRaiseOrNotThrowable));
   }
 
   /**

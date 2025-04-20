@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
+
+import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -63,6 +65,21 @@ public final class Throwables {
 
   public static List<String> describeErrors(List<? extends Throwable> errors) {
     return extract(errors, ERROR_DESCRIPTION_EXTRACTOR);
+  }
+
+  /**
+   * Allows catching a {@link Throwable} more easily when used with Java 8 lambdas.
+   *
+   * @param shouldRaiseThrowable The lambda with the code that should raise the throwable.
+   * @return The captured throwable or null if no throwable was raised.
+   */
+  public static Throwable catchThrowable(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
+    try {
+      shouldRaiseThrowable.call();
+    } catch (Throwable throwable) {
+      return throwable;
+    }
+    return null;
   }
 
   /**

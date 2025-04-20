@@ -59,7 +59,7 @@ class Assertions_assertThatThrownBy_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(() -> {}).hasMessage("boom ?"));
     // THEN
-    then(assertionError).hasMessage("%nExpecting code to raise a throwable.".formatted());
+    then(assertionError).hasMessage("Expecting code to raise a Throwable");
   }
 
   @Test

@@ -47,9 +47,9 @@ class Assertions_catchRuntimeException_Test {
   @Test
   void catchRuntimeException_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    RuntimeException actual = catchRuntimeException(() -> {});
+    AssertionError error = expectAssertionError(() -> catchRuntimeException(() -> {}));
     // THEN
-    then(actual).isNull();
+    then(error).hasMessage("Expecting code to raise a RuntimeException");
   }
 
   @Test

@@ -14,6 +14,7 @@ package org.assertj.tests.core.api;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ import org.junit.jupiter.api.Test;
 class Assertions_catchThrowable_Test {
 
   @Test
-  void can_capture_exception_and_then_assert_following_AAA_or_BDD_style() {
+  void should_capture_exception() {
     // GIVEN
     Exception exception = new Exception("boom!!");
     // WHEN
@@ -31,11 +32,11 @@ class Assertions_catchThrowable_Test {
   }
 
   @Test
-  void catchThrowable_returns_null_when_no_exception_thrown() {
+  void catchThrowable_should_fail_when_no_exception_is_thrown() {
     // WHEN
-    Throwable boom = catchThrowable(() -> {});
+    AssertionError error = expectAssertionError(() -> catchThrowable(() -> {}));
     // THEN
-    then(boom).isNull();
+    then(error).hasMessage("Expecting code to raise a Throwable");
   }
 
   static ThrowingCallable codeThrowing(Throwable t) {

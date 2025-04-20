@@ -50,7 +50,7 @@ class ThrowableAssert_built_from_ThrowingCallable_Test {
           // no exception
         }
       });
-    }).withMessage("%nExpecting code to raise a throwable.".formatted());
+    }).withMessage("Expecting code to raise a Throwable");
   }
 
 }

@@ -14,46 +14,41 @@ package org.assertj.tests.core.api;
 
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.error.ShouldBeInstance.shouldBeInstance;
 import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 class Assertions_catchThrowableOfType_Test {
 
   @Test
-  void can_capture_exception_and_then_assert_following_AAA_or_BDD_style() {
+  void should_capture_exception_of_specific_type() {
     // GIVEN
-    Exception exception = new Exception("boom!!");
+    IOException exception = new IOException("boom!!");
     // WHEN
-    Throwable boom = catchThrowableOfType(Exception.class, codeThrowing(exception));
+    Throwable boom = catchThrowableOfType(IOException.class, codeThrowing(exception));
     // THEN
     then(boom).isSameAs(exception);
   }
 
   @Test
-  void catchThrowable_returns_null_when_no_exception_thrown() {
-    // WHEN
-    Throwable boom = catchThrowableOfType(RuntimeException.class, () -> {});
-    // THEN
-    then(boom).isNull();
-  }
-
-  @Test
-  void catchThrowableOfType_should_fail_with_good_message_if_wrong_type() {
+  void catchThrowableOfType_should_fail_with_helpful_message_if_caught_exception_is_not_of_the_right_type() {
     // GIVEN
-    ThrowingCallable code = () -> catchThrowableOfType(RuntimeException.class, raisingException("boom!!"));
+    Exception exception = new Exception("boom !");
+    ThrowingCallable code = () -> catchThrowableOfType(RuntimeException.class, codeThrowing(exception));
     // WHEN
     AssertionError error = expectAssertionError(code);
     // THEN
-    then(error).hasMessageContainingAll(RuntimeException.class.getName(), Exception.class.getName());
+    then(error).hasMessage("[Checking code thrown Throwable] " + shouldBeInstance(exception, RuntimeException.class).create());
   }
 
   @Test
-  void catchThrowableOfType_should_succeed_and_return_actual_instance_with_correct_class() {
+  void catchThrowableOfType_should_succeed_and_return_actual_instance_with_correct_runtime_type() {
     // GIVEN
     final Exception expected = new RuntimeException("boom!!");
     // WHEN
@@ -63,11 +58,11 @@ class Assertions_catchThrowableOfType_Test {
   }
 
   @Test
-  void catchThrowableOfType_should_succeed_and_return_null_if_no_exception_thrown() {
+  void catchThrowableOfType_should_fail_if_no_exception_is_thrown() {
     // WHEN
-    IOException actual = catchThrowableOfType(IOException.class, () -> {});
+    AssertionError error = expectAssertionError(() -> catchThrowableOfType(IOException.class, () -> {}));
     // THEN
-    then(actual).isNull();
+    then(error).hasMessage("Expecting code to raise an IOException");
   }
 
   @Test
@@ -78,10 +73,6 @@ class Assertions_catchThrowableOfType_Test {
     Throwable actual = catchThrowableOfType(Throwable.class, codeThrowing(throwable));
     // THEN
     then(actual).isSameAs(throwable);
-  }
-
-  static ThrowingCallable raisingException(final String reason) {
-    return codeThrowing(new Exception(reason));
   }
 
 }

@@ -13,16 +13,17 @@
 package org.assertj.tests.core.api;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
 import static org.assertj.tests.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
@@ -52,12 +53,6 @@ class Assertions_assertThat_with_Throwable_Test {
   }
 
   @Test
-  void should_fail_if_no_throwable_was_thrown() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatThrownBy(() -> {}).hasMessage("boom ?"))
-                                                   .withMessage("%nExpecting code to raise a throwable.".formatted());
-  }
-
-  @Test
   void can_capture_exception_and_then_assert_following_AAA_or_BDD_style() {
     // when
     Exception exception = new Exception("boom!!");
@@ -68,10 +63,10 @@ class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   void catchThrowable_returns_null_when_no_exception_thrown() {
-    // when
-    Throwable boom = catchThrowable(() -> {});
-    // then
-    assertThat(boom).isNull();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> catchThrowable(() -> {}));
+    // THEN
+    then(error).hasMessage("Expecting code to raise a Throwable");
   }
 
   @Test
@@ -99,8 +94,10 @@ class Assertions_assertThat_with_Throwable_Test {
 
   @Test
   void catchThrowableOfType_should_succeed_and_return_null_if_no_exception_thrown() {
-    IOException actual = catchThrowableOfType(IOException.class, () -> {});
-    assertThat(actual).isNull();
+    // WHEN
+    AssertionError error = expectAssertionError(() -> catchThrowableOfType(SQLException.class, () -> {}));
+    // THEN
+    then(error).hasMessage("Expecting code to raise a SQLException");
   }
 
   @Test

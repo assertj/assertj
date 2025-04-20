@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.description.Description;
 import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.Throwables;
 
 /**
  * Assertion class checking {@link Throwable} type.
@@ -54,7 +55,7 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
    * @return return a {@link ThrowableAssertAlternative}.
    */
   public ThrowableAssertAlternative<T> isThrownBy(final ThrowingCallable throwingCallable) {
-    Throwable throwable = ThrowableAssert.catchThrowable(throwingCallable);
+    Throwable throwable = Throwables.catchThrowable(throwingCallable);
     checkThrowableType(throwable);
     @SuppressWarnings("unchecked")
     T castThrowable = (T) throwable;
