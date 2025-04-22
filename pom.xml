@@ -272,9 +272,8 @@ Copyright ${project.inceptionYear}-${currentYear} the original author or authors
         <executions>
           <execution>
             <goals>
-              <goal>apply</goal>
+              <goal>check</goal>
             </goals>
-            <phase>compile</phase>
           </execution>
         </executions>
       </plugin>
