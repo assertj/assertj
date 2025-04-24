@@ -32,6 +32,7 @@ import static org.assertj.core.error.ShouldBeRecord.shouldBeRecord;
 import static org.assertj.core.error.ShouldBeRecord.shouldNotBeRecord;
 import static org.assertj.core.error.ShouldBeSealed.shouldBeSealed;
 import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
+import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
@@ -50,7 +51,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.assertj.core.internal.Classes;
 
 /**
@@ -649,10 +649,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // this assertion fails:
    * assertThat(Jedi.class).containsAnnotations(Force.class, DarkSide.class);</code></pre>
    *
-   * @param annotations annotations who must be attached to the class
+   * @param annotations annotations that must be attached to the class
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
+   * @throws AssertionError if the actual {@code Class} doesn't have all the given annotations.
    */
   @SafeVarargs
   public final SELF hasAnnotations(Class<? extends Annotation>... annotations) {
@@ -668,7 +668,9 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} has the given {@code Annotation}.
+   * Verifies that the actual {@code Class} has the given {@code Annotation}, either directly or indirectly.
+   * <p>
+   * Meta-annotations are currently unsupported.
    * <p>
    * Example:
    * <pre><code class='java'> &#64;Target(ElementType.TYPE)
@@ -683,14 +685,23 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // this assertion fails:
    * assertThat(Jedi.class).containsAnnotation(DarkSide.class);</code></pre>
    *
-   * @param annotation annotations who must be attached to the class
+   * @param annotation annotations that must be attached to the class
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
+   * @throws AssertionError if the actual {@code Class} doesn't have the given annotation.
    */
   public SELF hasAnnotation(Class<? extends Annotation> annotation) {
-    classes.assertContainsAnnotations(info, actual, array(annotation));
+    isNotNull();
+    assertHasAnnotation(annotation);
     return myself;
+  }
+
+  private void assertHasAnnotation(Class<? extends Annotation> annotation) {
+    requireNonNull(annotation, shouldNotBeNull("annotation")::create);
+    Annotation[] annotations = actual.getAnnotationsByType(annotation);
+    if (annotations.length == 0) {
+      throw assertionError(shouldHaveAnnotations(actual, Set.of(annotation), Set.of(annotation)));
+    }
   }
 
   /**
