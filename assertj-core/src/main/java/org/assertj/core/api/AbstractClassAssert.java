@@ -50,7 +50,6 @@ import java.util.Collections;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
 import org.assertj.core.internal.Classes;
 
 /**
@@ -729,6 +728,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws NullPointerException if the given annotation is {@code null}.
    */
   public <T extends Annotation> AbstractObjectAssert<?, T> annotation(Class<T> annotation) {
+    requireNonNull(annotation, () -> shouldNotBeNull("annotation").create());
     classes.assertContainsAnnotations(info, actual, array(annotation));
     return new ObjectAssert<>(actual.getAnnotation(annotation)).withAssertionState(myself);
   }
