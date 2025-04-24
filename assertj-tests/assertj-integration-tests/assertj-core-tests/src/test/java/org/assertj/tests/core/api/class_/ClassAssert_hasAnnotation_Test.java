@@ -60,35 +60,35 @@ class ClassAssert_hasAnnotation_Test {
 
   @ParameterizedTest
   @MethodSource
-  void should_pass_if_actual_has_given_annotation(Class<?> actual, Class<? extends Annotation> annotation) {
+  void should_pass_if_actual_has_annotation(Class<?> actual, Class<? extends Annotation> annotation) {
     // WHEN/THEN
     assertThat(actual).hasAnnotation(annotation);
   }
 
-  static Stream<Arguments> should_pass_if_actual_has_given_annotation() {
-    return Stream.of(arguments(AnnotatedClass.class, InheritedAnnotation.class),
-                     arguments(ChildClass.class, InheritedAnnotation.class),
+  static Stream<Arguments> should_pass_if_actual_has_annotation() {
+    return Stream.of(arguments(Annotated.class, InheritedAnnotation.class),
+                     arguments(Subclass.class, InheritedAnnotation.class),
                      arguments(ComposedAnnotated.class, ComposedAnnotation.class),
-                     arguments(SingleRepeatable.class, RepeatableAnnotation.class),
-                     arguments(MultipleRepeatable.class, RepeatableAnnotation.class),
-                     arguments(MultipleRepeatable.class, RepeatableAnnotation.Container.class));
+                     arguments(SingleRepeatableAnnotated.class, RepeatableAnnotation.class),
+                     arguments(MultiRepeatableAnnotated.class, RepeatableAnnotation.class),
+                     arguments(MultiRepeatableAnnotated.class, RepeatableAnnotationContainer.class));
   }
 
   @ParameterizedTest
   @MethodSource
-  void should_fail_if_actual_does_not_have_given_annotation(Class<?> actual, Class<? extends Annotation> annotation) {
+  void should_fail_if_actual_does_not_have_annotation(Class<?> actual, Class<? extends Annotation> annotation) {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotation(annotation));
     // THEN
     then(assertionError).hasMessage(shouldHaveAnnotations(actual, Set.of(annotation), Set.of(annotation)).create());
   }
 
-  static Stream<Arguments> should_fail_if_actual_does_not_have_given_annotation() {
-    return Stream.of(arguments(AnnotatedClass.class, Deprecated.class),
+  static Stream<Arguments> should_fail_if_actual_does_not_have_annotation() {
+    return Stream.of(arguments(Annotated.class, Deprecated.class),
                      // meta-annotation lookup is currently unsupported
                      arguments(ComposedAnnotated.class, MetaAnnotation.class),
-                     // no container when only one is present
-                     arguments(SingleRepeatable.class, RepeatableAnnotation.Container.class));
+                     // no container created when only one annotation is present
+                     arguments(SingleRepeatableAnnotated.class, RepeatableAnnotationContainer.class));
   }
 
   @Target(TYPE)
@@ -98,10 +98,10 @@ class ClassAssert_hasAnnotation_Test {
   }
 
   @InheritedAnnotation
-  static class AnnotatedClass {
+  static class Annotated {
   }
 
-  static class ChildClass extends AnnotatedClass {
+  static class Subclass extends Annotated {
   }
 
   @Target({ TYPE, ANNOTATION_TYPE })
@@ -109,7 +109,7 @@ class ClassAssert_hasAnnotation_Test {
   @interface MetaAnnotation {
   }
 
-  @Target({ TYPE })
+  @Target(TYPE)
   @Retention(RUNTIME)
   @MetaAnnotation
   @interface ComposedAnnotation {
@@ -121,23 +121,23 @@ class ClassAssert_hasAnnotation_Test {
 
   @Target(TYPE)
   @Retention(RUNTIME)
-  @Repeatable(RepeatableAnnotation.Container.class)
+  @Repeatable(RepeatableAnnotationContainer.class)
   @interface RepeatableAnnotation {
+  }
 
-    @Target(TYPE)
-    @Retention(RUNTIME)
-    @interface Container {
-      RepeatableAnnotation[] value();
-    }
+  @Target(TYPE)
+  @Retention(RUNTIME)
+  @interface RepeatableAnnotationContainer {
+    RepeatableAnnotation[] value();
   }
 
   @RepeatableAnnotation
-  static class SingleRepeatable {
+  static class SingleRepeatableAnnotated {
   }
 
   @RepeatableAnnotation
   @RepeatableAnnotation
-  static class MultipleRepeatable {
+  static class MultiRepeatableAnnotated {
   }
 
 }

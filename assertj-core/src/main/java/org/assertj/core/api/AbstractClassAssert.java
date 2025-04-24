@@ -685,7 +685,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * // this assertion fails:
    * assertThat(Jedi.class).containsAnnotation(DarkSide.class);</code></pre>
    *
-   * @param annotation annotations that must be attached to the class
+   * @param annotation annotation that must be attached to the class
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
    * @throws AssertionError if the actual {@code Class} doesn't have the given annotation.
