@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -41,10 +41,10 @@ public class ArrayWrapperList extends AbstractList<Object> {
     return new ArrayWrapperList(array);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final Object array;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ArrayWrapperList(Object array) {
     this.array = array;
   }
@@ -63,7 +63,7 @@ public class ArrayWrapperList extends AbstractList<Object> {
     if (index >= 0 && index < size()) {
       return;
     }
-    String message = String.format("Index should be between 0 and %d (inclusive) but was %d", size - 1, index);
+    String message = "Index should be between 0 and %d (inclusive) but was %d".formatted(size - 1, index);
     throw new IndexOutOfBoundsException(message);
   }
 

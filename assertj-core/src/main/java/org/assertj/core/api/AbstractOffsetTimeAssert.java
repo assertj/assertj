@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -16,8 +16,6 @@ import static org.assertj.core.error.ShouldBeAfter.shouldBeAfter;
 import static org.assertj.core.error.ShouldBeAfterOrEqualTo.shouldBeAfterOrEqualTo;
 import static org.assertj.core.error.ShouldBeBefore.shouldBeBefore;
 import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqualTo;
-import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
-import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
 import static org.assertj.core.error.ShouldBeEqualIgnoringTimezone.shouldBeEqualIgnoringTimezone;
 import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
 import static org.assertj.core.util.Preconditions.checkArgument;
@@ -359,85 +357,6 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    */
   private static void assertOffsetTimeParameterIsNotNull(OffsetTime other) {
     checkArgument(other != null, "The OffsetTime to compare actual with should not be null");
-  }
-
-  /**
-   * Verifies that actual and given {@code OffsetTime} have same hour, minute and second fields (nanosecond fields are
-   * ignored in comparison).
-   * <p>
-   * Assertion can fail with OffsetTimes in same chronological nanosecond time window, e.g :
-   * <p>
-   * 23:00:<b>01.000000000</b>+01:00 and 23:00:<b>00.999999999</b>+01:00.
-   * <p>
-   * Assertion fails as second fields differ even if time difference is only 1ns.
-   * <p>
-   * Code example :
-   * <pre><code class='java'> // successful assertions
-   * OffsetTime OffsetTime1 = OffsetTime.of(12, 0, 1, 0, ZoneOffset.UTC);
-   * OffsetTime OffsetTime2 = OffsetTime.of(12, 0, 1, 456, ZoneOffset.UTC);
-   * assertThat(OffsetTime1).isEqualToIgnoringNanos(OffsetTime2);
-   *
-   * // failing assertions (even if time difference is only 1ns)
-   * OffsetTime OffsetTimeA = OffsetTime.of(12, 0, 1, 0, ZoneOffset.UTC);
-   * OffsetTime OffsetTimeB = OffsetTime.of(12, 0, 0, 999999999, ZoneOffset.UTC);
-   * assertThat(OffsetTimeA).isEqualToIgnoringNanos(OffsetTimeB);</code></pre>
-   *
-   * @param other the given {@link java.time.OffsetTime}.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code OffsetTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code OffsetTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetTime} is not equal with nanoseconds ignored.
-   * @deprecated Use {@link #isCloseTo(OffsetTime, TemporalOffset)} instead, although not exactly the same semantics, 
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated
-  public SELF isEqualToIgnoringNanos(OffsetTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringNanos(actual, other)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringNanos(actual, other));
-    }
-    return myself;
-  }
-
-  /**
-   * Verifies that actual and given {@link java.time.OffsetTime} have same hour and minute fields (second and nanosecond
-   * fields are
-   * ignored in comparison).
-   * <p>
-   * Assertion can fail with OffsetTimes in same chronological second time window, e.g :
-   * <p>
-   * 23:<b>01:00</b>.000+01:00 and 23:<b>00:59</b>.000+01:00.
-   * <p>
-   * Assertion fails as minute fields differ even if time difference is only 1s.
-   * <p>
-   * Code example :
-   * <pre><code class='java'> // successful assertions
-   * OffsetTime OffsetTime1 = OffsetTime.of(23, 50, 0, 0, ZoneOffset.UTC);
-   * OffsetTime OffsetTime2 = OffsetTime.of(23, 50, 10, 456, ZoneOffset.UTC);
-   * assertThat(OffsetTime1).isEqualToIgnoringSeconds(OffsetTime2);
-   *
-   * // failing assertions (even if time difference is only 1ms)
-   * OffsetTime OffsetTimeA = OffsetTime.of(23, 50, 00, 000, ZoneOffset.UTC);
-   * OffsetTime OffsetTimeB = OffsetTime.of(23, 49, 59, 999, ZoneOffset.UTC);
-   * assertThat(OffsetTimeA).isEqualToIgnoringSeconds(OffsetTimeB);</code></pre>
-   *
-   * @param other the given {@link java.time.OffsetTime}.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code OffsetTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code OffsetTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetTime} is not equal with second and nanosecond fields ignored.
-   * @deprecated Use {@link #isCloseTo(OffsetTime, TemporalOffset)} instead, although not exactly the same semantics, 
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated
-  public SELF isEqualToIgnoringSeconds(OffsetTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringSeconds(actual, other)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringSeconds(actual, other));
-    }
-    return myself;
   }
 
   /**

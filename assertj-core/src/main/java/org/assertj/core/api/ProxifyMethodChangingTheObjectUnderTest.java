@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -56,7 +56,6 @@ import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.regex.Matcher;
-
 import net.bytebuddy.implementation.bind.annotation.FieldValue;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
@@ -86,8 +85,8 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     if (currentAssert instanceof FileSizeAssert) return createFileSizeAssertProxy(currentAssert);
     if (currentAssert instanceof BigDecimalScaleAssert) return createBigDecimalScaleAssertProxy(currentAssert);
     if (currentAssert instanceof MapSizeAssert) return createMapSizeAssertProxy(currentAssert);
-    if (currentAssert instanceof RecursiveComparisonAssert)
-      return createRecursiveComparisonAssertProxy((RecursiveComparisonAssert) currentAssert);
+    if (currentAssert instanceof RecursiveComparisonAssert assert1)
+      return createRecursiveComparisonAssertProxy(assert1);
     return (AbstractAssert) proxies.createSoftAssertionProxy(currentAssert.getClass(), actualClass(currentAssert),
                                                              actual(currentAssert));
   }
@@ -189,8 +188,8 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     // Inspecting: class ListAssert<T> extends AbstractListAssert<ListAssert<T>, List<? extends T>, T>
     // will return the generic defined by the super class AbstractListAssert at index 1, which is a List<? extends T>
     Type actualType = ((ParameterizedType) currentAssert.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-    if (actualType instanceof ParameterizedType) return (Class<?>) ((ParameterizedType) actualType).getRawType();
-    if (actualType instanceof TypeVariable) return (Class<?>) ((TypeVariable) actualType).getGenericDeclaration();
+    if (actualType instanceof ParameterizedType type) return (Class<?>) type.getRawType();
+    if (actualType instanceof TypeVariable variable) return (Class<?>) variable.getGenericDeclaration();
     return (Class<?>) actualType;
   }
 

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.configuration;
 
@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.AbstractDateAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Assumptions;
@@ -297,7 +296,7 @@ public class Configuration {
   }
 
   /**
-   * Sets the threshold for how many elements at most from one iterable/array/map will be displaye in error messages.
+   * Sets the threshold for how many elements at most from one iterable/array/map will be displayed in error messages.
    * <p>
    * See {@link Assertions#setMaxElementsForPrinting(int)} for a detailed description.
    * <p>
@@ -444,7 +443,7 @@ public class Configuration {
   }
 
   private String describe(DateFormat dateFormat) {
-    return dateFormat instanceof SimpleDateFormat ? ((SimpleDateFormat) dateFormat).toPattern() : dateFormat.toString();
+    return dateFormat instanceof SimpleDateFormat sdf ? sdf.toPattern() : dateFormat.toString();
   }
 
 }

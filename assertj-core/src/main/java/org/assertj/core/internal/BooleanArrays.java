@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -17,7 +17,6 @@ import java.util.Comparator;
 import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for arrays of {@code boolean}s.
@@ -42,15 +41,15 @@ public class BooleanArrays {
 
   private Arrays arrays;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BooleanArrays() {
     setArrays(Arrays.instance());
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void setArrays(Arrays arrays) {
     this.arrays = arrays;
   }

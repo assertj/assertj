@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -18,8 +18,8 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.Lists.list;
 
@@ -38,7 +38,6 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-
 import org.assertj.core.internal.ChronoLocalDateTimeComparator;
 import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
@@ -163,10 +162,10 @@ class AutoCloseableSoftAssertionsTest {
       List<String> errors = e.getFailures().stream().map(Object::toString).collect(toList());
       assertThat(errors).hasSize(49);
 
-      assertThat(errors.get(0)).contains(format(shouldBeEqualMessage("0", "1")));
+      assertThat(errors.get(0)).contains(shouldBeEqualMessage("0", "1").formatted());
 
-      assertThat(errors.get(1)).contains(format("%nExpecting value to be true but was false"));
-      assertThat(errors.get(2)).contains(format("%nExpecting value to be true but was false"));
+      assertThat(errors.get(1)).contains("%nExpecting value to be true but was false".formatted());
+      assertThat(errors.get(2)).contains("%nExpecting value to be true but was false".formatted());
       assertThat(errors.get(3)).contains(shouldBeEqualMessage("[false]", "[true]"));
 
       assertThat(errors.get(4)).contains(shouldBeEqualMessage("0", "1"));
@@ -177,7 +176,7 @@ class AutoCloseableSoftAssertionsTest {
       assertThat(errors.get(8)).contains(shouldBeEqualMessage("'C'", "'D'"));
       assertThat(errors.get(9)).contains(shouldBeEqualMessage("['E']", "['F']"));
 
-      assertThat(errors.get(10)).contains(shouldBeEqualMessage("a", "b"));
+      assertThat(errors.get(10)).contains(shouldBeEqualMessage("\"a\"", "\"b\""));
 
       assertThat(errors.get(11)).contains(shouldBeEqualMessage("java.lang.Object", "java.lang.String"));
 
@@ -206,7 +205,7 @@ class AutoCloseableSoftAssertionsTest {
       assertThat(errors.get(23)).contains(shouldBeEqualMessage("[24]", "[25]"));
 
       assertThat(errors.get(24)).contains(shouldBeEqualMessage("[\"26\"]", "[\"27\"]"));
-      assertThat(errors.get(25)).contains(format("Expecting the iterator under test to be exhausted"));
+      assertThat(errors.get(25)).contains("Expecting the iterator under test to be exhausted");
       assertThat(errors.get(26)).contains(shouldBeEqualMessage("[\"30\"]", "[\"31\"]"));
 
       assertThat(errors.get(27)).contains(shouldBeEqualMessage("32L", "33L"));
@@ -236,12 +235,10 @@ class AutoCloseableSoftAssertionsTest {
                                                                "2015-01-02 (java.time.LocalDate)"));
       assertThat(errors.get(41)).contains(shouldBeEqualMessage("2015-01-01T23:59:59 (java.time.LocalDateTime)",
                                                                "2015-01-01T23:59 (java.time.LocalDateTime)")
-                                          + format("%nwhen comparing values using '%s'",
-                                                   ChronoLocalDateTimeComparator.getInstance()));
+                                          + "%nwhen comparing values using '%s'".formatted(ChronoLocalDateTimeComparator.getInstance()));
       assertThat(errors.get(42)).contains(shouldBeEqualMessage("2015-01-01T23:59:59Z (java.time.ZonedDateTime)",
                                                                "2015-01-01T23:59Z (java.time.ZonedDateTime)")
-                                          + format("%nwhen comparing values using '%s'",
-                                                   ChronoZonedDateTimeByInstantComparator.getInstance()));
+                                          + "%nwhen comparing values using '%s'".formatted(ChronoZonedDateTimeByInstantComparator.getInstance()));
       assertThat(errors.get(43)).contains(shouldBeEqualMessage("OptionalInt[0]", "1"));
       assertThat(errors.get(44)).contains(shouldBeEqualMessage("OptionalDouble[0.0]", "1.0"));
       assertThat(errors.get(45)).contains(shouldBeEqualMessage("OptionalLong[0]", "1L"));
@@ -249,10 +246,9 @@ class AutoCloseableSoftAssertionsTest {
       assertThat(errors.get(46)).contains(shouldBeEqualMessage("12:00", "13:00"));
       assertThat(errors.get(47)).contains(shouldBeEqualMessage("12:00Z", "13:00Z"));
 
-      assertThat(errors.get(48)).contains(shouldBeEqualMessage(OffsetDateTime.MIN.toString() + " (java.time.OffsetDateTime)",
-                                                               OffsetDateTime.MAX.toString() + " (java.time.OffsetDateTime)")
-                                          + format("%nwhen comparing values using '%s'",
-                                                   OffsetDateTimeByInstantComparator.getInstance()));
+      assertThat(errors.get(48)).contains(shouldBeEqualMessage(OffsetDateTime.MIN + " (java.time.OffsetDateTime)",
+                                                               OffsetDateTime.MAX + " (java.time.OffsetDateTime)")
+                                          + "%nwhen comparing values using '%s'".formatted(OffsetDateTimeByInstantComparator.getInstance()));
       return;
     }
     fail("Should not reach here");

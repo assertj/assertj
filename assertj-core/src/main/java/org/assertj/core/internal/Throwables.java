@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -43,7 +43,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Throwable}</code>s.
@@ -66,11 +65,9 @@ public class Throwables {
     return INSTANCE;
   }
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
+  private final Failures failures = Failures.instance();
 
-  @VisibleForTesting
-  Throwables() {}
+  private Throwables() {}
 
   /**
    * Asserts that the given actual {@code Throwable} message is equal to the given one.
@@ -259,7 +256,7 @@ public class Throwables {
   public void assertHasMessageNotContaining(AssertionInfo info, Throwable actual, String content) {
     assertNotNull(info, actual);
     if (actual.getMessage() == null || !actual.getMessage().contains(content)) return;
-    throw failures.failure(info, shouldNotContain(actual.getMessage(), content), actual.getMessage(), content);
+    throw failures.failure(info, shouldNotContain(actual, content), actual.getMessage(), content);
   }
 
   /**
@@ -278,10 +275,9 @@ public class Throwables {
                                             .collect(toCollection(LinkedHashSet::new));
     if (found.isEmpty()) return;
     if (found.size() == 1 && values.length == 1) {
-      throw failures.failure(info, shouldNotContain(actualMessage, values[0]), actualMessage, values[0]);
+      throw failures.failure(info, shouldNotContain(actual, values[0]), actualMessage, values[0]);
     }
-    throw failures.failure(info, shouldNotContain(actualMessage, values, found, StandardComparisonStrategy.instance()),
-                           actualMessage, values);
+    throw failures.failure(info, shouldNotContain(actual, values, found), actualMessage, values);
   }
 
   /**

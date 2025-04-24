@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
-import org.assertj.core.test.CartoonCharacter;
+import org.assertj.core.testkit.CartoonCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -93,10 +93,12 @@ class IterableAssert_flatMap_Test {
     // GIVEN
     List<CartoonCharacter> childCharacters = list(bart, lisa, maggie);
     // WHEN
-    RuntimeException runtimeException = catchThrowableOfType(() -> assertThat(childCharacters).flatMap(cartoonCharacter -> {
-      if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
-      return cartoonCharacter.getChildren();
-    }), RuntimeException.class);
+    RuntimeException runtimeException = catchThrowableOfType(RuntimeException.class,
+                                                             () -> assertThat(childCharacters).flatMap(cartoonCharacter -> {
+                                                               if (cartoonCharacter.getChildren().isEmpty())
+                                                                 throw new Exception("no children");
+                                                               return cartoonCharacter.getChildren();
+                                                             }));
     // THEN
     then(runtimeException).hasMessage("java.lang.Exception: no children");
   }
@@ -106,10 +108,12 @@ class IterableAssert_flatMap_Test {
     // GIVEN
     List<CartoonCharacter> childCharacters = list(bart, lisa, maggie);
     // WHEN
-    RuntimeException runtimeException = catchThrowableOfType(() -> assertThat(childCharacters).flatMap(cartoonCharacter -> {
-      if (cartoonCharacter.getChildren().isEmpty()) throw new RuntimeException("no children");
-      return cartoonCharacter.getChildren();
-    }), RuntimeException.class);
+    RuntimeException runtimeException = catchThrowableOfType(RuntimeException.class,
+                                                             () -> assertThat(childCharacters).flatMap(cartoonCharacter -> {
+                                                               if (cartoonCharacter.getChildren().isEmpty())
+                                                                 throw new RuntimeException("no children");
+                                                               return cartoonCharacter.getChildren();
+                                                             }));
     // THEN
     then(runtimeException).hasMessage("no children");
   }

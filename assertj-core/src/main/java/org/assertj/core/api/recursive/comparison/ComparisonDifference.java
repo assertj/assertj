@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.lang.String.format;
 import static java.lang.String.join;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
@@ -34,7 +33,7 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   // - d+ any number
   // - \] represents ] in a regex
   // - $ represents the end of the string in a regex
-  private static final String TOP_LEVEL_ELEMENT_PATTERN = "^\\[\\d+\\]$";
+  private static final String TOP_LEVEL_ELEMENT_PATTERN = "^\\[\\d+]$";
   private static final String FIELD = "field/property '%s'";
   private static final String TOP_LEVEL_OBJECTS = "Top level actual and expected objects";
   private static final String TOP_LEVEL_ELEMENTS = "Top level actual and expected objects element at index %s";
@@ -96,13 +95,24 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
     return decomposedPath;
   }
 
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  public String getConcatenatedPath() {
+    return concatenatedPath;
+  }
+
   @Override
   public String toString() {
-    return additionalInformation.isPresent()
-        ? format("ComparisonDifference [path=%s, actual=%s, expected=%s, template=%s, additionalInformation=%s]",
-                 concatenatedPath, actual, expected, template, additionalInformation.get())
-        : format("ComparisonDifference [path=%s, actual=%s, template=%s, expected=%s]",
-                 concatenatedPath, actual, template, expected);
+    return additionalInformation.map(s -> "ComparisonDifference [path=%s, actual=%s, expected=%s, template=%s, additionalInformation=%s]".formatted(
+                                                                                                                                                    concatenatedPath,
+                                                                                                                                                    actual,
+                                                                                                                                                    expected,
+                                                                                                                                                    template,
+                                                                                                                                                    s))
+                                .orElseGet(() -> "ComparisonDifference [path=%s, actual=%s, template=%s, expected=%s]".formatted(
+                                                                                                                                 concatenatedPath,
+                                                                                                                                 actual,
+                                                                                                                                 template,
+                                                                                                                                 expected));
   }
 
   public String multiLineDescription() {
@@ -113,30 +123,28 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   public String multiLineDescription(Representation representation) {
     UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual, expected);
     String additionalInfo = additionalInformation.map(ComparisonDifference::formatOnNewline).orElse("");
-    return format(getTemplate(),
-                  fieldPathDescription(),
-                  unambiguousRepresentation.getActual(),
-                  unambiguousRepresentation.getExpected(),
-                  additionalInfo);
+    return getTemplate().formatted(
+                                   fieldPathDescription(),
+                                   unambiguousRepresentation.getActual(),
+                                   unambiguousRepresentation.getExpected(),
+                                   additionalInfo);
   }
 
   // returns a user-friendly path description
   protected String fieldPathDescription() {
     if (concatenatedPath.isEmpty()) return TOP_LEVEL_OBJECTS;
-    if (concatenatedPath.matches(TOP_LEVEL_ELEMENT_PATTERN)) return format(TOP_LEVEL_ELEMENTS, extractIndex(concatenatedPath));
-    return format(FIELD, concatenatedPath);
+    if (concatenatedPath.matches(TOP_LEVEL_ELEMENT_PATTERN)) return TOP_LEVEL_ELEMENTS.formatted(extractIndex(concatenatedPath));
+    return FIELD.formatted(concatenatedPath);
   }
 
   private static String extractIndex(String path) {
     // path looks like [12]
-    // index = 12]
     String index = path.substring(1);
-    // index = 12
-    return index.replaceFirst("\\]", "");
+    return index.replaceFirst("]", "");
   }
 
   private static String formatOnNewline(String info) {
-    return format("%n%s", info);
+    return "%n%s".formatted(info);
   }
 
   private static String toConcatenatedPath(List<String> decomposedPath) {

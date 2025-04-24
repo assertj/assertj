@@ -8,29 +8,24 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfy;
-import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.list;
 
-import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
-import java.util.List;
 import java.util.Map;
 
-import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.internal.MapsBaseTest;
-import org.assertj.core.test.Player;
+import org.assertj.core.testkit.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -70,8 +65,14 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
                                            .isLessThan(30);
     }));
     // THEN
-    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(failOnPpgLessThan("Bulls", jordan, 30));
-    assertThat(error).hasMessage(elementsShouldSatisfy(greatPlayers, unsatisfiedRequirements, someInfo()).create());
+    // can't build the exact error message due to internal stack traces
+    then(error).hasMessageStartingWith(format("%n" +
+                                              "Expecting all elements of:%n" +
+                                              "  %s%n" +
+                                              "to satisfy given requirements, but these elements did not:%n%n",
+                                              info.representation().toStringOf(greatPlayers)))
+               .hasMessageContaining("error: java.lang.AssertionError: [Michael Jordan ppg]")
+               .hasMessageNotContainingAny("[Tim Duncan ppg]", "[Magic Johnson ppg]");
   }
 
   @Test
@@ -83,9 +84,15 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
                                            .isGreaterThanOrEqualTo(30);
     }));
     // THEN
-    List<UnsatisfiedRequirement> unsatisfiedRequirements = list(failOnPpgGreaterThanEqual("Spurs", duncan, 30),
-                                                                failOnPpgGreaterThanEqual("Lakers", magic, 30));
-    assertThat(error).hasMessage(elementsShouldSatisfy(greatPlayers, unsatisfiedRequirements, someInfo()).create());
+    // can't build the exact error message due to internal stack traces
+    then(error).hasMessageStartingWith(format("%n" +
+                                              "Expecting all elements of:%n" +
+                                              "  %s%n" +
+                                              "to satisfy given requirements, but these elements did not:%n%n",
+                                              info.representation().toStringOf(greatPlayers)))
+               .hasMessageContaining("error: java.lang.AssertionError: [Tim Duncan ppg]")
+               .hasMessageContaining("error: java.lang.AssertionError: [Magic Johnson ppg]")
+               .hasMessageNotContainingAny("[Michael Jordan ppg]");
   }
 
   @Test
@@ -93,7 +100,7 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> maps.assertAllSatisfy(someInfo(), null, (team, player) -> {}));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -101,25 +108,4 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
     assertThatNullPointerException().isThrownBy(() -> maps.assertAllSatisfy(someInfo(), greatPlayers, null))
                                     .withMessage("The BiConsumer<K, V> expressing the assertions requirements must not be null");
   }
-
-  private static UnsatisfiedRequirement failOnPpgGreaterThanEqual(String team, Player player, int requiredScore) {
-    SimpleEntry<String, Player> entry = new AbstractMap.SimpleEntry<>(team, player);
-    String message = format("[" + player.getName().getName() + " ppg] %n" +
-                            "Expecting actual:%n" +
-                            "  " + player.getPointsPerGame() + "%n" +
-                            "to be greater than or equal to:%n" +
-                            "  " + requiredScore + "%n");
-    return new UnsatisfiedRequirement(entry, message);
-  }
-
-  private static UnsatisfiedRequirement failOnPpgLessThan(String team, Player player, int requiredScore) {
-    SimpleEntry<String, Player> entry = new AbstractMap.SimpleEntry<>(team, player);
-    String message = format("[" + player.getName().getName() + " ppg] %n" +
-                            "Expecting actual:%n" +
-                            "  " + player.getPointsPerGame() + "%n" +
-                            "to be less than:%n" +
-                            "  " + requiredScore + " ");
-    return new UnsatisfiedRequirement(entry, message);
-  }
-
 }

@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
 
 import java.time.temporal.Temporal;
@@ -61,16 +60,18 @@ public class ShouldBeCloseTo extends BasicErrorMessageFactory {
     // seems equal in the error message.
     // Use standard formatting to avoid calling ToString.toStringOf for long that adds a 'L' (like 100L) to
     // differentiate integer from long (here there is no ambiguity).
-    super(format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nby less than %sms but difference was %sms",
-                 formatAsDatetimeWithMs(actual), formatAsDatetimeWithMs(other), deltaInMilliseconds, difference));
+    super("%nExpecting actual:%n  %s%nto be close to:%n  %s%nby less than %sms but difference was %sms".formatted(formatAsDatetimeWithMs(actual),
+                                                                                                                  formatAsDatetimeWithMs(other),
+                                                                                                                  deltaInMilliseconds,
+                                                                                                                  difference));
   }
 
   private ShouldBeCloseTo(Temporal actual, Temporal other, String differenceDescription) {
-    super(format("%nExpecting actual:%n  %s%nto be close to:%n  %s%n%s", actual, other, differenceDescription));
+    super("%nExpecting actual:%n  %s%nto be close to:%n  %s%n%s".formatted(actual, other, differenceDescription));
   }
 
   private ShouldBeCloseTo(TemporalAmount actual, TemporalAmount other, TemporalAmount offset, TemporalAmount difference) {
-    super(format("%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin %s but difference was %s", actual, other, offset,
-                 difference));
+    super("%nExpecting actual:%n  %s%nto be close to:%n  %s%nwithin %s but difference was %s".formatted(actual, other, offset,
+                                                                                                        difference));
   }
 }

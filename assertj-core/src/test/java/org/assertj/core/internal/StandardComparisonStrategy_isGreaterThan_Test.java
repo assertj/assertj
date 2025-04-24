@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -17,14 +17,12 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.awt.*;
+import java.util.Locale;
 
 import org.assertj.core.util.Employee;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link StandardComparisonStrategy#isGreaterThan(Object, Object)}.
- * 
  * @author Joel Costigliola
  */
 class StandardComparisonStrategy_isGreaterThan_Test extends AbstractTest_StandardComparisonStrategy {
@@ -48,6 +46,6 @@ class StandardComparisonStrategy_isGreaterThan_Test extends AbstractTest_Standar
 
   @Test
   void should_fail_if_first_parameter_is_not_comparable() {
-    assertThatIllegalArgumentException().isThrownBy(() -> standardComparisonStrategy.isGreaterThan(new Rectangle(), "foo"));
+    assertThatIllegalArgumentException().isThrownBy(() -> standardComparisonStrategy.isGreaterThan(Locale.ROOT, Locale.US));
   }
 }

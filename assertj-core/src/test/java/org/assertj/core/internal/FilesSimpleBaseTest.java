@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static java.util.Arrays.stream;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 import java.io.File;
@@ -48,7 +48,7 @@ public abstract class FilesSimpleBaseTest {
   public void setUp(@TempDir Path tempDir) {
     this.tempDir = tempDir;
     tempDirAsFile = tempDir.toFile();
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     files = new Files();
     files.failures = failures;
   }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.filter;
 
@@ -23,7 +23,6 @@ import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
 import org.assertj.core.util.Strings;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
@@ -57,7 +56,7 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 public class Filters<E> {
 
   // initialIterable is never modified, it represents the group before any filters have been performed
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final Iterable<E> initialIterable;
   List<E> filteredIterable;
 

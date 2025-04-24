@@ -8,18 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.configuration.ConfigurationProvider.loadRegisteredConfiguration;
+import static org.assertj.core.util.introspection.Introspection.setExtractBareNamePropertyMethods;
 
 import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Optional;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -28,6 +30,11 @@ import org.junit.jupiter.params.provider.CsvSource;
 class PropertyOrFieldSupport_getSimpleValue_Test {
 
   private final PropertyOrFieldSupport underTest = PropertyOrFieldSupport.EXTRACTION;
+
+  @BeforeEach
+  void setUp() {
+    loadRegisteredConfiguration();
+  }
 
   @Nested
   class With_Map_input {
@@ -47,6 +54,7 @@ class PropertyOrFieldSupport_getSimpleValue_Test {
     @Test
     void should_extract_field_value_even_if_map_key_matches_given_name() {
       // GIVEN
+      setExtractBareNamePropertyMethods(true);
       input.put("keySet", "value"); // key clashes with AbstractMap#keySet
       // WHEN
       Object value = underTest.getSimpleValue("keySet", input);

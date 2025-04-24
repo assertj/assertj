@@ -8,23 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.lists;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 import java.util.function.Consumer;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Lists;
@@ -59,7 +57,7 @@ class Lists_satisfies_at_index_Test extends ListsBaseTest {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> lists.satisfies(info, jedis,
                                                                                                 shouldBeLuke,
                                                                                                 atIndex(3)))
-                                                              .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <3>"));
+                                                              .withMessageContaining("Index should be between <0> and <2> (inclusive) but was:%n <3>".formatted());
   }
 
   @Test

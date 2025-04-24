@@ -1,0 +1,1 @@
+A text file encoded in UTF-8, with diacritics:é à

@@ -8,18 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.shortarray;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.ShortArrays.emptyArray;
+import static org.assertj.core.util.introspection.FieldSupport.EXTRACTION;
 
 import org.assertj.core.api.ShortArrayAssert;
-import org.assertj.core.api.ShortArrayAssertBaseTest;
-import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.ShortArrays;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#usingDefaultElementComparator()}</code>.
@@ -27,25 +27,18 @@ import org.junit.jupiter.api.BeforeEach;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-class ShortArrayAssert_usingDefaultElementComparator_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_usingDefaultElementComparator_Test {
 
-  private Objects objectsBefore;
-
-  @BeforeEach
-  void before() {
-    objectsBefore = getObjects(assertions);
-  }
-
-  @Override
-  protected ShortArrayAssert invoke_api_method() {
-    return assertions.usingElementComparator(alwaysEqual())
-                     .usingDefaultElementComparator();
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    assertThat(getObjects(assertions)).isSameAs(objectsBefore);
-    assertThat(getArrays(assertions).getComparator()).isNull();
-    assertThat(getArrays(assertions)).isSameAs(ShortArrays.instance());
+  @Test
+  public void should_revert_to_default_element_comparator() {
+    // GIVEN
+    ShortArrayAssert assertions = new ShortArrayAssert(emptyArray());
+    ShortArrays defaultShortArrays = EXTRACTION.fieldValue("arrays", ShortArrays.class, assertions);
+    // WHEN
+    assertions.usingElementComparator(alwaysEqual())
+              .usingDefaultElementComparator();
+    // THEN
+    ShortArrays shortArrays = EXTRACTION.fieldValue("arrays", ShortArrays.class, assertions);
+    then(shortArrays).isSameAs(defaultShortArrays);
   }
 }

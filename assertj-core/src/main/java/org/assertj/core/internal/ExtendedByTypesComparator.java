@@ -8,12 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
-import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
+import static org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy.NOT_EQUAL;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -71,7 +70,7 @@ public class ExtendedByTypesComparator implements Comparator<Object> {
   public String toString() {
     // only used in element comparator
     return comparatorsByType.isEmpty()
-        ? format("%s", comparator)
-        : format("%s%n- for elements (by type): %s", comparator, comparatorsByType);
+        ? "%s".formatted(comparator)
+        : "%s%n- for elements (by type): %s".formatted(comparator, comparatorsByType);
   }
 }

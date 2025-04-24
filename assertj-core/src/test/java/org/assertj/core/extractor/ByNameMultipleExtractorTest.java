@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.extractor;
 
@@ -16,18 +16,15 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.Maps.mapOf;
 
 import java.util.Map;
-
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-@DisplayName("ByNameMultipleExtractor")
 class ByNameMultipleExtractorTest {
 
   private static final Employee YODA = new Employee(1L, new Name("Yoda"), 800);

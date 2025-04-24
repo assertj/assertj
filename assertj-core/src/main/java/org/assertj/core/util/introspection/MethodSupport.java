@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
@@ -74,7 +73,7 @@ public class MethodSupport {
   private static IllegalArgumentException prepareMethodNotFoundException(String methodName,
                                                                          Class<?> itemClass,
                                                                          Exception cause) {
-    String message = format(METHOD_NOT_FOUND, methodName, itemClass.getSimpleName());
+    String message = METHOD_NOT_FOUND.formatted(methodName, itemClass.getSimpleName());
     return new IllegalArgumentException(message, cause);
   }
 

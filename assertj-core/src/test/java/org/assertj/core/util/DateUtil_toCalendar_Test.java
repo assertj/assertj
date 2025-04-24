@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -37,7 +37,7 @@ class DateUtil_toCalendar_Test {
     Calendar calendar = new GregorianCalendar();
     // clear all fields to have a Date without time (no hours, minutes...).
     calendar.clear();
-    calendar.set(1994, 07, 26); // month is 0 value based.
+    calendar.set(1994, 7, 26); // month is 0 value based.
     assertThat(toCalendar(date)).isEqualTo(calendar);
   }
 

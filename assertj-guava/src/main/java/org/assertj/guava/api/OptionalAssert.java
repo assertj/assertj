@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.guava.api;
 
@@ -60,13 +60,12 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * @throws AssertionError if the actual {@link Optional} is {@code null}.
    * @throws AssertionError if the actual {@link Optional} contains nothing or does not have the given value.
    */
-  @SuppressWarnings("deprecation")
   public OptionalAssert<T> contains(final Object value) {
     isNotNull();
     if (!actual.isPresent()) {
       throw assertionError(shouldBePresentWithValue(value));
     }
-    if (!areEqual(actual.get(), value)) {
+    if (!getComparisonStrategy().areEqual(actual.get(), value)) {
       throw assertionError(shouldBePresentWithValue(actual, value));
     }
     return this;

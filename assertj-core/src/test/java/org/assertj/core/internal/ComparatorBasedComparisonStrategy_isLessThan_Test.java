@@ -8,20 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import java.awt.*;
-
+import java.util.Locale;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link ComparatorBasedComparisonStrategy#isLessThan(Object, Object)}.
- * 
  * @author Joel Costigliola
  */
 class ComparatorBasedComparisonStrategy_isLessThan_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
@@ -41,8 +38,8 @@ class ComparatorBasedComparisonStrategy_isLessThan_Test extends AbstractTest_Com
 
   @Test
   void should_fail_if_a_parameter_is_not_comparable() {
-    assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> caseInsensitiveComparisonStrategy.isLessThan(new Rectangle(),
-                                                                                                                      new Rectangle()));
+    assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> caseInsensitiveComparisonStrategy.isLessThan(Locale.ROOT,
+                                                                                                                      Locale.US));
   }
 
 }

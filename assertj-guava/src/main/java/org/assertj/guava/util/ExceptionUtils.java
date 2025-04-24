@@ -8,11 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.guava.util;
-
-import static java.lang.String.format;
 
 public class ExceptionUtils {
 
@@ -28,7 +26,7 @@ public class ExceptionUtils {
   public static void throwIllegalArgumentExceptionIfTrue(boolean condition, String exceptionMessage,
                                                          Object... exceptionMessageArgs) {
     if (condition) {
-      throw new IllegalArgumentException(format(exceptionMessage, exceptionMessageArgs));
+      throw new IllegalArgumentException(exceptionMessage.formatted(exceptionMessageArgs));
     }
   }
 

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -16,22 +16,17 @@ import static java.util.Comparator.comparing;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
-import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
 
-import java.sql.Timestamp;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
-import org.assertj.core.test.FluentJedi;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.core.testkit.FluentJedi;
+import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -102,10 +97,6 @@ class IterableAssert_extractingResultOf_with_SortedSet_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING,
-                                                                                                          "foo")
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .extractingResultOf("toString")
                                                                 .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE,
                                                                                         String.class)
@@ -115,8 +106,6 @@ class IterableAssert_extractingResultOf_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(CaseInsensitiveStringComparator.INSTANCE);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @Test
@@ -126,10 +115,6 @@ class IterableAssert_extractingResultOf_with_SortedSet_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING,
-                                                                                                          "foo")
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .extractingResultOf("toString", String.class)
                                                                 .usingComparatorForType(CaseInsensitiveStringComparator.INSTANCE,
                                                                                         String.class)
@@ -139,8 +124,6 @@ class IterableAssert_extractingResultOf_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(CaseInsensitiveStringComparator.INSTANCE);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   private static SortedSet<FluentJedi> newSortedSet(FluentJedi... jedis) {

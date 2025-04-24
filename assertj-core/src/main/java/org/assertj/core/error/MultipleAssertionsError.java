@@ -8,20 +8,22 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.error.AssertionErrorMessagesAggregator.aggregateErrorMessages;
 
+import java.io.Serial;
 import java.util.List;
-
 import org.assertj.core.description.Description;
 
 public class MultipleAssertionsError extends AssertionError {
 
+  @Serial
   private static final long serialVersionUID = -5547434453993413952L;
+
   private final List<? extends AssertionError> errors;
 
   public MultipleAssertionsError(List<? extends AssertionError> errors) {

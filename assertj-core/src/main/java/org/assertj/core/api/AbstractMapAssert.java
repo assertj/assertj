@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.util.Collections.singleton;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
@@ -26,6 +27,7 @@ import static org.assertj.core.util.IterableUtil.toCollection;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -45,7 +47,6 @@ import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Map}s.
@@ -68,7 +69,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends Map<K, V>, K, V>
     extends AbstractObjectAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Maps maps = Maps.instance();
 
   protected AbstractMapAssert(ACTUAL actual, Class<?> selfType) {
@@ -637,7 +638,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws NullPointerException if the given map is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws IllegalArgumentException if the given map is empty.
-   * @throws AssertionError if the actual map does not contain the entries of the given map with same order, i.e
+   * @throws AssertionError if the actual map does not contain the entries of the given map with same order, i.e.
    *           the actual map contains some or none of the entries of the given map, or the actual map contains more
    *           entries than the entries of the given map or entries are the same but the order is not.
    * @since 3.12.0
@@ -681,7 +682,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws NullPointerException if the given map is {@code null}.
    * @throws AssertionError if the actual map is {@code null}.
    * @throws IllegalArgumentException if the given map is empty.
-   * @throws AssertionError if the actual map does not contain the entries of the given map, i.e the actual map contains
+   * @throws AssertionError if the actual map does not contain the entries of the given map, i.e. the actual map contains
    *           some or none of the entries of the given map, or the actual map contains more entries than the entries of
    *           the given map.
    * @since 3.13.0
@@ -690,7 +691,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     return containsOnly(toEntries(map));
   }
 
-  @SuppressWarnings("unchecked")
   private Map.Entry<? extends K, ? extends V>[] toEntries(Map<? extends K, ? extends V> map) {
     return map.entrySet().toArray(new Map.Entry[0]);
   }
@@ -747,7 +747,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * // this assertion will fail
    * assertThat(ringBearers).hasEntrySatisfying(oneRing, elfBearer);</code></pre>
    *
-   * @param key he given key to check.
+   * @param key the given key to check.
    * @param valueCondition the given condition for check value.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given values is {@code null}.
@@ -782,7 +782,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *     assertThat(character.getRace()).isEqualTo(ELF);
    * });</code></pre>
    *
-   * @param key he given key to check.
+   * @param key the given key to check.
    * @param valueRequirements the given requirements for check value.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given values is {@code null}.
@@ -1211,7 +1211,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws IllegalArgumentException if the given argument is an empty array.
    * @since 3.12.0
    */
-  @SuppressWarnings("unchecked")
   public SELF containsOnlyKeys(Iterable<? extends K> keys) {
     if (keys instanceof Path) {
       // do not treat Path as an Iterable
@@ -1425,7 +1424,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     return myself;
   }
 
-  @SuppressWarnings("unchecked")
   private void assertIsUnmodifiable() {
     switch (actual.getClass().getName()) {
     case "java.util.Collections$EmptyNavigableMap":
@@ -1436,7 +1434,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
       return;
     }
 
-    expectUnsupportedOperationException(() -> actual.clear(), "Map.clear()");
+    expectUnsupportedOperationException(actual::clear, "Map.clear()");
     expectUnsupportedOperationException(() -> actual.compute(null, (k, v) -> v), "Map.compute(null, (k, v) -> v)");
     expectUnsupportedOperationException(() -> actual.computeIfAbsent(null, k -> null), "Map.computeIfAbsent(null, k -> null)");
     expectUnsupportedOperationException(() -> actual.computeIfPresent(null, (k, v) -> v),
@@ -1453,8 +1451,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
     if (actual instanceof NavigableMap) {
       NavigableMap<K, V> navigableMap = (NavigableMap<K, V>) actual;
-      expectUnsupportedOperationException(() -> navigableMap.pollFirstEntry(), "NavigableMap.pollFirstEntry()");
-      expectUnsupportedOperationException(() -> navigableMap.pollLastEntry(), "NavigableMap.pollLastEntry()");
+      expectUnsupportedOperationException(navigableMap::pollFirstEntry, "NavigableMap.pollFirstEntry()");
+      expectUnsupportedOperationException(navigableMap::pollLastEntry, "NavigableMap.pollLastEntry()");
     }
   }
 
@@ -1700,48 +1698,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a {@link AbstractMapSizeAssert} to allow assertions on the number of key-value mappings in this map
    * @throws NullPointerException if the given map is {@code null}.
    */
-  @SuppressWarnings({ "rawtypes", "unchecked" })
+  @SuppressWarnings({ "rawtypes" })
   @CheckReturnValue
   public AbstractMapSizeAssert<SELF, ACTUAL, K, V> size() {
     requireNonNull(actual, "Can not perform assertions on the size of a null map.");
     return new MapSizeAssert(this, actual.size());
-  }
-
-  /**
-   * Extract the values of given keys from the map under test into an array, this new array becoming
-   * the object under test.
-   * <p>
-   * For example, if you specify "id", "name" and "email" keys then the array will contain the map values for
-   * these keys, you can then perform array assertions on the extracted values.
-   * <p>
-   * If a given key is not present in the map under test, a null value is extracted.
-   * <p>
-   * Example:
-   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
-   * map.put("name", "kawhi");
-   * map.put("age", 25);
-   *
-   * assertThat(map).extracting("name", "age")
-   *                .contains("kawhi", 25);</code></pre>
-   * <p>
-   * Note that the order of extracted keys value is consistent with the iteration order of the array under test.
-   * <p>
-   * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract
-   * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.
-   *
-   * @param keys the keys used to get values from the map under test
-   * @return a new assertion object whose object under test is the array containing the extracted map values
-   *
-   * @deprecated use {@link #extractingByKeys(Object[])} instead
-   */
-  @Deprecated
-  @CheckReturnValue
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Object... keys) {
-    isNotNull();
-    List<Object> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
-    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
-    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-    return newListAssertInstance(extractedValues).as(description);
   }
 
   /**
@@ -1786,39 +1747,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf((Object[]) keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(extractedValues).withAssertionState(myself).as(description);
-  }
-
-  /**
-   * Extract the value of given key from the map under test, the extracted value becoming the new object under test.
-   * <p>
-   * For example, if you specify "id" key, then the object under test will be the map value for this key.
-   * <p>
-   * If a given key is not present in the map under test, a null value is extracted.
-   * <p>
-   * Example:
-   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
-   * map.put("name", "kawhi");
-   *
-   * assertThat(map).extracting("name")
-   *                .isEqualTo("kawhi");</code></pre>
-   * <p>
-   * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract
-   * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.
-   *
-   * @param key the key used to get value from the map under test
-   * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
-   *
-   * @since 3.13.0
-   * @deprecated use {@link #extractingByKey(Object)} instead
-   */
-  @Deprecated
-  @CheckReturnValue
-  public AbstractObjectAssert<?, ?> extracting(Object key) {
-    isNotNull();
-    Object extractedValue = actual.get(key);
-    String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
-    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-    return newObjectAssert(extractedValue).as(description);
   }
 
   /**
@@ -2213,10 +2141,32 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   private static List<Object> flatten(Iterable<Object> collectionToFlatten) {
     List<Object> result = new ArrayList<>();
     for (Object item : collectionToFlatten) {
-      if (item instanceof Iterable<?>) result.addAll(toCollection((Iterable<?>) item));
+      if (item instanceof Iterable<?> iterable) result.addAll(toCollection(iterable));
       else if (isArray(item)) result.addAll(org.assertj.core.util.Arrays.asList(item));
       else result.add(item);
     }
     return result;
+  }
+
+  /**
+   * <p>Returns an {@link AbstractCollectionAssert} to make assertions on the values of the map</p>
+   *
+   * <p><strong>Example</strong></p>
+   * <pre><code class='java'> TolkienCharacter pippin = new TolkienCharacter("Pippin", 28, HOBBIT);
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter merry = new TolkienCharacter("Merry", 36, HOBBIT);
+   *
+   * Map&lt;String, TolkienCharacter&gt; characters = mapOf(entry("Pippin", pippin),
+   *                                                  entry("Frodo", frodo),
+   *                                                  entry("Merry", merry));
+   * assertThat(characters).values()
+   *                       .contains(frodo, pippin, merry); </code></pre>
+   * @return An {@link AbstractCollectionAssert} to make collections assertion only on map values.
+   * @throws NullPointerException if the map under test is null
+   * @since 3.26.0
+   */
+  public AbstractCollectionAssert<?, Collection<? extends V>, V, ObjectAssert<V>> values() {
+    requireNonNull(actual, "Can not extract values from a null map.");
+    return assertThat(actual.values());
   }
 }

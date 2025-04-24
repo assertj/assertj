@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -16,12 +16,9 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.List;
 
-import org.assertj.core.util.VisibleForTesting;
-
 public class ShouldBeEmptyDirectory extends BasicErrorMessageFactory {
 
-  @VisibleForTesting
-  public static final String SHOULD_BE_EMPTY_DIRECTORY = "%nExpecting actual:%n  %s%nto be an empty directory but it contained:%n  %s";
+  private static final String SHOULD_BE_EMPTY_DIRECTORY = "%nExpecting actual:%n  %s%nto be an empty directory but it contained:%n  %s";
 
   public static ErrorMessageFactory shouldBeEmptyDirectory(final Path actual, List<Path> directoryContent) {
     return new ShouldBeEmptyDirectory(actual, directoryContent);

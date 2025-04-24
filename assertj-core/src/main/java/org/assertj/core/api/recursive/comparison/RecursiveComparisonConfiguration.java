@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
@@ -22,6 +21,7 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.internal.RecursiveHelper.isContainer;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -44,12 +44,12 @@ import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.internal.TypeMessages;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.VisibleForTesting;
 
 public class RecursiveComparisonConfiguration extends AbstractRecursiveOperationConfiguration {
 
   private static final boolean DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS = true;
   public static final String INDENT_LEVEL_2 = "  -";
+  private final Representation representation;
   public static final DefaultRecursiveComparisonIntrospectionStrategy DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY = new DefaultRecursiveComparisonIntrospectionStrategy();
   private boolean strictTypeChecking = false;
 
@@ -115,10 +115,20 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.fieldMessages = builder.fieldMessages;
     this.typeMessages = builder.typeMessages;
     this.introspectionStrategy = builder.introspectionStrategy;
+    this.representation = builder.representation != null ? builder.representation : STANDARD_REPRESENTATION;
+  }
+
+  public RecursiveComparisonConfiguration(Representation representation) {
+    super();
+    this.representation = representation;
   }
 
   public RecursiveComparisonConfiguration() {
-    super();
+    this(CONFIGURATION_PROVIDER.representation());
+  }
+
+  public Representation getRepresentation() {
+    return representation;
   }
 
   public boolean hasComparatorForField(String fieldName) {
@@ -169,18 +179,15 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return typeComparators.comparatorByTypes();
   }
 
-  @VisibleForTesting
-  boolean getIgnoreAllActualNullFields() {
+  public boolean getIgnoreAllActualNullFields() {
     return ignoreAllActualNullFields;
   }
 
-  @VisibleForTesting
-  boolean getIgnoreAllExpectedNullFields() {
+  public boolean getIgnoreAllExpectedNullFields() {
     return ignoreAllExpectedNullFields;
   }
 
-  @VisibleForTesting
-  boolean getIgnoreAllOverriddenEquals() {
+  public boolean getIgnoreAllOverriddenEquals() {
     return ignoreAllOverriddenEquals;
   }
 
@@ -195,8 +202,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.ignoreAllActualEmptyOptionalFields = ignoringAllActualEmptyOptionalFields;
   }
 
-  @VisibleForTesting
-  boolean getIgnoreAllActualEmptyOptionalFields() {
+  public boolean getIgnoreAllActualEmptyOptionalFields() {
     return ignoreAllActualEmptyOptionalFields;
   }
 
@@ -268,7 +274,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return !comparedFields.isEmpty();
   }
 
-  boolean isOrIsChildOfAnyComparedFields(FieldLocation currentFieldLocation) {
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  public boolean isOrIsChildOfAnyComparedFields(FieldLocation currentFieldLocation) {
     return comparedFields.stream()
                          .anyMatch(comparedField -> comparedField.equals(currentFieldLocation)
                                                     || comparedField.hasChild(currentFieldLocation));
@@ -337,8 +344,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     ignoredOverriddenEqualsForTypes.addAll(list(types));
   }
 
-  @VisibleForTesting
-  boolean getIgnoreCollectionOrder() {
+  public boolean getIgnoreCollectionOrder() {
     return ignoreCollectionOrder;
   }
 
@@ -441,7 +447,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * @throws NullPointerException if the given BiPredicate is null.
    * @since 3.17.0
    */
-  @SuppressWarnings("unchecked")
   public <T> void registerEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
     registerComparatorForType(toComparator(equals), type);
   }
@@ -584,7 +589,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return fieldComparators.comparatorByFields();
   }
 
-  RecursiveComparisonIntrospectionStrategy getIntrospectionStrategy() {
+  public RecursiveComparisonIntrospectionStrategy getIntrospectionStrategy() {
     return introspectionStrategy;
   }
 
@@ -669,7 +674,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     describeComparedTypes(description);
     describeIgnoredFields(description);
     describeIgnoredFieldsRegexes(description);
-    describeIgnoredFieldsForTypes(description);
+    describeIgnoredTypes(description);
+    describeIgnoredTypesRegexes(description);
     describeOverriddenEqualsMethodsUsage(description, representation);
     describeIgnoreCollectionOrder(description);
     describeIgnoredCollectionOrderInFields(description);
@@ -684,13 +690,15 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return description.toString();
   }
 
-  boolean shouldNotEvaluate(DualValue dualValue) {
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  public boolean shouldNotEvaluate(DualValue dualValue) {
     // if we have some compared types, we can't discard any values since they could have fields we need to compare.
     if (!comparedTypes.isEmpty()) return false;
     return shouldIgnore(dualValue);
   }
 
-  boolean shouldIgnore(DualValue dualValue) {
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  public boolean shouldIgnore(DualValue dualValue) {
     return shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation)
            || shouldIgnoreFieldBasedOnFieldValue(dualValue);
   }
@@ -713,7 +721,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                             || field.hasChild(comparedField); // ex: field "name" and "name.first" compared field
   }
 
-  Set<String> getActualChildrenNodeNamesToCompare(DualValue dualValue) {
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  public Set<String> getActualChildrenNodeNamesToCompare(DualValue dualValue) {
     Set<String> actualChildrenNodeNames = getChildrenNodeNamesOf(dualValue.actual);
     // if we have some compared types, we can't discard any nodes since they could have fields we need to compare.
     // we could evaluate the whole graphs to figure that but that would be bad performance wise so add everything
@@ -783,7 +792,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return hasComparatorForType(valueType);
   }
 
-  boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  public boolean shouldIgnoreOverriddenEqualsOf(DualValue dualValue) {
     // root objects are not compared with equals as it makes the recursive comparison pointless (use isEqualsTo instead)
     if (dualValue.fieldLocation.isRoot()) return true;
     // we must compare java basic types otherwise the recursive comparison loops infinitely!
@@ -798,12 +808,13 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
            || (dualValue.actual != null && shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass()));
   }
 
-  @VisibleForTesting
-  boolean shouldIgnoreOverriddenEqualsOf(Class<?> clazz) {
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  public boolean shouldIgnoreOverriddenEqualsOf(Class<?> clazz) {
     return matchesAnIgnoredOverriddenEqualsType(clazz);
   }
 
-  boolean shouldIgnoreCollectionOrder(FieldLocation fieldLocation) {
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
+  public boolean shouldIgnoreCollectionOrder(FieldLocation fieldLocation) {
     return ignoreCollectionOrder
            || matchesAnIgnoredCollectionOrderInField(fieldLocation)
            || matchesAnIgnoredCollectionOrderInFieldRegex(fieldLocation);
@@ -811,30 +822,37 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private void describeComparedFields(StringBuilder description) {
     if (!comparedFields.isEmpty())
-      description.append(format("- the comparison was performed on the following fields: %s%n", describeComparedFields()));
+      description.append("- the comparison was performed on the following fields: %s%n".formatted(describeComparedFields()));
   }
 
   private void describeComparedTypes(StringBuilder description) {
     if (!comparedTypes.isEmpty())
-      description.append(format("- the comparison was performed on any fields with types: %s%n", describeComparedTypes()));
+      description.append("- the comparison was performed on any fields with types: %s%n".formatted(describeComparedTypes()));
   }
 
-  private void describeIgnoredFieldsForTypes(StringBuilder description) {
+  private void describeIgnoredTypes(StringBuilder description) {
     if (!getIgnoredTypes().isEmpty())
-      description.append(format("- the following types were ignored in the comparison: %s%n", describeIgnoredTypes()));
+      description.append("- the following types were ignored in the comparison: %s%n".formatted(describeIgnoredTypes()));
+  }
+
+  private void describeIgnoredTypesRegexes(StringBuilder description) {
+    if (!getIgnoredTypesRegexes().isEmpty())
+      description.append("- the types matching the following regexes were ignored in the comparison: %s%n".formatted(
+                                                                                                                     describeRegexes(getIgnoredTypesRegexes())));
   }
 
   protected void describeIgnoreAllActualNullFields(StringBuilder description) {
-    if (ignoreAllActualNullFields) description.append(format("- all actual null fields were ignored in the comparison%n"));
+    if (ignoreAllActualNullFields) description.append("- all actual null fields were ignored in the comparison%n".formatted());
   }
 
   protected void describeIgnoreAllActualEmptyOptionalFields(StringBuilder description) {
     if (ignoreAllActualEmptyOptionalFields)
-      description.append(format("- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n"));
+      description.append("- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n".formatted());
   }
 
   private void describeIgnoreAllExpectedNullFields(StringBuilder description) {
-    if (ignoreAllExpectedNullFields) description.append(format("- all expected null fields were ignored in the comparison%n"));
+    if (ignoreAllExpectedNullFields)
+      description.append("- all expected null fields were ignored in the comparison%n".formatted());
   }
 
   private void describeOverriddenEqualsMethodsUsage(StringBuilder description, Representation representation) {
@@ -843,23 +861,23 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
         : "- equals methods were used in the comparison";
     description.append(header);
     if (isConfiguredToIgnoreSomeButNotAllOverriddenEqualsMethods()) {
-      description.append(format(" except for:%n"));
+      description.append(" except for:%n".formatted());
       describeIgnoredOverriddenEqualsMethods(description, representation);
     } else {
-      description.append(format("%n"));
+      description.append("%n".formatted());
     }
   }
 
   private void describeIgnoredOverriddenEqualsMethods(StringBuilder description, Representation representation) {
     if (!ignoredOverriddenEqualsForFields.isEmpty())
-      description.append(format("%s the following fields: %s%n", INDENT_LEVEL_2,
-                                describeIgnoredOverriddenEqualsForFields()));
+      description.append("%s the following fields: %s%n".formatted(INDENT_LEVEL_2,
+                                                                   describeIgnoredOverriddenEqualsForFields()));
     if (!ignoredOverriddenEqualsForTypes.isEmpty())
-      description.append(format("%s the following types: %s%n", INDENT_LEVEL_2,
-                                describeIgnoredOverriddenEqualsForTypes(representation)));
+      description.append("%s the following types: %s%n".formatted(INDENT_LEVEL_2,
+                                                                  describeIgnoredOverriddenEqualsForTypes(representation)));
     if (!ignoredOverriddenEqualsForFieldsMatchingRegexes.isEmpty())
-      description.append(format("%s the fields matching the following regexes: %s%n", INDENT_LEVEL_2,
-                                describeRegexes(ignoredOverriddenEqualsForFieldsMatchingRegexes)));
+      description.append("%s the fields matching the following regexes: %s%n".formatted(INDENT_LEVEL_2,
+                                                                                        describeRegexes(ignoredOverriddenEqualsForFieldsMatchingRegexes)));
   }
 
   private String describeIgnoredOverriddenEqualsForTypes(Representation representation) {
@@ -874,28 +892,28 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private void describeIgnoreCollectionOrder(StringBuilder description) {
-    if (ignoreCollectionOrder) description.append(format("- collection order was ignored in all fields in the comparison%n"));
+    if (ignoreCollectionOrder) description.append("- collection order was ignored in all fields in the comparison%n".formatted());
   }
 
   private void describeIgnoredCollectionOrderInFields(StringBuilder description) {
     if (!ignoredCollectionOrderInFields.isEmpty())
-      description.append(format("- collection order was ignored in the following fields in the comparison: %s%n",
-                                describeIgnoredCollectionOrderInFields()));
+      description.append("- collection order was ignored in the following fields in the comparison: %s%n".formatted(
+                                                                                                                    describeIgnoredCollectionOrderInFields()));
   }
 
   private void describeIgnoredCollectionOrderInFieldsMatchingRegexes(StringBuilder description) {
     if (!ignoredCollectionOrderInFieldsMatchingRegexes.isEmpty())
-      description.append(format("- collection order was ignored in the fields matching the following regexes in the comparison: %s%n",
-                                describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
+      description.append("- collection order was ignored in the fields matching the following regexes in the comparison: %s%n".formatted(
+                                                                                                                                         describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
   }
 
   private void describeIntrospectionStrategy(StringBuilder description) {
-    description.append(format("- the introspection strategy used was: %s%n", introspectionStrategy.getDescription()));
+    description.append("- the introspection strategy used was: %s%n".formatted(introspectionStrategy.getDescription()));
   }
 
   private void describeCompareEnumAgainstString(StringBuilder description) {
     if (compareEnumAgainstString)
-      description.append(format("- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal%n"));
+      description.append("- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal%n".formatted());
   }
 
   private boolean matchesAnIgnoredOverriddenEqualsRegex(FieldLocation fieldLocation) {
@@ -926,13 +944,19 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private boolean matchesAnIgnoredFieldType(DualValue dualValue) {
     Object actual = dualValue.actual;
-    if (actual != null) return getIgnoredTypes().contains(actual.getClass());
+    if (actual != null) return matchesAnIgnoredType(actual);
     Object expected = dualValue.expected;
     // actual is null => we can't evaluate its type, we can only reliably check dualValue.expected's type if
     // strictTypeChecking is enabled which guarantees expected is of the same type.
-    if (strictTypeChecking && expected != null) return getIgnoredTypes().contains(expected.getClass());
+    if (strictTypeChecking && expected != null) return matchesAnIgnoredType(expected);
     // if strictTypeChecking is disabled, we can't safely ignore the field (if we did, we would ignore all null fields!).
     return false;
+  }
+
+  private boolean matchesAnIgnoredType(Object actual) {
+    Class<?> actualType = actual.getClass();
+    return getIgnoredTypes().contains(actualType)
+           || getIgnoredTypesRegexes().stream().anyMatch(regex -> regex.matcher(actualType.getName()).matches());
   }
 
   private void registerFieldLocationOfFieldsOfTypesToCompare(DualValue dualValue) {
@@ -978,7 +1002,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private void describeRegisteredComparatorByTypes(StringBuilder description) {
     if (!typeComparators.isEmpty()) {
-      description.append(format("- these types were compared with the following comparators:%n"));
+      description.append("- these types were compared with the following comparators:%n".formatted());
       describeComparatorForTypes(description);
     }
   }
@@ -990,24 +1014,24 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private String formatRegisteredComparatorByType(Entry<Class<?>, Comparator<?>> next) {
-    return format("%s %s -> %s%n", INDENT_LEVEL_2, next.getKey().getName(), next.getValue());
+    return "%s %s -> %s%n".formatted(INDENT_LEVEL_2, next.getKey().getName(), next.getValue());
   }
 
   private void describeRegisteredComparatorForFields(StringBuilder description) {
     if (!fieldComparators.isEmpty()) {
       if (fieldComparators.hasFieldComparators()) {
-        description.append(format("- these fields were compared with the following comparators:%n"));
+        description.append("- these fields were compared with the following comparators:%n".formatted());
         describeComparatorForFields(description);
       }
       if (fieldComparators.hasRegexFieldComparators()) {
-        description.append(format("- the fields matching these regexes were compared with the following comparators:%n"));
+        description.append("- the fields matching these regexes were compared with the following comparators:%n".formatted());
         describeComparatorForRegexFields(description);
       }
       if (fieldComparators.hasFieldComparators() && fieldComparators.hasRegexFieldComparators()) {
-        description.append(format("- field comparators take precedence over regex field matching comparators.%n"));
+        description.append("- field comparators take precedence over regex field matching comparators.%n".formatted());
       }
       if (!typeComparators.isEmpty()) {
-        description.append(format("- field comparators take precedence over type comparators.%n"));
+        description.append("- field comparators take precedence over type comparators.%n".formatted());
       }
     }
   }
@@ -1026,26 +1050,26 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private String formatRegisteredComparatorForField(Entry<String, Comparator<?>> comparatorForField) {
-    return format("%s %s -> %s%n", INDENT_LEVEL_2, comparatorForField.getKey(), comparatorForField.getValue());
+    return "%s %s -> %s%n".formatted(INDENT_LEVEL_2, comparatorForField.getKey(), comparatorForField.getValue());
   }
 
   private String formatRegisteredComparatorForRegexFields(Entry<List<Pattern>, Comparator<?>> comparatorForRegexFields) {
-    return format("%s %s -> %s%n", INDENT_LEVEL_2, comparatorForRegexFields.getKey(), comparatorForRegexFields.getValue());
+    return "%s %s -> %s%n".formatted(INDENT_LEVEL_2, comparatorForRegexFields.getKey(), comparatorForRegexFields.getValue());
   }
 
   private void describeTypeCheckingStrictness(StringBuilder description) {
     String str = strictTypeChecking
         ? "- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"
         : "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n";
-    description.append(format(str));
+    description.append(str.formatted());
   }
 
   private void describeRegisteredErrorMessagesForFields(StringBuilder description) {
     if (!fieldMessages.isEmpty()) {
-      description.append(format("- these fields had overridden error messages:%n"));
+      description.append("- these fields had overridden error messages:%n".formatted());
       describeErrorMessagesForFields(description);
       if (!typeMessages.isEmpty()) {
-        description.append(format("- field custom messages take precedence over type messages.%n"));
+        description.append("- field custom messages take precedence over type messages.%n".formatted());
       }
     }
   }
@@ -1054,7 +1078,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     String fields = fieldMessages.messageByFields()
                                  .map(Entry::getKey)
                                  .collect(joining(DEFAULT_DELIMITER));
-    description.append(format("%s %s%n", INDENT_LEVEL_2, fields));
+    description.append("%s %s%n".formatted(INDENT_LEVEL_2, fields));
   }
 
   private void describeRegisteredErrorMessagesForTypes(StringBuilder description) {
@@ -1068,7 +1092,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     String types = typeMessages.messageByTypes()
                                .map(it -> it.getKey().getName())
                                .collect(joining(DEFAULT_DELIMITER));
-    description.append(format("%s %s%n", INDENT_LEVEL_2, types));
+    description.append("%s %s%n".formatted(INDENT_LEVEL_2, types));
   }
 
   /**
@@ -1119,8 +1143,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private static String formatUnknownComparedField(FieldLocation fieldLocation, String unknownNodeNameElement) {
     return fieldLocation.isTopLevelField()
-        ? format("{%s}", unknownNodeNameElement)
-        : format("{%s in %s}", unknownNodeNameElement, fieldLocation);
+        ? "{%s}".formatted(unknownNodeNameElement)
+        : "{%s in %s}".formatted(unknownNodeNameElement, fieldLocation);
   }
 
   boolean hierarchyMatchesAnyComparedTypes(DualValue dualValue) {
@@ -1150,6 +1174,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * Builder to build {@link RecursiveComparisonConfiguration}.
    */
   public static final class Builder extends AbstractBuilder<Builder> {
+    private Representation representation;
     private boolean strictTypeChecking;
     private boolean ignoreAllActualNullFields;
     private boolean ignoreAllActualEmptyOptionalFields;
@@ -1172,6 +1197,17 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
     private Builder() {
       super(Builder.class);
+    }
+
+    /**
+     * Sets the {@link Representation} used when formatting the differences.
+     *
+     * @param representation the {@link Representation} used when formatting the differences.
+     * @return this builder.
+     */
+    public Builder withRepresentation(Representation representation) {
+      this.representation = representation;
+      return this;
     }
 
     /**
@@ -1244,9 +1280,9 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
     /**
      * Adds the given types to the set of fields from the object under test to compare in the recursive comparison.
-     * See {@link RecursiveComparisonAssert#comparingOnlyFieldsOfTypes(Class[])} (String...)} for examples.
+     * See {@link RecursiveComparisonAssert#comparingOnlyFieldsOfTypes(Class[])} for examples.
      *
-     * @param comparedTypes the types to compare in the recursive comparison..
+     * @param comparedTypes the types to compare in the recursive comparison.
      * @return this builder.
      */
     public Builder withComparedTypes(Class<?>... comparedTypes) {
@@ -1384,7 +1420,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      * @since 3.17.0
      * @throws NullPointerException if the given BiPredicate is null.
      */
-    @SuppressWarnings("unchecked")
     public <T> Builder withEqualsForType(BiPredicate<? super T, ? super T> equals, Class<T> type) {
       return withComparatorForType(toComparator(equals), type);
     }
@@ -1540,7 +1575,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     }
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked", "ComparatorMethodParameterNotUsed" })
+  @SuppressWarnings({ "rawtypes", "ComparatorMethodParameterNotUsed" })
   private static Comparator toComparator(BiPredicate equals) {
     requireNonNull(equals, "Expecting a non null BiPredicate");
     return (o1, o2) -> equals.test(o1, o2) ? 0 : 1;

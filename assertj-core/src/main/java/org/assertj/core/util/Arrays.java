@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util;
 
-import static java.lang.String.format;
 import static java.lang.reflect.Array.getLength;
 import static java.util.Arrays.stream;
 import static java.util.Collections.emptyList;
@@ -191,7 +190,7 @@ public class Arrays {
   }
 
   public static IllegalArgumentException notAnArrayOfPrimitives(Object o) {
-    return new IllegalArgumentException(format("<%s> is not an array of primitives", o));
+    return new IllegalArgumentException("<%s> is not an array of primitives".formatted(o));
   }
 
   @SuppressWarnings("unchecked")
@@ -203,8 +202,8 @@ public class Arrays {
   }
 
   public static int sizeOf(Object array) {
-    if (!isArray(array)) throw new IllegalArgumentException(format("expecting %s to be an array", array));
-    if (array instanceof Object[]) return ((Object[]) array).length;
+    if (!isArray(array)) throw new IllegalArgumentException("expecting %s to be an array".formatted(array));
+    if (array instanceof Object[] objects) return objects.length;
     return getLength(array);
   }
 

@@ -8,14 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
 import java.io.File;
 import java.nio.file.Path;
-
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a
@@ -27,8 +25,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class ShouldBeAbsolutePath extends BasicErrorMessageFactory {
 
-  @VisibleForTesting
-  public static final String SHOULD_BE_ABSOLUTE_PATH = "%nExpecting actual:%n  %s%nto be an absolute path.";
+  private static final String SHOULD_BE_ABSOLUTE_PATH = "%nExpecting actual:%n  %s%nto be an absolute path.";
 
   /**
    * Creates a new <code>{@link ShouldBeAbsolutePath}</code>.

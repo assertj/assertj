@@ -8,11 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -32,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for <code>{@link ShouldBeEqual#toAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
  *
  * @author Alex Ruiz
  * @author Yvonne Wang
@@ -44,25 +45,25 @@ class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   private ConstructorInvoker constructorInvoker;
 
   @BeforeEach
-  public void setUp() {
+  public void setUp() throws NoSuchFieldException, IllegalAccessException {
     Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
     description = new TestDescription("Jedi");
     factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", new StandardRepresentation());
     constructorInvoker = mock(ConstructorInvoker.class, withSettings().defaultAnswer(CALLS_REAL_METHODS));
-    factory.constructorInvoker = constructorInvoker;
+    writeField(factory, "constructorInvoker", constructorInvoker, true);
   }
 
   @Test
   void should_create_AssertionFailedError_if_created_ComparisonFailure_is_null() throws Exception {
     when(createComparisonFailure()).thenReturn(null);
-    AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
+    AssertionError error = factory.toAssertionError(description, new StandardRepresentation());
     check(error);
   }
 
   @Test
   void should_create_AssertionFailedError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
     when(createComparisonFailure()).thenThrow(new AssertionError("Thrown on purpose"));
-    AssertionError error = factory.newAssertionError(description, new StandardRepresentation());
+    AssertionError error = factory.toAssertionError(description, new StandardRepresentation());
     check(error);
   }
 

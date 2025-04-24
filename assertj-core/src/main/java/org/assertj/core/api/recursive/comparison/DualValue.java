@@ -8,16 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
-import static java.lang.String.format;
 import static java.lang.System.identityHashCode;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.internal.RecursiveHelper.isContainer;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
+import static org.assertj.core.internal.RecursiveHelper.isContainer;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Arrays.isArray;
 
@@ -98,7 +97,7 @@ public final class DualValue {
 
   @Override
   public String toString() {
-    return format("DualValue [fieldLocation=%s, actual=%s, expected=%s]", fieldLocation, actual, expected);
+    return "DualValue [fieldLocation=%s, actual=%s, expected=%s]".formatted(fieldLocation, actual, expected);
   }
 
   public List<String> getDecomposedPath() {
@@ -166,7 +165,7 @@ public final class DualValue {
   }
 
   private boolean isActualFieldAnEmptyOptional() {
-    return isActualFieldAnOptional() && !((Optional<?>) actual).isPresent();
+    return isActualFieldAnOptional() && ((Optional<?>) actual).isEmpty();
   }
 
   private boolean isActualFieldAnEmptyOptionalInt() {
@@ -319,7 +318,6 @@ public final class DualValue {
     return !isContainer(actual) && !isExpectedAContainer();
   }
 
-  // TODO test
   public boolean isExpectedAContainer() {
     return isContainer(expected);
   }

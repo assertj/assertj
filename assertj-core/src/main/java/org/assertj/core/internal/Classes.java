@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -42,6 +42,8 @@ import java.util.Set;
 import java.util.SortedSet;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.util.Arrays;
 
 /**
@@ -317,6 +319,17 @@ public class Classes {
     }
   }
 
+  /**
+   * used to check that the class to compare is not null, in that case throws a {@link NullPointerException} with an
+   * explicit message.
+   *
+   * @param clazz the class to check
+   * @throws NullPointerException with an explicit message if the given class is null
+   */
+  public void classParameterIsNotNull(Class<?> clazz) {
+    requireNonNull(clazz, "The class to compare actual with should not be null");
+  }
+
   private static SortedSet<String> getMethodsWithModifier(Set<Method> methods, int modifier) {
     SortedSet<String> methodsWithModifier = newTreeSet();
     for (Method method : methods) {
@@ -388,16 +401,5 @@ public class Classes {
 
   private static void assertNotNull(AssertionInfo info, Class<?> actual) {
     Objects.instance().assertNotNull(info, actual);
-  }
-
-  /**
-   * used to check that the class to compare is not null, in that case throws a {@link NullPointerException} with an
-   * explicit message.
-   * 
-   * @param clazz the date to check
-   * @throws NullPointerException with an explicit message if the given class is null
-   */
-  private static void classParameterIsNotNull(Class<?> clazz) {
-    requireNonNull(clazz, "The class to compare actual with should not be null");
   }
 }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -16,15 +16,10 @@ import static java.util.Comparator.comparing;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
-import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
-import static org.assertj.core.test.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -32,8 +27,8 @@ import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.test.AlwaysEqualComparator;
-import org.assertj.core.test.CartoonCharacter;
+import org.assertj.core.testkit.AlwaysEqualComparator;
+import org.assertj.core.testkit.CartoonCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -56,9 +51,9 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
   private static final Function<CartoonCharacter, List<CartoonCharacter>> children = CartoonCharacter::getChildren;
 
   @SuppressWarnings("deprecation")
-  private static final Extractor<CartoonCharacter, List<CartoonCharacter>> childrenExtractor = new Extractor<CartoonCharacter, List<CartoonCharacter>>() {
+  private static final Function<CartoonCharacter, List<CartoonCharacter>> childrenExtractor = new Function<CartoonCharacter, List<CartoonCharacter>>() {
     @Override
-    public List<CartoonCharacter> extract(CartoonCharacter input) {
+    public List<CartoonCharacter> apply(CartoonCharacter input) {
       return input.getChildren();
     }
   };
@@ -227,8 +222,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
             = assertThat(newSortedSet(homer, fred)).as("test description")
                                                    .withFailMessage("error message")
                                                    .withRepresentation(UNICODE_REPRESENTATION)
-                                                   .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
-                                                   .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
                                                    .flatExtracting(childrenExtractor)
                                                    .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
                                                    .contains(bart, lisa, new CartoonCharacter("Unknown"));
@@ -238,8 +231,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @SuppressWarnings("deprecation")
@@ -254,8 +245,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
             = assertThat(newSortedSet(homer, fred)).as("test description")
                                                    .withFailMessage("error message")
                                                    .withRepresentation(UNICODE_REPRESENTATION)
-                                                   .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
-                                                   .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
                                                    .flatExtracting(children)
                                                    .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
                                                    .contains(bart, lisa, new CartoonCharacter("Unknown"));
@@ -265,8 +254,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @SuppressWarnings("deprecation")
@@ -281,8 +268,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
            = assertThat(newSortedSet(homer, fred)).as("test description")
                                                   .withFailMessage("error message")
                                                   .withRepresentation(UNICODE_REPRESENTATION)
-                                                  .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING, "foo")
-                                                  .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
                                                   .flatExtracting(childrenThrowingExtractor)
                                                   .usingComparatorForType(cartoonCharacterAlwaysEqualComparator, CartoonCharacter.class)
                                                   .contains(bart, lisa, new CartoonCharacter("Unknown"));
@@ -292,8 +277,6 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(CartoonCharacter.class)).isSameAs(cartoonCharacterAlwaysEqualComparator);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class)).isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   private static SortedSet<CartoonCharacter> newSortedSet(CartoonCharacter... cartoonCharacters) {

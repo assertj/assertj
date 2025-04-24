@@ -8,14 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
 import java.util.Set;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} does not contain another
@@ -58,6 +61,36 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldNotContain(CharSequence actual, CharSequence sequence) {
     return shouldNotContain(actual, sequence, StandardComparisonStrategy.instance());
+  }
+
+  public static ErrorMessageFactory shouldNotContain(Throwable actual, CharSequence sequence) {
+    String format = "%n" +
+                    "Expecting throwable message:%n" +
+                    "  %s%n" +
+                    "not to contain:%n" +
+                    "  %s%n" +
+                    "but did:%n" +
+                    "%n" +
+                    "Throwable that failed the check:%n" +
+                    "%n" + escapePercent(getStackTrace(actual)); // to avoid AssertJ default String formatting
+
+    return new ShouldNotContainCharSequence(format, actual.getMessage(), sequence, StandardComparisonStrategy.instance());
+  }
+
+  public static ErrorMessageFactory shouldNotContain(Throwable actual, CharSequence[] sequence,
+                                                     Set<? extends CharSequence> found) {
+    String format = "%n" +
+                    "Expecting throwable message:%n" +
+                    "  %s%n" +
+                    "not to contain:%n" +
+                    "  %s%n" +
+                    "but found:%n" +
+                    "  %s%n" +
+                    "%n" +
+                    "Throwable that failed the check:%n" +
+                    "%n" + escapePercent(getStackTrace(actual)); // to avoid AssertJ default String formatting
+
+    return new ShouldNotContainCharSequence(format, actual.getMessage(), sequence, found, StandardComparisonStrategy.instance());
   }
 
   /**

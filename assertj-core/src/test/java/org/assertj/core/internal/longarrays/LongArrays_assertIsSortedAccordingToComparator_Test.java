@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.longarrays;
 
@@ -17,13 +17,12 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
-import static org.assertj.core.test.LongArrays.emptyArray;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.LongArrays.emptyArray;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.LongArrays;
 import org.assertj.core.internal.LongArraysBaseTest;
@@ -46,7 +45,7 @@ class LongArrays_assertIsSortedAccordingToComparator_Test extends LongArraysBase
     super.setUp();
     actual = new long[] { 4L, 3L, 2L, 2L, 1L };
     longDescendingOrderComparator = (long1, long2) -> -long1.compareTo(long2);
-    longSquareComparator = (long1, long2) -> new Long(long1 * long1).compareTo(new Long(long2 * long2));
+    longSquareComparator = (long1, long2) -> Long.valueOf(long1 * long1).compareTo(Long.valueOf(long2 * long2));
   }
 
   @Test

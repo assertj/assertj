@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -25,15 +25,8 @@ public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNaviga
                                                  ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
        extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
 
-  private AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
+  private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
 
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
-                                                                                 AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
-    return new FactoryBasedNavigableIterableAssert(actual, FactoryBasedNavigableIterableAssert.class, assertFactory);
-  }
-         
 // @format:on
 
   public FactoryBasedNavigableIterableAssert(ACTUAL actual, Class<?> selfType,

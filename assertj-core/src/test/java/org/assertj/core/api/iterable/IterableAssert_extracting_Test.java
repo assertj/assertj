@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -17,37 +17,33 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithNamesOf;
-import static org.assertj.core.api.GroupAssertTestHelper.comparatorForElementFieldsWithTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.firstNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.lastNameFunction;
-import static org.assertj.core.data.TolkienCharacter.Race.DWARF;
-import static org.assertj.core.data.TolkienCharacter.Race.ELF;
-import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
-import static org.assertj.core.data.TolkienCharacter.Race.MAIA;
-import static org.assertj.core.data.TolkienCharacter.Race.MAN;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
-import static org.assertj.core.test.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
+import static org.assertj.core.testkit.TolkienCharacter.Race.DWARF;
+import static org.assertj.core.testkit.TolkienCharacter.Race.ELF;
+import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
+import static org.assertj.core.testkit.TolkienCharacter.Race.MAIA;
+import static org.assertj.core.testkit.TolkienCharacter.Race.MAN;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.data.TolkienCharacter;
 import org.assertj.core.extractor.Extractors;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Name;
+import org.assertj.core.testkit.TolkienCharacter;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,7 +63,7 @@ class IterableAssert_extracting_Test {
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
   @SuppressWarnings("deprecation")
-  private static final Extractor<Employee, String> firstName = input -> input.getName().getFirst();
+  private static final Function<Employee, String> firstName = input -> input.getName().getFirst();
 
   private static final Function<Employee, Integer> age = Employee::getAge;
 
@@ -203,9 +199,9 @@ class IterableAssert_extracting_Test {
   @SuppressWarnings("deprecation")
   @Test
   void should_allow_assertions_on_extractor_assertions_extracted_from_given_array_compatibility_runtimeexception() {
-    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(new Extractor<Employee, String>() {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(jedis).extracting(new Function<Employee, String>() {
       @Override
-      public String extract(Employee input) {
+      public String apply(Employee input) {
         if (input.getAge() > 100) {
           throw new RuntimeException("age > 100");
         }
@@ -393,9 +389,9 @@ class IterableAssert_extracting_Test {
   @Test
   void should_keep_existing_description_if_set_when_extracting_using_extractor() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("check employees first name")
-                                                                                      .extracting(new Extractor<Employee, String>() {
+                                                                                      .extracting(new Function<Employee, String>() {
                                                                                         @Override
-                                                                                        public String extract(Employee input) {
+                                                                                        public String apply(Employee input) {
                                                                                           return input.getName().getFirst();
                                                                                         }
                                                                                       }).isEmpty())
@@ -416,10 +412,6 @@ class IterableAssert_extracting_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING,
-                                                                                                          "foo")
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .usingComparatorForType(ALWAYS_EQUALS_TUPLE, Tuple.class)
                                                                 .extracting(firstNameFunction, lastNameFunction)
                                                                 .contains(tuple("YODA", null), tuple("Luke", "Skywalker"));
@@ -428,9 +420,6 @@ class IterableAssert_extracting_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
-                                                                                                     .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @SuppressWarnings("deprecation")
@@ -441,10 +430,6 @@ class IterableAssert_extracting_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING,
-                                                                                                          "foo")
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                                                 .extracting("name.first")
                                                                 .contains("YODA", "Luke");
@@ -453,9 +438,6 @@ class IterableAssert_extracting_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
-                                                                                                     .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @SuppressWarnings("deprecation")
@@ -466,10 +448,6 @@ class IterableAssert_extracting_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING,
-                                                                                                          "foo")
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                                                 .extracting("name.first", String.class)
                                                                 .contains("YODA", "Luke");
@@ -478,9 +456,6 @@ class IterableAssert_extracting_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
-                                                                                                     .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @SuppressWarnings("deprecation")
@@ -491,10 +466,6 @@ class IterableAssert_extracting_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING,
-                                                                                                          "foo")
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .usingComparatorForType(ALWAYS_EQUALS_TUPLE, Tuple.class)
                                                                 .extracting("name.first", "name.last")
                                                                 .contains(tuple("YODA", null), tuple("Luke", "Skywalker"));
@@ -503,9 +474,6 @@ class IterableAssert_extracting_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(Tuple.class)).isSameAs(ALWAYS_EQUALS_TUPLE);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
-                                                                                                     .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
   @SuppressWarnings("deprecation")
@@ -516,10 +484,6 @@ class IterableAssert_extracting_Test {
     AbstractListAssert<?, ?, ?, ?> assertion = assertThat(jedis).as("test description")
                                                                 .withFailMessage("error message")
                                                                 .withRepresentation(UNICODE_REPRESENTATION)
-                                                                .usingComparatorForElementFieldsWithNames(ALWAYS_EQUALS_STRING,
-                                                                                                          "foo")
-                                                                .usingComparatorForElementFieldsWithType(ALWAYS_EQUALS_TIMESTAMP,
-                                                                                                         Timestamp.class)
                                                                 .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                                                 .extracting(byName("name.first"))
                                                                 .contains("YODA", "Luke");
@@ -528,9 +492,6 @@ class IterableAssert_extracting_Test {
     assertThat(assertion.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     assertThat(assertion.info.overridingErrorMessage()).isEqualTo("error message");
     assertThat(comparatorsByTypeOf(assertion).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
-    assertThat(comparatorForElementFieldsWithTypeOf(assertion).getComparatorForType(Timestamp.class))
-                                                                                                     .isSameAs(ALWAYS_EQUALS_TIMESTAMP);
-    assertThat(comparatorForElementFieldsWithNamesOf(assertion).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
   }
 
 }

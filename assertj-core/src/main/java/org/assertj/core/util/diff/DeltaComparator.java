@@ -8,10 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util.diff;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Comparator;
 
@@ -21,7 +22,10 @@ import java.util.Comparator;
  * @author mksenzov
  */
 public class DeltaComparator implements Comparator<Delta<?>>, Serializable {
+
+  @Serial
   private static final long serialVersionUID = 1L;
+
   public static final Comparator<Delta<?>> INSTANCE = new DeltaComparator();
 
   private DeltaComparator() {}
@@ -37,4 +41,5 @@ public class DeltaComparator implements Comparator<Delta<?>>, Serializable {
     }
     return 0;
   }
+
 }

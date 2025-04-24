@@ -1,7 +1,8 @@
 #Maven build result directory
 target
 #IntelliJ project files
-.idea
+.idea/*
+!/.idea/icon.svg
 *.iml
 out
 #Eclipse project files
@@ -13,6 +14,7 @@ out
 /clover.license
 /actual.txt
 /expected.txt
+/.vscode
 #jEnv configuration
 .java-version
 dependency-reduced-pom.xml

@@ -8,15 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.extractor;
 
-import static java.lang.String.format;
-
 import java.util.function.Function;
 import java.util.stream.Stream;
-
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Strings;
 
@@ -68,7 +65,7 @@ public class Extractors {
   }
 
   public static String extractedDescriptionOf(String... itemsDescription) {
-    return format("Extracted: %s", Strings.join(itemsDescription).with(", "));
+    return "Extracted: %s".formatted(Strings.join(itemsDescription).with(", "));
   }
 
   public static String extractedDescriptionOf(Object... items) {
@@ -77,7 +74,7 @@ public class Extractors {
   }
 
   public static String extractedDescriptionOfMethod(String method) {
-    return format("Extracted: result of %s()", method);
+    return "Extracted: result of %s()".formatted(method);
   }
 
 }

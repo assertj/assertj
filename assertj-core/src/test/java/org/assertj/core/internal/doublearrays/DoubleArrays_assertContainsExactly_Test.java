@@ -8,19 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.doublearrays;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainExactly.elementsDifferAtIndex;
 import static org.assertj.core.error.ShouldContainExactly.shouldContainExactly;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
-import static org.assertj.core.test.DoubleArrays.arrayOf;
-import static org.assertj.core.test.DoubleArrays.emptyArray;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.DoubleArrays.arrayOf;
+import static org.assertj.core.testkit.DoubleArrays.emptyArray;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
@@ -147,10 +146,11 @@ class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
                                                                                                                               actual,
                                                                                                                               expected))
-                                                   .withMessage(format(shouldContainExactly(actual, asList(expected),
-                                                                                            newArrayList(20d),
-                                                                                            newArrayList(10d),
-                                                                                            absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldContainExactly(actual, asList(expected),
+                                                                                     newArrayList(20d),
+                                                                                     newArrayList(10d),
+                                                                                     absValueComparisonStrategy).create()
+                                                                                                                .formatted());
   }
 
   @Test
@@ -159,9 +159,10 @@ class DoubleArrays_assertContainsExactly_Test extends DoubleArraysBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsExactly(someInfo(),
                                                                                                                               actual,
                                                                                                                               expected))
-                                                   .withMessage(format(shouldContainExactly(actual, asList(expected),
-                                                                                            newArrayList(10d),
-                                                                                            newArrayList(),
-                                                                                            absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldContainExactly(actual, asList(expected),
+                                                                                     newArrayList(10d),
+                                                                                     newArrayList(),
+                                                                                     absValueComparisonStrategy).create()
+                                                                                                                .formatted());
   }
 }

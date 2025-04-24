@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -23,7 +23,7 @@ package org.assertj.core.api;
  * @since 3.17.0
  */
 public abstract class Abstract2DArrayAssert<SELF extends Abstract2DArrayAssert<SELF, ACTUAL, ELEMENT>, ACTUAL, ELEMENT>
-    extends AbstractAssert<SELF, ACTUAL> implements Array2DAssert<SELF, ELEMENT> {
+    extends AbstractAssertWithComparator<SELF, ACTUAL> implements Array2DAssert<SELF, ELEMENT> {
 
   protected Abstract2DArrayAssert(final ACTUAL actual, final Class<?> selfType) {
     super(actual, selfType);

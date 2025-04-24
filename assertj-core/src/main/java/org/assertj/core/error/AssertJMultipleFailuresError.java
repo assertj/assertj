@@ -8,24 +8,27 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.util.Throwables.addLineNumberToErrorMessages;
 
+import java.io.Serial;
 import java.util.List;
-
 import org.opentest4j.MultipleFailuresError;
 
 /**
  * AssertJ version of {@link MultipleFailuresError} to get more control on the error formatting.
  */
 public class AssertJMultipleFailuresError extends MultipleFailuresError {
+
+  @Serial
   private static final long serialVersionUID = 1L;
-  private static final String EOL = System.getProperty("line.separator");
+
+  private static final String EOL = System.lineSeparator();
   private static final String ERROR_SEPARATOR = EOL + "-- failure %d --";
+
   private String heading;
 
   public AssertJMultipleFailuresError(String heading, List<? extends Throwable> failures) {
@@ -60,7 +63,7 @@ public class AssertJMultipleFailuresError extends MultipleFailuresError {
   }
 
   private String errorSeparator(int errorNumber) {
-    return format(ERROR_SEPARATOR, errorNumber);
+    return ERROR_SEPARATOR.formatted(errorNumber);
   }
 
   private boolean hasDescription(String message) {
@@ -68,7 +71,7 @@ public class AssertJMultipleFailuresError extends MultipleFailuresError {
   }
 
   private static boolean isBlank(String str) {
-    return str == null || str.trim().length() == 0;
+    return str == null || str.trim().isEmpty();
   }
 
   private static String pluralize(int count, String singular, String plural) {

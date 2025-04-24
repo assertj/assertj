@@ -8,12 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.files;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
@@ -26,8 +27,6 @@ import org.assertj.core.internal.FilesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Files#assertDoesNotExist(AssertionInfo, File)}</code>.
- * 
  * @author Yvonne Wang
  * @author Joel Costigliola
  */
@@ -46,7 +45,7 @@ class Files_assertDoesNotExist_Test extends FilesBaseTest {
   @Test
   void should_fail_if_actual_exists() {
     // GIVEN
-    File actual = new File("src/test/resources/actual_file.txt");
+    File actual = resourceFile("actual_file.txt");
     // WHEN
     expectAssertionError(() -> underTest.assertDoesNotExist(INFO, actual));
     // THEN

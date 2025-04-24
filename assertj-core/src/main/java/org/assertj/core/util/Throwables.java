@@ -8,16 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util;
 
 import static java.lang.String.format;
 import static java.util.Arrays.stream;
+import static java.util.Collections.reverse;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.groups.FieldsOrPropertiesExtractor.extract;
+import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.PrintWriter;
@@ -28,6 +30,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -37,9 +40,10 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * @author Daniel Zlotin
  */
 public final class Throwables {
-  private static final String ORG_ASSERTJ_CORE_ERROR_CONSTRUCTOR_INVOKER = "org.assertj.core.error.ConstructorInvoker";
-  private static final String JAVA_LANG_REFLECT_CONSTRUCTOR = "java.lang.reflect.Constructor";
+
   private static final String ORG_ASSERTJ = "org.assert";
+  private static final String JAVA_BASE = "java.";
+  private static final String JDK_BASE = "jdk.";
 
   private Throwables() {}
 
@@ -48,7 +52,7 @@ public final class Throwables {
     if (cause == null) return throwable.getMessage();
     // error has a cause, display the cause message and the first stack trace elements.
     String stackTraceDescription = stream(cause.getStackTrace()).limit(5)
-                                                                .map(stackTraceElement -> format("\tat %s%n", stackTraceElement))
+                                                                .map(stackTraceElement -> "\tat %s%n".formatted(stackTraceElement))
                                                                 .collect(joining());
     return format("%s%n" +
                   "cause message: %s%n" +
@@ -61,6 +65,21 @@ public final class Throwables {
 
   public static List<String> describeErrors(List<? extends Throwable> errors) {
     return extract(errors, ERROR_DESCRIPTION_EXTRACTOR);
+  }
+
+  /**
+   * Allows catching a {@link Throwable} more easily when used with Java 8 lambdas.
+   *
+   * @param shouldRaiseThrowable The lambda with the code that should raise the throwable.
+   * @return The captured throwable or null if no throwable was raised.
+   */
+  public static Throwable catchThrowable(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
+    try {
+      shouldRaiseThrowable.call();
+    } catch (Throwable throwable) {
+      return throwable;
+    }
+    return null;
   }
 
   /**
@@ -94,7 +113,10 @@ public final class Throwables {
 
   /**
    * Removes the AssertJ-related elements from the <code>{@link Throwable}</code> stack trace that have little value for
-   * end user. Therefore, instead of seeing this:
+   * end user, that is assertj elements and the ones coming from assertj (for example assertj calling some java jdk
+   * classes to build assertion errors dynamically).
+   * <p>
+   * Therefore, instead of seeing this:
    * <pre><code class='java'> org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
    *   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
@@ -111,35 +133,41 @@ public final class Throwables {
    *
    * We get this:
    * <pre><code class='java'> org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
-   *   at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-   *   at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
-   *   at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
    *   at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:20)</code></pre>
    * @param throwable the {@code Throwable} to filter stack trace.
    */
   public static void removeAssertJRelatedElementsFromStackTrace(Throwable throwable) {
     if (throwable == null) return;
-    List<StackTraceElement> filtered = newArrayList(throwable.getStackTrace());
-    StackTraceElement previous = null;
-    for (StackTraceElement element : throwable.getStackTrace()) {
-      if (element.getClassName().contains(ORG_ASSERTJ)) {
-        filtered.remove(element);
-        // Handle the case when AssertJ builds a ComparisonFailure/AssertionFailedError by reflection
-        // (see ShouldBeEqual.newAssertionError method), the stack trace looks like:
-        //
-        // java.lang.reflect.Constructor.newInstance(Constructor.java:501),
-        // org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:34),
-        //
-        // We want to remove java.lang.reflect.Constructor.newInstance element because it is related to AssertJ.
-        if (previous != null && JAVA_LANG_REFLECT_CONSTRUCTOR.equals(previous.getClassName())
-            && element.getClassName().contains(ORG_ASSERTJ_CORE_ERROR_CONSTRUCTOR_INVOKER)) {
-          filtered.remove(previous);
-        }
+    List<StackTraceElement> purgedStack = list();
+    boolean firstAssertjStackTraceElementFound = false;
+    StackTraceElement[] stackTrace = throwable.getStackTrace();
+    // traverse stack from the root element (main program) as it makes it easier to identify the first assertj element
+    // then we ignore all assertj and java or jdk elements.
+    for (int i = stackTrace.length - 1; i >= 0; i--) {
+      StackTraceElement stackTraceElement = stackTrace[i];
+      if (isFromAssertJ(stackTraceElement)) {
+        firstAssertjStackTraceElementFound = true;
+        continue; // skip element
       }
-      previous = element;
+      if (!firstAssertjStackTraceElementFound) {
+        // keep everything before first assertj stack trace element
+        purgedStack.add(stackTraceElement);
+      } else {
+        // we already are in assertj stack, so now we also ignore java elements too as they come from assertj
+        if (!isFromJavaOrJdkPackages(stackTraceElement)) purgedStack.add(stackTraceElement);
+      }
     }
-    StackTraceElement[] newStackTrace = filtered.toArray(new StackTraceElement[0]);
-    throwable.setStackTrace(newStackTrace);
+    reverse(purgedStack); // reverse as we traversed the stack in reverse order when purging it.
+    throwable.setStackTrace(purgedStack.toArray(new StackTraceElement[0]));
+  }
+
+  private static boolean isFromAssertJ(StackTraceElement stackTrace) {
+    return stackTrace.getClassName().contains(ORG_ASSERTJ);
+  }
+
+  private static boolean isFromJavaOrJdkPackages(StackTraceElement stackTrace) {
+    String className = stackTrace.getClassName();
+    return className.contains(JAVA_BASE) || className.contains(JDK_BASE);
   }
 
   /**
@@ -288,11 +316,11 @@ public final class Throwables {
     String testClassName = simpleClassNameOf(testStackTraceElement);
     String testName = testStackTraceElement.getMethodName();
     int lineNumber = testStackTraceElement.getLineNumber();
-    String atLineNumber = format("at %s.%s(%s.java:%s)", testClassName, testName, testClassName, lineNumber);
+    String atLineNumber = "at %s.%s(%s.java:%s)".formatted(testClassName, testName, testClassName, lineNumber);
     if (originalErrorMessage.contains(atLineNumber)) {
       return originalErrorMessage;
     }
-    return format(originalErrorMessage.endsWith(format("%n")) ? "%s%s" : "%s%n%s", originalErrorMessage, atLineNumber);
+    return format(originalErrorMessage.endsWith("%n".formatted()) ? "%s%s" : "%s%n%s", originalErrorMessage, atLineNumber);
   }
 
   private static String simpleClassNameOf(StackTraceElement testStackTraceElement) {

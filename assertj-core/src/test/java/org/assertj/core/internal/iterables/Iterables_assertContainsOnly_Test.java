@@ -8,19 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
-import static org.assertj.core.test.ObjectArrays.emptyArray;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.ObjectArrays.emptyArray;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
@@ -101,8 +101,7 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     // GIVEN
     Object[] expected = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> iterables.assertContainsOnly(someInfo(), actual, expected),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> iterables.assertContainsOnly(someInfo(), actual, expected));
     // THEN
     then(npe).hasMessage(valuesToLookForIsNull());
   }

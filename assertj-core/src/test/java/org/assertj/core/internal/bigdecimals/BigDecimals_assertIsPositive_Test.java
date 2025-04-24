@@ -8,16 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.bigdecimals;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 
 import java.math.BigDecimal;
-
 import org.assertj.core.internal.BigDecimals;
 import org.assertj.core.internal.BigDecimalsBaseTest;
 import org.junit.jupiter.api.Test;
@@ -38,13 +36,13 @@ class BigDecimals_assertIsPositive_Test extends BigDecimalsBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsPositive(someInfo(), BigDecimal.ZERO))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nto be greater than:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0%nto be greater than:%n  0%n".formatted());
   }
 
   @Test
   void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsPositive(someInfo(), BigDecimal.ZERO))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nto be greater than:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0%nto be greater than:%n  0%n".formatted());
   }
 
   @Test
@@ -56,7 +54,7 @@ class BigDecimals_assertIsPositive_Test extends BigDecimalsBaseTest {
   void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsPositive(someInfo(),
                                                                                                                               BigDecimal.ZERO))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nto be greater than:%n  0%nwhen comparing values using org.assertj.core.util.BigDecimalComparator"));
+                                                   .withMessage("%nExpecting actual:%n  0%nto be greater than:%n  0%nwhen comparing values using org.assertj.core.util.BigDecimalComparator".formatted());
   }
 
 }

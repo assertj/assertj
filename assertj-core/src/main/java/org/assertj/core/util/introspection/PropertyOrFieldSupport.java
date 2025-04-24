@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
@@ -17,8 +17,6 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Map;
 import java.util.Optional;
-
-import org.assertj.core.util.VisibleForTesting;
 
 public class PropertyOrFieldSupport {
   private static final String SEPARATOR = ".";
@@ -34,7 +32,7 @@ public class PropertyOrFieldSupport {
     this.fieldSupport = FieldSupport.extraction();
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   PropertyOrFieldSupport(PropertySupport propertySupport, FieldSupport fieldSupport) {
     this.propertySupport = propertySupport;
     this.fieldSupport = fieldSupport;
@@ -64,7 +62,7 @@ public class PropertyOrFieldSupport {
   @SuppressWarnings({ "unchecked", "rawtypes" })
   public Object getSimpleValue(String name, Object input) {
     // if input is an optional and name is "value", let's get the optional value directly
-    if (input instanceof Optional && name.equals("value")) return ((Optional) input).orElse(null);
+    if (input instanceof Optional optional && name.equals("value")) return optional.orElse(null);
 
     try {
       // try to get name as a property
@@ -75,9 +73,14 @@ public class PropertyOrFieldSupport {
         return fieldSupport.fieldValue(name, Object.class, input);
       } catch (IntrospectionError fieldIntrospectionError) {
         // if input is a map, try to use the name value as a map key
-        if (input instanceof Map) {
-          Map<?, ?> map = (Map<?, ?>) input;
+        if (input instanceof Map<?, ?> map) {
           if (map.containsKey(name)) return map.get(name);
+        }
+
+        // if the getter invocation throws exception and there's no field present,
+        // we'll propagate the IntrospectionError containing the original exception
+        if (propertyIntrospectionError.getterInvocationException().isPresent()) {
+          throw propertyIntrospectionError;
         }
 
         // no value found with given name, it is considered as an error

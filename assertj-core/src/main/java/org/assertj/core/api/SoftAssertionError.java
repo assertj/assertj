@@ -8,12 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static org.assertj.core.error.AssertionErrorMessagesAggregator.aggregateErrorMessages;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -24,7 +25,10 @@ import java.util.List;
  * 
  */
 public class SoftAssertionError extends AssertionError {
+
+  @Serial
   private static final long serialVersionUID = 5034494920024670595L;
+
   private final List<String> errors;
 
   /**

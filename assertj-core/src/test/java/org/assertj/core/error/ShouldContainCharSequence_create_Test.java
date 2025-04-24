@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -21,12 +21,11 @@ import static org.assertj.core.error.ShouldContainCharSequence.shouldContainIgno
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Sets.set;
-import static org.mockito.internal.util.collections.Sets.newSet;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -113,7 +112,7 @@ class ShouldContainCharSequence_create_Test {
   void should_create_error_message_with_several_CharSequence_values() {
     // GIVEN
     CharSequence[] charSequences = array("Luke", "Vador", "Solo");
-    ErrorMessageFactory factory = shouldContain("Yoda, Luke", charSequences, newSet("Vador", "Solo"));
+    ErrorMessageFactory factory = shouldContain("Yoda, Luke", charSequences, set("Vador", "Solo"));
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
@@ -130,7 +129,7 @@ class ShouldContainCharSequence_create_Test {
   void should_create_error_message_with_several_CharSequence_values_when_ignoring_whitespaces() {
     // GIVEN
     CharSequence[] charSequences = array("Luke", "Vador", "Solo");
-    ErrorMessageFactory factory = shouldContainIgnoringWhitespaces("Yoda, Luke", charSequences, newSet("Vador", "Solo"),
+    ErrorMessageFactory factory = shouldContainIgnoringWhitespaces("Yoda, Luke", charSequences, set("Vador", "Solo"),
                                                                    StandardComparisonStrategy.instance());
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
@@ -147,10 +146,10 @@ class ShouldContainCharSequence_create_Test {
   @Test
   void should_create_error_message_with_custom_comparison_strategy_when_ignoring_new_lines() {
     // GIVEN
-    final ErrorMessageFactory factory = containsIgnoringNewLines("Yoda", array("Yoda", "Luke"), set("Luke"),
-                                                                 new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
+    ErrorMessageFactory factory = containsIgnoringNewLines("Yoda", array("Yoda", "Luke"), set("Luke"),
+                                                           new ComparatorBasedComparisonStrategy(CaseInsensitiveStringComparator.INSTANCE));
     // WHEN
-    final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
@@ -163,11 +162,11 @@ class ShouldContainCharSequence_create_Test {
   void should_create_error_message_with_several_CharSequence_values_when_ignoring_new_lines() {
     // GIVEN
     CharSequence actual = "Yoda" + System.lineSeparator() + "Luke";
-    final CharSequence[] charSequences = array("Vador", "Luke", "Solo");
-    final ErrorMessageFactory factory = containsIgnoringNewLines(actual, charSequences, set("Vador", "Solo"),
-                                                                 StandardComparisonStrategy.instance());
+    CharSequence[] charSequences = array("Vador", "Luke", "Solo");
+    ErrorMessageFactory factory = containsIgnoringNewLines(actual, charSequences, set("Vador", "Solo"),
+                                                           StandardComparisonStrategy.instance());
     // WHEN
-    final String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +

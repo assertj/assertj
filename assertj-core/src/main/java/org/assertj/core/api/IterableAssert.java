@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -37,7 +37,7 @@ public class IterableAssert<ELEMENT> extends
     FactoryBasedNavigableIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
   public IterableAssert(Iterable<? extends ELEMENT> actual) {
-    super(actual, IterableAssert.class, new ObjectAssertFactory<>());
+    super(actual, IterableAssert.class, ObjectAssert::new);
   }
 
   @Override

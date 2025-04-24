@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.atomic.referencearray;
 
@@ -20,10 +20,9 @@ import static org.assertj.core.util.Arrays.array;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Function;
 
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -131,9 +130,9 @@ class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   void should_let_anonymous_class_extractor_runtime_exception_bubble_up() {
-    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(new Extractor<Employee, String>() {
+    assertThatExceptionOfType(RuntimeException.class).isThrownBy(() -> assertThat(employees).extracting(new Function<Employee, String>() {
       @Override
-      public String extract(Employee employee) {
+      public String apply(Employee employee) {
         if (employee.getAge() > 100) throw new RuntimeException("age > 100");
         return employee.getName().getFirst();
       }

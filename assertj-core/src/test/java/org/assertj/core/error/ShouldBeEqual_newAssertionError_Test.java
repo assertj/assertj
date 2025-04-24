@@ -8,11 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -29,7 +30,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.AssertionFailedError;
 
 /**
- * Tests for <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
+ * Tests for <code>{@link ShouldBeEqual#toAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
  *
  * @author Alex Ruiz
  * @author Dan Corder
@@ -41,11 +42,12 @@ class ShouldBeEqual_newAssertionError_Test {
   private DescriptionFormatter formatter;
 
   @BeforeEach
-  public void setUp() {
+  public void setUp() throws IllegalAccessException {
     description = new TestDescription("Jedi");
     factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
-    factory.descriptionFormatter = mock(DescriptionFormatter.class);
-    formatter = factory.descriptionFormatter;
+    DescriptionFormatter descriptionFormatterMock = mock(DescriptionFormatter.class);
+    writeField(factory, "descriptionFormatter", descriptionFormatterMock, true);
+    formatter = descriptionFormatterMock;
   }
 
   @ParameterizedTest
@@ -54,7 +56,7 @@ class ShouldBeEqual_newAssertionError_Test {
     // GIVEN
     given(formatter.format(description)).willReturn(formattedDescription);
     // WHEN
-    AssertionError error = factory.newAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = factory.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     then(error).isInstanceOf(AssertionFailedError.class)
                .hasMessage(format("[Jedi] %n" +

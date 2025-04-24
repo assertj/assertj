@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -18,9 +18,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 // special deque that can ignore DualKey according to RecursiveComparisonConfiguration.
-@SuppressWarnings("serial")
 class DualValueDeque extends LinkedList<DualValue> {
-  private RecursiveComparisonConfiguration recursiveComparisonConfiguration;
+  private final RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
   public DualValueDeque(RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     this.recursiveComparisonConfiguration = recursiveComparisonConfiguration;

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.charsequence;
 
@@ -18,11 +18,11 @@ import java.util.Comparator;
 
 import org.assertj.core.api.CharSequenceAssert;
 import org.assertj.core.api.CharSequenceAssertBaseTest;
-import org.assertj.core.test.CaseInsensitiveCharSequenceComparator;
+import org.assertj.core.testkit.CaseInsensitiveCharSequenceComparator;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#usingComparator(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
@@ -35,7 +35,7 @@ class CharSequenceAssert_usingCustomComparator_Test extends CharSequenceAssertBa
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(CaseInsensitiveCharSequenceComparator.INSTANCE).isSameAs(getObjects(assertions).getComparator());
-    assertThat(CaseInsensitiveCharSequenceComparator.INSTANCE).isSameAs(getStrings(assertions).getComparator());
+    assertThat(getComparisonStrategyComparatorOf(getObjects(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
+    assertThat(getComparisonStrategyComparatorOf(getStrings(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
   }
 }

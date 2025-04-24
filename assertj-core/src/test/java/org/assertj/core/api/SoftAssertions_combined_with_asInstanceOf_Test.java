@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -93,6 +93,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUILDER;
+import static org.assertj.core.api.InstanceOfAssertFactories.TEMPORAL;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
@@ -109,7 +110,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -147,8 +148,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
-import org.assertj.core.data.TolkienCharacter;
+import org.assertj.core.testkit.TolkienCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -261,7 +261,7 @@ class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest 
                      arguments(OptionalDouble.empty(), OPTIONAL_DOUBLE),
                      arguments(OptionalInt.empty(), OPTIONAL_INT),
                      arguments(OptionalLong.empty(), OPTIONAL_LONG),
-                     arguments(Paths.get("."), PATH),
+                     arguments(Path.of("."), PATH),
                      arguments((Predicate<String>) String::isEmpty, PREDICATE),
                      arguments(set("foo"), SET),
                      arguments(Short.MIN_VALUE, SHORT),
@@ -274,7 +274,8 @@ class SoftAssertions_combined_with_asInstanceOf_Test extends BaseAssertionsTest 
                      arguments(new Exception(), THROWABLE),
                      arguments(URI.create("http://localhost"), URI_TYPE),
                      arguments(URI.create("http://localhost").toURL(), URL_TYPE),
-                     arguments(ZonedDateTime.now(), ZONED_DATE_TIME));
+                     arguments(ZonedDateTime.now(), ZONED_DATE_TIME),
+                     arguments(ZonedDateTime.now(), TEMPORAL));
   }
 
   static class Data {

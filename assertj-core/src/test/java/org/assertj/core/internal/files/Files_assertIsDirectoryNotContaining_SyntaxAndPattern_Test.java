@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.files;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -31,7 +30,6 @@ import static org.mockito.Mockito.verify;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.List;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
@@ -45,7 +43,7 @@ import org.junit.jupiter.api.Test;
 class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBaseTest {
 
   private static final String JAVA_SOURCE_PATTERN = "regex:.+\\.java";
-  private static final String JAVA_SOURCE_PATTERN_DESCRIPTION = format("the '%s' pattern", JAVA_SOURCE_PATTERN);
+  private static final String JAVA_SOURCE_PATTERN_DESCRIPTION = "the '%s' pattern".formatted(JAVA_SOURCE_PATTERN);
 
   @Test
   void should_pass_if_actual_does_not_contain_files_matching_the_given_pathMatcherPattern() {

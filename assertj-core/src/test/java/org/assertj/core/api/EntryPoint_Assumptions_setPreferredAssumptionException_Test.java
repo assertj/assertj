@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -28,7 +28,7 @@ import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.assertj.core.configuration.PreferredAssumptionException;
-import org.assertj.core.test.MutatesGlobalConfiguration;
+import org.assertj.core.testkit.MutatesGlobalConfiguration;
 import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -85,7 +85,7 @@ class EntryPoint_Assumptions_setPreferredAssumptionException_Test {
     // GIVEN
     setPreferredAssumptionExceptionFunction.accept(TEST_NG);
     // WHEN
-    IllegalStateException exception = catchThrowableOfType(() -> assumeThat(true).isEqualTo(false), IllegalStateException.class);
+    IllegalStateException exception = catchThrowableOfType(IllegalStateException.class, () -> assumeThat(true).isEqualTo(false));
     // THEN
     then(exception).hasMessage("Failed to load org.testng.SkipException class, make sure it is available in the classpath.");
   }

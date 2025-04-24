@@ -8,11 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util;
-
-import static java.lang.String.format;
 
 public class DoubleComparator extends NullSafeComparator<Double> {
 
@@ -56,7 +54,7 @@ public class DoubleComparator extends NullSafeComparator<Double> {
 
   @Override
   public String toString() {
-    return format("DoubleComparator[precision=%s]", precision);
+    return "DoubleComparator[precision=%s]".formatted(precision);
   }
 
 }

@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
+import static java.nio.file.Files.readString;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
@@ -27,7 +27,6 @@ import java.util.function.Predicate;
 
 import org.assertj.core.internal.Files;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link File}s.
@@ -47,12 +46,12 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Nikolaos Georgiou
  * @author Rostyslav Ivankiv
  */
-public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> extends AbstractAssert<SELF, File> {
+public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> extends AbstractAssertWithComparator<SELF, File> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Files files = Files.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Charset charset = Charset.defaultCharset();
 
   protected AbstractFileAssert(File actual, Class<?> selfType) {
@@ -270,83 +269,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
-   *
-   * Examples:
-   * <pre><code class="java"> // use the default charset
-   * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
-   * File xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes()).toFile();
-   * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
-   * // use UTF-8 charset
-   * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), StandardCharsets.UTF_8).toFile();
-   *
-   * // The following assertion succeeds (default charset is used):
-   * assertThat(xFile).hasSameContentAs(xFileClone);
-   * // The following assertion succeeds (UTF-8 charset is used to read xFile):
-   * assertThat(xFileUTF8).usingCharset("UTF-8").hasContent(xFileClone);
-   *
-   * // The following assertion fails:
-   * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
-   *
-   * @param expected the given {@code File} to compare the actual {@code File} to.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@code File} is {@code null}.
-   * @throws IllegalArgumentException if the given {@code File} is not an existing file.
-   * @throws AssertionError if the actual {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
-   *
-   * @deprecated use {@link #hasSameTextualContentAs(File)} instead
-   */
-  @Deprecated
-  public SELF hasContentEqualTo(File expected) {
-    return hasSameContentAs(expected);
-  }
-
-  /**
-   * @deprecated use {@link #hasSameTextualContentAs(File)} instead.
    * <p>
-   * Verifies that the content of the actual {@code File} is equal to the content of the given one.
-   * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
-   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
-   * {@link Charset#defaultCharset()}) will be used.
-   *
-   * Examples:
-   * <pre><code class="java"> // use the default charset
-   * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
-   * File xFileClone = Files.write(Paths.get("xfile-clone.txt"), "The Truth Is Out There".getBytes()).toFile();
-   * File xFileFrench = Files.write(Paths.get("xfile-french.txt"), "La Vérité Est Ailleurs".getBytes()).toFile();
-   * // use UTF-8 charset
-   * File xFileUTF8 = Files.write(Paths.get("xfile-clone.txt"), Arrays.asList("The Truth Is Out There"), StandardCharsets.UTF_8).toFile();
-   *
-   * // The following assertion succeeds (default charset is used):
-   * assertThat(xFile).hasSameContentAs(xFileClone);
-   * // The following assertion succeeds (UTF-8 charset is used to read xFile):
-   * assertThat(xFileUTF8).usingCharset("UTF-8").hasSameContentAs(xFileClone);
-   *
-   * // The following assertion fails:
-   * assertThat(xFile).hasSameContentAs(xFileFrench);</code></pre>
-   *
-   * @param expected the given {@code File} to compare the actual {@code File} to.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@code File} is {@code null}.
-   * @throws IllegalArgumentException if the given {@code File} is not an existing file.
-   * @throws AssertionError if the actual {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
-   */
-  @Deprecated
-  public SELF hasSameContentAs(File expected) {
-    return hasSameTextualContentAs(expected);
-  }
-
-  /**
-   * Verifies that the content of the actual {@code File} is equal to the content of the given one.
-   * The charset to use when reading the actual file can be provided with {@link #usingCharset(Charset)} or
-   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
-   * {@link Charset#defaultCharset()}) will be used.
-   *
    * Examples:
    * <pre><code class="java"> // use the default charset
    * File xFile = Files.write(Paths.get("xfile.txt"), "The Truth Is Out There".getBytes()).toFile();
@@ -407,39 +330,6 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   public SELF hasSameBinaryContentAs(File expected) {
     files.assertSameBinaryContentAs(info, actual, expected);
     return myself;
-  }
-
-  /**
-   * Verifies that the content of the actual {@code File} is the same as the expected one, the expected {@code File} being read with the given charset while
-   * the charset used to read the actual path can be provided with {@link #usingCharset(Charset)} or
-   * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
-   * {@link Charset#defaultCharset()}) will be used.
-   * <p>
-   * Examples:
-   * <pre><code class="java"> File fileUTF8 = Files.write(Paths.get("actual"), Collections.singleton("Gerçek"), StandardCharsets.UTF_8).toFile();
-   * Charset turkishCharset = Charset.forName("windows-1254");
-   * File fileTurkishCharset = Files.write(Paths.get("expected"), Collections.singleton("Gerçek"), turkishCharset).toFile();
-   *
-   * // The following assertion succeeds:
-   * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkishCharset, turkishCharset);
-   *
-   * // The following assertion fails:
-   * assertThat(fileUTF8).usingCharset(StandardCharsets.UTF_8).hasSameContentAs(fileTurkishCharset, StandardCharsets.UTF_8);</code></pre>
-   *
-   * @param expected the given {@code File} to compare the actual {@code File} to.
-   * @param expectedCharset the {@link Charset} used to read the content of the expected file.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@code File} is {@code null}.
-   * @throws IllegalArgumentException if the given {@code File} is not an existing file.
-   * @throws AssertionError if the actual {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code File} is not an existing file.
-   * @throws UncheckedIOException if an I/O error occurs.
-   * @throws AssertionError if the content of the actual {@code File} is not equal to the content of the given one.
-   * @deprecated use {@link #hasSameTextualContentAs(File, Charset)} instead
-   */
-  @Deprecated
-  public SELF hasSameContentAs(File expected, Charset expectedCharset) {
-    return hasSameTextualContentAs(expected, expectedCharset);
   }
 
   /**
@@ -553,7 +443,11 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   }
 
   /**
-   * Verifies that the text content of the actual {@code File} is <b>exactly</b> equal to the given one.<br>
+   * Verifies that the text content of the actual {@code File} is <b>exactly</b> equal to the given one <b>except for newlines wich are ignored</b>.
+   * <p>
+   * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
+   * one can use {@link #content()} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
+   * <p>
    * The charset to use when reading the file should be provided with {@link #usingCharset(Charset)} or
    * {@link #usingCharset(String)} prior to calling this method; if not, the platform's default charset (as returned by
    * {@link Charset#defaultCharset()}) will be used.
@@ -1480,15 +1374,15 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     try {
       return readAllBytes(actual.toPath());
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Failed to read %s content", actual), e);
+      throw new UncheckedIOException("Failed to read %s content".formatted(actual), e);
     }
   }
 
   private String readFile(Charset charset) {
     try {
-      return new String(readAllBytes(actual.toPath()), charset);
+      return readString(actual.toPath(), charset);
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Failed to read %s content with %s charset", actual, charset), e);
+      throw new UncheckedIOException("Failed to read %s content with %s charset".formatted(actual, charset), e);
     }
   }
 }

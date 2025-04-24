@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
@@ -19,25 +19,20 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
-import static org.assertj.core.test.ObjectArrays.emptyArray;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.ObjectArrays.emptyArray;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
-import java.awt.*;
-
+import java.util.Locale;
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for
- * <code>{@link Iterables#assertContainsOnlyOnce(org.assertj.core.api.AssertionInfo, Iterable, Object[])}</code>.
- * 
  * @author William Delanoue
  */
 class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
@@ -49,10 +44,8 @@ class Iterables_assertContainsOnlyOnce_Test extends IterablesBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_values_only_once_even_if_actual_type_is_not_comparable() {
-    // Rectangle class does not implement Comparable
-    Rectangle r1 = new Rectangle(1, 1);
-    Rectangle r2 = new Rectangle(2, 2);
-    iterables.assertContainsOnlyOnce(someInfo(), newArrayList(r1, r2, r2), array(r1));
+    // Locale class does not implement Comparable
+    iterables.assertContainsOnlyOnce(someInfo(), newArrayList(Locale.ROOT, Locale.US, Locale.US), array(Locale.ROOT));
   }
 
   @Test

@@ -8,18 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.doublearrays;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
-import static org.assertj.core.test.DoubleArrays.arrayOf;
-import static org.assertj.core.test.DoubleArrays.emptyArray;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.DoubleArrays.arrayOf;
+import static org.assertj.core.testkit.DoubleArrays.emptyArray;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -51,10 +50,11 @@ class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTest {
     double[] expected = { 6, -8, 20 };
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arrays.assertContainsOnlyOnce(someInfo(), actual,
                                                                                                    expected))
-                                                   .withMessage(format(shouldContainsOnlyOnce(actual, expected,
-                                                                                              newLinkedHashSet((double) 20),
-                                                                                              newLinkedHashSet((double) 6,
-                                                                                                               (double) -8)).create()));
+                                                   .withMessage(shouldContainsOnlyOnce(actual, expected,
+                                                                                       newLinkedHashSet((double) 20),
+                                                                                       newLinkedHashSet((double) 6,
+                                                                                                        (double) -8)).create()
+                                                                                                                     .formatted());
   }
 
   @Test
@@ -112,11 +112,12 @@ class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
                                                                                                                                actual,
                                                                                                                                expected))
-                                                   .withMessage(format(shouldContainsOnlyOnce(actual, expected,
-                                                                                              newLinkedHashSet((double) 20),
-                                                                                              newLinkedHashSet((double) 6,
-                                                                                                               (double) -8),
-                                                                                              absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldContainsOnlyOnce(actual, expected,
+                                                                                       newLinkedHashSet((double) 20),
+                                                                                       newLinkedHashSet((double) 6,
+                                                                                                        (double) -8),
+                                                                                       absValueComparisonStrategy).create()
+                                                                                                                  .formatted());
   }
 
   @Test
@@ -153,9 +154,10 @@ class DoubleArrays_assertContainsOnlyOnce_Test extends DoubleArraysBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> arraysWithCustomComparisonStrategy.assertContainsOnlyOnce(someInfo(),
                                                                                                                                actual,
                                                                                                                                expected))
-                                                   .withMessage(format(shouldContainsOnlyOnce(actual, expected,
-                                                                                              newLinkedHashSet((double) 20),
-                                                                                              newLinkedHashSet(),
-                                                                                              absValueComparisonStrategy).create()));
+                                                   .withMessage(shouldContainsOnlyOnce(actual, expected,
+                                                                                       newLinkedHashSet((double) 20),
+                                                                                       newLinkedHashSet(),
+                                                                                       absValueComparisonStrategy).create()
+                                                                                                                  .formatted());
   }
 }

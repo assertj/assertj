@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -35,9 +35,9 @@ public class BinaryRepresentation extends StandardRepresentation {
   @Override
   public String toStringOf(Object object) {
     if (hasCustomFormatterFor(object)) return customFormat(object);
-    if (object instanceof Character) return toStringOf((Character) object);
-    if (object instanceof Number) return toStringOf((Number) object);
-    if (object instanceof String) return toStringOf(this, (String) object);
+    if (object instanceof Character character) return toStringOf(character);
+    if (object instanceof Number number) return toStringOf(number);
+    if (object instanceof String string) return toStringOf(this, string);
     return super.toStringOf(object);
   }
 
@@ -47,12 +47,12 @@ public class BinaryRepresentation extends StandardRepresentation {
 
   @Override
   protected String toStringOf(Number number) {
-    if (number instanceof Byte) return toStringOf((Byte) number);
-    if (number instanceof Short) return toStringOf((Short) number);
-    if (number instanceof Integer) return toStringOf((Integer) number);
-    if (number instanceof Long) return toStringOf((Long) number);
-    if (number instanceof Float) return toStringOf((Float) number);
-    if (number instanceof Double) return toStringOf((Double) number);
+    if (number instanceof Byte b) return toStringOf(b);
+    if (number instanceof Short s) return toStringOf(s);
+    if (number instanceof Integer i) return toStringOf(i);
+    if (number instanceof Long l) return toStringOf(l);
+    if (number instanceof Float f) return toStringOf(f);
+    if (number instanceof Double d) return toStringOf(d);
     return number == null ? null : number.toString();
   }
 
@@ -94,4 +94,5 @@ public class BinaryRepresentation extends StandardRepresentation {
   private static String toBinary(String value, int size) {
     return String.format("%" + size + "s", value).replace(' ', '0');
   }
+
 }

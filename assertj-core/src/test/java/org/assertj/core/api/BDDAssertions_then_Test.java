@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -119,8 +119,6 @@ class BDDAssertions_then_Test {
   void then_Iterable() {
     Iterable<String> iterable = Arrays.asList("1");
     then(iterable).contains("1");
-    then(iterable, StringAssert.class).first().startsWith("1");
-    then(iterable, stringAssertFactory).first().startsWith("1");
     then(iterable).first(as(STRING)).startsWith("1");
     then(iterable).singleElement(as(STRING)).startsWith("1");
   }
@@ -265,8 +263,6 @@ class BDDAssertions_then_Test {
   void then_List() {
     List<Integer> list = list(5, 6);
     then(list).hasSize(2);
-    then(list, IntegerAssert.class).first().isLessThan(10);
-    then(list, integerAssertFactory).first().isLessThan(10);
     then(list).first(as(INTEGER)).isEqualTo(5);
     then(list(5)).singleElement(as(INTEGER)).isEqualTo(5);
   }

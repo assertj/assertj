@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.assumptions;
 
-import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
@@ -33,13 +32,6 @@ class Assumptions_assumeThat_Object_Test {
     assertThatCode(() -> assumeThat(STRING_OBJECT).isNotNull().asString().startsWith("te")).doesNotThrowAnyException();
   }
 
-  @SuppressWarnings("deprecation")
-  @Test
-  void should_run_test_when_assumption_for_internally_created_list_passes() {
-    Object listObject = asList(1, 2, 3);
-    assertThatCode(() -> assumeThat(listObject).isNotNull().asList().hasSize(3)).doesNotThrowAnyException();
-  }
-
   @Test
   void should_ignore_test_when_assumption_fails() {
     expectAssumptionNotMetException(() -> assumeThat(STRING_OBJECT).isNotNull()
@@ -51,15 +43,5 @@ class Assumptions_assumeThat_Object_Test {
     expectAssumptionNotMetException(() -> assumeThat(STRING_OBJECT).isNotNull()
                                                                    .asString()
                                                                    .isEqualTo("other"));
-  }
-
-  @SuppressWarnings("deprecation")
-  @Test
-  void should_ignore_test_when_assumption_for_internally_created_list_assertion_fails() {
-    Object listObject = asList(1, 2, 3);
-    expectAssumptionNotMetException(() -> assumeThat(listObject).isNotNull()
-                                                                .asList()
-                                                                .contains(4,
-                                                                          5));
   }
 }

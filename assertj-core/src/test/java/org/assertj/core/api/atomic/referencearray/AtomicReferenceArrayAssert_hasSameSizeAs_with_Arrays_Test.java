@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.atomic.referencearray;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
@@ -20,7 +19,6 @@ import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.atomic.AtomicReferenceArray;
-
 import org.junit.jupiter.api.Test;
 
 class AtomicReferenceArrayAssert_hasSameSizeAs_with_Arrays_Test {
@@ -49,7 +47,7 @@ class AtomicReferenceArrayAssert_hasSameSizeAs_with_Arrays_Test {
   void should_fail_if_other_is_not_an_array() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(new AtomicReferenceArray<>(new Byte[] { 1,
         2 })).hasSameSizeAs("a string"))
-                                                   .withMessage(format("%nExpecting an array but was: \"a string\""));
+                                                   .withMessage("%nExpecting an array but was: \"a string\"".formatted());
   }
 
   @Test

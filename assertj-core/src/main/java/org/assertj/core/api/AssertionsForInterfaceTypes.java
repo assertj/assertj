@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -357,42 +357,6 @@ public class AssertionsForInterfaceTypes extends AssertionsForClassTypes {
   public static ListAssert<Integer> assertThat(IntStream actual) {
     return ListAssert.assertThatIntStream(actual);
   }
-
-  /**
-   * Creates a new instance of <code>{@link IterableAssert}</code>.
-   *
-   * @param <ACTUAL> The actual type
-   * @param <ELEMENT> The actual elements type
-   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
-   * @param actual the actual value.
-   * @param assertFactory the factory used to create the elements assert instance.
-   * @return the created assertion object.
-   */
-//@format:off
-  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
-                                                                                 AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
-    return FactoryBasedNavigableIterableAssert.assertThat(actual, assertFactory);
-  }
-
-  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual,
-                                                                                          Class<ELEMENT_ASSERT> assertClass) {
-    return ClassBasedNavigableIterableAssert.assertThat(actual, assertClass);
-  }
-
-  public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
-                                                                                        AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
-    return FactoryBasedNavigableListAssert.assertThat(actual, assertFactory);
-  }
-
-  public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
-                                                                                      Class<ELEMENT_ASSERT> assertClass) {
-    return ClassBasedNavigableListAssert.assertThat(actual, assertClass);
-  }
-//@format:on
 
   /**
    * Creates a new instance of {@link PathAssert}

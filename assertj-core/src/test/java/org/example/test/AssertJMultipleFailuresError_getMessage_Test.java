@@ -8,13 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.example.test;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 
@@ -33,7 +33,7 @@ class AssertJMultipleFailuresError_getMessage_Test {
     // WHEN
     String message = error.getMessage();
     // THEN
-    then(message).startsWith(format("%n%s", description));
+    then(message).startsWith("%n%s".formatted(description));
   }
 
   @Test
@@ -51,54 +51,54 @@ class AssertJMultipleFailuresError_getMessage_Test {
     // WHEN
     AssertionError error = expectAssertionError(() -> softly.assertAll());
     // THEN
-    then(error).hasMessageContainingAll(format("%nMultiple Failures (10 failures)%n"),
-                                        format("-- failure 1 --%n"),
-                                        format("Expecting empty but was: [\"\"]%n"),
-                                        format("-- failure 2 --%n"),
-                                        format("[isEmpty list] %n"),
-                                        format("Expecting empty but was: [\"a\", \"b\", \"c\"]%n"),
-                                        format("-- failure 3 --%n"),
-                                        format("Expecting empty but was: \"abc\"%n"),
-                                        format("-- failure 4 --%n"),
-                                        format("[isEmpty string] %n"),
-                                        format("Expecting empty but was: \"abc\"%n"),
-                                        format("-- failure 5 --"),
+    then(error).hasMessageContainingAll("%nMultiple Failures (10 failures)%n".formatted(),
+                                        "-- failure 1 --%n".formatted(),
+                                        "Expecting empty but was: [\"\"]%n".formatted(),
+                                        "-- failure 2 --%n".formatted(),
+                                        "[isEmpty list] %n".formatted(),
+                                        "Expecting empty but was: [\"a\", \"b\", \"c\"]%n".formatted(),
+                                        "-- failure 3 --%n".formatted(),
+                                        "Expecting empty but was: \"abc\"%n".formatted(),
+                                        "-- failure 4 --%n".formatted(),
+                                        "[isEmpty string] %n".formatted(),
+                                        "Expecting empty but was: \"abc\"%n".formatted(),
+                                        "-- failure 5 --".formatted(),
                                         format(shouldBeEqualMessage("\"abc\"", "\"bcd\"") + "%n"),
-                                        format("-- failure 6 --%n"),
+                                        "-- failure 6 --%n".formatted(),
                                         format(shouldBeEqualMessage("isEqualTo", "\"abc\"", "\"bcd\"") + "%n"),
-                                        format("-- failure 7 --%n"),
-                                        format("[contains] %n"),
-                                        format("Expecting ArrayList:%n"),
-                                        format("  [\"a\", \"b\", \"c\"]%n"),
-                                        format("to contain:%n"),
-                                        format("  [\"e\"]%n"),
-                                        format("but could not find the following element(s):%n"),
-                                        format("  [\"e\"]%n"),
-                                        format("%n"),
-                                        format("-- failure 8 --%n"),
-                                        format("[contains] %n"),
-                                        format("Expecting%n"),
-                                        format("  [\"a\", \"b\", \"c\"]%n"),
-                                        format("not to contain%n"),
-                                        format("  [\"a\"]%n"),
-                                        format("but found%n"),
-                                        format("  [\"a\"]%n"),
-                                        format("%n"),
-                                        format("-- failure 9 --%n"),
-                                        format("Expecting ArrayList:%n"),
-                                        format("  [\"a\", \"b\", \"c\"]%n"),
-                                        format("to contain:%n"),
-                                        format("  [\"e\"]%n"),
-                                        format("but could not find the following element(s):%n"),
-                                        format("  [\"e\"]%n"),
-                                        format("%n"),
-                                        format("-- failure 10 --%n"),
-                                        format("Expecting%n"),
-                                        format("  [\"a\", \"b\", \"c\"]%n"),
-                                        format("not to contain%n"),
-                                        format("  [\"a\"]%n"),
-                                        format("but found%n"),
-                                        format("  [\"a\"]%n"));
+                                        "-- failure 7 --%n".formatted(),
+                                        "[contains] %n".formatted(),
+                                        "Expecting ArrayList:%n".formatted(),
+                                        "  [\"a\", \"b\", \"c\"]%n".formatted(),
+                                        "to contain:%n".formatted(),
+                                        "  [\"e\"]%n".formatted(),
+                                        "but could not find the following element(s):%n".formatted(),
+                                        "  [\"e\"]%n".formatted(),
+                                        "%n".formatted(),
+                                        "-- failure 8 --%n".formatted(),
+                                        "[contains] %n".formatted(),
+                                        "Expecting%n".formatted(),
+                                        "  [\"a\", \"b\", \"c\"]%n".formatted(),
+                                        "not to contain%n".formatted(),
+                                        "  [\"a\"]%n".formatted(),
+                                        "but found%n".formatted(),
+                                        "  [\"a\"]%n".formatted(),
+                                        "%n".formatted(),
+                                        "-- failure 9 --%n".formatted(),
+                                        "Expecting ArrayList:%n".formatted(),
+                                        "  [\"a\", \"b\", \"c\"]%n".formatted(),
+                                        "to contain:%n".formatted(),
+                                        "  [\"e\"]%n".formatted(),
+                                        "but could not find the following element(s):%n".formatted(),
+                                        "  [\"e\"]%n".formatted(),
+                                        "%n".formatted(),
+                                        "-- failure 10 --%n".formatted(),
+                                        "Expecting%n".formatted(),
+                                        "  [\"a\", \"b\", \"c\"]%n".formatted(),
+                                        "not to contain%n".formatted(),
+                                        "  [\"a\"]%n".formatted(),
+                                        "but found%n".formatted(),
+                                        "  [\"a\"]%n".formatted());
   }
 
   // also verifies that we don't add stack trace line numbers twice (in soft assertion

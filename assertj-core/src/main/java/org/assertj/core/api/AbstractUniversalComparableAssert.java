@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -16,9 +16,8 @@ import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for {@link Comparable} assertions.
@@ -56,7 +55,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUniversalComparableAssert<SELF, T>, T>
     extends AbstractObjectAssert<SELF, Comparable<T>> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables = new Comparables();
 
   protected AbstractUniversalComparableAssert(Comparable<T> actual, Class<?> selfType) {

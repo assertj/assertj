@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -20,36 +20,32 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Compares the binary content of two inputStreams/paths.
  * 
  * @author Olivier Michallat
  */
-@VisibleForTesting
+// TODO reduce the visibility of the fields annotated with @VisibleForTesting
 public class BinaryDiff {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public BinaryDiffResult diff(File actual, byte[] expected) throws IOException {
     return diff(actual.toPath(), expected);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public BinaryDiffResult diff(Path actual, byte[] expected) throws IOException {
     try (InputStream actualStream = new BufferedInputStream(Files.newInputStream(actual))) {
       return diff(actualStream, expected);
     }
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public BinaryDiffResult diff(InputStream actualStream, byte[] expected) throws IOException {
-    try (InputStream expectedStream = new ByteArrayInputStream(expected)) {
-      return diff(actualStream, expectedStream);
-    }
+    return diff(actualStream, new ByteArrayInputStream(expected));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public BinaryDiffResult diff(InputStream actualStream, InputStream expectedStream) throws IOException {
     int index = 0;
     while (true) {

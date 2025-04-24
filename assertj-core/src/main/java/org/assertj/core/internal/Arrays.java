@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -90,9 +90,11 @@ import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.ArrayWrapperList;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for object and primitive arrays. It trades off performance for DRY.
@@ -124,13 +126,13 @@ public class Arrays {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
     if (!(comparisonStrategy instanceof ComparatorBasedComparisonStrategy)) return null;
     return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }
@@ -196,7 +198,7 @@ public class Arrays {
     hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, failures, actual, values)) return;
     Set<Object> notFound = new LinkedHashSet<>();
@@ -272,7 +274,7 @@ public class Arrays {
     for (Object element : actual) {
       if (element != null) nonNullElements.add(element);
     }
-    if (nonNullElements.size() > 0) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
+    if (!nonNullElements.isEmpty()) throw failures.failure(info, shouldContainOnlyNulls(actual, nonNullElements));
   }
 
   void assertContainsExactly(AssertionInfo info, Failures failures, Object actual, Object values) {
@@ -541,7 +543,7 @@ public class Arrays {
         extra.add(actualElement);
       }
     }
-    if (extra.size() > 0) {
+    if (!extra.isEmpty()) {
       throw failures.failure(info, shouldBeSubsetOf(actual, values, extra, comparisonStrategy));
     }
   }
@@ -670,9 +672,9 @@ public class Arrays {
 
   void assertIsSorted(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
       // instead of comparing array elements with their natural comparator, use the one set by client.
-      Comparator<?> comparator = ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+      Comparator<?> comparator = strategy.getComparator();
       assertIsSortedAccordingToComparator(info, failures, array, comparator);
       return;
     }
@@ -704,7 +706,7 @@ public class Arrays {
     try {
       List<T> arrayAsList = asList(array);
       // empty arrays are considered sorted even if comparator can't be applied to <T>.
-      if (arrayAsList.size() == 0) return;
+      if (arrayAsList.isEmpty()) return;
       if (arrayAsList.size() == 1) {
         // call compare to see if unique element is compatible with comparator.
         comparator.compare(arrayAsList.get(0), arrayAsList.get(0));

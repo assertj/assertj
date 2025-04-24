@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -18,8 +18,6 @@ import static org.assertj.core.error.ShouldHaveSameFileSystemAs.shouldHaveSameFi
 
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
@@ -33,8 +31,8 @@ class ShouldHaveSameFileSystemAs_create_Test {
   @Test
   void should_create_error_message_for_expected_path() {
     // GIVEN
-    Path actual = Paths.get("/foo/bar");
-    Path expected = Paths.get("/baz/bork");
+    Path actual = Path.of("/foo/bar");
+    Path expected = Path.of("/baz/bork");
     // WHEN
     String message = shouldHaveSameFileSystemAs(actual, expected).create();
     // THEN
@@ -48,8 +46,8 @@ class ShouldHaveSameFileSystemAs_create_Test {
   @Test
   void should_create_error_message_for_expected_path_with_test_description() {
     // GIVEN
-    Path actual = Paths.get("/foo/bar");
-    Path expected = Paths.get("/baz/bork");
+    Path actual = Path.of("/foo/bar");
+    Path expected = Path.of("/baz/bork");
     // WHEN
     String message = shouldHaveSameFileSystemAs(actual, expected).create(new TextDescription("Test"));
     // THEN

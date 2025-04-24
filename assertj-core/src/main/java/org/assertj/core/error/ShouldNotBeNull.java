@@ -8,11 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
-
-import static java.lang.String.format;
 
 /**
  * Creates an error message that indicates an assertion that verifies that an object is not {@code null} failed.
@@ -37,7 +35,7 @@ public class ShouldNotBeNull extends BasicErrorMessageFactory {
    * @return the new instance
    */
   public static ShouldNotBeNull shouldNotBeNull(String label) {
-    return new ShouldNotBeNull(format("%nExpecting %s not to be null", label));
+    return new ShouldNotBeNull("%nExpecting %s not to be null".formatted(label));
   }
 
   private ShouldNotBeNull(String label) {

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -20,7 +20,6 @@ import java.util.function.Predicate;
 
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for {@link Predicate}.
@@ -30,9 +29,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Filip Hrisafov
  */
 public abstract class AbstractPredicateAssert<SELF extends AbstractPredicateAssert<SELF, T>, T> extends
-    AbstractAssert<SELF, Predicate<T>> {
+    AbstractAssertWithComparator<SELF, Predicate<T>> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
   protected AbstractPredicateAssert(Predicate<T> actual, Class<?> selfType) {

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -16,7 +16,7 @@ import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContain.directoryShouldContain;
 import static org.assertj.core.error.ShouldContain.shouldContain;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
@@ -25,15 +25,13 @@ import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -327,7 +325,7 @@ class ShouldContain_create_Test {
   @Test
   void should_create_error_message_for_path_directory() {
     // GIVEN
-    Path directory = Paths.get("root");
+    Path directory = Path.of("root");
     List<Path> directoryContent = list(directory.resolve("foo.txt"), directory.resolve("bar.txt"));
     ErrorMessageFactory factory = directoryShouldContain(directory, directoryContent, "glob:**.java");
     // WHEN

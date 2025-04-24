@@ -8,17 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.internal.ComparatorBasedComparisonStrategy.NOT_EQUAL;
+import static org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy.NOT_EQUAL;
 
 import java.util.Comparator;
 import java.util.Objects;
-
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -60,8 +58,7 @@ public class ConfigurableRecursiveFieldByFieldComparator implements Comparator<O
 
   @Override
   public String toString() {
-    return format("recursive field/property by field/property comparator on all fields/properties using the following configuration:%n%s",
-                  configuration);
+    return "recursive field/property by field/property comparator on all fields/properties using the following configuration:%n%s".formatted(configuration);
   }
 
   @Override

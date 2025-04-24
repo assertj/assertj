@@ -8,19 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
 import static org.assertj.core.util.Lists.list;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +34,7 @@ class ShouldContainRecursively_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     // we can't put the concrete message as root, foo and bar will have different absolute path on different machines.
-    then(message).startsWith(format("[Test] %nExpecting directory or any of its subdirectories (recursively):%n"))
+    then(message).startsWith("[Test] %nExpecting directory or any of its subdirectories (recursively):%n".formatted())
                  .containsSubsequence(root.toString(),
                                       "to contain at least one file matching \"regex:.*txt\" but there was none.",
                                       "The directory content was:",
@@ -48,7 +45,7 @@ class ShouldContainRecursively_create_Test {
   @Test
   void should_create_error_message_for_paths() {
     // GIVEN
-    Path root = Paths.get("root");
+    Path root = Path.of("root");
     Path foo = root.resolve("foo");
     Path bar = root.resolve("b%%ar% %s %n");
     ErrorMessageFactory factory = directoryShouldContainRecursively(root, list(foo, bar), "regex:.*txt");
@@ -56,7 +53,7 @@ class ShouldContainRecursively_create_Test {
     String message = factory.create(new TextDescription("Test"));
     // THEN
     // we can't put the concrete message as root, foo and bar will have different absolute path on different machines.
-    then(message).startsWith(format("[Test] %nExpecting directory or any of its subdirectories (recursively):%n"))
+    then(message).startsWith("[Test] %nExpecting directory or any of its subdirectories (recursively):%n".formatted())
                  .containsSubsequence(root.toString(),
                                       "to contain at least one file matching \"regex:.*txt\" but there was none.",
                                       "The directory content was:",

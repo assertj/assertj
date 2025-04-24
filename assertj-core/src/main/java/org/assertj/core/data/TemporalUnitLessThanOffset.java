@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.data;
 
@@ -26,7 +26,7 @@ public class TemporalUnitLessThanOffset extends TemporalUnitOffset {
   }
 
   /**
-   * Checks if difference between temporal values is less then offset.
+   * Checks if difference between temporal values is less than offset.
    * @param temporal1 first temporal value to be validated against second temporal value.
    * @param temporal2 second temporal value.
    * @return true if difference between temporal values is more or equal to offset value.

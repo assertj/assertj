@@ -8,11 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.guava.error;
-
-import static java.lang.String.format;
 
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
@@ -36,7 +34,7 @@ public class TableShouldHaveRowCount extends BasicErrorMessageFactory {
   private TableShouldHaveRowCount(Object actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
-    super(format("%nExpected row count: %s but was: %s in:%n%s", expectedSize, actualSize, "%s"), actual);
+    super("%nExpected row count: %s but was: %s in:%n%s".formatted(expectedSize, actualSize, "%s"), actual);
   }
 
 }

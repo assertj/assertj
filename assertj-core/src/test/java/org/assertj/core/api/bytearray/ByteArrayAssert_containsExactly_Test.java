@@ -8,18 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.bytearray;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.test.ByteArrays.arrayOf;
+import static org.assertj.core.testkit.ByteArrays.arrayOf;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
-import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**

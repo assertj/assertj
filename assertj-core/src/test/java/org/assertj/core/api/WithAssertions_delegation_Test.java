@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -24,7 +24,7 @@ import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -237,23 +237,6 @@ class WithAssertions_delegation_Test implements WithAssertions {
   /**
    * Test that the delegate method is called.
    */
-  @SuppressWarnings("unchecked")
-  @Test
-  void withAssertions_assertThat_list_assert_class_Test() {
-    assertThat(Arrays.asList(ITEMS), ObjectAssert.class).first().isEqualTo(ITEMS[0]);
-  }
-
-  /**
-   * Test that the delegate method is called.
-   */
-  @Test
-  void withAssertions_assertThat_list_assert_factory_Test() {
-    assertThat(Arrays.asList(ITEMS), ObjectAssert::new).first().isEqualTo(ITEMS[0]);
-  }
-
-  /**
-   * Test that the delegate method is called.
-   */
   @Test
   void withAssertions_assertThat_stream_Test() {
     assertThat(Stream.of("")).hasSize(1);
@@ -393,23 +376,6 @@ class WithAssertions_delegation_Test implements WithAssertions {
   @Test
   void withAssertions_assertThat_iterable_Test() {
     assertThat((Iterable<TestItem>) Arrays.asList(ITEMS)).contains(ITEMS[0]);
-  }
-
-  /**
-   * Test that the delegate method is called.
-   */
-  @SuppressWarnings("unchecked")
-  @Test
-  void withAssertions_assertThat_iterable_assert_class_Test() {
-    assertThat((Iterable<TestItem>) Arrays.asList(ITEMS), ObjectAssert.class).first().isEqualTo(ITEMS[0]);
-  }
-
-  /**
-   * Test that the delegate method is called.
-   */
-  @Test
-  void withAssertions_assertThat_iterable_assert_factory_Test() {
-    assertThat((Iterable<TestItem>) Arrays.asList(ITEMS), ObjectAssert::new).first().isEqualTo(ITEMS[0]);
   }
 
   /**
@@ -651,7 +617,7 @@ class WithAssertions_delegation_Test implements WithAssertions {
    */
   @Test
   void withAssertions_assertThat_path_Test() {
-    assertThat(Paths.get(".")).isNotNull();
+    assertThat(Path.of(".")).isNotNull();
   }
 
   /**

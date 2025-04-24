@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -23,7 +23,6 @@ import org.assertj.core.data.Index;
 import org.assertj.core.internal.Char2DArrays;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion methods for two-dimensional arrays of {@code char}s.
@@ -38,7 +37,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
 
   private final Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected Char2DArrays char2dArrays = Char2DArrays.instance();
 
   public Char2DArrayAssert(char[][] actual) {
@@ -329,7 +328,7 @@ public class Char2DArrayAssert extends Abstract2DArrayAssert<Char2DArrayAssert, 
    * Expecting actual[1][0] value to be equal to:
    *  &lt;c&gt;
    * but was
-   *  &lt;\u0107&gt;</code></pre>
+   *  &lt;&bsol;0107&gt;</code></pre>
    *
    * @return {@code this} assertion object.
    */

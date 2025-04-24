@@ -8,18 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
+import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeFalse.shouldBeFalse;
 import static org.assertj.core.error.ShouldBeTrue.shouldBeTrue;
+import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 
-import java.util.Comparator;
-
-import org.assertj.core.internal.Booleans;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Boolean}s.
@@ -36,9 +34,6 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<SELF>> extends AbstractAssert<SELF, Boolean> {
 
-  @VisibleForTesting
-  Booleans booleans = Booleans.instance();
-
   protected AbstractBooleanAssert(Boolean actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -47,11 +42,11 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * Verifies that the actual value is {@code true}.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(true).isTrue();
    * assertThat(Boolean.TRUE).isTrue();
    *
-   * // assertions will fail
+   * // assertions fail:
    * assertThat(false).isTrue();
    * assertThat(Boolean.FALSE).isTrue();</code></pre>
    *
@@ -69,11 +64,11 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * Verifies that the actual value is {@code false}.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(false).isFalse();
    * assertThat(Boolean.FALSE).isFalse();
    *
-   * // assertions will fail
+   * // assertions fail:
    * assertThat(true).isFalse();
    * assertThat(Boolean.TRUE).isFalse();</code></pre>
    *
@@ -83,7 +78,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    */
   public SELF isFalse() {
     objects.assertNotNull(info, actual);
-    if (actual == false) return myself;
+    if (!actual) return myself;
     throw Failures.instance().failure(info, shouldBeFalse(actual), actual, false);
   }
 
@@ -91,11 +86,11 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * Verifies that the actual value is equal to the given one.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(true).isEqualTo(true);
    * assertThat(Boolean.FALSE).isEqualTo(false);
    *
-   * // assertions will fail
+   * // assertions fail:
    * assertThat(true).isEqualTo(false);
    * assertThat(Boolean.TRUE).isEqualTo(false);</code></pre>
    *
@@ -105,7 +100,8 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(boolean expected) {
-    booleans.assertEqual(info, actual, expected);
+    if (actual == null || actual != expected)
+      throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
     return myself;
   }
 
@@ -113,11 +109,11 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * Verifies that the actual value is not equal to the given one.
    * <p>
    * Example:
-   * <pre><code class='java'> // assertions will pass
+   * <pre><code class='java'> // assertions succeed:
    * assertThat(true).isNotEqualTo(false);
    * assertThat(Boolean.FALSE).isNotEqualTo(true);
    *
-   * // assertions will fail
+   * // assertions fail:
    * assertThat(true).isNotEqualTo(true);
    * assertThat(Boolean.FALSE).isNotEqualTo(false);</code></pre>
    *
@@ -127,31 +123,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * @throws AssertionError if the actual value is equal to the given one.
    */
   public SELF isNotEqualTo(boolean other) {
-    booleans.assertNotEqual(info, actual, other);
+    if (actual != null && actual == other) throwAssertionError(shouldNotBeEqual(actual, other));
     return myself;
-  }
-
-  /**
-   * Do not use this method.
-   *
-   * @deprecated Custom Comparator is not supported for Boolean comparison.
-   * @throws UnsupportedOperationException if this method is called.
-   */
-  @Override
-  @Deprecated
-  public final SELF usingComparator(Comparator<? super Boolean> customComparator) {
-    return usingComparator(customComparator, null);
-  }
-
-  /**
-   * Do not use this method.
-   *
-   * @deprecated Custom Comparator is not supported for Boolean comparison.
-   * @throws UnsupportedOperationException if this method is called.
-   */
-  @Override
-  @Deprecated
-  public final SELF usingComparator(Comparator<? super Boolean> customComparator, String customComparatorDescription) {
-    throw new UnsupportedOperationException("custom Comparator is not supported for Boolean comparison");
   }
 }

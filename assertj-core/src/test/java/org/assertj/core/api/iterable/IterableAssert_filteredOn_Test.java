@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -21,19 +21,16 @@ import static org.assertj.core.api.Assertions.in;
 import static org.assertj.core.api.Assertions.not;
 import static org.assertj.core.api.Assertions.setAllowExtractingPrivateFields;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
-import static org.assertj.core.test.Name.lastNameComparator;
-import static org.assertj.core.test.Name.name;
+import static org.assertj.core.testkit.Name.lastNameComparator;
+import static org.assertj.core.testkit.Name.name;
 import static org.assertj.core.util.Sets.newHashSet;
 
 import java.util.Set;
 
 import org.assertj.core.api.IterableAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.data.TolkienCharacterAssert;
-import org.assertj.core.data.TolkienCharacterAssertFactory;
-import org.assertj.core.test.Employee;
-import org.assertj.core.test.Name;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
@@ -127,47 +124,6 @@ class IterableAssert_filteredOn_Test extends IterableAssert_filtered_baseTest {
     ThrowingCallable code = () -> assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
     assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(code)
                                                                   .withMessageStartingWith("Combining operator is not supported");
-  }
-
-  @Test
-  void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
-    // GIVEN
-    Iterable<TolkienCharacter> hobbits = hobbits();
-    TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
-    // THEN
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", "Frodo")
-                                                      .first()
-                                                      .hasAge(33);
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", "Frodo")
-                                                      .last()
-                                                      .hasAge(33);
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", "Frodo")
-                                                      .element(0)
-                                                      .hasAge(33);
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", "Frodo")
-                                                      .elements(0)
-                                                      .first()
-                                                      .hasAge(33);
-  }
-
-  @Test
-  void should_honor_ClassBased_strongly_typed_navigation_assertions() {
-    // GIVEN
-    Iterable<TolkienCharacter> hobbits = hobbits();
-    // THEN
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", "Frodo")
-                                                     .first()
-                                                     .hasAge(33);
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", "Frodo")
-                                                     .last()
-                                                     .hasAge(33);
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", "Frodo")
-                                                     .element(0)
-                                                     .hasAge(33);
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", "Frodo")
-                                                     .elements(0)
-                                                     .first()
-                                                     .hasAge(33);
   }
 
   @Test

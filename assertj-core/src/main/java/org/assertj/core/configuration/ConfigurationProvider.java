@@ -8,16 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.configuration;
 
-import static java.lang.String.format;
 import static org.assertj.core.configuration.Configuration.DEFAULT_CONFIGURATION;
 
 import java.util.List;
 import java.util.ServiceLoader;
-
 import org.assertj.core.presentation.CompositeRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -46,15 +44,17 @@ public final class ConfigurationProvider {
     if (!configuration.hasCustomRepresentation()) {
       // registered representations are only used if the configuration representation
       if (representations.size() == 1) {
-        System.out.println(format("AssertJ has found one registered representation: %s, AssertJ will use it first and then fall back to standard representation if it returned a null representation of the value to display.",
-                                  representations.get(0)));
+        System.out.println("AssertJ has found one registered representation: %s, AssertJ will use it first and then fall back to standard representation if it returned a null representation of the value to display.".formatted(
+                                                                                                                                                                                                                                  representations.get(0)));
       } else if (representations.size() > 1) {
-        System.out.println(format("AssertJ has found %s registered representations, AssertJ will use them first and then fall back to standard representation if they returned a null representation of the value to display, the order (by highest priority first) of use will be: %s",
-                                  representations.size(), compositeRepresentation.getAllRepresentationsOrderedByPriority()));
+        System.out.println("AssertJ has found %s registered representations, AssertJ will use them first and then fall back to standard representation if they returned a null representation of the value to display, the order (by highest priority first) of use will be: %s".formatted(
+                                                                                                                                                                                                                                                                                           representations.size(),
+                                                                                                                                                                                                                                                                                           compositeRepresentation.getAllRepresentationsOrderedByPriority()));
       }
     } else if (!representations.isEmpty()) {
-      System.out.println(format("AssertJ has found these representations %s in the classpath but they won't be used as the loaded configuration has specified a custom representation which takes precedence over representations loaded with the java ServiceLoader: %s",
-                                representations, representation()));
+      System.out.println("AssertJ has found these representations %s in the classpath but they won't be used as the loaded configuration has specified a custom representation which takes precedence over representations loaded with the java ServiceLoader: %s".formatted(
+                                                                                                                                                                                                                                                                             representations,
+                                                                                                                                                                                                                                                                             representation()));
     }
   }
 

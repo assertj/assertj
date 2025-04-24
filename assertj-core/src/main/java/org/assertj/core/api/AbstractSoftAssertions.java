@@ -8,11 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
-
-import static java.lang.String.format;
 
 import java.util.List;
 
@@ -53,7 +51,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue
@@ -64,17 +62,31 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   }
 
   /**
+   * Fails with an empty message to be used in code like:
+   * <pre><code class='java'> doSomething(optional.orElseGet(() -> softly.fail()));</code></pre>
+   *
+   * @param <T> dummy return value type
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail()));}.
+   * @since 3.26.0
+   */
+  @CanIgnoreReturnValue
+  public <T> T fail() {
+    // pass an empty string because passing null results in a "null" error message.
+    return fail("");
+  }
+
+  /**
    * Fails with the given message built like {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param args Arguments referenced by the format specifiers in the format string.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue
   public <T> T fail(String failureMessage, Object... args) {
-    return fail(format(failureMessage, args));
+    return fail(failureMessage.formatted(args));
   }
 
   /**
@@ -83,7 +95,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @param <T> dummy return value type
    * @param failureMessage error message.
    * @param realCause cause of the error.
-   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail("boom")));}.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue
@@ -95,15 +107,31 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   }
 
   /**
+   * Fails with the {@link Throwable} that caused the failure and an empty message.
+   * <p>
+   * Example:
+   * <pre><code class='java'> doSomething(optional.orElseGet(() -> softly.fail(cause)));</code></pre>
+   *
+   * @param <T> dummy return value type
+   * @param realCause cause of the error.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail(cause)));}.
+   * @since 3.26.0
+   */
+  @CanIgnoreReturnValue
+  public <T> T fail(Throwable realCause) {
+    return fail("", realCause);
+  }
+
+  /**
    * Fails with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
+   * <p>
+   * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
    *
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    * @since 2.6.0 / 3.6.0
-   *
-   * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
    */
   public void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     shouldHaveThrown(throwableClass);

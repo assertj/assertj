@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -28,12 +28,14 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
-import static org.assertj.core.data.TolkienCharacter.Race.ELF;
-import static org.assertj.core.data.TolkienCharacter.Race.HOBBIT;
-import static org.assertj.core.data.TolkienCharacter.Race.MAN;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
-import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.test.Name.name;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
+import static org.assertj.core.testkit.ClasspathResources.resourcePath;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.testkit.Name.name;
+import static org.assertj.core.testkit.TolkienCharacter.Race.ELF;
+import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
+import static org.assertj.core.testkit.TolkienCharacter.Race.MAN;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.DateUtil.parseDatetime;
 import static org.assertj.core.util.Lists.list;
@@ -46,7 +48,6 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -94,12 +95,11 @@ import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.test.Animal;
-import org.assertj.core.test.CartoonCharacter;
-import org.assertj.core.test.Name;
-import org.assertj.core.test.Person;
-import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.testkit.Animal;
+import org.assertj.core.testkit.CartoonCharacter;
+import org.assertj.core.testkit.Name;
+import org.assertj.core.testkit.Person;
+import org.assertj.core.testkit.TolkienCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -182,8 +182,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                           + "  [\"1\"=\"2\"]%n"
                                                           + "but could not find the following map entries:%n"
                                                           + "  [\"1\"=\"2\"]"));
-    assertThat(errors.get(1)).hasMessageContaining(format("Expecting empty but was: {\"54\"=\"55\"}"));
-
+    assertThat(errors.get(1)).hasMessageContaining("Expecting empty but was: {\"54\"=\"55\"}");
   }
 
   @SuppressWarnings({ "deprecation" })
@@ -220,7 +219,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then((Iterable<String>) list("26")).isEqualTo(list("27"));
     softly.then(list("28").iterator()).isExhausted();
     softly.then(list("30")).isEqualTo(list("31"));
-    softly.then(Long.valueOf(32L)).isEqualTo(new Long(33L));
+    softly.then(Long.valueOf(32L)).isEqualTo(Long.valueOf(33L));
     softly.then(34L).isEqualTo(35L);
     softly.then(new long[] { 36L }).isEqualTo(new long[] { 37L });
     softly.then(mapOf(MapEntry.entry("38", "39"))).isEqualTo(mapOf(MapEntry.entry("40", "41")));
@@ -264,13 +263,12 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(OptionalDouble.of(0.0)).isEqualTo(1.0);
     softly.then(OptionalLong.of(0L)).isEqualTo(1L);
     softly.then(URI.create("http://assertj.org")).hasPort(8888);
-    softly.then(CompletableFuture.completedFuture("done")).hasFailed();
     softly.then((Predicate<String>) s -> s.equals("something")).accepts("something else");
     softly.then((IntPredicate) s -> s == 1).accepts(2);
     softly.then((LongPredicate) s -> s == 1).accepts(2);
     softly.then((DoublePredicate) s -> s == 1).accepts(2);
     softly.then(URI.create("http://assertj.org:80").toURL()).hasNoPort();
-    softly.then(Paths.get("does-not-exist")).exists();
+    softly.then(Path.of("does-not-exist")).exists();
     softly.then(Period.ZERO).hasYears(2000);
     softly.then(Duration.ZERO).withFailMessage("duration check").hasHours(23);
     softly.then(Instant.now()).withFailMessage("instant check").isBefore(Instant.now().minusSeconds(10));
@@ -278,15 +276,15 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(LocalDateTime.now()).withFailMessage("LocalDateTime check").isBefore(LocalDateTime.now().minusSeconds(10));
     softly.then(LocalDate.now()).withFailMessage("LocalDate check").isBefore(LocalDate.now().minusDays(1));
     softly.then(emptySpliterator()).withFailMessage("Spliterator check").hasCharacteristics(123);
-    softly.then(new LongAdder()).withFailMessage("LongAdder check").hasValue(123l);
+    softly.then(new LongAdder()).withFailMessage("LongAdder check").hasValue(123L);
     // WHEN
-    MultipleFailuresError error = catchThrowableOfType(() -> softly.assertAll(), MultipleFailuresError.class);
+    MultipleFailuresError error = catchThrowableOfType(MultipleFailuresError.class, () -> softly.assertAll());
     // THEN
     List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
-    assertThat(errors).hasSize(62);
+    assertThat(errors).hasSize(61);
     assertThat(errors.get(0)).contains(shouldBeEqualMessage("0", "1"));
-    assertThat(errors.get(1)).contains(format("%nExpecting value to be true but was false"));
-    assertThat(errors.get(2)).contains(format("%nExpecting value to be true but was false"));
+    assertThat(errors.get(1)).contains("%nExpecting value to be true but was false".formatted());
+    assertThat(errors.get(2)).contains("%nExpecting value to be true but was false".formatted());
     assertThat(errors.get(3)).contains(shouldBeEqualMessage("[false]", "[true]"));
     assertThat(errors.get(4)).contains(shouldBeEqualMessage("0", "1"));
     assertThat(errors.get(5)).contains(shouldBeEqualMessage("0x02", "0x03"));
@@ -294,7 +292,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(7)).contains(shouldBeEqualMessage("'A'", "'B'"));
     assertThat(errors.get(8)).contains(shouldBeEqualMessage("'C'", "'D'"));
     assertThat(errors.get(9)).contains(shouldBeEqualMessage("['E']", "['F']"));
-    assertThat(errors.get(10)).contains(shouldBeEqualMessage("a", "b"));
+    assertThat(errors.get(10)).contains(shouldBeEqualMessage("\"a\"", "\"b\""));
     assertThat(errors.get(11)).contains(shouldBeEqualMessage("java.lang.Object", "java.lang.String"));
     assertThat(errors.get(12)).contains(shouldBeEqualMessage("1999-12-31T23:59:59.000 (java.util.Date)",
                                                              "2000-01-01T00:00:01.000 (java.util.Date)"));
@@ -315,7 +313,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(22)).contains(shouldBeEqualMessage("22", "23"));
     assertThat(errors.get(23)).contains(shouldBeEqualMessage("[24]", "[25]"));
     assertThat(errors.get(24)).contains(shouldBeEqualMessage("[\"26\"]", "[\"27\"]"));
-    assertThat(errors.get(25)).contains(format("Expecting the iterator under test to be exhausted"));
+    assertThat(errors.get(25)).contains("Expecting the iterator under test to be exhausted".formatted());
     assertThat(errors.get(26)).contains(shouldBeEqualMessage("[\"30\"]", "[\"31\"]"));
     assertThat(errors.get(27)).contains(shouldBeEqualMessage("32L", "33L"));
     assertThat(errors.get(28)).contains(shouldBeEqualMessage("34L", "35L"));
@@ -348,28 +346,27 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     assertThat(errors.get(44)).contains(shouldBeEqualMessage("OptionalDouble[0.0]", "1.0"));
     assertThat(errors.get(45)).contains(shouldBeEqualMessage("OptionalLong[0]", "1L"));
     assertThat(errors.get(46)).contains("Expecting port of");
-    assertThat(errors.get(47)).contains("to have failed");
-    assertThat(errors.get(48)).contains(format("%nExpecting actual:%n  given predicate%n"
+    assertThat(errors.get(47)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                + "to accept \"something else\" but it did not."));
-    assertThat(errors.get(49)).contains(format("%nExpecting actual:%n  given predicate%n"
+    assertThat(errors.get(48)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                + "to accept 2 but it did not."));
-    assertThat(errors.get(50)).contains(format("%nExpecting actual:%n  given predicate%n"
+    assertThat(errors.get(49)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                + "to accept 2L but it did not."));
-    assertThat(errors.get(51)).contains(format("%nExpecting actual:%n  given predicate%n"
+    assertThat(errors.get(50)).contains(format("%nExpecting actual:%n  given predicate%n"
                                                + "to accept 2.0 but it did not."));
-    assertThat(errors.get(52)).contains(format("%nExpecting actual:%n"
+    assertThat(errors.get(51)).contains(format("%nExpecting actual:%n"
                                                + "  <http://assertj.org:80>%n"
                                                + "not to have a port but had:%n"
                                                + "  <80>"));
-    assertThat(errors.get(53)).contains(format("does-not-exist"));
-    assertThat(errors.get(54)).contains(format("2000"));
-    assertThat(errors.get(55)).contains("duration check");
-    assertThat(errors.get(56)).contains("instant check");
-    assertThat(errors.get(57)).contains("ZonedDateTime check");
-    assertThat(errors.get(58)).contains("LocalDateTime check");
-    assertThat(errors.get(59)).contains("LocalDate check");
-    assertThat(errors.get(60)).contains("Spliterator check");
-    assertThat(errors.get(61)).contains("LongAdder check");
+    assertThat(errors.get(52)).contains(format("does-not-exist"));
+    assertThat(errors.get(53)).contains(format("2000"));
+    assertThat(errors.get(54)).contains("duration check");
+    assertThat(errors.get(55)).contains("instant check");
+    assertThat(errors.get(56)).contains("ZonedDateTime check");
+    assertThat(errors.get(57)).contains("LocalDateTime check");
+    assertThat(errors.get(58)).contains("LocalDate check");
+    assertThat(errors.get(59)).contains("Spliterator check");
+    assertThat(errors.get(60)).contains("LongAdder check");
   }
 
   @Test
@@ -609,8 +606,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(2);
-    assertThat(errorsCollected.get(0)).hasMessageStartingWith(format("%nExpected size: 10 but was: 1 in:%n[CartoonCharacter [name=Homer Simpson]]"));
-    assertThat(errorsCollected.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: [CartoonCharacter [name=Homer Simpson]]"));
+    assertThat(errorsCollected.get(0)).hasMessageStartingWith("%nExpected size: 10 but was: 1 in:%n[CartoonCharacter [name=Homer Simpson]]".formatted());
+    assertThat(errorsCollected.get(1)).hasMessageStartingWith("%nExpecting empty but was: [CartoonCharacter [name=Homer Simpson]]".formatted());
   }
 
   @Test
@@ -625,8 +622,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     assertThat(errorsCollected).hasSize(2);
-    assertThat(errorsCollected.get(0)).hasMessageStartingWith(format("%nExpected size: 10 but was: 1 in:%n[CartoonCharacter [name=Homer Simpson]]"));
-    assertThat(errorsCollected.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: [CartoonCharacter [name=Homer Simpson]]"));
+    assertThat(errorsCollected.get(0)).hasMessageStartingWith("%nExpected size: 10 but was: 1 in:%n[CartoonCharacter [name=Homer Simpson]]".formatted());
+    assertThat(errorsCollected.get(1)).hasMessageStartingWith("%nExpecting empty but was: [CartoonCharacter [name=Homer Simpson]]".formatted());
   }
 
   @Test
@@ -828,14 +825,23 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   }
 
   @Test
+  void should_return_failure_after_fail_without_message() {
+    // WHEN
+    softly.fail();
+    // THEN
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .message().isEmpty();
+  }
+
+  @Test
   void should_return_failure_after_fail() {
     // GIVEN
     String failureMessage = "Should not reach here";
     // WHEN
     softly.fail(failureMessage);
     // THEN
-    assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith(failureMessage);
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith(failureMessage);
   }
 
   @Test
@@ -845,22 +851,33 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.fail(failureMessage, "here", "here");
     // THEN
-    assertThat(softly.errorsCollected()).hasSize(1);
-    assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith("Should not reach here or here");
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith("Should not reach here or here");
   }
 
   @Test
-  void should_return_failure_after_fail_with_throwable() {
+  void should_return_failure_after_fail_with_cause() {
+    // GIVEN
+    IllegalStateException realCause = new IllegalStateException();
+    // WHEN
+    softly.fail(realCause);
+    // THEN
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessage("")
+                                  .cause().isEqualTo(realCause);
+  }
+
+  @Test
+  void should_return_failure_after_fail_with_message_and_cause() {
     // GIVEN
     String failureMessage = "Should not reach here";
     IllegalStateException realCause = new IllegalStateException();
     // WHEN
     softly.fail(failureMessage, realCause);
     // THEN
-    List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(1);
-    assertThat(errorsCollected.get(0)).hasMessageStartingWith(failureMessage);
-    assertThat(errorsCollected.get(0).getCause()).isEqualTo(realCause);
+    then(softly.errorsCollected()).singleElement(as(THROWABLE))
+                                  .hasMessageStartingWith(failureMessage)
+                                  .cause().isEqualTo(realCause);
   }
 
   @Test
@@ -1599,12 +1616,9 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.then(actual)
           .hasAnnotations(MyAnnotation.class, AnotherAnnotation.class)
-          .hasAnnotations(SafeVarargs.class, VisibleForTesting.class);
+          .hasAnnotations(SafeVarargs.class);
     // THEN
-    List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(1);
-    assertThat(errorsCollected.get(0)).hasMessageContaining("SafeVarargs")
-                                      .hasMessageContaining("VisibleForTesting");
+    then(softly.errorsCollected()).singleElement(as(THROWABLE)).hasMessageContaining("SafeVarargs");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1628,10 +1642,6 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .asString()
           .startsWith("abc")
           .startsWith("123");
-    softly.then(vowels)
-          .asList()
-          .startsWith("a", "e")
-          .startsWith("1", "2");
     softly.then(name)
           .as("extracting(Name::getFirst)")
           .overridingErrorMessage("error message")
@@ -1644,13 +1654,12 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .isEqualTo("Jack");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    assertThat(errorsCollected).hasSize(6);
+    assertThat(errorsCollected).hasSize(5);
     assertThat(errorsCollected.get(0)).hasMessageContaining("gandalf");
     assertThat(errorsCollected.get(1)).hasMessageContaining("frodo");
     assertThat(errorsCollected.get(2)).hasMessageContaining("123");
-    assertThat(errorsCollected.get(3)).hasMessageContaining("\"1\", \"2\"");
-    assertThat(errorsCollected.get(4)).hasMessage("[extracting(Name::getFirst)] error message");
-    assertThat(errorsCollected.get(5)).hasMessage("[extracting(first)] error message");
+    assertThat(errorsCollected.get(3)).hasMessage("[extracting(Name::getFirst)] error message");
+    assertThat(errorsCollected.get(4)).hasMessage("[extracting(first)] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -1878,7 +1887,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void path_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = resourcePath("actual_file.txt");
     // WHEN
     softly.then(path)
           .overridingErrorMessage("error message")
@@ -1901,7 +1910,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = resourceFile("actual_file.txt");
     // WHEN
     softly.then(file)
           .overridingErrorMessage("error message")
@@ -1924,7 +1933,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = resourceFile("actual_file.txt");
     // WHEN
     softly.then(file)
           .overridingErrorMessage("error message")

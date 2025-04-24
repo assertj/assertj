@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.description;
 
@@ -19,7 +19,6 @@ import static org.assertj.core.util.Strings.formatIfArgs;
 import java.util.Objects;
 
 import org.assertj.core.util.Arrays;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * A text-based description.
@@ -29,8 +28,8 @@ import org.assertj.core.util.VisibleForTesting;
  * @author William Delanoue
  */
 public class TextDescription extends Description {
-  @VisibleForTesting
-  final String value;
+
+  private final String value;
 
   final Object[] args;
 
@@ -53,7 +52,7 @@ public class TextDescription extends Description {
 
   @Override
   public int hashCode() {
-    return Objects.hash(value, args);
+    return Objects.hash(value, java.util.Arrays.hashCode(args));
   }
 
   @Override

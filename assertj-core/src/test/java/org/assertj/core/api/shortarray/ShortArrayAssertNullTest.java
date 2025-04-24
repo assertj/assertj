@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.shortarray;
 
@@ -22,9 +22,9 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Adds a test to verify null behavior against empty arrays.
- * 
+ * <p>
  * Should be used for methods with an int[] or int... parameter.
- * 
+ *
  * @author Dan Avila
  */
 public abstract class ShortArrayAssertNullTest extends ShortArrayAssertBaseTest {
@@ -34,8 +34,8 @@ public abstract class ShortArrayAssertNullTest extends ShortArrayAssertBaseTest 
     // GIVEN
     int[] nullContent = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> invoke_api_with_null_value(assertThat(new short[] {}), nullContent),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchThrowableOfType(NullPointerException.class,
+                                                    () -> invoke_api_with_null_value(assertThat(new short[] {}), nullContent));
     // THEN
     then(npe).hasMessage("The array of values to look for should not be null");
   }

@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import static java.lang.Math.abs;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
-import org.assertj.core.util.VisibleForTesting;
+import static java.lang.Math.abs;
 
 /**
  * Reusable assertions for <code>{@link Short}</code>s.
@@ -26,7 +27,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class Shorts extends Numbers<Short> implements WholeNumbers<Short> {
 
-  private static final Shorts INSTANCE = new Shorts();
+  private static final Shorts INSTANCE = new Shorts(StandardComparisonStrategy.instance());
 
   /**
    * Returns the singleton instance of this class.
@@ -35,11 +36,6 @@ public class Shorts extends Numbers<Short> implements WholeNumbers<Short> {
    */
   public static Shorts instance() {
     return INSTANCE;
-  }
-
-  @VisibleForTesting
-  Shorts() {
-    super();
   }
 
   public Shorts(ComparisonStrategy comparisonStrategy) {

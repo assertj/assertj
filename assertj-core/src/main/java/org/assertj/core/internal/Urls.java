@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -38,14 +38,12 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 
 public class Urls {
 
   private static final Urls INSTANCE = new Urls();
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
+  private final Failures failures = Failures.instance();
 
   public static Urls instance() {
     return INSTANCE;

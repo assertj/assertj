@@ -8,9 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
+
+import static java.lang.Math.abs;
 
 import java.util.OptionalDouble;
 
@@ -22,6 +24,7 @@ import org.assertj.core.data.Percentage;
  *
  * @author Joshua Kitchen
  */
+@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 public class OptionalDoubleShouldHaveValueCloseToPercentage extends BasicErrorMessageFactory {
 
   private OptionalDoubleShouldHaveValueCloseToPercentage(double expected) {
@@ -56,16 +59,22 @@ public class OptionalDoubleShouldHaveValueCloseToPercentage extends BasicErrorMe
    * Indicates that the provided {@link java.util.OptionalDouble} has a value, but it is not within the given positive
    * percentage.
    *
-   * @param optional the {@link java.util.OptionalDouble} which has a value
+   * @param actual the {@link java.util.OptionalDouble} which has a value
    * @param expectedValue the value we expect to be in the provided {@link java.util.OptionalDouble}
    * @param percentage the given positive percentage
-   * @param difference the effective distance between actual and expected
    * @return an error message factory
    */
-  public static OptionalDoubleShouldHaveValueCloseToPercentage shouldHaveValueCloseToPercentage(OptionalDouble optional,
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
+  public static OptionalDoubleShouldHaveValueCloseToPercentage shouldHaveValueCloseToPercentage(OptionalDouble actual,
                                                                                                 double expectedValue,
-                                                                                                Percentage percentage,
-                                                                                                double difference) {
+                                                                                                Percentage percentage) {
+    return shouldHaveValueCloseToPercentage(actual, expectedValue, percentage, abs(expectedValue - actual.getAsDouble()));
+  }
+
+  private static OptionalDoubleShouldHaveValueCloseToPercentage shouldHaveValueCloseToPercentage(OptionalDouble optional,
+                                                                                                 double expectedValue,
+                                                                                                 Percentage percentage,
+                                                                                                 double difference) {
     double actualPercentage = difference / expectedValue * 100d;
     return new OptionalDoubleShouldHaveValueCloseToPercentage(optional, expectedValue, percentage, actualPercentage);
   }

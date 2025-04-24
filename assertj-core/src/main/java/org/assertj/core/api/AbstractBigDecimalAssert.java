@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -20,9 +20,8 @@ import java.util.Comparator;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link BigDecimal}s.
@@ -42,7 +41,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAssert<SELF>> extends
     AbstractComparableAssert<SELF, BigDecimal> implements NumberAssert<SELF, BigDecimal> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigDecimals bigDecimals = BigDecimals.instance();
 
   protected AbstractBigDecimalAssert(BigDecimal actual, Class<?> selfType) {
@@ -236,7 +235,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * Example:
    * <pre><code class='java'> // assertions will pass
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.0&quot;);
-   * // assertion will pass because 8.0 is equals to 8.00 using {@link BigDecimal#compareTo(Object)}
+   * // assertion will pass because 8.0 is equals to 8.00 using {@link BigDecimal#compareTo(BigDecimal)}
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;8.00&quot;);
    *
    * // assertion will fail
@@ -518,7 +517,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * @return AbstractBigDecimalScaleAssert built with the {@code BigDecimal}'s scale.
    * @throws NullPointerException if the given {@code BigDecimal} is {@code null}.
    */
-  @SuppressWarnings({ "unchecked", "rawtypes" })
+  @SuppressWarnings({ "rawtypes" })
   public AbstractBigDecimalScaleAssert<SELF> scale() {
     requireNonNull(actual, "Can not perform assertions on the scale of a null BigDecimal");
     return new BigDecimalScaleAssert(myself);

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -49,7 +49,6 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     CompletionStage<String> completionStage = completedFuture("done");
     // WHEN
     softly.assertThat(completionStage).isDone();
-    softly.assertThat(completionStage).hasNotFailed();
     softly.assertThat(completionStage).isCancelled();
     completionStage = null;
     softly.assertThat(completionStage).isNull();

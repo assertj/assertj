@@ -8,29 +8,25 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
 import static org.assertj.core.error.future.ShouldBeCompletedExceptionally.shouldHaveCompletedExceptionally;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
-import static org.assertj.core.error.future.ShouldHaveFailed.shouldHaveFailed;
 import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
 import static org.assertj.core.error.future.ShouldNotBeCompleted.shouldNotBeCompleted;
 import static org.assertj.core.error.future.ShouldNotBeCompletedExceptionally.shouldNotHaveCompletedExceptionally;
 import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
-import static org.assertj.core.error.future.ShouldNotHaveFailed.shouldNotHaveFailed;
 
 import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +36,6 @@ import java.util.function.Predicate;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Futures;
 import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for {@link CompletableFuture}.
@@ -49,9 +44,9 @@ import org.assertj.core.util.VisibleForTesting;
  */
 // TODO deprecate completed for succeeds?
 public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, RESULT>, RESULT> extends
-    AbstractAssert<SELF, CompletableFuture<RESULT>> {
+    AbstractAssertWithComparator<SELF, CompletableFuture<RESULT>> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Futures futures = Futures.instance();
 
   protected AbstractCompletableFutureAssert(CompletableFuture<RESULT> actual, Class<?> selfType) {
@@ -243,6 +238,35 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   /**
+   * Verifies that the {@link CompletableFuture} will complete normally withing given {@link Duration} with a value
+   * that matches the given {@link Predicate}.
+   * <p>
+   * Assertion succeeds:
+   * <pre><code class='java'> assertThat(completedFuture("something")).isCompletedWithValueMatchingWithin(result -&gt; result.equals("something"),
+   *                                                                            Duration.ofSeconds(10));</code></pre>
+   * <p>
+   * Assertions fail:
+   * <pre><code class='java'> assertThat(failedFuture("something")).isCompletedWithValueMatchingWithin(result -&gt; result.equals("something"),
+   *                                                                         Duration.ofSeconds(10));
+   * Future futureCompletedAfterFiveSeconds = ... ;
+   * assertThat(futureCompletedAfterFiveSeconds).isCompletedWithValueMatchingWithin(result -&gt; result.equals("something"),
+   *                                                                                Duration.ofSeconds(10));</code></pre>
+   *
+   * @param resultPredicate    the {@link Predicate} to apply.
+   * @param completionDuration the maximum time to wait
+   * @return a new assertion object on the future's result.
+   * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
+   * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout with the satisfying value.
+   */
+  public SELF isCompletedWithValueMatchingWithin(Predicate<RESULT> resultPredicate, Duration completionDuration) {
+    RESULT actualResult = futures.assertSucceededWithin(info, actual, completionDuration);
+    if (!resultPredicate.test(actualResult)) {
+      throw Failures.instance().failure(info, shouldMatch(actualResult, resultPredicate, PredicateDescription.GIVEN));
+    }
+    return myself;
+  }
+
+  /**
    * Verifies that the {@link CompletableFuture} is completed normally with a result matching the {@code predicate}.
    * <p>
    * Assertion will pass :
@@ -291,75 +315,6 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
     if (!predicate.test(actualResult))
       throw Failures.instance().failure(info, shouldMatch(actualResult, predicate, description));
 
-    return myself;
-  }
-
-  /**
-   * @deprecated
-   * <p>
-   * Combine isCompletedExceptionally with isNotCancelled instead:
-   *
-   * <pre><code class='java'> assertThat(future).isCompletedExceptionally()
-   *                   .isNotCancelled();</code></pre>
-   *
-   * This assertion is deprecated to change the semantics of failed to correspond to {@link CompletableFuture#get()} failing.
-   * <p>
-   * <b>Original javadoc</b>
-   * <p>
-   * Verifies that the {@link CompletableFuture} has completed exceptionally but has not been cancelled,
-   * this assertion is equivalent to:
-   * <pre><code class='java'> assertThat(future).isCompletedExceptionally()
-   *                   .isNotCancelled();</code></pre>
-   * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.completeExceptionally(new RuntimeException());
-   * assertThat(future).hasFailed();</code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.cancel(true);
-   * assertThat(future).hasFailed();</code></pre>
-   *
-   * @return this assertion object.
-   */
-  @Deprecated
-  public SELF hasFailed() {
-    isNotNull();
-    if (!(actual.isCompletedExceptionally() && !actual.isCancelled())) throwAssertionError(shouldHaveFailed(actual));
-    return myself;
-  }
-
-  /**
-   * @deprecated
-   * <p>
-   * Use matches with the following combination instead:
-   *
-   * <pre><code class='java'> assertThat(future).matches (f -&gt; f.isNotCompletedExceptionally() {@literal ||} f.isCancelled());</code></pre>
-   *
-   * This assertion is deprecated because its semantic is not obvious.
-   * <p>
-   * <b>Original javadoc</b>
-   * <p>
-   * Verifies that the {@link CompletableFuture} has not failed i.e: incomplete, completed or cancelled.<br>
-   * This is different from {@link #isNotCompletedExceptionally()} as a cancelled future has not failed but is completed exceptionally.
-   * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.cancel(true);
-   * assertThat(future).hasNotFailed();</code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.completeExceptionally(new RuntimeException());
-   * assertThat(future).hasNotFailed();</code></pre>
-   *
-   * @return this assertion object.
-   */
-  @Deprecated
-  public SELF hasNotFailed() {
-    isNotNull();
-    if (actual.isCompletedExceptionally() && !actual.isCancelled()) throwAssertionError(shouldNotHaveFailed(actual));
     return myself;
   }
 
@@ -507,53 +462,6 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   /**
-   * @deprecated
-   * <p>
-   * Although not 100% the same, consider using {@link #failsWithin(Duration)} or {@link #failsWithin(long, TimeUnit)} instead:
-   *
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.completeExceptionally(new RuntimeException("boom!"));
-   *
-   * assertThat(future).failsWithin(1, TimeUnit.SECONDS)
-   *                   .withThrowableOfType(RuntimeException.class)
-   *                   .withMessage("boom!"); </code></pre>
-   *
-   * This assertion is deprecated because it relies on {@link #hasFailed()} semantics which we want to move away from (they
-   * are not clear!) and to use failure semantics corresponding to {@link CompletableFuture#get()} failing.
-   * <p>
-   * <b>Original javadoc</b>
-   * <p>
-   * Verifies that the {@link CompletableFuture} has completed exceptionally and
-   * returns a Throwable assertion object allowing to check the Throwable that has caused the future to fail.
-   * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.completeExceptionally(new RuntimeException("boom!"));
-   *
-   * assertThat(future).hasFailedWithThrowableThat().isInstanceOf(RuntimeException.class);
-   *                                                .hasMessage("boom!"); </code></pre>
-   *
-   * Assertion will fail :
-   * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
-   * future.completeExceptionally(new RuntimeException());
-   *
-   * assertThat(future).hasFailedWithThrowableThat().isInstanceOf(IllegalArgumentException.class);
-   * </code></pre>
-   *
-   * @return an exception assertion object.
-   */
-  @Deprecated
-  public AbstractThrowableAssert<?, ? extends Throwable> hasFailedWithThrowableThat() {
-    hasFailed();
-    try {
-      actual.join();
-      return assertThat((Throwable) null);
-    } catch (CompletionException e) {
-      return assertThat(e.getCause());
-    }
-  }
-
-  /**
    * Checks that the future does not complete within the given time (by calling {@link Future#get(long, TimeUnit)}) and returns
    * the exception that caused the failure for further (exception) assertions, the exception can be any of
    * {@link InterruptedException}, {@link ExecutionException}, {@link TimeoutException} or {@link CancellationException}.
@@ -629,6 +537,69 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
 
   private WithThrowable internalFailsWithin(long timeout, TimeUnit unit) {
     Exception exception = futures.assertFailedWithin(info, actual, timeout, unit);
+    return new WithThrowable(exception);
+  }
+
+  /**
+   * Checks that the future completes exceptionally within the given time (by calling {@link Future#get(long, TimeUnit)})
+   * and returns the exception that caused the failure for further (exception) assertions.
+   * The exception can be {@link ExecutionException} or {@link CancellationException}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> CompletableFuture&lt;Void&gt; completableFuture = futureThrowingExceptionAfterMs(100);
+   *
+   * // assertion fails as the future is not completed (neither successfully nor exceptionally) within 1 ms
+   * assertThat(completableFuture).completesExceptionallyWithin(1, MILLISECONDS);
+   *
+   * // assertion succeeds as after a longer wait the future is completed with the expected exception
+   * assertThat(completableFuture).completesExceptionallyWithin(200, MILLISECONDS)
+   *                              .withThrowableOfType(ExecutionException.class)
+   *                              .withMessageContaining("boom!");</code></pre>
+   *
+   * @param timeout the maximum duration to wait
+   * @return a new assertion instance on the future's exception.
+   * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
+   * @throws AssertionError if the actual {@code CompletableFuture} succeeds or doesn't complete at all within the given timeout.
+   * @since 3.27.0
+   */
+  public WithThrowable completesExceptionallyWithin(Duration timeout) {
+    return internalCompletesExceptionallyWithin(timeout);
+  }
+
+  /**
+   * Checks that the future completes exceptionally within the given time (by calling {@link Future#get(long, TimeUnit)})
+   * and returns the exception that caused the failure for further (exception) assertions.
+   * The exception can be {@link ExecutionException} or {@link CancellationException}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> CompletableFuture&lt;Void&gt; completableFuture = futureThrowingExceptionAfterMs(100);
+   *
+   * // assertion fails as the future is not completed (neither successfully nor exceptionally) within 1 ms
+   * assertThat(completableFuture).completesExceptionallyWithin(Duration.ofMillis(1));
+   *
+   * // assertion succeeds as after a longer wait the future is completed with the expected exception
+   * assertThat(completableFuture).completesExceptionallyWithin(Duration.ofMillis(200))
+   *                              .withThrowableOfType(ExecutionException.class)
+   *                              .withMessageContaining("boom!");</code></pre>
+   *
+   * @param timeout the maximum time to wait
+   * @param unit the timeout unit
+   * @return a new assertion instance on the future's exception.
+   * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
+   * @throws AssertionError if the actual {@code CompletableFuture} succeeds or doesn't complete at all within the given timeout.
+   * @since 3.27.0
+   */
+  public WithThrowable completesExceptionallyWithin(long timeout, TimeUnit unit) {
+    return internalCompletesExceptionallyWithin(timeout, unit);
+  }
+
+  private WithThrowable internalCompletesExceptionallyWithin(Duration timeout) {
+    Exception exception = futures.assertCompletedExceptionallyWithin(info, actual, timeout);
+    return new WithThrowable(exception);
+  }
+
+  private WithThrowable internalCompletesExceptionallyWithin(long timeout, TimeUnit unit) {
+    Exception exception = futures.assertCompletedExceptionallyWithin(info, actual, timeout, unit);
     return new WithThrowable(exception);
   }
 

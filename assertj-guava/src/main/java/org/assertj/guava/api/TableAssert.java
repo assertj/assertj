@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.guava.api;
 
@@ -21,13 +21,12 @@ import static org.assertj.guava.error.TableShouldContainRows.tableShouldContainR
 import static org.assertj.guava.error.TableShouldHaveColumnCount.tableShouldHaveColumnCount;
 import static org.assertj.guava.error.TableShouldHaveRowCount.tableShouldHaveRowCount;
 
-import java.util.Set;
-
-import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.error.ShouldBeEmpty;
-
 import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
+import java.util.Set;
+import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.error.ShouldBeEmpty;
+import org.assertj.core.error.ShouldNotBeEmpty;
 
 /**
  * @author Jan Gorman
@@ -299,6 +298,32 @@ public class TableAssert<R, C, V> extends AbstractAssert<TableAssert<R, C, V>, T
     if (!actual.isEmpty()) {
       throw assertionError(ShouldBeEmpty.shouldBeEmpty(actual));
     }
+  }
+
+  /**
+   * Verifies that the actual {@link Table} is not empty.
+   *
+   * <p>
+   * Example :
+   *
+   * <pre><code class='java'> Table&lt;Integer, Integer, String&gt; actual = HashBasedTable.create();
+   *
+   * actual.put(1, 3, "Millard Fillmore");
+   *
+   * assertThat(actual).isNotEmpty();</code></pre>
+   *
+   * @return this {@link TableAssert} for assertion chaining.
+   * @throws AssertionError if the actual {@link Table} is {@code null}.
+   * @throws AssertionError if the actual {@link Table} is empty.
+   *
+   * @since 3.27.0
+   */
+  public TableAssert<R, C, V> isNotEmpty() {
+    isNotNull();
+    if (actual.isEmpty()) {
+      throw assertionError(ShouldNotBeEmpty.shouldNotBeEmpty());
+    }
+    return myself;
   }
 
   private void checkExpectedSizeArgument(int expectedSize) {

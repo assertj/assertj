@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -22,14 +22,13 @@ import java.util.Comparator;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ByteArrays;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, byte[], Byte> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected ByteArrays arrays = ByteArrays.instance();
 
   protected AbstractByteArrayAssert(byte[] actual, Class<?> selfType) {
@@ -1341,26 +1340,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   public AbstractStringAssert<?> asBase64Encoded() {
     objects.assertNotNull(info, actual);
     return new StringAssert(Base64.getEncoder().encodeToString(actual)).withAssertionState(myself);
-  }
-
-  /**
-   * @deprecated use {@link #asBase64Encoded()} instead.
-   * <p>
-   * Encodes the actual array into a Base64 string, the encoded string becoming the new object under test.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> // assertion succeeds
-   * assertThat("AssertJ".getBytes()).encodedAsBase64().isEqualTo(&quot;QXNzZXJ0Sg==&quot;);</code></pre>
-   *
-   * @return a new {@link StringAssert} instance whose string under test is the result of the encoding.
-   * @throws AssertionError if the actual value is {@code null}.
-   *
-   * @since 3.16.0
-   */
-  @Deprecated
-  @CheckReturnValue
-  public AbstractStringAssert<?> encodedAsBase64() {
-    return asBase64Encoded();
   }
 
   private static byte[] toPrimitiveByteArray(Byte[] values) {

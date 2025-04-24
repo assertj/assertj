@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -28,7 +28,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import com.google.common.collect.ImmutableList;
 
-final class BoundedQueue_Test {
+class BoundedQueue_Test {
 
   private final Random random = new Random();
 
@@ -86,7 +86,7 @@ final class BoundedQueue_Test {
     Queue<Integer> bounded = new BoundedQueue<>(1);
     bounded.add(random.nextInt());
     // WHEN
-    IllegalStateException exception = catchThrowableOfType(() -> bounded.add(random.nextInt()), IllegalStateException.class);
+    IllegalStateException exception = catchThrowableOfType(IllegalStateException.class, () -> bounded.add(random.nextInt()));
     // THEN
     then(exception).hasMessageContaining("full");
     then(bounded).hasSize(1);

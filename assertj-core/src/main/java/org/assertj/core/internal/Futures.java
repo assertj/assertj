@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static org.assertj.core.error.future.ShouldBeCancelled.shouldBeCancelled;
 import static org.assertj.core.error.future.ShouldBeCompletedWithin.shouldBeCompletedWithin;
 import static org.assertj.core.error.future.ShouldBeDone.shouldBeDone;
+import static org.assertj.core.error.future.ShouldHaveCompletedExceptionallyWithin.shouldHaveCompletedExceptionallyWithin;
 import static org.assertj.core.error.future.ShouldHaveFailedWithin.shouldHaveFailedWithin;
 import static org.assertj.core.error.future.ShouldNotBeCancelled.shouldNotBeCancelled;
 import static org.assertj.core.error.future.ShouldNotBeDone.shouldNotBeDone;
@@ -27,7 +28,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Future}</code>s.
@@ -47,7 +47,7 @@ public class Futures {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
   /**
@@ -129,6 +129,30 @@ public class Futures {
       throw failures.failure(info, shouldHaveFailedWithin(actual, timeout, unit));
     } catch (InterruptedException | ExecutionException | TimeoutException | CancellationException e) {
       return e;
+    }
+  }
+
+  public Exception assertCompletedExceptionallyWithin(AssertionInfo info, Future<?> actual, Duration timeout) {
+    assertNotNull(info, actual);
+    try {
+      actual.get(timeout.toNanos(), TimeUnit.NANOSECONDS);
+      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout));
+    } catch (ExecutionException | CancellationException e) {
+      return e;
+    } catch (InterruptedException | TimeoutException e) {
+      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout));
+    }
+  }
+
+  public Exception assertCompletedExceptionallyWithin(AssertionInfo info, Future<?> actual, long timeout, TimeUnit unit) {
+    assertNotNull(info, actual);
+    try {
+      actual.get(timeout, unit);
+      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout, unit));
+    } catch (ExecutionException | CancellationException e) {
+      return e;
+    } catch (TimeoutException | InterruptedException e) {
+      throw failures.failure(info, shouldHaveCompletedExceptionallyWithin(actual, timeout, unit));
     }
   }
 

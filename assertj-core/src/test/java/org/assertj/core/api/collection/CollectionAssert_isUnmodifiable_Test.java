@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.collection;
 
@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import org.apache.commons.collections4.collection.UnmodifiableCollection;
@@ -39,7 +41,6 @@ import org.apache.commons.collections4.set.UnmodifiableNavigableSet;
 import org.apache.commons.collections4.set.UnmodifiableSet;
 import org.apache.commons.collections4.set.UnmodifiableSortedSet;
 import org.assertj.core.error.ErrorMessageFactory;
-import org.assertj.core.test.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -116,12 +117,12 @@ class CollectionAssert_isUnmodifiable_Test {
                      ImmutableList.of(new Object()),
                      ImmutableSet.of(new Object()),
                      ImmutableSortedSet.of("element"),
-                     Jdk11.List.of(),
-                     Jdk11.List.of("element"), // same implementation for 1 or 2 parameters
-                     Jdk11.List.of("element", "element", "element"), // same implementation for 3+ parameters
-                     Jdk11.Set.of(),
-                     Jdk11.Set.of("element"), // same implementation for 1 or 2 parameters
-                     Jdk11.Set.of("element1", "element2", "element3"), // same implementation for 3+ parameters
+                     List.of(),
+                     List.of("element"), // same implementation for 1 or 2 parameters
+                     List.of("element", "element", "element"), // same implementation for 3+ parameters
+                     Set.of(),
+                     Set.of("element"), // same implementation for 1 or 2 parameters
+                     Set.of("element1", "element2", "element3"), // same implementation for 3+ parameters
                      Sets.unmodifiableNavigableSet(newTreeSet("element")),
                      UnmodifiableCollection.unmodifiableCollection(list(new Object())),
                      UnmodifiableList.unmodifiableList(list(new Object())),

@@ -8,13 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.longs;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Longs;
@@ -37,7 +36,7 @@ class Longs_assertIsPositive_Test extends LongsBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longs.assertIsPositive(someInfo(), -6L))
-                                                   .withMessage(format("%nExpecting actual:%n  -6L%nto be greater than:%n  0L%n"));
+                                                   .withMessage("%nExpecting actual:%n  -6L%nto be greater than:%n  0L%n".formatted());
   }
 
   @Test
@@ -49,6 +48,6 @@ class Longs_assertIsPositive_Test extends LongsBaseTest {
   void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> longsWithAbsValueComparisonStrategy.assertIsPositive(someInfo(),
                                                                                                                           0L))
-                                                   .withMessage(format("%nExpecting actual:%n  0L%nto be greater than:%n  0L%nwhen comparing values using AbsValueComparator"));
+                                                   .withMessage("%nExpecting actual:%n  0L%nto be greater than:%n  0L%nwhen comparing values using AbsValueComparator".formatted());
   }
 }

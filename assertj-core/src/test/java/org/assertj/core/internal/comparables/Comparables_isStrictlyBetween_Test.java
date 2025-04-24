@@ -8,23 +8,21 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.comparables;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
 import java.math.BigInteger;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.ComparablesBaseTest;
 import org.junit.jupiter.api.Test;
@@ -40,28 +38,28 @@ class Comparables_isStrictlyBetween_Test extends ComparablesBaseTest {
   void fails_if_actual_is_equal_to_start() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 8, 8, 10, false,
                                                                                                  false))
-                                                   .withMessage(format("%nExpecting actual:%n  8%nto be between:%n  ]8, 10[%n"));
+                                                   .withMessage("%nExpecting actual:%n  8%nto be between:%n  ]8, 10[%n".formatted());
   }
 
   @Test
   void fails_if_actual_is_equal_to_end() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 10, 8, 10, false,
                                                                                                  false))
-                                                   .withMessage(format("%nExpecting actual:%n  10%nto be between:%n  ]8, 10[%n"));
+                                                   .withMessage("%nExpecting actual:%n  10%nto be between:%n  ]8, 10[%n".formatted());
   }
 
   @Test
   void fails_if_actual_is_less_than_start() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 6, 8, 10, false,
                                                                                                  false))
-                                                   .withMessage(format("%nExpecting actual:%n  6%nto be between:%n  ]8, 10[%n"));
+                                                   .withMessage("%nExpecting actual:%n  6%nto be between:%n  ]8, 10[%n".formatted());
   }
 
   @Test
   void fails_if_actual_is_greater_than_end() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> comparables.assertIsBetween(someInfo(), 12, 8, 10, false,
                                                                                                  false))
-                                                   .withMessage(format("%nExpecting actual:%n  12%nto be between:%n  ]8, 10[%n"));
+                                                   .withMessage("%nExpecting actual:%n  12%nto be between:%n  ]8, 10[%n".formatted());
   }
 
   @Test

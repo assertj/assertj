@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Strings.join;
@@ -27,7 +26,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.stream.Stream;
-
 import org.assertj.core.util.ClassNameComparator;
 
 /**
@@ -153,10 +151,10 @@ abstract class TypeHolder<T> {
     List<String> registeredEntitiesDescription = typeHolder.entrySet().stream()
                                                            .map(TypeHolder::formatRegisteredEntity)
                                                            .collect(toList());
-    return format("{%s}", join(registeredEntitiesDescription).with(", "));
+    return "{%s}".formatted(join(registeredEntitiesDescription).with(", "));
   }
 
   private static <T> String formatRegisteredEntity(Entry<Class<?>, T> entry) {
-    return format("%s -> %s", entry.getKey().getSimpleName(), entry.getValue());
+    return "%s -> %s".formatted(entry.getKey().getSimpleName(), entry.getValue());
   }
 }

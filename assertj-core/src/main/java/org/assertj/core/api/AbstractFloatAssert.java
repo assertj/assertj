@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -21,11 +21,10 @@ import java.util.Comparator;
 
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Floats;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Float}s.
@@ -47,7 +46,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
 
   private static final Float NEGATIVE_ZERO = -0.0f;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Floats floats = Floats.instance();
 
   private final boolean isPrimitive;
@@ -903,7 +902,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /**
    * Verifies that the float value is not a finite floating-point value.
    * <p>
-   * Note that 'not finite' is not equivalent to infinite as `NaN` is neither finite or infinite.
+   * Note that 'not finite' is not equivalent to infinite as `NaN` is neither finite nor infinite.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions succeed

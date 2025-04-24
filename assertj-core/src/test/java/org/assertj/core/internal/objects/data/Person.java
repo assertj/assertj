@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.objects.data;
 
@@ -36,7 +36,7 @@ public class Person {
 
   @Override
   public String toString() {
-    return String.format("Person [dateOfBirth=%s, name=%s, phone=%s, home=%s]", dateOfBirth, name, phone, home);
+    return "Person [dateOfBirth=%s, name=%s, phone=%s, home=%s]".formatted(dateOfBirth, name, phone, home);
   }
 
 }

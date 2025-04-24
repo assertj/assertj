@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.future;
 
@@ -23,7 +23,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
 import org.junit.jupiter.api.Test;
@@ -98,15 +97,4 @@ class FutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
-
-  private static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration, ExecutorService service) {
-    CompletableFuture<U> completableFuture = new CompletableFuture<>();
-    service.submit(() -> {
-      Thread.sleep(sleepDuration);
-      completableFuture.complete(value);
-      return null;
-    });
-    return completableFuture;
-  }
-
 }

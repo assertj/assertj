@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -257,7 +257,7 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * <p>
    * This is equivalent of: {@code abs(actual - expected) <= allowed difference}.
    * <p>
-   * For readability you can use {@link Assertions#withMarginOf(Duration)} to express the allowed difference.
+   * For readability, you can use {@link Assertions#withMarginOf(Duration)} to express the allowed difference.
    * <p>
    * Examples:
    * <pre><code class='java'> Duration twoMinutes = Duration.ofMinutes(2);

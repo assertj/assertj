@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -25,7 +25,7 @@ import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.test.Player;
+import org.assertj.core.testkit.Player;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -50,7 +50,7 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Player%n" +
+                                   "  org.assertj.core.testkit.Player%n" +
                                    "to only have the following public accessible fields:%n" +
                                    "  [\"name\", \"team\"]%n" +
                                    "fields not found:%n" +
@@ -70,7 +70,7 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Player%n" +
+                                   "  org.assertj.core.testkit.Player%n" +
                                    "to only have the following public accessible fields:%n" +
                                    "  [\"name\", \"team\"]%n" +
                                    "but could not find the following fields:%n" +
@@ -89,7 +89,7 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Player%n" +
+                                   "  org.assertj.core.testkit.Player%n" +
                                    "to only have the following public accessible fields:%n" +
                                    "  [\"name\", \"team\"]%n" +
                                    "but the following fields were unexpected:%n" +
@@ -108,7 +108,7 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Player%n" +
+                                   "  org.assertj.core.testkit.Player%n" +
                                    "to only have the following declared fields:%n" +
                                    "  [\"name\", \"team\"]%n" +
                                    "fields not found:%n" +
@@ -129,7 +129,7 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting%n" +
-                                   "  org.assertj.core.test.Player%n" +
+                                   "  org.assertj.core.testkit.Player%n" +
                                    "to only have the following declared fields:%n" +
                                    "  [\"name\", \"team\"]%n" +
                                    "but could not find the following fields:%n" +
@@ -148,7 +148,7 @@ class ShouldOnlyHaveFields_create_Test {
     // THEN
     then(message).isEqualTo(String.format("[Test] %n" +
                                           "Expecting%n" +
-                                          "  org.assertj.core.test.Player%n" +
+                                          "  org.assertj.core.testkit.Player%n" +
                                           "to only have the following declared fields:%n" +
                                           "  [\"name\", \"team\"]%n" +
                                           "but the following fields were unexpected:%n" +

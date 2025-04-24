@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.assumptions;
 
@@ -16,15 +16,15 @@ import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.Assumptions.assumeThat;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Map;
 import java.util.Set;
 
-import org.assertj.core.test.CartoonCharacter;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.CartoonCharacter;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -8,11 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
-
-import static java.lang.String.format;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value have certain number of lines failed.
@@ -36,6 +34,6 @@ public class ShouldHaveLineCount extends BasicErrorMessageFactory {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
     // Also don't indent actual first line since the remaining lines won't have any indentation
-    super(format("%nExpecting text:%n%s%nto have %s lines but had %s.", "%s", expectedSize, actualSize), actual);
+    super("%nExpecting text:%n%s%nto have %s lines but had %s.".formatted("%s", expectedSize, actualSize), actual);
   }
 }

@@ -8,10 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.files;
 
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveParent.shouldHaveParent;
@@ -55,8 +56,7 @@ class Files_assertHasParent_Test extends FilesBaseTest {
     // GIVEN
     File expected = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasParent(INFO, actual, expected),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> underTest.assertHasParent(INFO, actual, expected));
     // THEN
     then(npe).hasMessage("The expected parent file should not be null.");
   }
@@ -104,8 +104,8 @@ class Files_assertHasParent_Test extends FilesBaseTest {
     when(actual.getParentFile()).thenReturn(actualParent);
     when(actualParent.getCanonicalFile()).thenThrow(new IOException());
     // WHEN
-    UncheckedIOException uioe = catchThrowableOfType(() -> underTest.assertHasParent(INFO, actual, actualParent),
-                                                     UncheckedIOException.class);
+    UncheckedIOException uioe = catchThrowableOfType(UncheckedIOException.class,
+                                                     () -> underTest.assertHasParent(INFO, actual, actualParent));
     // THEN
     then(uioe).hasMessageStartingWith("Unable to get canonical form of");
   }
@@ -115,8 +115,8 @@ class Files_assertHasParent_Test extends FilesBaseTest {
     File expectedParent = mock(File.class);
     when(expectedParent.getCanonicalFile()).thenThrow(new IOException());
     // WHEN
-    UncheckedIOException uioe = catchThrowableOfType(() -> underTest.assertHasParent(INFO, actual, expectedParent),
-                                                     UncheckedIOException.class);
+    UncheckedIOException uioe = catchThrowableOfType(UncheckedIOException.class,
+                                                     () -> underTest.assertHasParent(INFO, actual, expectedParent));
     // THEN
     then(uioe).hasMessageStartingWith("Unable to get canonical form of");
   }

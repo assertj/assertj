@@ -8,20 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.longarrays;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.Index.atIndex;
 import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
-import static org.assertj.core.test.LongArrays.emptyArray;
-import static org.assertj.core.test.TestData.someIndex;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.LongArrays.emptyArray;
+import static org.assertj.core.testkit.TestData.someIndex;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsEmpty;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
@@ -64,7 +63,7 @@ class LongArrays_assertContains_at_Index_Test extends LongArraysBaseTest {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arrays.assertContains(someInfo(),
                                                                                                       actual, 8L,
                                                                                                       atIndex(6)))
-                                                              .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <6>"));
+                                                              .withMessageContaining("Index should be between <0> and <2> (inclusive) but was:%n <6>".formatted());
   }
 
   @Test
@@ -115,7 +114,7 @@ class LongArrays_assertContains_at_Index_Test extends LongArraysBaseTest {
                                                                                                                                   actual,
                                                                                                                                   -8L,
                                                                                                                                   atIndex(6)))
-                                                              .withMessageContaining(format("Index should be between <0> and <2> (inclusive) but was:%n <6>"));
+                                                              .withMessageContaining("Index should be between <0> and <2> (inclusive) but was:%n <6>".formatted());
   }
 
   @Test

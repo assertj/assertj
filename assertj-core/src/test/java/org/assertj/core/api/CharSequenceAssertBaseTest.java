@@ -8,17 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static org.mockito.Mockito.mock;
 
-import org.assertj.core.internal.Strings;
-
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Set;
+
+import org.assertj.core.internal.Strings;
 
 /**
  * Base class for {@link CharSequenceAssert} tests.
@@ -29,16 +27,7 @@ import java.util.Set;
 public abstract class CharSequenceAssertBaseTest extends BaseTestTemplate<CharSequenceAssert, CharSequence> {
   protected Strings strings;
 
-  protected static final Set<Character> NON_BREAKING_SPACES;
-
-  static {
-    Set<Character> nonBreakingSpaces = new HashSet<>();
-    nonBreakingSpaces.add('\u00A0');
-    nonBreakingSpaces.add('\u2007');
-    nonBreakingSpaces.add('\u202F');
-
-    NON_BREAKING_SPACES = Collections.unmodifiableSet(nonBreakingSpaces);
-  }
+  protected static final Set<Character> NON_BREAKING_SPACES = Set.of('\u00A0', '\u2007', '\u202F');
 
   @Override
   protected CharSequenceAssert create_assertions() {

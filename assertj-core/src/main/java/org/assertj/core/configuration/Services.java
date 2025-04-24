@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.configuration;
 
-import static java.lang.String.format;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Iterator;
@@ -35,8 +34,8 @@ class Services {
     SERVICE result = services.hasNext() ? services.next() : defaultValue;
     if (services.hasNext()) {
       result = defaultValue;
-      System.err.println(format("Found multiple implementations for the service provider %s. Using the default: %s",
-                                serviceType, result.getClass()));
+      System.err.printf("Found multiple implementations for the service provider %s. Using the default: %s%n",
+                        serviceType, result.getClass());
     }
     return result;
   }

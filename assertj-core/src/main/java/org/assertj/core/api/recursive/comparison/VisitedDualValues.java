@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -16,11 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.String.format;
-
 class VisitedDualValues {
 
-  private List<VisitedDualValue> dualValues;
+  private final List<VisitedDualValue> dualValues;
 
   VisitedDualValues() {
     this.dualValues = new ArrayList<>();
@@ -57,7 +55,7 @@ class VisitedDualValues {
 
     @Override
     public String toString() {
-      return format("VisitedDualValue[dualValue=%s, comparisonDifferences=%s]", this.dualValue, this.comparisonDifferences);
+      return "VisitedDualValue[dualValue=%s, comparisonDifferences=%s]".formatted(this.dualValue, this.comparisonDifferences);
     }
   }
 }

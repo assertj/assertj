@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -30,6 +30,6 @@ class ShouldNotContainNull_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[Test] %nExpecting actual:%n  [\"Luke\", \"Yoda\", null]%nnot to contain null elements"));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  [\"Luke\", \"Yoda\", null]%nnot to contain null elements".formatted());
   }
 }

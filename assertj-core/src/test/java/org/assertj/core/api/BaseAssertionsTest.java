@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static org.assertj.core.api.Assertions.setRemoveAssertJRelatedElementsFromStackTrace;
-import static org.assertj.core.test.TypeCanonizer.canonize;
+import static org.assertj.core.testkit.TypeCanonizer.canonize;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
@@ -47,8 +47,6 @@ public abstract class BaseAssertionsTest {
   static final Class<?>[] SPECIAL_IGNORED_RETURN_TYPES = array(AssertDelegateTarget.class,
                                                                FactoryBasedNavigableListAssert.class,
                                                                FactoryBasedNavigableIterableAssert.class,
-                                                               ClassBasedNavigableListAssert.class,
-                                                               ClassBasedNavigableIterableAssert.class,
                                                                Object.class);
 
   static Method[] findMethodsWithName(Class<?> clazz, String name, Class<?>... ignoredReturnTypes) {

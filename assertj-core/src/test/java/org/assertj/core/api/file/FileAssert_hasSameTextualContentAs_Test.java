@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.file;
 
@@ -18,7 +18,6 @@ import static org.assertj.core.util.TempFileUtil.createTempFileWithContent;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
-
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
 import org.junit.jupiter.api.BeforeAll;
@@ -66,4 +65,5 @@ class FileAssert_hasSameTextualContentAs_Test extends FileAssertBaseTest {
     // WHEN/THEN
     then(actual).hasSameTextualContentAs(expected, TURKISH_CHARSET);
   }
+
 }

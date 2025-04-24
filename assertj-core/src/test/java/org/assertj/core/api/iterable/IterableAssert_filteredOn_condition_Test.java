@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -20,12 +20,10 @@ import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRES
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.IterableAssert;
-import org.assertj.core.data.TolkienCharacter;
-import org.assertj.core.data.TolkienCharacterAssert;
-import org.assertj.core.data.TolkienCharacterAssertFactory;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
-import org.assertj.core.test.Employee;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
+import org.assertj.core.testkit.Employee;
+import org.assertj.core.testkit.TolkienCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -58,47 +56,6 @@ class IterableAssert_filteredOn_condition_Test extends IterableAssert_filtered_b
       oldEmployees = null;
       assertThat(employees).filteredOn(oldEmployees);
     }).withMessage("The filter condition should not be null");
-  }
-
-  @Test
-  void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
-    // GIVEN
-    Iterable<TolkienCharacter> hobbits = hobbits();
-    TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
-    // THEN
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn(nameStartingWithFro)
-                                                      .first()
-                                                      .hasAge(33);
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn(nameStartingWithFro)
-                                                      .last()
-                                                      .hasAge(33);
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn(nameStartingWithFro)
-                                                      .element(0)
-                                                      .hasAge(33);
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn(nameStartingWithFro)
-                                                      .elements(0)
-                                                      .first()
-                                                      .hasAge(33);
-  }
-
-  @Test
-  void should_honor_ClassBased_strongly_typed_navigation_assertions() {
-    // GIVEN
-    Iterable<TolkienCharacter> hobbits = hobbits();
-    // THEN
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn(nameStartingWithFro)
-                                                     .first()
-                                                     .hasAge(33);
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn(nameStartingWithFro)
-                                                     .last()
-                                                     .hasAge(33);
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn(nameStartingWithFro)
-                                                     .element(0)
-                                                     .hasAge(33);
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn(nameStartingWithFro)
-                                                     .elements(0)
-                                                     .first()
-                                                     .hasAge(33);
   }
 
   @Test

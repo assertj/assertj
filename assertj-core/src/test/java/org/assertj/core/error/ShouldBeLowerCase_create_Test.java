@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -30,7 +29,7 @@ class ShouldBeLowerCase_create_Test {
     // WHEN
     String message = shouldBeLowerCase('A').create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting 'A' to be a lowercase"));
+    then(message).isEqualTo("[Test] %nExpecting 'A' to be a lowercase".formatted());
   }
 
   @Test
@@ -38,7 +37,7 @@ class ShouldBeLowerCase_create_Test {
     // WHEN
     String message = shouldBeLowerCase("ABC").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting \"ABC\" to be a lowercase"));
+    then(message).isEqualTo("[Test] %nExpecting \"ABC\" to be a lowercase".formatted());
   }
 
 }

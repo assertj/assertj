@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -34,7 +33,7 @@ class ShouldMatchPattern_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto match pattern:%n  \"Luke\""));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"Yoda\"%nto match pattern:%n  \"Luke\"".formatted());
   }
 
   @Test
@@ -44,6 +43,6 @@ class ShouldMatchPattern_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"%%%%E\"%nto match pattern:%n  \"fffff\""));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"%%%%E\"%nto match pattern:%n  \"fffff\"".formatted());
   }
 }

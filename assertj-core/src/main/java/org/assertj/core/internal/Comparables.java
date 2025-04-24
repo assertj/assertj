@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.util.Objects.hash;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBeBetween.shouldBeBetween;
@@ -23,6 +22,9 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.util.Comparator;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.ShouldBeAfter;
 import org.assertj.core.error.ShouldBeAfterOrEqualTo;
@@ -33,7 +35,6 @@ import org.assertj.core.error.ShouldBeGreaterOrEqual;
 import org.assertj.core.error.ShouldBeLess;
 import org.assertj.core.error.ShouldBeLessOrEqual;
 import org.assertj.core.util.TriFunction;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for types that can be compared between each other, most of the time it means <code>{@link Comparable}</code>s 
@@ -46,13 +47,13 @@ public class Comparables {
 
   private final ComparisonStrategy comparisonStrategy;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
   /**
    * Build a {@link Comparables} using a {@link StandardComparisonStrategy}.
    */
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparables() {
     this(StandardComparisonStrategy.instance());
   }
@@ -61,20 +62,20 @@ public class Comparables {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
+      return strategy.getComparator();
     }
     return null;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   void setFailures(Failures failures) {
     this.failures = failures;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   void resetFailures() {
     this.failures = Failures.instance();
   }
@@ -98,7 +99,7 @@ public class Comparables {
 
   @Override
   public String toString() {
-    return format("Comparables [comparisonStrategy=%s, failures=%s]", comparisonStrategy, failures);
+    return "Comparables [comparisonStrategy=%s, failures=%s]".formatted(comparisonStrategy, failures);
   }
 
   /**
@@ -358,8 +359,9 @@ public class Comparables {
     boolean strictBoundsCheck = !inclusiveEnd && !inclusiveStart && isLessThan(start, end);
     checkArgument(inclusiveBoundsCheck || strictBoundsCheck, () -> {
       String operator = inclusiveEnd && inclusiveStart ? "less than" : "less than or equal to";
-      return format("The end value <%s> must not be %s the start value <%s>%s!", end, operator, start,
-                    (comparisonStrategy.isStandard() ? "" : " (using " + comparisonStrategy + ")"));
+      return "The end value <%s> must not be %s the start value <%s>%s!".formatted(end, operator, start,
+                                                                                   (comparisonStrategy.isStandard() ? ""
+                                                                                       : " (using " + comparisonStrategy + ")"));
     });
   }
 

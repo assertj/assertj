@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static org.assertj.core.internal.Objects.getDeclaredFieldsIncludingInherited;
 import static org.assertj.core.internal.Objects.propertyOrFieldValuesAreEqual;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
@@ -134,8 +133,8 @@ public class DeepDifference {
     @Override
     public String toString() {
       return description.isPresent()
-          ? format("Difference [path=%s, actual=%s, other=%s, description=%s]", path, actual, other, description.get())
-          : format("Difference [path=%s, actual=%s, other=%s]", path, actual, other);
+          ? "Difference [path=%s, actual=%s, other=%s, description=%s]".formatted(path, actual, other, description.get())
+          : "Difference [path=%s, actual=%s, other=%s]".formatted(path, actual, other);
     }
   }
 
@@ -255,8 +254,8 @@ public class DeepDifference {
 
       // Special handle SortedSets because they are fast to compare
       // because their elements must be in the same order to be equivalent Sets.
-      if (key1 instanceof SortedSet) {
-        if (!compareOrderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare, visited)) {
+      if (key1 instanceof SortedSet<?> set) {
+        if (!compareOrderedCollection(set, (Collection<?>) key2, currentPath, toCompare, visited)) {
           differences.add(new Difference(currentPath, key1, key2));
           continue;
         }
@@ -264,8 +263,8 @@ public class DeepDifference {
       }
 
       // Check List, as element order matters this comparison is faster than using unordered comparison.
-      if (key1 instanceof List) {
-        if (!compareOrderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare, visited)) {
+      if (key1 instanceof List<?> list) {
+        if (!compareOrderedCollection(list, (Collection<?>) key2, currentPath, toCompare, visited)) {
           differences.add(new Difference(currentPath, key1, key2));
           continue;
         }
@@ -273,8 +272,8 @@ public class DeepDifference {
       }
 
       // Handle unordered Collection.
-      if (key1 instanceof Collection) {
-        if (!compareUnorderedCollection((Collection<?>) key1, (Collection<?>) key2, currentPath, toCompare,
+      if (key1 instanceof Collection<?> collection) {
+        if (!compareUnorderedCollection(collection, (Collection<?>) key2, currentPath, toCompare,
                                         visited, comparatorByPropertyOrField, comparatorByType)) {
           differences.add(new Difference(currentPath, key1, key2));
           continue;
@@ -284,8 +283,8 @@ public class DeepDifference {
 
       // Compare two SortedMaps. This takes advantage of the fact that these
       // Maps can be compared in O(N) time due to their ordering.
-      if (key1 instanceof SortedMap) {
-        if (!compareSortedMap((SortedMap<?, ?>) key1, (SortedMap<?, ?>) key2, currentPath, toCompare, visited)) {
+      if (key1 instanceof SortedMap<?, ?> map) {
+        if (!compareSortedMap(map, (SortedMap<?, ?>) key2, currentPath, toCompare, visited)) {
           differences.add(new Difference(currentPath, key1, key2));
           continue;
         }
@@ -295,8 +294,8 @@ public class DeepDifference {
       // Compare two Unordered Maps. This is a slightly more expensive comparison because
       // order cannot be assumed, therefore a temporary Map must be created, however the
       // comparison still runs in O(N) time.
-      if (key1 instanceof Map) {
-        if (!compareUnorderedMap((Map<?, ?>) key1, (Map<?, ?>) key2, currentPath, toCompare, visited)) {
+      if (key1 instanceof Map<?, ?> map) {
+        if (!compareUnorderedMap(map, (Map<?, ?>) key2, currentPath, toCompare, visited)) {
           differences.add(new Difference(currentPath, key1, key2));
           continue;
         }
@@ -319,8 +318,8 @@ public class DeepDifference {
         String missingFields = key1FieldsNamesNotInKey2.toString();
         String key2ClassName = key2.getClass().getName();
         String key1ClassName = key1.getClass().getName();
-        String missingFieldsDescription = format(MISSING_FIELDS, key1ClassName, key2ClassName, key2.getClass().getSimpleName(),
-                                                 key1.getClass().getSimpleName(), missingFields);
+        String missingFieldsDescription = MISSING_FIELDS.formatted(key1ClassName, key2ClassName, key2.getClass().getSimpleName(),
+                                                                   key1.getClass().getSimpleName(), missingFields);
         differences.add(new Difference(currentPath, key1, key2, missingFieldsDescription));
       } else {
         for (String fieldName : key1FieldsNames) {
@@ -688,14 +687,14 @@ public class DeepDifference {
         continue;
       }
 
-      if (obj instanceof Collection) {
-        stack.addAll(0, (Collection<?>) obj);
+      if (obj instanceof Collection<?> collection) {
+        stack.addAll(0, collection);
         continue;
       }
 
-      if (obj instanceof Map) {
-        stack.addAll(0, ((Map<?, ?>) obj).keySet());
-        stack.addAll(0, ((Map<?, ?>) obj).values());
+      if (obj instanceof Map<?, ?> map) {
+        stack.addAll(0, map.keySet());
+        stack.addAll(0, map.values());
         continue;
       }
 

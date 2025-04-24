@@ -8,13 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
+import static org.assertj.core.error.ClassModifierShouldBe.shouldBePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeProtected;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePublic;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeStatic;
@@ -34,6 +35,7 @@ import static org.assertj.core.error.ShouldBeSealed.shouldNotBeSealed;
 import static org.assertj.core.error.ShouldHaveNoPackage.shouldHaveNoPackage;
 import static org.assertj.core.error.ShouldHaveNoSuperclass.shouldHaveNoSuperclass;
 import static org.assertj.core.error.ShouldHavePackage.shouldHavePackage;
+import static org.assertj.core.error.ShouldHavePermittedSubclasses.shouldHavePermittedSubclasses;
 import static org.assertj.core.error.ShouldHaveRecordComponents.shouldHaveRecordComponents;
 import static org.assertj.core.error.ShouldHaveSuperclass.shouldHaveSuperclass;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
@@ -46,6 +48,8 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.assertj.core.internal.Classes;
 
@@ -60,7 +64,7 @@ import org.assertj.core.internal.Classes;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>>
-    extends AbstractAssert<SELF, Class<?>> {
+    extends AbstractAssertWithComparator<SELF, Class<?>> {
 
   Classes classes = Classes.instance();
 
@@ -320,16 +324,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     if (isRecord(actual)) throw assertionError(shouldNotBeRecord(actual));
   }
 
-  // TODO https://github.com/assertj/assertj/issues/3079
   private static boolean isRecord(Class<?> actual) {
-    try {
-      Method isRecord = Class.class.getMethod("isRecord");
-      return (boolean) isRecord.invoke(actual);
-    } catch (NoSuchMethodException e) {
-      return false;
-    } catch (ReflectiveOperationException e) {
-      throw new IllegalStateException(e);
-    }
+    return actual.isRecord();
   }
 
   /**
@@ -508,7 +504,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * Verifies that the actual {@code Class} is package-private (has no modifier).
+   * Verifies that the actual {@code Class} is package-private (i.e., has no explicit access level modifier).
    * <p>
    * Example:
    * <pre><code class='java'> class MyClass { }
@@ -537,6 +533,37 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     if (Modifier.isPublic(modifiers) || Modifier.isProtected(modifiers) || Modifier.isPrivate(modifiers)) {
       throw assertionError(shouldBePackagePrivate(actual));
     }
+  }
+
+  /**
+   * Verifies that the actual {@code Class} is private (has {@code private} modifier).
+   * <p>
+   * Example:
+   * <pre><code class='java'> class EnclosingClass {
+   *   private static class PrivateClass { }
+   * }
+   *
+   * // these assertions succeed:
+   * assertThat(PrivateClass.class).isPrivate();
+   * assertThat(Class.forName(EnclosingClass.class.getName() + "$PrivateClass")).isPrivate();
+   *
+   * // This assertion fails:
+   * assertThat(String.class).isPrivate();</code></pre>
+   *
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} is not private.
+   *
+   * @since 3.26.0
+   */
+  public SELF isPrivate() {
+    isNotNull();
+    assertIsPrivate();
+    return myself;
+  }
+
+  private void assertIsPrivate() {
+    if (!Modifier.isPrivate(actual.getModifiers())) throw assertionError(shouldBePrivate(actual));
   }
 
   /**
@@ -787,16 +814,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   }
 
   /**
-   * @deprecated use {@link #hasPublicFields(String...)} instead.
-   * @param fields the fields who must be in the class.
-   * @return {@code this} assertions object
-   */
-  @Deprecated
-  public SELF hasFields(String... fields) {
-    return hasPublicFields(fields);
-  }
-
-  /**
    * Verifies that the actual {@code Class} has the given accessible public fields (as in {@link Class#getFields()}).
    * <p>
    * Example:
@@ -822,7 +839,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param fields the fields who must be in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contain all of the fields.
+   * @throws AssertionError if the actual {@code Class} doesn't contain all the specified fields.
    */
   public SELF hasPublicFields(String... fields) {
     classes.assertHasPublicFields(info, actual, fields);
@@ -883,7 +900,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param fields the fields who must be declared in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the field.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all the specified fields.
    */
   public SELF hasDeclaredFields(String... fields) {
     classes.assertHasDeclaredFields(info, actual, fields);
@@ -946,7 +963,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param methodNames the method names which must be in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the method names.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all the specified methods.
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -980,7 +997,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param methodNames the method names which must be declared in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given methods.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all the given methods.
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -1010,7 +1027,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @param methodNames the public method names which must be in the class.
    * @return {@code this} assertions object
    * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of the given public methods.
+   * @throws AssertionError if the actual {@code Class} doesn't contains all the given public methods.
    *
    * @since 2.7.0 / 3.7.0
    */
@@ -1194,13 +1211,58 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     if (isSealed(actual)) throw assertionError(shouldNotBeSealed(actual));
   }
 
-  // TODO https://github.com/assertj/assertj/issues/3081
   private static boolean isSealed(Class<?> actual) {
+    return actual.isSealed();
+  }
+
+  /**
+   * Verifies that the actual {@code Class} permitted subclasses contains the given classes.
+   * <p>
+   * Example:
+   * <pre><code class='java'> sealed class SealedClass permits NonSealedClass, FinalClass {}
+   * non-sealed class NonSealedClass extends SealedClass {}
+   * final class FinalClass extends SealedClass {}
+   *
+   * // these assertions succeed:
+   * assertThat(SealedClass.class).hasPermittedSubclasses(NonSealedClass.class)
+   *                              .hasPermittedSubclasses(FinalClass.class)
+   *                              .hasPermittedSubclasses(NonSealedClass.class, FinalClass.class)
+   *                              .hasPermittedSubclasses();
+   *
+   * // these assertions fail:
+   * assertThat(SealedClass.class).hasPermittedSubclasses(String.class);
+   * assertThat(SealedClass.class).hasPermittedSubclasses(FinalClass.class, String.class);</code></pre>
+   *
+   * @param permittedSubclasses classes that must be permitted subclasses of the given class
+   * @return {@code this} assertions object
+   * @throws AssertionError if {@code actual} is {@code null}.
+   * @throws AssertionError if the actual {@code Class} does not have all of given permitted subclasses
+   */
+  public SELF hasPermittedSubclasses(Class<?>... permittedSubclasses) {
+    isNotNull();
+    assertHasPermittedSubclasses(permittedSubclasses);
+    return myself;
+  }
+
+  private void assertHasPermittedSubclasses(Class<?>[] expectedPermittedSubclasses) {
+    for (Class<?> expectedPermittedSubclass : expectedPermittedSubclasses) {
+      classes.classParameterIsNotNull(expectedPermittedSubclass);
+    }
+    Set<Class<?>> actualPermittedSubclasses = newLinkedHashSet(getPermittedSubclasses(actual));
+    Set<Class<?>> missingPermittedSubclasses = Stream.of(expectedPermittedSubclasses)
+                                                     .filter(expectedPermittedSubclass -> !actualPermittedSubclasses.contains(expectedPermittedSubclass))
+                                                     .collect(Collectors.toSet());
+    if (!missingPermittedSubclasses.isEmpty())
+      throw assertionError(shouldHavePermittedSubclasses(actual, expectedPermittedSubclasses, missingPermittedSubclasses));
+  }
+
+  private static Class<?>[] getPermittedSubclasses(Class<?> actual) {
     try {
-      Method isSealed = Class.class.getMethod("isSealed");
-      return (boolean) isSealed.invoke(actual);
+      Method getPermittedSubclasses = Class.class.getMethod("getPermittedSubclasses");
+      Class<?>[] permittedSubclasses = (Class<?>[]) getPermittedSubclasses.invoke(actual);
+      return permittedSubclasses == null ? array() : permittedSubclasses;
     } catch (NoSuchMethodException e) {
-      return false;
+      return new Class<?>[0];
     } catch (ReflectiveOperationException e) {
       throw new IllegalStateException(e);
     }

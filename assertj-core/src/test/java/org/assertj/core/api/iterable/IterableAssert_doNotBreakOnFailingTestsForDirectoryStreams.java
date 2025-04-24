@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.iterable;
 
@@ -19,14 +19,12 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.SecureDirectoryStream;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import org.assertj.core.api.IterableAssert;
 import org.junit.jupiter.api.Test;
 
@@ -86,9 +84,9 @@ public class IterableAssert_doNotBreakOnFailingTestsForDirectoryStreams {
       }
 
       List<Path> paths = Arrays.asList(
-                                       Paths.get("foo", "bar"),
-                                       Paths.get("baz", "bork"),
-                                       Paths.get("qux", "quxx"));
+                                       Path.of("foo", "bar"),
+                                       Path.of("baz", "bork"),
+                                       Path.of("qux", "quxx"));
 
       return paths.iterator();
     }

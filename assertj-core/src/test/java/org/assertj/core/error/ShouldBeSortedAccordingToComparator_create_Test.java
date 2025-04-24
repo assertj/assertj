@@ -8,20 +8,18 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.util.Arrays.array;
 
 import java.util.Comparator;
-
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.test.CaseInsensitiveStringComparator;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -39,7 +37,7 @@ class ShouldBeSortedAccordingToComparator_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %ngroup is not sorted according to CaseInsensitiveStringComparator comparator because element 1:%n  \"c\"%nis not less or equal than element 2:%n  \"A\"%ngroup was:%n  [\"b\", \"c\", \"A\"]"));
+    then(message).isEqualTo("[Test] %ngroup is not sorted according to CaseInsensitiveStringComparator comparator because element 1:%n  \"c\"%nis not less or equal than element 2:%n  \"A\"%ngroup was:%n  [\"b\", \"c\", \"A\"]".formatted());
   }
 
   @Test
@@ -49,7 +47,7 @@ class ShouldBeSortedAccordingToComparator_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %ngroup is not sorted according to StaticStringComparator comparator because element 1:%n  \"c\"%nis not less or equal than element 2:%n  \"a\"%ngroup was:%n  [\"b\", \"c\", \"a\"]"));
+    then(message).isEqualTo("[Test] %ngroup is not sorted according to StaticStringComparator comparator because element 1:%n  \"c\"%nis not less or equal than element 2:%n  \"a\"%ngroup was:%n  [\"b\", \"c\", \"a\"]".formatted());
   }
 
   private static class StaticStringComparator implements Comparator<String> {

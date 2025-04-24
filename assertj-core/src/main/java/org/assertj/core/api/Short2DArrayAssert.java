@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -22,7 +22,6 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Short2DArrays;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion methods for arrays of {@code short}s.
@@ -37,7 +36,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
 
   private final Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected Short2DArrays short2dArrays = Short2DArrays.instance();
 
   public Short2DArrayAssert(short[][] actual) {

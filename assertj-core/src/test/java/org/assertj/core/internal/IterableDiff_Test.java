@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -19,7 +19,10 @@ import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.List;
 
-import org.assertj.core.test.CaseInsensitiveStringComparator;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -156,12 +159,11 @@ class IterableDiff_Test {
     Address address1 = new Address(12, "xyz", "abc", "432432", "asdsa");
     Address address2 = new Address(13, "xyzx", "abcds", "32432432", "asdsdfsa");
     Address address3 = new Address(14, "xyzsa", "axbc", "4sd32432", "asdsfsda");
-    List<AddressDto> addressDtoList = list(AddressDto.from(address1), AddressDto.from(address2), AddressDto.from(address3));
+    List<Object> addressDtoList = list(AddressDto.from(address1), AddressDto.from(address2), AddressDto.from(address3));
     // WHEN/THEN
     assertThat(addressDtoList).usingRecursiveComparison()
                               .isEqualTo(list(address1, address2, address3));
-    assertThat(addressDtoList).asList()
-                              .usingRecursiveFieldByFieldElementComparator()
+    assertThat(addressDtoList).usingRecursiveFieldByFieldElementComparator()
                               .containsExactly(address1, address2, address3);
   }
 

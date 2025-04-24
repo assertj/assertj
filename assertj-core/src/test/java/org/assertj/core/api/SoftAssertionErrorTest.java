@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.util.Lists;
@@ -23,13 +22,13 @@ class SoftAssertionErrorTest {
   @Test
   void should_format_a_single_error_correctly() {
     SoftAssertionError error = new SoftAssertionError(Lists.newArrayList("One"));
-    assertThat(error).hasMessage(format("%nThe following assertion failed:%n1) One%n"));
+    assertThat(error).hasMessage("%nThe following assertion failed:%n1) One%n".formatted());
   }
 
   @Test
   void should_format_multiple_errors_correctly() {
     SoftAssertionError error = new SoftAssertionError(Lists.newArrayList("One", "Two"));
-    assertThat(error).hasMessage(format("%nThe following 2 assertions failed:%n1) One%n2) Two%n"));
+    assertThat(error).hasMessage("%nThe following 2 assertions failed:%n1) One%n2) Two%n".formatted());
   }
 
 }

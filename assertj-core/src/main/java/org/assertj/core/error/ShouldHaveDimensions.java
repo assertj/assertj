@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -29,7 +29,7 @@ public class ShouldHaveDimensions extends BasicErrorMessageFactory {
   private ShouldHaveDimensions(Object actual, int actualSize, int expectedSize) {
     // format the sizes in a standard way, otherwise if we use (for ex) an Hexadecimal representation
     // it will format sizes in hexadecimal while we only want actual to be formatted in hexadecimal
-    super(format("%nExpecting 2D array to have %s rows but had %s, array was:%n  %s", expectedSize, actualSize, "%s"), actual);
+    super("%nExpecting 2D array to have %s rows but had %s, array was:%n  %s".formatted(expectedSize, actualSize, "%s"), actual);
   }
 
   private ShouldHaveDimensions(Object actual, int actualSize, int expectedSize, int rowIndex) {

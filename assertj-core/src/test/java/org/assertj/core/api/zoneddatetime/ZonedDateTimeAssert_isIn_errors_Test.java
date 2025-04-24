@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.zoneddatetime;
 
-import static java.lang.String.format;
 import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -20,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.fail;
 
 import java.time.ZonedDateTime;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -44,7 +42,7 @@ class ZonedDateTimeAssert_isIn_errors_Test extends ZonedDateTimeAssertBaseTest {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> {
       assertThat(ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC)).isIn(ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC)
                                                                                   .toString());
-    }).withMessage(format("%nExpecting actual:%n  2000-01-05T03:00:05Z (java.time.ZonedDateTime)%nto be in:%n  [2012-01-01T03:03:03Z (java.time.ZonedDateTime)]%n"));
+    }).withMessage("%nExpecting actual:%n  2000-01-05T03:00:05Z (java.time.ZonedDateTime)%nto be in:%n  [2012-01-01T03:03:03Z (java.time.ZonedDateTime)]%n".formatted());
   }
 
   @Test

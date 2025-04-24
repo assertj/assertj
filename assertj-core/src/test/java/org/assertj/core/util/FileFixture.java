@@ -8,12 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util;
 
 import static java.io.File.separator;
-import static java.lang.String.format;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
 
@@ -47,18 +46,18 @@ public final class FileFixture {
     file = new File(path);
     if (!file.exists()) {
       boolean fileCreated = file.createNewFile();
-      if (!fileCreated) throw new AssertionError(format("Unable to create file %s", quote(path)));
-      logger.info(format("Created file %s", quote(path)));
+      if (!fileCreated) throw new AssertionError("Unable to create file %s".formatted(quote(path)));
+      logger.info("Created file %s".formatted(quote(path)));
     }
-    if (!file.isFile()) throw new AssertionError(format("%s should be a file", quote(path)));
-    logger.info(format("The file %s exists", quote(path)));
+    if (!file.isFile()) throw new AssertionError("%s should be a file".formatted(quote(path)));
+    logger.info("The file %s exists".formatted(quote(path)));
   }
 
   public void delete() {
     String path = relativePath();
     boolean fileDeleted = file.delete();
-    if (!fileDeleted) throw new AssertionError(String.format("Unable to delete file %s", quote(path)));
-    logger.info(format("The file %s was deleted", quote(path)));
+    if (!fileDeleted) throw new AssertionError("Unable to delete file %s".formatted(quote(path)));
+    logger.info("The file %s was deleted".formatted(quote(path)));
   }
 
   String relativePath() {

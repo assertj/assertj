@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -47,6 +47,21 @@ public final class Fail {
   }
 
   /**
+   * Throws an {@link AssertionError} with an empty message to be used in code like:
+   * <pre><code class='java'> doSomething(optional.orElseGet(() -> fail()));</code></pre>
+   *
+   * @param <T> dummy return value type
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail()));}.
+   * @throws AssertionError with an empty message.
+   * @since 3.26.0
+   */
+  @CanIgnoreReturnValue
+  public static <T> T fail() {
+    // pass an empty string because passing null results in a "null" error message.
+    return fail("");
+  }
+
+  /**
    * Throws an {@link AssertionError} with the given message built as {@link String#format(String, Object...)}.
    *
    * @param <T> dummy return value type
@@ -57,7 +72,7 @@ public final class Fail {
    */
   @CanIgnoreReturnValue
   public static <T> T fail(String failureMessage, Object... args) {
-    return fail(String.format(failureMessage, args));
+    return fail(failureMessage.formatted(args));
   }
 
   /**
@@ -74,6 +89,19 @@ public final class Fail {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
     throw error;
+  }
+
+  /**
+   * Throws an {@link AssertionError} with the {@link Throwable} that caused the failure.
+   *
+   * @param <T> dummy return value type
+   * @param realCause cause of the error.
+   * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
+   * @throws AssertionError with the {@link Throwable} that caused the failure.
+   */
+  @CanIgnoreReturnValue
+  public static <T> T fail(Throwable realCause) {
+    return fail(null, realCause);
   }
 
   /**

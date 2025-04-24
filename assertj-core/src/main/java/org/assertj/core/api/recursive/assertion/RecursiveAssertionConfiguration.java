@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.recursive.assertion;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.ELEMENTS_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_VALUES_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.OptionalAssertionPolicy.OPTIONAL_VALUE_ONLY;
@@ -21,7 +20,6 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
-
 import org.assertj.core.api.RecursiveAssertionAssert;
 import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 
@@ -225,40 +223,40 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
   }
 
   private void describeIgnoreAllNullFields(StringBuilder description) {
-    if (shouldIgnoreAllNullFields()) description.append(format("- all null fields were ignored in the assertion%n"));
+    if (shouldIgnoreAllNullFields()) description.append("- all null fields were ignored in the assertion%n".formatted());
   }
 
   private void describeIgnorePrimitiveFields(StringBuilder description) {
     if (shouldIgnorePrimitiveFields())
-      description.append(format("- primitive fields were ignored in the recursive assertion%n"));
+      description.append("- primitive fields were ignored in the recursive assertion%n".formatted());
   }
 
   private void describeSkipJCLTypeObjects(StringBuilder description) {
     if (!shouldSkipJavaLibraryTypeObjects())
-      description.append(format("- fields from Java Class Library types (java.* or javax.*) were included in the recursive assertion%n"));
+      description.append("- fields from Java Class Library types (java.* or javax.*) were included in the recursive assertion%n".formatted());
     else
-      description.append(format("- fields from Java Class Library types (java.* or javax.*) were excluded in the recursive assertion%n"));
+      description.append("- fields from Java Class Library types (java.* or javax.*) were excluded in the recursive assertion%n".formatted());
   }
 
   private void describeCollectionAssertionPolicy(StringBuilder description) {
-    description.append(format("- the collection assertion policy was %s%n", getCollectionAssertionPolicy().name()));
+    description.append("- the collection assertion policy was %s%n".formatted(getCollectionAssertionPolicy().name()));
   }
 
   private void describeMapAssertionPolicy(StringBuilder description) {
-    description.append(format("- the map assertion policy was %s%n", getMapAssertionPolicy().name()));
+    description.append("- the map assertion policy was %s%n".formatted(getMapAssertionPolicy().name()));
   }
 
   private void describeOptionalAssertionPolicy(StringBuilder description) {
-    description.append(format("- the optional assertion policy was %s%n", getOptionalAssertionPolicy().name()));
+    description.append("- the optional assertion policy was %s%n".formatted(getOptionalAssertionPolicy().name()));
   }
 
   private void describeIgnoredFieldsOfTypes(StringBuilder description) {
     if (!getIgnoredTypes().isEmpty())
-      description.append(format("- the following types were ignored in the assertion: %s%n", describeIgnoredTypes()));
+      description.append("- the following types were ignored in the assertion: %s%n".formatted(describeIgnoredTypes()));
   }
 
   private void describeIntrospectionStrategy(StringBuilder description) {
-    description.append(format("- the introspection strategy used was: %s%n", introspectionStrategy.getDescription()));
+    description.append("- the introspection strategy used was: %s%n".formatted(introspectionStrategy.getDescription()));
   }
 
   @Override

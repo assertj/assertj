@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -70,7 +70,6 @@ import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.error.UnsatisfiedRequirement;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Map}</code>s.
@@ -87,13 +86,13 @@ public class Maps {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Maps() {}
 
   public <K, V> void assertAllSatisfy(AssertionInfo info, Map<K, V> actual,
@@ -103,8 +102,7 @@ public class Maps {
 
     List<UnsatisfiedRequirement> unsatisfiedRequirements = actual.entrySet().stream()
                                                                  .map(entry -> failsRequirements(entryRequirements, entry))
-                                                                 .filter(Optional::isPresent)
-                                                                 .map(Optional::get)
+                                                                 .flatMap(Optional::stream)
                                                                  .collect(toList());
     if (!unsatisfiedRequirements.isEmpty())
       throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
@@ -115,7 +113,7 @@ public class Maps {
     try {
       entryRequirements.accept(entry.getKey(), entry.getValue());
     } catch (AssertionError ex) {
-      return Optional.of(new UnsatisfiedRequirement(entry, ex.getMessage()));
+      return Optional.of(new UnsatisfiedRequirement(entry, ex));
     }
     return Optional.empty();
   }
@@ -128,7 +126,7 @@ public class Maps {
     List<UnsatisfiedRequirement> unsatisfiedRequirements = new ArrayList<>();
     for (Entry<K, V> entry : actual.entrySet()) {
       Optional<UnsatisfiedRequirement> result = failsRequirements(entryRequirements, entry);
-      if (!result.isPresent()) return; // entry satisfied the requirements
+      if (result.isEmpty()) return; // entry satisfied the requirements
       unsatisfiedRequirements.add(result.get());
     }
 
@@ -141,11 +139,10 @@ public class Maps {
 
     List<Entry<K, V>> erroneousEntries = actual.entrySet().stream()
                                                .map(entry -> failsRestrictions(entry, entryRequirements))
-                                               .filter(Optional::isPresent)
-                                               .map(Optional::get)
+                                               .flatMap(Optional::stream)
                                                .collect(toList());
 
-    if (erroneousEntries.size() > 0) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousEntries));
+    if (!erroneousEntries.isEmpty()) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousEntries));
   }
 
   private <V, K> Optional<Entry<K, V>> failsRestrictions(Entry<K, V> entry,

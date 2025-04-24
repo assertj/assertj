@@ -8,11 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
-
-import static java.lang.String.format;
 
 import java.util.Comparator;
 import java.util.List;
@@ -37,8 +35,7 @@ public class RecursiveComparator implements Comparator<Object> {
    * @since 3.25.0
    */
   public RecursiveComparator() {
-    this.recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
-    this.recursiveComparisonDifferenceCalculator = new RecursiveComparisonDifferenceCalculator();
+    this(new RecursiveComparisonConfiguration());
   }
 
   /**
@@ -57,8 +54,8 @@ public class RecursiveComparator implements Comparator<Object> {
   }
 
   public String getDescription() {
-    return format("RecursiveComparator a comparator based on the recursive comparison with the following configuration:%n%s",
-                  recursiveComparisonConfiguration);
+    return "RecursiveComparator a comparator based on the recursive comparison with the following configuration:%n%s".formatted(
+                                                                                                                                recursiveComparisonConfiguration);
   }
 
   /**

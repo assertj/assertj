@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.atomic.referencearray;
 
@@ -21,9 +21,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Function;
 
-import org.assertj.core.api.iterable.Extractor;
 import org.assertj.core.api.iterable.ThrowingExtractor;
-import org.assertj.core.test.CartoonCharacter;
+import org.assertj.core.testkit.CartoonCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -38,9 +37,9 @@ class AtomicReferenceArrayAssert_flatExtracting_Test {
 
   private final Function<CartoonCharacter, List<CartoonCharacter>> children = CartoonCharacter::getChildren;
 
-  private final Extractor<CartoonCharacter, List<CartoonCharacter>> childrenExtractor = new Extractor<CartoonCharacter, List<CartoonCharacter>>() {
+  private final Function<CartoonCharacter, List<CartoonCharacter>> childrenExtractor = new Function<CartoonCharacter, List<CartoonCharacter>>() {
     @Override
-    public List<CartoonCharacter> extract(CartoonCharacter input) {
+    public List<CartoonCharacter> apply(CartoonCharacter input) {
       return input.getChildren();
     }
   };

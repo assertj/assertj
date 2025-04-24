@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -32,7 +32,7 @@ public class ShouldBe extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <T> ErrorMessageFactory shouldBe(T actual, Condition<? super T> condition) {
-    if (condition instanceof Join) return new ShouldBe(actual, (Join<? super T>) condition);
+    if (condition instanceof Join<? super T> join) return new ShouldBe(actual, join);
     return new ShouldBe(actual, condition);
   }
 

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -67,9 +67,8 @@ import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.Closeables;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.ChangeDelta;
 import org.assertj.core.util.diff.DeleteDelta;
 import org.assertj.core.util.diff.InsertDelta;
@@ -95,7 +94,7 @@ public class StandardRepresentation implements Representation {
 
   private static final String DEFAULT_MAX_ELEMENTS_EXCEEDED = "...";
 
-  // 4 spaces indentation : 2 space indentation after new line + '<' + '['
+  // 4 spaces indentation: 2 space indentation after new line + '<' + '['
   static final String INDENTATION_AFTER_NEWLINE = "    ";
   // used when formatting iterables to a single line
   static final String INDENTATION_FOR_SINGLE_LINE = " ";
@@ -121,9 +120,10 @@ public class StandardRepresentation implements Representation {
   };
 
   protected enum GroupType {
+
     ITERABLE("iterable"), ARRAY("array");
 
-    private String description;
+    private final String description;
 
     GroupType(String value) {
       this.description = value;
@@ -155,7 +155,6 @@ public class StandardRepresentation implements Representation {
     maxLengthForSingleLineDescription = value;
   }
 
-  @VisibleForTesting
   public static int getMaxLengthForSingleLineDescription() {
     return maxLengthForSingleLineDescription;
   }
@@ -166,7 +165,6 @@ public class StandardRepresentation implements Representation {
     maxElementsForPrinting = value;
   }
 
-  @VisibleForTesting
   public static int getMaxStackTraceElementsDisplayed() {
     return maxStackTraceElementsDisplayed;
   }
@@ -177,7 +175,6 @@ public class StandardRepresentation implements Representation {
     maxStackTraceElementsDisplayed = value;
   }
 
-  @VisibleForTesting
   public static int getMaxElementsForPrinting() {
     return maxElementsForPrinting;
   }
@@ -211,19 +208,19 @@ public class StandardRepresentation implements Representation {
   public String toStringOf(Object object) {
     if (object == null) return null;
     if (hasCustomFormatterFor(object)) return customFormat(object);
-    if (object instanceof ComparatorBasedComparisonStrategy) return toStringOf((ComparatorBasedComparisonStrategy) object);
-    if (object instanceof Calendar) return toStringOf((Calendar) object);
-    if (object instanceof Class<?>) return toStringOf((Class<?>) object);
-    if (object instanceof Date) return toStringOf((Date) object);
-    if (object instanceof Duration) return toStringOf((Duration) object);
-    if (object instanceof LocalDate) return toStringOf((LocalDate) object);
-    if (object instanceof YearMonth) return toStringOf((YearMonth) object);
-    if (object instanceof LocalDateTime) return toStringOf((LocalDateTime) object);
-    if (object instanceof OffsetDateTime) return toStringOf((OffsetDateTime) object);
-    if (object instanceof ZonedDateTime) return toStringOf((ZonedDateTime) object);
-    if (object instanceof LongAdder) return toStringOf((LongAdder) object);
+    if (object instanceof ComparatorBasedComparisonStrategy strategy) return toStringOf(strategy);
+    if (object instanceof Calendar calendar) return toStringOf(calendar);
+    if (object instanceof Class<?> clazz) return toStringOf(clazz);
+    if (object instanceof Date date) return toStringOf(date);
+    if (object instanceof Duration duration) return toStringOf(duration);
+    if (object instanceof LocalDate date) return toStringOf(date);
+    if (object instanceof YearMonth month) return toStringOf(month);
+    if (object instanceof LocalDateTime time) return toStringOf(time);
+    if (object instanceof OffsetDateTime time) return toStringOf(time);
+    if (object instanceof ZonedDateTime time) return toStringOf(time);
+    if (object instanceof LongAdder adder) return toStringOf(adder);
     // if object was a subtype of any atomic type overriding toString, use it as it's more relevant than our generic
-    // representation, if that's not the case (e.g. an AtomicReference subclass not overriding String) we use our representation.
+    // representation, if that's not the case (e.g., an AtomicReference subclass not overriding String) we use our representation.
     if (isInstanceOfNotOverridingToString(object, AtomicReference.class)) return toStringOf((AtomicReference<?>) object);
     if (isInstanceOfNotOverridingToString(object, AtomicMarkableReference.class))
       return toStringOf((AtomicMarkableReference<?>) object);
@@ -232,33 +229,40 @@ public class StandardRepresentation implements Representation {
     if (object instanceof AtomicIntegerFieldUpdater) return AtomicIntegerFieldUpdater.class.getSimpleName();
     if (object instanceof AtomicLongFieldUpdater) return AtomicLongFieldUpdater.class.getSimpleName();
     if (object instanceof AtomicReferenceFieldUpdater) return AtomicReferenceFieldUpdater.class.getSimpleName();
-    if (object instanceof File) return toStringOf((File) object);
+    if (object instanceof File file) return toStringOf(file);
     if (object instanceof Path) return fallbackToStringOf(object);
-    if (object instanceof String) return toStringOf((String) object);
-    if (object instanceof Character) return toStringOf((Character) object);
-    if (object instanceof Comparator) return toStringOf((Comparator<?>) object);
-    if (object instanceof SimpleDateFormat) return toStringOf((SimpleDateFormat) object);
-    if (object instanceof PredicateDescription) return toStringOf((PredicateDescription) object);
-    if (object instanceof Future) return toStringOf((Future<?>) object);
+    if (isUnquotedString(object)) return toUnquotedStringOf(object);
+    if (object instanceof String string) return toStringOf(string);
+    if (object instanceof CharSequence sequence) return toStringOf(sequence);
+    if (object instanceof Character character) return toStringOf(character);
+    if (object instanceof Comparator<?> comparator) return toStringOf(comparator);
+    if (object instanceof SimpleDateFormat format) return toStringOf(format);
+    if (object instanceof PredicateDescription description) return toStringOf(description);
+    if (object instanceof Future<?> future) return toStringOf(future);
     if (isArray(object)) return formatArray(object);
-    if (object instanceof Collection<?>) return smartFormat((Collection<?>) object);
-    if (object instanceof Map<?, ?>) return toStringOf((Map<?, ?>) object);
-    if (object instanceof Tuple) return toStringOf((Tuple) object);
-    if (object instanceof Map.Entry) return toStringOf((Map.Entry<?, ?>) object);
-    if (object instanceof Method) return ((Method) object).toGenericString();
-    if (object instanceof InsertDelta<?>) return toStringOf((InsertDelta<?>) object);
-    if (object instanceof ChangeDelta<?>) return toStringOf((ChangeDelta<?>) object);
-    if (object instanceof DeleteDelta<?>) return toStringOf((DeleteDelta<?>) object);
+    if (object instanceof Collection<?> collection) return smartFormat(collection);
+    if (object instanceof Map<?, ?> map) return toStringOf(map);
+    if (object instanceof Tuple tuple) return toStringOf(tuple);
+    if (object instanceof Map.Entry<?, ?> entry) return toStringOf(entry);
+    if (object instanceof Method method) return method.toGenericString();
+    if (object instanceof InsertDelta<?> delta) return toStringOf(delta);
+    if (object instanceof ChangeDelta<?> delta) return toStringOf(delta);
+    if (object instanceof DeleteDelta<?> delta) return toStringOf(delta);
     // Only format Iterables that are not collections and have not overridden toString
     // ex: JsonNode is an Iterable that is best formatted with its own String
     // Path is another example, but we can deal with it specifically as it is part of the JDK.
-    if (object instanceof Iterable<?> && !hasOverriddenToString(object.getClass())) return smartFormat((Iterable<?>) object);
-    if (object instanceof AtomicInteger) return toStringOf((AtomicInteger) object);
-    if (object instanceof AtomicBoolean) return toStringOf((AtomicBoolean) object);
-    if (object instanceof AtomicLong) return toStringOf((AtomicLong) object);
-    if (object instanceof Number) return toStringOf((Number) object);
-    if (object instanceof Throwable) return toStringOf((Throwable) object);
+    if (object instanceof Iterable<?> iterable && !hasOverriddenToString(object.getClass())) return smartFormat(iterable);
+    if (object instanceof AtomicInteger atomicInteger) return toStringOf(atomicInteger);
+    if (object instanceof AtomicBoolean atomicBoolean) return toStringOf(atomicBoolean);
+    if (object instanceof AtomicLong atomicLong) return toStringOf(atomicLong);
+    if (object instanceof Number number) return toStringOf(number);
+    if (object instanceof Throwable throwable) return toStringOf(throwable);
     return fallbackToStringOf(object);
+  }
+
+  private static boolean isUnquotedString(Object object) {
+    String className = object.getClass().getName();
+    return className.contains("org.assertj.core") && className.contains("UnquotedString");
   }
 
   private static boolean isInstanceOfNotOverridingToString(Object object, Class<?> type) {
@@ -306,7 +310,7 @@ public class StandardRepresentation implements Representation {
   public String unambiguousToStringOf(Object obj) {
     // some types have already an unambiguous toString, no need to double down
     if (hasAlreadyAnUnambiguousToStringOf(obj)) return toStringOf(obj);
-    return obj == null ? null : String.format("%s (%s@%s)", toStringOf(obj), classNameOf(obj), identityHexCodeOf(obj));
+    return obj == null ? null : "%s (%s@%s)".formatted(toStringOf(obj), classNameOf(obj), identityHexCodeOf(obj));
   }
 
   @Override
@@ -314,9 +318,9 @@ public class StandardRepresentation implements Representation {
     return this.getClass().getSimpleName();
   }
 
-  @SuppressWarnings("unchecked")
   protected <T> String customFormat(T object) {
     if (object == null) return null;
+    @SuppressWarnings("unchecked")
     CharSequence formatted = ((Function<T, ? extends CharSequence>) customFormatterByType.get(object.getClass())).apply(object);
     return formatted != null ? formatted.toString() : null;
   }
@@ -351,32 +355,32 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(Number number) {
-    if (number instanceof Float) return toStringOf((Float) number);
-    if (number instanceof Long) return toStringOf((Long) number);
+    if (number instanceof Float f) return toStringOf(f);
+    if (number instanceof Long l) return toStringOf(l);
     // fallback to default formatting
     return number.toString();
   }
 
   protected String toStringOf(AtomicBoolean atomicBoolean) {
-    return String.format("AtomicBoolean(%s)", atomicBoolean.get());
+    return "AtomicBoolean(%s)".formatted(atomicBoolean.get());
   }
 
   protected String toStringOf(AtomicInteger atomicInteger) {
-    return String.format("AtomicInteger(%s)", atomicInteger.get());
+    return "AtomicInteger(%s)".formatted(atomicInteger.get());
   }
 
   protected String toStringOf(AtomicLong atomicLong) {
-    return String.format("AtomicLong(%s)", atomicLong.get());
+    return "AtomicLong(%s)".formatted(atomicLong.get());
   }
 
   protected String toStringOf(LongAdder longAdder) {
-    return String.format("LongAdder(%s)", longAdder.sum());
+    return "LongAdder(%s)".formatted(longAdder.sum());
   }
 
   protected String toStringOf(Comparator<?> comparator) {
     if (!comparator.toString().contains("@")) return comparator.toString();
     String comparatorSimpleClassName = comparator.getClass().getSimpleName();
-    if (comparatorSimpleClassName.length() == 0) return quote("anonymous comparator class");
+    if (comparatorSimpleClassName.isEmpty()) return quote("anonymous comparator class");
     // if toString has not been redefined, let's use comparator simple class name.
     if (comparator.toString().contains(comparatorSimpleClassName + "@")) return comparatorSimpleClassName;
     return comparator.toString();
@@ -395,12 +399,24 @@ public class StandardRepresentation implements Representation {
   protected String toStringOf(Class<?> c) {
     String canonicalName = c.getCanonicalName();
     if (canonicalName != null) return canonicalName;
-    if (c.getSimpleName().equals("")) return "anonymous class";
+    if (c.getSimpleName().isEmpty()) return "anonymous class";
     if (c.getSimpleName().equals("[]")) return "anonymous class array";
-    return String.format("local class %s", c.getSimpleName());
+    return "local class %s".formatted(c.getSimpleName());
   }
 
   protected String toStringOf(String s) {
+    return concatWithDoubleQuotes(s);
+  }
+
+  protected String toUnquotedStringOf(Object s) {
+    return s.toString();
+  }
+
+  protected String toStringOf(CharSequence s) {
+    return concatWithDoubleQuotes(s);
+  }
+
+  private static String concatWithDoubleQuotes(CharSequence s) {
     return concat("\"", s, "\"");
   }
 
@@ -410,7 +426,7 @@ public class StandardRepresentation implements Representation {
 
   protected String toStringOf(PredicateDescription p) {
     // don't enclose default description with ''
-    return p.isDefault() ? String.format("%s", p.description) : String.format("'%s'", p.description);
+    return p.isDefault() ? "%s".formatted(p.description) : "'%s'".formatted(p.description);
   }
 
   protected String toStringOf(Date date) {
@@ -438,15 +454,15 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String classNameDisambiguation(Object o) {
-    return String.format(" (%s)", o.getClass().getName());
+    return " (%s)".formatted(o.getClass().getName());
   }
 
   protected String toStringOf(Float f) {
-    return String.format("%sf", f);
+    return "%sf".formatted(f);
   }
 
   protected String toStringOf(Long l) {
-    return String.format("%sL", l);
+    return "%sL".formatted(l);
   }
 
   protected String toStringOf(File file) {
@@ -472,7 +488,7 @@ public class StandardRepresentation implements Representation {
     } catch (ExecutionException e) {
       // get the stack trace of the cause (if any) to avoid polluting it with the exception from trying to join the future
       String stackTrace = e.getCause() != null ? getStackTrace(e.getCause()) : getStackTrace(e);
-      return concat(className, "[Failed with the following stack trace:", String.format("%n%s", stackTrace), "]");
+      return concat(className, "[Failed with the following stack trace:", "%n%s".formatted(stackTrace), "]");
     }
   }
 
@@ -481,11 +497,11 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(MapEntry<?, ?> mapEntry) {
-    return String.format("%s=%s", toStringOf(mapEntry.key), toStringOf(mapEntry.value));
+    return "%s=%s".formatted(toStringOf(mapEntry.key), toStringOf(mapEntry.value));
   }
 
   protected String toStringOf(Entry<?, ?> javaMapEntry) {
-    return String.format("%s=%s", toStringOf(javaMapEntry.getKey()), toStringOf(javaMapEntry.getValue()));
+    return "%s=%s".formatted(toStringOf(javaMapEntry.getKey()), toStringOf(javaMapEntry.getValue()));
   }
 
   protected String toStringOf(Map<?, ?> map) {
@@ -542,19 +558,19 @@ public class StandardRepresentation implements Representation {
   }
 
   protected String toStringOf(AtomicReference<?> atomicReference) {
-    return String.format("%s[%s]", atomicReference.getClass().getSimpleName(), toStringOf(atomicReference.get()));
+    return "%s[%s]".formatted(atomicReference.getClass().getSimpleName(), toStringOf(atomicReference.get()));
   }
 
   protected String toStringOf(AtomicMarkableReference<?> atomicMarkableReference) {
-    return String.format("%s[marked=%s, reference=%s]", atomicMarkableReference.getClass().getSimpleName(),
-                         atomicMarkableReference.isMarked(),
-                         toStringOf(atomicMarkableReference.getReference()));
+    return "%s[marked=%s, reference=%s]".formatted(atomicMarkableReference.getClass().getSimpleName(),
+                                                   atomicMarkableReference.isMarked(),
+                                                   toStringOf(atomicMarkableReference.getReference()));
   }
 
   protected String toStringOf(AtomicStampedReference<?> atomicStampedReference) {
-    return String.format("%s[stamp=%s, reference=%s]", atomicStampedReference.getClass().getSimpleName(),
-                         atomicStampedReference.getStamp(),
-                         toStringOf(atomicStampedReference.getReference()));
+    return "%s[stamp=%s, reference=%s]".formatted(atomicStampedReference.getClass().getSimpleName(),
+                                                  atomicStampedReference.getStamp(),
+                                                  toStringOf(atomicStampedReference.getReference()));
   }
 
   protected String multiLineFormat(Iterable<?> iterable) {
@@ -710,20 +726,21 @@ public class StandardRepresentation implements Representation {
   }
 
   private String toStringOf(ChangeDelta<?> changeDelta) {
-    return String.format("Changed content at line %s:%nexpecting:%n  %s%nbut was:%n  %s%n",
-                         changeDelta.lineNumber(),
-                         formatLines(changeDelta.getOriginal().getLines()),
-                         formatLines(changeDelta.getRevised().getLines()));
+    return "Changed content at line %s:%nexpecting:%n  %s%nbut was:%n  %s%n".formatted(changeDelta.lineNumber(),
+                                                                                       formatLines(changeDelta.getOriginal()
+                                                                                                              .getLines()),
+                                                                                       formatLines(changeDelta.getRevised()
+                                                                                                              .getLines()));
   }
 
   private String toStringOf(DeleteDelta<?> deleteDelta) {
-    return String.format("Missing content at line %s:%n  %s%n", deleteDelta.lineNumber(),
-                         formatLines(deleteDelta.getOriginal().getLines()));
+    return "Missing content at line %s:%n  %s%n".formatted(deleteDelta.lineNumber(),
+                                                           formatLines(deleteDelta.getOriginal().getLines()));
   }
 
   private String toStringOf(InsertDelta<?> insertDelta) {
-    return String.format("Extra content at line %s:%n  %s%n", insertDelta.lineNumber(),
-                         formatLines(insertDelta.getRevised().getLines()));
+    return "Extra content at line %s:%n  %s%n".formatted(insertDelta.lineNumber(),
+                                                         formatLines(insertDelta.getRevised().getLines()));
   }
 
   private String toStringOf(Duration duration) {
@@ -761,4 +778,5 @@ public class StandardRepresentation implements Representation {
   private String format(Map<?, ?> map, Object o) {
     return o == map ? "(this Map)" : toStringOf(o);
   }
+
 }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.maps;
 
@@ -20,8 +20,8 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotContainKey.shouldNotContainKey;
-import static org.assertj.core.test.Maps.mapOf;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -33,7 +33,6 @@ import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.collections4.map.SingletonMap;
 import org.apache.commons.lang3.ArrayUtils;
 import org.assertj.core.internal.MapsBaseTest;
-import org.assertj.core.test.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -75,9 +74,9 @@ class Maps_assertDoesNotContainKey_Test extends MapsBaseTest {
                      arguments(new SingletonMap<>("name", "Yoda"), "color"),
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), "color"),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), "color"),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), "color"),
+                     arguments(Map.of("name", "Yoda", "job", "Jedi"), "color"),
                      // implementation not permitting null keys
-                     arguments(Jdk11.Map.of("name", "Yoda"), null));
+                     arguments(Map.of("name", "Yoda"), null));
   }
 
   private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
@@ -115,7 +114,7 @@ class Maps_assertDoesNotContainKey_Test extends MapsBaseTest {
                      arguments(new SingletonMap<>("name", "Yoda"), "name"),
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), "name"),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), "name"),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), "name"));
+                     arguments(Map.of("name", "Yoda", "job", "Jedi"), "name"));
   }
 
   private static Stream<Arguments> modifiableMapsFailureTestCases() {

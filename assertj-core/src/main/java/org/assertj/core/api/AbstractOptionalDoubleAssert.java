@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -25,7 +25,6 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for {@link java.util.OptionalDouble}.
@@ -35,11 +34,12 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Grzegorz Piwowarek
  */
 public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptionalDoubleAssert<SELF>>
-    extends AbstractAssert<SELF, OptionalDouble> {
+    extends AbstractAssertWithComparator<SELF, OptionalDouble> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Doubles doubles = Doubles.instance();
 
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalDoubleAssert(OptionalDouble actual, Class<?> selfType) {
     super(actual, selfType);
   }
@@ -115,27 +115,30 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
   }
 
   /**
-   * Verifies that the actual {@link java.util.OptionalDouble} has the value in argument.
+   * Verifies that the actual {@link java.util.OptionalDouble} has the value in argument. The check is consistent
+   * with {@link java.util.OptionalDouble#equals(Object)} since 3.26.0.
    * <p>
-   * Assertion will pass :
-   * <pre><code class='java'> assertThat(OptionalDouble.of(8.0)).hasValue(8.0);
+   * <pre><code class='java'> // assertions succeed:
+   * assertThat(OptionalDouble.of(8.0)).hasValue(8.0);
    * assertThat(OptionalDouble.of(8.0)).hasValue(Double.valueOf(8.0));
-   * assertThat(OptionalDouble.of(Double.NaN)).hasValue(Double.NaN); </code></pre>
-   * <p>
-   * Assertion will fail :
-   * <pre><code class='java'> assertThat(OptionalDouble.empty()).hasValue(8.0);
+   * assertThat(OptionalDouble.of(Double.NaN)).hasValue(Double.NaN);
+   * assertThat(OptionalDouble.of(Double.POSITIVE_INFINITY)).hasValue(Double.POSITIVE_INFINITY);
+   * assertThat(OptionalDouble.of(Double.NEGATIVE_INFINITY)).hasValue(Double.NEGATIVE_INFINITY);
+   *
+   * // assertions fail:
+   * assertThat(OptionalDouble.empty()).hasValue(8.0);
    * assertThat(OptionalDouble.of(7)).hasValue(8.0);</code></pre>
    *
    * @param expectedValue the expected value inside the {@link java.util.OptionalDouble}.
    * @return this assertion object.
    * @throws java.lang.AssertionError if actual value is empty.
    * @throws java.lang.AssertionError if actual is null.
-   * @throws java.lang.AssertionError if actual has not the value as expected.
+   * @throws java.lang.AssertionError if actual does not have the expected value.
    */
   public SELF hasValue(double expectedValue) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
-    if (expectedValue != actual.getAsDouble())
+    if (Double.compare(expectedValue, actual.getAsDouble()) != 0)
       throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsDouble(), expectedValue);
     return myself;
   }
@@ -177,7 +180,7 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
 
   /**
    * Verifies that the actual {@link java.util.OptionalDouble} has a value close to the expected value, within the given
-   * percentage.<br>
+   * percentage of the expected value.<br>
    * If the difference is equal to the percentage value, the assertion is considered valid.
    *
    * <pre><code class='java'>// The assertion will pass:
@@ -197,14 +200,14 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
    * @throws java.lang.AssertionError if actual is null
    * @throws java.lang.AssertionError if the actual value is not close to the given one
    */
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public SELF hasValueCloseTo(Double expectedValue, Percentage percentage) {
     isNotNull();
     if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseToPercentage(expectedValue));
     try {
       doubles.assertIsCloseToPercentage(info, actual.getAsDouble(), expectedValue, percentage);
     } catch (AssertionError assertionError) {
-      throwAssertionError(shouldHaveValueCloseToPercentage(actual, expectedValue, percentage,
-                                                           abs(expectedValue - actual.getAsDouble())));
+      throwAssertionError(shouldHaveValueCloseToPercentage(actual, expectedValue, percentage));
     }
     return myself;
   }

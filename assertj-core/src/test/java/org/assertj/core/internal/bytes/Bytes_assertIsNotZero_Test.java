@@ -8,14 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.bytes;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.TestData.someHexInfo;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someHexInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
@@ -38,13 +37,13 @@ class Bytes_assertIsNotZero_Test extends BytesBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotZero(someInfo(), (byte) 0))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n".formatted());
   }
 
   @Test
   void should_fail_since_actual_is_zero_in_hex_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsNotZero(someHexInfo(), (byte) 0x00))
-                                                   .withMessage(format("%nExpecting actual:%n  0x00%nnot to be equal to:%n  0x00%n"));
+                                                   .withMessage("%nExpecting actual:%n  0x00%nnot to be equal to:%n  0x00%n".formatted());
   }
 
   @Test
@@ -61,14 +60,14 @@ class Bytes_assertIsNotZero_Test extends BytesBaseTest {
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
                                                                                                                          (byte) 0))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0%nnot to be equal to:%n  0%n".formatted());
   }
 
   @Test
   void should_fail_since_actual_is_not_zero_whatever_custom_comparison_strategy_is_in_hex_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsNotZero(someHexInfo(),
                                                                                                                          (byte) 0x00))
-                                                   .withMessage(format("%nExpecting actual:%n  0x00%nnot to be equal to:%n  0x00%n"));
+                                                   .withMessage("%nExpecting actual:%n  0x00%nnot to be equal to:%n  0x00%n".formatted());
   }
 
 }

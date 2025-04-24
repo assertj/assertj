@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.lists;
 
@@ -18,14 +18,13 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSorted.shouldBeSortedAccordingToGivenComparator;
 import static org.assertj.core.error.ShouldBeSorted.shouldHaveComparableElementsAccordingToGivenComparator;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.mockito.Mockito.verify;
 
 import java.util.Comparator;
 import java.util.List;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Lists;
 import org.assertj.core.internal.ListsBaseTest;
@@ -96,7 +95,7 @@ class Lists_assertIsSortedAccordingToComparator_Test extends ListsBaseTest {
     AssertionInfo info = someInfo();
     List<Object> actual = newArrayList();
     actual.add("bar");
-    actual.add(new Integer(5));
+    actual.add(Integer.valueOf(5));
     actual.add("foo");
 
     Throwable error = catchThrowable(() -> lists.assertIsSortedAccordingToComparator(info, actual,

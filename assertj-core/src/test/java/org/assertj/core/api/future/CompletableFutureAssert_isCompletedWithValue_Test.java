@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.future;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
 import static org.assertj.core.error.future.Warning.WARNING;
@@ -20,7 +19,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
-
 import org.junit.jupiter.api.Test;
 
 class CompletableFutureAssert_isCompletedWithValue_Test {
@@ -40,7 +38,7 @@ class CompletableFutureAssert_isCompletedWithValue_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("foo"));
     // THEN
-    assertThat(assertionError).hasMessage(format(actualIsNull()));
+    assertThat(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
@@ -72,7 +70,7 @@ class CompletableFutureAssert_isCompletedWithValue_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("done"));
     // THEN
-    assertThat(assertionError).hasMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException"))
+    assertThat(assertionError).hasMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException".formatted())
                               .hasMessageEndingWith("to be completed.%n%s", WARNING);
 
   }

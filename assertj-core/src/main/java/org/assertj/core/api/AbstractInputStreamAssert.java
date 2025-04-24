@@ -8,14 +8,19 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
+import static org.assertj.core.error.ShouldHaveDigest.shouldHaveDigest;
+import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.internal.Digests.digestDiff;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,11 +28,17 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.function.Supplier;
 
-import org.assertj.core.internal.InputStreams;
-import org.assertj.core.internal.InputStreamsException;
+import org.assertj.core.internal.BinaryDiff;
+import org.assertj.core.internal.BinaryDiffResult;
+import org.assertj.core.internal.Diff;
+import org.assertj.core.internal.DigestDiff;
+import org.assertj.core.internal.Digests;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.diff.Delta;
 
 /**
  * Base class for all implementations of assertions for {@link InputStream}s.
@@ -41,10 +52,10 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Stefan Birkner
  */
 public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStreamAssert<SELF, ACTUAL>, ACTUAL extends InputStream>
-    extends AbstractAssert<SELF, ACTUAL> {
+    extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
-  @VisibleForTesting
-  InputStreams inputStreams = InputStreams.instance();
+  private final Diff diff = new Diff();
+  private final BinaryDiff binaryDiff = new BinaryDiff();
 
   protected AbstractInputStreamAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
@@ -53,6 +64,9 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   /**
    * Converts the content of the actual {@link InputStream} to a {@link String} by decoding its bytes using the given charset
    * and returns assertions for the computed String allowing String specific assertions from this call.
+   * <p>
+   * <b>Warning: this will consume the whole input stream in case the underlying
+   * implementation does not support {@link InputStream#markSupported() marking}.</b>
    * <p>
    * Example :
    * <pre><code class='java'> InputStream abcInputStream = new ByteArrayInputStream("abc".getBytes());
@@ -69,36 +83,38 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @return a string assertion object.
    * @throws NullPointerException if the given {@code Charset} is {@code null}.
    * @throws AssertionError if the actual {@code InputStream} is {@code null}.
-   * @throws InputStreamsException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @since 3.20.0
    */
   @CheckReturnValue
   public AbstractStringAssert<?> asString(Charset charset) {
-    requireNonNull(charset, "The charset for converting to a String must not be null");
-    objects.assertNotNull(info, actual);
-    String actualAsString = readString(charset);
-    return assertThat(actualAsString);
+    isNotNull();
+    return assertThat(asString(actual, charset));
+  }
+
+  private String asString(InputStream actual, Charset charset) {
+    requireNonNull(charset, shouldNotBeNull("charset")::create);
+    return wrapWithMarkAndReset(actual, () -> new String(readAllBytes(actual), charset));
+  }
+
+  private static byte[] readAllBytes(InputStream is) {
+    try {
+      ByteArrayOutputStream os = new ByteArrayOutputStream();
+      byte[] data = new byte[1024];
+      for (int length; (length = is.read(data)) != -1;) {
+        os.write(data, 0, length);
+      }
+      return os.toByteArray();
+    } catch (IOException e) {
+      throw new UncheckedIOException(e);
+    }
   }
 
   /**
    * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
-   *
-   * @param expected the given {@code InputStream} to compare the actual {@code InputStream} to.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@code InputStream} is {@code null}.
-   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
-   * @throws InputStreamsException if an I/O error occurs.
-   *
-   * @deprecated use {@link #hasSameContentAs(InputStream)} instead
-   */
-  @Deprecated
-  public SELF hasContentEqualTo(InputStream expected) {
-    return hasSameContentAs(expected);
-  }
-
-  /**
-   * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
+   * <p>
+   * <b>Warning: this will consume the whole input streams in case the underlying
+   * implementations do not support {@link InputStream#markSupported() marking}.</b>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -113,17 +129,31 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws NullPointerException if the given {@code InputStream} is {@code null}.
    * @throws AssertionError if the actual {@code InputStream} is {@code null}.
    * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
-   * @throws InputStreamsException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    */
   public SELF hasSameContentAs(InputStream expected) {
-    inputStreams.assertSameContentAs(info, actual, expected);
+    isNotNull();
+    assertHasSameContentAs(expected);
     return myself;
+  }
+
+  private void assertHasSameContentAs(InputStream expected) {
+    requireNonNull(expected, shouldNotBeNull("expected")::create);
+    wrapWithMarkAndReset(actual, () -> wrapWithMarkAndReset(expected, () -> {
+      try {
+        List<Delta<String>> diffs = diff.diff(actual, expected);
+        if (!diffs.isEmpty()) throw assertionError(shouldHaveSameContent(actual, expected, diffs));
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
+    }));
   }
 
   /**
    * Verifies that the content of the actual {@code InputStream} is empty.
    * <p>
-   * <b>Warning: this will consume the first byte of the {@code InputStream}.</b>
+   * <b>Warning: this will consume the first byte of the input stream in case
+   * the underlying implementation does not support {@link InputStream#markSupported() marking}.</b>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -145,17 +175,20 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   }
 
   private void assertIsEmpty() {
-    try {
-      if (actual.read() != -1) throw assertionError(shouldBeEmpty(actual));
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
+    wrapWithMarkAndReset(actual, () -> {
+      try {
+        if (actual.read() != -1) throw assertionError(shouldBeEmpty(actual));
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
+    });
   }
 
   /**
    * Verifies that the content of the actual {@code InputStream} is not empty.
    * <p>
-   * <b>Warning: this will consume the first byte of the {@code InputStream}.</b>
+   * <b>Warning: this will consume the first byte of the input stream in case
+   * the underlying implementation does not support {@link InputStream#markSupported() marking}.</b>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -177,15 +210,23 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   }
 
   private void assertIsNotEmpty() {
-    try {
-      if (actual.read() == -1) throw assertionError(shouldNotBeEmpty());
-    } catch (IOException e) {
-      throw new UncheckedIOException(e);
-    }
+    wrapWithMarkAndReset(actual, () -> {
+      try {
+        if (actual.read() == -1) throw assertionError(shouldNotBeEmpty());
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
+    });
   }
 
   /**
-   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String}.
+   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String} <b>except for newlines which are ignored</b>.
+   * <p>
+   * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
+   * one can use {@link #asString(Charset)} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
+   * <p>
+   * <b>Warning: this will consume the whole input stream in case the underlying
+   * implementation does not support {@link InputStream#markSupported() marking}.</b>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
@@ -200,16 +241,32 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws NullPointerException if the given {@code String} is {@code null}.
    * @throws AssertionError if the actual {@code InputStream} is {@code null}.
    * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the given {@code String}.
-   * @throws InputStreamsException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @since 3.11.0
    */
   public SELF hasContent(String expected) {
-    inputStreams.assertHasContent(info, actual, expected);
+    isNotNull();
+    assertHasContent(expected);
     return myself;
+  }
+
+  private void assertHasContent(String expected) {
+    requireNonNull(expected, shouldNotBeNull("expected")::create);
+    wrapWithMarkAndReset(actual, () -> {
+      try {
+        List<Delta<String>> diffs = diff.diff(actual, expected);
+        if (!diffs.isEmpty()) throw assertionError(shouldHaveSameContent(actual, expected, diffs));
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
+    });
   }
 
   /**
    * Verifies that the binary content of the actual {@code InputStream} is <b>exactly</b> equal to the given one.
+   * <p>
+   * <b>Warning: this will consume the whole input stream in case the underlying
+   * implementation does not support {@link InputStream#markSupported() marking}.</b>
    * <p>
    * Example:
    * <pre><code class='java'> InputStream inputStream = new ByteArrayInputStream(new byte[] {1, 2});
@@ -226,16 +283,32 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws NullPointerException if the given content is {@code null}.
    * @throws AssertionError if the actual {@code InputStream} is {@code null}.
    * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the given binary content.
-   * @throws InputStreamsException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @since 3.16.0
    */
   public SELF hasBinaryContent(byte[] expected) {
-    inputStreams.assertHasBinaryContent(info, actual, expected);
+    isNotNull();
+    assertHasBinaryContent(expected);
     return myself;
+  }
+
+  private void assertHasBinaryContent(byte[] expected) {
+    requireNonNull(expected, shouldNotBeNull("expected")::create);
+    wrapWithMarkAndReset(actual, () -> {
+      try {
+        BinaryDiffResult result = binaryDiff.diff(actual, expected);
+        if (!result.hasNoDiff()) throw assertionError(shouldHaveBinaryContent(actual, result));
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
+    });
   }
 
   /**
    * Verifies that the tested {@link InputStream} digest (calculated with the specified {@link MessageDigest}) is equal to the given one.
+   * <p>
+   * <b>Warning: this will consume the whole input stream in case the underlying
+   * implementation does not support {@link InputStream#markSupported() marking}.</b>
    * <p>
    * Examples:
    * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
@@ -249,24 +322,28 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad".getBytes());
    * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "3735dff8e1f9df0492a34ef075205b8f".getBytes());</code></pre>
    *
-   * @param digest the MessageDigest used to calculate the digests.
+   * @param algorithm the MessageDigest used to calculate the digests.
    * @param expected the expected binary content to compare the actual {@code InputStream}'s digest to.
    * @return {@code this} assertion object.
    * @throws NullPointerException  if the given algorithm is {@code null}.
    * @throws NullPointerException  if the given digest is {@code null}.
    * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
    * @throws AssertionError        if the actual {@code InputStream} is not readable.
-   * @throws InputStreamsException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
    * @since 3.11.0
    */
-  public SELF hasDigest(MessageDigest digest, byte[] expected) {
-    inputStreams.assertHasDigest(info, actual, digest, expected);
+  public SELF hasDigest(MessageDigest algorithm, byte[] expected) {
+    isNotNull();
+    assertHasDigest(algorithm, expected);
     return myself;
   }
 
   /**
    * Verifies that the tested {@link InputStream} digest (calculated with the specified {@link MessageDigest}) is equal to the given one.
+   * <p>
+   * <b>Warning: this will consume the whole input stream in case the underlying
+   * implementation does not support {@link InputStream#markSupported() marking}.</b>
    * <p>
    * Examples:
    * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
@@ -280,24 +357,28 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * assertThat(tested).hasDigest(MessageDigest.getInstance("SHA1"), "93b9ced2ee5b3f0f4c8e640e77470dab031d4cad");
    * assertThat(tested).hasDigest(MessageDigest.getInstance("MD5"), "3735dff8e1f9df0492a34ef075205b8f");</code></pre>
    *
-   * @param digest the MessageDigest used to calculate the digests.
-   * @param expected the expected binary content to compare the actual {@code InputStream}'s digest to.
+   * @param algorithm the MessageDigest used to calculate the digests.
+   * @param digest the expected binary content to compare the actual {@code InputStream}'s digest to.
    * @return {@code this} assertion object.
    * @throws NullPointerException  if the given algorithm is {@code null}.
    * @throws NullPointerException  if the given digest is {@code null}.
    * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
    * @throws AssertionError        if the actual {@code InputStream} is not readable.
-   * @throws InputStreamsException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
    * @since 3.11.0
    */
-  public SELF hasDigest(MessageDigest digest, String expected) {
-    inputStreams.assertHasDigest(info, actual, digest, expected);
+  public SELF hasDigest(MessageDigest algorithm, String digest) {
+    isNotNull();
+    assertHasDigest(algorithm, Digests.fromHex(digest));
     return myself;
   }
 
   /**
    * Verifies that the tested {@link InputStream} digest (calculated with the specified algorithm) is equal to the given one.
+   * <p>
+   * <b>Warning: this will consume the whole input stream in case the underlying
+   * implementation does not support {@link InputStream#markSupported() marking}.</b>
    * <p>
    * Examples:
    * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
@@ -318,17 +399,21 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws NullPointerException  if the given digest is {@code null}.
    * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
    * @throws AssertionError        if the actual {@code InputStream} is not readable.
-   * @throws InputStreamsException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, byte[] expected) {
-    inputStreams.assertHasDigest(info, actual, algorithm, expected);
+    isNotNull();
+    assertHasDigest(algorithm, expected);
     return myself;
   }
 
   /**
    * Verifies that the tested {@link InputStream} digest (calculated with the specified algorithm) is equal to the given one.
+   * <p>
+   * <b>Warning: this will consume the whole input stream in case the underlying
+   * implementation does not support {@link InputStream#markSupported() marking}.</b>
    * <p>
    * Examples:
    * <pre><code class="java"> // assume that assertj-core-2.9.0.jar was downloaded from https://repo1.maven.org/maven2/org/assertj/assertj-core/2.9.0/assertj-core-2.9.0.jar
@@ -343,33 +428,69 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * assertThat(tested).hasDigest("MD5", "3735dff8e1f9df0492a34ef075205b8f"); </code></pre>
    *
    * @param algorithm the algorithm used to calculate the digests.
-   * @param expected the expected binary content to compare the actual {@code InputStream}'s content to.
+   * @param digest the expected binary content to compare the actual {@code InputStream}'s content to.
    * @return {@code this} assertion object.
    * @throws NullPointerException  if the given algorithm is {@code null}.
    * @throws NullPointerException  if the given digest is {@code null}.
    * @throws AssertionError        if the actual {@code InputStream} is {@code null}.
    * @throws AssertionError        if the actual {@code InputStream} is not readable.
-   * @throws InputStreamsException if an I/O error occurs.
+   * @throws UncheckedIOException if an I/O error occurs.
    * @throws AssertionError       if the content of the tested {@code InputStream}'s digest is not equal to the given one.
    * @since 3.11.0
    */
-  public SELF hasDigest(String algorithm, String expected) {
-    inputStreams.assertHasDigest(info, actual, algorithm, expected);
+  public SELF hasDigest(String algorithm, String digest) {
+    isNotNull();
+    assertHasDigest(algorithm, digest);
     return myself;
   }
 
-  private String readString(Charset charset) {
+  private void assertHasDigest(String algorithm, String digest) {
+    requireNonNull(digest, shouldNotBeNull("digest")::create);
+    assertHasDigest(algorithm, Digests.fromHex(digest));
+  }
+
+  private void assertHasDigest(String algorithm, byte[] digest) {
+    requireNonNull(algorithm, shouldNotBeNull("algorithm")::create);
     try {
-      ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-      int read;
-      byte[] data = new byte[1024];
-      while ((read = actual.read(data, 0, data.length)) != -1) {
-        buffer.write(data, 0, read);
-      }
-      buffer.flush();
-      return new String(buffer.toByteArray(), charset);
-    } catch (IOException e) {
-      throw new InputStreamsException("Unable to read contents of InputStreams actual", e);
+      assertHasDigest(MessageDigest.getInstance(algorithm), digest);
+    } catch (NoSuchAlgorithmException e) {
+      throw new IllegalArgumentException(e);
     }
   }
+
+  private void assertHasDigest(MessageDigest algorithm, byte[] digest) {
+    requireNonNull(algorithm, shouldNotBeNull("algorithm")::create);
+    requireNonNull(digest, shouldNotBeNull("digest")::create);
+    wrapWithMarkAndReset(actual, () -> {
+      try {
+        DigestDiff diff = digestDiff(actual, algorithm, digest);
+        if (diff.digestsDiffer()) throw assertionError(shouldHaveDigest(actual, diff));
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
+    });
+  }
+
+  private static void wrapWithMarkAndReset(InputStream inputStream, Runnable runnable) {
+    wrapWithMarkAndReset(inputStream, () -> {
+      runnable.run();
+      return null;
+    });
+  }
+
+  private static <T> T wrapWithMarkAndReset(InputStream inputStream, Supplier<T> callable) {
+    if (!inputStream.markSupported()) {
+      return callable.get();
+    }
+
+    inputStream.mark(Integer.MAX_VALUE);
+    try {
+      return callable.get();
+    } finally {
+      try {
+        inputStream.reset();
+      } catch (IOException ignored) {}
+    }
+  }
+
 }

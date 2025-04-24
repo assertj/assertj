@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.description.Description;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.util.Throwables;
 
 /**
  * Assertion class checking {@link Throwable} type.
@@ -30,7 +30,6 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<ThrowableTypeAssert<T>> {
 
-  @VisibleForTesting
   protected final Class<? extends T> expectedThrowableType;
 
   protected Description description;
@@ -56,7 +55,7 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
    * @return return a {@link ThrowableAssertAlternative}.
    */
   public ThrowableAssertAlternative<T> isThrownBy(final ThrowingCallable throwingCallable) {
-    Throwable throwable = ThrowableAssert.catchThrowable(throwingCallable);
+    Throwable throwable = Throwables.catchThrowable(throwingCallable);
     checkThrowableType(throwable);
     @SuppressWarnings("unchecked")
     T castThrowable = (T) throwable;

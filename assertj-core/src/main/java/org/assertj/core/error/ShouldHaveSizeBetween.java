@@ -8,11 +8,9 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
-
-import static java.lang.String.format;
 
 /**
  * Creates an error message indicating that an assertion - that verifies that size of a value is
@@ -35,8 +33,8 @@ public class ShouldHaveSizeBetween extends BasicErrorMessageFactory {
   }
 
   private ShouldHaveSizeBetween(Object actual, int actualSize, int lowerBoundary, int higherBoundary) {
-    super(format("%nExpected size to be between: %s and %s but was: %s in:%n%s", lowerBoundary, higherBoundary,
-                 actualSize, "%s"),
+    super("%nExpected size to be between: %s and %s but was: %s in:%n%s".formatted(lowerBoundary, higherBoundary,
+                                                                                   actualSize, "%s"),
           actual);
   }
 }

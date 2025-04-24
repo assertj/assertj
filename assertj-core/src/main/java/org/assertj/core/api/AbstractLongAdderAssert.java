@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -18,12 +18,11 @@ import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue
 import java.util.Comparator;
 import java.util.concurrent.atomic.LongAdder;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Longs;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link LongAdder}s.
@@ -35,10 +34,11 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Grzegorz Piwowarek
  * @since 3.16.0
  */
-public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>> extends AbstractAssert<SELF, LongAdder>
+public class AbstractLongAdderAssert<SELF extends AbstractLongAdderAssert<SELF>>
+    extends AbstractAssertWithComparator<SELF, LongAdder>
     implements NumberAssert<SELF, Long>, ComparableAssert<SELF, Long> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Longs longs = Longs.instance();
 
   protected AbstractLongAdderAssert(LongAdder longAdder, Class<?> selfType) {

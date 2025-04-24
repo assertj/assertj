@@ -8,13 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
 import static java.lang.Character.isDigit;
 import static java.lang.Character.isWhitespace;
-import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Locale.ROOT;
 import static java.util.Objects.requireNonNull;
@@ -82,12 +81,10 @@ import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.io.StringReader;
+import java.io.UncheckedIOException;
 import java.text.Normalizer;
 import java.util.Base64;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -97,7 +94,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * @author Alex Ruiz
@@ -108,42 +106,19 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class Strings {
 
-  private static final Set<Character> NON_BREAKING_SPACES;
-
-  static {
-    Set<Character> nonBreakingSpaces = new HashSet<>();
-    nonBreakingSpaces.add('\u00A0');
-    nonBreakingSpaces.add('\u2007');
-    nonBreakingSpaces.add('\u202F');
-    NON_BREAKING_SPACES = Collections.unmodifiableSet(nonBreakingSpaces);
-  }
-
+  private static final Set<Character> NON_BREAKING_SPACES = Set.of('\u00A0', '\u2007', '\u202F');
   private static final String EMPTY_STRING = "";
-  private static final Strings INSTANCE = new Strings();
+  private static final Strings INSTANCE = new Strings(StandardComparisonStrategy.instance());
   private static final String PUNCTUATION_REGEX = "\\p{Punct}";
   private final ComparisonStrategy comparisonStrategy;
-  @VisibleForTesting
-  Failures failures = Failures.instance();
+  private final Failures failures = Failures.instance();
 
   public static Strings instance() {
     return INSTANCE;
   }
 
-  @VisibleForTesting
-  Strings() {
-    this(StandardComparisonStrategy.instance());
-  }
-
   public Strings(ComparisonStrategy comparisonStrategy) {
     this.comparisonStrategy = comparisonStrategy;
-  }
-
-  @VisibleForTesting
-  public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
-    }
-    return null;
   }
 
   public void assertNullOrEmpty(AssertionInfo info, CharSequence actual) {
@@ -212,7 +187,7 @@ public class Strings {
     try {
       while (reader.readLine() != null);
     } catch (IOException e) {
-      throw new InputStreamsException(format("Unable to count lines in `%s`", actual), e);
+      throw new UncheckedIOException("Unable to count lines in `%s`".formatted(actual), e);
     }
     checkLineCounts(actual, reader.getLineNumber(), expectedLineCount, info);
   }
@@ -717,8 +692,8 @@ public class Strings {
     }
     // should not arrive here since we this method is used from assertContainsSubsequence at a step where we know that toFind
     // was found and we are checking whether it was at the right place/order.
-    throw new IllegalStateException(format("%s should have been found in %s, please raise an assertj-core issue", toFind,
-                                           string));
+    throw new IllegalStateException("%s should have been found in %s, please raise an assertj-core issue".formatted(toFind,
+                                                                                                                    string));
   }
 
   public void assertXmlEqualsTo(AssertionInfo info, CharSequence actualXml, CharSequence expectedXml) {

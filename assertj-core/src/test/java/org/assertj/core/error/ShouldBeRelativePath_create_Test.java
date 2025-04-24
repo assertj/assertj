@@ -8,13 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeRelativePath.SHOULD_BE_RELATIVE_PATH;
 import static org.assertj.core.error.ShouldBeRelativePath.shouldBeRelativePath;
 import static org.mockito.Mockito.mock;
 
@@ -42,7 +40,7 @@ class ShouldBeRelativePath_create_Test {
     // WHEN
     String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] " + SHOULD_BE_RELATIVE_PATH, file));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  %s%nto be a relative path.".formatted(file));
   }
 
   @Test
@@ -53,6 +51,6 @@ class ShouldBeRelativePath_create_Test {
     // WHEN
     String message = factory.create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] " + SHOULD_BE_RELATIVE_PATH, path));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  %s%nto be a relative path.".formatted(path));
   }
 }

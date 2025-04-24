@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameHourAs.shouldHaveSameHourAs;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -20,7 +19,6 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import java.time.LocalTime;
 import java.time.OffsetTime;
 import java.time.ZoneOffset;
-
 import org.assertj.core.description.TextDescription;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +36,7 @@ class ShouldHaveSameHourAs_create_Test {
     // WHEN
     String errorMessage = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(errorMessage).isEqualTo(format("[Test] %nExpecting actual:%n  12:00%nto have same hour as:%n  13:00%nbut had not."));
+    then(errorMessage).isEqualTo("[Test] %nExpecting actual:%n  12:00%nto have same hour as:%n  13:00%nbut had not.".formatted());
   }
 
   @Test
@@ -49,6 +47,6 @@ class ShouldHaveSameHourAs_create_Test {
     // WHEN
     String errorMessage = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(errorMessage).isEqualTo(format("[Test] %nExpecting actual:%n  12:00Z%nto have same hour as:%n  13:00Z%nbut had not."));
+    then(errorMessage).isEqualTo("[Test] %nExpecting actual:%n  12:00Z%nto have same hour as:%n  13:00Z%nbut had not.".formatted());
   }
 }

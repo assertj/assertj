@@ -8,18 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHavePeriod.shouldHaveDays;
 import static org.assertj.core.error.ShouldHavePeriod.shouldHaveMonths;
 import static org.assertj.core.error.ShouldHavePeriod.shouldHaveYears;
 
 import java.time.Period;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -36,7 +34,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveYears(period, actualYears, expectedYears).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P1Y%nto have 2 years but had 1"));
+    then(errorMessage).isEqualTo("%nExpecting Period:%n  P1Y%nto have 2 years but had 1".formatted());
   }
 
   @Test
@@ -48,7 +46,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveYears(period, actualYears, expectedYears).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P2Y%nto have 1 year but had 2"));
+    then(errorMessage).isEqualTo("%nExpecting Period:%n  P2Y%nto have 1 year but had 2".formatted());
   }
 
   @Test
@@ -60,7 +58,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveYears(period, actualYears, expectedYears).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P2Y%nto have -1 year but had 2"));
+    then(errorMessage).isEqualTo("%nExpecting Period:%n  P2Y%nto have -1 year but had 2".formatted());
   }
 
   @Test
@@ -72,7 +70,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveDays(period, actualDays, expectedDays).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P1D%nto have 2 days but had 1"));
+    then(errorMessage).isEqualTo("%nExpecting Period:%n  P1D%nto have 2 days but had 1".formatted());
   }
 
   @Test
@@ -84,7 +82,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveDays(period, actualDays, expectedDays).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P2D%nto have 1 day but had 2"));
+    then(errorMessage).isEqualTo("%nExpecting Period:%n  P2D%nto have 1 day but had 2".formatted());
   }
 
   @Test
@@ -96,7 +94,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveDays(period, actualDays, expectedDays).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P1D%nto have -1 day but had 1"));
+    then(errorMessage).isEqualTo("%nExpecting Period:%n  P1D%nto have -1 day but had 1".formatted());
   }
 
   @Test
@@ -108,7 +106,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveMonths(period, actualMonths, expectedMonths).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P1M%nto have 2 months but had 1"));
+    then(errorMessage).isEqualTo("%nExpecting Period:%n  P1M%nto have 2 months but had 1".formatted());
   }
 
   @Test
@@ -120,7 +118,7 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveMonths(period, actualMonths, expectedMonths).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P2M%nto have 1 month but had 2"));
+    then(errorMessage).isEqualTo("%nExpecting Period:%n  P2M%nto have 1 month but had 2".formatted());
   }
 
   @Test
@@ -132,6 +130,6 @@ class ShouldHavePeriod_create_test {
     // WHEN
     String errorMessage = shouldHaveMonths(period, actualMonths, expectedMonths).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Period:%n  P2M%nto have -1 month but had 2"));
+    then(errorMessage).isEqualTo("%nExpecting Period:%n  P2M%nto have -1 month but had 2".formatted());
   }
 }

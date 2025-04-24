@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -46,6 +46,8 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.annotations.Beta;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.iterable.ThrowingExtractor;
@@ -57,21 +59,15 @@ import org.assertj.core.description.Description;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ConfigurableRecursiveFieldByFieldComparator;
 import org.assertj.core.internal.ExtendedByTypesComparator;
-import org.assertj.core.internal.FieldByFieldComparator;
-import org.assertj.core.internal.IgnoringFieldsComparator;
 import org.assertj.core.internal.Iterables;
-import org.assertj.core.internal.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
-import org.assertj.core.internal.OnFieldsComparator;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Strings;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -81,7 +77,6 @@ import org.assertj.core.util.introspection.IntrospectionError;
  * </p>
  *
  * @param <ELEMENT> the type of elements of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -94,15 +89,15 @@ import org.assertj.core.util.introspection.IntrospectionError;
 // IntelliJ thinks this is redundant when it is not.
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
 public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT> extends
-    AbstractAssert<SELF, ELEMENT[]>
+    AbstractAssertWithComparator<SELF, ELEMENT[]>
     implements IndexedObjectEnumerableAssert<AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT>,
     ArraySortedAssert<AbstractObjectArrayAssert<SELF, ELEMENT>, ELEMENT> {
 
   private static final String ASSERT = "Assert";
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ObjectArrays arrays = ObjectArrays.instance();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables iterables = Iterables.instance();
 
   // not private because AbstractIterableAssert.withAssertionState needs to access them
@@ -263,7 +258,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertions will fail
    * assertThat(new String[] { &quot;a&quot;, &quot;b&quot; }).hasSizeBetween(3, 4);</code></pre>
    *
-   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param lowerBoundary  the lower boundary compared to which actual size should be greater than or equal to.
    * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the actual array is not between the boundaries.
@@ -346,9 +341,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array does not contain the given values.
+   * @throws AssertionError       if the given argument is an empty array and the actual array is not empty.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the actual array does not contain the given values.
    */
   @Override
   @SafeVarargs
@@ -391,10 +386,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
-   *           or none of the given values, or the actual array contains more values than the given ones.
+   * @throws AssertionError       if the given argument is an empty array and the actual array is not empty.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the actual array does not contain the given values, i.e. the actual array contains some
+   *                              or none of the given values, or the actual array contains more values than the given ones.
    */
   @Override
   @SafeVarargs
@@ -408,30 +403,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   protected SELF containsOnlyForProxy(ELEMENT[] values) {
     arrays.assertContainsOnly(info, actual, values);
     return myself;
-  }
-
-  /**
-   * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all elements of the given
-   * {@code Iterable} and nothing else, <b>in any order</b>  and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
-   * <p>
-   * Example :
-   * <pre><code class='java'> Ring[] rings = {nenya, vilya};
-   *
-   * // assertions will pass
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya));
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, nenya, vilya, vilya));
-   * assertThat(newArrayList(nenya, nenya, vilya, vilya)).containsOnlyElementsOf(rings);
-   *
-   * // assertion will fail as actual does not contain narya
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(nenya, vilya, narya));
-   * // assertion will fail as actual contains nenya
-   * assertThat(rings).containsOnlyElementsOf(newArrayList(vilya));</code></pre>
-   *
-   * @param iterable the given {@code Iterable} we will get elements from.
-   */
-  @Override
-  public SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable) {
-    return containsOnly(toArray(iterable));
   }
 
   /**
@@ -450,7 +421,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array is empty or contains a non null element
+   * @throws AssertionError if the actual array is empty or contains a non-null element
    * @since 2.9.0 / 3.9.0
    */
   @Override
@@ -460,63 +431,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the unique element of the array satisfies the given assertions expressed as a {@link Consumer},
-   * if it does not, only the first error is reported, use {@link SoftAssertions} to get all the errors.
-   * <p>
-   * Example:
-   * <pre><code class='java'> Jedi[] jedis = array(new Jedi("Yoda", "red"));
-   *
-   * // assertions will pass
-   *
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Y"));
-   *
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
-   *   assertThat(yoda.getName()).isEqualTo("Yoda");
-   *   assertThat(yoda.getLightSaberColor()).isEqualTo("red");
-   * });
-   *
-   * // assertions will fail
-   *
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Vad"));
-   *
-   * // fail as one the assertions is not satisfied
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
-   *   assertThat(yoda.getName()).isEqualTo("Yoda");
-   *   assertThat(yoda.getLightSaberColor()).isEqualTo("purple");
-   * });
-   *
-   * // fail but only report the first error
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
-   *   assertThat(yoda.getName()).isEqualTo("Luke");
-   *   assertThat(yoda.getLightSaberColor()).isEqualTo("green");
-   * });
-   *
-   * // fail and reports the errors thanks to Soft assertions
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
-   *   SoftAssertions softly = new SoftAssertions();
-   *   softly.assertThat(yoda.getName()).isEqualTo("Luke");
-   *   softly.assertThat(yoda.getLightSaberColor()).isEqualTo("green");
-   *   softly.assertAll();
-   * });
-   *
-   * // even if the assertion is correct, there are too many jedis !
-   * jedis = array(new Jedi("Yoda", "red"), new Jedi("Luke", "green"));
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Yo"));</code></pre>
-   *
-   * @param elementAssertions the assertions to perform on the unique element.
-   * @throws AssertionError if the array does not have a unique element.
-   * @throws AssertionError if the array's unique element does not satisfies the given assertions.
-   * @since 3.5.0
-   */
-  @Override
-  public SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions) {
-    iterables.assertHasOnlyOneElementSatisfying(info, newArrayList(actual), elementAssertions);
-    return myself;
-  }
-
-  /**
-   * An alias of {@link #containsOnlyElementsOf(Iterable)} : verifies that actual contains all elements of the
-   * given {@code Iterable} and nothing else, <b>in any order</b>.
+   * Verifies that actual contains all elements of the given {@code Iterable} and nothing else, <b>in any order</b>.
    * <p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
@@ -531,14 +446,14 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param iterable the {@code Iterable} whose elements we expect to be present
    * @return this assertion object
-   * @throws AssertionError if the actual array is {@code null}
+   * @throws AssertionError       if the actual array is {@code null}
    * @throws NullPointerException if the given {@code Iterable} is {@code null}
-   * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
-   *           {@code Iterable}
+   * @throws AssertionError       if the actual {@code Iterable} does not have the same elements, in any order, as the given
+   *                              {@code Iterable}
    */
   @Override
   public SELF hasSameElementsAs(Iterable<? extends ELEMENT> iterable) {
-    return containsOnlyElementsOf(iterable);
+    return containsOnly(toArray(iterable));
   }
 
   /**
@@ -559,10 +474,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array does not contain the given values, i.e. the actual array contains some
-   *           or none of the given values, or the actual array contains more than once these values.
+   * @throws AssertionError       if the given argument is an empty array and the actual array is not empty.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the actual array does not contain the given values, i.e. the actual array contains some
+   *                              or none of the given values, or the actual array contains more than once these values.
    */
   @Override
   @SafeVarargs
@@ -601,11 +516,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
-   * @throws AssertionError if the actual array does not contain the given values with same order, i.e. the actual array
-   *           contains some or none of the given values, or the actual array contains more values than the given ones
-   *           or values are the same but the order is not.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the given argument is an empty array and the actual array is not empty.
+   * @throws AssertionError       if the actual array does not contain the given values with same order, i.e. the actual array
+   *                              contains some or none of the given values, or the actual array contains more values than the given ones
+   *                              or values are the same but the order is not.
    */
   @Override
   @SafeVarargs
@@ -637,10 +552,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
-   * @throws AssertionError if the actual arrray does not contain the given values, i.e. the actual array
-   *           contains some or none of the given values, or the actual array contains more values than the given ones.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the given argument is an empty array and the actual array is not empty.
+   * @throws AssertionError       if the actual array does not contain the given values, i.e. the actual array
+   *                              contains some or none of the given values, or the actual array contains more values than the given ones.
    */
   @Override
   @SafeVarargs
@@ -955,11 +870,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param value the object to look for.
    * @param index the index where the object should be stored in the actual array.
    * @return this assertion object.
-   * @throws AssertionError if the actual array is {@code null} or empty.
-   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws AssertionError            if the actual array is {@code null} or empty.
+   * @throws NullPointerException      if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of the actual
-   *           group.
-   * @throws AssertionError if the actual array does not contain the given object at the given index.
+   *                                   group.
+   * @throws AssertionError            if the actual array does not contain the given object at the given index.
    */
   @Override
   public SELF contains(ELEMENT value, Index index) {
@@ -985,8 +900,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param types the expected classes and interfaces
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if not all elements of the actual array are instances of one of the given types
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if not all elements of the actual array are instances of one of the given types
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -1017,8 +932,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param expectedTypes the expected types
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given type array is {@code null}.
-   * @throws AssertionError if actual is {@code null}.
-   * @throws AssertionError if the actual elements types don't exactly match the given ones (in the given order).
+   * @throws AssertionError       if actual is {@code null}.
+   * @throws AssertionError       if the actual elements types don't exactly match the given ones (in the given order).
    */
   @Override
   public SELF hasExactlyElementsOfTypes(Class<?>... expectedTypes) {
@@ -1045,9 +960,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param value the object to look for.
    * @param index the index where the object should not be stored in the actual array.
    * @return this assertion object.
-   * @throws AssertionError if the actual array is {@code null}.
+   * @throws AssertionError       if the actual array is {@code null}.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
-   * @throws AssertionError if the actual array contains the given object at the given index.
+   * @throws AssertionError       if the actual array contains the given object at the given index.
    */
   @Override
   public SELF doesNotContain(ELEMENT value, Index index) {
@@ -1071,10 +986,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array contains any of the given values.
+   * @throws AssertionError           if the actual array is {@code null}.
+   * @throws AssertionError           if the actual array contains any of the given values.
    */
   @Override
   @SafeVarargs
@@ -1105,10 +1020,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param iterable the {@link Iterable} whose elements must not be in the actual array.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty iterable.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array contains some elements of the given {@link Iterable}.
+   * @throws AssertionError           if the actual array is {@code null}.
+   * @throws AssertionError           if the actual array contains some elements of the given {@link Iterable}.
    */
   @Override
   public SELF doesNotContainAnyElementsOf(Iterable<? extends ELEMENT> iterable) {
@@ -1156,9 +1071,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the given argument is an empty array and the actual array is not empty.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array does not start with the given sequence of objects.
+   * @throws AssertionError       if the given argument is an empty array and the actual array is not empty.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the actual array does not start with the given sequence of objects.
    */
   @Override
   @SafeVarargs
@@ -1192,8 +1107,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array does not end with the given sequence of objects.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the actual array does not end with the given sequence of objects.
    */
   @Override
   public SELF endsWith(ELEMENT[] sequence) {
@@ -1215,12 +1130,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertion will fail
    * assertThat(abc).endsWith("a");</code></pre>
    *
-   * @param first the first element of the end sequence of objects to look for.
+   * @param first    the first element of the end sequence of objects to look for.
    * @param sequence the rest of the end sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array does not end with the given sequence of objects.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the actual array does not end with the given sequence of objects.
    */
   @Override
   @SafeVarargs
@@ -1251,9 +1166,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param values the {@code Iterable} that should contain all actual elements.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Iterable} is {@code null}.
+   * @throws AssertionError       if the actual {@code Iterable} is {@code null}.
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
+   * @throws AssertionError       if the actual {@code Iterable} is not subset of set {@code Iterable}.
    */
   @Override
   public SELF isSubsetOf(Iterable<? extends ELEMENT> values) {
@@ -1359,8 +1274,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to ELEMENT.
-   * @throws AssertionError if one or more elements don't satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to ELEMENT.
+   * @throws AssertionError       if one or more elements don't satisfy the given condition.
    */
   @Override
   public SELF are(Condition<? super ELEMENT> condition) {
@@ -1387,8 +1302,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to ELEMENT.
-   * @throws AssertionError if one or more elements satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to ELEMENT.
+   * @throws AssertionError       if one or more elements satisfy the given condition.
    */
   @Override
   public SELF areNot(Condition<? super ELEMENT> condition) {
@@ -1415,8 +1330,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to ELEMENT.
-   * @throws AssertionError if one or more elements do not satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to ELEMENT.
+   * @throws AssertionError       if one or more elements do not satisfy the given condition.
    */
   @Override
   public SELF have(Condition<? super ELEMENT> condition) {
@@ -1443,8 +1358,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to ELEMENT.
-   * @throws AssertionError if one or more elements satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to ELEMENT.
+   * @throws AssertionError       if one or more elements satisfy the given condition.
    */
   @Override
   public SELF doNotHave(Condition<? super ELEMENT> condition) {
@@ -1466,12 +1381,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertion will fail
    * oneTwoThree.areAtLeast(3, oddNumber);</code></pre>
    *
-   * @param times the minimum number of times the condition should be verified.
+   * @param times     the minimum number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element can not be cast to T.
-   * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
+   * @throws AssertionError       if an element can not be cast to T.
+   * @throws AssertionError       if the number of elements satisfying the given condition is &lt; n.
    */
   @Override
   public SELF areAtLeast(int times, Condition<? super ELEMENT> condition) {
@@ -1511,12 +1426,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertion will fail
    * oneTwoThree.areAtMost(1, oddNumber);</code></pre>
    *
-   * @param times the number of times the condition should be at most verified.
+   * @param times     the number of times the condition should be at most verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to ELEMENT.
-   * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
+   * @throws AssertionError       if an element cannot be cast to ELEMENT.
+   * @throws AssertionError       if the number of elements satisfying the given condition is &gt; n.
    */
   @Override
   public SELF areAtMost(int times, Condition<? super ELEMENT> condition) {
@@ -1539,12 +1454,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * oneTwoThree.areExactly(1, oddNumber);
    * oneTwoThree.areExactly(3, oddNumber);</code></pre>
    *
-   * @param times the exact number of times the condition should be verified.
+   * @param times     the exact number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to ELEMENT.
-   * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
+   * @throws AssertionError       if an element cannot be cast to ELEMENT.
+   * @throws AssertionError       if the number of elements satisfying the given condition is &ne; n.
    */
   @Override
   public SELF areExactly(int times, Condition<? super ELEMENT> condition) {
@@ -1583,7 +1498,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * // assertion will fail
    * oneTwoThree.haveAtLeast(3, oddNumber);</code></pre>
-   *
+   * <p>
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
    */
   @Override
@@ -1606,7 +1521,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * // assertion will fail
    * oneTwoThree.haveAtMost(1, oddNumber);</code></pre>
-   *
+   * <p>
    * This method is an alias {@link #areAtMost(int, Condition)}.
    */
   @Override
@@ -1629,7 +1544,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // assertions will fail
    * oneTwoThree.haveExactly(1, oddNumber);
    * oneTwoThree.haveExactly(3, oddNumber);</code></pre>
-   *
+   * <p>
    * This method is an alias {@link #areExactly(int, Condition)}.
    */
   @Override
@@ -1638,35 +1553,45 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF hasAtLeastOneElementOfType(Class<?> type) {
     arrays.assertHasAtLeastOneElementOfType(info, actual, type);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF hasOnlyElementsOfType(Class<?> type) {
     arrays.assertHasOnlyElementsOfType(info, actual, type);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF doesNotHaveAnyElementsOfTypes(Class<?>... unexpectedTypes) {
     arrays.assertDoesNotHaveAnyElementsOfTypes(info, actual, unexpectedTypes);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isSorted() {
     arrays.assertIsSorted(info, actual);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public SELF isSortedAccordingTo(Comparator<? super ELEMENT> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
@@ -1689,8 +1614,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param iterable the given {@code Iterable} we will get elements from.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual array is {@code null}.
-   * @throws AssertionError if the actual array does not contain all the elements of given {@code Iterable}.
+   * @throws AssertionError       if the actual array is {@code null}.
+   * @throws AssertionError       if the actual array does not contain all the elements of given {@code Iterable}.
    */
   @Override
   public SELF containsAll(Iterable<? extends ELEMENT> iterable) {
@@ -1707,7 +1632,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Examples :
    * <pre><code class='java'> // compares invoices by payee
-   * assertThat(invoiceArray).usingComparator(invoicePayeeComparator).isEqualTo(expectedinvoiceArray).
+   * assertThat(invoiceArray).usingComparator(invoicePayeeComparator).isEqualTo(expectedInvoiceArray).
    *
    * // compares invoices by date, doesNotHaveDuplicates and contains both use the given invoice date comparator
    * assertThat(invoiceArray).usingComparator(invoiceDateComparator).doesNotHaveDuplicates().contains(may2010Invoice)
@@ -1725,8 +1650,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *                                .contains(sauron);</code></pre>
    *
    * @param elementComparator the comparator to use for incoming assertion checks.
-   * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
+   * @throws NullPointerException if the given comparator is {@code null}.
    */
   @Override
   @CheckReturnValue
@@ -1739,11 +1664,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
     return myself;
   }
 
-  private SELF usingExtendedByTypesElementComparator(Comparator<Object> elementComparator) {
-    return usingElementComparator(new ExtendedByTypesComparator(elementComparator, getComparatorsByType()));
-  }
-
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public SELF usingDefaultElementComparator() {
@@ -1752,197 +1675,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * <u><b>Deprecated javadoc</b></u>
-   * <p>
-   * Allows to set a comparator to compare properties or fields of elements with the given names.
-   * A typical usage is for comparing fields of numeric type at a given precision.
-   * <p>
-   * To be used, comparators need to be specified by this method <b>before</b> calling any of:
-   * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator}</li>
-   * <li>{@link #usingElementComparatorOnFields}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields}</li>
-   * <li>{@link #usingRecursiveFieldByFieldElementComparator}</li>
-   * </ul>
-   * <p>
-   * Comparators specified by this method have precedence over comparators specified by
-   * {@link #usingComparatorForElementFieldsWithType(Comparator, Class) usingComparatorForElementFieldsWithType}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> public class TolkienCharacter {
-   *   private String name;
-   *   private double height;
-   *   // constructor omitted
-   * }
-   *
-   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
-   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
-   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
-   *
-   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
-   *   double precision = 0.5;
-   *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
-   *   }
-   * };
-   *
-   * TolkienCharacter[] hobbits = new TolkienCharacter[] {frodo};
-   *
-   * // assertions will pass
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingElementComparatorOnFields(&quot;height&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingElementComparatorIgnoringFields(&quot;name&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingRecursiveFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * // assertion will fail
-   * assertThat(hobbits).usingComparatorForElementFieldsWithNames(closeEnough, &quot;height&quot;)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .containsExactly(reallyTallFrodo);</code></pre>
-   *
-   * @param <C> the type of elements to compare.
-   * @param comparator the {@link java.util.Comparator} to use
-   * @param elementPropertyOrFieldNames the names of the properties and/or fields of the elements the comparator should be used for
-   * @return {@code this} assertions object
-   * @since 2.5.0 / 3.5.0
-   * @deprecated This method is used with {@link #usingFieldByFieldElementComparator()} which is deprecated in favor of
-   * {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} or {@link #usingRecursiveComparison()}.
-   * <p>
-   * When using {@link #usingRecursiveComparison()} the equivalent is:
-   * <ul>
-   * <li>{@link RecursiveComparisonAssert#withEqualsForFields(java.util.function.BiPredicate, String...)}</li>
-   * <li>{@link RecursiveComparisonAssert#withComparatorForFields(Comparator, String...)}</li>
-   * </ul>
-   * <p>
-   * and when using {@link RecursiveComparisonConfiguration}:
-   * <ul>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withEqualsForFields(java.util.function.BiPredicate, String...)}</li>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForFields(Comparator, String...)}</li>
-   * </ul>
-   */
-  @Deprecated
-  @CheckReturnValue
-  public <C> SELF usingComparatorForElementFieldsWithNames(Comparator<C> comparator,
-                                                           String... elementPropertyOrFieldNames) {
-    for (String elementPropertyOrField : elementPropertyOrFieldNames) {
-      comparatorsForElementPropertyOrFieldNames.put(elementPropertyOrField, comparator);
-    }
-    return myself;
-  }
-
-  /**
-   * <u><b>Deprecated javadoc</b></u>
-   * <p>
-   * Allows to set a specific comparator to compare properties or fields of elements with the given type.
-   * A typical usage is for comparing fields of numeric type at a given precision.
-   * <p>
-   * To be used, comparators need to be specified by this method <b>before</b> calling any of:
-   * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator()}</li>
-   * <li>{@link #usingElementComparatorOnFields(String...)}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields(String...)}</li>
-   * </ul>
-   * <p>
-   * Comparators specified by {@link #usingComparatorForElementFieldsWithNames(Comparator, String...) usingComparatorForElementFieldsWithNames}
-   * have precedence over comparators specified by this method.
-   * <p>
-   * Example:
-   * <pre><code class='java'> public class TolkienCharacter {
-   *   private String name;
-   *   private double height;
-   *   // constructor omitted
-   * }
-   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
-   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
-   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
-   *
-   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
-   *   double precision = 0.5;
-   *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
-   *   }
-   * };
-   *
-   * TolkienCharacter[] hobbits = new TolkienCharacter[] {frodo};
-   *
-   * // assertions will pass
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingElementComparatorOnFields(&quot;height&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingElementComparatorIgnoringFields(&quot;name&quot;)
-   *                    .contains(tallerFrodo);
-   *
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingRecursiveFieldByFieldElementComparator()
-   *                    .contains(tallerFrodo);
-   *
-   * // assertion will fail
-   * assertThat(hobbits).usingComparatorForElementFieldsWithType(closeEnough, Double.class)
-   *                    .usingFieldByFieldElementComparator()
-   *                    .contains(reallyTallFrodo);</code></pre>
-   *
-   * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance
-   * chain to the given {@code type} is chosen in the following order:
-   * <ol>
-   * <li>The comparator for the exact given {@code type}</li>
-   * <li>The comparator of a superclass of the given {@code type}</li>
-   * <li>The comparator of an interface implemented by the given {@code type}</li>
-   * </ol>
-   *
-   * @param <C> the type of elements to compare.
-   * @param comparator the {@link java.util.Comparator} to use
-   * @param type the {@link java.lang.Class} of the type of the element fields the comparator should be used for
-   * @return {@code this} assertions object
-   * @since 2.5.0 / 3.5.0
-   * @deprecated This method is used with {@link #usingFieldByFieldElementComparator()} which is deprecated in favor of
-   * {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} or {@link #usingRecursiveComparison()}.
-   * <p>
-   * When using {@link #usingRecursiveComparison()} the equivalent is:
-   * <ul>
-   * <li>{@link RecursiveComparisonAssert#withEqualsForType(java.util.function.BiPredicate, Class)}</li>
-   * <li>{@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)}</li>
-   * </ul>
-   * <p>
-   * and when using {@link RecursiveComparisonConfiguration}:
-   * <ul>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withEqualsForType(java.util.function.BiPredicate, Class)}</li>
-   * <li>{@link RecursiveComparisonConfiguration.Builder#withComparatorForType(Comparator, Class)}</li>
-   * </ul>
-   */
-  @Deprecated
-  @CheckReturnValue
-  public <C> SELF usingComparatorForElementFieldsWithType(Comparator<C> comparator, Class<C> type) {
-    getComparatorsForElementPropertyOrFieldTypes().registerComparator(type, comparator);
-    return myself;
-  }
-
-  /**
    * Allows to set a specific comparator for the given type of elements or their fields.
-   * Extends {@link #usingComparatorForElementFieldsWithType} by applying comparator specified for given type
-   * to elements themselves, not only to their fields.
-   * <p>
-   * Usage of this method affects comparators set by the following methods:
-   * <ul>
-   * <li>{@link #usingFieldByFieldElementComparator()}</li>
-   * <li>{@link #usingElementComparatorOnFields(String...)}</li>
-   * <li>{@link #usingElementComparatorIgnoringFields(String...)}</li>
-   * </ul>
    * <p>
    * Example:
    * <pre><code class='java'> Person obiwan = new Person("Obi-Wan");
@@ -1953,9 +1686,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *                   .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
    *                   .containsExactly("Obi-Wan", new BigDecimal("1.82"));</code></pre>
    *
-   * @param <C> the type of elements to compare.
+   * @param <C>        the type of elements to compare.
    * @param comparator the {@link java.util.Comparator} to use
-   * @param type the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for
+   * @param type       the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for
    * @return {@code this} assertions object
    * @since 2.9.0 / 3.9.0
    */
@@ -1970,45 +1703,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * <b><u>Deprecated javadoc</u></b>
-   * <p>
-   * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
-   * actual type A <code>equals</code> method to compare group elements for incoming assertion checks. Private fields
-   * are included but this can be disabled using {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
-   * <p>
-   * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
-   * <p>
-   * You can specify a custom comparator per name or type of element field with
-   * {@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}
-   * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
-   * <p>
-   * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
-   * to the other field/property using its <code>equals</code> method.
-   * <p>
-   * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
-   *
-   * // Fail if equals has not been overridden in TolkienCharacter as equals default implementation only compares references
-   * assertThat(array(frodo)).contains(frodoClone);
-   *
-   * // frodo and frodoClone are equals when doing a field by field comparison.
-   * assertThat(array(frodo)).usingFieldByFieldElementComparator().contains(frodoClone);</code></pre>
-   *
-   * @return {@code this} assertion object.
-   * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are compared
-   * field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparator()}
-   * or {@link #usingRecursiveComparison()} instead to perform a true recursive comparison.
-   * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   */
-  @Deprecated
-  @CheckReturnValue
-  public SELF usingFieldByFieldElementComparator() {
-    return usingExtendedByTypesElementComparator(new FieldByFieldComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                            getComparatorsForElementPropertyOrFieldTypes()));
-  }
-
-  /**
    * Enable using a recursive field by field comparison strategy similar to {@link #usingRecursiveComparison()} but contrary to the latter <b>you can chain any iterable assertions after this method</b> (this is why this method exists).
    * <p>
    * This method uses the default {@link RecursiveComparisonConfiguration}, if you need to customize it use {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} instead.
@@ -2017,9 +1711,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <ul>
    *   <li>{@link #usingComparatorForType(Comparator, Class)}</li>
    *   <li>{@link #withTypeComparators(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
    * <p>
@@ -2078,17 +1770,17 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Another point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
    * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
-   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * use the more fine-grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @return {@code this} assertion object.
-   * @since 2.5.0 / 3.5.0 - breaking change in 3.20.0
    * @see RecursiveComparisonConfiguration
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @since 2.5.0 / 3.5.0 - breaking change in 3.20.0
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparator() {
-    return usingRecursiveFieldByFieldElementComparator(new RecursiveComparisonConfiguration());
+    return usingRecursiveFieldByFieldElementComparator(new RecursiveComparisonConfiguration(info.representation()));
   }
 
   /**
@@ -2100,9 +1792,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <ul>
    *   <li>{@link #usingComparatorForType(Comparator, Class)}</li>
    *   <li>{@link #withTypeComparators(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithType(Comparator, Class)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldTypes(TypeComparators)}</li>
-   *   <li>{@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}</li>
    *   <li>{@link #withComparatorsForElementPropertyOrFieldNames(Map)}</li>
    * </ul>
    * <p>
@@ -2164,65 +1854,21 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * people = list(howard, sheldon, raj)
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
    *                    .contains(howard);</code></pre>
-   *
+   * <p>
    * A detailed documentation for the recursive comparison is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
    * <p>
    * A point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
    * The ordering can be ignored by calling {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} allowing ordered/unordered iterable comparison, note that {@link RecursiveComparisonAssert#ignoringCollectionOrder ignoringCollectionOrder} is applied recursively on any nested iterable fields, if this behavior is too generic,
-   * use the more fine grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
+   * use the more fine-grained {@link RecursiveComparisonAssert#ignoringCollectionOrderInFields(String...) ignoringCollectionOrderInFields} or
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @param configuration the recursive comparison configuration.
-   *
    * @return {@code this} assertion object.
-   * @since 3.20.0
    * @see RecursiveComparisonConfiguration
+   * @since 3.20.0
    */
   public SELF usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration configuration) {
     return usingElementComparator(new ConfigurableRecursiveFieldByFieldComparator(configuration));
-  }
-
-  /**
-   * <b><u>Deprecated javadoc</u></b>
-   * <p>
-   * Use field/property by field/property comparison on the <b>given fields/properties only</b> (including inherited
-   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare group elements for
-   * incoming assertion checks. Private fields are included but this can be disabled using
-   * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
-   * <p>
-   * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
-   * <p>
-   * You can specify a custom comparator per name or type of element field with
-   * {@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}
-   * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
-   * <p>
-   * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
-   * to the other field/property using its <code>equals</code> method.
-   * <p>
-   * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
-   *
-   * // frodo and sam both are hobbits, so they are equals when comparing only race
-   * assertThat(array(frodo)).usingElementComparatorOnFields("race").contains(sam); // OK
-   *
-   * // ... but not when comparing both name and race
-   * assertThat(array(frodo)).usingElementComparatorOnFields("name", "race").contains(sam); // FAIL</code></pre>
-   *
-   * @param fields the name of the fields to use the element comparator on
-   * @return {@code this} assertion object.
-   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
-   * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are
-   * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorOnFields(String...)} instead.
-   * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   */
-  @Deprecated
-  @CheckReturnValue
-  public SELF usingElementComparatorOnFields(String... fields) {
-    return usingExtendedByTypesElementComparator(new OnFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                        getComparatorsForElementPropertyOrFieldTypes(),
-                                                                        fields));
   }
 
   /**
@@ -2260,11 +1906,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *                               .contains(jalenRose);</code></pre>
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    * <p>
+   *
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
-   * @since 3.20.0
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @since 3.20.0
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparatorOnFields(String... fields) {
@@ -2272,49 +1919,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
                                                                                                         .withComparedFields(fields)
                                                                                                         .build();
     return usingRecursiveFieldByFieldElementComparator(recursiveComparisonConfiguration);
-  }
-
-  /**
-   * <b><u>Deprecated javadoc</u></b>
-   * <p>
-   * Use field/property by field/property on all fields/properties <b>except</b> the given ones (including inherited
-   * fields/properties) instead of relying on actual type A <code>equals</code> method to compare group elements for
-   * incoming assertion checks. Private fields are included but this can be disabled using
-   * {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
-   * <p>
-   * This can be handy if <code>equals</code> method of the objects to compare does not suit you.
-   * <p>
-   * You can specify a custom comparator per name or type of element field with
-   * {@link #usingComparatorForElementFieldsWithNames(Comparator, String...)}
-   * and {@link #usingComparatorForElementFieldsWithType(Comparator, Class)}.
-   * <p>
-   * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be compared
-   * to the other field/property using its <code>equals</code> method.
-   * <p>
-   * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
-   *
-   * // frodo and sam both are hobbits, so they are equals when comparing only race (i.e. ignoring all other fields)
-   * assertThat(array(frodo)).usingElementComparatorIgnoringFields("name", "age").contains(sam); // OK
-   *
-   * // ... but not when comparing both name and race
-   * assertThat(array(frodo)).usingElementComparatorIgnoringFields("age").contains(sam); // FAIL</code></pre>
-   *
-   * @param fields the name of the fields to ignore
-   * @return {@code this} assertion object.
-   * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
-   * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are
-   * compared field by field but the fields are compared with equals, use {@link #usingRecursiveFieldByFieldElementComparatorIgnoringFields(String...)} instead.
-   * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   */
-  @Deprecated
-  @CheckReturnValue
-  public SELF usingElementComparatorIgnoringFields(String... fields) {
-    return usingExtendedByTypesElementComparator(new IgnoringFieldsComparator(comparatorsForElementPropertyOrFieldNames,
-                                                                              getComparatorsForElementPropertyOrFieldTypes(),
-                                                                              fields));
   }
 
   /**
@@ -2352,11 +1956,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *                               .contains(jalenRose);</code></pre>
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    * <p>
+   *
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
-   * @since 3.20.0
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @since 3.20.0
    */
   @CheckReturnValue
   public SELF usingRecursiveFieldByFieldElementComparatorIgnoringFields(String... fields) {
@@ -2398,7 +2003,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;)
    *                                .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *                                .doesNotContain(&quot;Orc&quot;);</code></pre>
-   *
+   * <p>
    * A property with the given name is looked for first, if it does not exist then a field with the given name
    * is looked for.
    * <p>
@@ -2409,7 +2014,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IntrospectionError if no field or property exists with the given name
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extracting(String fieldOrProperty) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String fieldOrProperty) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
     String extractedDescription = extractedDescriptionOf(fieldOrProperty);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -2448,15 +2053,15 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;, String.class)
    *                                .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *                                .doesNotContain(&quot;Orc&quot;);</code></pre>
-   *
+   * <p>
    * A property with the given name is looked for first, if it does not exist then a field with the given name
    * is looked for.
    * <p>
    * Note that the order of extracted field/property values is consistent with the order of the array under test.
    *
-   * @param <P> the type of elements to extract.
+   * @param <P>             the type of elements to extract.
    * @param fieldOrProperty the field/property to extract from the array under test
-   * @param extractingType type to return
+   * @param extractingType  type to return
    * @return a new assertion object whose object under test is the list of extracted field/property values.
    * @throws IntrospectionError if no field or property exists with the given name
    */
@@ -2509,9 +2114,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *                                .contains(tuple(&quot;Boromir&quot;, 37, &quot;Man&quot;),
    *                                          tuple(&quot;Sam&quot;, 38, &quot;Hobbit&quot;),
    *                                          tuple(&quot;Legolas&quot;, 1000, &quot;Elf&quot;));</code></pre>
-   *
-   * A property with the given name is looked for first, if it does not exist the a field with the given name is
-   * looked for.
+   * <p>
+   * A property with the given name is looked for first, if it does not exist a field with the given name is looked for.
    * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the array under
    * test.
@@ -2550,12 +2154,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * // fellowship has hobbitses, right, my presioussss?
    * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getRace).contains(HOBBIT);</code></pre>
-   *
+   * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
    *
-   * @param <U> the type of elements to extract.
+   * @param <U>       the type of elements to extract.
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of extracted values.
    */
@@ -2597,9 +2201,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the array under test.
    *
-   * @param <V> the type of elements to extract.
+   * @param <V>         the type of elements to extract.
    * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
-   * @param extractor the object transforming input object to desired one
+   * @param extractor   the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of extracted values
    * @since 3.7.0
    */
@@ -2617,7 +2221,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * It allows you to test values from the array's elements instead of testing the elements themselves, which sometimes can be
    * much less work!
    * <p>
-   * The {@link Tuple} data corresponds to the extracted values from the arrays's elements, for instance if you pass functions
+   * The {@link Tuple} data corresponds to the extracted values from the array's elements, for instance if you pass functions
    * extracting "id", "name" and "email" values then each {@link Tuple}'s data will be composed of an id, a name and an email
    * extracted from the element of the initial array (the Tuple's data order is the same as the given functions order).
    * <p>
@@ -2696,12 +2300,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // check children
    * assertThat(parents).flatExtracting(CartoonCharacter::getChildren)
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
-   *
-   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * <p>
+   * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
-   * @param <V> the type of elements to extract.
-   * @param <C> the type of collection to flat/extract.
+   * @param <V>       the type of elements to extract.
+   * @param <C>       the type of collection to flat/extract.
    * @param extractor the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    */
@@ -2736,14 +2340,14 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *   }
    *   return input.getChildren();
    * }).containsOnly(bart, lisa, maggie, pebbles);</code></pre>
-   *
-   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * <p>
+   * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
-   * @param <V> the type of elements to extract.
-   * @param <C> the type of collection to flat/extract.
+   * @param <V>         the type of elements to extract.
+   * @param <C>         the type of collection to flat/extract.
    * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
-   * @param extractor the object transforming input object to an Iterable of desired ones
+   * @param extractor   the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.7.0
    */
@@ -2779,8 +2383,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // check children
    * assertThat(parents).flatExtracting("children")
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
-   *
-   * The order of extracted values is consisted with both the order of the collection itself, as well as the extracted
+   * <p>
+   * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
    * @param propertyName the object transforming input object to an Iterable of desired ones
@@ -2788,7 +2392,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @throws IllegalArgumentException if one of the extracted property value was not an array or an iterable.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> flatExtracting(String propertyName) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String propertyName) {
     List<Object> extractedValues = newArrayList();
     List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertyName));
     for (Object group : extractedGroups) {
@@ -2798,8 +2402,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
         for (int i = 0; i < size; i++) {
           extractedValues.add(Array.get(group, i));
         }
-      } else if (group instanceof Iterable) {
-        Iterable<?> iterable = (Iterable<?>) group;
+      } else if (group instanceof Iterable<?> iterable) {
         for (Object value : iterable) {
           extractedValues.add(value);
         }
@@ -2845,10 +2448,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param method the name of the method which result is to be extracted from the array under test
    * @return a new assertion object whose object under test is the list of extracted values.
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
-   *           return void, or method accepts arguments.
+   *                                  return void, or method accepts arguments.
    */
   @CheckReturnValue
-  public AbstractListAssert<?, List<? extends Object>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
+  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -2887,12 +2490,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Note that the order of extracted values is consistent with the order of the array under test.
    *
-   * @param <P> the type of elements extracted.
-   * @param method the name of the method which result is to be extracted from the array under test
+   * @param <P>            the type of elements extracted.
+   * @param method         the name of the method which result is to be extracted from the array under test
    * @param extractingType type to return
    * @return a new assertion object whose object under test is the list of extracted values.
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
-   *           return void, or method accepts arguments.
+   *                                  return void, or method accepts arguments.
    */
   @CheckReturnValue
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extractingResultOf(String method,
@@ -2912,7 +2515,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Example
    * <pre><code class='java'> assertThat(new Byte[] { 0x10, 0x20 }).inHexadecimal().contains(new Byte[] { 0x30 });</code></pre>
-   *
+   * <p>
    * With standard error message:
    * <pre><code class='java'> Expecting:
    *  &lt;[16, 32]&gt;
@@ -2920,7 +2523,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *  &lt;[48]&gt;
    * but could not find:
    *  &lt;[48]&gt;</code></pre>
-   *
+   * <p>
    * With Hexadecimal error message:
    * <pre><code class='java'> Expecting:
    *  &lt;[0x10, 0x20]&gt;
@@ -2944,7 +2547,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Filter the array under test into a list composed of the elements elements having a property or field equal to
+   * Filter the array under test into a list composed of the elements having a property or field equal to
    * {@code expectedValue}, the property/field is specified by {@code propertyOrFieldName} parameter.
    * <p>
    * The filter first tries to get the value from a property (named {@code propertyOrFieldName}), if no such property
@@ -2955,7 +2558,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
-   *
+   * <p>
    * As an example, let's check all employees 800 years old (yes, special employees):
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
@@ -2966,7 +2569,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * assertThat(employees).filteredOn("age", 800)
    *                      .containsOnly(yoda, obiwan);</code></pre>
-   *
+   * <p>
    * Nested properties/fields are supported:
    * <pre><code class='java'> // Name is bean class with 'first' and 'last' String properties
    *
@@ -2995,10 +2598,10 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * provide a {@link Condition} or {@link Predicate} to specify the filter to apply.
    *
    * @param propertyOrFieldName the name of the property or field to read
-   * @param expectedValue the value to compare element's property or field with
+   * @param expectedValue       the value to compare element's property or field with
    * @return a new assertion object with the filtered list under test
    * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
-   * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the array elements.
+   * @throws IntrospectionError       if the given propertyOrFieldName can't be found in one of the array elements.
    */
   @CheckReturnValue
   public SELF filteredOn(String propertyOrFieldName, Object expectedValue) {
@@ -3028,13 +2631,13 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * assertThat(employees).filteredOnNull("name")
    *                      .containsOnly(noname);</code></pre>
-   *
+   * <p>
    * Nested properties/fields are supported:
    * <pre><code class='java'> // Name is bean class with 'first' and 'last' String properties
    *
    * assertThat(employees).filteredOnNull("name.last")
    *                      .containsOnly(yoda, obiwan, noname);</code></pre>
-   *
+   * <p>
    * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the array
    * elements.
    *
@@ -3088,7 +2691,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * // 'notIn' filter is statically imported from Assertions.notIn
    * assertThat(employees).filteredOn("name.first", notIn("Yoda", "Luke"))
    *                      .containsOnly(obiwan);</code></pre>
-   *
+   * <p>
    * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the array
    * elements.
    * <p>
@@ -3110,7 +2713,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * provide a {@link Condition} or {@link Predicate} to specify the filter to apply.
    *
    * @param propertyOrFieldName the name of the property or field to read
-   * @param filterOperator the filter operator to apply
+   * @param filterOperator      the filter operator to apply
    * @return a new assertion object with the filtered list under test
    * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
    */
@@ -3145,7 +2748,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *   }
    * assertThat(employees).filteredOn(oldEmployees)
    *                      .containsOnly(yoda, obiwan);</code></pre>
-   *
+   * <p>
    * You can combine {@link Condition} with condition operator like {@link Not}:
    * <pre><code class='java'> // 'not' filter is statically imported from Assertions.not
    * assertThat(employees).filteredOn(not(oldEmployees))
@@ -3202,11 +2805,11 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * assertThat(employees).filteredOn(e -&gt; e.getName(), null)
    *                      .containsOnly(noname);</code></pre>
-   *
+   * <p>
    * If you need more complex filter, use {@link #filteredOn(Predicate)} or {@link #filteredOn(Condition)}.
    *
-   * @param <T> result type of the filter function
-   * @param function the filter function
+   * @param <T>           result type of the filter function
+   * @param function      the filter function
    * @param expectedValue the expected value of the filter function
    * @return a new assertion object with the filtered list under test
    * @throws IllegalArgumentException if the given function is {@code null}.
@@ -3252,7 +2855,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    *
    * Employee[] employees = new Employee[] { yoda, luke, obiwan };
-   * 
+   *
    * // compiles even if getAge() throws a checked exception unlike filteredOnAssertions(Consumer)
    * assertThat(employees).filteredOnAssertions(employee -&gt; assertThat(employee.getAge()).isGreaterThan(100))
    *                      .containsOnly(yoda, obiwan);</code></pre>
@@ -3260,7 +2863,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param elementAssertions containing AssertJ assertions to filter on
    * @return a new assertion object with the filtered iterable under test
    * @throws IllegalArgumentException if the given predicate is {@code null}.
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
+   * @throws RuntimeException         rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
    * @since 3.21.0
    */
   public SELF filteredOnAssertions(ThrowingConsumer<? super ELEMENT> elementAssertions) {
@@ -3285,14 +2888,14 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * // assertion will fail
    * assertThat(abcc).allMatch(s -&gt; s.length() == 1);</code></pre>
-   *
+   * <p>
    * Note that you can achieve the same result with {@link #are(Condition) are(Condition)} or {@link #have(Condition) have(Condition)}.
    *
    * @param predicate the given {@link Predicate}.
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if an element cannot be cast to ELEMENT.
-   * @throws AssertionError if one or more elements don't satisfy the given predicate.
+   * @throws AssertionError       if an element cannot be cast to ELEMENT.
+   * @throws AssertionError       if one or more elements don't satisfy the given predicate.
    */
   @Override
   public SELF allMatch(Predicate<? super ELEMENT> predicate) {
@@ -3323,18 +2926,18 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * This is useful to perform a group of assertions on elements.
    * <p>
    * This is the same assertion as {@link #allSatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'>  // read() throws IOException
-   * // note that the code would not compile if isNotEmpty, startsWithA or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * // note that the code would not compile if isNotEmpty, startsWithA or startsWithZ were declared as a Consumer&lt;Reader&gt;
    * ThrowingConsumer&lt;Reader&gt; isNotEmpty = reader -&gt; assertThat(reader.read()).isEqualTo(-1);
    * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
    *
-   * // ABC.txt contains: ABC  
-   * // XYZ.txt contains: XYZ  
-   * FileReader[] readers = { new FileReader("ABC.txt"), new FileReader("XYZ.txt") }; 
-   * 
+   * // ABC.txt contains: ABC
+   * // XYZ.txt contains: XYZ
+   * FileReader[] readers = { new FileReader("ABC.txt"), new FileReader("XYZ.txt") };
+   *
    * // assertion succeeds as none of the files are empty
    * assertThat(readers).allSatisfy(isNotEmpty);
    *
@@ -3346,8 +2949,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param requirements the given {@link ThrowingConsumer}.
    * @return {@code this} object.
    * @throws NullPointerException if given {@link ThrowingConsumer} is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if one or more elements don't satisfy the given requirements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if one or more elements don't satisfy the given requirements.
    * @since 3.21.0
    */
   @Override
@@ -3371,14 +2974,14 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * // assertion will fail
    * assertThat(abcc).anyMatch(s -&gt; s.length() &gt; 2);</code></pre>
-   *
+   * <p>
    * Note that you can achieve the same result with {@link #areAtLeastOne(Condition) areAtLeastOne(Condition)}
    * or {@link #haveAtLeastOne(Condition) haveAtLeastOne(Condition)}.
    *
    * @param predicate the given {@link Predicate}.
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if no elements satisfy the given predicate.
+   * @throws AssertionError       if no elements satisfy the given predicate.
    * @since 3.9.0
    */
   @Override
@@ -3388,31 +2991,62 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
+   * Verifies whether any elements match the provided {@link Predicate}. The predicate description is used
+   * to get an informative error message.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abcc = { "a", "b", "cc" };
+   *
+   * // assertion will pass
+   * assertThat(abcc).anyMatch(s -&gt; s.length() == 2, "length of 2");
+   *
+   * // assertion will fail
+   * assertThat(abcc).anyMatch(s -&gt; s.length() &gt; 2, "length greater than 2);</code></pre>
+   * <p>
+   * The message of the failed assertion would be:
+   * <pre><code class='java'>Expecting any elements of:
+   *  &lt;["a", "b", "cc"]&gt;
+   *  to match 'length greater than 2' predicate but none did.</code></pre>
+   *
+   * @param predicate            the given {@link Predicate}.
+   * @param predicateDescription a description of the {@link Predicate} used in the error message
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError       if no elements satisfy the given predicate.
+   * @since 3.27.0
+   */
+  @Override
+  public SELF anyMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
+    iterables.assertAnyMatch(info, newArrayList(actual), predicate, new PredicateDescription(predicateDescription));
+    return myself;
+  }
+
+  /**
    * Verifies that the zipped pairs of actual and other elements, i.e: (actual 1st element, other 1st element), (actual 2nd element, other 2nd element), ...
    * all satisfy the given {@code zipRequirements}.
    * <p>
-   * This assertion assumes that actual and other have the same size but they can contain different type of elements
+   * This assertion assumes that actual and other have the same size, but they can contain different type of elements
    * making it handy to compare objects converted to another type, for example Domain and View/DTO objects.
    * <p>
    * Example:
-   * <pre><code class='java'> Adress[] addressModels = findGoodRestaurants();
-   * AdressView[] addressViews = convertToView(addressModels);
+   * <pre><code class='java'> Address[] addressModels = findGoodRestaurants();
+   * AddressView[] addressViews = convertToView(addressModels);
    *
    * // compare addressViews and addressModels respective paired elements.
-   * assertThat(addressViews).zipSatisfy(addressModels, (AdressView view, Adress model) -&gt; {
+   * assertThat(addressViews).zipSatisfy(addressModels, (AddressView view, Address model) -&gt; {
    *    assertThat(view.getZipcode() + ' ' + view.getCity()).isEqualTo(model.getCityLine());
    *    assertThat(view.getStreet()).isEqualTo(model.getStreet().toUpperCase());
    * });</code></pre>
    *
    * @param <OTHER_ELEMENT> the type of the other array elements.
-   * @param other the array to zip actual with.
+   * @param other           the array to zip actual with.
    * @param zipRequirements the given requirements that each pair must satisfy.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given zipRequirements {@link BiConsumer} is {@code null}.
    * @throws NullPointerException if the other array to zip actual with is {@code null}.
-   * @throws AssertionError if the array under test is {@code null}.
-   * @throws AssertionError if actual and other don't have the same size.
-   * @throws AssertionError if one or more pairs don't satisfy the given requirements.
+   * @throws AssertionError       if the array under test is {@code null}.
+   * @throws AssertionError       if actual and other don't have the same size.
+   * @throws AssertionError       if one or more pairs don't satisfy the given requirements.
    * @since 3.9.0
    */
   public <OTHER_ELEMENT> SELF zipSatisfy(OTHER_ELEMENT[] other,
@@ -3435,18 +3069,18 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * This is useful to check that a group of assertions is verified by (at least) one element.
    * <p>
    * This is the same assertion as {@link #anySatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'>  // read() throws IOException
-   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt;
    * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
    * ThrowingConsumer&lt;Reader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
    *
-   * // ABC.txt contains: ABC  
-   * // XYZ.txt contains: XYZ  
+   * // ABC.txt contains: ABC
+   * // XYZ.txt contains: XYZ
    * FileReader[] readers = { new FileReader("ABC.txt"), new FileReader("XYZ.txt") };
-   *  
+   *
    * // assertion succeeds as ABC.txt starts with 'A'
    * assertThat(readers).anySatisfy(startsWithA);
    *
@@ -3458,8 +3092,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param requirements the given {@link ThrowingConsumer}.
    * @return {@code this} object.
    * @throws NullPointerException if given {@link ThrowingConsumer} is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError no elements satisfy the given requirements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       no elements satisfy the given requirements.
    * @since 3.21.0
    */
   @Override
@@ -3486,18 +3120,18 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * This is useful to check that a group of assertions is verified by (at least) one element.
    * <p>
    * This is the same assertion as {@link #anySatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'>  // read() throws IOException
-   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt;
    * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
    * ThrowingConsumer&lt;Reader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
    *
-   * // ABC.txt contains: ABC  
-   * // XYZ.txt contains: XYZ  
-   * FileReader[] readers = { new FileReader("ABC.txt"), new FileReader("XYZ.txt") }; 
-   * 
+   * // ABC.txt contains: ABC
+   * // XYZ.txt contains: XYZ
+   * FileReader[] readers = { new FileReader("ABC.txt"), new FileReader("XYZ.txt") };
+   *
    * // assertion succeeds as none of the file starts 'Z'
    * assertThat(readers).noneSatisfy(startsWithZ);
    *
@@ -3509,8 +3143,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param restrictions the given {@link ThrowingConsumer}.
    * @return {@code this} object.
    * @throws NullPointerException if given {@link ThrowingConsumer} is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if one or more elements satisfy the given requirements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if one or more elements satisfy the given requirements.
    * @since 3.21.0
    */
   @Override
@@ -3527,7 +3161,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
    * <p>
-   * Each requirements are expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
+   * Each requirement is expressed as a {@link Consumer}, there must be as many requirements as there are iterable elements.
    * <p>
    * Example:
    * <pre><code class='java'> TolkienCharacter[] characters = {frodo, aragorn, legolas};
@@ -3559,8 +3193,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param requirements the requirements to meet.
    * @return {@code this} to chain assertions.
    * @throws NullPointerException if given requirements are null.
-   * @throws AssertionError if any element does not satisfy the requirements at the same index
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @throws AssertionError       if any element does not satisfy the requirements at the same index
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.19.0
    */
   @Override
@@ -3573,14 +3207,14 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Verifies that each element satisfies the requirements corresponding to its index, so the first element must satisfy the
    * first requirements, the second element the second requirements etc...
    * <p>
-   * Each requirements are expressed as a {@link ThrowingConsumer}, there must be as many requirements as there are iterable elements.
+   * Each requirement is expressed as a {@link ThrowingConsumer}, there must be as many requirements as there are iterable elements.
    * <p>
    * This is the same assertion as {@link #satisfiesExactly(Consumer...)} but the given consumers can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'> TolkienCharacter[] characters = {frodo, aragorn, legolas};
-   * 
+   *
    * // the code would compile even if TolkienCharacter.getRace(), isMortal() or getName() threw a checked exception
    *
    * // assertions succeed
@@ -3610,9 +3244,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param requirements the requirements to meet.
    * @return {@code this} to chain assertions.
    * @throws NullPointerException if given requirements are null.
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if any element does not satisfy the requirements at the same index
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if any element does not satisfy the requirements at the same index
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.21.0
    */
   @Override
@@ -3675,9 +3309,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param requirements the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
-   * @throws AssertionError if there is no permutation of elements that satisfies the individual consumers in order
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
-   *
+   * @throws AssertionError       if there is no permutation of elements that satisfies the individual consumers in order
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.19.0
    */
   @Override
@@ -3732,9 +3365,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param requirements the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if there is no permutation of elements that satisfies the individual consumers in order
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if there is no permutation of elements that satisfies the individual consumers in order
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.21.0
    */
   @Override
@@ -3771,7 +3404,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param requirements the {@link Consumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given requirements are {@code null}.
-   * @throws AssertionError if the requirements are not satisfied only once
+   * @throws AssertionError       if the requirements are not satisfied only once
    * @since 3.24.0
    */
   @Override
@@ -3799,8 +3432,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param requirements the {@link ThrowingConsumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given requirements are {@code null}.
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if the requirements are not satisfied only once
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if the requirements are not satisfied only once
    * @since 3.24.0
    */
   @Override
@@ -3836,9 +3469,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param values the values whose at least one which is expected to be in the array under test.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the array of values is {@code null}.
-   * @throws AssertionError if the array of values is empty and the array under test is not empty.
-   * @throws AssertionError if the array under test is {@code null}.
-   * @throws AssertionError if the array under test does not contain any of the given {@code values}.
+   * @throws AssertionError       if the array of values is empty and the array under test is not empty.
+   * @throws AssertionError       if the array under test is {@code null}.
+   * @throws AssertionError       if the array under test does not contain any of the given {@code values}.
    * @since 2.9.0 / 3.9.0
    */
   @Override
@@ -3875,9 +3508,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param iterable the iterable whose at least one element is expected to be in the array under test.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the iterable of expected values is {@code null}.
-   * @throws AssertionError if the iterable of expected values is empty and the array under test is not empty.
-   * @throws AssertionError if the array under test is {@code null}.
-   * @throws AssertionError if the array under test does not contain any of elements from the given {@code Iterable}.
+   * @throws AssertionError       if the iterable of expected values is empty and the array under test is not empty.
+   * @throws AssertionError       if the array under test is {@code null}.
+   * @throws AssertionError       if the array under test does not contain any of elements from the given {@code Iterable}.
    * @since 2.9.0 / 3.9.0
    */
   @Override
@@ -3896,20 +3529,52 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * // assertion will fail
    * assertThat(abcc).noneMatch(s -&gt; s.length() == 2);</code></pre>
-   *
+   * <p>
    * Note that you can achieve the same result with {@link #areNot(Condition) areNot(Condition)}
    * or {@link #doNotHave(Condition) doNotHave(Condition)}.
    *
    * @param predicate the given {@link Predicate}.
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if an element cannot be cast to ELEMENT.
-   * @throws AssertionError if any element satisfy the given predicate.
+   * @throws AssertionError       if an element cannot be cast to ELEMENT.
+   * @throws AssertionError       if any element satisfy the given predicate.
    * @since 3.9.0
    */
   @Override
   public SELF noneMatch(Predicate<? super ELEMENT> predicate) {
     iterables.assertNoneMatch(info, newArrayList(actual), predicate, PredicateDescription.GIVEN);
+    return myself;
+  }
+
+  /**
+   * Verifies that no elements match the given {@link Predicate}. The predicate description is used
+   * to get an informative error message.
+   * <p>
+   * Example :
+   * <pre><code class='java'> String[] abcc = { "a", "b", "cc" };
+   *
+   * // assertion will pass
+   * assertThat(abcc).noneMatch(s -&gt; s.isEmpty(), "is empty");
+   *
+   * // assertion will fail
+   * assertThat(abcc).noneMatch(s -&gt; s.length() == 2, "length of 2");</code></pre>
+   * <p>
+   * The message of the failed assertion would be:
+   * <pre><code class='java'>Expecting no elements of:
+   *  &lt;["a", "b", "cc"]&gt;
+   *  to match 'length of 2' predicate but this element did:
+   *  &lt;"cc"&gt;</code></pre>
+   *
+   * @param predicate            the given {@link Predicate}.
+   * @param predicateDescription a description of the {@link Predicate} used in the error message
+   * @return {@code this} object.
+   * @throws NullPointerException if the given predicate is {@code null}.
+   * @throws AssertionError       if any elements satisfy the given predicate.
+   * @since 3.27.0
+   */
+  @Override
+  public SELF noneMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
+    iterables.assertNoneMatch(info, newArrayList(actual), predicate, new PredicateDescription(predicateDescription));
     return myself;
   }
 
@@ -3921,7 +3586,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * The default implementation will assume that this concrete implementation is NOT a soft assertion.
    *
-   * @param <E> the type of elements.
+   * @param <E>       the type of elements.
    * @param newActual new value
    * @return a new {@link AbstractListAssert}.
    */
@@ -3969,7 +3634,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Person[] otherPeople = { howard, sheldon, raj };
    * assertThat(doctors).usingRecursiveComparison()
    *                    .isEqualTo(otherPeople);</code></pre>
-   *
+   * <p>
    * A detailed documentation for the recursive comparison is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
    * <p>
    * The default recursive comparison behavior is {@link RecursiveComparisonConfiguration configured} as follows:
@@ -3998,8 +3663,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
 
   /**
    * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
-   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
    *
+   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
   @Override
@@ -4015,7 +3680,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * <p>The recursive algorithm employs cycle detection, so object graphs with cyclic references can safely be asserted over without causing looping.</p>
    *
-   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the  
+   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
@@ -4112,7 +3777,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   /**
    * Verifies that the array under test contains a single element and allows to perform assertions on that element.
    * <p>
-   * By default available assertions after {@code singleElement()} are {@code Object} assertions, it is possible though to
+   * By default, available assertions after {@code singleElement()} are {@code Object} assertions, it is possible though to
    * get more specific assertions by using {@link #singleElement(InstanceOfAssertFactory) singleElement(element assert factory)}
    * <p>
    * Example:
@@ -4136,8 +3801,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @return the assertion on the first element
    * @throws AssertionError if the actual array does not contain exactly one element.
-   * @since 3.22.0
    * @see #singleElement(InstanceOfAssertFactory)
+   * @since 3.22.0
    */
   @CheckReturnValue
   public ObjectAssert<ELEMENT> singleElement() {
@@ -4145,7 +3810,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   /**
-   * Verifies that the array under test contains a single element and allows to perform assertions on that element, 
+   * Verifies that the array under test contains a single element and allows to perform assertions on that element,
    * the assertions are strongly typed according to the given {@link AssertFactory} parameter.
    * <p>
    * Example: use of {@code String} assertions after {@code singleElement(as(STRING))}
@@ -4177,7 +3842,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * @param <ASSERT>      the type of the resulting {@code Assert}
    * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
    * @return a new narrowed {@link Assert} instance for assertions chaining on the single element
-   * @throws AssertionError if the actual array does not contain exactly one element.
+   * @throws AssertionError       if the actual array does not contain exactly one element.
    * @throws NullPointerException if the given factory is {@code null}.
    * @since 3.22.0
    */
@@ -4215,15 +3880,15 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
 
   // lazy init TypeComparators
   protected TypeComparators getComparatorsForElementPropertyOrFieldTypes() {
-    if (comparatorsForElementPropertyOrFieldTypes == null) comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
+    if (comparatorsForElementPropertyOrFieldTypes == null)
+      comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
     return comparatorsForElementPropertyOrFieldTypes;
   }
 
   @SuppressWarnings({ "rawtypes", "unchecked" })
   @Override
   SELF withAssertionState(AbstractAssert assertInstance) {
-    if (assertInstance instanceof AbstractObjectArrayAssert) {
-      AbstractObjectArrayAssert objectArrayAssert = (AbstractObjectArrayAssert) assertInstance;
+    if (assertInstance instanceof AbstractObjectArrayAssert objectArrayAssert) {
       return (SELF) super.withAssertionState(assertInstance).withIterables(objectArrayAssert.iterables)
                                                             .withObjectArrays(objectArrayAssert.arrays)
                                                             .withTypeComparators(objectArrayAssert.comparatorsByType)
@@ -4263,6 +3928,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
 
   /**
    * build a new ObjectArrayAssert from the filtered list propagating the assertion state (description, comparators, ...)
+   *
    * @param filteredList the list to convert
    * @return a new ObjectArrayAssert
    */

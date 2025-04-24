@@ -8,15 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.files;
 
 import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFile.shouldBeFile;
 import static org.assertj.core.error.ShouldHaveBinaryContent.shouldHaveBinaryContent;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Files.newFile;
@@ -48,7 +50,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
   @BeforeAll
   static void setUpOnce() {
     // Does not matter if the values differ, the actual comparison is mocked in this test
-    actual = new File("src/test/resources/actual_file.txt");
+    actual = resourceFile("actual_file.txt");
     expected = new byte[] {};
   }
 
@@ -57,8 +59,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     // GIVEN
     byte[] expectedContent = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasBinaryContent(INFO, actual, expectedContent),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> underTest.assertHasBinaryContent(INFO, actual, expectedContent));
     // THEN
     then(npe).hasMessage("The binary content to compare to should not be null");
   }
@@ -99,8 +100,8 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     IOException cause = new IOException();
     when(binaryDiff.diff(actual, expected)).thenThrow(cause);
     // THEN
-    UncheckedIOException uioe = catchThrowableOfType(() -> underTest.assertHasBinaryContent(INFO, actual, expected),
-                                                     UncheckedIOException.class);
+    UncheckedIOException uioe = catchThrowableOfType(UncheckedIOException.class,
+                                                     () -> underTest.assertHasBinaryContent(INFO, actual, expected));
     // THEN
     then(uioe).hasCause(cause);
   }

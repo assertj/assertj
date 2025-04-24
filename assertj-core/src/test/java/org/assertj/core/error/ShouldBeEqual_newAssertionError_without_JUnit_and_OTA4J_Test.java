@@ -8,11 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -34,7 +35,7 @@ import org.opentest4j.AssertionFailedError;
 
 /**
  * Tests for
- * <code>{@link ShouldBeEqual#newAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
+ * <code>{@link ShouldBeEqual#toAssertionError(Description, org.assertj.core.presentation.Representation)}</code>.
  *
  * @author Filip Hrisafov
  */
@@ -45,12 +46,12 @@ class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
   private ConstructorInvoker constructorInvoker;
 
   @BeforeEach
-  public void setUp() {
+  public void setUp() throws NoSuchFieldException, IllegalAccessException {
     Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
     description = new TestDescription("Jedi");
     factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
     constructorInvoker = mock(ConstructorInvoker.class);
-    factory.constructorInvoker = constructorInvoker;
+    writeField(factory, "constructorInvoker", constructorInvoker, true);
   }
 
   @Test
@@ -58,7 +59,7 @@ class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
     // GIVEN
     given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willReturn(null);
     // WHEN
-    AssertionError error = factory.newAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = factory.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     check(error);
   }
@@ -69,7 +70,7 @@ class ShouldBeEqual_newAssertionError_without_JUnit_and_OTA4J_Test {
     given(constructorInvoker.newInstance(anyString(), any(Class[].class),
                                          any(Object[].class))).willThrow(new AssertionError("Thrown on purpose"));
     // WHEN
-    AssertionError error = factory.newAssertionError(description, STANDARD_REPRESENTATION);
+    AssertionError error = factory.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
     check(error);
   }

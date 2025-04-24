@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 
@@ -20,7 +19,6 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
-
 import org.junit.jupiter.api.Test;
 
 class Optional_ShouldBePresent_create_Test {
@@ -30,7 +28,7 @@ class Optional_ShouldBePresent_create_Test {
     // WHEN
     String errorMessage = shouldBePresent(Optional.empty()).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting Optional to contain a value but it was empty."));
+    then(errorMessage).isEqualTo("%nExpecting Optional to contain a value but it was empty.".formatted());
   }
 
   @Test
@@ -38,7 +36,7 @@ class Optional_ShouldBePresent_create_Test {
     // WHEN
     String errorMessage = shouldBePresent(OptionalDouble.empty()).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting OptionalDouble to contain a value but it was empty."));
+    then(errorMessage).isEqualTo("%nExpecting OptionalDouble to contain a value but it was empty.".formatted());
   }
 
   @Test
@@ -46,7 +44,7 @@ class Optional_ShouldBePresent_create_Test {
     // WHEN
     String errorMessage = shouldBePresent(OptionalInt.empty()).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting OptionalInt to contain a value but it was empty."));
+    then(errorMessage).isEqualTo("%nExpecting OptionalInt to contain a value but it was empty.".formatted());
   }
 
   @Test
@@ -54,6 +52,6 @@ class Optional_ShouldBePresent_create_Test {
     // WHEN
     String errorMessage = shouldBePresent(OptionalLong.empty()).create();
     // THEN
-    then(errorMessage).isEqualTo(format("%nExpecting OptionalLong to contain a value but it was empty."));
+    then(errorMessage).isEqualTo("%nExpecting OptionalLong to contain a value but it was empty.".formatted());
   }
 }

@@ -8,13 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
 import java.nio.file.Path;
-
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion error message delivered when a {@link Path} is not normalized
@@ -22,8 +20,7 @@ import org.assertj.core.util.VisibleForTesting;
  * @see Path#normalize()
  */
 public class ShouldBeNormalized extends BasicErrorMessageFactory {
-  @VisibleForTesting
-  public static final String SHOULD_BE_NORMALIZED = "Expected path:%n  %s%nto be normalized.";
+  private static final String SHOULD_BE_NORMALIZED = "Expected path:%n  %s%nto be normalized.";
 
   private ShouldBeNormalized(Path actual) {
     super(SHOULD_BE_NORMALIZED, actual);

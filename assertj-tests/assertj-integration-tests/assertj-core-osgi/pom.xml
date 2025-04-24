@@ -5,12 +5,12 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-integration-tests</artifactId>
-    <version>3.26.0-SNAPSHOT</version>
+    <version>4.0.0-M2-SNAPSHOT</version>
   </parent>
 
   <artifactId>assertj-core-osgi</artifactId>
 
-  <name>AssertJ Core Integration Tests - OSGi</name>
+  <name>AssertJ Core Integration Tests (OSGi)</name>
 
   <properties>
     <osgi.bundle>${project.build.directory}/${project.build.finalName}-tests.jar</osgi.bundle>
@@ -23,7 +23,7 @@
       <dependency>
         <groupId>org.eclipse.platform</groupId>
         <artifactId>org.eclipse.osgi</artifactId>
-        <version>3.19.0</version>
+        <version>3.23.0</version>
         <scope>test</scope>
       </dependency>
     </dependencies>

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
@@ -27,7 +27,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 import org.assertj.core.util.diff.DiffUtils;
 import org.assertj.core.util.diff.Patch;
@@ -43,35 +42,35 @@ import org.assertj.core.util.diff.Patch;
  * @author Joel Costigliola
  * @author Stephan Windmüller
  */
-@VisibleForTesting
+// TODO reduce the visibility of the fields annotated with @VisibleForTesting
 public class Diff {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public List<Delta<String>> diff(InputStream actual, InputStream expected) throws IOException {
     return diff(readerFor(actual), readerFor(expected));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public List<Delta<String>> diff(InputStream actual, String expected) throws IOException {
     return diff(readerFor(actual), readerFor(expected));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public List<Delta<String>> diff(File actual, Charset actualCharset, File expected, Charset expectedCharset) throws IOException {
     return diff(actual.toPath(), actualCharset, expected.toPath(), expectedCharset);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public List<Delta<String>> diff(Path actual, Charset actualCharset, Path expected, Charset expectedCharset) throws IOException {
     return diff(newBufferedReader(actual, actualCharset), newBufferedReader(expected, expectedCharset));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public List<Delta<String>> diff(File actual, String expected, Charset charset) throws IOException {
     return diff(actual.toPath(), expected, charset);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public List<Delta<String>> diff(Path actual, String expected, Charset charset) throws IOException {
     return diff(newBufferedReader(actual, charset), readerFor(expected));
   }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -21,8 +21,8 @@ public class ElementsShouldMatch extends BasicErrorMessageFactory {
 
   public static <T> ErrorMessageFactory elementsShouldMatch(Object actual, T elementsNotMatchingPredicate,
                                                             PredicateDescription predicateDescription) {
-    return elementsNotMatchingPredicate instanceof Iterable
-        ? new ElementsShouldMatch(actual, (Iterable<?>) elementsNotMatchingPredicate, predicateDescription)
+    return elementsNotMatchingPredicate instanceof Iterable<?> iterable
+        ? new ElementsShouldMatch(actual, iterable, predicateDescription)
         : new ElementsShouldMatch(actual, elementsNotMatchingPredicate, predicateDescription);
   }
 

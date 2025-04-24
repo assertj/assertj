@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -79,23 +79,6 @@ public class Files {
       }
     }
     return scriptNames;
-  }
-
-  /**
-   * Returns the system's temporary directory.
-   *
-   * @return the system's temporary directory.
-   * @throws RuntimeException if this method cannot find or create the system's temporary directory.
-   *
-   * @deprecated Use either {@link org.junit.jupiter.api.io.TempDir} or {@link org.junit.rules.TemporaryFolder}
-   */
-  @Deprecated
-  public static File temporaryFolder() {
-    File temp = new File(temporaryFolderPath());
-    if (!temp.isDirectory()) {
-      throw new RuntimeException("Unable to find temporary directory");
-    }
-    return temp;
   }
 
   /**
@@ -189,15 +172,15 @@ public class Files {
   }
 
   private static UncheckedIOException cannotCreateNewFile(String path, String reason, Exception cause) {
-    String message = String.format("Unable to create the new file %s", quote(path));
+    String message = "Unable to create the new file %s".formatted(quote(path));
     if (!Strings.isNullOrEmpty(reason)) {
       message = concat(message, ": ", reason);
     }
     if (cause == null) {
       throw new RuntimeException(message);
     }
-    if (cause instanceof IOException) {
-      throw new UncheckedIOException(message, (IOException) cause);
+    if (cause instanceof IOException exception) {
+      throw new UncheckedIOException(message, exception);
     }
     throw new RuntimeException(message, cause);
   }
@@ -213,35 +196,6 @@ public class Files {
       return new File(".").getCanonicalFile();
     } catch (IOException e) {
       throw new UncheckedIOException("Unable to get current directory", e);
-    }
-  }
-
-  /**
-   * Deletes the given file or directory.
-   *
-   * @param file the file or directory to delete.
-   *
-   * @deprecated use https://commons.apache.org/proper/commons-io/javadocs/api-release/org/apache/commons/io/FileUtils.html#forceDelete-java.io.File- instead
-   */
-  @Deprecated
-  public static void delete(File file) {
-    if (file.isFile()) {
-      if (!file.delete()) {
-        System.out.println("Fail to delete " + file);
-      }
-      return;
-    }
-    if (!file.isDirectory()) {
-      return;
-    }
-    File[] existingFiles = file.listFiles();
-    if (!isNullOrEmpty(existingFiles)) {
-      for (File f : existingFiles) {
-        delete(f);
-      }
-    }
-    if (!file.delete()) {
-      System.out.println("Fail to delete " + file);
     }
   }
 

@@ -8,15 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.filter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 
-import org.assertj.core.test.Player;
-import org.assertj.core.test.WithPlayerData;
+import org.assertj.core.testkit.Player;
+import org.assertj.core.testkit.WithPlayerData;
 import org.junit.jupiter.api.Test;
 
 class Filter_with_property_equals_to_null_value_Test extends WithPlayerData {

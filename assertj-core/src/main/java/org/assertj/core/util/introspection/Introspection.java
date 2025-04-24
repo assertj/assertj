@@ -8,17 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util.introspection;
 
-import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Map;
@@ -27,7 +27,6 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.assertj.core.configuration.ConfigurationProvider;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Utility methods related to <a
@@ -48,12 +47,12 @@ public final class Introspection {
    * Returns the getter {@link Method} for a property matching the given name in the given object.
    *
    * @param propertyName the given property name.
-   * @param target the given object.
+   * @param target       the given object.
    * @return the getter {@code Method} for a property matching the given name in the given object.
-   * @throws NullPointerException if the given property name is {@code null}.
+   * @throws NullPointerException     if the given property name is {@code null}.
    * @throws IllegalArgumentException if the given property name is empty.
-   * @throws NullPointerException if the given object is {@code null}.
-   * @throws IntrospectionError if the getter for the matching property cannot be found or accessed.
+   * @throws NullPointerException     if the given object is {@code null}.
+   * @throws IntrospectionError       if the getter for the matching property cannot be found or accessed.
    */
   public static Method getPropertyGetter(String propertyName, Object target) {
     checkNotNullOrEmpty(propertyName);
@@ -69,18 +68,23 @@ public final class Introspection {
       // force access for static class with public getter
       getter.setAccessible(true);
       getter.invoke(target);
+    } catch (InvocationTargetException ex) {
+      String message = "Unable to invoke getter %s in %s, exception: %s".formatted(getter.getName(),
+                                                                                   target.getClass().getSimpleName(),
+                                                                                   ex.getTargetException());
+      throw new IntrospectionError(message, ex, ex.getTargetException());
     } catch (Exception t) {
       throw new IntrospectionError(propertyNotFoundErrorMessage("Unable to find property %s in %s", propertyName, target), t);
     }
     return getter;
   }
 
-  public static void setExtractBareNamePropertyMethods(boolean barenamePropertyMethods) {
+  public static void setExtractBareNamePropertyMethods(boolean bareNamePropertyMethods) {
     ConfigurationProvider.loadRegisteredConfiguration();
-    bareNamePropertyMethods = barenamePropertyMethods;
+    Introspection.bareNamePropertyMethods = bareNamePropertyMethods;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public static boolean canExtractBareNamePropertyMethods() {
     return bareNamePropertyMethods;
   }
@@ -88,7 +92,7 @@ public final class Introspection {
   private static String propertyNotFoundErrorMessage(String message, String propertyName, Object target) {
     String targetTypeName = target.getClass().getName();
     String property = quote(propertyName);
-    return format(message, property, targetTypeName);
+    return message.formatted(property, targetTypeName);
   }
 
   private static Method findGetter(String propertyName, Object target) {
@@ -96,7 +100,7 @@ public final class Introspection {
     // try to find getProperty
     Method getter = findMethod("get" + capitalized, target);
     if (isValidGetter(getter)) return getter;
-    if (bareNamePropertyMethods) {
+    if (bareNamePropertyMethods || target instanceof Record) {
       // try to find bare name property
       getter = findMethod(propertyName, target);
       if (isValidGetter(getter)) return getter;
@@ -155,4 +159,5 @@ public final class Introspection {
   }
 
   private Introspection() {}
+
 }

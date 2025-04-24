@@ -8,12 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util;
 
 import static java.io.File.separator;
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.util.Arrays.isNullOrEmpty;
 import static org.assertj.core.util.Strings.concat;
@@ -62,11 +61,11 @@ public final class FolderFixture {
     dir = new File(path);
     if (!dir.exists()) {
       assertThat(dir.mkdir()).isTrue();
-      logger.info(format("Created directory %s", quote(path)));
+      logger.info("Created directory %s".formatted(quote(path)));
       return;
     }
-    if (!dir.isDirectory()) throw new AssertionError(String.format("%s should be a directory", quote(path)));
-    logger.info(format("The directory %s already exists", quote(path)));
+    if (!dir.isDirectory()) throw new AssertionError("%s should be a directory".formatted(quote(path)));
+    logger.info("The directory %s already exists".formatted(quote(path)));
   }
 
   public FolderFixture addFolder(String folderName) {
@@ -88,8 +87,8 @@ public final class FolderFixture {
       file.delete();
     String path = relativePath();
     boolean dirDeleted = dir.delete();
-    if (!dirDeleted) throw new AssertionError(String.format("Unable to delete directory %s", quote(path)));
-    logger.info(format("The directory %s was deleted", quote(path)));
+    if (!dirDeleted) throw new AssertionError("Unable to delete directory %s".formatted(quote(path)));
+    logger.info("The directory %s was deleted".formatted(quote(path)));
   }
 
   String relativePath() {

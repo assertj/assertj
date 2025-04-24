@@ -8,17 +8,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.iterables;
 
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ActualIsNotEmpty.actualIsNotEmpty;
 import static org.assertj.core.error.ShouldContainSubsequence.actualDoesNotHaveEnoughElementsToContainSubsequence;
 import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubsequence;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -28,13 +28,13 @@ import static org.mockito.Mockito.verify;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Iterables;
 import org.assertj.core.internal.IterablesBaseTest;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Iterables#assertContainsSubsequence(AssertionInfo, Iterable, Object[])}</code>.
- * 
+ *
  * @author Marcin Mikosik
  */
 class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
@@ -89,8 +89,7 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     Object[] subsequence = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> iterables.assertContainsSubsequence(INFO, actual, subsequence),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> iterables.assertContainsSubsequence(INFO, actual, subsequence));
     // THEN
     then(npe).hasMessage(valuesToLookForIsNull());
   }
@@ -193,10 +192,9 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     Object[] subsequence = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO,
-                                                                                                                                   actual,
-                                                                                                                                   subsequence),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO,
+                                                                                                                                        actual,
+                                                                                                                                        subsequence));
     // THEN
     then(npe).hasMessage(valuesToLookForIsNull());
   }

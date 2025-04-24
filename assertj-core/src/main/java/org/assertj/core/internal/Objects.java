@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
@@ -68,9 +67,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.error.GroupTypeDescription;
 import org.assertj.core.internal.DeepDifference.Difference;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
@@ -90,10 +91,10 @@ public class Objects {
   private static final GroupTypeDescription FIELDS_GROUP_DESCRIPTION = new GroupTypeDescription("non static/synthetic fields of",
                                                                                                 "fields");
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final PropertySupport propertySupport = PropertySupport.instance();
   private final ComparisonStrategy comparisonStrategy;
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
   private final FieldSupport fieldSupport = FieldSupport.comparison();
 
@@ -101,7 +102,7 @@ public class Objects {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Objects() {
     this(StandardComparisonStrategy.instance());
   }
@@ -110,11 +111,9 @@ public class Objects {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
-    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy
-        ? ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator()
-        : null;
+    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }
 
   public ComparisonStrategy getComparisonStrategy() {
@@ -139,7 +138,7 @@ public class Objects {
     assertNotNull(info, actual);
     for (Class<?> type : types) {
       String format = "The given array of types:<%s> should not have null elements";
-      requireNonNull(type, format(format, info.representation().toStringOf(types)));
+      requireNonNull(type, format.formatted(info.representation().toStringOf(types)));
       if (type.isInstance(actual)) {
         return true;
       }
@@ -229,7 +228,8 @@ public class Objects {
   }
 
   public void assertNull(AssertionInfo info, Object actual) {
-    if (actual != null) throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
+    if (actual != null)
+      throw failures.failure(info, shouldBeEqual(actual, null, comparisonStrategy, info.representation()));
   }
 
   public void assertNotNull(AssertionInfo info, Object actual) {
@@ -501,8 +501,9 @@ public class Objects {
   }
 
   private static Set<Field> getDeclaredFieldsIgnoringSyntheticAndStatic(Class<?> clazz) {
-    return stream(clazz.getDeclaredFields()).filter(field -> !(field.isSynthetic() || Modifier.isStatic(field.getModifiers())))
-                                            .collect(toCollection(LinkedHashSet::new));
+    Field[] declaredFields = clazz.getDeclaredFields();
+    return stream(declaredFields).filter(field -> !(field.isSynthetic() || Modifier.isStatic(field.getModifiers())))
+                                 .collect(toCollection(LinkedHashSet::new));
   }
 
   public boolean areEqualToIgnoringGivenFields(Object actual, Object other,
@@ -524,6 +525,8 @@ public class Objects {
     try {
       extractPropertyOrField(actual, name);
     } catch (IntrospectionError error) {
+      error.getterInvocationException()
+           .ifPresent(this::throwAsRuntime);
       throw failures.failure(info, shouldHavePropertyOrField(actual, name));
     }
   }
@@ -567,7 +570,8 @@ public class Objects {
   public <A> void assertDoesNotHaveSameHashCodeAs(AssertionInfo info, A actual, Object other) {
     assertNotNull(info, actual);
     requireNonNull(other, "The object used to compare actual's hash code with should not be null");
-    if (actual.hashCode() == other.hashCode()) throw failures.failure(info, shouldNotHaveSameHashCode(actual, other));
+    if (actual.hashCode() == other.hashCode())
+      throw failures.failure(info, shouldNotHaveSameHashCode(actual, other));
   }
 
   private static class ByFieldsComparison {
@@ -594,4 +598,10 @@ public class Objects {
 
   }
 
+  private void throwAsRuntime(Throwable ex) {
+    if (ex instanceof RuntimeException exception) {
+      throw exception;
+    }
+    throw new RuntimeException(ex);
+  }
 }

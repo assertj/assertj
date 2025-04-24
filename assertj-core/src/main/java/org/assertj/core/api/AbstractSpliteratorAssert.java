@@ -8,14 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
 import java.util.Spliterator;
 
 import org.assertj.core.internal.Spliterators;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for {@link Spliterator} type.
@@ -26,9 +25,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author William Bakker
  */
 public class AbstractSpliteratorAssert<SELF extends AbstractSpliteratorAssert<SELF, ELEMENT>, ELEMENT> extends
-    AbstractAssert<SELF, Spliterator<ELEMENT>> {
+    AbstractAssertWithComparator<SELF, Spliterator<ELEMENT>> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Spliterators spliterators = Spliterators.instance();
 
   protected AbstractSpliteratorAssert(Spliterator<ELEMENT> actual, Class<?> selfType) {

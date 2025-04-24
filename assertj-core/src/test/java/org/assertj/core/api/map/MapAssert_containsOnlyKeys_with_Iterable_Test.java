@@ -8,22 +8,20 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.map;
 
 import static java.util.Collections.singleton;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
-import static org.assertj.core.test.Maps.mapOf;
+import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
@@ -55,7 +53,7 @@ class MapAssert_containsOnlyKeys_with_Iterable_Test extends MapAssertBaseTest {
   @DisplayName("given Path parameter")
   class MapAssert_containsOnlyKeys_with_Path_Test extends MapAssertBaseTest {
 
-    private final Path path = Paths.get("file");
+    private final Path path = Path.of("file");
 
     @Override
     protected MapAssert<Object, Object> invoke_api_method() {

@@ -8,12 +8,12 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is greater than or equal to another one
@@ -33,21 +33,6 @@ public class ShouldBeGreaterOrEqual extends BasicErrorMessageFactory {
    */
   public static <T> ErrorMessageFactory shouldBeGreaterOrEqual(Comparable<? super T> actual, Comparable<? super T> other) {
     return new ShouldBeGreaterOrEqual(actual, other, StandardComparisonStrategy.instance());
-  }
-
-  /**
-   * Creates a new <code>{@link ShouldBeGreaterOrEqual}</code>.
-   * @param <T> guarantees that the values used in this factory have the same type.
-   * @param actual the actual value in the failed assertion.
-   * @param other the value used in the failed assertion to compare the actual value to.
-   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   * @deprecated Use {@link #shouldBeGreaterOrEqual(Object, Object, ComparisonStrategy)} instead.
-   */
-  @Deprecated
-  public static <T> ErrorMessageFactory shouldBeGreaterOrEqual(Comparable<? super T> actual, Comparable<? super T> other,
-                                                               ComparisonStrategy comparisonStrategy) {
-    return new ShouldBeGreaterOrEqual(actual, other, comparisonStrategy);
   }
 
   /**

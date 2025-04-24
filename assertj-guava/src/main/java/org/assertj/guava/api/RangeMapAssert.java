@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.guava.api;
 
@@ -93,54 +93,6 @@ public class RangeMapAssert<K extends Comparable<K>, V> extends AbstractAssert<R
       throw assertionError(shouldContainKeys(actual, keys, keysNotFound));
     }
 
-    return myself;
-  }
-
-  /**
-   * @deprecated use {@link #contains(MapEntry...)} instead (same method but using {@link MapEntry org.assertj.core.data.MapEntry} in place of {@link org.assertj.guava.data.MapEntry}.
-   * <p>
-   * Verifies that the actual {@link com.google.common.collect.RangeMap} contains the given entries.<br>
-   * <p>
-   * Example :
-   *
-   * <pre><code class='java'> RangeMap&lt;Integer, String&gt; spectralColors = TreeRangeMap.create();
-   *
-   * spectralColors.put(Range.closedOpen(380, 450), "violet");
-   * spectralColors.put(Range.closedOpen(450, 495), "blue");
-   * spectralColors.put(Range.closedOpen(495, 570), "green");
-   * spectralColors.put(Range.closedOpen(570, 590), "yellow");
-   * spectralColors.put(Range.closedOpen(590, 620), "orange");
-   * spectralColors.put(Range.closedOpen(620, 750), "red");
-   *
-   * // entry can be statically imported from {@link org.assertj.guava.data.MapEntry}
-   * assertThat(spectralColors).contains(entry("400", "violet"), entry("650", "red"));</code></pre>
-   *
-   * If the <code>entries</code> argument is null or empty, an {@link IllegalArgumentException} is thrown.
-   * <p>
-   *
-   * @param entries the entries to look for in actual {@link com.google.common.collect.RangeMap}.
-   * @return this {@link RangeMapAssert} for assertions chaining.
-   * @throws IllegalArgumentException if no param entries have been set.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} is {@code null}.
-   * @throws AssertionError if the actual {@link com.google.common.collect.RangeMap} does not contain the given entries.
-   */
-  @SafeVarargs
-  @Deprecated
-  public final RangeMapAssert<K, V> contains(org.assertj.guava.data.MapEntry<K, V>... entries) {
-    isNotNull();
-    throwIllegalArgumentExceptionIfTrue(entries == null, "The entries to look for should not be null");
-    throwIllegalArgumentExceptionIfTrue(entries.length == 0, "The entries to look for should not be empty");
-
-    List<org.assertj.guava.data.MapEntry<K, V>> entriesNotFound = newArrayList();
-    for (org.assertj.guava.data.MapEntry<K, V> entry : entries) {
-      final V value = actual.get(entry.key);
-      if (value == null || !value.equals(entry.value)) {
-        entriesNotFound.add(entry);
-      }
-    }
-    if (!entriesNotFound.isEmpty()) {
-      throw assertionError(shouldContain(actual, entries, entriesNotFound));
-    }
     return myself;
   }
 

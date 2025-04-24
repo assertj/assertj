@@ -8,14 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.iterator;
 
 import static java.util.Collections.emptyIterator;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveNext.shouldHaveNext;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
@@ -52,9 +53,9 @@ class IteratorAssert_hasNext_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Object> iterator = emptyIterator();
     // WHEN
-    AssertionError error = catchThrowableOfType(assertThat(iterator)::hasNext, AssertionError.class);
+    AssertionError error = expectAssertionError(assertThat(iterator)::hasNext);
     // THEN
-    assertThat(error).hasMessage(shouldHaveNext().create());
+    then(error).hasMessage(shouldHaveNext().create());
   }
 
   @Test
@@ -62,9 +63,9 @@ class IteratorAssert_hasNext_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Object> iterator = null;
     // WHEN
-    AssertionError error = catchThrowableOfType(assertThat(iterator)::hasNext, AssertionError.class);
+    AssertionError error = expectAssertionError(assertThat(iterator)::hasNext);
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
 }

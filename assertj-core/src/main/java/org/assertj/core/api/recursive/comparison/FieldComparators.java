@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -20,6 +20,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -82,7 +83,7 @@ public class FieldComparators extends FieldHolder<Comparator<?>> {
     // no comparator for exact location, check if there is a regex that matches the field location
     return comparatorByPatterns.stream()
                                .map(comparatorForPatterns -> comparatorForPatterns.getComparatorForField(fieldLocation))
-                               .filter(comparator -> comparator != null)
+                               .filter(Objects::nonNull)
                                .findFirst()
                                .orElse(null);
   }
@@ -137,6 +138,6 @@ class ComparatorForPatterns {
 
   @Override
   public String toString() {
-    return String.format("ComparatorForPatterns[patterns=%s, comparator=%s]", this.fieldPatterns, this.comparator);
+    return "ComparatorForPatterns[patterns=%s, comparator=%s]".formatted(this.fieldPatterns, this.comparator);
   }
 }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -247,36 +247,6 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
    */
   public ThrowableAssertAlternative<ACTUAL> withMessageContaining(String description) {
     getDelegate().hasMessageContaining(description);
-    return myself;
-  }
-
-  /**
-   * Verifies that the message of the actual {@code Throwable} contains the given description, after being formatted using
-   * the {@link String#format} method.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> Throwable illegalArgumentException = new IllegalArgumentException("wrong amount 123");
-   *
-   * // assertion succeeds:
-   * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
-   *           .withMessageContaining("%s", amount);
-   *
-   * // assertion fails:
-   * assertThatExceptionOfType(Throwable.class)
-   *           .isThrownBy(() -&gt; {throw illegalArgumentException;})
-   *           .withMessageContaining("%d", 456);</code></pre>
-   *
-   * @param description the description expected to be contained in the actual {@code Throwable}'s message.
-   * @param parameters argument referenced by the format specifiers in the format string
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
-   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
-   * @see AbstractThrowableAssert#hasMessageContaining(String, Object...)
-   */
-  public ThrowableAssertAlternative<ACTUAL> withMessageContaining(String description, Object... parameters) {
-    getDelegate().hasMessageContaining(description, parameters);
     return myself;
   }
 

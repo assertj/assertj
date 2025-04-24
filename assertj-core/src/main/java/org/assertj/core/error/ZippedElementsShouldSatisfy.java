@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -16,12 +16,11 @@ import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
-
 import org.assertj.core.api.AssertionInfo;
 
 public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
 
-  private static final String DELIMITER = String.format("%n%n- ");
+  private static final String DELIMITER = "%n%n- ".formatted();
 
   public static ErrorMessageFactory zippedElementsShouldSatisfy(AssertionInfo info,
                                                                 Iterable<?> actual, Iterable<?> other,
@@ -60,15 +59,14 @@ public class ZippedElementsShouldSatisfy extends BasicErrorMessageFactory {
     }
 
     public static String describe(AssertionInfo info, ZipSatisfyError satisfyError) {
-      return String.format("(%s, %s)%nerror: %s",
-                           info.representation().toStringOf(satisfyError.actualElement),
-                           info.representation().toStringOf(satisfyError.otherElement),
-                           satisfyError.error);
+      return "(%s, %s)%nerror: %s".formatted(info.representation().toStringOf(satisfyError.actualElement),
+                                             info.representation().toStringOf(satisfyError.otherElement),
+                                             satisfyError.error);
     }
 
     @Override
     public String toString() {
-      return String.format("(%s, %s)%nerror: %s", actualElement, otherElement, error);
+      return "(%s, %s)%nerror: %s".formatted(actualElement, otherElement, error);
     }
 
   }

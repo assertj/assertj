@@ -8,15 +8,16 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.objects;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
+import static org.assertj.core.api.Assertions.catchRuntimeException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHavePropertyOrField.shouldHavePropertyOrField;
 import static org.assertj.core.error.ShouldHavePropertyOrFieldWithValue.shouldHavePropertyOrFieldWithValue;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -51,7 +52,7 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, "field1", 123));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -62,7 +63,7 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "baz"));
     // THEN
-    assertThat(error).hasMessage(shouldHavePropertyOrFieldWithValue(actual, fieldName, "baz", "foo").create());
+    then(error).hasMessage(shouldHavePropertyOrFieldWithValue(actual, fieldName, "baz", "foo").create());
   }
 
   @Test
@@ -73,7 +74,7 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "foo"));
     // THEN
-    assertThat(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
+    then(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
   }
 
   @Test
@@ -84,7 +85,7 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
     // WHEN
     AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "foo"));
     // THEN
-    assertThat(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
+    then(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
   }
 
   @Test
@@ -92,16 +93,41 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = new Data();
     String fieldName = null;
+    // WHEN
+    RuntimeException exception = catchIllegalArgumentException(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual,
+                                                                                                               fieldName, 12));
+    // THEN
+    then(exception).hasMessage("The name of the property/field to read should not be null");
+  }
+
+  @Test
+  void should_use_field_if_getters_throws_exception() {
+    // GIVEN
+    Object actual = new Data();
+    String fieldName = "fieldWithGetterThrowing";
     // WHEN/THEN
-    assertThatIllegalArgumentException().isThrownBy(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, 12))
-                                        .withMessage("The name of the property/field to read should not be null");
+    objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "dummy");
+  }
+
+  @Test
+  void should_rethrow_getter_exception_if_field_is_missing() {
+    // GIVEN
+    Object actual = new Data();
+    String fieldName = "unknownFieldWithGetterThrowing";
+    // WHEN
+    RuntimeException exception = catchRuntimeException(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName,
+                                                                                                       "foo"));
+    // THEN
+    then(exception).hasMessage("some dummy exception");
+
   }
 
   @SuppressWarnings("unused")
   private static class Data {
 
-    private Object field1 = "foo";
+    private final Object field1 = "foo";
     private Object field2;
+    private final Object fieldWithGetterThrowing = "dummy";
     private static Object staticField;
 
     @Override
@@ -113,5 +139,13 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
       return "bar";
     }
 
+    public Object getUnknownFieldWithGetterThrowing() {
+      throw new RuntimeException("some dummy exception");
+    }
+
+    public Object getFieldWithGetterThrowing() {
+      throw new RuntimeException("some dummy exception");
+
+    }
   }
 }

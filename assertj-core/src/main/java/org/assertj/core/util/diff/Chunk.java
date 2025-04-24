@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util.diff;
 
@@ -23,7 +23,7 @@ import java.util.List;
  * 
  * <p>
  * Text is represented as <code>Object[]</code> because the diff engine is
- * capable of handling more than plain ascci. In fact, arrays or lists of any
+ * capable of handling more than plain ascii. In fact, arrays or lists of any
  * type that implements {@link Object#hashCode hashCode()} and
  * {@link Object#equals equals()} correctly can be subject to
  * differencing using this library.

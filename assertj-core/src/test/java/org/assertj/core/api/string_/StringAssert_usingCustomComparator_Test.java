@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.string_;
 
@@ -16,11 +16,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
-import org.assertj.core.test.CaseInsensitiveCharSequenceComparator;
+import org.assertj.core.testkit.CaseInsensitiveCharSequenceComparator;
 
 class StringAssert_usingCustomComparator_Test extends StringAssertBaseTest {
 
-  private CaseInsensitiveCharSequenceComparator comparator = CaseInsensitiveCharSequenceComparator.INSTANCE;
+  private final CaseInsensitiveCharSequenceComparator comparator = CaseInsensitiveCharSequenceComparator.INSTANCE;
 
   @Override
   protected StringAssert invoke_api_method() {
@@ -29,8 +29,9 @@ class StringAssert_usingCustomComparator_Test extends StringAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator())
-                          .isSameAs(getStrings(assertions).getComparator())
-                          .isSameAs(getComparables(assertions).getComparator());
+    assertThat(getComparisonStrategyComparatorOf(getObjects(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
+    assertThat(getComparisonStrategyComparatorOf(getStrings(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
+    assertThat(getComparisonStrategyComparatorOf(getComparables(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
   }
+
 }

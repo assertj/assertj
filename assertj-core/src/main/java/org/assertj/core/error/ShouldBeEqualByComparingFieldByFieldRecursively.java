@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -18,7 +18,6 @@ import static org.assertj.core.util.Strings.escapePercent;
 import static org.assertj.core.util.Strings.join;
 
 import java.util.List;
-
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.DeepDifference.Difference;
@@ -39,7 +38,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                                                                "to be equal to:%n" +
                                                                "  %s%n" +
                                                                "when recursively comparing field by field, but found the following difference(s):%n"
-                                                               + join(descriptionOfDifferences).with(format("%n")),
+                                                               + join(descriptionOfDifferences).with("%n".formatted()),
                                                                actual, other);
   }
 
@@ -49,7 +48,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
                                                                                     Representation representation) {
     String differencesDescription = join(differences.stream()
                                                     .map(difference -> difference.multiLineDescription(representation))
-                                                    .collect(toList())).with(format("%n%n"));
+                                                    .collect(toList())).with("%n%n".formatted());
     String recursiveComparisonConfigurationDescription = recursiveComparisonConfiguration.multiLineDescription(representation);
     String differencesCount = differences.size() == 1 ? "difference:%n" : "%s differences:%n";
     // @format:off
@@ -76,7 +75,7 @@ public class ShouldBeEqualByComparingFieldByFieldRecursively extends BasicErrorM
     UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, difference.getActual(),
                                                                                         difference.getOther());
     String additionalInfo = difference.getDescription()
-                                      .map(desc -> format("%n- reason  : %s", escapePercent(desc)))
+                                      .map(desc -> "%n- reason  : %s".formatted(escapePercent(desc)))
                                       .orElse("");
     return format("%nPath to difference: <%s>%n" +
                   "- actual  : %s%n" +

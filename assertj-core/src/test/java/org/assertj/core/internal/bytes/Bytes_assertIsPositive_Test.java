@@ -8,14 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.internal.bytes;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.test.TestData.someHexInfo;
-import static org.assertj.core.test.TestData.someInfo;
+import static org.assertj.core.testkit.TestData.someHexInfo;
+import static org.assertj.core.testkit.TestData.someInfo;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Bytes;
@@ -38,13 +37,13 @@ class Bytes_assertIsPositive_Test extends BytesBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsPositive(someInfo(), (byte) -1))
-                                                   .withMessage(format("%nExpecting actual:%n  -1%nto be greater than:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  -1%nto be greater than:%n  0%n".formatted());
   }
 
   @Test
   void should_fail_since_actual_is_not_positive_in_hex_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytes.assertIsPositive(someHexInfo(), (byte) 0xFA))
-                                                   .withMessage(format("%nExpecting actual:%n  0xFA%nto be greater than:%n  0x00%n"));
+                                                   .withMessage("%nExpecting actual:%n  0xFA%nto be greater than:%n  0x00%n".formatted());
   }
 
   @Test
@@ -56,13 +55,13 @@ class Bytes_assertIsPositive_Test extends BytesBaseTest {
   void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsPositive(someInfo(),
                                                                                                                           (byte) 0))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nto be greater than:%n  0%nwhen comparing values using AbsValueComparator"));
+                                                   .withMessage("%nExpecting actual:%n  0%nto be greater than:%n  0%nwhen comparing values using AbsValueComparator".formatted());
   }
 
   @Test
   void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy_in_hex_representation() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> bytesWithAbsValueComparisonStrategy.assertIsPositive(someHexInfo(),
                                                                                                                           (byte) 0x00))
-                                                   .withMessage(format("%nExpecting actual:%n  0x00%nto be greater than:%n  0x00%nwhen comparing values using AbsValueComparator"));
+                                                   .withMessage("%nExpecting actual:%n  0x00%nto be greater than:%n  0x00%nwhen comparing values using AbsValueComparator".formatted());
   }
 }

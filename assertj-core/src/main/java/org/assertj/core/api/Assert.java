@@ -8,14 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -23,11 +22,10 @@ import org.assertj.core.presentation.StandardRepresentation;
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating
- *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
+ * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *                 target="_blank">Emulating
+ *                 'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <ACTUAL> the type of the "actual" value.
- *
  * @author Yvonne Wang
  * @author Alex Ruiz
  * @author Nicolas François
@@ -89,7 +87,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
 
   /**
    * Verifies that the actual value is not {@code null}.
-  * <p>
+   * <p>
    * Example:
    * <pre><code class='java'> // assertions succeed
    * assertThat(&quot;abc&quot;).isNotNull();
@@ -166,7 +164,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param values the given array to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given array is {@code null}.
-   * @throws AssertionError if the actual value is not present in the given array.
+   * @throws AssertionError       if the actual value is not present in the given array.
    */
   SELF isIn(Object... values);
 
@@ -188,7 +186,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param values the given array to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given array is {@code null}.
-   * @throws AssertionError if the actual value is present in the given array.
+   * @throws AssertionError       if the actual value is present in the given array.
    */
   SELF isNotIn(Object... values);
 
@@ -210,7 +208,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given collection is {@code null}.
-   * @throws AssertionError if the actual value is not present in the given iterable.
+   * @throws AssertionError       if the actual value is not present in the given iterable.
    */
   SELF isIn(Iterable<?> values);
 
@@ -232,53 +230,9 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given iterable is {@code null}.
-   * @throws AssertionError if the actual value is present in the given iterable.
+   * @throws AssertionError       if the actual value is present in the given iterable.
    */
   SELF isNotIn(Iterable<?> values);
-
-  /**
-   * Use the given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
-   * <p>
-   * The custom comparator is bound to assertion instance, meaning that if a new assertion instance is created, the default
-   * comparison strategy will be used.
-   * <p>
-   * Examples :
-   * <pre><code class='java'> // frodo and sam are instances of Character with Hobbit race (obviously :).
-   * // raceComparator implements Comparator&lt;Character&gt;
-   * assertThat(frodo).usingComparator(raceComparator).isEqualTo(sam);</code></pre>
-   *
-   * @param customComparator the comparator to use for the incoming assertion checks.
-   * @throws NullPointerException if the given comparator is {@code null}.
-   * @return {@code this} assertion object.
-   */
-  SELF usingComparator(Comparator<? super ACTUAL> customComparator);
-
-  /**
-   * Use the given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
-   * <p>
-   * The custom comparator is bound to assertion instance, meaning that if a new assertion instance is created, the default
-   * comparison strategy will be used.
-   * <p>
-   * Examples :
-   * <pre><code class='java'> // frodo and sam are instances of Character with Hobbit race (obviously :).
-   * // raceComparator implements Comparator&lt;Character&gt;
-   * assertThat(frodo).usingComparator(raceComparator, "Hobbit Race Comparator").isEqualTo(sam);</code></pre>
-   *
-   * @param customComparator the comparator to use for the incoming assertion checks.
-   * @param customComparatorDescription comparator description to be used in assertion error messages
-   * @throws NullPointerException if the given comparator is {@code null}.
-   * @return {@code this} assertion object.
-   */
-  SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription);
-
-  /**
-   * Revert to standard comparison for the incoming assertion checks.
-   * <p>
-   * This method should be used to disable a custom comparison strategy set by calling {@link #usingComparator(Comparator) usingComparator}.
-   *
-   * @return {@code this} assertion object.
-   */
-  SELF usingDefaultComparator();
 
   /**
    * Uses an {@link InstanceOfAssertFactory} to verify that the actual value is an instance of a given type and to produce
@@ -301,12 +255,10 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param <ASSERT>                the type of the resulting {@code Assert}.
    * @param instanceOfAssertFactory the factory which verifies the type and creates the new {@code Assert}.
-   * @throws NullPointerException if the given factory is {@code null}.
    * @return the narrowed {@code Assert} instance.
-   *
+   * @throws NullPointerException if the given factory is {@code null}.
    * @see InstanceOfAssertFactory
    * @see InstanceOfAssertFactories
-   *
    * @since 3.13.0
    */
   <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory);
@@ -327,8 +279,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not an instance of the given type.
+   * @throws AssertionError       if the actual value is {@code null}.
+   * @throws AssertionError       if the actual value is not an instance of the given type.
    */
   SELF isInstanceOf(Class<?> type);
 
@@ -357,14 +309,14 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * // not a Jedi !
    * assertThat("foo").isInstanceOfSatisfying(Jedi.class, jediRequirements);</code></pre>
    *
-   * @param <T> the generic type to check the actual value against.
-   * @param type the type to check the actual value against.
+   * @param <T>          the generic type to check the actual value against.
+   * @param type         the type to check the actual value against.
    * @param requirements the requirements expressed as a {@link Consumer}.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
    * @throws NullPointerException if the given Consumer is {@code null}.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not an instance of the given type.
+   * @throws AssertionError       if the actual value is {@code null}.
+   * @throws AssertionError       if the actual value is not an instance of the given type.
    */
   <T> SELF isInstanceOfSatisfying(Class<T> type, Consumer<T> requirements);
 
@@ -383,8 +335,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param types the types to check the actual value against.
    * @return this assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not an instance of any of the given types.
+   * @throws AssertionError       if the actual value is {@code null}.
+   * @throws AssertionError       if the actual value is not an instance of any of the given types.
    * @throws NullPointerException if the given array of types is {@code null}.
    * @throws NullPointerException if the given array of types contains {@code null}s.
    */
@@ -406,8 +358,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @param type the type to check the actual value against.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is an instance of the given type.
+   * @throws AssertionError       if the actual value is {@code null}.
+   * @throws AssertionError       if the actual value is an instance of the given type.
    */
   SELF isNotInstanceOf(Class<?> type);
 
@@ -426,8 +378,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param types the types to check the actual value against.
    * @return this assertion object.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is an instance of any of the given types.
+   * @throws AssertionError       if the actual value is {@code null}.
+   * @throws AssertionError       if the actual value is an instance of any of the given types.
    * @throws NullPointerException if the given array of types is {@code null}.
    * @throws NullPointerException if the given array of types contains {@code null}s.
    */
@@ -448,7 +400,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param other the object to check type against.
    * @return this assertion object.
-   * @throws AssertionError if {@code actual} has not the same type as the given object.
+   * @throws AssertionError       if {@code actual} has not the same type as the given object.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
@@ -483,7 +435,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(wrapper).hasToString("FooWrapper[foo=%s]", foo); </code></pre>
    *
    * @param expectedStringTemplate the format string to use.
-   * @param args the arguments to interpolate into the format string.
+   * @param args                   the arguments to interpolate into the format string.
    * @return this assertion object.
    * @throws AssertionError if {@code actual.toString()} result is not equal to the given {@code String}.
    * @throws AssertionError if actual is {@code null}.
@@ -520,7 +472,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(wrapper).doesNotHaveToString("FooBarWrapper[%s]", foo);</code></pre>
    *
    * @param expectedStringTemplate the format string to use.
-   * @param args the arguments to interpolate into the format string.
+   * @param args                   the arguments to interpolate into the format string.
    * @return this assertion object.
    * @throws AssertionError if {@code actual.toString()} result is equal to the given {@code String}.
    * @throws AssertionError if actual is {@code null}.
@@ -543,7 +495,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param other the object to check type against.
    * @return this assertion object.
-   * @throws AssertionError if {@code actual} has the same type as the given object.
+   * @throws AssertionError       if {@code actual} has the same type as the given object.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
@@ -565,7 +517,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param type the type to check the actual value against.
    * @return this assertion object.
-   * @throws AssertionError if the actual is not <b>exactly</b> an instance of given type.
+   * @throws AssertionError       if the actual is not <b>exactly</b> an instance of given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
@@ -587,7 +539,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param type the type to check the actual value against.
    * @return this assertion object.
-   * @throws AssertionError if the actual is exactly an instance of given type.
+   * @throws AssertionError       if the actual is exactly an instance of given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given object is null.
    */
@@ -607,7 +559,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param types the types to check the actual value against.
    * @return this assertion object.
-   * @throws AssertionError if the actual value type is not in given type.
+   * @throws AssertionError       if the actual value type is not in given type.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given types is null.
    */
@@ -627,33 +579,11 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    *
    * @param types the types to check the actual value against.
    * @return this assertion object.
-   * @throws AssertionError if the actual value type is in given types.
+   * @throws AssertionError       if the actual value type is in given types.
    * @throws NullPointerException if the actual value is null.
    * @throws NullPointerException if the given types is null.
    */
   SELF isNotOfAnyClassIn(Class<?>... types);
-
-  /**
-   * Verifies that the actual value is an instance of List,
-   * and returns a list assertion, to allow chaining of list-specific
-   * assertions from this call.
-   * <p>
-   * Example :
-   * <pre><code class='java'> Object sortedListAsObject = Arrays.asList(1, 2, 3);
-   *
-   * // assertion succeeds
-   * assertThat(sortedListAsObject).asList().isSorted();
-   *
-   * Object unsortedListAsObject = Arrays.asList(3, 1, 2);
-   *
-   * // assertions fails
-   * assertThat(unsortedListAsObject).asList().isSorted();</code></pre>
-   *
-   * @return a list assertion object
-   * @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
-   */
-  @Deprecated
-  AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList();
 
   /**
    * Returns a String assertion for the <code>toString()</code> of the actual
@@ -673,13 +603,12 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   AbstractCharSequenceAssert<?, String> asString();
 
   /**
-   * @deprecated
-   *             Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
-   *             <code>equals(Object)</code> instead of <code>{@link #isEqualTo(Object)}</code>.
    * @throws UnsupportedOperationException if this method is called.
+   * @deprecated Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
+   * <code>equals(Object)</code> instead of <code>{@link #isEqualTo(Object)}</code>.
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "3")
   boolean equals(Object obj);
 
   /**
@@ -687,7 +616,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * <p>
    * Example :
    * <pre><code class='java'> assertThat("Messi").withThreadDumpOnError().isEqualTo("Ronaldo");</code></pre>
-   *
+   * <p>
    * will print a thread dump, something similar to this:
    * <pre>{@code "JDWP Command Reader"
    * 	java.lang.Thread.State: RUNNABLE
@@ -793,13 +722,10 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(&quot;The Force&quot;).hasSameHashCodeAs(&quot;Awakens&quot;);</code></pre>
    *
    * @param other the object to check hashCode against.
-   *
    * @return this assertion object.
-   *
-   * @throws AssertionError if the actual object is null.
+   * @throws AssertionError       if the actual object is null.
    * @throws NullPointerException if the other object is null.
-   * @throws AssertionError if the actual object has not the same hashCode as the given object.
-   *
+   * @throws AssertionError       if the actual object has not the same hashCode as the given object.
    * @since 2.9.0
    */
   SELF hasSameHashCodeAs(Object other);
@@ -818,14 +744,33 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;)).doesNotHaveSameHashCodeAs(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;)); </code></pre>
    *
    * @param other the object to check hashCode against.
-   *
    * @return this assertion object.
-   *
-   * @throws AssertionError if the actual object is null.
+   * @throws AssertionError       if the actual object is null.
    * @throws NullPointerException if the other object is null.
-   * @throws AssertionError if the actual object has the same hashCode as the given object.
-   *
+   * @throws AssertionError       if the actual object has the same hashCode as the given object.
    * @since 3.19.0
    */
   SELF doesNotHaveSameHashCodeAs(Object other);
+
+  /**
+   * Returns actual (the object currently under test).
+   * <p>
+   * This can be useful if after chaining assertions, the object under test has changed and you want to get it.
+   * <p>
+   * Examples of method changing actual:
+   * {@link AbstractObjectAssert#extracting(Function) extracting(Function)} or a navigation methods like
+   * {@link AbstractThrowableAssert#rootCause() rootCause()}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
+   *
+   * String newActual = assertThat(frodo).extracting(TolkienCharacter::getName).actual();
+   *
+   * // newActual == frodo.getName()
+   * assertThat(newActual).isSameAs(frodo.name);</code></pre>
+   *
+   * @return actual the object currently under test.
+   * @since 3.27.0 in {@link AbstractAssert} and 4.0.0 in {@link Assert}
+   */
+  ACTUAL actual();
 }

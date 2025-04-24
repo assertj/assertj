@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -65,7 +65,7 @@ public interface Representation {
   String toStringOf(Object object);
 
   /**
-   * Override this method to return a {@code String} representation of the given object that is unambigous so that it can 
+   * Override this method to return a {@code String} representation of the given object that is unambiguous so that it can 
    * be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
    * <p>
    * The default implementation calls {@link #toStringOf(Object)} but the {@link StandardRepresentation} adds 

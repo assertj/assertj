@@ -8,11 +8,10 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.junit.jupiter;
 
-import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isAbstract;
 import static org.junit.platform.commons.support.AnnotationSupport.findAnnotation;
 import static org.junit.platform.commons.support.AnnotationSupport.isAnnotated;
@@ -70,9 +69,9 @@ import org.junit.platform.commons.support.ReflectionSupport;
  * <h2>Scope</h2>
  *
  * Annotated {@code SoftAssertionsProvider} fields become valid from the `@BeforeEach` lifecycle phase.
- * For parameters, they become are valid when the parameter is resolved.<br>
- * In the {@code afterTestExecution} phase (immediately after the test has returned, but before the {@code AfterEach} phase, all
- * collected errors (if any) will wrapped in a single multiple-failures error.<br>
+ * For parameters, they become valid when the parameter is resolved.<br>
+ * In the {@code afterTestExecution} phase (immediately after the test has returned, but before the {@code AfterEach} phase) all
+ * collected errors (if any) will be wrapped in a single multiple-failures error.<br>
  * All {@code SoftAssertionsProvider} instances (fields &amp; parameters) created within the scope of the same test method
  * (including its {@code BeforeEach} phase) will share the same state object to collect the failed assertions, so that all
  * assertion failures from all {@link SoftAssertionsProvider}s will be reported in the order that they failed.
@@ -177,7 +176,7 @@ import org.junit.platform.commons.support.ReflectionSupport;
  * </pre>
  *
  * @author Sam Brannen
- * @author Arthur Mita (author of {@link SoftlyExtension})
+ * @author Arthur Mita (author of the removed SoftlyExtension that inspired this extension)
  * @author Fr Jeremy Krieg
  * @since 3.13
  */
@@ -291,19 +290,19 @@ public class SoftAssertionsExtension
     // @Testable is used as a meta-annotation on @Test, @TestFactory, @TestTemplate, etc.
     boolean isTestableMethod = executable instanceof Method && isAnnotated(executable, Testable.class);
     if (!isTestableMethod) {
-      throw new ParameterResolutionException(format("Configuration error: cannot resolve SoftAssertionsProvider instances for [%s]. Only test methods are supported.",
-                                                    executable));
+      throw new ParameterResolutionException("Configuration error: cannot resolve SoftAssertionsProvider instances for [%s]. Only test methods are supported.".formatted(
+                                                                                                                                                                         executable));
     }
     Class<?> parameterType = parameterContext.getParameter().getType();
     if (isAbstract(parameterType.getModifiers())) {
-      throw new ParameterResolutionException(format("Configuration error: the resolved SoftAssertionsProvider implementation [%s] is abstract and cannot be instantiated.",
-                                                    executable));
+      throw new ParameterResolutionException("Configuration error: the resolved SoftAssertionsProvider implementation [%s] is abstract and cannot be instantiated.".formatted(
+                                                                                                                                                                              executable));
     }
     try {
       parameterType.getDeclaredConstructor();
     } catch (@SuppressWarnings("unused") Exception e) {
-      throw new ParameterResolutionException(format("Configuration error: the resolved SoftAssertionsProvider implementation [%s] has no default constructor and cannot be instantiated.",
-                                                    executable));
+      throw new ParameterResolutionException("Configuration error: the resolved SoftAssertionsProvider implementation [%s] has no default constructor and cannot be instantiated.".formatted(
+                                                                                                                                                                                             executable));
     }
     return true;
   }
@@ -439,7 +438,8 @@ public class SoftAssertionsExtension
     try {
       softAssertionsField.set(testInstance, softAssertions);
     } catch (IllegalAccessException e) {
-      throw new ExtensionConfigurationException(format("[%s] Could not gain access to field", softAssertionsField.getName()), e);
+      throw new ExtensionConfigurationException("[%s] Could not gain access to field".formatted(softAssertionsField.getName()),
+                                                e);
     }
   }
 
@@ -448,16 +448,18 @@ public class SoftAssertionsExtension
     try {
       softAssertionsProviderClass.getDeclaredConstructor();
     } catch (@SuppressWarnings("unused") Exception e) {
-      throw new ExtensionConfigurationException(format("[%s] SoftAssertionsProvider [%s] does not have a default constructor",
-                                                       softAssertionsField.getName(), softAssertionsProviderClass.getName()));
+      throw new ExtensionConfigurationException("[%s] SoftAssertionsProvider [%s] does not have a default constructor".formatted(
+                                                                                                                                 softAssertionsField.getName(),
+                                                                                                                                 softAssertionsProviderClass.getName()));
     }
   }
 
   private static void checkIsNotAbstract(Field softAssertionsField,
                                          Class<? extends SoftAssertionsProvider> softAssertionsProviderClass) {
     if (Modifier.isAbstract(softAssertionsProviderClass.getModifiers())) {
-      throw new ExtensionConfigurationException(format("[%s] SoftAssertionsProvider [%s] is abstract and cannot be instantiated.",
-                                                       softAssertionsField.getName(), softAssertionsProviderClass));
+      throw new ExtensionConfigurationException("[%s] SoftAssertionsProvider [%s] is abstract and cannot be instantiated.".formatted(
+                                                                                                                                     softAssertionsField.getName(),
+                                                                                                                                     softAssertionsProviderClass));
     }
   }
 
@@ -465,8 +467,9 @@ public class SoftAssertionsExtension
   private static Class<? extends SoftAssertionsProvider> asSoftAssertionsProviderClass(Field softAssertionsField,
                                                                                        Class<?> providerClass) {
     if (!SoftAssertionsProvider.class.isAssignableFrom(providerClass)) {
-      throw new ExtensionConfigurationException(format("[%s] field is not a SoftAssertionsProvider (%s).",
-                                                       softAssertionsField.getName(), providerClass.getTypeName()));
+      throw new ExtensionConfigurationException("[%s] field is not a SoftAssertionsProvider (%s).".formatted(
+                                                                                                             softAssertionsField.getName(),
+                                                                                                             providerClass.getTypeName()));
     }
     // Guaranteed because of the sanity check
     return (Class<? extends SoftAssertionsProvider>) providerClass;
@@ -475,8 +478,8 @@ public class SoftAssertionsExtension
   private static void checkIsNotStaticOrFinal(Field softAssertionsField) {
     int fieldModifiers = softAssertionsField.getModifiers();
     if (Modifier.isStatic(fieldModifiers) || Modifier.isFinal(fieldModifiers)) {
-      throw new ExtensionConfigurationException(format("[%s] SoftAssertionsProvider field must not be static or final.",
-                                                       softAssertionsField.getName()));
+      throw new ExtensionConfigurationException("[%s] SoftAssertionsProvider field must not be static or final.".formatted(
+                                                                                                                           softAssertionsField.getName()));
     }
   }
 

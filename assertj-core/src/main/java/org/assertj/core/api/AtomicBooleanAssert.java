@@ -8,22 +8,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static org.assertj.core.error.ShouldHaveValue.shouldHaveValue;
 
-import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.assertj.core.internal.Booleans;
-import org.assertj.core.util.VisibleForTesting;
-
 public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, AtomicBoolean> {
-
-  @VisibleForTesting
-  Booleans booleans = Booleans.instance();
 
   public AtomicBooleanAssert(AtomicBoolean actual) {
     super(actual, AtomicBooleanAssert.class);
@@ -71,31 +64,6 @@ public class AtomicBooleanAssert extends AbstractAssert<AtomicBooleanAssert, Ato
     isNotNull();
     assertEqual(false);
     return myself;
-  }
-
-  /**
-   * Do not use this method.
-   *
-   * @deprecated Custom Comparator is not supported for Boolean comparison.
-   * @throws UnsupportedOperationException if this method is called.
-   */
-  @Override
-  @Deprecated
-  public AtomicBooleanAssert usingComparator(Comparator<? super AtomicBoolean> customComparator) {
-    return usingComparator(customComparator, null);
-  }
-
-  /**
-   * Do not use this method.
-   *
-   * @deprecated Custom Comparator is not supported for Boolean comparison.
-   * @throws UnsupportedOperationException if this method is called.
-   */
-  @Override
-  @Deprecated
-  public AtomicBooleanAssert usingComparator(Comparator<? super AtomicBoolean> customComparator,
-                                             String customComparatorDescription) {
-    throw new UnsupportedOperationException("custom Comparator is not supported for AtomicBoolean comparison");
   }
 
   private void assertEqual(boolean expected) {

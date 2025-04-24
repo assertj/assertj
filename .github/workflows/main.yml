@@ -7,9 +7,9 @@ env:
 
 jobs:
 
-  test_os:
+  java-21:
 
-    name: OS ${{ matrix.os }}
+    name: Java 21 (${{ matrix.os }})
     strategy:
       fail-fast: false
       matrix:
@@ -26,6 +26,49 @@ jobs:
           cache: 'maven'
       - name: Test
         run: ./mvnw $MAVEN_ARGS verify
+
+  java-oracle:
+
+    name: Java ${{ matrix.java }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # https://jdk.java.net/
+        java: [24, 25]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: jdk.java.net
+          release: ${{ matrix.java }}
+          version: latest
+      - name: Test
+        run: ./mvnw $MAVEN_ARGS verify
+
+  kotlin:
+
+    name: Kotlin ${{ matrix.kotlin }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # https://kotlinlang.org/docs/releases.html#release-details
+        # https://kotlinlang.org/docs/eap.html#build-details
+        kotlin: [1.9.25, 2.0.21, 2.1.21-RC, 2.2.0-Beta1]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+          cache: 'maven'
+      - name: Test
+        run: ./mvnw $MAVEN_ARGS -Dkotlin.version=${{ matrix.kotlin }} verify
 
   javadoc:
 
@@ -47,7 +90,7 @@ jobs:
 
     name: Sonar code analysis
     runs-on: ubuntu-latest
-    if: github.repository == 'assertj/assertj' && github.event_name == 'push'
+    if: github.repository_owner == 'assertj' && github.event_name == 'push'
 
     steps:
       - uses: actions/checkout@v4

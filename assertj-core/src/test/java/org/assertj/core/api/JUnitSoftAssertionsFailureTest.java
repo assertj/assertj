@@ -8,14 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
-import static org.assertj.core.test.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.mock;
 
@@ -36,8 +36,9 @@ class JUnitSoftAssertionsFailureTest {
     softly.assertThat(1).isEqualTo(2);
     softly.assertThat(list(1, 2)).containsOnly(1, 3);
     // WHEN simulating the rule
-    MultipleFailuresError multipleFailuresError = catchThrowableOfType(() -> softly.apply(mock(Statement.class), null).evaluate(),
-                                                                       MultipleFailuresError.class);
+    MultipleFailuresError multipleFailuresError = catchThrowableOfType(MultipleFailuresError.class,
+                                                                       () -> softly.apply(mock(Statement.class), null)
+                                                                                   .evaluate());
     // THEN
     List<Throwable> failures = multipleFailuresError.getFailures();
     assertThat(failures).hasSize(2);

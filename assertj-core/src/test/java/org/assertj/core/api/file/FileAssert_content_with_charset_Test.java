@@ -8,12 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.file;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
@@ -40,13 +41,13 @@ class FileAssert_content_with_charset_Test extends FileAssertBaseTest implements
 
   @Override
   protected FileAssert create_assertions() {
-    return new FileAssert(new File("src/test/resources/utf8.txt"));
+    return new FileAssert(resourceFile("utf8.txt"));
   }
 
   @Test
   public void should_return_StringAssert_on_path_content() {
     // GIVEN
-    File file = new File("src/test/resources/utf8.txt");
+    File file = resourceFile("utf8.txt");
     // WHEN
     AbstractStringAssert<?> stringAssert = assertThat(file).content(UTF_8);
     // THEN

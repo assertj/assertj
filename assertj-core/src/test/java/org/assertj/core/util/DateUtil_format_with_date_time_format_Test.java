@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -45,7 +45,7 @@ class DateUtil_format_with_date_time_format_Test {
   @Test
   void should_format_calendar_with_date_time_format() {
     Calendar calendar = new GregorianCalendar();
-    calendar.set(2011, 04, 15, 14, 59, 33);
+    calendar.set(2011, 4, 15, 14, 59, 33);
     assertThat(formatAsDatetime(calendar)).isEqualTo("2011-05-15T14:59:33");
   }
 

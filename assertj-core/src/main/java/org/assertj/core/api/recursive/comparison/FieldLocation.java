@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 // TODO rename to FieldPath?
 public final class FieldLocation implements Comparable<FieldLocation> {
 
+  public static final String FIELD_SEPARATOR = ".";
   private final String pathToUseInRules;
   private final List<String> decomposedPath;
   private final Set<String> pathsHierarchyToUseInRules;
@@ -72,7 +73,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   @Override
   public String toString() {
-    return String.format("<%s>", pathToUseInRules);
+    return "<%s>".formatted(pathToUseInRules);
   }
 
   public String shortDescription() {
@@ -84,7 +85,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     // rules for ignoring fields don't apply at the element level (ex: children.[2]) but at the group level (ex: children).
     return path.stream()
                .filter(subpath -> !subpath.startsWith("["))
-               .collect(joining("."));
+               .collect(joining(FIELD_SEPARATOR));
   }
 
   public boolean exactlyMatches(FieldLocation field) {
@@ -93,30 +94,6 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   public boolean exactlyMatches(String fieldPath) {
     return pathToUseInRules.equals(fieldPath);
-  }
-
-  /**
-   * Reruns true if it exactly matches this field, false otherwise.
-   *
-   * @param fieldPath field path to check
-   * @return true if it exactly matches this field, false otherwise
-   * @deprecated use {@link #exactlyMatches(String)} instead.
-   */
-  @Deprecated
-  public boolean matches(String fieldPath) {
-    return exactlyMatches(fieldPath);
-  }
-
-  /**
-   * Reruns true if it exactly matches this field, false otherwise.
-   *
-   * @param field field to check
-   * @return true if it exactly matches this field, false otherwise
-   * @deprecated use {@link #exactlyMatches(String)} instead.
-   */
-  @Deprecated
-  public boolean matches(FieldLocation field) {
-    return exactlyMatches(field);
   }
 
   /**
@@ -182,6 +159,10 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     return pathToUseInRules;
   }
 
+  public String getPathToUseInRulesForChildField(String fieldName) {
+    return pathToUseInRules.isEmpty() ? fieldName : pathToUseInRules + FIELD_SEPARATOR + fieldName;
+  }
+
   public FieldLocation field(String field) {
     List<String> decomposedPathWithField = new ArrayList<>(decomposedPath);
     decomposedPathWithField.add(field);
@@ -189,7 +170,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   }
 
   public String getPathToUseInErrorReport() {
-    return String.join(".", decomposedPath);
+    return String.join(FIELD_SEPARATOR, decomposedPath);
   }
 
   public String getFieldName() {
@@ -209,7 +190,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   }
 
   public boolean isTopLevelField() {
-    return !isRoot() && !pathToUseInRules.contains(".");
+    return !isRoot() && !pathToUseInRules.contains(FIELD_SEPARATOR);
   }
 
   public static FieldLocation rootFieldLocation() {
@@ -237,8 +218,8 @@ public final class FieldLocation implements Comparable<FieldLocation> {
    * @return true if this has the given parent (direct or indirect), false otherwise.
    */
   public boolean hasParent(FieldLocation parent) {
-    // "." guarantees that we compare path elements, this avoids making "name" a parent of "names"
-    return pathToUseInRules.startsWith(parent.pathToUseInRules + ".");
+    // FIELD_SEPARATOR guarantees that we compare path elements, this avoids making "name" a parent of "names"
+    return pathToUseInRules.startsWith(parent.pathToUseInRules + FIELD_SEPARATOR);
   }
 
   /**
@@ -279,7 +260,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   }
 
   private String parent(String currentPath) {
-    int lastDot = currentPath.lastIndexOf('.');
+    int lastDot = currentPath.lastIndexOf(FIELD_SEPARATOR);
     if (lastDot < 0) {
       return "";
     }

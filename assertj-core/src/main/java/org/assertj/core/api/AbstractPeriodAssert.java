@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api;
 
@@ -27,7 +27,8 @@ import org.assertj.core.internal.Failures;
  * @author Hayden Meloche
  * @since 3.17.0
  */
-public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SELF>> extends AbstractAssert<SELF, Period> {
+public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SELF>>
+    extends AbstractAssertWithComparator<SELF, Period> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractPeriodAssert}</code>

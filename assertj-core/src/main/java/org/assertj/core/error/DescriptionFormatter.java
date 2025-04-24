@@ -8,14 +8,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
 import static org.assertj.core.util.Strings.isNullOrEmpty;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Formats the <code>{@link Description}</code>s to be included in assertion errors.
@@ -34,7 +33,7 @@ public class DescriptionFormatter {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   DescriptionFormatter() {}
 
   /**
@@ -46,7 +45,7 @@ public class DescriptionFormatter {
   public String format(Description d) {
     String s = (d != null) ? d.value() : null;
     if (isNullOrEmpty(s)) return "";
-    return String.format("[%s] ", s);
+    return "[%s] ".formatted(s);
   }
 
 }

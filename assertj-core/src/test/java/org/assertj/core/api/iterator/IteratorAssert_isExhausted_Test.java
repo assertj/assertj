@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.iterator;
 
@@ -52,7 +52,7 @@ class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Integer> iterator = newArrayList(1).iterator();
     // WHEN
-    AssertionError error = catchThrowableOfType(assertThat(iterator)::isExhausted, AssertionError.class);
+    AssertionError error = catchThrowableOfType(AssertionError.class, assertThat(iterator)::isExhausted);
     // THEN
     assertThat(error).hasMessageContaining(shouldBeExhausted().create());
   }
@@ -62,7 +62,7 @@ class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Object> iterator = null;
     // WHEN
-    AssertionError error = catchThrowableOfType(assertThat(iterator)::isExhausted, AssertionError.class);
+    AssertionError error = catchThrowableOfType(AssertionError.class, assertThat(iterator)::isExhausted);
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

@@ -8,14 +8,11 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldExist.PATH_SHOULD_EXIST;
-import static org.assertj.core.error.ShouldExist.PATH_SHOULD_EXIST_NO_FOLLOW_LINKS;
 import static org.assertj.core.error.ShouldExist.shouldExist;
 import static org.assertj.core.error.ShouldExist.shouldExistNoFollowLinks;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -44,7 +41,7 @@ class ShouldExist_create_Test {
     // WHEN
     String actualMessage = shouldExist(new FakeFile("xyz")).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] %nExpecting file:%n  xyz%nto exist."));
+    then(actualMessage).isEqualTo("[Test] %nExpecting file:%n  xyz%nto exist.".formatted());
   }
 
   @Test
@@ -54,7 +51,7 @@ class ShouldExist_create_Test {
     // WHEN
     String actualMessage = shouldExist(actual).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + PATH_SHOULD_EXIST, actual));
+    then(actualMessage).isEqualTo("[Test] %nExpecting path:%n  %s%nto exist (symbolic links were followed).".formatted(actual));
   }
 
   @Test
@@ -64,6 +61,6 @@ class ShouldExist_create_Test {
     // WHEN
     String actualMessage = shouldExistNoFollowLinks(actual).create(description, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + PATH_SHOULD_EXIST_NO_FOLLOW_LINKS, actual));
+    then(actualMessage).isEqualTo("[Test] %nExpecting path:%n  %s%nto exist (symbolic links were not followed).".formatted(actual));
   }
 }

@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.throwable;
 
@@ -20,7 +20,6 @@ import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThr
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ThrowableTypeAssert;
 import org.assertj.core.description.TextDescription;
@@ -47,7 +46,7 @@ class ThrowableTypeAssert_description_Test {
   void should_contain_provided_description_if_nothing_is_thrown_by_lambda(Function<ThrowableTypeAssert<?>, ThrowableTypeAssert<?>> descriptionAdder) {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> descriptionAdder.apply(assertThatExceptionOfType(NoSuchElementException.class))
                                                                                      .isThrownBy(() -> {}))
-                                                   .withMessage(format("[test description] %nExpecting code to raise a throwable."));
+                                                   .withMessage("[test description] %nExpecting code to raise a throwable.".formatted());
   }
 
   @ParameterizedTest

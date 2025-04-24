@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.presentation;
 
@@ -28,7 +28,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import com.google.common.collect.ImmutableList;
 
-final class RotatingQueue_Test {
+class RotatingQueue_Test {
 
   private final Random random = new Random();
 
@@ -48,8 +48,8 @@ final class RotatingQueue_Test {
     // GIVEN
     Queue<Integer> rotating = new RotatingQueue<>(0);
     // WHEN
-    IllegalStateException exception = catchThrowableOfType(() -> rotating.add(random.nextInt()),
-                                                           IllegalStateException.class);
+    IllegalStateException exception = catchThrowableOfType(IllegalStateException.class,
+                                                           () -> rotating.add(random.nextInt()));
     // THEN
     then(exception).hasMessageContaining("full");
   }
@@ -154,4 +154,5 @@ final class RotatingQueue_Test {
     // THEN
     then(exception).hasMessageContainingAll("non-negative", "-1");
   }
+
 }

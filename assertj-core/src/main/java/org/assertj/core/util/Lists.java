@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.util;
 
@@ -86,17 +86,6 @@ public final class Lists {
    */
   public static <T> ArrayList<T> newArrayList() {
     return new ArrayList<>();
-  }
-
-  /**
-   * @deprecated use {@link Collections#emptyList()} instead.
-   *
-   * @param <T> the generic type of the {@code List}.
-   * @return an empty, <em>immutable</em> {@code List}.
-   */
-  @Deprecated
-  public static <T> List<T> emptyList() {
-    return Collections.emptyList();
   }
 
   private Lists() {}

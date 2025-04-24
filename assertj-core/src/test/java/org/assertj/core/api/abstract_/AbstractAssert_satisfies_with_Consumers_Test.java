@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.api.abstract_;
 
@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.AbstractAssert;
-import org.assertj.core.test.Jedi;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
 class AbstractAssert_satisfies_with_Consumers_Test {
@@ -62,7 +62,7 @@ class AbstractAssert_satisfies_with_Consumers_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).satisfies(isNamedVader, isDarth));
     // THEN
-    then(assertionError).hasMessageContaining("check vader", "check darth");
+    then(assertionError).hasMessageContainingAll("check vader", "check darth");
   }
 
   @Test

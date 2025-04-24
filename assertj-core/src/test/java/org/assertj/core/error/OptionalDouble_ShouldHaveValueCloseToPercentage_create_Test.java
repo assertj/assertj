@@ -8,7 +8,7 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.error;
 
@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 class OptionalDouble_ShouldHaveValueCloseToPercentage_create_Test {
 
   @Test
-  void should_create_error_message_when_optionaldouble_is_empty() {
+  void should_create_error_message_when_OptionalDouble_is_empty() {
     // WHEN
     String errorMessage = shouldHaveValueCloseToPercentage(10.0).create();
     // THEN
@@ -34,14 +34,14 @@ class OptionalDouble_ShouldHaveValueCloseToPercentage_create_Test {
   }
 
   @Test
-  void should_create_error_message_when_optionaldouble_value_is_not_close_enough_to_expected_value() {
+  void should_create_error_message_when_OptionalDouble_value_is_not_close_enough_to_expected_value() {
     // WHEN
-    String errorMessage = shouldHaveValueCloseToPercentage(OptionalDouble.of(20), 10, withinPercentage(2), 3).create();
+    String errorMessage = shouldHaveValueCloseToPercentage(OptionalDouble.of(20), 10, withinPercentage(2)).create();
     // THEN
     then(errorMessage).isEqualTo(format("%nExpecting actual:%n  OptionalDouble[20.0]%n" +
                                         "to be close to:%n" +
                                         "  10.0%n" +
-                                        "by less than 2%% but difference was 30.0%%.%n" +
+                                        "by less than 2%% but difference was 100.0%%.%n" +
                                         "(a difference of exactly 2%% being considered valid)"));
   }
 }

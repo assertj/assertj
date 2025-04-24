@@ -8,16 +8,14 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  *
- * Copyright 2012-2024 the original author or authors.
+ * Copyright 2012-2025 the original author or authors.
  */
 package org.assertj.core.condition;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.function.Function;
-
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.Condition;
 import org.assertj.core.description.Description;
@@ -86,7 +84,7 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
   public static <FROM, TO> MappedCondition<FROM, TO> mappedCondition(Function<FROM, TO> mapping, Condition<TO> condition,
                                                                      String mappingDescription, Object... args) {
     requireNonNull(mappingDescription, "The given mappingDescription should not be null");
-    return new MappedCondition<>(mapping, condition, format(mappingDescription, args));
+    return new MappedCondition<>(mapping, condition, mappingDescription.formatted(args));
   }
 
   /**
@@ -140,16 +138,16 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
   private String buildMappingDescription(FROM from, TO to, boolean withNested) {
 
     StringBuilder sb = new StringBuilder("mapped");
-    if (!mappingDescription.isEmpty()) sb.append(format("%n   using: %s", mappingDescription));
+    if (!mappingDescription.isEmpty()) sb.append("%n   using: %s".formatted(mappingDescription));
 
-    if (from == null) sb.append(format("%n   from: %s%n", from));
-    else sb.append(format("%n   from: <%s> %s%n", className(from), from));
+    if (from == null) sb.append("%n   from: %s%n".formatted(from));
+    else sb.append("%n   from: <%s> %s%n".formatted(className(from), from));
 
-    if (to == null) sb.append(format("   to:   %s%n", to));
-    else sb.append(format("   to:   <%s> %s%n", className(to), to));
+    if (to == null) sb.append("   to:   %s%n".formatted(to));
+    else sb.append("   to:   <%s> %s%n".formatted(className(to), to));
 
     sb.append("   then checked:");
-    if (withNested) sb.append(format("%n      %-10s", condition));
+    if (withNested) sb.append("%n      %-10s".formatted(condition));
     return sb.toString();
   }
 
@@ -158,7 +156,7 @@ public class MappedCondition<FROM, TO> extends Condition<FROM> {
     TO mappedObject = mapping.apply(actual);
     Description descriptionsWithStatus = condition.conditionDescriptionWithStatus(mappedObject);
     Status status = status(actual);
-    String descriptionStart = format("%s %s", status, buildMappingDescription(actual, mappedObject, false));
+    String descriptionStart = "%s %s".formatted(status, buildMappingDescription(actual, mappedObject, false));
     return new JoinDescription(descriptionStart, "", list(descriptionsWithStatus));
   }
 

@@ -28,7 +28,7 @@ jobs:
         run: |
           git config user.name '${{ github.actor }}'
           git config user.email '${{ github.actor }}@users.noreply.github.com'
-          ./mvnw $MAVEN_ARGS release:prepare release:perform -Dpassword=${{ secrets.GITHUB_TOKEN }}
+          ./mvnw $MAVEN_ARGS -Dpassword=${{ secrets.GITHUB_TOKEN }} release:prepare release:perform
         env:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
