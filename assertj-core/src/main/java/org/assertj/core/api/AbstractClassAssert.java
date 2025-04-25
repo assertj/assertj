@@ -12,7 +12,10 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
+import static java.util.function.Predicate.not;
+import static java.util.stream.Collectors.toSet;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBeFinal;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePackagePrivate;
 import static org.assertj.core.error.ClassModifierShouldBe.shouldBePrivate;
@@ -49,7 +52,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.assertj.core.internal.Classes;
 
@@ -663,8 +665,15 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF hasAnnotationsForProxy(Class<? extends Annotation>[] annotations) {
-    classes.assertContainsAnnotations(info, actual, annotations);
+    isNotNull();
+    assertHasAnnotations(annotations);
     return myself;
+  }
+
+  private void assertHasAnnotations(Class<? extends Annotation>[] annotations) {
+    requireNonNull(annotations, shouldNotBeNull("annotations")::create);
+    var missing = stream(annotations).filter(not(this::hasAnnotationByType)).collect(toSet());
+    if (!missing.isEmpty()) throw assertionError(shouldHaveAnnotations(actual, Set.of(annotations), missing));
   }
 
   /**
@@ -698,10 +707,13 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
 
   private void assertHasAnnotation(Class<? extends Annotation> annotation) {
     requireNonNull(annotation, shouldNotBeNull("annotation")::create);
-    Annotation[] annotations = actual.getAnnotationsByType(annotation);
-    if (annotations.length == 0) {
+    if (!hasAnnotationByType(annotation)) {
       throw assertionError(shouldHaveAnnotations(actual, Set.of(annotation), Set.of(annotation)));
     }
+  }
+
+  private boolean hasAnnotationByType(Class<? extends Annotation> annotation) {
+    return actual.getAnnotationsByType(annotation).length > 0;
   }
 
   /**
@@ -1222,7 +1234,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     Set<Class<?>> actualPermittedSubclasses = newLinkedHashSet(getPermittedSubclasses(actual));
     Set<Class<?>> missingPermittedSubclasses = Stream.of(expectedPermittedSubclasses)
                                                      .filter(expectedPermittedSubclass -> !actualPermittedSubclasses.contains(expectedPermittedSubclass))
-                                                     .collect(Collectors.toSet());
+                                                     .collect(toSet());
     if (!missingPermittedSubclasses.isEmpty())
       throw assertionError(shouldHavePermittedSubclasses(actual, expectedPermittedSubclasses, missingPermittedSubclasses));
   }

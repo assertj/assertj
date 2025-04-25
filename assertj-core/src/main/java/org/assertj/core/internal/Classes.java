@@ -15,7 +15,6 @@ package org.assertj.core.internal;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldBeAssignableFrom.shouldBeAssignableFrom;
-import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveFields.shouldHaveFields;
 import static org.assertj.core.error.ShouldHaveMethods.shouldHaveMethods;
@@ -29,7 +28,6 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Sets.newTreeSet;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
@@ -40,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -89,28 +86,6 @@ public class Classes {
     }
 
     if (!missing.isEmpty()) throw failures.failure(info, shouldBeAssignableFrom(actual, expected, missing));
-  }
-
-  /**
-   * Verifies that the actual {@code Class} contains the given {@code Annotation}s.
-   * 
-   * @param info contains information about the assertion.
-   * @param actual the "actual" {@code Class}.
-   * @param annotations annotations who must be attached to the class
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
-   */
-  public void assertContainsAnnotations(AssertionInfo info, Class<?> actual,
-                                        Class<? extends Annotation>[] annotations) {
-    assertNotNull(info, actual);
-    Set<Class<? extends Annotation>> expected = newLinkedHashSet(annotations);
-    Set<Class<? extends Annotation>> missing = new LinkedHashSet<>();
-    for (Class<? extends Annotation> other : expected) {
-      classParameterIsNotNull(other);
-      if (actual.getAnnotation(other) == null) missing.add(other);
-    }
-
-    if (!missing.isEmpty()) throw failures.failure(info, shouldHaveAnnotations(actual, expected, missing));
   }
 
   /**

@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveAnnotations.shouldHaveAnnotations;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -36,59 +37,86 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class ClassAssert_hasAnnotation_Test {
+/**
+ * @author William Delanoue
+ * @author Joel Costigliola
+ */
+class ClassAssert_hasAnnotations_Test {
 
   @Test
   void should_fail_if_actual_is_null() {
     // GIVEN
     Class<?> actual = null;
+    Class<? extends Annotation>[] annotations = array(FunctionalInterface.class);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotation(FunctionalInterface.class));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotations(annotations));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
-  void should_fail_if_annotation_is_null() {
+  void should_fail_if_annotations_is_null() {
+    // GIVEN
+    Class<?> actual = Integer.class;
+    Class<? extends Annotation>[] annotations = null;
+    // WHEN
+    Throwable thrown = catchThrowable(() -> assertThat(actual).hasAnnotations(annotations));
+    // THEN
+    then(thrown).isInstanceOf(NullPointerException.class).hasMessage(shouldNotBeNull("annotations").create());
+  }
+
+  @Test
+  void should_fail_if_annotations_contains_null() {
     // GIVEN
     Class<?> actual = Integer.class;
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(actual).hasAnnotation(null));
+    Throwable thrown = catchThrowable(() -> assertThat(actual).hasAnnotations(FunctionalInterface.class, null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class).hasMessage(shouldNotBeNull("annotation").create());
+    then(thrown).isInstanceOf(NullPointerException.class);
   }
 
   @ParameterizedTest
   @MethodSource
-  void should_pass_if_actual_has_annotation(Class<?> actual, Class<? extends Annotation> annotation) {
+  void should_pass_if_actual_has_annotations(Class<?> actual, Class<? extends Annotation>[] annotations) {
     // WHEN/THEN
-    assertThat(actual).hasAnnotation(annotation);
+    assertThat(actual).hasAnnotations(annotations);
   }
 
-  static Stream<Arguments> should_pass_if_actual_has_annotation() {
-    return Stream.of(arguments(Annotated.class, InheritedAnnotation.class),
-                     arguments(Subclass.class, InheritedAnnotation.class),
-                     arguments(ComposedAnnotated.class, ComposedAnnotation.class),
-                     arguments(SingleRepeatableAnnotated.class, RepeatableAnnotation.class),
-                     arguments(MultiRepeatableAnnotated.class, RepeatableAnnotation.class),
-                     arguments(MultiRepeatableAnnotated.class, RepeatableAnnotationContainer.class));
+  static Stream<Arguments> should_pass_if_actual_has_annotations() {
+    return Stream.of(arguments(Integer.class, new Class[0]),
+                     arguments(Annotated.class, array(InheritedAnnotation.class)),
+                     arguments(Subclass.class, array(InheritedAnnotation.class)),
+                     arguments(ComposedAnnotated.class, array(ComposedAnnotation.class)),
+                     arguments(SingleRepeatableAnnotated.class, array(RepeatableAnnotation.class)),
+                     arguments(MultiRepeatableAnnotated.class, array(RepeatableAnnotation.class)),
+                     arguments(MultiRepeatableAnnotated.class, array(RepeatableAnnotationContainer.class)));
   }
 
   @ParameterizedTest
   @MethodSource
-  void should_fail_if_actual_does_not_have_annotation(Class<?> actual, Class<? extends Annotation> annotation) {
+  void should_fail_if_actual_does_not_have_all_annotations(Class<?> actual, Class<? extends Annotation>[] annotations,
+                                                           Set<Class<? extends Annotation>> missing) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotation(annotation));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotations(annotations));
     // THEN
-    then(assertionError).hasMessage(shouldHaveAnnotations(actual, Set.of(annotation), Set.of(annotation)).create());
+    then(assertionError).hasMessage(shouldHaveAnnotations(actual, Set.of(annotations), missing).create());
   }
 
-  static Stream<Arguments> should_fail_if_actual_does_not_have_annotation() {
-    return Stream.of(arguments(Annotated.class, Deprecated.class),
+  static Stream<Arguments> should_fail_if_actual_does_not_have_all_annotations() {
+    return Stream.of(arguments(Annotated.class,
+                               array(Deprecated.class),
+                               Set.of(Deprecated.class)),
+                     arguments(Annotated.class,
+                               array(InheritedAnnotation.class, Deprecated.class),
+                               Set.of(Deprecated.class)),
                      // meta-annotation lookup is currently unsupported
-                     arguments(ComposedAnnotated.class, MetaAnnotation.class),
+                     arguments(ComposedAnnotated.class,
+                               array(MetaAnnotation.class),
+                               Set.of(MetaAnnotation.class)),
                      // no container created when only one annotation is present
-                     arguments(SingleRepeatableAnnotated.class, RepeatableAnnotationContainer.class));
+                     arguments(SingleRepeatableAnnotated.class,
+                               array(RepeatableAnnotationContainer.class),
+                               Set.of(RepeatableAnnotationContainer.class)));
   }
 
   /* ------------------------------------------------------------------------------------------ */
