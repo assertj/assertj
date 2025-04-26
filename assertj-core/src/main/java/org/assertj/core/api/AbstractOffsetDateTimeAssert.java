@@ -15,10 +15,6 @@ package org.assertj.core.api;
 import static java.time.Clock.systemUTC;
 import static java.time.OffsetDateTime.now;
 import static org.assertj.core.error.ShouldBeAtSameInstant.shouldBeAtSameInstant;
-import static org.assertj.core.error.ShouldBeEqualIgnoringHours.shouldBeEqualIgnoringHours;
-import static org.assertj.core.error.ShouldBeEqualIgnoringMinutes.shouldBeEqualIgnoringMinutes;
-import static org.assertj.core.error.ShouldBeEqualIgnoringNanos.shouldBeEqualIgnoringNanos;
-import static org.assertj.core.error.ShouldBeEqualIgnoringSeconds.shouldBeEqualIgnoringSeconds;
 import static org.assertj.core.error.ShouldBeEqualIgnoringTimezone.shouldBeEqualIgnoringTimezone;
 import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
@@ -32,7 +28,7 @@ import java.util.Comparator;
 import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
@@ -596,45 +592,6 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
   }
 
   /**
-   * Verifies that actual and given {@code OffsetDateTime} have same year, month, day, hour, minute and second fields,
-   * (nanosecond fields are ignored in comparison).
-   * <p>
-   * Assertion can fail with OffsetDateTimes in same chronological nanosecond time window, e.g :
-   * <p>
-   * 2000-01-01T00:00:<b>01.000000000</b>+01:00 and 2000-01-01T00:00:<b>00.999999999</b>+01:00.
-   * <p>
-   * Assertion fails as second fields differ even if time difference is only 1ns.
-   * <p>
-   * Code example :
-   * <pre><code class='java'> // successful assertions
-   * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 1, 1, 0, 0, 1, 0, ZoneOffset.UTC);
-   * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 1, 1, 0, 0, 1, 456, ZoneOffset.UTC);
-   * assertThat(OffsetDateTime1).isEqualToIgnoringNanos(OffsetDateTime2);</code></pre>
-   *
-   * <pre><code class='java'> // failing assertions (even if time difference is only 1ns)
-   * OffsetDateTime OffsetDateTimeA = OffsetDateTime.of(2000, 1, 1, 0, 0, 1, 0, ZoneOffset.UTC);
-   * OffsetDateTime OffsetDateTimeB = OffsetDateTime.of(2000, 1, 1, 0, 0, 0, 999999999, ZoneOffset.UTC);
-   * assertThat(OffsetDateTimeA).isEqualToIgnoringNanos(OffsetDateTimeB);</code></pre>
-   *
-   * @param other the given {@link java.time.OffsetDateTime}.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with nanoseconds ignored.
-   * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated
-  public SELF isEqualToIgnoringNanos(OffsetDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetDateTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringNanos(actual, other)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringNanos(actual, other));
-    }
-    return myself;
-  }
-
-  /**
    * Verifies that actual and given {@code OffsetDateTime} have same year, month, day, hour, minute, second and
    * nanosecond fields (timezone fields are ignored in comparison).
    * <p>
@@ -660,125 +617,6 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
     assertOffsetDateTimeParameterIsNotNull(other);
     if (!areEqualIgnoringTimezone(actual, other)) {
       throw Failures.instance().failure(info, shouldBeEqualIgnoringTimezone(actual, other));
-    }
-    return myself;
-  }
-
-  /**
-   * Verifies that actual and given {@link java.time.OffsetDateTime} have same year, month, day, hour and minute fields
-   * (second and
-   * nanosecond fields are ignored in comparison).
-   * <p>
-   * Assertion can fail with OffsetDateTimes in same chronological second time window, e.g :
-   * <p>
-   * 2000-01-01T00:<b>01:00</b>.000+01:00 and 2000-01-01T00:<b>00:59</b>.000+01:00.
-   * <p>
-   * Assertion fails as minute fields differ even if time difference is only 1s.
-   * <p>
-   * Code example :
-   * <pre><code class='java'> // successful assertions
-   * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 1, 1, 23, 50, 0, 0, ZoneOffset.UTC);
-   * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 1, 1, 23, 50, 10, 456, ZoneOffset.UTC);
-   * assertThat(OffsetDateTime1).isEqualToIgnoringSeconds(OffsetDateTime2);
-   *
-   * // failing assertions (even if time difference is only 1ms)
-   * OffsetDateTime OffsetDateTimeA = OffsetDateTime.of(2000, 1, 1, 23, 50, 00, 000, ZoneOffset.UTC);
-   * OffsetDateTime OffsetDateTimeB = OffsetDateTime.of(2000, 1, 1, 23, 49, 59, 999, ZoneOffset.UTC);
-   * assertThat(OffsetDateTimeA).isEqualToIgnoringSeconds(OffsetDateTimeB);</code></pre>
-   *
-   * @param other the given {@link java.time.OffsetDateTime}.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with second and nanosecond fields ignored.
-   * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated
-  public SELF isEqualToIgnoringSeconds(OffsetDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetDateTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringSeconds(actual, other)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringSeconds(actual, other));
-    }
-    return myself;
-  }
-
-  /**
-   * Verifies that actual and given {@code OffsetDateTime} have same year, month, day and hour fields (minute, second
-   * and
-   * nanosecond fields are ignored in comparison).
-   * <p>
-   * Assertion can fail with OffsetDateTimes in same chronological second time window, e.g :
-   * <p>
-   * 2000-01-01T<b>01:00</b>:00.000+01:00 and 2000-01-01T<b>00:59:59</b>.000+01:00.
-   * <p>
-   * Time difference is only 1s but hour fields differ.
-   * <p>
-   * Code example :
-   * <pre><code class='java'> // successful assertions
-   * OffsetDateTime offsetDateTime1 = OffsetDateTime.of(2000, 1, 1, 23, 50, 0, 0, ZoneOffset.UTC);
-   * OffsetDateTime offsetDateTime2 = OffsetDateTime.of(2000, 1, 1, 23, 00, 2, 7, ZoneOffset.UTC);
-   * assertThat(offsetDateTime1).isEqualToIgnoringMinutes(offsetDateTime2);
-   *
-   * // failing assertions (even if time difference is only 1ms)
-   * OffsetDateTime OffsetDateTimeA = OffsetDateTime.of(2000, 1, 1, 01, 00, 00, 000, ZoneOffset.UTC);
-   * OffsetDateTime OffsetDateTimeB = OffsetDateTime.of(2000, 1, 1, 00, 59, 59, 999, ZoneOffset.UTC);
-   * assertThat(OffsetDateTimeA).isEqualToIgnoringMinutes(OffsetDateTimeB);</code></pre>
-   *
-   * @param other the given {@link java.time.OffsetDateTime}.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal ignoring minute, second and nanosecond fields.
-   * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated
-  public SELF isEqualToIgnoringMinutes(OffsetDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetDateTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringMinutes(actual, other)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringMinutes(actual, other));
-    }
-    return myself;
-  }
-
-  /**
-   * Verifies that actual and given {@code OffsetDateTime} have same year, month and day fields (hour, minute, second
-   * and nanosecond fields are ignored in comparison).
-   * <p>
-   * Assertion can fail with OffsetDateTimes in same chronological minute time window, e.g :
-   * <p>
-   * 2000-01-<b>01T23:59</b>:00.000+01:00 and 2000-01-02T<b>00:00</b>:00.000+01:00.
-   * <p>
-   * Time difference is only 1min but day fields differ.
-   * <p>
-   * Code example :
-   * <pre><code class='java'> // successful assertions
-   * OffsetDateTime OffsetDateTime1 = OffsetDateTime.of(2000, 1, 1, 23, 59, 59, 999, ZoneOffset.UTC);
-   * OffsetDateTime OffsetDateTime2 = OffsetDateTime.of(2000, 1, 1, 00, 00, 00, 000, ZoneOffset.UTC);
-   * assertThat(OffsetDateTime1).isEqualToIgnoringHours(OffsetDateTime2);
-   *
-   * // failing assertions (even if time difference is only 1ms)
-   * OffsetDateTime OffsetDateTimeA = OffsetDateTime.of(2000, 1, 2, 00, 00, 00, 000, ZoneOffset.UTC);
-   * OffsetDateTime OffsetDateTimeB = OffsetDateTime.of(2000, 1, 1, 23, 59, 59, 999, ZoneOffset.UTC);
-   * assertThat(OffsetDateTimeA).isEqualToIgnoringHours(OffsetDateTimeB);</code></pre>
-   *
-   * @param other the given {@link java.time.OffsetDateTime}.
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
-   * @throws IllegalArgumentException if other {@code OffsetDateTime} is {@code null}.
-   * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with hour, minute, second and nanosecond ignored.
-   * @deprecated Use {@link #isCloseTo(OffsetDateTime, TemporalOffset)} instead, although not exactly the same semantics, 
-   * this is the right way to compare with a given precision.
-   */
-  @Deprecated
-  public SELF isEqualToIgnoringHours(OffsetDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetDateTimeParameterIsNotNull(other);
-    if (!haveSameYearMonthAndDayOfMonth(actual, other)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringHours(actual, other));
     }
     return myself;
   }

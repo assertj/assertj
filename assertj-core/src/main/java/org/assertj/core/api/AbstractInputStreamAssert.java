@@ -31,6 +31,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.function.Supplier;
+
 import org.assertj.core.internal.BinaryDiff;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.Diff;
@@ -51,7 +52,7 @@ import org.assertj.core.util.diff.Delta;
  * @author Stefan Birkner
  */
 public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStreamAssert<SELF, ACTUAL>, ACTUAL extends InputStream>
-    extends AbstractAssert<SELF, ACTUAL> {
+    extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
   private final Diff diff = new Diff();
   private final BinaryDiff binaryDiff = new BinaryDiff();
@@ -107,23 +108,6 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
     } catch (IOException e) {
       throw new UncheckedIOException(e);
     }
-  }
-
-  /**
-   * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
-   *
-   * @param expected the given {@code InputStream} to compare the actual {@code InputStream} to.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given {@code InputStream} is {@code null}.
-   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
-   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
-   * @throws UncheckedIOException if an I/O error occurs.
-   *
-   * @deprecated use {@link #hasSameContentAs(InputStream)} instead
-   */
-  @Deprecated
-  public SELF hasContentEqualTo(InputStream expected) {
-    return hasSameContentAs(expected);
   }
 
   /**
@@ -236,7 +220,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   }
 
   /**
-   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String} <b>except for newlines wich are ignored</b>.
+   * Verifies that the content of the actual {@code InputStream} is equal to the given {@code String} <b>except for newlines which are ignored</b>.
    * <p>
    * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
    * one can use {@link #asString(Charset)} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.

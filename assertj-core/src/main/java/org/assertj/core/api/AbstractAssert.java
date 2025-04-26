@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
@@ -27,16 +26,15 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
@@ -45,15 +43,12 @@ import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all assertions.
@@ -76,24 +71,24 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   protected Objects objects = Objects.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public WritableAssertionInfo info;
 
   // visibility is protected to allow us write custom assertions that need access to actual
   protected final ACTUAL actual;
   protected final SELF myself;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   // = ConfigurationProvider.CONFIGURATION_PROVIDER.representation(); ?
   static Representation customRepresentation = null;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   AssertionErrorCreator assertionErrorCreator;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   static boolean printAssertionsDescription;
 
   private static Consumer<Description> descriptionConsumer;
@@ -101,7 +96,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
-  @SuppressWarnings("unchecked")
   protected AbstractAssert(ACTUAL actual, Class<?> selfType) {
     myself = (SELF) selfType.cast(this);
     this.actual = actual;
@@ -118,6 +112,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   public WritableAssertionInfo getWritableAssertionInfo() {
     return info;
+  }
+
+  protected ComparisonStrategy getComparisonStrategy() {
+    return objects.getComparisonStrategy();
   }
 
   /**
@@ -144,7 +142,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Generate a custom assertion error using the information in this assertion.
    * <p>
    * This is a utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
-   * in error message.
+   * in the error message.
    * <p>
    * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
    * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
@@ -174,7 +172,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     if (assertionError == null) {
       // error message was not overridden, build it.
       String description = MessageFormatter.instance().format(info.description(), info.representation(), "");
-      assertionError = new AssertionError(description + format(errorMessage, arguments));
+      assertionError = new AssertionError(description + errorMessage.formatted(arguments));
     }
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
     removeCustomAssertRelatedElementsFromStackTraceIfNeeded(assertionError);
@@ -207,7 +205,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Generate a custom assertion error using the information in this assertion, using the given actual and expected values.
    * <p>
    * This is a utility method to ease writing custom assertions classes using {@link String#format(String, Object...)} specifiers
-   * in error message with actual and expected values.
+   * in the error message with actual and expected values.
    * <p>
    * Moreover, this method honors any description set with {@link #as(String, Object...)} or overridden error message
    * defined by the user with {@link #overridingErrorMessage(String, Object...)}.
@@ -240,7 +238,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   protected AssertionError failureWithActualExpected(Object actual, Object expected, String errorMessageFormat,
                                                      Object... arguments) {
     String errorMessage = Optional.ofNullable(info.overridingErrorMessage())
-                                  .orElse(format(errorMessageFormat, arguments));
+                                  .orElse(errorMessageFormat.formatted(arguments));
     String description = MessageFormatter.instance().format(info.description(), info.representation(), errorMessage);
     AssertionError assertionError = assertionErrorCreator.assertionError(description, actual, expected, info.representation());
     Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
@@ -508,7 +506,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * {@inheritDoc}
    */
-  @SuppressWarnings("unchecked")
   @Override
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
@@ -529,7 +526,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * {@inheritDoc}
    */
-  @SuppressWarnings("unchecked")
   @Override
   public <T> SELF isInstanceOfSatisfying(Class<T> type, Consumer<T> requirements) {
     objects.assertIsInstanceOf(info, actual, type);
@@ -589,7 +585,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   public SELF hasToString(String expectedStringTemplate, Object... args) {
     requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
-    return hasToString(format(expectedStringTemplate, args));
+    return hasToString(expectedStringTemplate.formatted(args));
   }
 
   /**
@@ -607,7 +603,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   public SELF doesNotHaveToString(String expectedStringTemplate, Object... args) {
     requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
-    return doesNotHaveToString(format(expectedStringTemplate, args));
+    return doesNotHaveToString(expectedStringTemplate.formatted(args));
   }
 
   /**
@@ -657,18 +653,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /**
    * {@inheritDoc}
-   *
-   * @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
-   */
-  @Deprecated
-  @Override
-  @CheckReturnValue
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList() {
-    return asInstanceOf(InstanceOfAssertFactories.LIST);
-  }
-
-  /**
-   * {@inheritDoc}
    */
   @Override
   @CheckReturnValue
@@ -701,7 +685,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *                              .isTrue();</code></pre>
    *
    * @param newErrorMessage the error message that will replace the default one provided by Assertj.
-   * @param args            the args used to fill error message as in {@link String#format(String, Object...)}.
+   * @param args            the args used to fill the error message as in {@link String#format(String, Object...)}.
    * @return this assertion object.
    */
   @CheckReturnValue
@@ -775,55 +759,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
-    return usingComparator(customComparator, null);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
-    // using a specific strategy to compare actual with other objects.
-    this.objects = new Objects(new ComparatorBasedComparisonStrategy(customComparator, customComparatorDescription));
-    return myself;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @CheckReturnValue
-  public SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate) {
-    return usingEquals(predicate, null);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @CheckReturnValue
-  public SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate, String customEqualsDescription) {
-    return usingComparator((o1, o2) -> predicate.test(o1, o2) ? 0 : -1, customEqualsDescription);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @CheckReturnValue
-  public SELF usingDefaultComparator() {
-    // fall back to default strategy to compare actual with other objects.
-    this.objects = Objects.instance();
-    return myself;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  @CheckReturnValue
   public SELF withThreadDumpOnError() {
     Failures.instance().enablePrintThreadDump();
     return myself;
@@ -846,7 +781,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @deprecated use {@link #isEqualTo} instead
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "3")
   public boolean equals(Object obj) {
     if (throwUnsupportedExceptionOnEquals) {
       throw new UnsupportedOperationException("'equals' is not supported... maybe you intended to call 'isEqualTo'");
@@ -1028,8 +963,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   protected SELF satisfiesForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
     checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
     List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchOptionalAssertionError)
-                                                                   .filter(Optional::isPresent)
-                                                                   .map(Optional::get)
+                                                                   .flatMap(Optional::stream)
                                                                    .collect(toList());
     if (!assertionErrors.isEmpty()) {
       throw multipleAssertionsError(assertionErrors);
@@ -1124,7 +1058,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     List<AssertionError> assertionErrors = list();
     for (Consumer<? super ACTUAL> assertionsGroup : assertionsGroups) {
       Optional<AssertionError> maybeError = catchOptionalAssertionError(assertionsGroup);
-      if (!maybeError.isPresent()) {
+      if (maybeError.isEmpty()) {
         return myself;
       }
       assertionErrors.add(maybeError.get());
@@ -1250,7 +1184,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @see AbstractObjectAssert#extracting(String, InstanceOfAssertFactory)
    * @since 3.16.0
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   protected <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                     AssertFactory<Object, ASSERT> assertFactory) {
@@ -1277,7 +1210,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @see AbstractObjectAssert#extracting(Function, InstanceOfAssertFactory)
    * @since 3.16.0
    */
-  @SuppressWarnings("unchecked")
   @CheckReturnValue
   protected <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, ? extends T> extractor,
                                                                        AssertFactory<T, ASSERT> assertFactory) {
@@ -1289,40 +1221,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Returns true if actual and other are equal according to the current comparison strategy.
-   *
-   * @param actual the object to compare to other
-   * @param other  the object to compare to actual
-   * @return true if actual and other are equal according to the underlying comparison strategy.
-   * @since 3.23.0
-   * @deprecated {@link ComparisonStrategy} will become part of the public API in the next major release and this method
-   * will be removed.
+   * {@inheritDoc}
    */
-  @Deprecated
-  protected boolean areEqual(Object actual, Object other) {
-    return objects.getComparisonStrategy().areEqual(actual, other);
-  }
-
-  /**
-   * Returns actual (the object currently under test).
-   * <p>
-   * This can be useful if after chaining assertions, the object under test has changed and you want to get it.
-   * <p>
-   * Examples of method changing actual:
-   * {@link AbstractObjectAssert#extracting(Function) extracting(Function)} or a navigation methods like
-   * {@link AbstractThrowableAssert#rootCause() rootCause()}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
-   *
-   * String newActual = assertThat(frodo).extracting(TolkienCharacter::getName).actual();
-   *
-   * // newActual == frodo.getName()
-   * assertThat(newActual).isSameAs(frodo.name);</code></pre>
-   *
-   * @return actual the object currently under test.
-   * @since 3.27.0
-   */
+  @Override
   public ACTUAL actual() {
     return actual;
   }

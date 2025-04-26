@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeFinite.shouldBeFinite;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -31,7 +30,7 @@ class ShouldBeFinite_create_Test {
     // WHEN
     String message = shouldBeFinite(actual).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %nExpecting Infinity to be finite"));
+    then(message).isEqualTo("[TEST] %nExpecting Infinity to be finite".formatted());
   }
 
   @Test
@@ -41,6 +40,6 @@ class ShouldBeFinite_create_Test {
     // WHEN
     String message = shouldBeFinite(actual).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %nExpecting Infinityf to be finite"));
+    then(message).isEqualTo("[TEST] %nExpecting Infinityf to be finite".formatted());
   }
 }

@@ -62,7 +62,7 @@ class AbstractAssert_satisfies_with_Consumers_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).satisfies(isNamedVader, isDarth));
     // THEN
-    then(assertionError).hasMessageContaining("check vader", "check darth");
+    then(assertionError).hasMessageContainingAll("check vader", "check darth");
   }
 
   @Test

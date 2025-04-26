@@ -17,9 +17,8 @@ import java.util.Comparator;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Bytes;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Byte}s.
@@ -40,7 +39,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractByteAssert<SELF extends AbstractByteAssert<SELF>> extends AbstractComparableAssert<SELF, Byte>
     implements NumberAssert<SELF, Byte> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Bytes bytes = Bytes.instance();
 
   protected AbstractByteAssert(Byte actual, Class<?> selfType) {

@@ -15,6 +15,7 @@ package org.assertj.core.api.file;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 
 import java.io.File;
 
@@ -25,7 +26,7 @@ class FileAssert_size_Test {
   @Test
   void should_be_able_to_use_file_assertions_on_file_size() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = resourceFile("actual_file.txt");
     // THEN
     then(file).size()
               .isGreaterThan(4L)

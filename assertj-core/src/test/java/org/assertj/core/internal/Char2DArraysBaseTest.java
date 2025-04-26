@@ -38,7 +38,7 @@ public class Char2DArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = new Failures();
+    failures = Failures.instance();
     char2DArrays = new Char2DArrays();
     char2DArrays.failures = failures;
     arrays2d = mock(Arrays2D.class);

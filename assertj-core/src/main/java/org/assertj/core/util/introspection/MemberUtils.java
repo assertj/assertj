@@ -40,7 +40,7 @@ abstract class MemberUtils {
    * @param o the AccessibleObject to set as accessible
    */
   static void setAccessibleWorkaround(AccessibleObject o) {
-    if (o == null || o.isAccessible()) {
+    if (o == null) {
       return;
     }
     Member m = (Member) o;

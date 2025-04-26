@@ -19,6 +19,7 @@ import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS
 import java.util.UUID;
 
 import org.assertj.core.api.AbstractAssert;
+import org.assertj.core.api.AbstractAssertWithComparator;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +28,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Stefano Cordio
  */
-public interface NavigationMethodBaseTest<ASSERT extends AbstractAssert<ASSERT, ?>> {
+public interface NavigationMethodBaseTest<ASSERT extends AbstractAssertWithComparator<ASSERT, ?>> {
 
   ASSERT getAssertion();
 

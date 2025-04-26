@@ -26,13 +26,12 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.assertj.core.annotations.Beta;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.FieldByFieldComparator;
-import org.assertj.core.internal.StandardComparisonStrategy;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
@@ -48,10 +47,11 @@ import org.assertj.core.util.CheckReturnValue;
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
 public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert<SELF, VALUE>, VALUE> extends
-    AbstractAssert<SELF, Optional<VALUE>> {
+    AbstractAssertWithComparator<SELF, Optional<VALUE>> {
 
   private ComparisonStrategy optionalValueComparisonStrategy;
 
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalAssert(Optional<VALUE> actual, Class<?> selfType) {
     super(actual, selfType);
     this.optionalValueComparisonStrategy = StandardComparisonStrategy.instance();
@@ -137,7 +137,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   public SELF contains(VALUE expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
-    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+    if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
     if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue))
       throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.get(), expectedValue);
     return myself;
@@ -246,46 +246,6 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   }
 
   /**
-   * Use field/property by field/property comparison (including inherited fields/properties) instead of relying on
-   * actual type A <code>equals</code> method to compare the {@link Optional} value's object for incoming assertion
-   * checks. Private fields are included but this can be disabled using {@link Assertions#setAllowExtractingPrivateFields(boolean)}.
-   * <p>
-   * This can be handy if <code>equals</code> method of the {@link Optional} value's object to compare does not suit
-   * you.
-   * </p>
-   * Note that the comparison is <b>not</b> recursive, if one of the fields/properties is an Object, it will be
-   * compared to the other field/property using its <code>equals</code> method.
-   * <p>
-   * Example:
-   *
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
-   *
-   * // Fail if equals has not been overridden in TolkienCharacter as equals default implementation only compares references
-   * assertThat(Optional.of(frodo)).contains(frodoClone);
-   *
-   * // frodo and frodoClone are equals when doing a field by field comparison.
-   * assertThat(Optional.of(frodo)).usingFieldByFieldValueComparator().contains(frodoClone);</code></pre>
-   *
-   * @return {@code this} assertion object.
-   * @deprecated This method is deprecated because it performs a <b>shallow</b> field by field comparison, i.e. elements are compared
-   * field by field but the fields are compared with equals, use {@link #get()} chained with {@link AbstractObjectAssert#usingRecursiveComparison()} instead.
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
-   *
-   * // frodo and frodoClone are equals when doing a field by field comparison.
-   * assertThat(Optional.of(frodo)).get().usingRecursiveComparison()
-   *                               .isEqualTo(frodoClone);</code></pre>
-   * <br>See <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
-   */
-  @Deprecated
-  @CheckReturnValue
-  @SuppressWarnings({ "DeprecatedIsStillUsed", "deprecation" })
-  public SELF usingFieldByFieldValueComparator() {
-    return usingValueComparator(new FieldByFieldComparator());
-  }
-
-  /**
    * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare the
    * {@link Optional} value's object for incoming assertion checks.
    * <p>
@@ -356,13 +316,13 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   public SELF containsSame(VALUE expectedValue) {
     isNotNull();
     checkNotNull(expectedValue);
-    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+    if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
     if (actual.get() != expectedValue) throwAssertionError(shouldContainSame(actual, expectedValue));
     return myself;
   }
 
   /**
-   * Call {@link Optional#flatMap(Function) flatMap} on the {@code Optional} under test, assertions chained afterwards are performed on the {@code Optional} resulting from the flatMap call.
+   * Call {@link Optional#flatMap(Function) flatMap} on the {@code Optional} under test, assertions chained afterward are performed on the {@code Optional} resulting from the flatMap call.
    * <p>
    * Examples:
    * <pre><code class='java'> Function&lt;String, Optional&lt;String&gt;&gt; UPPER_CASE_OPTIONAL_STRING =
@@ -396,7 +356,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   }
 
   /**
-   * Call {@link Optional#map(Function) map} on the {@code Optional} under test, assertions chained afterwards are performed on the {@code Optional} resulting from the map call.
+   * Call {@link Optional#map(Function) map} on the {@code Optional} under test, assertions chained afterward are performed on the {@code Optional} resulting from the map call.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -451,7 +411,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   }
 
   /**
-   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns an new assertion instance
+   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns a new assertion instance
    * to chain assertions on the optional value.
    * <p>
    * The {@code assertFactory} parameter allows to specify an {@link InstanceOfAssertFactory}, which is used to get the
@@ -657,7 +617,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   private void assertValueIsPresent() {
     isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    if (actual.isEmpty()) throwAssertionError(shouldBePresent(actual));
   }
 
 }

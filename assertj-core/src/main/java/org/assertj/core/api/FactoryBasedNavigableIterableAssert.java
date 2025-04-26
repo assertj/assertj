@@ -25,38 +25,8 @@ public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNaviga
                                                  ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
        extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
 
-  private AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
+  private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
 
-
-  /**
-   * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
-   * <p>
-   * Deprecated way:
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
-   * assertThat(hobbits, StringAssert::new).first()
-   *                                       .startsWith("fro")
-   *                                       .endsWith("do");</code></pre>
-   *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *                    .startsWith("fro")
-   *                    .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
-   * preferred way to create type-specific assertions in AssertJ API.
-   */
-  @Deprecated
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
-         FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
-                                                                                 AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
-    return new FactoryBasedNavigableIterableAssert(actual, FactoryBasedNavigableIterableAssert.class, assertFactory);
-  }
-         
 // @format:on
 
   public FactoryBasedNavigableIterableAssert(ACTUAL actual, Class<?> selfType,

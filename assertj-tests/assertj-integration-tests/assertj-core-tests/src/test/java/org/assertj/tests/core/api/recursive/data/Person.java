@@ -36,7 +36,7 @@ public class Person {
 
   @Override
   public String toString() {
-    return String.format("Person [dateOfBirth=%s, name=%s, phone=%s, home=%s]", dateOfBirth, name, phone, home);
+    return "Person [dateOfBirth=%s, name=%s, phone=%s, home=%s]".formatted(dateOfBirth, name, phone, home);
   }
 
 }

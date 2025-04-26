@@ -12,13 +12,11 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.joining;
 
 import java.util.Map;
-
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@code CharSequence} contains a Subsequence of
@@ -83,12 +81,13 @@ public class ShouldContainSubsequenceOfCharSequence extends BasicErrorMessageFac
     String detailedErrorMessage;
     if (notFoundRepeatedSubsequence.size() == 1) {
       Map.Entry<CharSequence, Integer> singleEntry = notFoundRepeatedSubsequence.entrySet().iterator().next();
-      detailedErrorMessage = format("But the %s occurrence of \"%s\" was not found", ordinal(singleEntry.getValue() + 1),
-                                    singleEntry.getKey());
+      detailedErrorMessage = "But the %s occurrence of \"%s\" was not found".formatted(ordinal(singleEntry.getValue() + 1),
+                                                                                       singleEntry.getKey());
     } else {
       detailedErrorMessage = notFoundRepeatedSubsequence.entrySet().stream()
-                                                        .map(entry -> format("- the %s occurrence of \"%s\" was not found",
-                                                                             ordinal(entry.getValue() + 1), entry.getKey()))
+                                                        .map(entry -> "- the %s occurrence of \"%s\" was not found".formatted(ordinal(entry.getValue()
+                                                                                                                                      + 1),
+                                                                                                                              entry.getKey()))
                                                         .collect(joining("%n"));
       detailedErrorMessage = "But:%n" + detailedErrorMessage;
     }

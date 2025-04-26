@@ -20,6 +20,7 @@ import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRES
 
 import java.util.List;
 import java.util.function.Function;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.ObjectAssert;
@@ -125,8 +126,6 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
                                                        .withFailMessage("error message")
                                                        .withRepresentation(UNICODE_REPRESENTATION)
                                                        .usingComparator(AlwaysEqualComparator.ALWAYS_EQUALS)
-                                                       .usingComparatorForFields(AlwaysEqualComparator.ALWAYS_EQUALS_STRING,
-                                                                                 "foo")
                                                        .usingComparatorForType(AlwaysEqualComparator.ALWAYS_EQUALS_STRING,
                                                                                String.class);
     // WHEN

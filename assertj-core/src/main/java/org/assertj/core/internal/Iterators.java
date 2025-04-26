@@ -19,7 +19,6 @@ import static org.assertj.core.internal.Comparables.assertNotNull;
 import java.util.Iterator;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Iterator}</code>s.
@@ -38,10 +37,10 @@ public class Iterators {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterators() {}
 
   public void assertHasNext(AssertionInfo info, Iterator<?> actual) {

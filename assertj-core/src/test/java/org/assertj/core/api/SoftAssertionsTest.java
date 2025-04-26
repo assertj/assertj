@@ -34,6 +34,8 @@ import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.api.SoftAssertions.assertSoftly;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
+import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.testkit.Name.lastNameComparator;
@@ -107,7 +109,6 @@ import org.assertj.core.testkit.Person;
 import org.assertj.core.testkit.TolkienCharacter;
 import org.assertj.core.testkit.TolkienCharacterAssert;
 import org.assertj.core.util.Lists;
-import org.assertj.core.util.VisibleForTesting;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -193,10 +194,10 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                                       + "  [\"1\"=\"2\"]%n"
                                                       + "but could not find the following map entries:%n"
                                                       + "  [\"1\"=\"2\"]"));
-    then(errors.get(1)).hasMessageStartingWith(format("%nExpecting empty but was: {\"54\"=\"55\"}"));
+    then(errors.get(1)).hasMessageStartingWith("%nExpecting empty but was: {\"54\"=\"55\"}".formatted());
   }
 
-  @SuppressWarnings({ "deprecation" })
+  @SuppressWarnings("removal")
   @Test
   void should_be_able_to_catch_exceptions_thrown_by_all_proxied_methods() throws MalformedURLException {
     try {
@@ -296,7 +297,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       softly.assertThat(OptionalDouble.of(0.0)).isEqualTo(1.0);
       softly.assertThat(OptionalLong.of(0L)).isEqualTo(1L);
       softly.assertThat(URI.create("http://assertj.org")).hasPort(8888);
-      softly.assertThat(CompletableFuture.completedFuture("done")).hasFailed();
       softly.assertThat((Predicate<String>) s -> s.equals("something")).accepts("something else");
       softly.assertThat((IntPredicate) s -> s == 1).accepts(2);
       softly.assertThat((LongPredicate) s -> s == 1).accepts(2);
@@ -309,10 +309,10 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       fail("Should not reach here");
     } catch (MultipleFailuresError e) {
       List<String> errors = e.getFailures().stream().map(Object::toString).collect(toList());
-      then(errors).hasSize(55);
+      then(errors).hasSize(54);
       then(errors.get(0)).contains(shouldBeEqualMessage("0", "1"));
-      then(errors.get(1)).contains(format("%nExpecting value to be true but was false"));
-      then(errors.get(2)).contains(format("%nExpecting value to be true but was false"));
+      then(errors.get(1)).contains("%nExpecting value to be true but was false".formatted());
+      then(errors.get(2)).contains("%nExpecting value to be true but was false".formatted());
       then(errors.get(3)).contains(shouldBeEqualMessage("[false]", "[true]"));
 
       then(errors.get(4)).contains(shouldBeEqualMessage("0", "1"));
@@ -352,7 +352,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       then(errors.get(23)).contains(shouldBeEqualMessage("[24]", "[25]"));
 
       then(errors.get(24)).contains(shouldBeEqualMessage("[\"26\"]", "[\"27\"]"));
-      then(errors.get(25)).contains(format("Expecting the iterator under test to be exhausted"));
+      then(errors.get(25)).contains("Expecting the iterator under test to be exhausted".formatted());
       then(errors.get(26)).contains(shouldBeEqualMessage("[\"30\"]", "[\"31\"]"));
 
       then(errors.get(27)).contains(shouldBeEqualMessage("32L", "33L"));
@@ -393,25 +393,24 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       then(errors.get(44)).contains(shouldBeEqualMessage("OptionalDouble[0.0]", "1.0"));
       then(errors.get(45)).contains(shouldBeEqualMessage("OptionalLong[0]", "1L"));
       then(errors.get(46)).contains("Expecting port of");
-      then(errors.get(47)).contains("to have failed");
-      then(errors.get(48)).contains(format("%nExpecting actual:%n  given predicate%n"
+      then(errors.get(47)).contains(format("%nExpecting actual:%n  given predicate%n"
                                            + "to accept \"something else\" but it did not."));
 
-      then(errors.get(49)).contains(format("%nExpecting actual:%n  given predicate%n"
+      then(errors.get(48)).contains(format("%nExpecting actual:%n  given predicate%n"
                                            + "to accept 2 but it did not."));
 
-      then(errors.get(50)).contains(format("%nExpecting actual:%n  given predicate%n"
+      then(errors.get(49)).contains(format("%nExpecting actual:%n  given predicate%n"
                                            + "to accept 2L but it did not."));
-      then(errors.get(51)).contains(format("%nExpecting actual:%n  given predicate%n"
+      then(errors.get(50)).contains(format("%nExpecting actual:%n  given predicate%n"
                                            + "to accept 2.0 but it did not."));
-      then(errors.get(52)).contains(format("%nExpecting actual:%n"
+      then(errors.get(51)).contains(format("%nExpecting actual:%n"
                                            + "  <http://assertj.org:80>%n"
                                            + "not to have a port but had:%n"
                                            + "  <80>"));
-      then(errors.get(53)).contains(format("%nExpecting Duration:%n"
+      then(errors.get(52)).contains(format("%nExpecting Duration:%n"
                                            + "  10H%n"
                                            + "to have 5L hours but had 10L"));
-      then(errors.get(54)).contains(format("%nExpecting Period:%n  P1D%nto have 2 days but had 1"));
+      then(errors.get(53)).contains(format("%nExpecting Period:%n  P1D%nto have 2 days but had 1"));
     }
   }
 
@@ -1971,15 +1970,13 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // WHEN
     softly.assertThat(actual)
           .hasAnnotations(MyAnnotation.class, AnotherAnnotation.class)
-          .hasAnnotations(SafeVarargs.class, VisibleForTesting.class);
+          .hasAnnotations(SafeVarargs.class);
     // THEN
-    then(softly.errorsCollected()).singleElement(as(THROWABLE))
-                                  .hasMessageContaining("SafeVarargs")
-                                  .hasMessageContaining("VisibleForTesting");
+    then(softly.errorsCollected()).singleElement(as(THROWABLE)).hasMessageContaining("SafeVarargs");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
-  @SuppressWarnings("deprecation")
+  @SuppressWarnings("removal")
   @Test
   void object_soft_assertions_should_report_errors_on_final_methods_and_methods_that_switch_the_object_under_test() {
     // GIVEN
@@ -2005,12 +2002,6 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .asString()
           .startsWith("abc")
           .startsWith("123");
-    softly.assertThat(vowels)
-          .as("asList()")
-          .overridingErrorMessage("error message")
-          .asList()
-          .startsWith("a", "e")
-          .startsWith("1", "2");
     softly.assertThat(name)
           .as("extracting(Name::getFirst)")
           .overridingErrorMessage("error message")
@@ -2023,13 +2014,12 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .isEqualTo("Jack");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
-    then(errorsCollected).hasSize(6);
+    then(errorsCollected).hasSize(5);
     then(errorsCollected.get(0)).hasMessage("[extracting(\"first\", \"last\")] error message");
     then(errorsCollected.get(1)).hasMessage("[extracting(Name::getFirst, Name::getLast)] error message");
     then(errorsCollected.get(2)).hasMessage("[asString()] error message");
-    then(errorsCollected.get(3)).hasMessage("[asList()] error message");
-    then(errorsCollected.get(4)).hasMessage("[extracting(Name::getFirst)] error message");
-    then(errorsCollected.get(5)).hasMessage("[extracting(first)] error message");
+    then(errorsCollected.get(3)).hasMessage("[extracting(Name::getFirst)] error message");
+    then(errorsCollected.get(4)).hasMessage("[extracting(first)] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught
@@ -2563,7 +2553,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void path_soft_assertions_should_work_with_content() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = resourcePath("actual_file.txt");
     // WHEN
     softly.assertThat(path)
           .overridingErrorMessage("error message")
@@ -2586,7 +2576,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_report_errors_on_methods_that_switch_the_object_under_test() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = resourceFile("actual_file.txt");
     // WHEN
     softly.assertThat(file)
           .overridingErrorMessage("error message")
@@ -2609,7 +2599,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_work_with_navigation_methods() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = resourceFile("actual_file.txt");
     // WHEN
     softly.assertThat(file)
           .overridingErrorMessage("error message")
@@ -2630,7 +2620,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void file_soft_assertions_should_work_with_binaryContent() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = resourceFile("actual_file.txt");
     // WHEN
     softly.assertThat(file)
           .overridingErrorMessage("error message")
@@ -2651,7 +2641,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   @Test
   void path_soft_assertions_should_work_with_binaryContent() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = resourcePath("actual_file.txt");
     // WHEN
     softly.assertThat(path)
           .overridingErrorMessage("error message")
@@ -2723,8 +2713,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     Stream.of("A", "B").forEach(runAssertions);
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly(format("[checking A] %nExpecting code to raise a throwable."),
-                                                   format("[checking B] %nExpecting code to raise a throwable."));
+                                  .containsExactly("[checking A] %nExpecting code to raise a throwable.".formatted(),
+                                                   "[checking B] %nExpecting code to raise a throwable.".formatted());
   }
 
   @ParameterizedTest

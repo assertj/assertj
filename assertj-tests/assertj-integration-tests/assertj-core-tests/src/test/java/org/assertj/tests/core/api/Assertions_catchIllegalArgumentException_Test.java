@@ -47,9 +47,9 @@ class Assertions_catchIllegalArgumentException_Test {
   @Test
   void catchIllegalArgumentException_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    IllegalArgumentException actual = catchIllegalArgumentException(() -> {});
+    AssertionError error = expectAssertionError(() -> catchIllegalArgumentException(() -> {}));
     // THEN
-    then(actual).isNull();
+    then(error).hasMessage("Expecting code to raise an IllegalArgumentException");
   }
 
   @Test

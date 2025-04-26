@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.double_;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
@@ -51,7 +50,7 @@ class DoubleAssert_isNotZero_Test extends DoubleAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting actual:%n  -0.0%nnot to be equal to:%n  0.0%n"));
+                     .hasMessage("%nExpecting actual:%n  -0.0%nnot to be equal to:%n  0.0%n".formatted());
   }
 
   @Test
@@ -64,7 +63,7 @@ class DoubleAssert_isNotZero_Test extends DoubleAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting actual:%n  0.0%nnot to be equal to:%n  0.0%n"));
+                     .hasMessage("%nExpecting actual:%n  0.0%nnot to be equal to:%n  0.0%n".formatted());
   }
 
   @Test
@@ -75,7 +74,7 @@ class DoubleAssert_isNotZero_Test extends DoubleAssertBaseTest {
     // WHEN
     Throwable error = catchThrowable(() -> assertThat(positiveZero).isNotZero());
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting actual:%n  0.0%nnot to be equal to:%n  0.0%n"));
+                     .hasMessage("%nExpecting actual:%n  0.0%nnot to be equal to:%n  0.0%n".formatted());
   }
 
 }

@@ -54,7 +54,7 @@ public final class Index {
 
   @Override
   public String toString() {
-    return String.format("%s[value=%d]", getClass().getSimpleName(), value);
+    return "%s[value=%d]".formatted(getClass().getSimpleName(), value);
   }
 
 }

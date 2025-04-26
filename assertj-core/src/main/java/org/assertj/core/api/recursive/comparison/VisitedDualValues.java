@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.String.format;
-
 class VisitedDualValues {
 
   private final List<VisitedDualValue> dualValues;
@@ -57,7 +55,7 @@ class VisitedDualValues {
 
     @Override
     public String toString() {
-      return format("VisitedDualValue[dualValue=%s, comparisonDifferences=%s]", this.dualValue, this.comparisonDifferences);
+      return "VisitedDualValue[dualValue=%s, comparisonDifferences=%s]".formatted(this.dualValue, this.comparisonDifferences);
     }
   }
 }

@@ -22,7 +22,7 @@ import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import org.assertj.core.api.CharSequenceAssert;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.junit.jupiter.api.Test;
 
 /**

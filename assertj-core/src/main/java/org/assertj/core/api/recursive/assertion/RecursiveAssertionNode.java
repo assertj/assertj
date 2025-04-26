@@ -30,7 +30,7 @@ public final class RecursiveAssertionNode {
 
   @Override
   public String toString() {
-    return String.format("RecursiveAssertionNode[value=%s, name=%s, type=%s]", this.value, this.name, this.type);
+    return "RecursiveAssertionNode[value=%s, name=%s, type=%s]".formatted(this.value, this.name, this.type);
   }
 
   @Override

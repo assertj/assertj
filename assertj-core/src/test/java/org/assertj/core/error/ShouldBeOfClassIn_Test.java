@@ -12,13 +12,11 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.util.Lists.list;
 
 import java.io.File;
-
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
@@ -37,6 +35,6 @@ class ShouldBeOfClassIn_Test {
     // WHEN
     String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Yoda\"%nto be of one these types:%n  [java.lang.Long, java.io.File]%nbut was:%n  java.lang.String"));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"Yoda\"%nto be of one these types:%n  [java.lang.Long, java.io.File]%nbut was:%n  java.lang.String".formatted());
   }
 }

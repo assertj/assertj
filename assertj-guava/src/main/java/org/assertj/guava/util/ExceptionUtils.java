@@ -12,8 +12,6 @@
  */
 package org.assertj.guava.util;
 
-import static java.lang.String.format;
-
 public class ExceptionUtils {
 
   /**
@@ -28,7 +26,7 @@ public class ExceptionUtils {
   public static void throwIllegalArgumentExceptionIfTrue(boolean condition, String exceptionMessage,
                                                          Object... exceptionMessageArgs) {
     if (condition) {
-      throw new IllegalArgumentException(format(exceptionMessage, exceptionMessageArgs));
+      throw new IllegalArgumentException(exceptionMessage.formatted(exceptionMessageArgs));
     }
   }
 

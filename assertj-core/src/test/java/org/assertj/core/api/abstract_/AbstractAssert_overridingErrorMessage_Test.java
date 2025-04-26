@@ -12,12 +12,10 @@
  */
 package org.assertj.core.api.abstract_;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 
 import java.util.function.Supplier;
-
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ConcreteAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -64,7 +62,7 @@ class AbstractAssert_overridingErrorMessage_Test {
     ThrowingCallable code = () -> assertions.overridingErrorMessage("new error message with special character like (%)")
                                             .isEqualTo(8L);
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(format("new error message with special character like (%%)"));
+    assertThatAssertionErrorIsThrownBy(code).withMessage("new error message with special character like (%%)".formatted());
   }
 
   @Test
@@ -93,8 +91,7 @@ class AbstractAssert_overridingErrorMessage_Test {
     // GIVEN
     long expected = 8L;
     // WHEN
-    ThrowingCallable code = () -> assertions.overridingErrorMessage(() -> format("new error message, expected value was : '%s'",
-                                                                                 expected))
+    ThrowingCallable code = () -> assertions.overridingErrorMessage(() -> "new error message, expected value was : '%s'".formatted(expected))
                                             .isEqualTo(expected);
     // THEN
     assertThatAssertionErrorIsThrownBy(code).withMessage("new error message, expected value was : '8'");
@@ -106,8 +103,7 @@ class AbstractAssert_overridingErrorMessage_Test {
     long expected = 8L;
     // WHEN
     ThrowingCallable code = () -> assertions.as("test")
-                                            .overridingErrorMessage(() -> format("new error message, expected value was : '%s'",
-                                                                                 expected))
+                                            .overridingErrorMessage(() -> "new error message, expected value was : '%s'".formatted(expected))
                                             .isEqualTo(expected);
     // THEN
     assertThatAssertionErrorIsThrownBy(code).withMessage("[test] new error message, expected value was : '8'");

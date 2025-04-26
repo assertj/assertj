@@ -31,9 +31,6 @@ import org.assertj.core.api.IterableAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
-import org.assertj.core.testkit.TolkienCharacter;
-import org.assertj.core.testkit.TolkienCharacterAssert;
-import org.assertj.core.testkit.TolkienCharacterAssertFactory;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.junit.jupiter.api.Test;
 
@@ -127,47 +124,6 @@ class IterableAssert_filteredOn_Test extends IterableAssert_filtered_baseTest {
     ThrowingCallable code = () -> assertThat(employees).filteredOn("age", not(in(800))).containsOnly(luke, noname);
     assertThatExceptionOfType(UnsupportedOperationException.class).isThrownBy(code)
                                                                   .withMessageStartingWith("Combining operator is not supported");
-  }
-
-  @Test
-  void should_honor_AssertFactory_strongly_typed_navigation_assertions() {
-    // GIVEN
-    Iterable<TolkienCharacter> hobbits = hobbits();
-    TolkienCharacterAssertFactory tolkienCharacterAssertFactory = new TolkienCharacterAssertFactory();
-    // THEN
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", "Frodo")
-                                                      .first()
-                                                      .hasAge(33);
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", "Frodo")
-                                                      .last()
-                                                      .hasAge(33);
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", "Frodo")
-                                                      .element(0)
-                                                      .hasAge(33);
-    assertThat(hobbits, tolkienCharacterAssertFactory).filteredOn("name", "Frodo")
-                                                      .elements(0)
-                                                      .first()
-                                                      .hasAge(33);
-  }
-
-  @Test
-  void should_honor_ClassBased_strongly_typed_navigation_assertions() {
-    // GIVEN
-    Iterable<TolkienCharacter> hobbits = hobbits();
-    // THEN
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", "Frodo")
-                                                     .first()
-                                                     .hasAge(33);
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", "Frodo")
-                                                     .last()
-                                                     .hasAge(33);
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", "Frodo")
-                                                     .element(0)
-                                                     .hasAge(33);
-    assertThat(hobbits, TolkienCharacterAssert.class).filteredOn("name", "Frodo")
-                                                     .elements(0)
-                                                     .first()
-                                                     .hasAge(33);
   }
 
   @Test

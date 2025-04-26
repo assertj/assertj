@@ -15,7 +15,6 @@ package org.assertj.core.api;
 import static java.lang.Character.isWhitespace;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toCollection;
-import static org.assertj.core.api.Assertions.contentOf;
 import static org.assertj.core.error.ShouldBeASCII.shouldBeASCII;
 import static org.assertj.core.error.ShouldBeAlphabetic.shouldBeAlphabetic;
 import static org.assertj.core.error.ShouldBeAlphanumeric.shouldBeAlphanumeric;
@@ -35,7 +34,6 @@ import static org.assertj.core.internal.Strings.doCommonCheckForCharSequence;
 import static org.assertj.core.internal.Strings.removeAllWhitespaces;
 import static org.assertj.core.util.IterableUtil.toArray;
 
-import java.io.File;
 import java.io.LineNumberReader;
 import java.text.Normalizer;
 import java.util.Comparator;
@@ -46,10 +44,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
@@ -68,9 +65,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Daniel Weber
  */
 public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequenceAssert<SELF, ACTUAL>, ACTUAL extends CharSequence>
-    extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {
+    extends AbstractAssertWithComparator<SELF, ACTUAL> implements EnumerableAssert<SELF, Character> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Strings strings = Strings.instance();
 
   protected AbstractCharSequenceAssert(ACTUAL actual, Class<?> selfType) {
@@ -83,14 +80,14 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * If you do not want to accept a {@code null} value, use
    * {@link org.assertj.core.api.AbstractCharSequenceAssert#isEmpty()} instead.
    * <p>
-   * Both of these assertions will succeed:
+   * Both of these assertions succeeds:
    * <pre><code class='java'> String emptyString = &quot;&quot;
    * assertThat(emptyString).isNullOrEmpty();
    *
    * String nullString = null;
    * assertThat(nullString).isNullOrEmpty();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> assertThat(&quot;a&quot;).isNullOrEmpty();
    * assertThat(&quot;   &quot;).isNullOrEmpty();</code></pre>
    *
@@ -107,11 +104,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * If you want to accept a {@code null} value as well as a 0 length, use
    * {@link org.assertj.core.api.AbstractCharSequenceAssert#isNullOrEmpty()} instead.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String emptyString = &quot;&quot;
    * assertThat(emptyString).isEmpty();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> String nullString = null;
    * assertThat(nullString).isEmpty();
    * assertThat(&quot;a&quot;).isEmpty();
@@ -128,11 +125,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} is not empty, i.e., is not {@code null} and has a length of 1 or
    * more.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).isNotEmpty();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> String emptyString = &quot;&quot;
    * assertThat(emptyString).isNotEmpty();
    *
@@ -218,12 +215,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} contains one or more whitespace characters (according to
    * {@link Character#isWhitespace(char)}).
    * <p>
-   * These assertions will succeed:
+   * These assertions succeed:
    * <pre><code class='java'> assertThat(" ").containsWhitespaces();
    * assertThat("a b").containsWhitespaces();
    * assertThat(" c ").containsWhitespaces();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> assertThat("").containsWhitespaces();
    * assertThat("a").containsWhitespaces();
    * String nullString = null;
@@ -246,11 +243,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} consists of one or more whitespace characters (according to
    * {@link Character#isWhitespace(char)}).
    * <p>
-   * These assertions will succeed:
+   * These assertions succeed:
    * <pre><code class='java'> assertThat(" ").containsOnlyWhitespaces();
    * assertThat("    ").containsOnlyWhitespaces();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> assertThat("a").containsOnlyWhitespaces();
    * assertThat("").containsOnlyWhitespaces();
    * assertThat(" b").containsOnlyWhitespaces();
@@ -275,7 +272,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} is either {@code null}, empty or does not contain any whitespace characters (according to {@link Character#isWhitespace(char)}).
    * <p>
-   * These assertions will succeed:
+   * These assertions succeed:
    * <pre><code class='java'> assertThat("a").doesNotContainAnyWhitespaces();
    * assertThat("").doesNotContainAnyWhitespaces();
    * assertThat("ab").doesNotContainAnyWhitespaces();
@@ -283,7 +280,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * String nullString = null;
    * assertThat(nullString).doesNotContainAnyWhitespaces();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> assertThat(" ").doesNotContainAnyWhitespaces();
    * assertThat(" a").doesNotContainAnyWhitespaces();</code></pre>
    *
@@ -310,7 +307,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <p>
    * The main difference with {@link #isNotBlank()} is that it accepts null or empty {@code CharSequence}.
    * <p>
-   * These assertions will succeed:
+   * These assertions succeed:
    * <pre><code class='java'> assertThat("a").doesNotContainOnlyWhitespaces();
    * assertThat("").doesNotContainOnlyWhitespaces();
    * assertThat(" b").doesNotContainOnlyWhitespaces();
@@ -318,7 +315,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * String nullString = null;
    * assertThat(nullString).doesNotContainOnlyWhitespaces();</code></pre>
    *
-   * Whereas these assertions will fail:
+   * Whereas these assertions fail:
    * <pre><code class='java'> assertThat(" ").doesNotContainOnlyWhitespaces();
    * assertThat("    ").doesNotContainOnlyWhitespaces();</code></pre>
    *
@@ -336,74 +333,13 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is blank, i.e. consists of one or more whitespace characters
-   * (according to {@link Character#isWhitespace(char)}).
-   * <p>
-   * These assertions will succeed:
-   * <pre><code class='java'> assertThat(" ").isJavaBlank();
-   * assertThat("     ").isJavaBlank();</code></pre>
-   *
-   * Whereas these assertions will fail:
-   * <pre><code class='java'> assertThat("a").isJavaBlank();
-   * assertThat(" b").isJavaBlank();
-   * assertThat("").isJavaBlank();
-   * String nullString = null;
-   * assertThat(nullString).isJavaBlank(); </code></pre>
-   *
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} is not blank.
-   * @since 2.6.0 / 3.6.0
-   * @deprecated Use {@link #isBlank()} instead.
-   */
-  @Deprecated
-  public SELF isJavaBlank() {
-    assertJavaBlank(actual);
-    return myself;
-  }
-
-  private void assertJavaBlank(CharSequence actual) {
-    if (!containsOnlyWhitespaces(actual)) throw assertionError(shouldBeBlank(actual));
-  }
-
-  /**
-   * Verifies that the actual {@code CharSequence} is not blank, i.e. either is {@code null}, empty or
-   * contains at least one non-whitespace character (according to {@link Character#isWhitespace(char)}).
-   * <p>
-   * These assertions will succeed:
-   * <pre><code class='java'> assertThat("a").isNotJavaBlank();
-   * assertThat(" b").isNotJavaBlank();
-   * assertThat(" c ").isNotJavaBlank();
-   * assertThat("").isNotJavaBlank();
-   * String nullString = null;
-   * assertThat(nullString).isNotJavaBlank();</code></pre>
-   *
-   * Whereas these assertions will fail:
-   * <pre><code class='java'> assertThat(" ").isNotJavaBlank();
-   * assertThat("   ").isNotJavaBlank();</code></pre>
-   *
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} is blank.
-   * @since 2.6.0 / 3.6.0
-   * @deprecated Use {@link #isNotBlank()} instead.
-   */
-  @Deprecated
-  public SELF isNotJavaBlank() {
-    assertNotJavaBlank(actual);
-    return myself;
-  }
-
-  private void assertNotJavaBlank(CharSequence actual) {
-    if (containsOnlyWhitespaces(actual)) throw assertionError(shouldNotBeBlank(actual));
-  }
-
-  /**
    * Verifies that the actual {@code CharSequence} has the expected length using the {@code length()} method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).hasSize(17);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
    * assertThat(bookName).hasSize(4);</code></pre>
    *
@@ -418,12 +354,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} has has a length less than the given value using the {@code length()} method.
+   * Verifies that the actual {@code CharSequence} has a length less than the given value using the {@code length()} method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(4);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(3);</code></pre>
    *
    * @param expected the expected maximum length of the actual {@code CharSequence}.
@@ -440,10 +376,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} has a length less than or equal to the given value using the {@code length()}  method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(3);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(2);</code></pre>
    *
    * @param expected the expected maximum length of the actual {@code CharSequence}.
@@ -460,10 +396,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} has a length greater than the given value using the {@code length()}  method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abcs&quot;).hasSizeGreaterThan(2);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThan(3);</code></pre>
    *
    * @param expected the expected minimum length of the actual {@code CharSequence}.
@@ -480,10 +416,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Verifies that the actual {@code CharSequence} has a length greater than or equal to the given value using the {@code length()}  method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
    *
    * @param expected the expected minimum length of the actual {@code CharSequence}.
@@ -501,12 +437,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} has length between the given boundaries (inclusive)
    * using the {@code length()} method.
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).hasSizeBetween(5, 25);
    * assertThat(bookName).hasSizeBetween(16, 17);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
    * assertThat(bookName).hasSizeBetween(2, 5);</code></pre>
    *
@@ -528,12 +464,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * A line is considered to be <i>terminated</i> by any one of a line feed ({@code '\n'}), a carriage return ({@code '\r'}),
    * or a carriage return followed immediately by a linefeed (see {@link LineNumberReader}).
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String multiLine = &quot;First line\n&quot; +
    *                    &quot;Last line&quot;;
    * assertThat(multiLine).hasLineCount(2);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;;
    * assertThat(bookName).hasLineCount(3);</code></pre>
    *
@@ -1401,89 +1337,6 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * @deprecated
-   *
-   * This assertion has some limitations, for example it does not handle tab vs space and would fail if elements are the same but
-   * in a different order.<br>
-   * The recommended approach is <a href="https://github.com/xmlunit/user-guide/wiki">XML Unit</a> which is able to deal with
-   * these limitations and provides many more features like XPath support and schema validation.
-   * <p>
-   * Original javadoc:
-   * <p>
-   * Verifies that the actual {@code CharSequence} is equal to the given XML {@code CharSequence} after both have been
-   * formatted the same way.
-   * <p>
-   * Example:
-   * <pre><code class='java'> String expectedXml =
-   *     &quot;&lt;rings&gt;\n&quot; +
-   *         &quot;  &lt;bearer&gt;\n&quot; +
-   *         &quot;    &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
-   *         &quot;    &lt;ring&gt;\n&quot; +
-   *         &quot;      &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
-   *         &quot;      &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
-   *         &quot;    &lt;/ring&gt;\n&quot; +
-   *         &quot;  &lt;/bearer&gt;\n&quot; +
-   *         &quot;&lt;/rings&gt;&quot;;
-   *
-   * // No matter how your xml string is formatted, isXmlEqualTo is able to compare it's content with another xml String.
-   * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
-   * assertThat(oneLineXml).isXmlEqualTo(expectedXml);
-   *
-   * String xmlWithNewLine =
-   *     &quot;&lt;rings&gt;\n&quot; +
-   *         &quot;&lt;bearer&gt;   \n&quot; +
-   *         &quot;  &lt;name&gt;Frodo&lt;/name&gt;\n&quot; +
-   *         &quot;  &lt;ring&gt;\n&quot; +
-   *         &quot;    &lt;name&gt;one ring&lt;/name&gt;\n&quot; +
-   *         &quot;    &lt;createdBy&gt;Sauron&lt;/createdBy&gt;\n&quot; +
-   *         &quot;  &lt;/ring&gt;\n&quot; +
-   *         &quot;&lt;/bearer&gt;\n&quot; +
-   *         &quot;&lt;/rings&gt;&quot;;
-   * assertThat(xmlWithNewLine).isXmlEqualTo(expectedXml);
-   *
-   * // You can compare it with oneLineXml
-   * assertThat(xmlWithNewLine).isXmlEqualTo(oneLineXml);
-   *
-   * // Tip : use isXmlEqualToContentOf assertion to compare your XML String with the content of an XML file :
-   * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));</code></pre>
-   *
-   * @param expectedXml the XML {@code CharSequence} to which the actual {@code CharSequence} is to be compared to.
-   * @return {@code this} assertion object to chain other assertions.
-   * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the given XML
-   *           {@code CharSequence}.
-   * @see <a href="https://github.com/xmlunit/user-guide/wiki">XML Unit</a>
-   * @see <a href="https://github.com/xmlunit/user-guide/wiki/Providing-Input-to-XMLUnit">XML Unit XML source input</a>
-   */
-  @Deprecated
-  public SELF isXmlEqualTo(CharSequence expectedXml) {
-    strings.assertXmlEqualsTo(info, actual, expectedXml);
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual {@code CharSequence} is equal to the content of the given file.
-   * <p>
-   * This is a handy shortcut that calls : {@code isXmlEqualTo(contentOf(xmlFile))}
-   * </p>
-   * Example:
-   * <pre><code class='java'> // You can easily compare your XML String to the content of an XML file, whatever how formatted they are.
-   * String oneLineXml = &quot;&lt;rings&gt;&lt;bearer&gt;&lt;name&gt;Frodo&lt;/name&gt;&lt;ring&gt;&lt;name&gt;one ring&lt;/name&gt;&lt;createdBy&gt;Sauron&lt;/createdBy&gt;&lt;/ring&gt;&lt;/bearer&gt;&lt;/rings&gt;&quot;;
-   * assertThat(oneLineXml).isXmlEqualToContentOf(new File(&quot;src/test/resources/formatted.xml&quot;));</code></pre>
-   *
-   * @param xmlFile the file to read the expected XML String to compare with actual {@code CharSequence}
-   * @return {@code this} assertion object to chain other assertions.
-   * @throws NullPointerException if the given {@code File} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null} or is not the same XML as the content of
-   *           given {@code File}.
-   */
-  @Deprecated
-  public SELF isXmlEqualToContentOf(File xmlFile) {
-    isXmlEqualTo(contentOf(xmlFile));
-    return myself;
-  }
-
-  /**
    * Do not use this method.
    *
    * @deprecated Custom element Comparator is not supported for CharSequence comparison.
@@ -1540,9 +1393,9 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Use unicode character representation instead of standard representation in error messages.
+   * Use Unicode character representation instead of standard representation in error messages.
    * <p>
-   * It can be useful when comparing UNICODE characters - many unicode chars have duplicate characters assigned, it is
+   * It can be useful when comparing UNICODE characters - many Unicode chars have duplicate characters assigned, it is
    * thus impossible to find differences from the standard error message:
    * <p>
    * With standard message:
@@ -1847,11 +1700,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * {@code CharSequence} after normalizing new line characters
    * (i.e. '\r\n' == '\n').
    * <p>
-   * This assertion will succeed:
+   * This assertion succeeds:
    * <pre><code class='java'> String bookName = &quot;Lord of the Rings\r\n&quot;;
    * assertThat(bookName).isEqualToNormalizingNewlines(&quot;Lord of the Rings\n&quot;);</code></pre>
    *
-   * Whereas this assertion will fail:
+   * Whereas this assertion fails:
    * <pre><code class='java'> String singleLine = &quot;\n&quot;;
    * assertThat(singleLine).isEqualToNormalizingNewlines(&quot;&quot;);</code></pre>
    *
@@ -2070,8 +1923,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * // assertions will fail
    * assertThat(&quot;&quot;).isASCII();
    * assertThat(&quot;♪&quot;).isASCII();
-   * assertThat(&quot;\u2303&quot;).isASCII();
-   * assertThat(&quot;L3go123\u230300abc&quot;).isASCII();</code></pre>
+   * assertThat(&quot;⌃&quot;).isASCII();
+   * assertThat(&quot;L3go123⌃00abc&quot;).isASCII();</code></pre>
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not ASCII.
@@ -2183,9 +2036,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see Character#isWhitespace(int)
    * @since 3.26.0
    */
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public SELF doesNotStartWithWhitespaces() {
     isNotNull();
-    if (actual.length() > 0 && isWhitespace(actual.codePoints().findFirst().getAsInt()))
+    if (!actual.isEmpty() && isWhitespace(actual.codePoints().findFirst().getAsInt()))
       throwAssertionError(shouldNotStartWithWhitespaces(actual));
     return myself;
   }
@@ -2211,9 +2065,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see Character#isWhitespace(int)
    * @since 3.26.0
    */
+  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public SELF doesNotEndWithWhitespaces() {
     isNotNull();
-    if (actual.length() > 0 && Character.isWhitespace(actual.codePoints().reduce((v1, v2) -> v2).getAsInt()))
+    if (!actual.isEmpty() && Character.isWhitespace(actual.codePoints().reduce((v1, v2) -> v2).getAsInt()))
       throwAssertionError(shouldNotEndWithWhitespaces(actual));
     return myself;
   }
@@ -2231,7 +2086,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   private static boolean isNullOrEmpty(CharSequence actual) {
-    return actual == null || actual.length() == 0;
+    return actual == null || actual.isEmpty();
   }
 
   private static boolean strictlyContainsWhitespaces(CharSequence actual) {

@@ -14,6 +14,7 @@ package org.assertj.core.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.testkit.ClasspathResources.resourceURL;
 import static org.assertj.core.util.Lists.newArrayList;
 
 import java.io.File;
@@ -34,7 +35,7 @@ import org.junit.jupiter.api.Test;
  */
 class URLs_linesOf_Test {
 
-  private static final URL SAMPLE_RESOURCE_URL = ClassLoader.getSystemResource("utf8.txt");
+  private static final URL SAMPLE_RESOURCE_URL = resourceURL("utf8.txt");
 
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
 

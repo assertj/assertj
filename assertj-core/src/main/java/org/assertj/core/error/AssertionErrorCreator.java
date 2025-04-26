@@ -23,7 +23,6 @@ import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 public class AssertionErrorCreator {
@@ -34,7 +33,7 @@ public class AssertionErrorCreator {
 
   private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ConstructorInvoker constructorInvoker;
 
   public AssertionErrorCreator() {
@@ -63,7 +62,7 @@ public class AssertionErrorCreator {
                                                 expected,
                                                 actual);
 
-      if (o instanceof AssertionError) return Optional.of((AssertionError) o);
+      if (o instanceof AssertionError error) return Optional.of(error);
 
     } catch (@SuppressWarnings("unused") Throwable ignored) {}
     return Optional.empty();
@@ -82,7 +81,7 @@ public class AssertionErrorCreator {
                                                 unambiguousRepresentation.getExpected(),
                                                 unambiguousRepresentation.getActual());
 
-      if (o instanceof AssertionError) return Optional.of((AssertionError) o);
+      if (o instanceof AssertionError error) return Optional.of(error);
 
     } catch (@SuppressWarnings("unused") Throwable ignored) {}
     return Optional.empty();

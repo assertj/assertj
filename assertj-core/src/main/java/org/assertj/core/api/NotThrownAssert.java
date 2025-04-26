@@ -17,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.description.Description;
 import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.Throwables;
 
 /**
  * Assertion class checking a {@link ThrowingCallable} throws no exception.
@@ -40,7 +41,7 @@ public class NotThrownAssert implements Descriptable<NotThrownAssert> {
    * @throws AssertionError if the actual statement raised a {@code Throwable}.
    */
   public void isThrownBy(final ThrowingCallable code) {
-    Throwable throwable = ThrowableAssert.catchThrowable(code);
+    Throwable throwable = Throwables.catchThrowable(code);
     assertThat(throwable).as(description).doesNotThrowAnyException();
   }
 

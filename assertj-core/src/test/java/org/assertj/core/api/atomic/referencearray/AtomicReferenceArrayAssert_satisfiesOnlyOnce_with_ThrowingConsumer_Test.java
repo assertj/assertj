@@ -58,7 +58,7 @@ class AtomicReferenceArrayAssert_satisfiesOnlyOnce_with_ThrowingConsumer_Test ex
     Throwable throwable = catchThrowable(() -> assertThat(atomicArrayOf("foo")).satisfiesOnlyOnce(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

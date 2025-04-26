@@ -12,8 +12,6 @@
  */
 package org.assertj.core.util;
 
-import static java.lang.String.format;
-
 public class FloatComparator extends NullSafeComparator<Float> {
 
   private float precision;
@@ -52,6 +50,6 @@ public class FloatComparator extends NullSafeComparator<Float> {
 
   @Override
   public String toString() {
-    return format("FloatComparator[precision=%s]", precision);
+    return "FloatComparator[precision=%s]".formatted(precision);
   }
 }

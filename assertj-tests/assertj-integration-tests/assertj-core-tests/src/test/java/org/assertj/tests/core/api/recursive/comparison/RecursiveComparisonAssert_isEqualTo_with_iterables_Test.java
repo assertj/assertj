@@ -31,7 +31,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.UnknownFormatConversionException;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.Test;
@@ -125,7 +124,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                                   // pair of different elements, this is why actual and expected are set and not element values.
                                   Arguments.of(pratchettHashSet, newHashSet(none), "group",
                                                pratchettHashSet, newHashSet(none),
-                                               format("The following expected elements were not matched in the actual HashSet:%n  [null]")),
+                                               "The following expected elements were not matched in the actual HashSet:%n  [null]".formatted()),
                                   Arguments.of(newHashSet(none), pratchettHashSet, "group",
                                                newHashSet(none), pratchettHashSet,
                                                format("The following expected elements were not matched in the actual HashSet:%n"
@@ -185,7 +184,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
                                                                                  .ignoringCollectionOrder()
                                                                                  .isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual ArrayList:%n  [\"bbb\"]"));
+    then(assertionError).hasMessageContaining("The following expected elements were not matched in the actual ArrayList:%n  [\"bbb\"]".formatted());
   }
 
   // https://github.com/assertj/assertj/issues/2279
@@ -211,7 +210,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
 
     @Override
     public String toString() {
-      return format("WithCollection group=%s", group);
+      return "WithCollection group=%s".formatted(group);
     }
 
   }
@@ -224,7 +223,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends RecursiveC
     // GIVEN
     Set<Item> expectedItems = newHashSet(new Item("Shoes", 2), new Item("Pants", 3));
     Set<Item> actualItems = newHashSet(new Item("Pants", 3), new Item("Loafers", 1));
-    registerFormatterForType(Item.class, item -> String.format("Item(%s, %d)", item.name(), item.quantity()));
+    registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison()
                                                                                       .isEqualTo(expectedItems));

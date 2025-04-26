@@ -18,15 +18,14 @@ import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicLongArray;
 
 import org.assertj.core.data.Index;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.LongArrays;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 public class AtomicLongArrayAssert
     extends AbstractEnumerableAssert<AtomicLongArrayAssert, AtomicLongArray, Long> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected LongArrays arrays = LongArrays.instance();
 
   private long[] array;

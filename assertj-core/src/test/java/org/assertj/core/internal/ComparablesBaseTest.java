@@ -16,7 +16,9 @@ import static org.mockito.Mockito.spy;
 
 import java.util.Comparator;
 
-import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -37,7 +39,7 @@ public class ComparablesBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     comparables = new Comparables();
     comparables.failures = failures;
     customComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());

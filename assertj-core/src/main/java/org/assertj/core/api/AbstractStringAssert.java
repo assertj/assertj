@@ -12,43 +12,41 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.BYTE;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.DOUBLE;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.FLOAT;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.INTEGER;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.LONG;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.SHORT;
+import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Comparator;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> extends AbstractCharSequenceAssert<SELF, String> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
   protected AbstractStringAssert(String actual, Class<?> selfType) {
     super(actual, selfType);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables = new Comparables();
 
   /**
    * Verifies that the actual value is less than the given {@link String} according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -78,7 +76,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is less than or equal to the given {@link String} according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -108,7 +106,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is greater than the given {@link String} according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -138,7 +136,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is greater than or equal to the given {@link String} according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -168,7 +166,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is in [start, end] range (start included, end included) according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -202,7 +200,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   /**
    * Verifies that the actual value is strictly in ]start, end[ range (start excluded, end excluded) according to {@link String#compareTo(String)}.
    * <p>
-   * Note that it is possible to change the comparison strategy with {@link AbstractAssert#usingComparator(Comparator) usingComparator}.
+   * Note that it is possible to change the comparison strategy with {@link AssertWithComparator#usingComparator(Comparator) usingComparator}.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -282,33 +280,6 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   }
 
   /**
-   * @deprecated use {@link #asBase64Decoded()} instead.
-   * <p>
-   * Decodes the actual value as a Base64 encoded string, the decoded bytes becoming the new array under test.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> // assertion succeeds
-   * assertThat(&quot;QXNzZXJ0Sg==&quot;).decodedAsBase64().containsExactly("AssertJ".getBytes());
-   *
-   * // assertion succeeds even without padding as it is optional by specification
-   * assertThat(&quot;QXNzZXJ0Sg&quot;).decodedAsBase64().containsExactly("AssertJ".getBytes());
-   *
-   * // assertion fails as it has invalid Base64 characters
-   * assertThat(&quot;inv@lid&quot;).decodedAsBase64();</code></pre>
-   *
-   * @return a new {@link ByteArrayAssert} instance whose array under test is the result of the decoding.
-   * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not a valid Base64 encoded string.
-   *
-   * @since 3.16.0
-   */
-  @Deprecated
-  @CheckReturnValue
-  public AbstractByteArrayAssert<?> decodedAsBase64() {
-    return asBase64Decoded();
-  }
-
-  /**
    * Use the given custom comparator instead of relying on {@link String} natural comparator for the incoming assertions.
    * <p>
    * The custom comparator is bound to an assertion instance, meaning that if a new assertion instance is created
@@ -368,7 +339,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   }
 
   /**
-   * Verifies that the actual value is equal to expected build using {@link String#format(String stringTemplate, Object... args)}.
+   * Verifies that the actual value is equal to expected build using {@link String#format(String, Object...)}.
    * <p>
    * Note that for this assertion to be called, <b>you must use a format template with parameters</b> otherwise {@link #isEqualTo(Object)} is called which
    * does not perform any formatting. For example, if you only use {@code %n} in the template they won't be replaced.
@@ -399,7 +370,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    */
   public SELF isEqualTo(String expectedStringTemplate, Object... args) {
     requireNonNull(expectedStringTemplate, "The expectedStringTemplate must not be null");
-    return super.isEqualTo(format(expectedStringTemplate, args));
+    return super.isEqualTo(expectedStringTemplate.formatted(args));
   }
 
   /**

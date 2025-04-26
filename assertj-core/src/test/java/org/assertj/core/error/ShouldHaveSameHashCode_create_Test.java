@@ -65,7 +65,7 @@ class ShouldHaveSameHashCode_create_Test {
 
     @Override
     public String toString() {
-      return String.format("FixedHashCode[code=%s]", code);
+      return "FixedHashCode[code=%s]".formatted(code);
     }
 
   }

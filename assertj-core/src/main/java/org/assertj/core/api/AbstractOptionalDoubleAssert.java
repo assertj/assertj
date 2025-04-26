@@ -25,7 +25,6 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for {@link java.util.OptionalDouble}.
@@ -35,11 +34,12 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Grzegorz Piwowarek
  */
 public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptionalDoubleAssert<SELF>>
-    extends AbstractAssert<SELF, OptionalDouble> {
+    extends AbstractAssertWithComparator<SELF, OptionalDouble> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Doubles doubles = Doubles.instance();
 
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalDoubleAssert(OptionalDouble actual, Class<?> selfType) {
     super(actual, selfType);
   }

@@ -14,7 +14,9 @@ package org.assertj.core.internal;
 
 import static org.mockito.Mockito.spy;
 
-import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -36,7 +38,7 @@ public class IntegersBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     integers = new Integers();
     integers.setFailures(failures);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Integer>());

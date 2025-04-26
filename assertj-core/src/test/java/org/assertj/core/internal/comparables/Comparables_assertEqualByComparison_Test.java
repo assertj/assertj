@@ -26,7 +26,7 @@ import java.util.Comparator;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparablesBaseTest;
-import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**

@@ -27,7 +27,8 @@ import org.assertj.core.internal.Failures;
  * @author Hayden Meloche
  * @since 3.17.0
  */
-public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SELF>> extends AbstractAssert<SELF, Period> {
+public abstract class AbstractPeriodAssert<SELF extends AbstractPeriodAssert<SELF>>
+    extends AbstractAssertWithComparator<SELF, Period> {
 
   /**
    * Creates a new <code>{@link org.assertj.core.api.AbstractPeriodAssert}</code>

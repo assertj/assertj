@@ -14,7 +14,7 @@ package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainEntries.shouldContainEntries;
@@ -63,8 +63,7 @@ class Maps_assertContainsAllEntriesOf_Test extends MapsBaseTest {
     // GIVEN
     Map<String, String> other = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> maps.assertContainsAllEntriesOf(info, actual, other),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> maps.assertContainsAllEntriesOf(info, actual, other));
     // THEN
     then(npe).hasMessage(mapOfEntriesToLookForIsNull());
   }

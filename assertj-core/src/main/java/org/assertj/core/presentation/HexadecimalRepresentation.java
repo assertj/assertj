@@ -36,20 +36,20 @@ public class HexadecimalRepresentation extends StandardRepresentation {
   @Override
   public String toStringOf(Object object) {
     if (hasCustomFormatterFor(object)) return customFormat(object);
-    if (object instanceof Number) return toStringOf((Number) object);
-    else if (object instanceof String) return toStringOf(this, (String) object);
-    else if (object instanceof Character) return toStringOf((Character) object);
+    if (object instanceof Number number) return toStringOf(number);
+    else if (object instanceof String string) return toStringOf(this, string);
+    else if (object instanceof Character character) return toStringOf(character);
     return super.toStringOf(object);
   }
 
   @Override
   protected String toStringOf(Number number) {
-    if (number instanceof Byte) return toStringOf((Byte) number);
-    else if (number instanceof Short) return toStringOf((Short) number);
-    else if (number instanceof Integer) return toStringOf((Integer) number);
-    else if (number instanceof Long) return toStringOf((Long) number);
-    else if (number instanceof Float) return toStringOf((Float) number);
-    else if (number instanceof Double) return toStringOf((Double) number);
+    if (number instanceof Byte b) return toStringOf(b);
+    else if (number instanceof Short s) return toStringOf(s);
+    else if (number instanceof Integer i) return toStringOf(i);
+    else if (number instanceof Long l) return toStringOf(l);
+    else if (number instanceof Float f) return toStringOf(f);
+    else if (number instanceof Double d) return toStringOf(d);
     else return number.toString();
   }
 
@@ -95,4 +95,5 @@ public class HexadecimalRepresentation extends StandardRepresentation {
   private static String toHex(Number value, int sizeInBits) {
     return String.format("%0" + sizeInBits / NIBBLE_SIZE + "X", value);
   }
+
 }

@@ -32,8 +32,8 @@ public class UnicodeRepresentation extends StandardRepresentation {
   @Override
   public String toStringOf(Object object) {
     if (hasCustomFormatterFor(object)) return customFormat(object);
-    if (object instanceof String) return toStringOf((String) object);
-    if (object instanceof Character) return toStringOf((Character) object);
+    if (object instanceof String string) return toStringOf(string);
+    if (object instanceof Character character) return toStringOf(character);
     return super.toStringOf(object);
   }
 

@@ -38,7 +38,7 @@ public class Int2DArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = new Failures();
+    failures = Failures.instance();
     int2DArrays = new Int2DArrays();
     int2DArrays.failures = failures;
     arrays2d = mock(Arrays2D.class);

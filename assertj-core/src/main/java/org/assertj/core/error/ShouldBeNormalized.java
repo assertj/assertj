@@ -14,16 +14,13 @@ package org.assertj.core.error;
 
 import java.nio.file.Path;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Assertion error message delivered when a {@link Path} is not normalized
  *
  * @see Path#normalize()
  */
 public class ShouldBeNormalized extends BasicErrorMessageFactory {
-  @VisibleForTesting
-  public static final String SHOULD_BE_NORMALIZED = "Expected path:%n  %s%nto be normalized.";
+  private static final String SHOULD_BE_NORMALIZED = "Expected path:%n  %s%nto be normalized.";
 
   private ShouldBeNormalized(Path actual) {
     super(SHOULD_BE_NORMALIZED, actual);

@@ -16,7 +16,6 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.Condition;
 import org.assertj.core.description.Description;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Condition} or a list of {@link Consumer}s cannot
@@ -24,12 +23,8 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class ShouldSatisfy extends BasicErrorMessageFactory {
 
-  @VisibleForTesting
-  public static final String CONDITION_SHOULD_BE_SATISFIED = "%nExpecting actual:%n  %s%nto satisfy:%n  %s";
-  @VisibleForTesting
-  public static final String CONSUMERS_SHOULD_BE_SATISFIED_IN_ANY_ORDER = "%nExpecting actual:%n  %s%nto satisfy all the consumers in any order.";
-  @VisibleForTesting
-  public static final String CONSUMERS_SHOULD_NOT_BE_NULL = "The Consumer<? super E>... expressing the assertions consumers must not be null";
+  private static final String CONDITION_SHOULD_BE_SATISFIED = "%nExpecting actual:%n  %s%nto satisfy:%n  %s";
+  private static final String CONSUMERS_SHOULD_BE_SATISFIED_IN_ANY_ORDER = "%nExpecting actual:%n  %s%nto satisfy all the consumers in any order.";
 
   public static <T> ErrorMessageFactory shouldSatisfy(T actual, Condition<? super T> condition) {
     return new ShouldSatisfy(actual, condition);

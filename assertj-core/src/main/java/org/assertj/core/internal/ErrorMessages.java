@@ -40,11 +40,11 @@ public final class ErrorMessages {
   }
 
   public static String keysToLookForIsEmpty(String placeholder) {
-    return String.format("The %s to look for should not be empty", placeholder);
+    return "The %s to look for should not be empty".formatted(placeholder);
   }
 
   public static String keysToLookForIsNull(String placeholder) {
-    return String.format("The %s to look for should not be null", placeholder);
+    return "The %s to look for should not be null".formatted(placeholder);
   }
 
   public static String entriesToLookForIsEmpty() {
@@ -64,7 +64,7 @@ public final class ErrorMessages {
   }
 
   public static String isNotArray(Object o) {
-    return String.format("The object <%s> should be an array", o);
+    return "The object <%s> should be an array".formatted(o);
   }
 
   public static String iterableToLookForIsNull() {
@@ -84,7 +84,7 @@ public final class ErrorMessages {
   }
 
   public static String percentageValueIsInRange(Number number) {
-    return String.format("The percentage value <%s> should be greater than or equal to zero", number.doubleValue());
+    return "The percentage value <%s> should be greater than or equal to zero".formatted(number.doubleValue());
   }
 
   public static String regexPatternIsNull() {

@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.guava.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -53,7 +52,7 @@ public class ByteSourceAssert_isEmpty_Test {
     // WHEN
     Throwable throwable = catchThrowable(() -> assertThat(actual).isEmpty());
     // THEN
-    assertThat(throwable).hasMessage(format("%nExpecting empty but was: ByteSource.wrap(00)"));
+    assertThat(throwable).hasMessage("%nExpecting empty but was: ByteSource.wrap(00)".formatted());
   }
 
 }

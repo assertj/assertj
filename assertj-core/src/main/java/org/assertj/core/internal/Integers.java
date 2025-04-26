@@ -12,7 +12,8 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Reusable assertions for <code>{@link Integer}</code>s.
@@ -35,7 +36,7 @@ public class Integers extends Numbers<Integer> implements WholeNumbers<Integer> 
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers() {
     super();
   }

@@ -12,10 +12,7 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldHaveNoParent.FILE_HAS_PARENT;
-import static org.assertj.core.error.ShouldHaveNoParent.PATH_HAS_PARENT;
 import static org.assertj.core.error.ShouldHaveNoParent.shouldHaveNoParent;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -57,7 +54,8 @@ class ShouldHaveNoParent_create_Test {
     // WHEN
     String actualMessage = shouldHaveNoParent(file).create(description, representation);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + FILE_HAS_PARENT, fileAbsolutePath, parent));
+    then(actualMessage).isEqualTo("[Test] %nExpecting file (or directory):%n  %s%nnot to have a parent, but parent was:%n  %s".formatted(fileAbsolutePath,
+                                                                                                                                         parent));
   }
 
   @Test
@@ -69,6 +67,7 @@ class ShouldHaveNoParent_create_Test {
     // WHEN
     String actualMessage = shouldHaveNoParent(path).create(description, representation);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + PATH_HAS_PARENT, path, parent));
+    then(actualMessage).isEqualTo("[Test] %nExpected actual path:%n  %s%n not to have a parent, but parent was:%n  %s".formatted(path,
+                                                                                                                                 parent));
   }
 }

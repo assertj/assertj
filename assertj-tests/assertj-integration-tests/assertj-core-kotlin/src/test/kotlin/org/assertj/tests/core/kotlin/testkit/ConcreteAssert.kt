@@ -14,7 +14,6 @@ package org.assertj.tests.core.kotlin.testkit
 
 import org.assertj.core.api.AbstractAssert
 import org.assertj.core.internal.Objects
-import org.assertj.core.util.VisibleForTesting
 import org.opentest4j.AssertionFailedError
 
 /**
@@ -45,12 +44,10 @@ class ConcreteAssert(actual: Any?) :
     return this
   }
 
-  @VisibleForTesting
   public override fun failWithMessage(errorMessage: String, vararg arguments: Any) {
     super.failWithMessage(errorMessage, *arguments)
   }
 
-  @VisibleForTesting
   public override fun failWithActualExpectedAndMessage(
     actual: Any,
     expected: Any,
@@ -60,12 +57,10 @@ class ConcreteAssert(actual: Any?) :
     super.failWithActualExpectedAndMessage(actual, expected, errorMessage, *arguments)
   }
 
-  @VisibleForTesting
   public override fun failure(errorMessage: String, vararg arguments: Any): AssertionError {
     return super.failure(errorMessage, *arguments)
   }
 
-  @VisibleForTesting
   public override fun failureWithActualExpected(
     actual: Any,
     expected: Any,

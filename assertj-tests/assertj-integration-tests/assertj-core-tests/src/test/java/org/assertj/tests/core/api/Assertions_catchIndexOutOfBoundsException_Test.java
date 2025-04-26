@@ -47,9 +47,9 @@ class Assertions_catchIndexOutOfBoundsException_Test {
   @Test
   void catchIndexOutOfBoundsException_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    IndexOutOfBoundsException actual = catchIndexOutOfBoundsException(() -> {});
+    AssertionError error = expectAssertionError(() -> catchIndexOutOfBoundsException(() -> {}));
     // THEN
-    then(actual).isNull();
+    then(error).hasMessage("Expecting code to raise an IndexOutOfBoundsException");
   }
 
   @Test

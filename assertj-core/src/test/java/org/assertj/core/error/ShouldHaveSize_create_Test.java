@@ -21,7 +21,6 @@ import static org.assertj.core.util.Lists.list;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.HexadecimalRepresentation;
@@ -50,7 +49,7 @@ class ShouldHaveSize_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(String.format("[TEST] %nExpected size: 2 but was: 4 in:%n['a', 'b']"));
+    then(message).isEqualTo("[TEST] %nExpected size: 2 but was: 4 in:%n['a', 'b']".formatted());
   }
 
   @Test
@@ -58,7 +57,7 @@ class ShouldHaveSize_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("TEST"), new HexadecimalRepresentation());
     // THEN
-    then(message).isEqualTo(String.format("[TEST] %nExpected size: 2 but was: 4 in:%n['0x0061', '0x0062']"));
+    then(message).isEqualTo("[TEST] %nExpected size: 2 but was: 4 in:%n['0x0061', '0x0062']".formatted());
   }
 
   @Test

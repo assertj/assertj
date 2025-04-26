@@ -14,6 +14,8 @@ package org.assertj.core.api;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
+import static org.assertj.core.testkit.ClasspathResources.resourceURL;
 
 import java.io.File;
 import java.net.URL;
@@ -33,7 +35,7 @@ class EntryPointAssertions_contentOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("fileContentOfWithCharsetFunctions")
   void should_read_file_content_with_charset(BiFunction<File, Charset, String> contentOfWithCharsetFunction) {
     // GIVEN
-    File sampleFile = new File("src/test/resources/utf8.txt");
+    File sampleFile = resourceFile("utf8.txt");
     // WHEN
     String content = contentOfWithCharsetFunction.apply(sampleFile, UTF_8);
     // THEN
@@ -48,7 +50,7 @@ class EntryPointAssertions_contentOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("fileContentOfWithCharsetAsStringFunctions")
   void should_read_file_content_with_charset_as_string(BiFunction<File, String, String> contentOfWithCharsetFunction) {
     // GIVEN
-    File sampleFile = new File("src/test/resources/utf8.txt");
+    File sampleFile = resourceFile("utf8.txt");
     // WHEN
     String content = contentOfWithCharsetFunction.apply(sampleFile, "UTF8");
     // THEN
@@ -63,7 +65,7 @@ class EntryPointAssertions_contentOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("fileContentOfWithDefaultCharsetFunctions")
   void should_read_file_content_with_default_charset(Function<File, String> contentOfWithDefaultCharsetFunction) {
     // GIVEN
-    File sampleFile = new File("src/test/resources/ascii.txt");
+    File sampleFile = resourceFile("ascii.txt");
     // WHEN
     String content = contentOfWithDefaultCharsetFunction.apply(sampleFile);
     // THEN
@@ -78,7 +80,7 @@ class EntryPointAssertions_contentOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("urlContentOfWithCharsetFunctions")
   void should_read_url_content_with_charset(BiFunction<URL, Charset, String> contentOfWithCharsetFunction) {
     // GIVEN
-    URL sampleUrl = ClassLoader.getSystemResource("utf8.txt");
+    URL sampleUrl = resourceURL("utf8.txt");;
     // WHEN
     String content = contentOfWithCharsetFunction.apply(sampleUrl, UTF_8);
     // THEN
@@ -93,7 +95,7 @@ class EntryPointAssertions_contentOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("urlContentOfWithCharsetAsStringFunctions")
   void should_read_url_content_with_charset_as_string(BiFunction<URL, String, String> contentOfWithCharsetFunction) {
     // GIVEN
-    URL sampleUrl = ClassLoader.getSystemResource("utf8.txt");
+    URL sampleUrl = resourceURL("utf8.txt");
     // WHEN
     String content = contentOfWithCharsetFunction.apply(sampleUrl, "UTF8");
     // THEN
@@ -108,7 +110,7 @@ class EntryPointAssertions_contentOf_Test extends EntryPointAssertionsBaseTest {
   @MethodSource("urlContentOfWithDefaultCharsetFunctions")
   void should_read_URL_content_with_default_charset(Function<URL, String> contentOfWithDefaultCharsetFunction) {
     // GIVEN
-    URL sampleUrl = ClassLoader.getSystemResource("ascii.txt");
+    URL sampleUrl = resourceURL("ascii.txt");
     // WHEN
     String content = contentOfWithDefaultCharsetFunction.apply(sampleUrl);
     // THEN

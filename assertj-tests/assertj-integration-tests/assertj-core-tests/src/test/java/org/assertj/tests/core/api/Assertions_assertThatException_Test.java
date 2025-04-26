@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
@@ -50,6 +49,6 @@ class Assertions_assertThatException_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(throwingCallable);
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting code to raise a throwable."));
+    then(assertionError).hasMessage("%nExpecting code to raise a throwable.".formatted());
   }
 }

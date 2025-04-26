@@ -23,18 +23,6 @@ public class UnsatisfiedRequirement {
   private final String errorMessage;
   private final AssertionError error;
 
-  /**
-   * @param elementNotSatisfyingRequirements object not satisfying the requirement
-   * @param errorMessage                     requirement error message
-   * @deprecated use {@link UnsatisfiedRequirement#UnsatisfiedRequirement(Object, AssertionError)} instead.
-   */
-  @Deprecated
-  public UnsatisfiedRequirement(Object elementNotSatisfyingRequirements, String errorMessage) {
-    this.elementNotSatisfyingRequirements = elementNotSatisfyingRequirements;
-    this.errorMessage = errorMessage;
-    this.error = null;
-  }
-
   public UnsatisfiedRequirement(Object elementNotSatisfyingRequirements, AssertionError error) {
     this.elementNotSatisfyingRequirements = elementNotSatisfyingRequirements;
     this.errorMessage = error.getMessage();
@@ -43,12 +31,12 @@ public class UnsatisfiedRequirement {
 
   public String describe(AssertionInfo info) {
     Representation representation = info.representation();
-    return format("%s%nerror: %s", representation.toStringOf(elementNotSatisfyingRequirements), describeError(representation));
+    return "%s%nerror: %s".formatted(representation.toStringOf(elementNotSatisfyingRequirements), describeError(representation));
   }
 
   @Override
   public String toString() {
-    return format("%s %s", elementNotSatisfyingRequirements, errorMessage);
+    return "%s %s".formatted(elementNotSatisfyingRequirements, errorMessage);
   }
 
   public String describe(int index, AssertionInfo info) {

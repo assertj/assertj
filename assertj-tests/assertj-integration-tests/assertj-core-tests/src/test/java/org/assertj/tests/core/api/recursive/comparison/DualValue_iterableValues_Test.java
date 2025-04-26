@@ -19,17 +19,15 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Sets.newTreeSet;
 
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.assertj.core.api.recursive.comparison.DualValue;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Stream;
+import org.assertj.core.api.recursive.comparison.DualValue;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class DualValue_iterableValues_Test {
 
@@ -136,7 +134,7 @@ class DualValue_iterableValues_Test {
   }
 
   static Stream<Object> nonIterables() {
-    return Stream.of(123, "abc", array("a", "b"), Paths.get("/tmp"));
+    return Stream.of(123, "abc", array("a", "b"), Path.of("/tmp"));
   }
 
   @ParameterizedTest

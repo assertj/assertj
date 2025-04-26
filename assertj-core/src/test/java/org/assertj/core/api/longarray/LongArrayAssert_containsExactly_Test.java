@@ -18,7 +18,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.LongArrayAssert;
 import org.assertj.core.api.LongArrayAssertBaseTest;
-import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 /**

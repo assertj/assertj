@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.entry;
@@ -31,7 +30,6 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.Date;
@@ -44,7 +42,7 @@ import javax.xml.datatype.DatatypeFactory;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.util.DoubleComparator;
 import org.assertj.tests.core.api.recursive.data.AlwaysEqualPerson;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
@@ -93,7 +91,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison().isEqualTo(expected));
     // THEN
     var shouldBeEqual = shouldBeEqual(actual, null, StandardComparisonStrategy.instance(), info.representation());
-    var expectedAssertionError = shouldBeEqual.newAssertionError(null, STANDARD_REPRESENTATION);
+    var expectedAssertionError = shouldBeEqual.toAssertionError(null, STANDARD_REPRESENTATION);
     then(assertionError).hasMessage(expectedAssertionError.getMessage());
   }
 
@@ -403,7 +401,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     ComparisonDifference difference = diff("_children",
                                            mapOf(entry("importantValue", "10"), entry("someNotImportantValue", 1)),
                                            mapOf(entry("bar", "10"), entry("foo", 1)),
-                                           format("The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]"));
+                                           "The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]".formatted());
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 
@@ -451,7 +449,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends RecursiveComparisonAssert
     private final Path path;
 
     public Container(String path) {
-      this.path = Paths.get(path);
+      this.path = Path.of(path);
     }
 
     public Path getPath() {

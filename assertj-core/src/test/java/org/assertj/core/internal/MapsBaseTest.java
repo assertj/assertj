@@ -104,7 +104,7 @@ public class MapsBaseTest extends WithPlayerData {
   @BeforeEach
   protected void setUp() {
     actual = mapOf(entry("name", "Yoda"), entry("color", "green"));
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     maps = new Maps();
     maps.failures = failures;
     info = someInfo();

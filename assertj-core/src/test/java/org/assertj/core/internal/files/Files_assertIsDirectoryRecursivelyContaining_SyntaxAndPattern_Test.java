@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.files;
 
-import static java.lang.String.format;
 import static java.util.Collections.emptyList;
 import static org.assertj.core.error.ShouldBeDirectory.shouldBeDirectory;
 import static org.assertj.core.error.ShouldContainRecursively.directoryShouldContainRecursively;
@@ -23,7 +22,6 @@ import static org.mockito.Mockito.verify;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesSimpleBaseTest;
@@ -39,7 +37,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 class Files_assertIsDirectoryRecursivelyContaining_SyntaxAndPattern_Test extends FilesSimpleBaseTest {
 
   private static final String TXT_EXTENSION_PATTERN = "regex:.+\\.txt";
-  private static final String TXT_EXTENSION_PATTERN_DESCRIPTION = format("the '%s' pattern", TXT_EXTENSION_PATTERN);
+  private static final String TXT_EXTENSION_PATTERN_DESCRIPTION = "the '%s' pattern".formatted(TXT_EXTENSION_PATTERN);
 
   @ParameterizedTest
   @ValueSource(strings = { "regex:.+oo2\\.data", "regex:.+\\.json", "regex:.+bar2\\.json" })

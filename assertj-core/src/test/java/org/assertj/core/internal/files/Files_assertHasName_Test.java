@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal.files;
 
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveName.shouldHaveName;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -51,8 +51,7 @@ class Files_assertHasName_Test extends FilesBaseTest {
     // GIVEN
     String expectedName = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasName(INFO, actual, expectedName),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> underTest.assertHasName(INFO, actual, expectedName));
     // THEN
     then(npe).hasMessage("The expected name should not be null.");
   }

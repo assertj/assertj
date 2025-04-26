@@ -138,6 +138,6 @@ class ComparatorForPatterns {
 
   @Override
   public String toString() {
-    return String.format("ComparatorForPatterns[patterns=%s, comparator=%s]", this.fieldPatterns, this.comparator);
+    return "ComparatorForPatterns[patterns=%s, comparator=%s]".formatted(this.fieldPatterns, this.comparator);
   }
 }

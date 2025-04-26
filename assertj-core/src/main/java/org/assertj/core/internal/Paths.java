@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.nio.file.Files.readAllBytes;
 import static java.nio.file.Files.walk;
 import static java.util.Objects.requireNonNull;
@@ -73,7 +72,6 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.diff.Delta;
 
 /**
@@ -88,13 +86,13 @@ public class Paths {
   private static final Paths INSTANCE = new Paths();
   private static final Filter<Path> ANY = any -> true;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Diff diff = new Diff();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BinaryDiff binaryDiff = new BinaryDiff();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   NioFilesWrapper nioFilesWrapper = NioFilesWrapper.instance();
 
   public static Paths instance() {
@@ -244,7 +242,7 @@ public class Paths {
       List<Delta<String>> diffs = diff.diff(actual, expected, charset);
       if (!diffs.isEmpty()) throw failures.failure(info, shouldHaveContent(actual, charset, diffs));
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Unable to verify text contents of path:<%s>", actual), e);
+      throw new UncheckedIOException("Unable to verify text contents of path:<%s>".formatted(actual), e);
     }
   }
 
@@ -255,7 +253,7 @@ public class Paths {
       BinaryDiffResult diffResult = binaryDiff.diff(actual, expected);
       if (!diffResult.hasNoDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, diffResult));
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Unable to verify binary contents of path:<%s>", actual), e);
+      throw new UncheckedIOException("Unable to verify binary contents of path:<%s>".formatted(actual), e);
     }
   }
 
@@ -268,7 +266,7 @@ public class Paths {
       BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, readAllBytes(expected));
       if (binaryDiffResult.hasDiff()) throw failures.failure(info, shouldHaveBinaryContent(actual, binaryDiffResult));
     } catch (IOException ioe) {
-      throw new UncheckedIOException(format(UNABLE_TO_COMPARE_PATH_CONTENTS, actual, expected), ioe);
+      throw new UncheckedIOException(UNABLE_TO_COMPARE_PATH_CONTENTS.formatted(actual, expected), ioe);
     }
   }
 
@@ -282,7 +280,7 @@ public class Paths {
       List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
       if (!diffs.isEmpty()) throw failures.failure(info, shouldHaveSameContent(actual, expected, diffs));
     } catch (IOException e) {
-      throw new UncheckedIOException(format(UNABLE_TO_COMPARE_PATH_CONTENTS, actual, expected), e);
+      throw new UncheckedIOException(UNABLE_TO_COMPARE_PATH_CONTENTS.formatted(actual, expected), e);
     }
   }
 
@@ -295,7 +293,7 @@ public class Paths {
       DigestDiff diff = Digests.digestDiff(actualStream, digest, expected);
       if (diff.digestsDiffer()) throw failures.failure(info, shouldHaveDigest(actual, diff));
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Unable to calculate digest of path:<%s>", actual), e);
+      throw new UncheckedIOException("Unable to calculate digest of path:<%s>".formatted(actual), e);
     }
   }
 
@@ -309,7 +307,7 @@ public class Paths {
     try {
       assertHasDigest(info, actual, MessageDigest.getInstance(algorithm), expected);
     } catch (NoSuchAlgorithmException e) {
-      throw new IllegalStateException(format("Unable to find digest implementation for: <%s>", algorithm), e);
+      throw new IllegalStateException("Unable to find digest implementation for: <%s>".formatted(algorithm), e);
     }
   }
 
@@ -326,14 +324,14 @@ public class Paths {
   public void assertIsDirectoryContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
-    assertIsDirectoryContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
+    assertIsDirectoryContaining(info, actual, pathMatcher::matches, "the '%s' pattern".formatted(syntaxAndPattern));
   }
 
   public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
     assertIsDirectoryRecursivelyContaining(info, actual, pathMatcher::matches,
-                                           format("the '%s' pattern", syntaxAndPattern));
+                                           "the '%s' pattern".formatted(syntaxAndPattern));
   }
 
   public void assertIsDirectoryRecursivelyContaining(AssertionInfo info, Path actual, Predicate<Path> filter) {
@@ -349,7 +347,7 @@ public class Paths {
   public void assertIsDirectoryNotContaining(AssertionInfo info, Path actual, String syntaxAndPattern) {
     requireNonNull(syntaxAndPattern, "The syntax and pattern should not be null");
     PathMatcher pathMatcher = pathMatcher(info, actual, syntaxAndPattern);
-    assertIsDirectoryNotContaining(info, actual, pathMatcher::matches, format("the '%s' pattern", syntaxAndPattern));
+    assertIsDirectoryNotContaining(info, actual, pathMatcher::matches, "the '%s' pattern".formatted(syntaxAndPattern));
   }
 
   public void assertIsEmptyDirectory(AssertionInfo info, Path actual) {
@@ -413,7 +411,7 @@ public class Paths {
     try (DirectoryStream<Path> stream = nioFilesWrapper.newDirectoryStream(actual, filter)) {
       return stream(stream.spliterator(), false).collect(toList());
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Unable to list directory content: <%s>", actual), e);
+      throw new UncheckedIOException("Unable to list directory content: <%s>".formatted(actual), e);
     }
   }
 
@@ -445,7 +443,7 @@ public class Paths {
     try {
       return walk(directory).filter(p -> !p.equals(directory));
     } catch (IOException e) {
-      throw new UncheckedIOException(format("Unable to walk recursively the directory :<%s>", directory), e);
+      throw new UncheckedIOException("Unable to walk recursively the directory :<%s>".formatted(directory), e);
     }
   }
 

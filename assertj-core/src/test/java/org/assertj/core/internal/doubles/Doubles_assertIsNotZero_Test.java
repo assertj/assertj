@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.doubles;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.testkit.TestData.someInfo;
 
@@ -37,7 +36,7 @@ class Doubles_assertIsNotZero_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doubles.assertIsNotZero(someInfo(), 0.0))
-                                                   .withMessage(format("%nExpecting actual:%n  0.0%nnot to be equal to:%n  0.0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0.0%nnot to be equal to:%n  0.0%n".formatted());
   }
 
   @Test
@@ -49,7 +48,7 @@ class Doubles_assertIsNotZero_Test extends DoublesBaseTest {
   void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> doublesWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
                                                                                                                            0.0d))
-                                                   .withMessage(format("%nExpecting actual:%n  0.0%nnot to be equal to:%n  0.0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0.0%nnot to be equal to:%n  0.0%n".formatted());
   }
 
 }

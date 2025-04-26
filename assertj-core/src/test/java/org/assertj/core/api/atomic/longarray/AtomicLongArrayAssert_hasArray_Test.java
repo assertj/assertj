@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicLongArray;
 
 import org.assertj.core.api.AtomicLongArrayAssert;
 import org.assertj.core.api.AtomicLongArrayAssertBaseTest;
-import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 class AtomicLongArrayAssert_hasArray_Test extends AtomicLongArrayAssertBaseTest {

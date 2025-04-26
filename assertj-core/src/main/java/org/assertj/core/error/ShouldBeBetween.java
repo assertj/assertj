@@ -14,8 +14,8 @@ package org.assertj.core.error;
 
 import java.util.Date;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is between a start and an end
@@ -52,26 +52,6 @@ public class ShouldBeBetween extends BasicErrorMessageFactory {
   public static ErrorMessageFactory shouldBeBetween(Date actual, Date start, Date end, boolean inclusiveStart,
                                                     boolean inclusiveEnd) {
     return new ShouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, StandardComparisonStrategy.instance());
-  }
-
-  /**
-   * Creates a new <code>{@link ShouldBeBetween}</code>.
-   * @param <T> the type of values to compare.
-   * @param actual the actual value in the failed assertion.
-   * @param start the lower boundary of range.
-   * @param end the lower boundary of range.
-   * @param inclusiveStart whether to include start value in range.
-   * @param inclusiveEnd whether to include end value in range.
-   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   * @deprecated Use {@link #shouldBeBetween(Object, Object, Object, boolean, boolean, ComparisonStrategy)} instead.
-   */
-  @Deprecated
-  public static <T> ErrorMessageFactory shouldBeBetween(Comparable<? super T> actual,
-                                                        Comparable<? super T> start, Comparable<? super T> end,
-                                                        boolean inclusiveStart, boolean inclusiveEnd,
-                                                        ComparisonStrategy comparisonStrategy) {
-    return new ShouldBeBetween(actual, start, end, inclusiveStart, inclusiveEnd, comparisonStrategy);
   }
 
   /**

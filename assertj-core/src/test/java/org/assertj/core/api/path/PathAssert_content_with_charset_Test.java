@@ -14,11 +14,10 @@ package org.assertj.core.api.path;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.mockito.Mockito.verify;
 
-import java.io.File;
 import java.nio.file.Path;
-
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.NavigationMethodBaseTest;
@@ -41,13 +40,13 @@ class PathAssert_content_with_charset_Test extends PathAssertBaseTest implements
 
   @Override
   protected PathAssert create_assertions() {
-    return new PathAssert(new File("src/test/resources/utf8.txt").toPath());
+    return new PathAssert(resourcePath("utf8.txt"));
   }
 
   @Test
   public void should_return_StringAssert_on_path_content_with_given_charset() {
     // GIVEN
-    Path path = new File("src/test/resources/utf8.txt").toPath();
+    Path path = resourcePath("utf8.txt");
     // WHEN
     AbstractStringAssert<?> stringAssert = assertThat(path).content(UTF_8);
     // THEN

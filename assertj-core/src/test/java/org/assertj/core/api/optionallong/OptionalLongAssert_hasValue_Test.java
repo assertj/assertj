@@ -45,8 +45,8 @@ class OptionalLongAssert_hasValue_Test {
     OptionalLong actual = OptionalLong.of(5L);
     long expectedValue = 10L;
     // WHEN
-    AssertionFailedError error = catchThrowableOfType(() -> assertThat(actual).hasValue(expectedValue),
-                                                      AssertionFailedError.class);
+    AssertionFailedError error = catchThrowableOfType(AssertionFailedError.class,
+                                                      () -> assertThat(actual).hasValue(expectedValue));
     // THEN
     assertThat(error).hasMessage(shouldContain(actual, expectedValue).create());
     assertThat(error.getActual().getStringRepresentation()).isEqualTo(String.valueOf(actual.getAsLong()));

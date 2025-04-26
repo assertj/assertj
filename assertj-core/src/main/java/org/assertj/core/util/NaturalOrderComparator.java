@@ -12,8 +12,6 @@
  */
 package org.assertj.core.util;
 
-import static java.lang.String.format;
-
 import java.util.Comparator;
 
 public class NaturalOrderComparator<T extends Comparable<? super T>> extends NullSafeComparator<T> {
@@ -21,7 +19,7 @@ public class NaturalOrderComparator<T extends Comparable<? super T>> extends Nul
   private String description;
 
   public NaturalOrderComparator(Class<T> clazz) {
-    this.description = format("%s natural order", clazz.getSimpleName());
+    this.description = "%s natural order".formatted(clazz.getSimpleName());
   }
 
   public NaturalOrderComparator(String description) {

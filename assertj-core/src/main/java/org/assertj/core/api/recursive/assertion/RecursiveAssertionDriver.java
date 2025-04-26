@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.recursive.assertion;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.CollectionAssertionPolicy.COLLECTION_OBJECT_ONLY;
 import static org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration.MapAssertionPolicy.MAP_OBJECT_AND_ENTRIES;
@@ -33,7 +32,6 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
 import java.util.function.Predicate;
-
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.util.Arrays;
 
@@ -159,7 +157,7 @@ public class RecursiveAssertionDriver {
     }
     int index = 0;
     for (Object element : collection) {
-      assertRecursively(predicate, element, safeGetClass(element), fieldLocation.field(format(INDEX_FORMAT, index)));
+      assertRecursively(predicate, element, safeGetClass(element), fieldLocation.field(INDEX_FORMAT.formatted(index)));
       index++;
     }
   }
@@ -171,30 +169,26 @@ public class RecursiveAssertionDriver {
     Class<?> arrayType = nodeType.getComponentType();
     Object[] array = Arrays.asObjectArray(node);
     for (int i = 0; i < array.length; i++) {
-      assertRecursively(predicate, array[i], arrayType, fieldLocation.field(format(INDEX_FORMAT, i)));
+      assertRecursively(predicate, array[i], arrayType, fieldLocation.field(INDEX_FORMAT.formatted(i)));
     }
   }
 
   private void recurseIntoOptional(Predicate<Object> predicate, Object node, FieldLocation fieldLocation) {
     // If we are here, we know the node is an optional or a primitive optional
-    if (node instanceof Optional) {
-      Optional<?> optionalNode = (Optional<?>) node;
+    if (node instanceof Optional<?> optionalNode) {
       if (optionalNode.isPresent()) {
         Class<?> nextNodeType = safeGetClass(optionalNode.get());
         assertRecursively(predicate, optionalNode.get(), nextNodeType, fieldLocation.field("value"));
       }
-    } else if (node instanceof OptionalInt) {
-      OptionalInt optionalIntNode = (OptionalInt) node;
+    } else if (node instanceof OptionalInt optionalIntNode) {
       if (optionalIntNode.isPresent()) {
         evaluateAssertion(predicate, optionalIntNode.getAsInt(), fieldLocation.field("value"));
       }
-    } else if (node instanceof OptionalLong) {
-      OptionalLong optionalLongNode = (OptionalLong) node;
+    } else if (node instanceof OptionalLong optionalLongNode) {
       if (optionalLongNode.isPresent()) {
         evaluateAssertion(predicate, optionalLongNode.getAsLong(), fieldLocation.field("value"));
       }
-    } else if (node instanceof OptionalDouble) {
-      OptionalDouble optionalDoubleNode = (OptionalDouble) node;
+    } else if (node instanceof OptionalDouble optionalDoubleNode) {
       if (optionalDoubleNode.isPresent()) {
         evaluateAssertion(predicate, optionalDoubleNode.getAsDouble(), fieldLocation.field("value"));
       }
@@ -225,7 +219,7 @@ public class RecursiveAssertionDriver {
                                      String msgFormat) {
     Class<?> nextNodeType = safeGetClass(nextNode);
     String nextNodeFieldName = nextNode != null ? nextNode.toString() : NULL;
-    assertRecursively(predicate, nextNode, nextNodeType, fieldLocation.field(format(msgFormat, nextNodeFieldName)));
+    assertRecursively(predicate, nextNode, nextNodeType, fieldLocation.field(msgFormat.formatted(nextNodeFieldName)));
   }
 
   private static Class<?> safeGetClass(Object object) {

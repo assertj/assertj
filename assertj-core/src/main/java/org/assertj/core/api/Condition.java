@@ -20,7 +20,6 @@ import java.util.function.Predicate;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * A condition to be met by an object.
@@ -50,7 +49,7 @@ public class Condition<T> implements Descriptable<Condition<T>> {
     }
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Description description;
 
   // might not be used

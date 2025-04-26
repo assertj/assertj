@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.core.api.recursive.assertion;
 
-import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionIntrospectionStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionNode;
 import org.junit.jupiter.api.Test;
@@ -75,8 +73,8 @@ class RecursiveAssertionAssert_withIntrospectionStrategy_Test {
         if (superclass != null) return getFieldType(fieldName, superclass);
         throw new NoSuchFieldException();
       } catch (NoSuchFieldException | SecurityException e) {
-        throw new IllegalStateException(format("Could not find field %s on class %s, even though its name was retrieved from the class earlier",
-                                               fieldName, objectClass.getCanonicalName()),
+        throw new IllegalStateException("Could not find field %s on class %s, even though its name was retrieved from the class earlier".formatted(fieldName,
+                                                                                                                                                   objectClass.getCanonicalName()),
                                         e);
       }
     }

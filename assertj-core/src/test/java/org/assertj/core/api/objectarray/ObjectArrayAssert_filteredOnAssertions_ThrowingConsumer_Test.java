@@ -36,7 +36,7 @@ class ObjectArrayAssert_filteredOnAssertions_ThrowingConsumer_Test extends Objec
     Throwable throwable = catchThrowable(() -> assertThat(employees).filteredOnAssertions(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

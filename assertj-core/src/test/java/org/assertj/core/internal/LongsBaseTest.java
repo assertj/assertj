@@ -16,7 +16,9 @@ import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.spy;
 
 import org.assertj.core.api.WritableAssertionInfo;
-import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -39,7 +41,7 @@ public class LongsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     longs = new Longs();
     longs.setFailures(failures);
     absValueComparisonStrategy = new ComparatorBasedComparisonStrategy(new AbsValueComparator<Long>());

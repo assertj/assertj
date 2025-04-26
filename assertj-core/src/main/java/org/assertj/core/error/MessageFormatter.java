@@ -16,9 +16,8 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
 import org.assertj.core.description.Description;
-import org.assertj.core.internal.AbstractComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.AbstractComparisonStrategy;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Formats the messages to be included in assertion errors.
@@ -32,10 +31,10 @@ public class MessageFormatter {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   MessageFormatter() {}
 
   /**
@@ -71,8 +70,8 @@ public class MessageFormatter {
   }
 
   private String asText(Representation p, Object o) {
-    if (o instanceof AbstractComparisonStrategy) {
-      return ((AbstractComparisonStrategy) o).asText();
+    if (o instanceof AbstractComparisonStrategy strategy) {
+      return strategy.asText();
     }
     return p.toStringOf(o);
   }

@@ -12,14 +12,12 @@
  */
 package org.assertj.tests.core.presentation;
 
-import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.util.concurrent.CompletableFuture;
-
 import org.junit.jupiter.api.Test;
 
 class StandardRepresentation_format_CompletableFuture_Test {
@@ -48,7 +46,7 @@ class StandardRepresentation_format_CompletableFuture_Test {
     // WHEN
     future.completeExceptionally(new RuntimeException("some random error"));
     // THEN
-    then(STANDARD_REPRESENTATION.toStringOf(future)).startsWith(format("CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: some random error"));
+    then(STANDARD_REPRESENTATION.toStringOf(future)).startsWith("CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: some random error".formatted());
   }
 
   @Test

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeHexadecimal.shouldBeHexadecimal;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -26,7 +25,7 @@ class ShouldBeHexadecimal_create_Test {
     // WHEN
     String message = shouldBeHexadecimal('Z').create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting 'Z' to be hexadecimal"));
+    then(message).isEqualTo("[Test] %nExpecting 'Z' to be hexadecimal".formatted());
   }
 
   @Test
@@ -34,6 +33,6 @@ class ShouldBeHexadecimal_create_Test {
     // WHEN
     String message = shouldBeHexadecimal("123.abc").create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting \"123.abc\" to be hexadecimal"));
+    then(message).isEqualTo("[Test] %nExpecting \"123.abc\" to be hexadecimal".formatted());
   }
 }

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBePrimitive.shouldBePrimitive;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -29,7 +28,7 @@ class ShouldBePrimitive_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting java.lang.Object to be a primitive type"));
+    then(message).isEqualTo("[Test] %nExpecting java.lang.Object to be a primitive type".formatted());
   }
 
 }

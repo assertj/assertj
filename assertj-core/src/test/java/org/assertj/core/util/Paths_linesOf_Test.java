@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Paths.linesOf;
 
@@ -24,7 +25,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -35,11 +35,9 @@ import org.junit.jupiter.api.Test;
  */
 class Paths_linesOf_Test {
 
-  private static final Path RESOURCES_DIRECTORY = java.nio.file.Paths.get("src", "test", "resources");
-
-  private static final Path SAMPLE_UNIX_FILE = RESOURCES_DIRECTORY.resolve("utf8.txt");
-  private static final Path SAMPLE_WIN_FILE = RESOURCES_DIRECTORY.resolve("utf8_win.txt");
-  private static final Path SAMPLE_MAC_FILE = RESOURCES_DIRECTORY.resolve("utf8_mac.txt");
+  private static final Path SAMPLE_UNIX_FILE = resourcePath("utf8.txt");
+  private static final Path SAMPLE_WIN_FILE = resourcePath("utf8_win.txt");
+  private static final Path SAMPLE_MAC_FILE = resourcePath("utf8_mac.txt");
 
   private static final List<String> EXPECTED_CONTENT = newArrayList("A text file encoded in UTF-8, with diacritics:", "é à");
   public static final String UTF_8 = "UTF-8";
@@ -52,12 +50,12 @@ class Paths_linesOf_Test {
 
   @Test
   void should_throw_exception_if_charset_name_does_not_exist() {
-    assertThatIllegalArgumentException().isThrownBy(() -> linesOf(java.nio.file.Paths.get("test"), "Klingon"));
+    assertThatIllegalArgumentException().isThrownBy(() -> linesOf(Path.of("test"), "Klingon"));
   }
 
   @Test
   void should_throw_exception_if_path_not_found() {
-    Path missingFile = java.nio.file.Paths.get("missing.txt");
+    Path missingFile = Path.of("missing.txt");
     assertThat(missingFile).doesNotExist();
 
     assertThatExceptionOfType(UncheckedIOException.class).isThrownBy(() -> linesOf(missingFile,

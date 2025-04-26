@@ -91,7 +91,7 @@ class AbstractAssert_failWithActualExpectedAndMessage_Test {
   }
 
   static AssertionFailedError expectAssertionFailedError(ThrowingCallable shouldRaiseAssertionError) {
-    AssertionFailedError error = catchThrowableOfType(shouldRaiseAssertionError, AssertionFailedError.class);
+    AssertionFailedError error = catchThrowableOfType(AssertionFailedError.class, shouldRaiseAssertionError);
     assertThat(error).as("The code under test should have raised an AssertionFailedError").isNotNull();
     return error;
   }

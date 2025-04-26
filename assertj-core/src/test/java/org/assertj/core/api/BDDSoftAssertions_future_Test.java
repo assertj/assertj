@@ -48,7 +48,6 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     CompletionStage<String> completionStage = completedFuture("done");
     // WHEN
     softly.then(completionStage).isDone();
-    softly.then(completionStage).hasNotFailed();
     softly.then(completionStage).isCancelled();
     completionStage = null;
     softly.then(completionStage).isNull();

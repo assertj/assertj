@@ -12,13 +12,8 @@
  */
 package org.assertj.core.util;
 
-import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
-
 import java.util.HashMap;
 import java.util.Map;
-
-import org.assertj.core.presentation.Representation;
-import org.assertj.core.presentation.StandardRepresentation;
 
 /**
  * Utility methods related to maps.
@@ -28,34 +23,6 @@ import org.assertj.core.presentation.StandardRepresentation;
  * @author gabga
  */
 public class Maps {
-
-  /**
-   * Returns the {@code String} {@link org.assertj.core.presentation.StandardRepresentation standard representation} of
-   * the given map, or {@code null} if the given map is {@code null}.
-   * 
-   * @param map the map to format.
-   * @return the {@code String} representation of the given map.
-   * 
-   * @deprecated use {@link StandardRepresentation#toStringOf(Map)} instead.
-   */
-  @Deprecated
-  public static String format(Map<?, ?> map) {
-    return CONFIGURATION_PROVIDER.representation().toStringOf(map);
-  }
-
-  /**
-   * Returns the {@code String} representation of the given map, or {@code null} if the given map is {@code null}.
-   *
-   * @param p the {@link Representation} to use.
-   * @param map the map to format.
-   * @return the {@code String} representation of the given map.
-   * 
-   * @deprecated use {@link StandardRepresentation#toStringOf(Map)} instead.
-   */
-  @Deprecated
-  public static String format(Representation p, Map<?, ?> map) {
-    return CONFIGURATION_PROVIDER.representation().toStringOf(map);
-  }
 
   public static <K, V> Map<K, V> newHashMap(K key, V value) {
     Map<K, V> map = new HashMap<>();

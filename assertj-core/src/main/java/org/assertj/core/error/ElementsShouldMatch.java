@@ -21,8 +21,8 @@ public class ElementsShouldMatch extends BasicErrorMessageFactory {
 
   public static <T> ErrorMessageFactory elementsShouldMatch(Object actual, T elementsNotMatchingPredicate,
                                                             PredicateDescription predicateDescription) {
-    return elementsNotMatchingPredicate instanceof Iterable
-        ? new ElementsShouldMatch(actual, (Iterable<?>) elementsNotMatchingPredicate, predicateDescription)
+    return elementsNotMatchingPredicate instanceof Iterable<?> iterable
+        ? new ElementsShouldMatch(actual, iterable, predicateDescription)
         : new ElementsShouldMatch(actual, elementsNotMatchingPredicate, predicateDescription);
   }
 

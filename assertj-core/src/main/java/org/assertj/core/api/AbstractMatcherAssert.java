@@ -23,7 +23,8 @@ import org.assertj.core.internal.Failures;
  *
  * @author Jiashu Zhang
  */
-public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<SELF>> extends AbstractAssert<SELF, Matcher> {
+public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<SELF>>
+    extends AbstractAssertWithComparator<SELF, Matcher> {
 
   protected AbstractMatcherAssert(Matcher actual, Class<?> selfType) {
     super(actual, selfType);

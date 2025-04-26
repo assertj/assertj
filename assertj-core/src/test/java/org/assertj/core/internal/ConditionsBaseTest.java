@@ -33,7 +33,7 @@ public class ConditionsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     condition = new TestCondition<>();
     conditions = new Conditions();
     conditions.failures = failures;

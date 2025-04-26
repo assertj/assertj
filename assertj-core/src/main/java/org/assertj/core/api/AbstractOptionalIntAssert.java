@@ -20,7 +20,6 @@ import java.util.OptionalInt;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Integers;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for {@link java.util.OptionalInt}.
@@ -30,11 +29,12 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Grzegorz Piwowarek
  */
 public abstract class AbstractOptionalIntAssert<SELF extends AbstractOptionalIntAssert<SELF>> extends
-    AbstractAssert<SELF, OptionalInt> {
+    AbstractAssertWithComparator<SELF, OptionalInt> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();
 
+  @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
   protected AbstractOptionalIntAssert(OptionalInt actual, Class<?> selfType) {
     super(actual, selfType);
   }

@@ -12,10 +12,9 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 import static org.assertj.core.error.ShouldBeNumeric.NumericType.INTEGER;
+import static org.assertj.core.error.ShouldBeNumeric.shouldBeNumeric;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.Description;
@@ -37,6 +36,6 @@ class ShouldBeNumeric_create_Test {
     // WHEN
     String message = factory.create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %nExpecting \"foo\" to be a valid int"));
+    then(message).isEqualTo("[TEST] %nExpecting \"foo\" to be a valid int".formatted());
   }
 }

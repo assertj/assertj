@@ -14,8 +14,6 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldNotExist.FILE_SHOULD_NOT_EXIST;
-import static org.assertj.core.error.ShouldNotExist.PATH_SHOULD_NOT_EXIST;
 import static org.assertj.core.error.ShouldNotExist.shouldNotExist;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
@@ -43,7 +41,7 @@ class ShouldNotExist_create_Test {
     // WHEN
     String actualMessage = shouldNotExist(file).create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + FILE_SHOULD_NOT_EXIST, file));
+    then(actualMessage).isEqualTo(format("[Test] %nExpecting file:%n  %s%nnot to exist", file));
   }
 
   @Test
@@ -53,6 +51,6 @@ class ShouldNotExist_create_Test {
     // WHEN
     String actualMessage = shouldNotExist(path).create(TEST_DESCRIPTION, STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + PATH_SHOULD_NOT_EXIST, path));
+    then(actualMessage).isEqualTo(format("[Test] %nExpecting path:%n  %s%nnot to exist", path));
   }
 }

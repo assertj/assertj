@@ -12,13 +12,12 @@
  */
 package org.assertj.core.api.file;
 
-import static java.lang.String.format;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
-import java.nio.charset.StandardCharsets;
-
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractByteArrayAssert;
 import org.assertj.core.api.FileAssert;
@@ -41,17 +40,17 @@ class FileAssert_binaryContent_Test extends FileAssertBaseTest implements Naviga
 
   @Override
   protected FileAssert create_assertions() {
-    return new FileAssert(new File("src/test/resources/actual_file.txt"));
+    return new FileAssert(resourceFile("actual_file.txt"));
   }
 
   @Test
   void should_return_ByteArrayAssert_on_path_content() {
     // GIVEN
-    File file = new File("src/test/resources/actual_file.txt");
+    File file = resourceFile("actual_file.txt");
     // WHEN
     AbstractByteArrayAssert<?> byteArrayAssert = assertThat(file).binaryContent();
     // THEN
-    byteArrayAssert.asString(StandardCharsets.UTF_8).isEqualTo(format("actual%n"));
+    byteArrayAssert.asString(UTF_8).isEqualTo("actual%n".formatted());
   }
 
   @Override

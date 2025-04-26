@@ -47,7 +47,7 @@ class ObjectArrayAssert_satisfiesExactly_with_ThrowingConsumer_Test extends Obje
     Throwable throwable = catchThrowable(() -> assertThat(array("foo")).satisfiesExactly(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

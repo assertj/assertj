@@ -85,7 +85,7 @@ class EntryPoint_Assumptions_setPreferredAssumptionException_Test {
     // GIVEN
     setPreferredAssumptionExceptionFunction.accept(TEST_NG);
     // WHEN
-    IllegalStateException exception = catchThrowableOfType(() -> assumeThat(true).isEqualTo(false), IllegalStateException.class);
+    IllegalStateException exception = catchThrowableOfType(IllegalStateException.class, () -> assumeThat(true).isEqualTo(false));
     // THEN
     then(exception).hasMessage("Failed to load org.testng.SkipException class, make sure it is available in the classpath.");
   }

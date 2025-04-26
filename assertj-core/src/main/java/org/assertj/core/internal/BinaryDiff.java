@@ -20,34 +20,32 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Compares the binary content of two inputStreams/paths.
  * 
  * @author Olivier Michallat
  */
-@VisibleForTesting
+// TODO reduce the visibility of the fields annotated with @VisibleForTesting
 public class BinaryDiff {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public BinaryDiffResult diff(File actual, byte[] expected) throws IOException {
     return diff(actual.toPath(), expected);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public BinaryDiffResult diff(Path actual, byte[] expected) throws IOException {
     try (InputStream actualStream = new BufferedInputStream(Files.newInputStream(actual))) {
       return diff(actualStream, expected);
     }
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public BinaryDiffResult diff(InputStream actualStream, byte[] expected) throws IOException {
     return diff(actualStream, new ByteArrayInputStream(expected));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public BinaryDiffResult diff(InputStream actualStream, InputStream expectedStream) throws IOException {
     int index = 0;
     while (true) {

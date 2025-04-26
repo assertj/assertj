@@ -21,16 +21,15 @@ import org.assertj.core.api.ClassAssert;
 import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
 import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
 import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
- * verify that assertions final methods in {@link ClassAssert} work with assumptions (i.e. that they are proxied correctly in {@link ProxyableClassAssert}).
+ * verify that assertions final methods in {@link ClassAssert} work with assumptions (i.e. that they are proxied correctly).
  */
 class Class_final_method_assertions_in_assumptions_Test extends BaseAssumptionsRunnerTest {
 
   public static Stream<AssumptionRunner<?>> provideAssumptionsRunners() {
     return Stream.of(assumptionRunner(AnnotatedClass.class,
                                       value -> assumeThat(value).hasAnnotations(MyAnnotation.class, AnotherAnnotation.class),
-                                      value -> assumeThat(value).hasAnnotations(SafeVarargs.class, VisibleForTesting.class)));
+                                      value -> assumeThat(value).hasAnnotations(SafeVarargs.class)));
   }
 }

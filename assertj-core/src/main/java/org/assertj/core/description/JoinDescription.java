@@ -21,8 +21,6 @@ import static org.assertj.core.util.Objects.hashCodeFor;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * The {@code Description} combining multiple {@code Description}s. It'll honor the nested descriptions and will indent
  * them as appropriate.
@@ -38,11 +36,11 @@ public class JoinDescription extends Description {
    */
   private static final String DELIMITER = ',' + LINE_SEPARATOR;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final Collection<Description> descriptions;
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final String prefix;
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final String suffix;
 
   /**
@@ -105,8 +103,7 @@ public class JoinDescription extends Description {
     Iterator<? extends Description> it = descriptions.iterator();
     while (it.hasNext()) {
       Description description = it.next();
-      if (description instanceof JoinDescription) {
-        JoinDescription joinDescription = (JoinDescription) description;
+      if (description instanceof JoinDescription joinDescription) {
         joinDescription.appendIndentedValueTo(indentableBuilder);
       } else {
         // we indent according to the current indentation and then we append the value

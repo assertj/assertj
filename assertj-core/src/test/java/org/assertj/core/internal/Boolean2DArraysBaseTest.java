@@ -39,7 +39,7 @@ public class Boolean2DArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     boolean2dArrays = new Boolean2DArrays();
     boolean2dArrays.failures = failures;
     arrays2d = mock(Arrays2D.class);

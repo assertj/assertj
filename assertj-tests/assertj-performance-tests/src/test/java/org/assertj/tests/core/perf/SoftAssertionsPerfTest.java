@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.core.perf;
 
-import static java.lang.String.format;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -42,7 +41,6 @@ import java.util.function.DoublePredicate;
 import java.util.function.IntPredicate;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
-
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.util.Lists;
@@ -204,7 +202,7 @@ class SoftAssertionsPerfTest {
     softly.assertThat(8.0d).isEqualTo(9.0d);
     softly.assertThat(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
     softly.assertThat(new File("a"))
-          .overridingErrorMessage(format("%nexpected: File(a)%n but was: File(b)"))
+          .overridingErrorMessage("%nexpected: File(a)%n but was: File(b)".formatted())
           .isEqualTo(new File("b"));
     softly.assertThat(Float.valueOf(12)).isEqualTo(Float.valueOf(13));
     softly.assertThat(14f).isEqualTo(15f);

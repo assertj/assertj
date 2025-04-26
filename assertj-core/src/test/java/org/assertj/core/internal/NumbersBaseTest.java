@@ -18,7 +18,9 @@ import static org.mockito.Mockito.spy;
 import java.util.Comparator;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.BeforeEach;
 
 public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMBER_TYPE extends Number> {
@@ -38,7 +40,7 @@ public abstract class NumbersBaseTest<NUMBERS_TYPE extends Numbers<?>, NUMBER_TY
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     numbers = getNumbers();
     numbers.setFailures(failures);
     comparatorComparisonStrategy = new ComparatorBasedComparisonStrategy(getComparator());

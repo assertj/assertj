@@ -20,6 +20,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
@@ -48,9 +49,9 @@ class Assertions_catchIOException_Test {
   @Test
   void catchIOException_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    IOException actual = catchIOException(() -> {});
+    AssertionError error = expectAssertionError(() -> catchIOException(() -> {}));
     // THEN
-    then(actual).isNull();
+    then(error).hasMessage("Expecting code to raise an IOException");
   }
 
   @Test

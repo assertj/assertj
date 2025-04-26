@@ -73,7 +73,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   @Override
   public String toString() {
-    return String.format("<%s>", pathToUseInRules);
+    return "<%s>".formatted(pathToUseInRules);
   }
 
   public String shortDescription() {
@@ -94,30 +94,6 @@ public final class FieldLocation implements Comparable<FieldLocation> {
 
   public boolean exactlyMatches(String fieldPath) {
     return pathToUseInRules.equals(fieldPath);
-  }
-
-  /**
-   * Reruns true if it exactly matches this field, false otherwise.
-   *
-   * @param fieldPath field path to check
-   * @return true if it exactly matches this field, false otherwise
-   * @deprecated use {@link #exactlyMatches(String)} instead.
-   */
-  @Deprecated
-  public boolean matches(String fieldPath) {
-    return exactlyMatches(fieldPath);
-  }
-
-  /**
-   * Reruns true if it exactly matches this field, false otherwise.
-   *
-   * @param field field to check
-   * @return true if it exactly matches this field, false otherwise
-   * @deprecated use {@link #exactlyMatches(String)} instead.
-   */
-  @Deprecated
-  public boolean matches(FieldLocation field) {
-    return exactlyMatches(field);
   }
 
   /**

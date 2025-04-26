@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent</artifactId>
-    <version>3.27.2-SNAPSHOT</version>
+    <version>4.0.0-M2-SNAPSHOT</version>
     <relativePath>../assertj-parent</relativePath>
   </parent>
 
@@ -17,18 +17,17 @@
 
   <properties>
     <argLine>
+      <!-- https://github.com/mockito/mockito/issues/3037 -->
+      -javaagent:${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar
       -Dfile.encoding=${project.build.sourceEncoding}
       -Dnet.bytebuddy.experimental=true
-      --add-opens=java.base/java.lang=ALL-UNNAMED
-      --add-opens=java.base/java.math=ALL-UNNAMED
-      --add-opens=java.base/java.util=ALL-UNNAMED
-      --add-opens=java.base/sun.nio.fs=ALL-UNNAMED
+      @${project.basedir}/argFile
     </argLine>
+    <jacoco.skip>true</jacoco.skip> <!-- https://github.com/assertj/assertj/issues/3580 -->
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
-    <jacoco.skip>true</jacoco.skip> <!-- https://github.com/assertj/assertj/issues/3580 -->
     <!-- Dependency versions -->
-    <byte-buddy.version>1.15.11</byte-buddy.version>
+    <byte-buddy.version>1.17.4</byte-buddy.version>
     <hamcrest.version>3.0</hamcrest.version>
     <!-- Plugin versions -->
     <cdg.pitest.version>1.1.4</cdg.pitest.version>
@@ -106,13 +105,13 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.18.2</version>
+      <version>2.18.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>33.4.0-jre</version>
+      <version>33.4.8-jre</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -130,7 +129,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>3.18.1</version>
+      <version>3.19.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -154,7 +153,7 @@
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>6.6.4.Final</version>
+      <version>6.6.11.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -183,23 +182,6 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <!-- required to run JUnit4 tests in eclipse without to explicitly select JUnit 4 runner ... -->
-    <dependency>
-      <groupId>org.junit.vintage</groupId>
-      <artifactId>junit-vintage-engine</artifactId>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -291,82 +273,19 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>enforce-dependencies</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <bannedDependencies>
-                  <includes>
-                    <include>net.bytebuddy:byte-buddy</include>
-                  </includes>
-                  <excludes>
-                    <exclude>org.assertj:assertj-core</exclude>
-                    <exclude>org.hamcrest:hamcrest-core</exclude>
-                    <exclude>*:*:*:jar:compile</exclude>
-                  </excludes>
-                </bannedDependencies>
-                <dependencyConvergence />
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>jdk9</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <release>9</release>
-              <compileSourceRoots>
-                <compileSourceRoot>${project.basedir}/src/main/java9</compileSourceRoot>
-              </compileSourceRoots>
-              <multiReleaseOutput>true</multiReleaseOutput>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <trimStackTrace>false</trimStackTrace>
-          <excludes>
-            <exclude>org/assertj/core/internal/objects/Objects_assertHasOnlyFields_Test*</exclude>
-          </excludes>
-          <runOrder>random</runOrder>
-
-          <!--
-            These blocks are needed to show @DisplayName and @ParameterizedTest
-            in reports with the provided names, as well as with console output.
-          -->
-          <consoleOutputReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5ConsoleOutputReporter">
-            <!-- Set to true to suppress log output being included in Surefire output -->
-            <disable>false</disable>
-          </consoleOutputReporter>
-
-          <statelessTestsetInfoReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5StatelessTestsetInfoReporter">
-            <disable>false</disable>
-            <usePhrasedFileName>false</usePhrasedFileName>
-            <usePhrasedClassNameInRunning>true</usePhrasedClassNameInRunning>
-            <usePhrasedClassNameInTestCaseSummary>true</usePhrasedClassNameInTestCaseSummary>
-          </statelessTestsetInfoReporter>
-
-          <statelessTestsetReporter implementation="org.apache.maven.plugin.surefire.extensions.junit5.JUnit5Xml30StatelessReporter">
-            <disable>false</disable>
-            <usePhrasedFileName>false</usePhrasedFileName>
-            <usePhrasedTestSuiteClassName>true</usePhrasedTestSuiteClassName>
-            <usePhrasedTestCaseClassName>true</usePhrasedTestCaseClassName>
-            <usePhrasedTestCaseMethodName>true</usePhrasedTestCaseMethodName>
-          </statelessTestsetReporter>
+          <rules combine.children="append">
+            <bannedDependencies>
+              <includes>
+                <include>net.bytebuddy:byte-buddy</include>
+              </includes>
+              <excludes>
+                <exclude>org.assertj:assertj-core</exclude>
+                <exclude>org.hamcrest:hamcrest-core</exclude>
+                <exclude>*:*:*:jar:compile</exclude>
+              </excludes>
+            </bannedDependencies>
+          </rules>
         </configuration>
       </plugin>
       <plugin>
@@ -418,10 +337,6 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-javadoc-plugin</artifactId>
-      </plugin>
-      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>flatten-maven-plugin</artifactId>
         <executions>
@@ -450,7 +365,7 @@
       <plugin>
         <groupId>org.pitest</groupId>
         <artifactId>pitest-maven</artifactId>
-        <version>1.17.1</version>
+        <version>1.18.1</version>
         <dependencies>
           <dependency>
             <groupId>org.pitest</groupId>

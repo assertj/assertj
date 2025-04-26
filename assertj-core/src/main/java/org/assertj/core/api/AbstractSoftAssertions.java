@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
-
 import java.util.List;
 
 import org.assertj.core.error.AssertionErrorCreator;
@@ -88,7 +86,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    */
   @CanIgnoreReturnValue
   public <T> T fail(String failureMessage, Object... args) {
-    return fail(format(failureMessage, args));
+    return fail(failureMessage.formatted(args));
   }
 
   /**
@@ -127,13 +125,13 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   /**
    * Fails with a message explaining that a {@link Throwable} of given class was expected to be thrown
    * but had not been.
+   * <p>
+   * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
    *
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    * @since 2.6.0 / 3.6.0
-   *
-   * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
    */
   public void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     shouldHaveThrown(throwableClass);

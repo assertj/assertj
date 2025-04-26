@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.booleanarrays;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
@@ -64,7 +63,7 @@ class BooleanArrays_assertContains_at_Index_Test extends BooleanArraysBaseTest {
     assertThatExceptionOfType(IndexOutOfBoundsException.class).isThrownBy(() -> arrays.assertContains(someInfo(),
                                                                                                       actual, true,
                                                                                                       atIndex(6)))
-                                                              .withMessageContaining(format("Index should be between <0> and <1> (inclusive) but was:%n <6>"));
+                                                              .withMessageContaining("Index should be between <0> and <1> (inclusive) but was:%n <6>".formatted());
   }
 
   @Test

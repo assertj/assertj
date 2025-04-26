@@ -12,6 +12,7 @@
  */
 package org.assertj.tests.core.api;
 
+import static java.util.function.Predicate.not;
 import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -173,19 +174,14 @@ class Assertions_sync_with_InstanceOfAssertFactories_Test extends BaseAssertions
   }
 
   private Type getRawType(Type type) {
-    if (type instanceof ParameterizedType) {
-      return ((ParameterizedType) type).getRawType();
-    } else if (type instanceof TypeVariable) {
-      Type[] bounds = ((TypeVariable<?>) type).getBounds();
+    if (type instanceof ParameterizedType parameterizedType) {
+      return parameterizedType.getRawType();
+    } else if (type instanceof TypeVariable<?> typeVariable) {
+      Type[] bounds = typeVariable.getBounds();
       assertThat(bounds).hasSize(1);
       return getRawType(bounds[0]);
     }
     return type;
-  }
-
-  // Borrowed from JDK 11
-  private static <T> Predicate<T> not(Predicate<T> target) {
-    return target.negate();
   }
 
 }

@@ -23,7 +23,6 @@ import java.util.Objects;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Object2DArrays;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion methods for two-dimensional arrays of objects.
@@ -38,7 +37,7 @@ import org.assertj.core.util.VisibleForTesting;
 public class Object2DArrayAssert<ELEMENT> extends
     Abstract2DArrayAssert<Object2DArrayAssert<ELEMENT>, ELEMENT[][], ELEMENT> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected Object2DArrays<ELEMENT> object2dArrays = Object2DArrays.instance();
 
   private final Failures failures = Failures.instance();

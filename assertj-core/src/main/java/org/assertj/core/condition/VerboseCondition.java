@@ -12,12 +12,10 @@
  */
 package org.assertj.core.condition;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
-
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Condition;
@@ -125,7 +123,7 @@ public final class VerboseCondition<T> extends Condition<T> {
    * @return the verbose condition description.
    */
   protected String buildVerboseDescription(T objectUnderTest, boolean matches) {
-    StringBuilder sb = new StringBuilder(format("%s", description));
+    StringBuilder sb = new StringBuilder("%s".formatted(description));
     if (!matches) sb.append(objectUnderTestDescriptor.apply(objectUnderTest));
     return sb.toString();
   }

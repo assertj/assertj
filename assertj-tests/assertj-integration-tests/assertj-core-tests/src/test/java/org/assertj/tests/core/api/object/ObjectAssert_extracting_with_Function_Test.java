@@ -23,6 +23,7 @@ import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS
 import java.util.Comparator;
 import java.util.Map;
 import java.util.function.Function;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.ObjectAssert;
@@ -96,7 +97,6 @@ class ObjectAssert_extracting_with_Function_Test implements NavigationMethodBase
                                                                   .withFailMessage("error message")
                                                                   .withRepresentation(UNICODE_REPRESENTATION)
                                                                   .usingComparator(ALWAYS_EQUALS)
-                                                                  .usingComparatorForFields(ALWAYS_EQUALS_STRING, "foo")
                                                                   .usingComparatorForType(ALWAYS_EQUALS_STRING, String.class);
     // WHEN
     AbstractObjectAssert<?, ?> result = assertion.extracting(firstName);
@@ -105,7 +105,6 @@ class ObjectAssert_extracting_with_Function_Test implements NavigationMethodBase
     then(result.info.overridingErrorMessage()).isEqualTo("error message");
     then(result.info.representation()).isEqualTo(UNICODE_REPRESENTATION);
     then(comparatorsByTypeOf(result).getComparatorForType(String.class)).isSameAs(ALWAYS_EQUALS_STRING);
-    then(comparatorByPropertyOrFieldOf(result).get("foo")).isSameAs(ALWAYS_EQUALS_STRING);
     then(comparatorOf(result).getComparator()).isSameAs(ALWAYS_EQUALS);
   }
 

@@ -12,11 +12,9 @@
  */
 package org.assertj.core.api;
 
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
-import java.util.function.BiPredicate;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -235,85 +233,6 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @throws AssertionError       if the actual value is present in the given iterable.
    */
   SELF isNotIn(Iterable<?> values);
-
-  /**
-   * Use the given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
-   * <p>
-   * The custom comparator is bound to assertion instance, meaning that if a new assertion instance is created, the default
-   * comparison strategy will be used.
-   * <p>
-   * Examples :
-   * <pre><code class='java'> // frodo and sam are instances of Character with Hobbit race (obviously :).
-   * // raceComparator implements Comparator&lt;Character&gt;
-   * assertThat(frodo).usingComparator(raceComparator).isEqualTo(sam);</code></pre>
-   *
-   * @param customComparator the comparator to use for the incoming assertion checks.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given comparator is {@code null}.
-   */
-  SELF usingComparator(Comparator<? super ACTUAL> customComparator);
-
-  /**
-   * Use the given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
-   * <p>
-   * The custom comparator is bound to the current assertion chain, meaning that if a new assertion instance is created, the default
-   * comparison strategy will be used.
-   * <p>
-   * Examples :
-   * <pre><code class='java'> // frodo and sam are instances of Character with Hobbit race (obviously :).
-   * // raceComparator implements Comparator&lt;Character&gt;
-   * assertThat(frodo).usingComparator(raceComparator, "Hobbit Race Comparator").isEqualTo(sam);</code></pre>
-   *
-   * @param customComparator            the comparator to use for the incoming assertion checks.
-   * @param customComparatorDescription comparator description to be used in assertion error messages
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given comparator is {@code null}.
-   */
-  SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription);
-
-  /**
-   * Uses the given custom {@link BiPredicate} instead of relying on actual type A {@code equals} method
-   * for incoming assertion checks.
-   * <p>
-   * The custom equals is bound to the current assertion chain, meaning that if a new assertion instance is created, the default
-   * comparison strategy will be used.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> // frodo and sam are instances of Character of Hobbit race (obviously :).
-   * assertThat(frodo).usingEquals((f, s) -> f.race() == s.race()).isEqualTo(sam);</code></pre>
-   *
-   * @param predicate the predicate to use for the incoming assertion checks.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given biPredicate is {@code null}.
-   */
-  SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate);
-
-  /**
-   * Uses the given custom {@link BiPredicate} instead of relying on actual type A {@code equals} method
-   * for incoming assertion checks. The given description is present in the assertion error if the assertion fails.
-   * <p>
-   * The custom equals is bound to the current assertion chain, meaning that if a new assertion instance is created, the default
-   * comparison strategy will be used.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> // frodo and sam are instances of Character of Hobbit race (obviously :).
-   * assertThat(frodo).usingEquals((f, s) -> f.race() == s.race(), "comparing race").isEqualTo(sam);</code></pre>
-   *
-   * @param predicate               the predicate to use for the incoming assertion checks.
-   * @param customEqualsDescription comparator description to be used in assertion error messages
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the given comparator is {@code null}.
-   */
-  SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate, String customEqualsDescription);
-
-  /**
-   * Revert to standard comparison for the incoming assertion checks.
-   * <p>
-   * This method should be used to disable a custom comparison strategy set by calling {@link #usingComparator(Comparator) usingComparator}.
-   *
-   * @return {@code this} assertion object.
-   */
-  SELF usingDefaultComparator();
 
   /**
    * Uses an {@link InstanceOfAssertFactory} to verify that the actual value is an instance of a given type and to produce
@@ -667,28 +586,6 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   SELF isNotOfAnyClassIn(Class<?>... types);
 
   /**
-   * Verifies that the actual value is an instance of List,
-   * and returns a list assertion, to allow chaining of list-specific
-   * assertions from this call.
-   * <p>
-   * Example :
-   * <pre><code class='java'> Object sortedListAsObject = Arrays.asList(1, 2, 3);
-   *
-   * // assertion succeeds
-   * assertThat(sortedListAsObject).asList().isSorted();
-   *
-   * Object unsortedListAsObject = Arrays.asList(3, 1, 2);
-   *
-   * // assertions fails
-   * assertThat(unsortedListAsObject).asList().isSorted();</code></pre>
-   *
-   * @return a list assertion object
-   * @deprecated use {@link #asInstanceOf(InstanceOfAssertFactory) asInstanceOf(InstanceOfAssertFactories.LIST)} instead
-   */
-  @Deprecated
-  AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> asList();
-
-  /**
    * Returns a String assertion for the <code>toString()</code> of the actual
    * value, to allow chaining of String-specific assertions from this call.
    * <p>
@@ -711,7 +608,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * <code>equals(Object)</code> instead of <code>{@link #isEqualTo(Object)}</code>.
    */
   @Override
-  @Deprecated
+  @Deprecated(since = "3")
   boolean equals(Object obj);
 
   /**
@@ -854,4 +751,26 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * @since 3.19.0
    */
   SELF doesNotHaveSameHashCodeAs(Object other);
+
+  /**
+   * Returns actual (the object currently under test).
+   * <p>
+   * This can be useful if after chaining assertions, the object under test has changed and you want to get it.
+   * <p>
+   * Examples of method changing actual:
+   * {@link AbstractObjectAssert#extracting(Function) extracting(Function)} or a navigation methods like
+   * {@link AbstractThrowableAssert#rootCause() rootCause()}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
+   *
+   * String newActual = assertThat(frodo).extracting(TolkienCharacter::getName).actual();
+   *
+   * // newActual == frodo.getName()
+   * assertThat(newActual).isSameAs(frodo.name);</code></pre>
+   *
+   * @return actual the object currently under test.
+   * @since 3.27.0 in {@link AbstractAssert} and 4.0.0 in {@link Assert}
+   */
+  ACTUAL actual();
 }

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.future;
 
-import static java.lang.String.format;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
@@ -21,7 +20,6 @@ import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThr
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.concurrent.CompletableFuture;
-
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
@@ -63,7 +61,7 @@ class CompletableFutureAssert_isCompleted_Test {
     // WHEN
     ThrowingCallable code = () -> assertThat(future).isCompleted();
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessageStartingWith(format("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom!"))
+    assertThatAssertionErrorIsThrownBy(code).withMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom!".formatted())
                                             .withMessageEndingWith("to be completed.%n%s", WARNING);
   }
 

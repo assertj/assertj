@@ -12,15 +12,12 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.Representation;
@@ -43,7 +40,7 @@ class ShouldNotBeEmpty_create_Test {
     // WHEN
     String message = underTest.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual not to be empty"));
+    then(message).isEqualTo("[Test] %nExpecting actual not to be empty".formatted());
   }
 
   @Test
@@ -60,12 +57,12 @@ class ShouldNotBeEmpty_create_Test {
   @Test
   void should_create_specific_error_message_for_Path() {
     // GIVEN
-    Path path = Paths.get("/test.txt");
+    Path path = Path.of("/test.txt");
     ErrorMessageFactory underTest = shouldNotBeEmpty(path);
     // WHEN
     String message = underTest.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting path %s not to be empty", path));
+    then(message).isEqualTo("[Test] %nExpecting path %s not to be empty".formatted(path));
   }
 
 }

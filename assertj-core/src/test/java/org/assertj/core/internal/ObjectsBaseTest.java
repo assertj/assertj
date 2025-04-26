@@ -21,6 +21,8 @@ import java.util.Map;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -48,7 +50,7 @@ public class ObjectsBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     objects = new Objects();
     objects.failures = failures;
     customComparisonStrategy = new ComparatorBasedComparisonStrategy(comparatorForCustomComparisonStrategy());

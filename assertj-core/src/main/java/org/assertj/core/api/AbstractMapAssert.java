@@ -47,7 +47,6 @@ import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Maps;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Map}s.
@@ -70,7 +69,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends Map<K, V>, K, V>
     extends AbstractObjectAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Maps maps = Maps.instance();
 
   protected AbstractMapAssert(ACTUAL actual, Class<?> selfType) {
@@ -1720,43 +1719,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * map.put("name", "kawhi");
    * map.put("age", 25);
    *
-   * assertThat(map).extracting("name", "age")
-   *                .contains("kawhi", 25);</code></pre>
-   * <p>
-   * Note that the order of extracted keys value is consistent with the iteration order of the array under test.
-   * <p>
-   * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract
-   * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.
-   *
-   * @param keys the keys used to get values from the map under test
-   * @return a new assertion object whose object under test is the array containing the extracted map values
-   *
-   * @deprecated use {@link #extractingByKeys(Object[])} instead
-   */
-  @Deprecated
-  @CheckReturnValue
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Object... keys) {
-    isNotNull();
-    List<Object> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
-    String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
-    String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-    return newListAssertInstance(extractedValues).as(description);
-  }
-
-  /**
-   * Extract the values of given keys from the map under test into an array, this new array becoming
-   * the object under test.
-   * <p>
-   * For example, if you specify "id", "name" and "email" keys then the array will contain the map values for
-   * these keys, you can then perform array assertions on the extracted values.
-   * <p>
-   * If a given key is not present in the map under test, a null value is extracted.
-   * <p>
-   * Example:
-   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
-   * map.put("name", "kawhi");
-   * map.put("age", 25);
-   *
    * assertThat(map).extractingByKeys("name", "age")
    *                .contains("kawhi", 25);</code></pre>
    * <p>
@@ -1785,39 +1747,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf((Object[]) keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
     return newListAssertInstance(extractedValues).withAssertionState(myself).as(description);
-  }
-
-  /**
-   * Extract the value of given key from the map under test, the extracted value becoming the new object under test.
-   * <p>
-   * For example, if you specify "id" key, then the object under test will be the map value for this key.
-   * <p>
-   * If a given key is not present in the map under test, a null value is extracted.
-   * <p>
-   * Example:
-   * <pre><code class='java'> Map&lt;String, Object&gt; map = new HashMap&lt;&gt;();
-   * map.put("name", "kawhi");
-   *
-   * assertThat(map).extracting("name")
-   *                .isEqualTo("kawhi");</code></pre>
-   * <p>
-   * Nested keys are not yet supported, passing "name.first" won't get a value for "name" and then try to extract
-   * "first" from the previously extracted value, instead it will simply look for a value under "name.first" key.
-   *
-   * @param key the key used to get value from the map under test
-   * @return a new {@link ObjectAssert} instance whose object under test is the extracted map value
-   *
-   * @since 3.13.0
-   * @deprecated use {@link #extractingByKey(Object)} instead
-   */
-  @Deprecated
-  @CheckReturnValue
-  public AbstractObjectAssert<?, ?> extracting(Object key) {
-    isNotNull();
-    Object extractedValue = actual.get(key);
-    String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
-    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-    return newObjectAssert(extractedValue).as(description);
   }
 
   /**
@@ -2212,7 +2141,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   private static List<Object> flatten(Iterable<Object> collectionToFlatten) {
     List<Object> result = new ArrayList<>();
     for (Object item : collectionToFlatten) {
-      if (item instanceof Iterable<?>) result.addAll(toCollection((Iterable<?>) item));
+      if (item instanceof Iterable<?> iterable) result.addAll(toCollection(iterable));
       else if (isArray(item)) result.addAll(org.assertj.core.util.Arrays.asList(item));
       else result.add(item);
     }

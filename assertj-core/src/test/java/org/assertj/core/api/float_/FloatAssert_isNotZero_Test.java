@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api.float_;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.mockito.Mockito.verify;
@@ -56,7 +55,7 @@ class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting actual:%n  -0.0f%nnot to be equal to:%n  0.0f%n"));
+                     .hasMessage("%nExpecting actual:%n  -0.0f%nnot to be equal to:%n  0.0f%n".formatted());
   }
 
   @Test
@@ -69,7 +68,7 @@ class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting actual:%n  0.0f%nnot to be equal to:%n  0.0f%n"));
+                     .hasMessage("%nExpecting actual:%n  0.0f%nnot to be equal to:%n  0.0f%n".formatted());
   }
 
   @Test
@@ -82,7 +81,7 @@ class FloatAssert_isNotZero_Test extends FloatAssertBaseTest {
 
     // THEN
     assertThat(error).isInstanceOf(AssertionError.class)
-                     .hasMessage(format("%nExpecting actual:%n  0.0f%nnot to be equal to:%n  0.0f%n"));
+                     .hasMessage("%nExpecting actual:%n  0.0f%nnot to be equal to:%n  0.0f%n".formatted());
   }
 
 }

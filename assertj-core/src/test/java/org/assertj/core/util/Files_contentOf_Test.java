@@ -16,6 +16,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 
 import java.io.File;
 import java.io.UncheckedIOException;
@@ -30,7 +31,8 @@ import org.junit.jupiter.api.Test;
  * @author Olivier Michallat
  */
 class Files_contentOf_Test {
-  private final File sampleFile = new File("src/test/resources/utf8.txt");
+
+  private final File sampleFile = resourceFile("utf8.txt");;
   private final String expectedContent = "A text file encoded in UTF-8, with diacritics:\né à";
 
   @Test

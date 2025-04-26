@@ -35,7 +35,6 @@ import java.util.stream.Stream;
 
 import org.apache.commons.collections4.map.SingletonMap;
 import org.assertj.core.internal.MapsBaseTest;
-import org.assertj.core.testkit.jdk11.Jdk11;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -99,8 +98,8 @@ class Maps_assertContainsValues_Test extends MapsBaseTest {
                      arguments(unmodifiableMap(mapOf(entry("name", "Yoda"), entry("job", "Jedi"))), array("Jedi", "Yoda")),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("Yoda", "Jedi")),
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"), array("Jedi", "Yoda")),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array("Yoda", "Jedi")),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"), array("Jedi", "Yoda")));
+                     arguments(Map.of("name", "Yoda", "job", "Jedi"), array("Yoda", "Jedi")),
+                     arguments(Map.of("name", "Yoda", "job", "Jedi"), array("Jedi", "Yoda")));
   }
 
   private static Stream<Arguments> modifiableMapsSuccessfulTestCases() {
@@ -142,10 +141,10 @@ class Maps_assertContainsValues_Test extends MapsBaseTest {
                      arguments(ImmutableMap.of("name", "Yoda", "job", "Jedi"),
                                array("Yoda", "green"),
                                set("green")),
-                     arguments(Jdk11.Map.of("name", "Yoda", "job", "Jedi"),
+                     arguments(Map.of("name", "Yoda", "job", "Jedi"),
                                array("Yoda", "green"),
                                set("green")),
-                     arguments(Jdk11.Map.of("name", "Yoda"),
+                     arguments(Map.of("name", "Yoda"),
                                array((String) null), // implementation not permitting null keys
                                set((String) null)));
   }

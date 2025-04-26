@@ -15,13 +15,10 @@ package org.assertj.core.internal;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-import java.awt.*;
-
+import java.util.Locale;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link ComparatorBasedComparisonStrategy#isLessThanOrEqualTo(Object, Object)}.
- * 
  * @author Joel Costigliola
  */
 class ComparatorBasedComparisonStrategy_isLessThanOrEqualTo_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
@@ -41,8 +38,8 @@ class ComparatorBasedComparisonStrategy_isLessThanOrEqualTo_Test extends Abstrac
 
   @Test
   void should_fail_if_a_parameter_is_not_comparable() {
-    assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(new Rectangle(),
-                                                                                                                               new Rectangle()));
+    assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> caseInsensitiveComparisonStrategy.isLessThanOrEqualTo(Locale.ROOT,
+                                                                                                                               Locale.US));
   }
 
 }

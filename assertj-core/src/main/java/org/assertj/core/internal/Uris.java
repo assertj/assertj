@@ -37,7 +37,6 @@ import java.util.Map;
 import java.util.Objects;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 
 public class Uris {
 
@@ -49,8 +48,7 @@ public class Uris {
 
   private static final Uris INSTANCE = new Uris();
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
+  private final Failures failures = Failures.instance();
 
   public static Uris instance() {
     return INSTANCE;

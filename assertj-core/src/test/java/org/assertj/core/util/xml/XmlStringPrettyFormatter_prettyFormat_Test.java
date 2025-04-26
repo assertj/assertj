@@ -19,7 +19,6 @@ import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat
 
 import java.math.BigDecimal;
 import java.util.Locale;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXParseException;
@@ -39,20 +38,24 @@ class XmlStringPrettyFormatter_prettyFormat_Test {
     // Set locale to be able to check exception message in English.
     Locale.setDefault(ENGLISH);
     if (javaVersion.compareTo(new BigDecimal("9")) >= 0) {
-      expected_formatted_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><rss version=\"2.0\">\n"
-                               + "    <channel>\n"
-                               + "        <title>Java Tutorials and Examples 1</title>\n"
-                               + "        <language>en-us</language>\n"
-                               + "    </channel>\n"
-                               + "</rss>\n";
+      expected_formatted_xml = """
+          <?xml version="1.0" encoding="UTF-8"?><rss version="2.0">
+              <channel>
+                  <title>Java Tutorials and Examples 1</title>
+                  <language>en-us</language>
+              </channel>
+          </rss>
+          """;
     } else {
-      expected_formatted_xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
-                               + "<rss version=\"2.0\">\n"
-                               + "    <channel>\n"
-                               + "        <title>Java Tutorials and Examples 1</title>\n"
-                               + "        <language>en-us</language>\n"
-                               + "    </channel>\n"
-                               + "</rss>\n";
+      expected_formatted_xml = """
+          <?xml version="1.0" encoding="UTF-8"?>
+          <rss version="2.0">
+              <channel>
+                  <title>Java Tutorials and Examples 1</title>
+                  <language>en-us</language>
+              </channel>
+          </rss>
+          """;
     }
   }
 

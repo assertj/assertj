@@ -20,7 +20,7 @@ import org.assertj.core.testkit.CaseInsensitiveCharSequenceComparator;
 
 class StringAssert_usingCustomComparator_Test extends StringAssertBaseTest {
 
-  private CaseInsensitiveCharSequenceComparator comparator = CaseInsensitiveCharSequenceComparator.INSTANCE;
+  private final CaseInsensitiveCharSequenceComparator comparator = CaseInsensitiveCharSequenceComparator.INSTANCE;
 
   @Override
   protected StringAssert invoke_api_method() {
@@ -29,8 +29,9 @@ class StringAssert_usingCustomComparator_Test extends StringAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(comparator).isSameAs(getObjects(assertions).getComparator())
-                          .isSameAs(getStrings(assertions).getComparator())
-                          .isSameAs(getComparables(assertions).getComparator());
+    assertThat(getComparisonStrategyComparatorOf(getObjects(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
+    assertThat(getComparisonStrategyComparatorOf(getStrings(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
+    assertThat(getComparisonStrategyComparatorOf(getComparables(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
   }
+
 }

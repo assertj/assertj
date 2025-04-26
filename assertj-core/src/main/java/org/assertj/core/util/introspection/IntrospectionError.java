@@ -12,6 +12,7 @@
  */
 package org.assertj.core.util.introspection;
 
+import java.io.Serial;
 import java.util.Optional;
 
 /**
@@ -22,6 +23,7 @@ import java.util.Optional;
  */
 public class IntrospectionError extends RuntimeException {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   /**

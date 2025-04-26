@@ -17,14 +17,13 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-import java.awt.*;
+import java.util.Locale;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link ComparatorBasedComparisonStrategy#isGreaterThan(Object, Object)}.
- * 
  * @author Joel Costigliola
  */
 class ComparatorBasedComparisonStrategy_isGreaterThan_Test extends AbstractTest_ComparatorBasedComparisonStrategy {
@@ -54,8 +53,8 @@ class ComparatorBasedComparisonStrategy_isGreaterThan_Test extends AbstractTest_
 
   @Test
   void should_fail_if_a_parameter_is_not_comparable() {
-    assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> caseInsensitiveComparisonStrategy.isGreaterThan(new Rectangle(),
-                                                                                                                         new Rectangle()));
+    assertThatExceptionOfType(ClassCastException.class).isThrownBy(() -> caseInsensitiveComparisonStrategy.isGreaterThan(Locale.ROOT,
+                                                                                                                         Locale.US));
   }
 
 }

@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-parent</artifactId>
-    <version>3.27.2-SNAPSHOT</version>
+    <version>4.0.0-M2-SNAPSHOT</version>
     <relativePath>../assertj-parent</relativePath>
   </parent>
 
@@ -24,8 +24,6 @@
     <gpg.skip>true</gpg.skip>
     <maven.install.skip>true</maven.install.skip>
     <maven.deploy.skip>true</maven.deploy.skip>
-    <!-- Dependency versions -->
-    <mockito.version>5.14.2</mockito.version>
   </properties>
 
   <build>
@@ -33,27 +31,18 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>enforce-test-only-dependencies</id>
-            <goals>
-              <goal>enforce</goal>
-            </goals>
-            <configuration>
-              <rules>
-                <bannedDependencies>
-                  <includes>
-                    <include>*:*:*:jar:test</include>
-                  </includes>
-                  <excludes>
-                    <exclude>*</exclude>
-                  </excludes>
-                </bannedDependencies>
-                <dependencyConvergence />
-              </rules>
-            </configuration>
-          </execution>
-        </executions>
+        <configuration>
+          <rules combine.children="append">
+            <bannedDependencies>
+              <includes>
+                <include>*:*:*:jar:test</include>
+              </includes>
+              <excludes>
+                <exclude>*</exclude>
+              </excludes>
+            </bannedDependencies>
+          </rules>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

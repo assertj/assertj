@@ -23,7 +23,6 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.opentest4j.MultipleFailuresError;
 
@@ -34,7 +33,7 @@ class AssertionErrorCreator_tryThrowingMultipleFailuresError_Test {
   @Test
   void should_throw_MultipleFailuresError() {
     // GIVEN
-    List<AssertionError> errors = list(new AssertionError(format("%nerror1")), new AssertionError(format("%nerror2")));
+    List<AssertionError> errors = list(new AssertionError("%nerror1".formatted()), new AssertionError("%nerror2".formatted()));
     // WHEN
     Throwable thrown = catchThrowable(() -> assertionErrorCreator.tryThrowingMultipleFailuresError(errors));
     // THEN

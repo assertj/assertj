@@ -18,11 +18,10 @@ import java.util.function.Consumer;
 
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.internal.Lists;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link List}s.
@@ -48,7 +47,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
        implements IndexedObjectEnumerableAssert<SELF, ELEMENT> {
 // @format:on
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Lists lists = Lists.instance();
 
   protected AbstractListAssert(ACTUAL actual, Class<?> selfType) {

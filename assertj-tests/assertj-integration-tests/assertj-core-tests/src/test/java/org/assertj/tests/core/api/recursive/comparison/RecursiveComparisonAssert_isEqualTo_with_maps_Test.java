@@ -22,20 +22,19 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.StandardRepresentation.registerFormatterForType;
 import static org.assertj.tests.core.testkit.Maps.mapOf;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import com.google.common.collect.ImmutableMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Stream;
-
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-
-import com.google.common.collect.ImmutableMap;
 
 class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveComparisonAssert_isEqualTo_BaseTest {
 
@@ -77,15 +76,15 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
                                                              entry(georgeMartin.name, georgeMartin));
     LinkedHashMap<String, Author> martinAndPratchett = mapOf(entry(georgeMartin.name, georgeMartin),
                                                              entry(pratchett.name, pratchett));
-    return Stream.of(Arguments.of(singletonPratchettMap, singletonPratchettMap),
-                     Arguments.of(pratchettAndMartin, pratchettAndMartin),
-                     Arguments.of(martinAndPratchett, pratchettAndMartin),
-                     Arguments.of(pratchettAndMartin, martinAndPratchett),
-                     Arguments.of(martinAndPratchettSorted, martinAndPratchettSorted),
-                     Arguments.of(martinAndPratchettSorted, martinAndPratchett),
-                     Arguments.of(singletonMap(pratchett.name, none), singletonMap(pratchett.name, none)),
-                     Arguments.of(mapOf(entry(pratchett.name, pratchett)), singletonPratchettMap),
-                     Arguments.of(empty, empty));
+    return Stream.of(arguments(singletonPratchettMap, singletonPratchettMap),
+                     arguments(pratchettAndMartin, pratchettAndMartin),
+                     arguments(martinAndPratchett, pratchettAndMartin),
+                     arguments(pratchettAndMartin, martinAndPratchett),
+                     arguments(martinAndPratchettSorted, martinAndPratchettSorted),
+                     arguments(martinAndPratchettSorted, martinAndPratchett),
+                     arguments(singletonMap(pratchett.name, none), singletonMap(pratchett.name, none)),
+                     arguments(mapOf(entry(pratchett.name, pratchett)), singletonPratchettMap),
+                     arguments(empty, empty));
   }
 
   @ParameterizedTest(name = "authors 1 {0} / authors 2 {1} / path {2} / value 1 {3}/ value 2 {4}")
@@ -111,26 +110,26 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
                                                             entry(georgeMartin.name, georgeMartin));
     Map<String, Author> singletonPratchettMap = singletonMap(pratchett.name, pratchett);
     Map<String, Author> singletonGeorgeMartinMap = singletonMap(georgeMartin.name, georgeMartin);
-    return Stream.of(Arguments.of(singletonPratchettMap, singletonGeorgeMartinMap, "map",
-                                  singletonPratchettMap, singletonGeorgeMartinMap,
-                                  format("The following keys were not found in the actual map value:%n  [\"George Martin\"]")),
-                     Arguments.of(nonSortedPratchettAndMartin, singletonPratchettMap, "map",
-                                  nonSortedPratchettAndMartin, singletonPratchettMap,
-                                  "actual and expected values are maps of different size, actual size=2 when expected size=1"),
-                     Arguments.of(sortedMartinAndPratchett, sortedPratchettMap, "map",
-                                  sortedMartinAndPratchett, sortedPratchettMap,
-                                  "actual and expected values are sorted maps of different size, actual size=2 when expected size=1"),
-                     Arguments.of(nonSortedPratchettAndMartin, sortedMartinAndPratchett, "map",
-                                  nonSortedPratchettAndMartin, sortedMartinAndPratchett,
-                                  "expected field is a sorted map but actual field is not (java.util.LinkedHashMap)"),
-                     Arguments.of(singletonMap(pratchett.name, none), singletonPratchettMap, "map.Terry Pratchett",
-                                  none, pratchett, null),
-                     Arguments.of(singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), "map",
-                                  singletonPratchettMap, singletonMap(georgeMartin.name, pratchett),
-                                  format("The following keys were not found in the actual map value:%n  [\"George Martin\"]")),
-                     Arguments.of(singletonPratchettMap, empty, "map",
-                                  singletonPratchettMap, empty,
-                                  "actual and expected values are maps of different size, actual size=1 when expected size=0"));
+    return Stream.of(arguments(singletonPratchettMap, singletonGeorgeMartinMap, "map",
+                               singletonPratchettMap, singletonGeorgeMartinMap,
+                               "The following keys were not found in the actual map value:%n  [\"George Martin\"]".formatted()),
+                     arguments(nonSortedPratchettAndMartin, singletonPratchettMap, "map",
+                               nonSortedPratchettAndMartin, singletonPratchettMap,
+                               "actual and expected values are maps of different size, actual size=2 when expected size=1"),
+                     arguments(sortedMartinAndPratchett, sortedPratchettMap, "map",
+                               sortedMartinAndPratchett, sortedPratchettMap,
+                               "actual and expected values are sorted maps of different size, actual size=2 when expected size=1"),
+                     arguments(nonSortedPratchettAndMartin, sortedMartinAndPratchett, "map",
+                               nonSortedPratchettAndMartin, sortedMartinAndPratchett,
+                               "expected field is a sorted map but actual field is not (java.util.LinkedHashMap)"),
+                     arguments(singletonMap(pratchett.name, none), singletonPratchettMap, "map.Terry Pratchett",
+                               none, pratchett, null),
+                     arguments(singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), "map",
+                               singletonPratchettMap, singletonMap(georgeMartin.name, pratchett),
+                               "The following keys were not found in the actual map value:%n  [\"George Martin\"]".formatted()),
+                     arguments(singletonPratchettMap, empty, "map",
+                               singletonPratchettMap, empty,
+                               "actual and expected values are maps of different size, actual size=1 when expected size=0"));
   }
 
   @ParameterizedTest(name = "authors {0} / object {1} / path {2} / value 1 {3}/ value 2 {4}")
@@ -153,7 +152,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison().isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessageContaining(format("The following keys were not found in the actual map value:%n  [\"c\", \"d\"]"));
+    then(assertionError).hasMessageContaining("The following keys were not found in the actual map value:%n  [\"c\", \"d\"]".formatted());
   }
 
   static Stream<Arguments> should_fail_when_comparing_map_to_non_map() {
@@ -161,9 +160,9 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     Author georgeMartin = new Author("George Martin");
     Author none = null;
     Map<String, Author> mapOfTwoAuthors = mapOf(entry(pratchett.name, pratchett), entry(georgeMartin.name, georgeMartin));
-    return Stream.of(Arguments.of(pratchett, mapOfTwoAuthors, "group", pratchett, mapOfTwoAuthors,
-                                  "expected field is a map but actual field is not (org.assertj.tests.core.api.recursive.comparison.Author)"),
-                     Arguments.of(none, mapOfTwoAuthors, "group", none, mapOfTwoAuthors, null));
+    return Stream.of(arguments(pratchett, mapOfTwoAuthors, "group", pratchett, mapOfTwoAuthors,
+                               "expected field is a map but actual field is not (org.assertj.tests.core.api.recursive.comparison.Author)"),
+                     arguments(none, mapOfTwoAuthors, "group", none, mapOfTwoAuthors, null));
   }
 
   record Item(String name, int quantity) {
@@ -174,7 +173,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends RecursiveCompar
     // GIVEN
     Map<String, Item> expectedItems = mapOf(entry("Shoes", new Item("Shoes", 2)), entry("Pants", new Item("Pants", 3)));
     Map<String, Item> actualItems = mapOf(entry("Pants", new Item("Pants", 3)), entry("Hat", new Item("Hat", 1)));
-    registerFormatterForType(Item.class, item -> String.format("Item(%s, %d)", item.name(), item.quantity()));
+    registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison()
                                                                                       .isEqualTo(expectedItems));

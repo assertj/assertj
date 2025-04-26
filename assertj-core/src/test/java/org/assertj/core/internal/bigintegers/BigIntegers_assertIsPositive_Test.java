@@ -12,12 +12,10 @@
  */
 package org.assertj.core.internal.bigintegers;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.testkit.TestData.someInfo;
 
 import java.math.BigInteger;
-
 import org.assertj.core.internal.BigIntegers;
 import org.assertj.core.internal.BigIntegersBaseTest;
 import org.junit.jupiter.api.Test;
@@ -35,13 +33,13 @@ class BigIntegers_assertIsPositive_Test extends BigIntegersBaseTest {
   @Test
   void should_fail_since_actual_is_not_positive() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsPositive(someInfo(), BigInteger.ZERO))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nto be greater than:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0%nto be greater than:%n  0%n".formatted());
   }
 
   @Test
   void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbers.assertIsPositive(someInfo(), BigInteger.ZERO))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nto be greater than:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  0%nto be greater than:%n  0%n".formatted());
   }
 
   @Test
@@ -53,7 +51,7 @@ class BigIntegers_assertIsPositive_Test extends BigIntegersBaseTest {
   void should_fail_since_actual_is_not_positive_according_to_custom_comparison_strategy() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> numbersWithComparatorComparisonStrategy.assertIsPositive(someInfo(),
                                                                                                                               BigInteger.ZERO))
-                                                   .withMessage(format("%nExpecting actual:%n  0%nto be greater than:%n  0%nwhen comparing values using BigIntegerComparator"));
+                                                   .withMessage("%nExpecting actual:%n  0%nto be greater than:%n  0%nwhen comparing values using BigIntegerComparator".formatted());
   }
 
 }

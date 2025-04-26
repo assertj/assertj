@@ -14,6 +14,7 @@ package org.assertj.core.internal.files;
 
 import static java.nio.file.Files.readAllBytes;
 import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -101,8 +102,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     // GIVEN
     MessageDigest digest = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasDigest(INFO, actual, digest, expected),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     then(npe).hasMessage("The message digest algorithm should not be null");
   }
@@ -112,8 +112,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     // GIVEN
     byte[] expected = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> underTest.assertHasDigest(INFO, actual, digest, expected),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     then(npe).hasMessage("The binary representation of digest to compare to should not be null");
   }
@@ -125,8 +124,8 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     IOException cause = new IOException();
     given(nioFilesWrapper.newInputStream(any())).willThrow(cause);
     // WHEN
-    Throwable error = catchThrowableOfType(() -> underTest.assertHasDigest(INFO, actual, digest, expected),
-                                           UncheckedIOException.class);
+    Throwable error = catchThrowableOfType(UncheckedIOException.class,
+                                           () -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     then(error).hasCause(cause);
   }

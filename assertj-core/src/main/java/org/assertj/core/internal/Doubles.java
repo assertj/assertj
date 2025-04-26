@@ -12,9 +12,10 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.Math.abs;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
-import org.assertj.core.util.VisibleForTesting;
+import static java.lang.Math.abs;
 
 /**
  * Reusable assertions for <code>{@link Double}</code>s.
@@ -36,7 +37,7 @@ public class Doubles extends RealNumbers<Double> {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Doubles() {
     super();
   }

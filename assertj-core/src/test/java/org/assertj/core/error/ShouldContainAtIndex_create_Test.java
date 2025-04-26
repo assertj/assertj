@@ -19,7 +19,7 @@ import static org.assertj.core.error.ShouldContainAtIndex.shouldContainAtIndex;
 import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
@@ -37,7 +37,7 @@ class ShouldContainAtIndex_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nExpecting actual:%n  \"Leia\"%nat index 1 but found:%n  \"Luke\"%nin:%n  [\"Yoda\", \"Luke\"]%n"));
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"Leia\"%nat index 1 but found:%n  \"Luke\"%nin:%n  [\"Yoda\", \"Luke\"]%n".formatted());
   }
 
   @Test

@@ -16,15 +16,14 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 import org.assertj.core.data.Index;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.LongArrays;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, long[], Long> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected LongArrays arrays = LongArrays.instance();
 
   protected AbstractLongArrayAssert(long[] actual, Class<?> selfType) {

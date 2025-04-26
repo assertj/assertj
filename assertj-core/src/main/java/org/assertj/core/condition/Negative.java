@@ -13,7 +13,6 @@
 package org.assertj.core.condition;
 
 import org.assertj.core.api.Condition;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Inverse the condition.
@@ -23,7 +22,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public abstract class Negative<T> extends Condition<T> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final Condition<? super T> condition;
 
   @Override

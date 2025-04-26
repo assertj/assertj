@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicIntegerArray;
 
 import org.assertj.core.api.AtomicIntegerArrayAssert;
 import org.assertj.core.api.AtomicIntegerArrayAssertBaseTest;
-import org.assertj.core.util.AbsValueComparator;
+import org.assertj.core.testkit.AbsValueComparator;
 import org.junit.jupiter.api.Test;
 
 class AtomicIntegerArrayAssert_hasArray_Test extends AtomicIntegerArrayAssertBaseTest {

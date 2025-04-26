@@ -257,7 +257,7 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * <p>
    * This is equivalent of: {@code abs(actual - expected) <= allowed difference}.
    * <p>
-   * For readability you can use {@link Assertions#withMarginOf(Duration)} to express the allowed difference.
+   * For readability, you can use {@link Assertions#withMarginOf(Duration)} to express the allowed difference.
    * <p>
    * Examples:
    * <pre><code class='java'> Duration twoMinutes = Duration.ofMinutes(2);

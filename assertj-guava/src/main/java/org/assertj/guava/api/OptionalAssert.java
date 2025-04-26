@@ -60,13 +60,12 @@ public class OptionalAssert<T> extends AbstractAssert<OptionalAssert<T>, Optiona
    * @throws AssertionError if the actual {@link Optional} is {@code null}.
    * @throws AssertionError if the actual {@link Optional} contains nothing or does not have the given value.
    */
-  @SuppressWarnings("deprecation")
   public OptionalAssert<T> contains(final Object value) {
     isNotNull();
     if (!actual.isPresent()) {
       throw assertionError(shouldBePresentWithValue(value));
     }
-    if (!areEqual(actual.get(), value)) {
+    if (!getComparisonStrategy().areEqual(actual.get(), value)) {
       throw assertionError(shouldBePresentWithValue(actual, value));
     }
     return this;

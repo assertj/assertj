@@ -52,7 +52,7 @@ class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Integer> iterator = newArrayList(1).iterator();
     // WHEN
-    AssertionError error = catchThrowableOfType(assertThat(iterator)::isExhausted, AssertionError.class);
+    AssertionError error = catchThrowableOfType(AssertionError.class, assertThat(iterator)::isExhausted);
     // THEN
     assertThat(error).hasMessageContaining(shouldBeExhausted().create());
   }
@@ -62,7 +62,7 @@ class IteratorAssert_isExhausted_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Object> iterator = null;
     // WHEN
-    AssertionError error = catchThrowableOfType(assertThat(iterator)::isExhausted, AssertionError.class);
+    AssertionError error = catchThrowableOfType(AssertionError.class, assertThat(iterator)::isExhausted);
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

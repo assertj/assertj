@@ -64,12 +64,12 @@ public class Name implements Comparable<Name> {
 
   // property without field in order to test field/property combinations
   public String getName() {
-    return String.format("%s %s", getFirst(), getLast());
+    return "%s %s".formatted(getFirst(), getLast());
   }
 
   @Override
   public String toString() {
-    return String.format("%s[first='%s', last='%s']", getClass().getSimpleName(), first, last);
+    return "%s[first='%s', last='%s']".formatted(getClass().getSimpleName(), first, last);
   }
 
   @Override

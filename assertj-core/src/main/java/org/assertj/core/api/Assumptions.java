@@ -83,6 +83,7 @@ import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.PreferredAssumptionException;
 import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.Throwables;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
@@ -120,8 +121,8 @@ public class Assumptions {
     public static Object intercept(@This AbstractAssert<?, ?> assertion, @SuperCall Callable<Object> proxy) throws Exception {
       try {
         Object result = proxy.call();
-        if (result != assertion && result instanceof AbstractAssert) {
-          return asAssumption((AbstractAssert<?, ?>) result).withAssertionState(assertion);
+        if (result != assertion && result instanceof AbstractAssert<?, ?> abstractAssert) {
+          return asAssumption(abstractAssert).withAssertionState(assertion);
         }
         return result;
       } catch (AssertionError e) {
@@ -1161,7 +1162,7 @@ public class Assumptions {
    * @since 3.9.0
    */
   public static AbstractThrowableAssert<?, ? extends Throwable> assumeThatCode(ThrowingCallable shouldRaiseOrNotThrowable) {
-    return assumeThat(catchThrowable(shouldRaiseOrNotThrowable));
+    return assumeThat(Throwables.catchThrowable(shouldRaiseOrNotThrowable));
   }
 
   /**

@@ -15,6 +15,7 @@ package org.assertj.core.api.abstract_;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
@@ -64,7 +65,7 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     ThrowingConsumer<FileReader> hasReachedEOF = reader -> assertThat(reader.read()).isEqualTo(-1);
     ThrowingConsumer<FileReader> startsWithZ = reader -> assertThat(reader.read()).isEqualTo('Z');
     // THEN
-    then(new FileReader("src/test/resources/empty.txt")).satisfiesAnyOf(hasReachedEOF, startsWithZ);
+    then(new FileReader(resourceFile("empty.txt"))).satisfiesAnyOf(hasReachedEOF, startsWithZ);
   }
 
   @Test
@@ -73,7 +74,7 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     ThrowingConsumer<FileReader> hasNotReachedEOF = reader -> assertThat(reader.read()).isPositive();
     ThrowingConsumer<FileReader> startsWitha = reader -> assertThat(reader.read()).isEqualTo('a');
     // THEN
-    then(new FileReader("src/test/resources/ascii.txt")).satisfiesAnyOf(hasNotReachedEOF, startsWitha);
+    then(new FileReader(resourceFile("ascii.txt"))).satisfiesAnyOf(hasNotReachedEOF, startsWitha);
   }
 
   @Test
@@ -82,7 +83,7 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     ThrowingConsumer<Reader> hasNotReachedEOF = reader -> assertThat(reader.read()).isPositive();
     ThrowingConsumer<Object> notNullObject = object -> assertThat(object).isNotNull();
     // THEN
-    then(new FileReader("src/test/resources/ascii.txt")).satisfiesAnyOf(hasNotReachedEOF, notNullObject);
+    then(new FileReader(resourceFile("ascii.txt"))).satisfiesAnyOf(hasNotReachedEOF, notNullObject);
   }
 
   @Test
@@ -91,8 +92,8 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     ThrowingConsumer<FileReader> hasReachedEOF = reader -> assertThat(reader.read()).isEqualTo(-1);
     ThrowingConsumer<FileReader> startsWithZ = reader -> assertThat(reader.read()).isEqualTo('Z');
     // WHEN/THEN
-    expectAssertionError(() -> assertThat(new FileReader("src/test/resources/ascii.txt")).satisfiesAnyOf(hasReachedEOF,
-                                                                                                         startsWithZ));
+    expectAssertionError(() -> assertThat(new FileReader(resourceFile("ascii.txt"))).satisfiesAnyOf(hasReachedEOF,
+                                                                                                    startsWithZ));
   }
 
   @Test
@@ -100,8 +101,8 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     // GIVEN
     ThrowingConsumer<FileReader> hasReachedEOF = reader -> assertThat(reader.read()).isEqualTo(-1);
     // WHEN/THEN
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(new FileReader("src/test/resources/empty.txt")).satisfiesAnyOf(hasReachedEOF,
-                                                                                                                                    null))
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(new FileReader(resourceFile("empty.txt"))).satisfiesAnyOf(hasReachedEOF,
+                                                                                                                               null))
                                         .withMessage("No assertions group should be null");
   }
 

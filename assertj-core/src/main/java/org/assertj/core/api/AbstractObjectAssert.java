@@ -28,11 +28,11 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.util.CheckReturnValue;
@@ -54,7 +54,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  */
 // suppression of deprecation works in Eclipse to hide warning for the deprecated classes in the imports
 public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SELF, ACTUAL>, ACTUAL>
-    extends AbstractAssert<SELF, ACTUAL> {
+    extends AbstractAssertWithComparator<SELF, ACTUAL> {
 
   private Map<String, Comparator<?>> comparatorsByPropertyOrField = new TreeMap<>();
   private TypeComparators comparatorsByType;
@@ -73,223 +73,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public SELF as(String description, Object... args) {
     return super.as(description, args);
-  }
-
-  /**
-   * {@link RecursiveComparisonAssert#ignoringExpectedNullFields() ignoringExpectedNullFields()}.
-   * <p>
-   * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
-   * fields recursively (only stopping at java types).
-   * <p>
-   * For example suppose actual and expected are of type A which has the following structure:
-   * <pre><code class="text"> A
-   * |— B b
-   * |    |— String s
-   * |    |— C c
-   * |         |— String s
-   * |         |— Date d
-   * |— int i</code></pre>
-   * {@code isEqualToIgnoringNullFields} will compare actual and expected {@code A.b} and {@code A.i} fields but not B fields
-   * (it calls B equals method instead comparing B fields).<br>
-   * The recursive comparison on the other hand will introspect B fields and then C fields and will compare actual and expected
-   * respective fields values, that is: {@code A.i}, {@code A.B.s}, {@code A.B.C.s} and {@code A.B.C.d}.
-   * <p>
-   * Concretely instead of writing:
-   * <pre><code class='java'> assertThat(actual).isEqualToIgnoringNullFields(expected);</code></pre>
-   * You should write:
-   * <pre><code class='java'> assertThat(actual).usingRecursiveComparison()
-   *                   .ignoringExpectedNullFields()
-   *                   .isEqualTo(expected);</code></pre>
-   * <p>
-   * Note that the recursive comparison also allows to ignore actual's null fields with
-   * {@link RecursiveComparisonAssert#ignoringActualNullFields() ignoringActualNullFields()}.
-   * <b>Original javadoc</b>
-   * <p>
-   * Asserts that the actual object is equal to the given one by comparing actual's properties/fields with other's
-   * <b>not null</b> properties/fields only (including inherited ones).
-   * <p>
-   * It means that if an actual field is not null and the corresponding field in other is null, this field will be
-   * ignored in comparison, but the opposite will make assertion fail (null field in actual, not null in other) as
-   * the field is used in the performed comparison and the values differ.
-   * <p>
-   * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
-   * field using its {@code equals} method.
-   * <p>
-   * If an object has a field and a property with the same name, the property value will be used over the field.
-   * <p>
-   * Private fields are used in comparison but this can be disabled using
-   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible</b> fields values are
-   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
-   * <p>
-   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
-   * for example if actual object has a name String field, it is expected other object to also have one.
-   * <p>
-   * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter mysteriousHobbit = new TolkienCharacter(null, 33, HOBBIT);
-   *
-   * // Null fields in other/expected object are ignored, the mysteriousHobbit has null name thus name is ignored
-   * assertThat(frodo).isEqualToIgnoringNullFields(mysteriousHobbit); // OK
-   *
-   * // ... but this is not reversible !
-   * assertThat(mysteriousHobbit).isEqualToIgnoringNullFields(frodo); // FAIL</code></pre>
-   *
-   * @param other the object to compare {@code actual} to.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the actual or other object is {@code null}.
-   * @throws AssertionError       if the actual and the given object are not lenient equals.
-   * @throws IntrospectionError   if one of actual's field to compare can't be found in the other object.
-   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
-   */
-  @Deprecated
-  public SELF isEqualToIgnoringNullFields(Object other) {
-    objects.assertIsEqualToIgnoringNullFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType());
-    return myself;
-  }
-
-  /**
-   * <p>
-   * <b>Warning:</b> the recursive comparison does not provide a strictly equivalent feature, instead it provides several ways to ignore
-   * fields in the comparison {@link RecursiveComparisonAssert#ignoringFields(String...) by specifying fields to ignore}, or
-   * {@link RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...) fields by type} or
-   * {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) fields matching regexes}. The idea being that it is best
-   * to compare as many fields as possible and only ignore the ones that are not relevant (for example generated ids).
-   * <p>
-   * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
-   * fields recursively (only stopping at java types).
-   * <p>
-   * For example suppose actual and expected are of type A which has the following structure:
-   * <pre><code class="text"> A
-   * |— B b
-   * |    |— String s
-   * |    |— C c
-   * |         |— String s
-   * |         |— Date d
-   * |— int i</code></pre>
-   * {@code isEqualToComparingOnlyGivenFields} will compare actual and expected {@code A.b} and {@code A.i} fields but not B fields
-   * (it calls B equals method instead comparing B fields).<br>
-   * The recursive comparison on the other hand will introspect B fields and then C fields and will compare actual and expected
-   * respective fields values, that is: {@code A.i}, {@code A.B.s}, {@code A.B.C.s} and {@code A.B.C.d}.
-   * <p>
-   * Assuming actual has 4 fields f1, f2, f3, f4, instead of writing:
-   * <pre><code class='java'> assertThat(actual).isEqualToComparingOnlyGivenFields(expected, f1, f2);</code></pre>
-   * You should write:
-   * <pre><code class='java'> assertThat(actual).usingRecursiveComparison()
-   *                   .ignoringFields(f3, f4)
-   *                   .isEqualTo(expected);</code></pre>
-   * <b>Original javadoc</b>
-   * <p>
-   * Asserts that the actual object is equal to the given one using a property/field by property/field comparison <b>on the given properties/fields only</b>
-   * (fields can be inherited fields or nested fields). This can be handy if {@code equals} implementation of objects to compare does not suit you.
-   * <p>
-   * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
-   * field using its {@code equals} method.
-   * <p>
-   * If an object has a field and a property with the same name, the property value will be used over the  field.
-   * <p>
-   * Private fields are used in comparison but this can be disabled using
-   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
-   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
-   * <p>
-   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
-   * for example if actual object has a name String field, it is expected the other object to also have one.
-   * <p>
-   * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT);
-   * TolkienCharacter sam = new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT);
-   *
-   * // frodo and sam both are hobbits, so they are equals when comparing only race
-   * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;race&quot;); // OK
-   *
-   * // they are also equals when comparing only race name (nested field).
-   * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;race.name&quot;); // OK
-   *
-   * // ... but not when comparing both name and race
-   * assertThat(frodo).isEqualToComparingOnlyGivenFields(sam, &quot;name&quot;, &quot;race&quot;); // FAIL</code></pre>
-   *
-   * @param other                              the object to compare {@code actual} to.
-   * @param propertiesOrFieldsUsedInComparison properties/fields used in comparison.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the actual or other is {@code null}.
-   * @throws AssertionError       if the actual and the given objects are not equals property/field by property/field on given fields.
-   * @throws IntrospectionError   if one of actual's property/field to compare can't be found in the other object.
-   * @throws IntrospectionError   if a property/field does not exist in actual.
-   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and specify the fields to ignore.
-   */
-  @Deprecated
-  public SELF isEqualToComparingOnlyGivenFields(Object other, String... propertiesOrFieldsUsedInComparison) {
-    objects.assertIsEqualToComparingOnlyGivenFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType(),
-                                                    propertiesOrFieldsUsedInComparison);
-    return myself;
-  }
-
-  /**
-   * Asserts that the actual object is equal to the given one by comparing their properties/fields <b>except for the given ones</b>
-   * (inherited ones are taken into account). This can be handy if {@code equals} implementation of objects to compare does not suit you.
-   * <p>
-   * Note that comparison is <b>not</b> recursive, if one of the property/field is an Object, it will be compared to the other
-   * field using its {@code equals} method.
-   * <p>
-   * If an object has a field and a property with the same name, the property value will be used over the  field.
-   * <p>
-   * Private fields are used in comparison but this can be disabled using
-   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
-   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
-   * <p>
-   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
-   * for example if actual object has a name String field, it is expected the other object to also have one.
-   * <p>
-   * Example:
-   * <pre><code class='java'> TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter sam = new TolkienCharacter("Sam", 38, HOBBIT);
-   *
-   * // frodo and sam are equals when ignoring name and age since the only remaining field is race which they share as HOBBIT.
-   * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "name", "age"); // OK
-   *
-   * // ... but they are not equals if only age is ignored as their names differ.
-   * assertThat(frodo).isEqualToIgnoringGivenFields(sam, "age"); // FAIL</code></pre>
-   *
-   * @param other                      the object to compare {@code actual} to.
-   * @param propertiesOrFieldsToIgnore ignored properties/fields to ignore in comparison.
-   * @return {@code this} assertion object.
-   * @throws NullPointerException if the actual or given object is {@code null}.
-   * @throws AssertionError       if the actual and the given objects are not equals property/field by property/field after ignoring given fields.
-   * @throws IntrospectionError   if one of actual's property/field to compare can't be found in the other object.
-   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()} and chain with
-   * {@link RecursiveComparisonAssert#ignoringFields(String...) ignoringFields(String...)}.
-   * <p>
-   * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
-   * fields recursively (only stopping at java types).
-   * <p>
-   * For example suppose actual and expected are of type A which has the following structure:
-   * <pre><code class="text"> A
-   * |— B b
-   * |    |— String s
-   * |    |— C c
-   * |         |— String s
-   * |         |— Date d
-   * |— int i</code></pre>
-   * {@code isEqualToIgnoringGivenFields} will compare actual and expected {@code A.b} and {@code A.i} fields but not B fields
-   * (it calls B equals method instead comparing B fields).<br>
-   * The recursive comparison on the other hand will introspect B fields and then C fields and will compare actual and expected
-   * respective fields values, that is: {@code A.i}, {@code A.B.s}, {@code A.B.C.s} and {@code A.B.C.d}.
-   * <p>
-   * Concretely instead of writing:
-   * <pre><code class='java'> assertThat(actual).isEqualToIgnoringGivenFields(expected, "i", "b.s");</code></pre>
-   * You should write:
-   * <pre><code class='java'> assertThat(actual).usingRecursiveComparison()
-   *                   .ignoringFields("i", "b.s")
-   *                   .isEqualTo(expected);</code></pre>
-   * <p>
-   * Note that the recursive comparison also allows to ignore fields
-   * {@link RecursiveComparisonAssert#ignoringFieldsOfTypes(Class...) by type} or
-   * {@link RecursiveComparisonAssert#ignoringFieldsMatchingRegexes(String...) matching regexes}.
-   */
-  @Deprecated
-  public SELF isEqualToIgnoringGivenFields(Object other, String... propertiesOrFieldsToIgnore) {
-    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType(),
-                                               propertiesOrFieldsToIgnore);
-    return myself;
   }
 
   /**
@@ -410,128 +193,10 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     return myself;
   }
 
-  /**
-   * @deprecated Use the recursive comparison by calling {@link #usingRecursiveComparison()}.
-   * <p>
-   * This method is deprecated because it only compares the first level of fields while the recursive comparison traverses all
-   * fields recursively (only stopping at java types).
-   * <p>
-   * For example suppose actual and expected are of type A which has the following structure:
-   * <pre><code class="text"> A
-   * |— B b
-   * |    |— String s
-   * |    |— C c
-   * |         |— String s
-   * |         |— Date d
-   * |— int i</code> </pre>
-   * {@code isEqualToComparingFieldByField} will compare actual and expected {@code A.b} and {@code A.i} fields but not B fields
-   * (it calls B equals method instead comparing B fields).<br>
-   * The recursive comparison on the other hand will introspect B fields and then C fields and will compare actual and expected
-   * respective fields values, that is: {@code A.i}, {@code A.B.s}, {@code A.B.C.s} and {@code A.B.C.d}.
-   * <p>
-   * Concretely instead of writing:
-   * <pre><code class='java'> assertThat(actual).isEqualToComparingFieldByField(expected);</code></pre>
-   * You should write:
-   * <pre><code class='java'> assertThat(actual).usingRecursiveComparison()
-   *                   .isEqualTo(expected);</code></pre>
-   * <b>Original javadoc</b>
-   * <p>
-   * Asserts that actual object is equal to the given object based on a property/field by property/field comparison (including
-   * inherited ones). This can be handy if {@code equals} implementation of objects to compare does not suit you.
-   * <p>
-   * Note that comparison is <b>not</b> recursive, if one of the field is an Object, it will be compared to the other
-   * field using its {@code equals} method.
-   * <p>
-   * If an object has a field and a property with the same name, the property value will be used over the field.
-   * <p>
-   * Private fields are used in comparison but this can be disabled using
-   * {@link Assertions#setAllowComparingPrivateFields(boolean)}, if disabled only <b>accessible </b>fields values are
-   * compared, accessible fields include directly accessible fields (e.g. public) or fields with an accessible getter.
-   * <p>
-   * The objects to compare can be of different types but the properties/fields used in comparison must exist in both,
-   * for example if actual object has a name String field, it is expected the other object to also have one.
-   * <p>
-   * Example:
-   * <pre><code class='java'> // equals not overridden in TolkienCharacter
-   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
-   *
-   * // Fail as equals compares object references
-   * assertThat(frodo).isEqualTo(frodoClone);
-   *
-   * // frodo and frodoClone are equals when doing a field by field comparison.
-   * assertThat(frodo).isEqualToComparingFieldByField(frodoClone);</code></pre>
-   */
-  @Deprecated
-  public SELF isEqualToComparingFieldByField(Object other) {
-    objects.assertIsEqualToIgnoringGivenFields(info, actual, other, comparatorsByPropertyOrField, getComparatorsByType());
-    return myself;
-  }
-
   // lazy init TypeComparators
   protected TypeComparators getComparatorsByType() {
     if (comparatorsByType == null) comparatorsByType = defaultTypeComparators();
     return comparatorsByType;
-  }
-
-  /**
-   * Allows to set a specific comparator to compare properties or fields with the given names.
-   * A typical usage is for comparing double/float fields with a given precision.
-   * <p>
-   * Comparators specified by this method have precedence over comparators added by {@link #usingComparatorForType}.
-   * <p>
-   * The comparators specified by this method are only used for field by field comparison like {@link #isEqualToComparingFieldByField(Object)}.
-   * <p>
-   * When used with {@link #isEqualToComparingFieldByFieldRecursively(Object)}, the fields/properties must be specified from the root object,
-   * for example if Foo class as a Bar field and Bar class has an id, to set a comparator for Bar's id use {@code "bar.id"}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> public class TolkienCharacter {
-   *   private String name;
-   *   private double height;
-   *   // constructor omitted
-   * }
-   * TolkienCharacter frodo = new TolkienCharacter(&quot;Frodo&quot;, 1.2);
-   * TolkienCharacter tallerFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.3);
-   * TolkienCharacter reallyTallFrodo = new TolkienCharacter(&quot;Frodo&quot;, 1.9);
-   *
-   * Comparator&lt;Double&gt; closeEnough = new Comparator&lt;Double&gt;() {
-   *   double precision = 0.5;
-   *   public int compare(Double d1, Double d2) {
-   *     return Math.abs(d1 - d2) &lt;= precision ? 0 : 1;
-   *   }
-   * };
-   *
-   * // assertions will pass
-   * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
-   *                  .isEqualToComparingFieldByField(tallerFrodo);
-   *
-   * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
-   *                  .isEqualToIgnoringNullFields(tallerFrodo);
-   *
-   * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
-   *                  .isEqualToIgnoringGivenFields(tallerFrodo);
-   *
-   * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
-   *                  .isEqualToComparingOnlyGivenFields(tallerFrodo);
-   *
-   * // assertion will fail
-   * assertThat(frodo).usingComparatorForFields(closeEnough, &quot;height&quot;)
-   *                  .isEqualToComparingFieldByField(reallyTallFrodo);</code></pre>
-   *
-   * @param <T>                the type of values to compare.
-   * @param comparator         the {@link Comparator} to use
-   * @param propertiesOrFields the names of the properties and/or fields the comparator should be used for
-   * @return {@code this} assertions object
-   * @deprecated reason: only used in deprecated assertions which are replaced by the {@link #usingRecursiveComparison()} recursive comparison}. Will be removed in AssertJ 4.0
-   */
-  @Deprecated
-  @CheckReturnValue
-  public <T> SELF usingComparatorForFields(Comparator<T> comparator, String... propertiesOrFields) {
-    for (String propertyOrField : propertiesOrFields) {
-      comparatorsByPropertyOrField.put(propertyOrField, comparator);
-    }
-    return myself;
   }
 
   /**
@@ -568,7 +233,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @param type       the {@link Class} of the type the comparator should be used for
    * @param <T>        the type of objects that the comparator should be used for
    * @return {@code this} assertions object
-   * @see #isEqualToComparingFieldByField(Object)
    * @see #returns(Object, Function)
    * @see #doesNotReturn(Object, Function)
    */
@@ -958,83 +622,6 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Asserts that the object under test (actual) is equal to the given object based on a recursive property/field by property/field comparison (including
-   * inherited ones). This can be useful if actual's {@code equals} implementation does not suit you.
-   * The recursive property/field comparison is <b>not</b> applied on fields having a custom {@code equals} implementation, i.e.
-   * the overridden {@code equals} method will be used instead of a field by field comparison.
-   * <p>
-   * The recursive comparison handles cycles. By default {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
-   * <p>
-   * You can specify a custom comparator per (nested) fields or type with respectively {@link #usingComparatorForFields(Comparator, String...) usingComparatorForFields(Comparator, String...)}
-   * and {@link #usingComparatorForType(Comparator, Class)}.
-   * <p>
-   * The objects to compare can be of different types but must have the same properties/fields. For example if actual object has a name String field, it is expected the other object to also have one.
-   * If an object has a field and a property with the same name, the property value will be used over the field.
-   * <p>
-   * Example:
-   * <pre><code class='java'> public class Person {
-   *   public String name;
-   *   public double height;
-   *   public Home home = new Home();
-   *   public Person bestFriend;
-   *   // constructor with name and height omitted for brevity
-   * }
-   *
-   * public class Home {
-   *   public Address address = new Address();
-   * }
-   *
-   * public static class Address {
-   *   public int number = 1;
-   * }
-   *
-   * Person jack = new Person("Jack", 1.80);
-   * jack.home.address.number = 123;
-   *
-   * Person jackClone = new Person("Jack", 1.80);
-   * jackClone.home.address.number = 123;
-   *
-   * // cycle are handled in comparison
-   * jack.bestFriend = jackClone;
-   * jackClone.bestFriend = jack;
-   *
-   * // will fail as equals compares object references
-   * assertThat(jack).isEqualTo(jackClone);
-   *
-   * // jack and jackClone are equals when doing a recursive field by field comparison
-   * assertThat(jack).isEqualToComparingFieldByFieldRecursively(jackClone);
-   *
-   * // any type/field can be compared with a a specific comparator.
-   * // let's change  jack's height a little bit
-   * jack.height = 1.81;
-   *
-   * // assertion fails because of the height difference
-   * // (the default precision comparison for double is 1.0E-15)
-   * assertThat(jack).isEqualToComparingFieldByFieldRecursively(jackClone);
-   *
-   * // this succeeds because we allow a 0.5 tolerance on double
-   * assertThat(jack).usingComparatorForType(new DoubleComparator(0.5), Double.class)
-   *                 .isEqualToComparingFieldByFieldRecursively(jackClone);
-   *
-   * // you can set a comparator on specific fields (nested fields are supported)
-   * assertThat(jack).usingComparatorForFields(new DoubleComparator(0.5), "height")
-   *                 .isEqualToComparingFieldByFieldRecursively(jackClone);</code></pre>
-   *
-   * @param other the object to compare {@code actual} to.
-   * @return {@code this} assertion object.
-   * @throws AssertionError     if the actual object is {@code null}.
-   * @throws AssertionError     if the actual and the given objects are not deeply equal property/field by property/field.
-   * @throws IntrospectionError if one property/field to compare can not be found.
-   * @deprecated Prefer calling {@link #usingRecursiveComparison()} for comparing objects field by field as it offers more flexibility, better reporting and an easier to use API.
-   */
-  @Deprecated
-  public SELF isEqualToComparingFieldByFieldRecursively(Object other) {
-    objects.assertIsEqualToComparingFieldByFieldRecursively(info, actual, other, comparatorsByPropertyOrField,
-                                                            getComparatorsByType());
-    return myself;
-  }
-
-  /**
    * Verifies that the object under test returns the given expected value from the given {@link Function},
    * a typical usage is to pass a method reference to assert object's property.
    * <p>
@@ -1293,8 +880,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @SuppressWarnings({ "rawtypes" })
   @Override
   SELF withAssertionState(AbstractAssert assertInstance) {
-    if (assertInstance instanceof AbstractObjectAssert) {
-      AbstractObjectAssert objectAssert = (AbstractObjectAssert) assertInstance;
+    if (assertInstance instanceof AbstractObjectAssert objectAssert) {
       return (SELF) super.withAssertionState(assertInstance).withTypeComparator(objectAssert.comparatorsByType)
                                                             .withComparatorByPropertyOrField(objectAssert.comparatorsByPropertyOrField);
     }

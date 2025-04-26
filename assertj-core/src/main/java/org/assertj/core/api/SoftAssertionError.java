@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.error.AssertionErrorMessagesAggregator.aggregateErrorMessages;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -24,7 +25,10 @@ import java.util.List;
  * 
  */
 public class SoftAssertionError extends AssertionError {
+
+  @Serial
   private static final long serialVersionUID = 5034494920024670595L;
+
   private final List<String> errors;
 
   /**

@@ -36,8 +36,9 @@ class JUnitSoftAssertionsFailureTest {
     softly.assertThat(1).isEqualTo(2);
     softly.assertThat(list(1, 2)).containsOnly(1, 3);
     // WHEN simulating the rule
-    MultipleFailuresError multipleFailuresError = catchThrowableOfType(() -> softly.apply(mock(Statement.class), null).evaluate(),
-                                                                       MultipleFailuresError.class);
+    MultipleFailuresError multipleFailuresError = catchThrowableOfType(MultipleFailuresError.class,
+                                                                       () -> softly.apply(mock(Statement.class), null)
+                                                                                   .evaluate());
     // THEN
     List<Throwable> failures = multipleFailuresError.getFailures();
     assertThat(failures).hasSize(2);

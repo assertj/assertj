@@ -27,45 +27,6 @@ public final class Objects {
   public static final int HASH_CODE_PRIME = 31;
 
   /**
-   * Returns {@code true} if the arguments are deeply equal to each other, {@code false} otherwise.
-   * <p>
-   * Two {@code null} values are deeply equal. If both arguments are arrays, the algorithm in
-   * {@link java.util.Arrays#deepEquals} is used to determine equality.
-   * Otherwise, equality is determined by using the {@link Object#equals} method of the first argument.
-   *
-   * @param o1 an object.
-   * @param o2 an object to be compared with {@code o1} for deep equality.
-   * @return {@code true} if the arguments are deeply equal to each other, {@code false} otherwise.
-   * 
-   * @deprecated Use {@link java.util.Objects#deepEquals(Object, Object)} instead.
-   */
-  @Deprecated
-  public static boolean areEqual(Object o1, Object o2) {
-    return java.util.Objects.deepEquals(o1, o2);
-  }
-
-  /**
-   * Returns {@code true} if the arguments are arrays and deeply equal to each other, {@code false} otherwise.
-   * <p>
-   * Once verified that the arguments are arrays, the algorithm in {@link java.util.Arrays#deepEquals} is used
-   * to determine equality.
-   *
-   * @param o1 an object.
-   * @param o2 an object to be compared with {@code o1} for deep equality.
-   * @return {@code true} if the arguments are arrays and deeply equal to each other, {@code false} otherwise.
-   *
-   * @deprecated Use either {@link java.util.Objects#deepEquals(Object, Object)} or
-   *             {@link java.util.Arrays#deepEquals(Object[], Object[])}.
-   */
-  @Deprecated
-  public static boolean areEqualArrays(Object o1, Object o2) {
-    if (!isArray(o1) || !isArray(o2)) {
-      return false;
-    }
-    return java.util.Objects.deepEquals(o1, o2);
-  }
-
-  /**
    * Returns an array containing the names of the given types.
    *
    * @param types the given types.

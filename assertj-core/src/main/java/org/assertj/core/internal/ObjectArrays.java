@@ -33,8 +33,9 @@ import java.util.stream.Stream;
 import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for arrays of objects.
@@ -59,7 +60,7 @@ public class ObjectArrays {
 
   private Arrays arrays = Arrays.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ObjectArrays() {
     this(StandardComparisonStrategy.instance());
   }
@@ -68,25 +69,25 @@ public class ObjectArrays {
     setArrays(new Arrays(comparisonStrategy));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   void setArrays(Arrays arrays) {
     this.arrays = arrays;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
     return arrays.getComparator();
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public ComparisonStrategy getComparisonStrategy() {
     return arrays.getComparisonStrategy();
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
 
   /**

@@ -105,11 +105,13 @@ import java.util.function.Predicate;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.error.UnsatisfiedRequirement;
 import org.assertj.core.error.ZippedElementsShouldSatisfy.ZipSatisfyError;
 import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Iterable}</code>s.
@@ -125,11 +127,11 @@ public class Iterables {
 
   private static final Iterables INSTANCE = new Iterables();
   private final ComparisonStrategy comparisonStrategy;
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Predicates predicates = Predicates.instance();
 
   /**
@@ -141,7 +143,7 @@ public class Iterables {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Iterables() {
     this(StandardComparisonStrategy.instance());
   }
@@ -150,15 +152,15 @@ public class Iterables {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
+      return strategy.getComparator();
     }
     return null;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }
@@ -351,7 +353,7 @@ public class Iterables {
   }
 
   private static Collection<?> ensureActualCanBeReadMultipleTimes(Iterable<?> actual) {
-    return actual instanceof Collection<?> ? (Collection<?>) actual : newArrayList(actual);
+    return actual instanceof Collection<?> collection ? collection : newArrayList(actual);
   }
 
   private void assertIterableContainsGivenValues(@SuppressWarnings("rawtypes") Class<? extends Iterable> clazz,
@@ -1182,8 +1184,7 @@ public class Iterables {
     requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
 
     List<UnsatisfiedRequirement> unsatisfiedRequirements = stream(actual).map(element -> failsRequirements(requirements, element))
-                                                                         .filter(Optional::isPresent)
-                                                                         .map(Optional::get)
+                                                                         .flatMap(Optional::stream)
                                                                          .collect(toList());
     if (!unsatisfiedRequirements.isEmpty())
       throw failures.failure(info, elementsShouldSatisfy(actual, unsatisfiedRequirements, info));
@@ -1284,8 +1285,7 @@ public class Iterables {
 
     List<ZipSatisfyError> errors = stream(actual).map(actualElement -> failsZipRequirements(actualElement, otherIterator.next(),
                                                                                             zipRequirements))
-                                                 .filter(Optional::isPresent)
-                                                 .map(Optional::get)
+                                                 .flatMap(Optional::stream)
                                                  .collect(toList());
     if (!errors.isEmpty()) throw failures.failure(info, zippedElementsShouldSatisfy(info, actual, other, errors));
   }
@@ -1308,7 +1308,7 @@ public class Iterables {
     List<UnsatisfiedRequirement> unsatisfiedRequirements = new ArrayList<>();
     for (E element : actual) {
       Optional<UnsatisfiedRequirement> result = failsRequirements(requirements, element);
-      if (!result.isPresent()) return; // element satisfied the requirements
+      if (result.isEmpty()) return; // element satisfied the requirements
       unsatisfiedRequirements.add(result.get());
     }
 
@@ -1332,8 +1332,7 @@ public class Iterables {
     assertNotNull(info, actual);
     requireNonNull(restrictions, "The Consumer<T> expressing the restrictions must not be null");
     List<E> erroneousElements = stream(actual).map(element -> failsRestrictions(element, restrictions))
-                                              .filter(Optional::isPresent)
-                                              .map(Optional::get)
+                                              .flatMap(Optional::stream)
                                               .collect(toList());
     if (!erroneousElements.isEmpty()) throw failures.failure(info, noElementsShouldSatisfy(actual, erroneousElements));
   }

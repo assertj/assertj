@@ -30,6 +30,7 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.ThrowableAssert;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -51,7 +52,7 @@ public final class Throwables {
     if (cause == null) return throwable.getMessage();
     // error has a cause, display the cause message and the first stack trace elements.
     String stackTraceDescription = stream(cause.getStackTrace()).limit(5)
-                                                                .map(stackTraceElement -> format("\tat %s%n", stackTraceElement))
+                                                                .map(stackTraceElement -> "\tat %s%n".formatted(stackTraceElement))
                                                                 .collect(joining());
     return format("%s%n" +
                   "cause message: %s%n" +
@@ -64,6 +65,21 @@ public final class Throwables {
 
   public static List<String> describeErrors(List<? extends Throwable> errors) {
     return extract(errors, ERROR_DESCRIPTION_EXTRACTOR);
+  }
+
+  /**
+   * Allows catching a {@link Throwable} more easily when used with Java 8 lambdas.
+   *
+   * @param shouldRaiseThrowable The lambda with the code that should raise the throwable.
+   * @return The captured throwable or null if no throwable was raised.
+   */
+  public static Throwable catchThrowable(ThrowableAssert.ThrowingCallable shouldRaiseThrowable) {
+    try {
+      shouldRaiseThrowable.call();
+    } catch (Throwable throwable) {
+      return throwable;
+    }
+    return null;
   }
 
   /**
@@ -300,11 +316,11 @@ public final class Throwables {
     String testClassName = simpleClassNameOf(testStackTraceElement);
     String testName = testStackTraceElement.getMethodName();
     int lineNumber = testStackTraceElement.getLineNumber();
-    String atLineNumber = format("at %s.%s(%s.java:%s)", testClassName, testName, testClassName, lineNumber);
+    String atLineNumber = "at %s.%s(%s.java:%s)".formatted(testClassName, testName, testClassName, lineNumber);
     if (originalErrorMessage.contains(atLineNumber)) {
       return originalErrorMessage;
     }
-    return format(originalErrorMessage.endsWith(format("%n")) ? "%s%s" : "%s%n%s", originalErrorMessage, atLineNumber);
+    return format(originalErrorMessage.endsWith("%n".formatted()) ? "%s%s" : "%s%n%s", originalErrorMessage, atLineNumber);
   }
 
   private static String simpleClassNameOf(StackTraceElement testStackTraceElement) {

@@ -14,7 +14,6 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldBeNormalized.SHOULD_BE_NORMALIZED;
 import static org.assertj.core.error.ShouldBeNormalized.shouldBeNormalized;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
@@ -34,6 +33,6 @@ class ShouldBeNormalized_create_Test {
     // WHEN
     String actualMessage = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(format("[Test] " + SHOULD_BE_NORMALIZED, actual));
+    then(actualMessage).isEqualTo(format("[Test] Expected path:%n  %s%nto be normalized.", actual));
   }
 }

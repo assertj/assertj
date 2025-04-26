@@ -13,14 +13,13 @@
 package org.assertj.core.api;
 
 import org.assertj.core.internal.Objects;
-import org.assertj.core.util.VisibleForTesting;
 import org.opentest4j.AssertionFailedError;
 
 /**
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
-public class ConcreteAssert extends AbstractAssert<ConcreteAssert, Object> {
+public class ConcreteAssert extends AbstractAssertWithComparator<ConcreteAssert, Object> {
 
   public ConcreteAssert(Object actual) {
     super(actual, ConcreteAssert.class);
@@ -48,25 +47,21 @@ public class ConcreteAssert extends AbstractAssert<ConcreteAssert, Object> {
     return this;
   }
 
-  @VisibleForTesting
   @Override
   public void failWithMessage(String errorMessage, Object... arguments) {
     super.failWithMessage(errorMessage, arguments);
   }
 
-  @VisibleForTesting
   @Override
   public void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessage, Object... arguments) {
     super.failWithActualExpectedAndMessage(actual, expected, errorMessage, arguments);
   }
 
-  @VisibleForTesting
   @Override
   public AssertionError failure(String errorMessage, Object... arguments) {
     return super.failure(errorMessage, arguments);
   }
 
-  @VisibleForTesting
   @Override
   public AssertionFailedError failureWithActualExpected(Object actual, Object expected, String errorMessage,
                                                         Object... arguments) {

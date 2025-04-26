@@ -12,16 +12,14 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.Strings.escapePercent;
 
 import java.util.List;
-
 import org.assertj.core.configuration.Configuration;
-import org.assertj.core.internal.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.internal.IndexedDiff;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies a group of elements contains exactly a given set
@@ -160,12 +158,13 @@ public class ShouldContainExactly extends BasicErrorMessageFactory {
     StringBuilder sb = new StringBuilder();
     sb.append("but there were differences at these indexes");
     if (indexedDiffs.size() >= Configuration.MAX_INDICES_FOR_PRINTING) {
-      sb.append(format(" (only showing the first %d mismatches)", Configuration.MAX_INDICES_FOR_PRINTING));
+      sb.append(" (only showing the first %d mismatches)".formatted(Configuration.MAX_INDICES_FOR_PRINTING));
     }
     sb.append(":%n");
     for (IndexedDiff diff : indexedDiffs) {
-      sb.append(escapePercent(format("  - element at index %d: expected \"%s\" but was \"%s\"%n",
-                                     diff.index, diff.expected, diff.actual)));
+      sb.append(escapePercent("  - element at index %d: expected \"%s\" but was \"%s\"%n".formatted(
+                                                                                                    diff.index, diff.expected,
+                                                                                                    diff.actual)));
     }
     return sb.toString();
   }

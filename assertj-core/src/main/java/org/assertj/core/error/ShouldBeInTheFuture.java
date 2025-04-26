@@ -15,8 +15,8 @@ package org.assertj.core.error;
 import java.time.temporal.Temporal;
 import java.util.Date;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Date} or a {@link Temporal} is in the future failed.

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.error.ShouldBe.shouldBe;
 import static org.assertj.core.error.ShouldHave.shouldHave;
@@ -24,7 +23,6 @@ import static org.assertj.core.error.ShouldSatisfy.shouldSatisfyAll;
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
 import org.assertj.core.condition.AllOf;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Verifies that a value satisfies a <code>{@link Condition}</code>.
@@ -43,10 +41,10 @@ public class Conditions {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions() {}
 
   /**
@@ -131,6 +129,6 @@ public class Conditions {
    * @throws NullPointerException if the given {@code Condition} is {@code null}.
    */
   public void assertIsNotNull(Condition<?> condition, String format, Object... args) {
-    requireNonNull(condition, format(format, args));
+    requireNonNull(condition, format.formatted(args));
   }
 }

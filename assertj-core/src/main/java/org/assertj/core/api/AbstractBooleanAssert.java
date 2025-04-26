@@ -17,8 +17,6 @@ import static org.assertj.core.error.ShouldBeFalse.shouldBeFalse;
 import static org.assertj.core.error.ShouldBeTrue.shouldBeTrue;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 
-import java.util.Comparator;
-
 import org.assertj.core.internal.Failures;
 
 /**
@@ -80,7 +78,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    */
   public SELF isFalse() {
     objects.assertNotNull(info, actual);
-    if (actual == false) return myself;
+    if (!actual) return myself;
     throw Failures.instance().failure(info, shouldBeFalse(actual), actual, false);
   }
 
@@ -127,29 +125,5 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
   public SELF isNotEqualTo(boolean other) {
     if (actual != null && actual == other) throwAssertionError(shouldNotBeEqual(actual, other));
     return myself;
-  }
-
-  /**
-   * Do not use this method.
-   *
-   * @deprecated Custom Comparator is not supported for Boolean comparison.
-   * @throws UnsupportedOperationException if this method is called.
-   */
-  @Override
-  @Deprecated
-  public final SELF usingComparator(Comparator<? super Boolean> customComparator) {
-    return usingComparator(customComparator, null);
-  }
-
-  /**
-   * Do not use this method.
-   *
-   * @deprecated Custom Comparator is not supported for Boolean comparison.
-   * @throws UnsupportedOperationException if this method is called.
-   */
-  @Override
-  @Deprecated
-  public final SELF usingComparator(Comparator<? super Boolean> customComparator, String customComparatorDescription) {
-    throw new UnsupportedOperationException("custom Comparator is not supported for Boolean comparison");
   }
 }

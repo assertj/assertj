@@ -19,8 +19,6 @@ import static org.assertj.core.error.ShouldHaveExtension.shouldHaveExtension;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
@@ -67,7 +65,7 @@ class ShouldHaveExtension_create_Test {
   @Test
   void should_create_error_message_with_path_when_actual_does_not_have_extension() {
     // GIVEN
-    Path actual = Paths.get("file");
+    Path actual = Path.of("file");
     String expectedExtension = "txt";
     ErrorMessageFactory factory = shouldHaveExtension(actual, expectedExtension);
     // WHEN
@@ -84,7 +82,7 @@ class ShouldHaveExtension_create_Test {
   @Test
   void should_create_error_message_with_path_when_actual_has_extension() {
     // GIVEN
-    Path actual = Paths.get("file.txt");
+    Path actual = Path.of("file.txt");
     String expectedExtension = "log";
     ErrorMessageFactory factory = shouldHaveExtension(actual, "txt", expectedExtension);
     // WHEN

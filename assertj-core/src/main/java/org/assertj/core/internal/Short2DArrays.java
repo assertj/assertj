@@ -14,7 +14,6 @@ package org.assertj.core.internal;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.Index;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for two-dimensional arrays of {@code short}s.
@@ -36,10 +35,10 @@ public class Short2DArrays {
 
   private Arrays2D arrays = Arrays2D.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void setArrays(Arrays2D arrays) {
     this.arrays = arrays;
   }

@@ -15,16 +15,13 @@ package org.assertj.core.error;
 import java.io.File;
 import java.nio.file.Path;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Creates an error message indicating that an assertion that verifies that a <code>{@link File}</code> or a
  * {@link Path} is a relative path failed.
  */
 public class ShouldBeRelativePath extends BasicErrorMessageFactory {
 
-  @VisibleForTesting
-  public static final String SHOULD_BE_RELATIVE_PATH = "%nExpecting actual:%n  %s%nto be a relative path.";
+  private static final String SHOULD_BE_RELATIVE_PATH = "%nExpecting actual:%n  %s%nto be a relative path.";
 
   /**
    * Creates a new <code>{@link ShouldBeRelativePath}</code>.

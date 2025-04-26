@@ -30,8 +30,10 @@ import java.util.function.Consumer;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link List}</code>s.
@@ -56,10 +58,10 @@ public class Lists {
 
   private final ComparisonStrategy comparisonStrategy;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Lists() {
     this(StandardComparisonStrategy.instance());
   }
@@ -68,13 +70,9 @@ public class Lists {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
-      return ((ComparatorBasedComparisonStrategy) comparisonStrategy)
-                                                                     .getComparator();
-    }
-    return null;
+    return comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy ? strategy.getComparator() : null;
   }
 
   /**
@@ -141,9 +139,9 @@ public class Lists {
    */
   public void assertIsSorted(AssertionInfo info, List<?> actual) {
     assertNotNull(info, actual);
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
       // instead of comparing elements with their natural comparator, use the one set by client.
-      Comparator<?> comparator = ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+      Comparator<?> comparator = strategy.getComparator();
       assertIsSortedAccordingToComparator(info, actual, comparator);
       return;
     }
@@ -273,7 +271,7 @@ public class Lists {
     return comparisonStrategy.areEqual(actual, other);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }

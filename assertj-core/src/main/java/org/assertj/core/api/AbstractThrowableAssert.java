@@ -12,17 +12,16 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThrownExcept;
 
 import java.util.Arrays;
 import java.util.IllegalFormatException;
 import java.util.regex.Pattern;
+
 import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Throwables;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
@@ -43,7 +42,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAssert<SELF, ACTUAL>, ACTUAL extends Throwable>
     extends AbstractObjectAssert<SELF, ACTUAL> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Throwables throwables = Throwables.instance();
 
   protected AbstractThrowableAssert(ACTUAL actual, Class<?> selfType) {
@@ -94,7 +93,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessage(String message, Object... parameters) {
-    return hasMessage(format(message, parameters));
+    return hasMessage(message.formatted(parameters));
   }
 
   /**
@@ -120,38 +119,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasCause(Throwable cause) {
     throwables.assertHasCause(info, actual, cause);
-    return myself;
-  }
-
-  /**
-   * Verifies that the actual {@code Throwable} has a cause that refers to the given one, i.e., using == comparison
-   * <p>
-   * Example:
-   * <pre><code class='java'> Throwable invalidArgException = new IllegalArgumentException("invalid arg");
-   * Throwable throwable = new Throwable(invalidArgException);
-   *
-   * // This assertion succeeds:
-   * assertThat(throwable).hasCauseReference(invalidArgException);
-   * // same assertion but more idiomatic in future versions
-   * assertThat(throwable).cause().isSameAs(invalidArgException);
-   *
-   * // These assertions fail:
-   * assertThat(throwable).hasCauseReference(new IllegalArgumentException("invalid arg"));
-   * assertThat(throwable).hasCauseReference(new NullPointerException());
-   * assertThat(throwable).hasCauseReference(null); // prefer hasNoCause()</code></pre>
-   *
-   * @param expected the expected cause
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} has a cause that does not refer to the given (i.e. actual.getCause() != cause)
-   * @deprecated use <code class='java'> cause().isSameAs(expected)</code> instead.
-   *
-   * @since 3.13.0
-   * @see  #cause()
-   */
-  @Deprecated
-  public SELF hasCauseReference(Throwable expected) {
-    throwables.assertHasCauseReference(info, actual, expected);
     return myself;
   }
 
@@ -190,31 +157,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * @deprecated use {@link #cause()} instead.
-   * <p>
-   * Returns a new assertion object that uses the cause of the current Throwable as the actual Throwable under test.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> Throwable cause =  new IllegalArgumentException("wrong amount 123");
-   * Throwable exception = new Exception("boom!", cause);
-   *
-   * // typical use:
-   * assertThat(throwableWithMessage).getCause()
-   *                                 .hasMessageStartingWith("wrong amount");</code></pre>
-   *
-   * @return a new assertion object
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} does not have a cause.
-   *
-   * @since 3.16.0
-   */
-  @Deprecated
-  public AbstractThrowableAssert<?, ?> getCause() {
-    throwables.assertHasCause(info, actual);
-    return new ThrowableAssert<>(actual.getCause()).withAssertionState(myself);
-  }
-
-  /**
    * Returns a new assertion object that uses the root cause of the current Throwable as the actual Throwable under test.
    * <p>
    * Examples:
@@ -233,32 +175,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.23.0
    */
   public AbstractThrowableAssert<?, ?> rootCause() {
-    throwables.assertHasRootCause(info, actual);
-    return new ThrowableAssert<>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);
-  }
-
-  /**
-   * @deprecated use {@link #rootCause()} instead.
-   * <p>
-   * Returns a new assertion object that uses the root cause of the current Throwable as the actual Throwable under test.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> Throwable rootCause =  new JdbcException("invalid query");
-   * Throwable cause =  new RuntimeException(rootCause);
-   * Throwable exception = new Exception("boom!", cause);
-   *
-   * // typical use:
-   * assertThat(throwableWithMessage).getRootCause()
-   *                                 .hasMessageStartingWith("invalid");</code></pre>
-   *
-   * @return a new assertion object
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} does not have a root cause.
-   *
-   * @since 3.16.0
-   */
-  @Deprecated
-  public AbstractThrowableAssert<?, ?> getRootCause() {
     throwables.assertHasRootCause(info, actual);
     return new ThrowableAssert<>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);
   }
@@ -306,7 +222,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessageStartingWith(String description, Object... parameters) {
-    throwables.assertHasMessageStartingWith(info, actual, format(description, parameters));
+    throwables.assertHasMessageStartingWith(info, actual, description.formatted(parameters));
     return myself;
   }
 
@@ -331,33 +247,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public SELF hasMessageContaining(String description) {
     throwables.assertHasMessageContaining(info, actual, description);
-    return myself;
-  }
-
-  /**
-   * Verifies that the message of the actual {@code Throwable} contains the given description, after being formatted using
-   * the {@link String#format} method.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> Throwable throwableWithMessage = new IllegalArgumentException("wrong amount 123");
-   * Throwable throwableWithoutMessage = new IllegalArgumentException();
-   *
-   * // assertion will pass:
-   * assertThat(throwableWithMessage).hasMessageContaining("amount %d", 123);
-   *
-   * // assertions will fail:
-   * assertThat(throwableWithoutMessage).hasMessageContaining("amount %d", 123);
-   * assertThat(throwableWithMessage).hasMessageContaining("%s amount", "right"); </code></pre>
-   *
-   * @param description the description expected to be contained in the actual {@code Throwable}'s message.
-   * @param parameters argument referenced by the format specifiers in the format string
-   * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
-   * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
-   */
-  public SELF hasMessageContaining(String description, Object... parameters) {
-    throwables.assertHasMessageContaining(info, actual, format(description, parameters));
     return myself;
   }
 
@@ -478,7 +367,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasStackTraceContaining(String description, Object... parameters) {
-    throwables.assertHasStackTraceContaining(info, actual, format(description, parameters));
+    throwables.assertHasStackTraceContaining(info, actual, description.formatted(parameters));
     return myself;
   }
 
@@ -599,7 +488,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessageEndingWith(String description, Object... parameters) {
-    throwables.assertHasMessageEndingWith(info, actual, format(description, parameters));
+    throwables.assertHasMessageEndingWith(info, actual, description.formatted(parameters));
     return myself;
   }
 
@@ -786,7 +675,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.14.0
    */
   public SELF hasRootCauseMessage(String message, Object... parameters) {
-    return hasRootCauseMessage(format(message, parameters));
+    return hasRootCauseMessage(message.formatted(parameters));
   }
 
   /**
@@ -892,9 +781,9 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
 
   /**
    * A shortcut for <code>extracting(Throwable::getMessage, as(InstanceOfAssertFactories.STRING))</code> which allows 
-   * to extract a throwable's message and then execute assertions on it.
+   * to extract a throwable message and then execute assertions on it.
    * <p>
-   * Note that once you have navigated to the throwable's message you can't navigate back to the throwable.
+   * Note that once you have navigated to the throwable message you can't navigate back to the throwable.
    * <p>
    * Example :
    * <pre><code class='java'> Throwable throwable = new Throwable("boom!");

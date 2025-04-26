@@ -12,13 +12,13 @@
  */
 package org.assertj.core.api.path;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
+import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
 import java.nio.file.Path;
-
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.NavigationMethodBaseTest;
@@ -41,17 +41,17 @@ class PathAssert_content_Test extends PathAssertBaseTest implements NavigationMe
 
   @Override
   protected PathAssert create_assertions() {
-    return new PathAssert(new File("src/test/resources/actual_file.txt").toPath());
+    return new PathAssert(resourcePath("actual_file.txt"));
   }
 
   @Test
   public void should_return_StringAssert_on_path_content() {
     // GIVEN
-    Path path = new File("src/test/resources/actual_file.txt").toPath();
+    Path path = resourcePath("actual_file.txt");
     // WHEN
     AbstractStringAssert<?> stringAssert = assertThat(path).content();
     // THEN
-    stringAssert.isEqualTo(format("actual%n"));
+    stringAssert.isEqualTo("actual%n".formatted());
   }
 
   @Override

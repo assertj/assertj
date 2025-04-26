@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.floats;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.testkit.TestData.someInfo;
 
@@ -37,7 +36,7 @@ class Floats_assertIsNotZero_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floats.assertIsNotZero(someInfo(), 0.0f))
-                                                   .withMessage(format("%nExpecting actual:%n  0.0f%nnot to be equal to:%n  0.0f%n"));
+                                                   .withMessage("%nExpecting actual:%n  0.0f%nnot to be equal to:%n  0.0f%n".formatted());
   }
 
   @Test
@@ -49,7 +48,7 @@ class Floats_assertIsNotZero_Test extends FloatsBaseTest {
   void should_fail_since_actual_is_zero_whatever_custom_comparison_strategy_is() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> floatsWithAbsValueComparisonStrategy.assertIsNotZero(someInfo(),
                                                                                                                           0.0f))
-                                                   .withMessage(format("%nExpecting actual:%n  0.0f%nnot to be equal to:%n  0.0f%n"));
+                                                   .withMessage("%nExpecting actual:%n  0.0f%nnot to be equal to:%n  0.0f%n".formatted());
   }
 
 }

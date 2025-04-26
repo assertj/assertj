@@ -93,10 +93,12 @@ class IterableAssert_flatMap_Test {
     // GIVEN
     List<CartoonCharacter> childCharacters = list(bart, lisa, maggie);
     // WHEN
-    RuntimeException runtimeException = catchThrowableOfType(() -> assertThat(childCharacters).flatMap(cartoonCharacter -> {
-      if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
-      return cartoonCharacter.getChildren();
-    }), RuntimeException.class);
+    RuntimeException runtimeException = catchThrowableOfType(RuntimeException.class,
+                                                             () -> assertThat(childCharacters).flatMap(cartoonCharacter -> {
+                                                               if (cartoonCharacter.getChildren().isEmpty())
+                                                                 throw new Exception("no children");
+                                                               return cartoonCharacter.getChildren();
+                                                             }));
     // THEN
     then(runtimeException).hasMessage("java.lang.Exception: no children");
   }
@@ -106,10 +108,12 @@ class IterableAssert_flatMap_Test {
     // GIVEN
     List<CartoonCharacter> childCharacters = list(bart, lisa, maggie);
     // WHEN
-    RuntimeException runtimeException = catchThrowableOfType(() -> assertThat(childCharacters).flatMap(cartoonCharacter -> {
-      if (cartoonCharacter.getChildren().isEmpty()) throw new RuntimeException("no children");
-      return cartoonCharacter.getChildren();
-    }), RuntimeException.class);
+    RuntimeException runtimeException = catchThrowableOfType(RuntimeException.class,
+                                                             () -> assertThat(childCharacters).flatMap(cartoonCharacter -> {
+                                                               if (cartoonCharacter.getChildren().isEmpty())
+                                                                 throw new RuntimeException("no children");
+                                                               return cartoonCharacter.getChildren();
+                                                             }));
     // THEN
     then(runtimeException).hasMessage("no children");
   }

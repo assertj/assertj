@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
@@ -23,9 +22,9 @@ import static org.assertj.core.util.Strings.quote;
 
 import java.util.Arrays;
 import java.util.Objects;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * A factory of error messages typically shown when an assertion fails.
@@ -37,7 +36,7 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
   protected final String format;
   protected final Object[] arguments;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   MessageFormatter formatter = MessageFormatter.instance();
 
   /**
@@ -155,8 +154,8 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
 
   @Override
   public String toString() {
-    return format("%s[format=%s, arguments=%s]", getClass().getSimpleName(), quote(format),
-                  CONFIGURATION_PROVIDER.representation().toStringOf(arguments));
+    return "%s[format=%s, arguments=%s]".formatted(getClass().getSimpleName(), quote(format),
+                                                   CONFIGURATION_PROVIDER.representation().toStringOf(arguments));
   }
 
 }

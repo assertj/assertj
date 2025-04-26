@@ -18,7 +18,6 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.List;
 
-import org.assertj.core.util.VisibleForTesting;
 import org.assertj.core.util.introspection.IntrospectionError;
 import org.assertj.core.util.introspection.PropertySupport;
 
@@ -33,11 +32,11 @@ import org.assertj.core.util.introspection.PropertySupport;
  */
 public class Properties<T> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   final String propertyName;
   final Class<T> propertyType;
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   PropertySupport propertySupport = PropertySupport.instance();
 
   /**
@@ -73,7 +72,7 @@ public class Properties<T> {
     checkArgument(!propertyName.isEmpty(), "The name of the property to read should not be empty");
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Properties(String propertyName, Class<T> propertyType) {
     this.propertyName = propertyName;
     this.propertyType = propertyType;

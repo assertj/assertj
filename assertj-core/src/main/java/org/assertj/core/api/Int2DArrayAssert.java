@@ -22,7 +22,6 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Int2DArrays;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion methods for two-dimensional arrays of {@code int}s.
@@ -35,7 +34,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class Int2DArrayAssert extends Abstract2DArrayAssert<Int2DArrayAssert, int[][], Integer> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected Int2DArrays int2dArrays = Int2DArrays.instance();
 
   private final Failures failures = Failures.instance();

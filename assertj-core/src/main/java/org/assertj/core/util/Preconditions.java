@@ -12,7 +12,6 @@
  */
 package org.assertj.core.util;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 import java.util.function.Supplier;
@@ -70,39 +69,6 @@ public final class Preconditions {
   }
 
   /**
-   * Verifies that the given object reference is not {@code null}.
-   * 
-   * @param <T> the type of the reference to check.
-   * @param reference the given object reference.
-   * @return the non-{@code null} reference that was validated.
-   * @throws NullPointerException if the given object reference is {@code null}.
-   * 
-   * @deprecated use {@link java.util.Objects#requireNonNull(Object)} instead.
-   */
-  @Deprecated
-  public static <T> T checkNotNull(T reference) {
-    if (reference == null) throw new NullPointerException();
-    return reference;
-  }
-
-  /**
-   * Verifies that the given object reference is not {@code null}.
-   * 
-   * @param <T> the type of the reference to check.
-   * @param reference the given object reference.
-   * @param message error message in case of null reference.
-   * @return the non-{@code null} reference that was validated.
-   * @throws NullPointerException if the given object reference is {@code null}.
-   * 
-   * @deprecated use {@link java.util.Objects#requireNonNull(Object, String)} instead.
-   */
-  @Deprecated
-  public static <T> T checkNotNull(T reference, String message) {
-    if (reference == null) throw new NullPointerException(message);
-    return reference;
-  }
-
-  /**
    * Verifies that the given {@link FilterOperator} reference is not {@code null}.
    * 
    * @param <T> the type of the FilterOperator to check.
@@ -128,7 +94,7 @@ public final class Preconditions {
    *     {@code errorMessageArgs} is null (don't let this happen)
    */
   public static void checkArgument(boolean expression, String errorMessageTemplate, Object... errorMessageArgs) {
-    if (!expression) throw new IllegalArgumentException(format(errorMessageTemplate, errorMessageArgs));
+    if (!expression) throw new IllegalArgumentException(errorMessageTemplate.formatted(errorMessageArgs));
   }
 
   /**
@@ -160,7 +126,7 @@ public final class Preconditions {
    */
   public static void checkState(boolean expression, String errorMessageTemplate, Object... errorMessageArgs) {
     if (!expression) {
-      throw new IllegalStateException(format(errorMessageTemplate, errorMessageArgs));
+      throw new IllegalStateException(errorMessageTemplate.formatted(errorMessageArgs));
     }
   }
 

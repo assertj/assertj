@@ -4,7 +4,7 @@
 
   <groupId>org.assertj</groupId>
   <artifactId>assertj-build</artifactId>
-  <version>3.27.2-SNAPSHOT</version>
+  <version>4.0.0-M2-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>AssertJ Build</name>
@@ -125,14 +125,14 @@
     <spotless.skip>true</spotless.skip>
     <!-- Plugin versions -->
     <flatten-maven-plugin.version>1.6.0</flatten-maven-plugin.version>
-    <license-maven-plugin.version>4.6</license-maven-plugin.version>
-    <maven-clean-plugin.version>3.4.0</maven-clean-plugin.version>
+    <license-maven-plugin.version>5.0.0</license-maven-plugin.version>
+    <maven-clean-plugin.version>3.4.1</maven-clean-plugin.version>
     <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
     <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
     <nexus-staging-maven-plugin.version>1.7.0</nexus-staging-maven-plugin.version>
     <sonar-maven-plugin.version>5.0.0.4389</sonar-maven-plugin.version>
-    <spotless-maven-plugin.version>2.44.1</spotless-maven-plugin.version>
+    <spotless-maven-plugin.version>2.44.3</spotless-maven-plugin.version>
   </properties>
 
   <build>
@@ -149,6 +149,7 @@
                 <include>src/test/java/**/*.java</include>
               </includes>
               <eclipse>
+                <version>4.33</version>
                 <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
               </eclipse>
             </java>
@@ -158,6 +159,34 @@
           <groupId>com.mycila</groupId>
           <artifactId>license-maven-plugin</artifactId>
           <version>${license-maven-plugin.version}</version>
+          <configuration>
+            <licenseSets>
+              <licenseSet>
+                <inlineHeader><![CDATA[
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+the License. You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+specific language governing permissions and limitations under the License.
+
+Copyright ${project.inceptionYear}-${currentYear} the original author or authors.
+          ]]></inlineHeader>
+                <includes>
+                  <include>src/**/*.java</include>
+                </includes>
+                <excludes>
+                  <exclude>src/ide-support/**</exclude>
+                </excludes>
+              </licenseSet>
+            </licenseSets>
+            <properties>
+              <currentYear>2025</currentYear>
+            </properties>
+            <strictCheck>true</strictCheck>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -191,6 +220,11 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
           <version>${maven-enforcer-plugin.version}</version>
+          <configuration>
+            <rules>
+              <dependencyConvergence />
+            </rules>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -237,6 +271,7 @@
         <artifactId>spotless-maven-plugin</artifactId>
         <executions>
           <execution>
+            <phase>validate</phase>
             <goals>
               <goal>check</goal>
             </goals>
@@ -253,34 +288,17 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <licenseSets>
-            <licenseSet>
-              <inlineHeader><![CDATA[
-Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
-the License. You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
-an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
-specific language governing permissions and limitations under the License.
-
-Copyright ${project.inceptionYear}-${currentYear} the original author or authors.
-          ]]></inlineHeader>
-              <includes>
-                <include>src/**/*.java</include>
-              </includes>
-              <excludes>
-                <exclude>src/ide-support/**</exclude>
-              </excludes>
-            </licenseSet>
-          </licenseSets>
-          <properties>
-            <currentYear>2025</currentYear>
-          </properties>
-          <strictCheck>true</strictCheck>
-        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.sonatype.plugins</groupId>

@@ -23,9 +23,8 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Set;
+
 import org.assertj.core.api.AssertDelegateTarget;
-import org.assertj.core.api.ClassBasedNavigableIterableAssert;
-import org.assertj.core.api.ClassBasedNavigableListAssert;
 import org.assertj.core.api.FactoryBasedNavigableIterableAssert;
 import org.assertj.core.api.FactoryBasedNavigableListAssert;
 
@@ -52,8 +51,6 @@ public abstract class BaseAssertionsTest {
   static final Class<?>[] SPECIAL_IGNORED_RETURN_TYPES = array(AssertDelegateTarget.class,
                                                                FactoryBasedNavigableListAssert.class,
                                                                FactoryBasedNavigableIterableAssert.class,
-                                                               ClassBasedNavigableListAssert.class,
-                                                               ClassBasedNavigableIterableAssert.class,
                                                                Object.class);
 
   static Method[] findMethodsWithName(Class<?> clazz, String name, Class<?>... ignoredReturnTypes) {

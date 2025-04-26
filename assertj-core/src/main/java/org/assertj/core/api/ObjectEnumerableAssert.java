@@ -86,8 +86,6 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * assertThat(abc).containsOnly("a", "b", "c", "d");</code></pre>
    * <p>
    * If you need to check that actual is a subset of the given values, use {@link #isSubsetOf(Object...)}.
-   * <p>
-   * If you want to specify the elements to check with an {@link Iterable}, use {@link #containsOnlyElementsOf(Iterable) containsOnlyElementsOf(Iterable)} instead.
    *
    * @param values the given values.
    * @return {@code this} assertion object.
@@ -899,62 +897,10 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
   SELF containsAll(Iterable<? extends ELEMENT> iterable);
 
   /**
-   * Verifies that the unique element of the {@link Iterable} satisfies the given assertions expressed as a {@link Consumer},
-   * if it does not, only the first error is reported, use {@link SoftAssertions} to get all the errors.
-   * <p>
-   * Example:
-   * <pre><code class='java'> List&lt;Jedi&gt; jedis = asList(new Jedi("Yoda", "red"));
-   *
-   * // assertions will pass
-   *
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Y"));
-   *
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
-   *   assertThat(yoda.getName()).isEqualTo("Yoda");
-   *   assertThat(yoda.getLightSaberColor()).isEqualTo("red");
-   * });
-   *
-   * // assertions will fail
-   *
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Vad"));
-   *
-   * // fail as one the assertions is not satisfied
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
-   *   assertThat(yoda.getName()).isEqualTo("Yoda");
-   *   assertThat(yoda.getLightSaberColor()).isEqualTo("purple");
-   * });
-   *
-   * // fail but only report the first error
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
-   *   assertThat(yoda.getName()).isEqualTo("Luke");
-   *   assertThat(yoda.getLightSaberColor()).isEqualTo("green");
-   * });
-   *
-   * // fail and reports the errors thanks to Soft assertions
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; {
-   *   SoftAssertions softly = new SoftAssertions();
-   *   softly.assertThat(yoda.getName()).isEqualTo("Luke");
-   *   softly.assertThat(yoda.getLightSaberColor()).isEqualTo("green");
-   *   softly.assertAll();
-   * });
-   *
-   * // even if the assertion is correct, there are too many jedis!
-   * jedis.add(new Jedi("Luke", "green"));
-   * assertThat(jedis).hasOnlyOneElementSatisfying(yoda -&gt; assertThat(yoda.getName()).startsWith("Yo"));</code></pre>
-   *
-   * @param elementAssertions the assertions to perform on the unique element.
-   * @return {@code this} assertion object.
-   * @throws AssertionError if the {@link Iterable} does not have a unique element.
-   * @throws AssertionError if the {@link Iterable}'s unique element does not satisfy the given assertions.
-   * @since 3.5.0
-   */
-  SELF hasOnlyOneElementSatisfying(Consumer<? super ELEMENT> elementAssertions);
-
-  /**
    * Verifies that all elements of the actual group are instances of the given types.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;? extends Object&gt; objects = Arrays.asList("foo", new StringBuilder());
+   * <pre><code class='java'> Iterable&lt;?&gt; objects = Arrays.asList("foo", new StringBuilder());
    *
    * // assertions will pass
    * assertThat(objects).hasOnlyElementsOfTypes(CharSequence.class)
@@ -1081,43 +1027,6 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * @return {@code this} assertion object.
    */
   SELF containsExactlyElementsOf(Iterable<? extends ELEMENT> iterable);
-
-  /**
-   * Same semantic as {@link #containsOnly(Object[])} : verifies that actual contains all the elements of the given
-   * iterable and nothing else, <b>in any order</b> and ignoring duplicates (i.e. once a value is found, its duplicates are also considered found).
-   * <p>
-   * <b>This assertion has been deprecated because its name is confusing</b>, users were expecting it to behave like {@link #isSubsetOf(Iterable)}.
-   * <p>
-   * For example this assertion fails when users expected it to pass:
-   * <pre><code class='java'> Iterable&lt;Ring&gt; rings = list(nenya, vilya);
-   *
-   * // assertion fails because narya is not in rings, confusing!
-   * assertThat(rings).containsOnlyElementsOf(list(nenya, vilya, narya));</code></pre>
-   * <p>
-   * Use {@link #isSubsetOf(Iterable)} to check that actual is a subset of given iterable, or if you need to same assertion semantics use {@link #hasSameElementsAs(Iterable)}.
-   * <p>
-   * Examples:
-   * <pre><code class='java'> Iterable&lt;Ring&gt; rings = newArrayList(nenya, vilya);
-   *
-   * // assertion will pass
-   * assertThat(rings).containsOnlyElementsOf(list(nenya, vilya))
-   *                  .containsOnlyElementsOf(list(nenya, nenya, vilya, vilya));
-   * assertThat(list(nenya, nenya, vilya, vilya)).containsOnlyElementsOf(rings);
-   *
-   * // assertion will fail as actual does not contain narya
-   * assertThat(rings).containsOnlyElementsOf(list(nenya, vilya, narya));
-   * // assertion will fail as actual contains nenya
-   * assertThat(rings).containsOnlyElementsOf(list(vilya));</code></pre>
-   * <p>
-   * If you want to directly specify the elements to check, use {@link #containsOnly(Object...) containsOnly(Object...)} instead.
-   *
-   * @param iterable the given {@code Iterable} we will get elements from.
-   *
-   * @return {@code this} assertion object.
-   * @deprecated
-   */
-  @Deprecated
-  SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable);
 
   /**
    * Same semantic as {@link #containsOnlyOnce(Object...)} : verifies that the actual group contains the elements of

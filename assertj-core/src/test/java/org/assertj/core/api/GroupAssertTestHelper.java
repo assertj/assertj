@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import java.util.Map;
 import java.util.function.Function;
 
 import org.assertj.core.api.iterable.ThrowingExtractor;
@@ -28,10 +27,6 @@ public class GroupAssertTestHelper {
 
   public static TypeComparators comparatorForElementFieldsWithTypeOf(AbstractIterableAssert<?, ?, ?, ?> assertion) {
     return (TypeComparators) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorsForElementPropertyOrFieldTypes", assertion);
-  }
-
-  public static Map<?, ?> comparatorForElementFieldsWithNamesOf(AbstractIterableAssert<?, ?, ?, ?> assertion) {
-    return (Map<?, ?>) PropertyOrFieldSupport.EXTRACTION.getValueOf("comparatorsForElementPropertyOrFieldNames", assertion);
   }
 
   public static final Function<Employee, String> lastNameFunction = employee -> employee.name.getLast();

@@ -12,8 +12,8 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.internal.ComparisonStrategy;
-import org.assertj.core.internal.StandardComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Creates an error message indicating that an assertion that verifies that a value is less than another one failed.
@@ -32,21 +32,6 @@ public class ShouldBeLess extends BasicErrorMessageFactory {
    */
   public static <T> ErrorMessageFactory shouldBeLess(Comparable<? super T> actual, Comparable<? super T> other) {
     return new ShouldBeLess(actual, other, StandardComparisonStrategy.instance());
-  }
-
-  /**
-   * Creates a new <code>{@link ShouldBeLess}</code>.
-   * @param <T> guarantees that the values used in this factory have the same type.
-   * @param actual the actual value in the failed assertion.
-   * @param other the value used in the failed assertion to compare the actual value to.
-   * @param comparisonStrategy the {@link ComparisonStrategy} used to evaluate assertion.
-   * @return the created {@code ErrorMessageFactory}.
-   * @deprecated Use {@link #shouldBeLess(Object, Object, ComparisonStrategy)} instead.
-   */
-  @Deprecated
-  public static <T extends Comparable<? super T>> ErrorMessageFactory shouldBeLess(T actual, T other,
-                                                                                   ComparisonStrategy comparisonStrategy) {
-    return new ShouldBeLess(actual, other, comparisonStrategy);
   }
 
   /**

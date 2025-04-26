@@ -90,9 +90,11 @@ import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.Condition;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.util.ArrayWrapperList;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertions for object and primitive arrays. It trades off performance for DRY.
@@ -124,13 +126,13 @@ public class Arrays {
     this.comparisonStrategy = comparisonStrategy;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Comparator<?> getComparator() {
     if (!(comparisonStrategy instanceof ComparatorBasedComparisonStrategy)) return null;
     return ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public ComparisonStrategy getComparisonStrategy() {
     return comparisonStrategy;
   }
@@ -196,7 +198,7 @@ public class Arrays {
     hasSameSizeAsCheck(info, array, other, sizeOf(array));
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public void assertContains(AssertionInfo info, Failures failures, Object actual, Object values) {
     if (commonChecks(info, failures, actual, values)) return;
     Set<Object> notFound = new LinkedHashSet<>();
@@ -670,9 +672,9 @@ public class Arrays {
 
   void assertIsSorted(AssertionInfo info, Failures failures, Object array) {
     assertNotNull(info, array);
-    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy) {
+    if (comparisonStrategy instanceof ComparatorBasedComparisonStrategy strategy) {
       // instead of comparing array elements with their natural comparator, use the one set by client.
-      Comparator<?> comparator = ((ComparatorBasedComparisonStrategy) comparisonStrategy).getComparator();
+      Comparator<?> comparator = strategy.getComparator();
       assertIsSortedAccordingToComparator(info, failures, array, comparator);
       return;
     }

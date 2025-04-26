@@ -13,7 +13,6 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldEndWithPath.PATH_SHOULD_END_WITH;
 import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.Mockito.mock;
@@ -33,7 +32,7 @@ final class ShouldEndWithPath_create_Test {
     // WHEN
     String actualMessage = shouldEndWith(actual, other).create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
-    then(actualMessage).isEqualTo(String.format("[Test] " + PATH_SHOULD_END_WITH, actual, other));
+    then(actualMessage).isEqualTo("[Test] %nExpected path:%n  %s%nto end with:%n  %s%nbut it did not.".formatted(actual, other));
   }
 
 }

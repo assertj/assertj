@@ -17,7 +17,6 @@ import java.util.Objects;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.configuration.PreferredAssumptionException;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Responsible for building the exception to throw for failing assumptions.
@@ -32,7 +31,7 @@ public class AssumptionExceptionFactory {
     return buildAssumptionException(assumptionExceptionClass, assertionError);
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public static PreferredAssumptionException getPreferredAssumptionException() {
     return preferredAssumptionException;
   }

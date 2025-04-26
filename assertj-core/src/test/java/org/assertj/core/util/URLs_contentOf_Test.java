@@ -12,8 +12,10 @@
  */
 package org.assertj.core.util;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.testkit.ClasspathResources.resourceURL;
 
 import java.io.File;
 import java.io.UncheckedIOException;
@@ -32,7 +34,7 @@ import org.junit.jupiter.api.Test;
  */
 class URLs_contentOf_Test {
 
-  private final URL sampleResourceURL = ClassLoader.getSystemResource("utf8.txt");
+  private final URL sampleResourceURL = resourceURL("utf8.txt");
   private final String expectedContent = "A text file encoded in UTF-8, with diacritics:\né à";
 
   @Test
@@ -46,7 +48,7 @@ class URLs_contentOf_Test {
 
   @Test
   void should_load_resource_from_url_using_charset() {
-    assertThat(URLs.contentOf(sampleResourceURL, StandardCharsets.UTF_8)).isEqualTo(expectedContent);
+    assertThat(URLs.contentOf(sampleResourceURL, UTF_8)).isEqualTo(expectedContent);
   }
 
   @Test

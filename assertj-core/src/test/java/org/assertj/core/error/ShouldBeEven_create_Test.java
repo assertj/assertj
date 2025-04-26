@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEven.shouldBeEven;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -36,6 +35,6 @@ class ShouldBeEven_create_Test {
     // WHEN
     String message = shouldBeEven(actual).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %nExpecting %d to be even", actual));
+    then(message).isEqualTo("[TEST] %nExpecting %d to be even".formatted(actual));
   }
 }

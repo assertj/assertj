@@ -18,20 +18,19 @@ import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Comparables;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Integers;
 import org.assertj.core.util.CheckReturnValue;
-import org.assertj.core.util.VisibleForTesting;
 
-public class AtomicIntegerAssert extends AbstractAssert<AtomicIntegerAssert, AtomicInteger> {
+public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicIntegerAssert, AtomicInteger> {
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Comparables comparables = new Comparables();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Integers integers = Integers.instance();
 
   public AtomicIntegerAssert(AtomicInteger actual) {

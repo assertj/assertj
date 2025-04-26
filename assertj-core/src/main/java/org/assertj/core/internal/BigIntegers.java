@@ -12,12 +12,13 @@
  */
 package org.assertj.core.internal;
 
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
+
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.ZERO;
 
 import java.math.BigInteger;
-
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link BigInteger}</code>s.
@@ -35,7 +36,7 @@ public class BigIntegers extends Numbers<BigInteger> {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigIntegers() {
     super();
   }

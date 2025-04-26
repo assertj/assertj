@@ -13,10 +13,13 @@
 package org.assertj.core.util;
 
 /**
+ *
  * Indicates that the visibility of a type or member has been relaxed to make the code testable. Idea borrowed from
  * Google Collections :)
- * 
+ *
  * @author Alex Ruiz
+ * @deprecated this was meant for internal use only.
  */
+@Deprecated(since = "4.0", forRemoval = true)
 public @interface VisibleForTesting {
 }

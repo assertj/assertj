@@ -34,7 +34,7 @@ public class ComparisonKeyDifference extends ComparisonDifference {
 
   @Override
   public String toString() {
-    return format("ComparisonDifference [path=%s, actualKey=%s, expectedKey=%s]", concatenatedPath, actualKey, expectedKey);
+    return "ComparisonDifference [path=%s, actualKey=%s, expectedKey=%s]".formatted(concatenatedPath, actualKey, expectedKey);
   }
 
   @Override

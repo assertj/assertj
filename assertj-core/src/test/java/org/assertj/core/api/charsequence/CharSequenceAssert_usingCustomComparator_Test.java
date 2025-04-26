@@ -22,7 +22,7 @@ import org.assertj.core.testkit.CaseInsensitiveCharSequenceComparator;
 
 /**
  * Tests for <code>{@link CharSequenceAssert#usingComparator(Comparator)}</code>.
- * 
+ *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
@@ -35,7 +35,7 @@ class CharSequenceAssert_usingCustomComparator_Test extends CharSequenceAssertBa
 
   @Override
   protected void verify_internal_effects() {
-    assertThat(CaseInsensitiveCharSequenceComparator.INSTANCE).isSameAs(getObjects(assertions).getComparator());
-    assertThat(CaseInsensitiveCharSequenceComparator.INSTANCE).isSameAs(getStrings(assertions).getComparator());
+    assertThat(getComparisonStrategyComparatorOf(getObjects(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
+    assertThat(getComparisonStrategyComparatorOf(getStrings(assertions))).isSameAs(CaseInsensitiveCharSequenceComparator.INSTANCE);
   }
 }

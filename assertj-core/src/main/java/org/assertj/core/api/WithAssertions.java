@@ -807,68 +807,6 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * Creates a new instance of <code>{@link FactoryBasedNavigableIterableAssert}</code> allowing to navigate to any {@code Iterable} element
-   * in order to perform assertions on it.
-   * <p>
-   * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
-   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
-   * </ul>
-   * <p>
-   * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
-   * {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} (AssertJ can't figure it out because of Java type erasure).
-   * <p>
-   * Example with {@code String} element assertions:
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newHashSet("frodo", "sam", "pippin");
-   *
-   * // build an AssertFactory for StringAssert (much nicer with Java 8 lambdas)
-   * AssertFactory&lt;String, StringAssert&gt; stringAssertFactory = new AssertFactory&lt;String, StringAssert&gt;() {
-   *   {@literal @}Override
-   *   public StringAssert createAssert(String string) {
-   *     return new StringAssert(string);
-   *   }
-   * };
-   *
-   * // assertion succeeds with String assertions chained after first()
-   * assertThat(hobbits, stringAssertFactory).first()
-   *                                         .startsWith("fro")
-   *                                         .endsWith("do");</code></pre>
-   *
-   * @param <ACTUAL> The actual type
-   * @param <ELEMENT> The actual elements type
-   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
-   * @param actual the actual value.
-   * @param assertFactory the factory used to create the elements assert instance.
-   * @return the created assertion object.
-   * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
-   * <p>
-   * Deprecated way:
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
-   * assertThat(hobbits, StringAssert::new).first()
-   *                                       .startsWith("fro")
-   *                                       .endsWith("do");</code></pre>
-   *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *                    .startsWith("fro")
-   *                    .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
-   * preferred way to create type-specific assertions in AssertJ API.
-   */
-  @Deprecated
-  default <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(Iterable<? extends ELEMENT> actual,
-                                                                                                                                                                                                                   AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
-    return Assertions.assertThat(actual, assertFactory);
-  }
-
-  /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
    * <b>Breaking change in version 3.12.0:</b> this method does not return anymore an {@link IterableAssert} but an {@link IteratorAssert}.<br>
@@ -904,60 +842,6 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <ELEMENT> IteratorAssert<ELEMENT> assertThatIterator(Iterator<? extends ELEMENT> actual) {
     return assertThat(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link ClassBasedNavigableIterableAssert}</code> allowing to navigate to any {@code Iterable} element
-   * in order to perform assertions on it.
-   * <p>
-   * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
-   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
-   * </ul>
-   * <p>
-   * The available assertions after navigating to an element depend on the given {@code assertClass}
-   * (AssertJ can't find the element assert type by itself because of Java type erasure).
-   * <p>
-   * Example with {@code String} element assertions:
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newHashSet("frodo", "sam", "pippin");
-   *
-   * // assertion succeeds with String assertions chained after first()
-   * assertThat(hobbits, StringAssert.class).first()
-   *                                        .startsWith("fro")
-   *                                        .endsWith("do");</code></pre>
-   *
-   * @param <ACTUAL> The actual type
-   * @param <ELEMENT> The actual elements type
-   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
-   * @param actual the actual value.
-   * @param assertClass the class used to create the elements assert instance.
-   * @return the created assertion object.
-   * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
-   * <p>
-   * Deprecated way:
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
-   * assertThat(hobbits, StringAssert.class).first()
-   *                                        .startsWith("fro")
-   *                                        .endsWith("do");</code></pre>
-   *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *                    .startsWith("fro")
-   *                    .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
-   * preferred way to create type-specific assertions in AssertJ API.
-   */
-  @Deprecated
-  default <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(ACTUAL actual,
-                                                                                                                                                                                                                 Class<ELEMENT_ASSERT> assertClass) {
-    return Assertions.assertThat(actual, assertClass);
   }
 
   /**
@@ -1252,122 +1136,6 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <ELEMENT> ListAssert<ELEMENT> assertThatList(List<? extends ELEMENT> actual) {
     return assertThat(actual);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link ClassBasedNavigableListAssert}</code> allowing to navigate to any {@code List} element
-   * in order to perform assertions on it.
-   * <p>
-   * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
-   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
-   * </ul>
-   * <p>
-   * The available assertions after navigating to an element depend on the given {@code assertClass}
-   * (AssertJ can't find the element assert type by itself because of Java type erasure).
-   * <p>
-   * Example with {@code String} element assertions:
-   * <pre><code class='java'> List&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
-   *
-   * // assertion succeeds with String assertions chained after first()
-   * assertThat(hobbits, StringAssert.class).first()
-   *                                        .startsWith("fro")
-   *                                        .endsWith("do");</code></pre>
-   *
-   * @param <ACTUAL> The actual type
-   * @param <ELEMENT> The actual elements type
-   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
-   * @param actual the actual value.
-   * @param assertClass the class used to create the elements assert instance.
-   * @return the created assertion object.
-   * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
-   * <p>
-   * Deprecated way:
-   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
-   * assertThat(hobbits, StringAssert.class).first()
-   *                                        .startsWith("fro")
-   *                                        .endsWith("do");</code></pre>
-   *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *                    .startsWith("fro")
-   *                    .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
-   * preferred way to create type-specific assertions in AssertJ API.
-   */
-  @Deprecated
-  default <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
-                                                                                                                                                                                                         Class<ELEMENT_ASSERT> assertClass) {
-    return Assertions.assertThat(actual, assertClass);
-  }
-
-  /**
-   * Creates a new instance of <code>{@link FactoryBasedNavigableListAssert}</code> allowing to navigate to any {@code List} element
-   * in order to perform assertions on it.
-   * <p>
-   * Navigational methods provided:<ul>
-   * <li>{@link AbstractIterableAssert#first() first()}</li>
-   * <li>{@link AbstractIterableAssert#last() last()}</li>
-   * <li>{@link AbstractIterableAssert#element(int) element(index)}</li>
-   * <li>{@link AbstractIterableAssert#elements(int...) elements(int...)}</li>
-   * </ul>
-   * <p>
-   * The available assertions after navigating to an element depend on the {@code ELEMENT_ASSERT} parameter of the given
-   * {@link AssertFactory AssertFactory&lt;ELEMENT, ELEMENT_ASSERT&gt;} (AssertJ can't figure it out because of Java type erasure).
-   * <p>
-   * Example with {@code String} element assertions:
-   * <pre><code class='java'> List&lt;String&gt; hobbits = newArrayList("frodo", "sam", "pippin");
-   *
-   * // build an AssertFactory for StringAssert (much nicer with Java 8 lambdas)
-   * AssertFactory&lt;String, StringAssert&gt; stringAssertFactory = new AssertFactory&lt;String, StringAssert&gt;() {
-   *   {@literal @}Override
-   *   public StringAssert createAssert(String string) {
-   *     return new StringAssert(string);
-   *   }
-   * };
-   *
-   * // assertion succeeds with String assertions chained after first()
-   * assertThat(hobbits, stringAssertFactory).first()
-   *                                         .startsWith("fro")
-   *                                         .endsWith("do");</code></pre>
-   *
-   * @param <ACTUAL> The actual type
-   * @param <ELEMENT> The actual elements type
-   * @param <ELEMENT_ASSERT> The actual elements AbstractAssert type
-   * @param actual the actual value.
-   * @param assertFactory the factory used to create the elements assert instance.
-   * @return the created assertion object.
-   * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
-   * <p>
-   * Deprecated way:
-   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
-   * assertThat(hobbits, StringAssert::new).first()
-   *                                       .startsWith("fro")
-   *                                       .endsWith("do");</code></pre>
-   *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *                    .startsWith("fro")
-   *                    .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
-   * preferred way to create type-specific assertions in AssertJ API.
-   */
-  @Deprecated
-  default <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>> FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> assertThat(List<? extends ELEMENT> actual,
-                                                                                                                                                                                                           AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
-    return Assertions.assertThat(actual, assertFactory);
   }
 
   /**
@@ -2454,14 +2222,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
 
   /**
    * Globally sets whether the use of private fields is allowed for comparison.
-   * The following (incomplete) list of methods will be impacted by this change :
-   * <ul>
-   * <li>
-   * <code>{@link org.assertj.core.api.AbstractIterableAssert#usingElementComparatorOnFields(java.lang.String...)}</code>
-   * </li>
-   * <li><code>{@link org.assertj.core.api.AbstractObjectAssert#isEqualToComparingFieldByField(Object)}</code></li>
-   * </ul>
-   *
+   * <p>
    * If the value is <code>false</code> and these methods try to compare private fields, it will fail with an exception.
    *
    * @param allowComparingPrivateFields allow private fields comparison. Default {@code true}.
@@ -2996,16 +2757,16 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   }
 
   /**
-   * Allows to catch an {@link Throwable} more easily when used with Java 8 lambdas.
-   *
+   * Allows catching a {@link Throwable} more easily when used with Java 8 lambdas.
    * <p>
    * This caught {@link Throwable} can then be asserted.
-   * </p>
-   *
+   * <p>
+   * If no throwable is thrown, this method throws an {@link AssertionError}.
+   * <p>
+   * If you need to assert on the real type of Throwable caught (e.g. IOException), use
+   * {@link #catchThrowableOfType(Class, ThrowingCallable)}.
    * <p>
    * Example:
-   * </p>
-   *
    * <pre><code class='java'>{@literal @}Test
    * public void testException() {
    *   // when
@@ -3016,8 +2777,9 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *                     .hasMessageContaining("boom");
    * } </code></pre>
    *
-   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @param shouldRaiseThrowable The lambda with the code that should raise the throwable.
+   * @return The captured throwable.
+   * @throws AssertionError if shouldRaiseThrowable did not throw any throwable.
    * @see #catchThrowableOfType(Class, ThrowingCallable)
    */
   default Throwable catchThrowable(final ThrowingCallable shouldRaiseThrowable) {
@@ -3027,81 +2789,38 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   /**
    * Allows catching a {@link Throwable} of a specific type.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
-   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it,
-   * making it convenient to perform subtype-specific assertions on the result.
+   * If no throwable is thrown, this method throws an {@link AssertionError}.
    * <p>
    * Example:
-   * <pre><code class='java'> class CustomParseException extends Exception {
+   * <pre><code class='java'> class TextException extends Exception {
    *   int line;
    *   int column;
    *
-   *   public CustomParseException(String msg, int l, int c) {
+   *   public TextException(String msg, int line, int column) {
    *     super(msg);
-   *     line = l;
-   *     column = c;
+   *     this.line = line;
+   *     this.column = column;
    *   }
    * }
    *
-   * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
-   *                                               CustomParseException.class);
-   * // assertions pass
-   * assertThat(e).hasMessageContaining("boom");
-   * assertThat(e.line).isEqualTo(1);
-   * assertThat(e.column).isEqualTo(5);
+   * TextException textException = catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); },
+   *                                                    TextException.class);
+   * // assertions succeed:
+   * assertThat(textException).hasMessage("boom!");
+   * assertThat(textException.line).isEqualTo(1);
+   * assertThat(textException.column).isEqualTo(5);
    *
-   * // fails as CustomParseException is not a RuntimeException
-   * catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
-   *                      RuntimeException.class);</code></pre>
+   * // fails as TextException is not a RuntimeException
+   * catchThrowableOfType(RuntimeException.class, () -&gt; { throw new TextException("boom!", 1, 5); });
    *
-   * @param <THROWABLE> the {@link Throwable} type.
-   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
-   * @param type The type of exception that the code is expected to raise.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowingCallable)
-   * @since 3.9.0
-   * @deprecated use {@link #catchThrowableOfType(Class, ThrowingCallable)} instead.
-   */
-  @Deprecated
-  default <THROWABLE extends Throwable> THROWABLE catchThrowableOfType(ThrowingCallable shouldRaiseThrowable,
-                                                                       Class<THROWABLE> type) {
-    return catchThrowableOfType(type, shouldRaiseThrowable);
-  }
-
-  /**
-   * Allows catching a {@link Throwable} of a specific type.
-   * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown {@code catchThrowableOfType} returns null,
-   * otherwise it checks that the caught {@link Throwable} has the specified type then casts it to it before returning it,
-   * making it convenient to perform subtype-specific assertions on the result.
-   * <p>
-   * Example:
-   * <pre><code class='java'> class CustomParseException extends Exception {
-   *   int line;
-   *   int column;
-   *
-   *   public CustomParseException(String msg, int l, int c) {
-   *     super(msg);
-   *     line = l;
-   *     column = c;
-   *   }
-   * }
-   *
-   * CustomParseException e = catchThrowableOfType(() -&gt; { throw new CustomParseException("boom!", 1, 5); },
-   *                                               CustomParseException.class);
-   * // assertions pass
-   * assertThat(e).hasMessageContaining("boom");
-   * assertThat(e.line).isEqualTo(1);
-   * assertThat(e.column).isEqualTo(5);
-   *
-   * // fails as CustomParseException is not a RuntimeException
-   * catchThrowableOfType(RuntimeException.class,
-   *                      () -&gt; { throw new CustomParseException("boom!", 1, 5); });</code></pre>
+   * // fails as no exception is thrown
+   * catchThrowableOfType(Exception.class, () -&gt; {});</code></pre>
    *
    * @param <THROWABLE> the {@link Throwable} type.
-   * @param shouldRaiseThrowable The lambda with the code that should raise the exception.
-   * @param type The type of exception that the code is expected to raise.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @param shouldRaiseThrowable The lambda with the code that should raise the throwable.
+   * @param type The type of throwable that the code is expected to raise.
+   * @return The captured throwable.
+   * @throws AssertionError if shouldRaiseThrowable did not throw any throwable.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.26.0
    */
@@ -3113,8 +2832,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   /**
    * Allows catching an instance of {@link Exception}.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
-   * otherwise it checks that the caught {@link Throwable} is of type {@link Exception} and casts it making it convenient to perform subtype-specific assertions on it.
+   * If no {@link Exception} is thrown, this method throws an {@link AssertionError}.
    * <p>
    * Example:
    * <pre><code class='java'>
@@ -3122,14 +2840,15 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * // assertions succeed
    * assertThat(exception).hasMessage("boom!");
    *
-   * // succeeds as catchException returns null when the code does not throw any exceptions
-   * assertThat(catchException(() -&gt; {})).isNull();
-   *
    * // fails as the thrown instance is not an Exception
-   * catchException(() -&gt; {throw new Throwable("boom!");});</code></pre>
+   * catchException(() -&gt; {throw new Throwable("boom!");});
+   *
+   *  // fails as no exception is thrown
+   *  catchException(() -&gt; {});</code></pre>
    *
    * @param throwingCallable The lambda with the code that should raise the exception.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
+   * @return The captured exception.
+   * @throws AssertionError if throwingCallable did not throw any {@link Exception}.
    * @see #catchThrowable(ThrowingCallable)
    * @since 3.22.0
    */
@@ -3140,24 +2859,23 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   /**
    * Allows catching an instance of {@link RuntimeException}.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
-   * otherwise it checks that the caught {@link Throwable} is of type {@link RuntimeException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * If no {@link RuntimeException} is thrown, this method throws an {@link AssertionError}.
    * <p>
    * Example:
-   * <pre><code class='java'>
-   * RuntimeException runtimeException = catchRuntimeException(() -&gt; {throw new RuntimeException("boom!");});
-   * // assertions succeed
+   * <pre><code class='java'> RuntimeException runtimeException = catchRuntimeException(() -&gt; {throw new RuntimeException("boom!");});
+   * // assertion succeeds:
    * assertThat(runtimeException).hasMessage("boom!");
    *
-   * // succeeds as catchRuntimeException returns null when the code does not throw any exceptions
-   * assertThat(catchRuntimeException(() -&gt; {})).isNull();
+   * // fails as the thrown instance is not an RuntimeException
+   * catchRuntimeException(() -&gt; {throw new Exception("boom!");});
    *
-   * // fails as the thrown instance is not a RuntimeException
-   * catchRuntimeException(() -&gt; {throw new Exception("boom!");});</code></pre>
+   *  // fails as no RuntimeException is thrown
+   *  catchRuntimeException(() -&gt; {});</code></pre>
    *
    * @param throwingCallable The lambda with the code that should raise the exception.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowingCallable)
+   * @return The captured exception.
+   * @throws AssertionError if throwingCallable did not throw any {@link RuntimeException}.
+   * @see #catchThrowableOfType(Class, ThrowingCallable)
    * @since 3.22.0
    */
   default RuntimeException catchRuntimeException(ThrowingCallable throwingCallable) {
@@ -3167,24 +2885,24 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   /**
    * Allows catching an instance of {@link NullPointerException}.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
-   * otherwise it checks that the caught {@link Throwable} is of type {@link RuntimeException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * If no {@link NullPointerException} is thrown, this method throws an {@link AssertionError}.
    * <p>
    * Example:
    * <pre><code class='java'>
    * NullPointerException nullPointerException = catchNullPointerException(() -&gt; {throw new NullPointerException("boom!");});
-   * // assertions succeed
+   * // assertion succeeds:
    * assertThat(nullPointerException).hasMessage("boom!");
    *
-   * // succeeds as catchNullPointerException returns null when the code does not throw any exceptions
-   * assertThat(catchNullPointerException(() -&gt; {})).isNull();
+   * // fails as the thrown instance is not an NullPointerException
+   * catchNullPointerException(() -&gt; {throw new Exception("boom!");});
    *
-   * // fails as the thrown instance is not a NullPointerException
-   * catchNullPointerException(() -&gt; {throw new Exception("boom!");});</code></pre>
+   *  // fails as no NullPointerException is thrown
+   *  catchNullPointerException(() -&gt; {});</code></pre>
    *
    * @param throwingCallable The lambda with the code that should raise the exception.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowingCallable)
+   * @return The captured exception.
+   * @throws AssertionError if throwingCallable did not throw any {@link NullPointerException}.
+   * @see #catchThrowableOfType(Class, ThrowingCallable)
    * @since 3.22.0
    */
   default NullPointerException catchNullPointerException(ThrowingCallable throwingCallable) {
@@ -3194,24 +2912,24 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   /**
    * Allows catching an instance of {@link IllegalArgumentException}.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
-   * otherwise it checks that the caught {@link Throwable} is of type {@link IllegalArgumentException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * If no {@link IllegalArgumentException} is thrown, this method throws an {@link AssertionError}.
    * <p>
    * Example:
    * <pre><code class='java'>
    * IllegalArgumentException illegalArgumentException = catchIllegalArgumentException(() -&gt; {throw new IllegalArgumentException("boom!");});
-   * // assertions succeed
+   * // assertion succeeds:
    * assertThat(illegalArgumentException).hasMessage("boom!");
    *
-   * // succeeds as catchNullPointerException returns null when the code does not throw any exceptions
-   * assertThat(catchIllegalArgumentException(() -&gt; {})).isNull();
-   *
    * // fails as the thrown instance is not an IllegalArgumentException
-   * catchIllegalArgumentException(() -&gt; {throw new Exception("boom!");});</code></pre>
+   * catchIllegalArgumentException(() -&gt; {throw new Exception("boom!");});
+   *
+   *  // fails as no IllegalArgumentException is thrown
+   *  catchIllegalArgumentException(() -&gt; {});</code></pre>
    *
    * @param throwingCallable The lambda with the code that should raise the exception.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowingCallable)
+   * @return The captured exception.
+   * @throws AssertionError if throwingCallable did not throw any {@link IllegalArgumentException}.
+   * @see #catchThrowableOfType(Class, ThrowingCallable)
    * @since 3.22.0
    */
   default IllegalArgumentException catchIllegalArgumentException(ThrowingCallable throwingCallable) {
@@ -3248,24 +2966,24 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   /**
    * Allows catching an instance of {@link ReflectiveOperationException}.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
-   * otherwise it checks that the caught {@link Throwable} is of type {@link ReflectiveOperationException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * If no {@link ReflectiveOperationException} is thrown, this method throws an {@link AssertionError}.
    * <p>
    * Example:
    * <pre><code class='java'>
    * ReflectiveOperationException reflectiveOperationException = catchReflectiveOperationException(() -&gt; {throw new ReflectiveOperationException("boom!");});
-   * // assertions succeed
+   * // assertion succeeds:
    * assertThat(reflectiveOperationException).hasMessage("boom!");
    *
-   * // succeeds as catchReflectiveOperationException returns null when the code does not throw any exceptions
-   * assertThat(catchReflectiveOperationException(() -&gt; {})).isNull();
+   * // fails as the thrown instance is not an ReflectiveOperationException
+   * catchReflectiveOperationException(() -&gt; {throw new Exception("boom!");});
    *
-   * // fails as the thrown instance is not an IOException
-   * catchReflectiveOperationException(() -&gt; {throw new Exception("boom!");});</code></pre>
+   *  // fails as no ReflectiveOperationException is thrown
+   *  catchReflectiveOperationException(() -&gt; {});</code></pre>
    *
    * @param throwingCallable The lambda with the code that should raise the exception.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowingCallable)
+   * @return The captured exception.
+   * @throws AssertionError if throwingCallable did not throw any {@link ReflectiveOperationException}.
+   * @see #catchThrowableOfType(Class, ThrowingCallable)
    * @since 3.22.0
    */
   default ReflectiveOperationException catchReflectiveOperationException(ThrowingCallable throwingCallable) {
@@ -3275,24 +2993,24 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   /**
    * Allows catching an instance of {@link IllegalStateException}.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
-   * otherwise it checks that the caught {@link Throwable} is of type {@link IllegalStateException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * If no {@link IllegalStateException} is thrown, this method throws an {@link AssertionError}.
    * <p>
    * Example:
    * <pre><code class='java'>
    * IllegalStateException illegalStateException = catchIllegalStateException(() -&gt; {throw new IllegalStateException("boom!");});
-   * // assertions succeed
+   * // assertion succeeds:
    * assertThat(illegalStateException).hasMessage("boom!");
    *
-   * // succeeds as catchReflectiveOperationException returns null when the code does not throw any exceptions
-   * assertThat(catchIllegalStateException(() -&gt; {})).isNull();
+   * // fails as the thrown instance is not an IllegalStateException
+   * catchIllegalStateException(() -&gt; {throw new Exception("boom!");});
    *
-   * // fails as the thrown instance is not an IOException
-   * catchIllegalStateException(() -&gt; {throw new Exception("boom!");});</code></pre>
+   *  // fails as no IllegalStateException is thrown
+   *  catchIllegalStateException(() -&gt; {});</code></pre>
    *
    * @param throwingCallable The lambda with the code that should raise the exception.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowingCallable)
+   * @return The captured exception.
+   * @throws AssertionError if throwingCallable did not throw any {@link IllegalStateException}.
+   * @see #catchThrowableOfType(Class, ThrowingCallable)
    * @since 3.22.0
    */
   default IllegalStateException catchIllegalStateException(ThrowingCallable throwingCallable) {
@@ -3302,24 +3020,24 @@ public interface WithAssertions extends InstanceOfAssertFactories {
   /**
    * Allows catching an instance of {@link IndexOutOfBoundsException}.
    * <p>
-   * A call is made to {@code catchThrowable(ThrowingCallable)}, if no exception is thrown it returns null
-   * otherwise it checks that the caught {@link Throwable} is of type {@link IndexOutOfBoundsException} and casts it making it convenient to perform subtype-specific assertions on it.
+   * If no {@link IndexOutOfBoundsException} is thrown, this method throws an {@link AssertionError}.
    * <p>
    * Example:
    * <pre><code class='java'>
    * IndexOutOfBoundsException indexOutOfBoundsException = catchIndexOutOfBoundsException(() -&gt; {throw new IndexOutOfBoundsException("boom!");});
-   * // assertions succeed
+   * // assertion succeeds:
    * assertThat(indexOutOfBoundsException).hasMessage("boom!");
    *
-   * // succeeds as catchIndexOutOfBoundsException returns null when the code does not throw any exceptions
-   * assertThat(catchIndexOutOfBoundsException(() -&gt; {})).isNull();
+   * // fails as the thrown instance is not an IndexOutOfBoundsException
+   * catchIndexOutOfBoundsException(() -&gt; {throw new Exception("boom!");});
    *
-   * // fails as the thrown instance is not an IOException
-   * catchIndexOutOfBoundsException(() -&gt; {throw new Exception("boom!");});</code></pre>
+   *  // fails as no IndexOutOfBoundsException is thrown
+   *  catchIndexOutOfBoundsException(() -&gt; {});</code></pre>
    *
    * @param throwingCallable The lambda with the code that should raise the exception.
-   * @return The captured exception or <code>null</code> if none was raised by the callable.
-   * @see #catchThrowable(ThrowingCallable)
+   * @return The captured exception.
+   * @throws AssertionError if throwingCallable did not throw any {@link IndexOutOfBoundsException}.
+   * @see #catchThrowableOfType(Class, ThrowingCallable)
    * @since 3.22.0
    */
   default IndexOutOfBoundsException catchIndexOutOfBoundsException(ThrowingCallable throwingCallable) {

@@ -19,7 +19,8 @@ import static org.assertj.core.error.ShouldHaveScale.shouldHaveScale;
 import java.math.BigDecimal;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 
 /**
  * Reusable assertions for <code>{@link BigDecimal}</code>s.
@@ -41,7 +42,7 @@ public class BigDecimals extends Numbers<BigDecimal> {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   BigDecimals() {
     super();
   }

@@ -12,7 +12,6 @@
  */
 package org.assertj.core.util.introspection;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNullOrEmpty;
@@ -74,7 +73,7 @@ public class MethodSupport {
   private static IllegalArgumentException prepareMethodNotFoundException(String methodName,
                                                                          Class<?> itemClass,
                                                                          Exception cause) {
-    String message = format(METHOD_NOT_FOUND, methodName, itemClass.getSimpleName());
+    String message = METHOD_NOT_FOUND.formatted(methodName, itemClass.getSimpleName());
     return new IllegalArgumentException(message, cause);
   }
 

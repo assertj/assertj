@@ -18,7 +18,7 @@ import static org.assertj.core.error.ShouldBeLowerCase.shouldBeLowerCase;
 import static org.assertj.core.error.ShouldBeUpperCase.shouldBeUpperCase;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 
 /**
  * Reusable assertions for <code>{@link Character}</code>s.
@@ -38,7 +38,7 @@ public class Characters extends Comparables {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Characters() {
     super();
   }

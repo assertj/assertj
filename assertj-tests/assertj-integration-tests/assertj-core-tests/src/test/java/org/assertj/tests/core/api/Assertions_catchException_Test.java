@@ -47,9 +47,9 @@ class Assertions_catchException_Test {
   @Test
   void catchException_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    Exception actual = catchException(() -> {});
+    AssertionError error = expectAssertionError(() -> catchException(() -> {}));
     // THEN
-    then(actual).isNull();
+    then(error).hasMessage("Expecting code to raise an Exception");
   }
 
   @Test

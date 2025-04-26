@@ -12,7 +12,7 @@
  */
 package org.assertj.core.internal;
 
-import org.assertj.core.util.VisibleForTesting;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 
 /**
  * Reusable assertions for <code>{@link Byte}</code>s.
@@ -35,7 +35,7 @@ public class Bytes extends Numbers<Byte> implements WholeNumbers<Byte> {
     return INSTANCE;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Bytes() {
     super();
   }

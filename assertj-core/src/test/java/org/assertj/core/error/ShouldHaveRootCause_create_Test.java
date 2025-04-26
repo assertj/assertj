@@ -184,7 +184,6 @@ class ShouldHaveRootCause_create_Test {
     // WHEN
     String message = shouldHaveRootCause(actual).create();
     // THEN
-    then(message).isEqualTo(format("Expecting actual throwable to have a root cause but it did not, actual was:%n%s",
-                                   STANDARD_REPRESENTATION.toStringOf(actual)));
+    then(message).isEqualTo("Expecting actual throwable to have a root cause but it did not, actual was:%n%s".formatted(STANDARD_REPRESENTATION.toStringOf(actual)));
   }
 }

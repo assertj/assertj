@@ -23,11 +23,9 @@ import static org.mockito.Mockito.mock;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Test;
@@ -99,7 +97,7 @@ class ShouldNotContain_create_Test {
   @Test
   void should_create_error_message_for_path_directory() {
     // GIVEN
-    Path directory = Paths.get("root");
+    Path directory = Path.of("root");
     List<Path> matchingContent = list(directory.resolve("foo.txt"), directory.resolve("bar.txt"));
     ErrorMessageFactory factory = directoryShouldNotContain(directory, matchingContent, "glob:**.java");
     // WHEN

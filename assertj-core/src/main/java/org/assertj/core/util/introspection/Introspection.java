@@ -12,7 +12,6 @@
  */
 package org.assertj.core.util.introspection;
 
-import static java.lang.String.format;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
@@ -28,7 +27,6 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.assertj.core.configuration.ConfigurationProvider;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Utility methods related to <a
@@ -71,8 +69,9 @@ public final class Introspection {
       getter.setAccessible(true);
       getter.invoke(target);
     } catch (InvocationTargetException ex) {
-      String message = format("Unable to invoke getter %s in %s, exception: %s",
-                              getter.getName(), target.getClass().getSimpleName(), ex.getTargetException());
+      String message = "Unable to invoke getter %s in %s, exception: %s".formatted(getter.getName(),
+                                                                                   target.getClass().getSimpleName(),
+                                                                                   ex.getTargetException());
       throw new IntrospectionError(message, ex, ex.getTargetException());
     } catch (Exception t) {
       throw new IntrospectionError(propertyNotFoundErrorMessage("Unable to find property %s in %s", propertyName, target), t);
@@ -85,7 +84,7 @@ public final class Introspection {
     Introspection.bareNamePropertyMethods = bareNamePropertyMethods;
   }
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public static boolean canExtractBareNamePropertyMethods() {
     return bareNamePropertyMethods;
   }
@@ -93,7 +92,7 @@ public final class Introspection {
   private static String propertyNotFoundErrorMessage(String message, String propertyName, Object target) {
     String targetTypeName = target.getClass().getName();
     String property = quote(propertyName);
-    return format(message, property, targetTypeName);
+    return message.formatted(property, targetTypeName);
   }
 
   private static Method findGetter(String propertyName, Object target) {
@@ -101,7 +100,7 @@ public final class Introspection {
     // try to find getProperty
     Method getter = findMethod("get" + capitalized, target);
     if (isValidGetter(getter)) return getter;
-    if (bareNamePropertyMethods || isRecordInstance(target)) {
+    if (bareNamePropertyMethods || target instanceof Record) {
       // try to find bare name property
       getter = findMethod(propertyName, target);
       if (isValidGetter(getter)) return getter;
@@ -113,14 +112,6 @@ public final class Introspection {
 
   private static boolean isValidGetter(Method method) {
     return method != null && !Modifier.isStatic(method.getModifiers()) && !Void.TYPE.equals(method.getReturnType());
-  }
-
-  private static boolean isRecordInstance(Object target) {
-    try {
-      return Class.forName("java.lang.Record").isInstance(target);
-    } catch (ClassNotFoundException e) {
-      return false;
-    }
   }
 
   private static Method findMethod(String name, Object target) {
@@ -168,4 +159,5 @@ public final class Introspection {
   }
 
   private Introspection() {}
+
 }

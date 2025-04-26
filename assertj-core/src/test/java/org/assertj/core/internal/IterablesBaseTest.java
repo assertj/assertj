@@ -20,6 +20,8 @@ import static org.mockito.Mockito.spy;
 import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.junit.jupiter.api.BeforeEach;
 
 /**
@@ -47,7 +49,7 @@ public class IterablesBaseTest {
   @BeforeEach
   public void setUp() {
     actual = newArrayList("Luke", "Yoda", "Leia");
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     iterables = new Iterables();
     iterables.failures = failures;
     comparisonStrategy = new ComparatorBasedComparisonStrategy(CASE_INSENSITIVE_ORDER);

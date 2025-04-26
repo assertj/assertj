@@ -12,7 +12,6 @@
  */
 package org.assertj.core.api;
 
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.util.Preconditions.checkState;
@@ -20,7 +19,6 @@ import static org.assertj.core.util.Strings.isNullOrEmpty;
 import static org.assertj.core.util.Strings.quote;
 
 import java.util.function.Supplier;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.description.EmptyTextDescription;
 import org.assertj.core.description.TextDescription;
@@ -168,8 +166,8 @@ public class WritableAssertionInfo implements AssertionInfo {
   @Override
   public String toString() {
     String format = "%s[overridingErrorMessage=%s, description=%s, representation=%s]";
-    return format(format, getClass().getSimpleName(), quote(overridingErrorMessage()), quote(descriptionText()),
-                  quote(representation()));
+    return format.formatted(getClass().getSimpleName(), quote(overridingErrorMessage()), quote(descriptionText()),
+                            quote(representation()));
   }
 
 }

@@ -13,7 +13,6 @@
 package org.assertj.core.api;
 
 import java.util.function.Supplier;
-
 import org.assertj.core.description.Description;
 import org.assertj.core.description.LazyTextDescription;
 import org.assertj.core.description.TextDescription;

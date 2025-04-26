@@ -12,7 +12,6 @@
  */
 package org.assertj.core.data;
 
-import static java.lang.String.format;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 /**
@@ -56,7 +55,7 @@ public final class Percentage {
 
   @Override
   public String toString() {
-    return noFractionalPart() ? format("%s%%", (int) value) : format("%s%%", value);
+    return noFractionalPart() ? "%s%%".formatted((int) value) : "%s%%".formatted(value);
   }
 
   private boolean noFractionalPart() {

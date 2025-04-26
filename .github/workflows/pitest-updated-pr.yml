@@ -35,7 +35,7 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
       - name: Download artifact
-        uses: dawidd6/action-download-artifact@v7
+        uses: dawidd6/action-download-artifact@v8
         with:
           workflow: ${{ github.event.workflow_run.workflow_id }}
           name: pitest

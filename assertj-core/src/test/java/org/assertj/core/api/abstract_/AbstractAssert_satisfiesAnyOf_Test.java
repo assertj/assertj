@@ -15,6 +15,7 @@ package org.assertj.core.api.abstract_;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.testkit.TolkienCharacter.Race.DRAGON;
 import static org.assertj.core.testkit.TolkienCharacter.Race.DWARF;
 import static org.assertj.core.testkit.TolkienCharacter.Race.ELF;
@@ -107,7 +108,7 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     ThrowingConsumer<Reader> hasNotReachedEOF = reader -> assertThat(reader.read()).isPositive();
     Consumer<Object> notNullObject = object -> assertThat(object).isNotNull();
     // THEN
-    then(new FileReader("src/test/resources/ascii.txt")).satisfiesAnyOf(hasNotReachedEOF, notNullObject);
+    then(new FileReader(resourceFile("ascii.txt"))).satisfiesAnyOf(hasNotReachedEOF, notNullObject);
   }
 
   @Test

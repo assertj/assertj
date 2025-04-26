@@ -12,7 +12,6 @@
  */
 package org.assertj.core.internal.integers;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.testkit.TestData.someInfo;
 
@@ -39,7 +38,7 @@ class Integers_assertIsNotNegative_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_is_negative() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> integers.assertIsNotNegative(someInfo(), -6))
-                                                   .withMessage(format("%nExpecting actual:%n  -6%nto be greater than or equal to:%n  0%n"));
+                                                   .withMessage("%nExpecting actual:%n  -6%nto be greater than or equal to:%n  0%n".formatted());
   }
 
   @Test

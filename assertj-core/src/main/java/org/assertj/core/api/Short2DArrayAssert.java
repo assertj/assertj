@@ -22,7 +22,6 @@ import java.util.Comparator;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Short2DArrays;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Assertion methods for arrays of {@code short}s.
@@ -37,7 +36,7 @@ public class Short2DArrayAssert extends Abstract2DArrayAssert<Short2DArrayAssert
 
   private final Failures failures = Failures.instance();
 
-  @VisibleForTesting
+  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   protected Short2DArrays short2dArrays = Short2DArrays.instance();
 
   public Short2DArrayAssert(short[][] actual) {

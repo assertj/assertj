@@ -52,7 +52,7 @@ class AtomicReferenceArrayAssert_allSatisfy_with_ThrowingConsumer_Test extends A
     Throwable throwable = catchThrowable(() -> assertThat(atomicArrayOf("foo")).allSatisfy(throwingConsumer(exception)));
     // THEN
     then(throwable).isInstanceOf(RuntimeException.class)
-                   .hasCauseReference(exception);
+                   .cause().isSameAs(exception);
   }
 
   @Test

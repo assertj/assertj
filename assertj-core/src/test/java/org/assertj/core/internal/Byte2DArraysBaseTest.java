@@ -39,7 +39,7 @@ public class Byte2DArraysBaseTest {
 
   @BeforeEach
   public void setUp() {
-    failures = spy(new Failures());
+    failures = spy(Failures.instance());
     byte2dArrays = new Byte2DArrays();
     byte2dArrays.failures = failures;
     arrays2d = mock(Arrays2D.class);

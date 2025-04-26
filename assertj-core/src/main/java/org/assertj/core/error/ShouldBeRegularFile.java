@@ -14,15 +14,12 @@ package org.assertj.core.error;
 
 import java.nio.file.Path;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link Path} is a regular file has failed.
  *
  */
 public class ShouldBeRegularFile extends BasicErrorMessageFactory {
-  @VisibleForTesting
-  public static final String SHOULD_BE_REGULAR_FILE = "%nExpecting path:%n  %s%nto be a regular file.";
+  private static final String SHOULD_BE_REGULAR_FILE = "%nExpecting path:%n  %s%nto be a regular file.";
 
   public static ErrorMessageFactory shouldBeRegularFile(final Path actual) {
     return new ShouldBeRegularFile(actual);

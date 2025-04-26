@@ -32,7 +32,7 @@ public class ShouldHave extends BasicErrorMessageFactory {
    * @return the created {@code ErrorMessageFactory}.
    */
   public static <T> ErrorMessageFactory shouldHave(T actual, Condition<? super T> condition) {
-    if (condition instanceof Join) return new ShouldHave(actual, (Join<? super T>) condition);
+    if (condition instanceof Join<? super T> join) return new ShouldHave(actual, join);
     return new ShouldHave(actual, condition);
   }
 

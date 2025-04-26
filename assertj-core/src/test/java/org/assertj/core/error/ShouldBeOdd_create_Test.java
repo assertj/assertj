@@ -12,7 +12,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeOdd.shouldBeOdd;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -38,6 +37,6 @@ class ShouldBeOdd_create_Test {
     // WHEN
     String message = shouldBeOdd(actual).create(new TestDescription("TEST"), STANDARD_REPRESENTATION);
     // THEN
-    then(message).isEqualTo(format("[TEST] %nExpecting %d to be odd", actual));
+    then(message).isEqualTo("[TEST] %nExpecting %d to be odd".formatted(actual));
   }
 }

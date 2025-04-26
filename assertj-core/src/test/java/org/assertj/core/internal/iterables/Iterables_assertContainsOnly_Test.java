@@ -13,7 +13,7 @@
 package org.assertj.core.internal.iterables;
 
 import static java.util.Collections.emptyList;
-import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
@@ -101,8 +101,7 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     // GIVEN
     Object[] expected = null;
     // WHEN
-    NullPointerException npe = catchThrowableOfType(() -> iterables.assertContainsOnly(someInfo(), actual, expected),
-                                                    NullPointerException.class);
+    NullPointerException npe = catchNullPointerException(() -> iterables.assertContainsOnly(someInfo(), actual, expected));
     // THEN
     then(npe).hasMessage(valuesToLookForIsNull());
   }

@@ -18,11 +18,10 @@ import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
-import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.tests.core.testkit.ObjectArrays.emptyArray;
 
-import java.util.List;
 import java.util.stream.Stream;
+
 import org.assertj.tests.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -147,27 +146,6 @@ class Assertions_assertThat_with_Stream_startsWith_Test {
     Stream<String> names = Stream.of("Luke", "Leia");
     String[] sequence = { "LUKE", "lEIA" };
     assertThat(names).usingElementComparator(CaseInsensitiveStringComparator.INSTANCE).startsWith(sequence);
-  }
-
-  @Test
-  void test_issue_245() {
-    Foo foo1 = new Foo("id", 1);
-    foo1._f2 = "foo1";
-    Foo foo2 = new Foo("id", 2);
-    foo2._f2 = "foo1";
-    List<Foo> stream2 = newArrayList(foo2);
-    assertThat(Stream.of(foo1)).usingElementComparatorOnFields("_f2").isEqualTo(stream2);
-    assertThat(Stream.of(foo1)).usingElementComparatorOnFields("id").isEqualTo(stream2);
-    assertThat(Stream.of(foo1)).usingElementComparatorIgnoringFields("bar").isEqualTo(stream2);
-  }
-
-  @Test
-  void test_issue_236() {
-    List<Foo> stream2 = newArrayList(new Foo("id", 2));
-    assertThat(Stream.of(new Foo("id", 1))).usingElementComparatorOnFields("id")
-                                           .isEqualTo(stream2);
-    assertThat(Stream.of(new Foo("id", 1))).usingElementComparatorIgnoringFields("bar")
-                                           .isEqualTo(stream2);
   }
 
   public static class Foo {

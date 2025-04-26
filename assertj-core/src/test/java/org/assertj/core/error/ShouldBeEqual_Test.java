@@ -12,14 +12,6 @@
  */
 package org.assertj.core.error;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.testkit.CaseInsensitiveStringComparator;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.opentest4j.AssertionFailedError;
-
-import java.util.Objects;
-
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
@@ -28,6 +20,13 @@ import static org.assertj.core.testkit.AlwaysDifferentComparator.ALWAY_DIFFERENT
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
+
+import java.util.Objects;
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.testkit.CaseInsensitiveStringComparator;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 class ShouldBeEqual_Test {
 
@@ -74,8 +73,8 @@ class ShouldBeEqual_Test {
     // WHEN
     AssertionError error = expectAssertionError(() -> then(actual).isEqualTo(expected));
     // THEN
-    then(error).hasMessageContainingAll(format("%nexpected: \"\"test\" (StringBuilder"),
-                                        format("%n but was: \"\"test\" (String"));
+    then(error).hasMessageContainingAll("%nexpected: \"\"test\" (StringBuilder".formatted(),
+                                        "%n but was: \"\"test\" (String".formatted());
   }
 
   @Test

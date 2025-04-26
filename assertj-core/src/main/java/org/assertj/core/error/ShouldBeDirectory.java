@@ -15,8 +15,6 @@ package org.assertj.core.error;
 import java.io.File;
 import java.nio.file.Path;
 
-import org.assertj.core.util.VisibleForTesting;
-
 /**
  * Creates an error message indicating that an assertion that verifies that a {@link File} or {@link Path} is an
  * existing directory failed
@@ -25,11 +23,9 @@ import org.assertj.core.util.VisibleForTesting;
  * @author Francis Galiegue
  */
 public class ShouldBeDirectory extends BasicErrorMessageFactory {
-  @VisibleForTesting
-  public static final String PATH_SHOULD_BE_DIRECTORY = "%nExpecting path:%n  %s%nto be a directory.";
 
-  @VisibleForTesting
-  public static final String FILE_SHOULD_BE_DIRECTORY = "%nExpecting file:%n  %s%n to be an existing directory.";
+  private static final String PATH_SHOULD_BE_DIRECTORY = "%nExpecting path:%n  %s%nto be a directory.";
+  private static final String FILE_SHOULD_BE_DIRECTORY = "%nExpecting file:%n  %s%nto be an existing directory.";
 
   public static ErrorMessageFactory shouldBeDirectory(final Path actual) {
     return new ShouldBeDirectory(actual);

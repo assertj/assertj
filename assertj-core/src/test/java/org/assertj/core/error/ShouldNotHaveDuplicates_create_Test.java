@@ -18,7 +18,7 @@ import static org.assertj.core.error.ShouldNotHaveDuplicates.shouldNotHaveDuplic
 import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.description.TextDescription;
-import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +44,7 @@ class ShouldNotHaveDuplicates_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(format("[Test] %nFound duplicate(s):%n  [\"Yoda\"]%nin:%n  [\"Yoda\", \"Yoda\", \"Luke\"]%n"));
+    then(message).isEqualTo("[Test] %nFound duplicate(s):%n  [\"Yoda\"]%nin:%n  [\"Yoda\", \"Yoda\", \"Luke\"]%n".formatted());
   }
 
   @Test

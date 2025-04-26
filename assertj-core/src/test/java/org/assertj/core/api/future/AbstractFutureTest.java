@@ -12,8 +12,6 @@
  */
 package org.assertj.core.api.future;
 
-import static java.lang.String.format;
-
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
@@ -21,11 +19,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
-
+import java.util.logging.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.platform.commons.logging.Logger;
-import org.junit.platform.commons.logging.LoggerFactory;
+
+import static java.util.logging.Level.INFO;
 
 abstract class AbstractFutureTest {
   protected ExecutorService executorService;
@@ -50,7 +48,7 @@ abstract class AbstractFutureTest {
     private final AtomicInteger count;
 
     private FutureTestThreadFactory() {
-      logger = LoggerFactory.getLogger(AbstractFutureTest.this.getClass());
+      logger = Logger.getLogger(AbstractFutureTest.this.getClass().getName());
       count = new AtomicInteger(0);
     }
 
@@ -67,10 +65,9 @@ abstract class AbstractFutureTest {
 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
-      logger.info(
-                  ex,
-                  () -> format("Thread %s [%s] threw an exception", thread.getName(), thread.getId()));
+      logger.log(INFO, ex, () -> "Thread %s [%s] threw an exception".formatted(thread.getName(), thread.getId()));
     }
+
   }
 
   protected static <U> CompletableFuture<U> completedFutureAfter(U value, long sleepDuration, ExecutorService service) {
@@ -86,4 +83,5 @@ abstract class AbstractFutureTest {
   protected static <U> CompletableFuture<U> completedFutureAfter(U value, Duration sleepDuration, ExecutorService service) {
     return completedFutureAfter(value, sleepDuration.toMillis(), service);
   }
+
 }

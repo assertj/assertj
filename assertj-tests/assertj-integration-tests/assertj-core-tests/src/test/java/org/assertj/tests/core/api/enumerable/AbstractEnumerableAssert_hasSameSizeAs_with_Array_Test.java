@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.core.api.enumerable;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
@@ -64,7 +63,7 @@ class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameSizeAs("a string"));
     // THEN
-    then(assertionError).hasMessage(format("%nExpecting an array but was: \"a string\""));
+    then(assertionError).hasMessage("%nExpecting an array but was: \"a string\"".formatted());
   }
 
   @Test

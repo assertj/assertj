@@ -12,15 +12,15 @@
  */
 package org.assertj.core.api.shortarray;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.testkit.AlwaysEqualComparator.alwaysEqual;
+import static org.assertj.core.testkit.ShortArrays.emptyArray;
+import static org.assertj.core.util.introspection.FieldSupport.EXTRACTION;
 
 import java.util.Comparator;
 
 import org.assertj.core.api.ShortArrayAssert;
-import org.assertj.core.api.ShortArrayAssertBaseTest;
-import org.assertj.core.internal.Objects;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link ShortArrayAssert#usingElementComparator(Comparator)}</code>.
@@ -28,26 +28,18 @@ import org.junit.jupiter.api.BeforeEach;
  * @author Joel Costigliola
  * @author Mikhail Mazursky
  */
-class ShortArrayAssert_usingElementComparator_Test extends ShortArrayAssertBaseTest {
+class ShortArrayAssert_usingElementComparator_Test {
 
-  private Comparator<Short> comparator = alwaysEqual();
-
-  private Objects objectsBefore;
-
-  @BeforeEach
-  void before() {
-    objectsBefore = getObjects(assertions);
-  }
-
-  @Override
-  protected ShortArrayAssert invoke_api_method() {
-    // in that test, the comparator type is not important, we only check that we correctly switch of comparator
-    return assertions.usingElementComparator(comparator);
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    assertThat(getObjects(assertions)).isSameAs(objectsBefore);
-    assertThat(getArrays(assertions).getComparator()).isSameAs(comparator);
+  @Test
+  public void should_set_element_comparator() {
+    // GIVEN
+    Comparator<Short> comparator = alwaysEqual();
+    ShortArrayAssert assertions = new ShortArrayAssert(emptyArray());
+    // WHEN
+    assertions.usingElementComparator(comparator);
+    // THEN
+    Comparator<?> assertionComparator = EXTRACTION.fieldValue("arrays.arrays.comparisonStrategy.comparator", Comparator.class,
+                                                              assertions);
+    then(assertionComparator).isSameAs(comparator);
   }
 }

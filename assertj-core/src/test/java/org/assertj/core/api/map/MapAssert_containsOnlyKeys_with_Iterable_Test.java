@@ -20,10 +20,8 @@ import static org.assertj.core.util.Lists.list;
 import static org.mockito.Mockito.verify;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.junit.jupiter.api.DisplayName;
@@ -55,7 +53,7 @@ class MapAssert_containsOnlyKeys_with_Iterable_Test extends MapAssertBaseTest {
   @DisplayName("given Path parameter")
   class MapAssert_containsOnlyKeys_with_Path_Test extends MapAssertBaseTest {
 
-    private final Path path = Paths.get("file");
+    private final Path path = Path.of("file");
 
     @Override
     protected MapAssert<Object, Object> invoke_api_method() {

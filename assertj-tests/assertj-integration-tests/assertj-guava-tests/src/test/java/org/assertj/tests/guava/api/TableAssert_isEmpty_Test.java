@@ -12,7 +12,6 @@
  */
 package org.assertj.tests.guava.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -50,7 +49,7 @@ public class TableAssert_isEmpty_Test extends TableAssertBaseTest {
     Throwable thrown = catchThrowable(() -> assertThat(actual).isEmpty());
     // THEN
     then(thrown).isInstanceOf(AssertionError.class)
-                .hasMessage(format("%nExpecting empty but was: {1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}"));
+                .hasMessage("%nExpecting empty but was: {1={3=Millard Fillmore, 4=Franklin Pierce}, 2={5=Grover Cleveland}}".formatted());
   }
 
 }

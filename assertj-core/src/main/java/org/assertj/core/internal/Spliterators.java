@@ -19,7 +19,6 @@ import java.util.Set;
 import java.util.Spliterator;
 
 import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for <code>{@link Spliterator}</code>s.
@@ -71,11 +70,6 @@ public class Spliterators {
    */
   public static Spliterators instance() {
     return INSTANCE;
-  }
-
-  @VisibleForTesting
-  void setFailures(Failures failures) {
-    iterables.failures = failures;
   }
 
   /**

@@ -16,8 +16,9 @@ import java.util.Comparator;
 
 import org.assertj.core.api.ArraySortedAssert;
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
+import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.data.Index;
-import org.assertj.core.util.VisibleForTesting;
 
 /**
  * Reusable assertions for arrays of {@code short}s.
@@ -28,7 +29,7 @@ import org.assertj.core.util.VisibleForTesting;
  */
 public class ShortArrays {
 
-  private static final ShortArrays INSTANCE = new ShortArrays();
+  private static final ShortArrays INSTANCE = new ShortArrays(StandardComparisonStrategy.instance());
 
   /**
    * Returns the singleton instance of this class.
@@ -39,28 +40,12 @@ public class ShortArrays {
     return INSTANCE;
   }
 
-  private Arrays arrays = Arrays.instance();
+  private final Arrays arrays;
 
-  @VisibleForTesting
-  Failures failures = Failures.instance();
-
-  @VisibleForTesting
-  ShortArrays() {
-    this(StandardComparisonStrategy.instance());
-  }
+  private final Failures failures = Failures.instance();
 
   public ShortArrays(ComparisonStrategy comparisonStrategy) {
-    setArrays(new Arrays(comparisonStrategy));
-  }
-
-  @VisibleForTesting
-  public void setArrays(Arrays arrays) {
-    this.arrays = arrays;
-  }
-
-  @VisibleForTesting
-  public Comparator<?> getComparator() {
-    return arrays.getComparator();
+    arrays = new Arrays(comparisonStrategy);
   }
 
   /**

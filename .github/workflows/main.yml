@@ -33,7 +33,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java: [23, 24, 25]
+        # https://jdk.java.net/
+        java: [24, 25]
     runs-on: ubuntu-latest
 
     steps:
@@ -53,7 +54,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        kotlin: [1.9.25, 2.0.21, 2.1.20-Beta1]
+        # https://kotlinlang.org/docs/releases.html#release-details
+        # https://kotlinlang.org/docs/eap.html#build-details
+        kotlin: [1.9.25, 2.0.21, 2.1.21-RC, 2.2.0-Beta1]
     runs-on: ubuntu-latest
 
     steps:
@@ -65,7 +68,7 @@ jobs:
           java-version: '21'
           cache: 'maven'
       - name: Test
-        run: ./mvnw $MAVEN_ARGS verify -Dkotlin.version=${{ matrix.kotlin }}
+        run: ./mvnw $MAVEN_ARGS -Dkotlin.version=${{ matrix.kotlin }} verify
 
   javadoc:
 

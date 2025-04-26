@@ -101,6 +101,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.ZONED_DATE_TIME;
 import static org.assertj.core.api.InstanceOfAssertFactories.list;
+import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.io.ByteArrayInputStream;
@@ -113,7 +114,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -157,7 +157,6 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 
@@ -962,7 +961,7 @@ class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
     }
 
     Path path() {
-      return Paths.get("src/test/resources/utf8.txt");
+      return resourcePath("utf8.txt");
     }
 
     Period period() {

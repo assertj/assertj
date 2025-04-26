@@ -14,6 +14,7 @@ package org.assertj.core.api.assumptions;
 
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.BDDAssertions.thenCode;
+import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import java.io.File;
@@ -23,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 class Assumptions_assumeThat_with_File_size_Test {
 
-  private static final File FILE = new File("src/test/resources/actual_file.txt");
+  private static final File FILE = resourceFile("actual_file.txt");
 
   @Test
   void should_run_test_when_assumption_using_file_size_succeeds() {
