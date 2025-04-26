@@ -23,20 +23,8 @@ public final class ErrorMessages {
     return "The given array should not be null";
   }
 
-  public static String arrayIsEmpty() {
-    return "The given array should not be empty";
-  }
-
   public static String iterableIsNull() {
     return "The given iterable should not be null";
-  }
-
-  public static String iterableIsEmpty() {
-    return "The given iterable should not be empty";
-  }
-
-  public static String descriptionIsNull() {
-    return "The description to set should not be null";
   }
 
   public static String keysToLookForIsEmpty(String placeholder) {
@@ -61,10 +49,6 @@ public final class ErrorMessages {
 
   public static String entryToLookForIsNull() {
     return "Entries to look for should not be null";
-  }
-
-  public static String isNotArray(Object o) {
-    return "The object <%s> should be an array".formatted(o);
   }
 
   public static String iterableToLookForIsNull() {
