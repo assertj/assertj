@@ -15,7 +15,6 @@ package org.assertj.core.error;
 import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
-import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.hashCodeFor;
 import static org.assertj.core.util.Strings.quote;
@@ -101,20 +100,8 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
 
   /** {@inheritDoc} */
   @Override
-  public String create(Description d, Representation representation) {
-    return formatter.format(d, representation, format, arguments);
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public String create(Description d) {
-    return create(d, CONFIGURATION_PROVIDER.representation());
-  }
-
-  /** {@inheritDoc} */
-  @Override
-  public String create() {
-    return create(emptyDescription());
+  public String create(Description description, Representation representation) {
+    return formatter.format(description, representation, format, arguments);
   }
 
   /**

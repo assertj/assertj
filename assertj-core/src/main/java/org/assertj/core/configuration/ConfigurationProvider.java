@@ -16,6 +16,7 @@ import static org.assertj.core.configuration.Configuration.DEFAULT_CONFIGURATION
 
 import java.util.List;
 import java.util.ServiceLoader;
+
 import org.assertj.core.presentation.CompositeRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -32,7 +33,7 @@ public final class ConfigurationProvider {
 
   public static final ConfigurationProvider CONFIGURATION_PROVIDER = new ConfigurationProvider();
   private final Configuration configuration;
-  private CompositeRepresentation compositeRepresentation;
+  private final CompositeRepresentation compositeRepresentation;
 
   private ConfigurationProvider() {
     configuration = Services.get(Configuration.class, DEFAULT_CONFIGURATION);

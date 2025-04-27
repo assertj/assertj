@@ -12,9 +12,11 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
+import static org.assertj.core.description.EmptyTextDescription.emptyDescription;
+
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.presentation.StandardRepresentation;
 
 /**
  * Factory of error messages.
@@ -25,24 +27,23 @@ public interface ErrorMessageFactory {
 
   /**
    * Creates a new error message as a result of a failed assertion.
-   * @param d the description of the failed assertion.
-   * @param p the representation used
+   * @param description the description of the failed assertion.
+   * @param representation the representation used
    * @return the created error message.
    */
-  String create(Description d, Representation p);
+  String create(Description description, Representation representation);
 
   /**
-   * Creates a new error message as a result of a failed assertion with {@link StandardRepresentation}.
-   * 
-   * @param d the description of the failed assertion.
-   * @return the created error message.
+   * {@inheritDoc}
    */
-  String create(Description d);
+  default String create(Description d) {
+    return create(d, CONFIGURATION_PROVIDER.representation());
+  }
 
   /**
-   * Creates a new error message as a result of a failed assertion without description.
-   * 
-   * @return the created error message.
+   * {@inheritDoc}
    */
-  String create();
+  default String create() {
+    return create(emptyDescription());
+  }
 }

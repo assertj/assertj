@@ -40,10 +40,10 @@ public class Failures {
 
   private static final Failures INSTANCE = new Failures();
 
-  private AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
+  private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   /**
-   * flag indicating that in case of a failure a threaddump is printed out.
+   * flag indicating that in case of a failure a thread dump is printed out.
    */
   private boolean printThreadDump = false;
 

@@ -32,7 +32,7 @@ public class AbstractShouldHaveTextContent extends BasicErrorMessageFactory {
   }
 
   @Override
-  public String create(Description d, Representation representation) {
+  public String create(Description description, Representation representation) {
     // we append diffs here as we can't add in super constructor call, see why below.
     //
     // case 1 - append diffs to String passed in super :
@@ -47,7 +47,7 @@ public class AbstractShouldHaveTextContent extends BasicErrorMessageFactory {
     //
     // The solution is to keep diffs as an attribute and append it after String.format has been applied on the error
     // message.
-    return super.create(d, representation) + diffs;
+    return super.create(description, representation) + diffs;
   }
 
   protected static String diffsAsString(List<Delta<String>> diffsList) {
