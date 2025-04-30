@@ -1,5 +1,5 @@
 # AssertJ - Fluent Assertions for Java [![Maven Central](https://img.shields.io/maven-central/v/org.assertj/assertj-core.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22org.assertj%22%20AND%20a:%22assertj-core%22) [![Javadocs](http://www.javadoc.io/badge/org.assertj/assertj-core.svg)](http://www.javadoc.io/doc/org.assertj/assertj-core)
-
+dummychange
 [![CI](https://github.com/timo-a/assertj/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/timo-a/assertj/actions/workflows/main.yml?query=branch%3Amain)
 [![Binary Compatibility](https://github.com/timo-a/assertj/actions/workflows/binary-compatibility.yml/badge.svg?branch=main)](https://github.com/timo-a/assertj/actions/workflows/binary-compatibility.yml?query=branch%3Amain)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=timo-a_assertj&metric=alert_status)](https://sonarcloud.io/dashboard?id=timo-a_assertj)
