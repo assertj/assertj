@@ -90,7 +90,7 @@ jobs:
 
     name: Sonar code analysis
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'assertj' && github.event_name == 'push'
+    if: github.repository_owner == 'timo-a' && github.event_name == 'push'
 
     steps:
       - uses: actions/checkout@v4
