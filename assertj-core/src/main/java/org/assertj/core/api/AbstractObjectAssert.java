@@ -763,7 +763,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   }
 
   /**
-   * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
+   * Same as {@link #usingRecursiveComparison()} but allows specifying your own {@link RecursiveComparisonConfiguration}.
    *
    * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
