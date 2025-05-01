@@ -28,7 +28,7 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
  * There is a bit of discrepancy in this strategy as it looks for fields to compare but gets the value in this order: property
  * first, then field and finally tries as map value if the instance is a map.
  */
-public class DefaultRecursiveComparisonIntrospectionStrategy implements RecursiveComparisonIntrospectionStrategy {
+public class LegacyRecursiveComparisonIntrospectionStrategy implements RecursiveComparisonIntrospectionStrategy {
 
   // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
   private final Map<Class<?>, Set<String>> fieldNamesPerClass = new ConcurrentHashMap<>();

@@ -50,7 +50,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private static final boolean DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS = true;
   public static final String INDENT_LEVEL_2 = "  -";
   private final Representation representation;
-  public static final DefaultRecursiveComparisonIntrospectionStrategy DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY = new DefaultRecursiveComparisonIntrospectionStrategy();
+  public static final RecursiveComparisonIntrospectionStrategy DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY = new LegacyRecursiveComparisonIntrospectionStrategy();
   private boolean strictTypeChecking = false;
 
   // fields to ignore section
@@ -596,7 +596,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   /**
    * Defines how objects are introspected in the recursive comparison.
    * <p>
-   * Default to {@link DefaultRecursiveComparisonIntrospectionStrategy}.
+   * Default to {@link LegacyRecursiveComparisonIntrospectionStrategy}.
    *
    * @param introspectionStrategy the {@link RecursiveComparisonIntrospectionStrategy} to use
    */
@@ -1560,7 +1560,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     /**
      * Defines how objects are introspected in the recursive comparison.
      * <p>
-     * Default to {@link DefaultRecursiveComparisonIntrospectionStrategy}.
+     * Default to {@link LegacyRecursiveComparisonIntrospectionStrategy}.
      *
      * @param introspectionStrategy the {@link RecursiveComparisonIntrospectionStrategy} to use
      * @return This builder.

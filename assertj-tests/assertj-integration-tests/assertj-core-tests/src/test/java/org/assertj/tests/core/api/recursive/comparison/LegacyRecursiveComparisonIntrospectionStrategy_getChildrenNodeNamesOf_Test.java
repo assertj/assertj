@@ -17,20 +17,20 @@ import static org.assertj.core.api.BDDAssertions.then;
 import java.util.Set;
 
 import org.assertj.core.api.recursive.comparison.ComparingProperties;
-import org.assertj.core.api.recursive.comparison.DefaultRecursiveComparisonIntrospectionStrategy;
+import org.assertj.core.api.recursive.comparison.LegacyRecursiveComparisonIntrospectionStrategy;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("unused")
-class DefaultRecursiveComparisonIntrospectionStrategy_getChildrenNodeNamesOf_Test {
+class LegacyRecursiveComparisonIntrospectionStrategy_getChildrenNodeNamesOf_Test {
 
-  private static final DefaultRecursiveComparisonIntrospectionStrategy DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY = new DefaultRecursiveComparisonIntrospectionStrategy();
+  private static final LegacyRecursiveComparisonIntrospectionStrategy LEGACY_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY = new LegacyRecursiveComparisonIntrospectionStrategy();
 
   @Test
   void getChildrenNodeNamesOf_return_all_fields_names() {
     // GIVEN
     FieldsAndProperties node = new FieldsAndProperties();
     // WHEN
-    Set<String> nodePropertiesNames = DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY.getChildrenNodeNamesOf(node);
+    Set<String> nodePropertiesNames = LEGACY_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY.getChildrenNodeNamesOf(node);
     // THEN
     then(nodePropertiesNames).containsExactlyInAnyOrder("publicField", "protectedField", "packagePrivateField", "privateField",
                                                         "privateBoolean", "privateByte", "privateShort", "privateInt",
@@ -45,7 +45,7 @@ class DefaultRecursiveComparisonIntrospectionStrategy_getChildrenNodeNamesOf_Tes
   void getChildrenNodeNamesOf_caches_all_fields_names() {
     // GIVEN
     FieldsAndProperties node = new FieldsAndProperties();
-    // Create new instance to ensure that cache is empty before first getChildrenNodeNamesOf call
+    // Create a new instance to ensure that cache is empty before first getChildrenNodeNamesOf call
     ComparingProperties comparingProperties = new ComparingProperties();
     // WHEN
     Set<String> nodePropertiesNames = comparingProperties.getChildrenNodeNamesOf(node);
@@ -142,15 +142,15 @@ class DefaultRecursiveComparisonIntrospectionStrategy_getChildrenNodeNamesOf_Tes
   @Test
   void getChildrenNodeNamesOf_ignores_synthetic_fields() {
     // GIVEN
-    Outer.Inner inner = new Outer().new Inner();
+    Outer.Inner inner = new Outer.Inner();
     // WHEN
-    Set<String> childrenNodeNames = DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY.getChildrenNodeNamesOf(inner);
+    Set<String> childrenNodeNames = LEGACY_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY.getChildrenNodeNamesOf(inner);
     // THEN
     then(childrenNodeNames).containsOnly("innerField");
   }
 
   static class Outer {
-    class Inner {
+    static class Inner {
       // compiler generates a synthetic field to represent the appropriate instance of the Outer class.
       private final String innerField = "innerField value";
     }
@@ -161,7 +161,7 @@ class DefaultRecursiveComparisonIntrospectionStrategy_getChildrenNodeNamesOf_Tes
     // GIVEN
     SubClass actual = new SubClass();
     // WHEN
-    Set<String> childrenNodeNames = DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY.getChildrenNodeNamesOf(actual);
+    Set<String> childrenNodeNames = LEGACY_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY.getChildrenNodeNamesOf(actual);
     // THEN
     then(childrenNodeNames).containsExactlyInAnyOrder("superClassField1", "superClassField2", "subClassField");
   }
