@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({
-    ElementType.ANNOTATION_TYPE,
+    ElementType.ANNOTATION_TYPE, //todo this should register as a code smell
     ElementType.CONSTRUCTOR,
     ElementType.FIELD,
     ElementType.METHOD,
