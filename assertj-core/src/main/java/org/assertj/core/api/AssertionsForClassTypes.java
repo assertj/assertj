@@ -34,6 +34,7 @@ import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -598,6 +599,10 @@ public class AssertionsForClassTypes {
    */
   public static AbstractStringAssert<?> assertThat(String actual) {
     return new StringAssert(actual);
+  }
+
+  public static <ELEMENT> HashSetAssert<ELEMENT> assertThat(HashSet<? extends ELEMENT> actual) {
+    return new HashSetAssert<>(actual);
   }
 
   /**
