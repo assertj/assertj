@@ -43,7 +43,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithL
   @MethodSource
   void should_only_compare_given_fields(Object actual, Object expected, String[] fieldNamesToCompare) {
 
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .comparingOnlyFields(fieldNamesToCompare)
                 .isEqualTo(expected);
   }
@@ -140,12 +140,12 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithL
     expected.neighbour.neighbour.home.address.number = 125;
 
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .comparingOnlyFields("name", "home", "neighbour")
                 // ignores all different fields from the compared fields
                 .ignoringFields("home.address.number", "neighbour.name", "neighbour.neighbour.home.address.number")
                 .isEqualTo(expected);
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 // ignores all different fields from the compared fields
                 .ignoringFields("home.address.number", "neighbour.name", "neighbour.neighbour.home.address.number")
                 .comparingOnlyFields("name", "home", "neighbour")
@@ -194,7 +194,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithL
     expected.setDefaultRoleName("UX MANAGER");
     // WHEN/THEN
     // defaultRoleName or deletedAt should not be compared.
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .comparingOnlyFields("defaultRole", "deleted")
                 .isEqualTo(expected);
   }
@@ -279,7 +279,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithL
     // GIVEN
     recursiveComparisonConfiguration.compareOnlyFields(fieldNamesToCompare);
     // WHEN
-    IllegalArgumentException iae = catchIllegalArgumentException(() -> assertThat(actual).usingRecursiveComparison()
+    IllegalArgumentException iae = catchIllegalArgumentException(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                          .comparingOnlyFields(fieldNamesToCompare)
                                                                                          .isEqualTo(expected));
     // THEN
@@ -349,7 +349,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithL
     jack.neighbour = jack;
     joan.neighbour = jack;
     // WHEN/THEN
-    then(john).usingRecursiveComparison()
+    then(john).usingRecursiveComparison(recursiveComparisonConfiguration)
               .comparingOnlyFields("neighbour.neighbour.name")
               .isEqualTo(alice);
   }
@@ -366,7 +366,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithL
     jack.neighbour = jack;
     joan.neighbour = jack;
     // WHEN/THEN
-    then(john).usingRecursiveComparison()
+    then(john).usingRecursiveComparison(recursiveComparisonConfiguration)
               .comparingOnlyFields("neighbour.neighbour.neighbour.neighbour")
               .isEqualTo(alice);
   }
@@ -379,7 +379,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithL
     // WHEN/THEN
     // badField is not detected as an unknown field since john.neighbour is null
     // neighbour fields are compared and match since they are both null
-    then(john).usingRecursiveComparison()
+    then(john).usingRecursiveComparison(recursiveComparisonConfiguration)
               .comparingOnlyFields("neighbour.badField")
               .isEqualTo(alice);
   }
@@ -408,7 +408,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithL
     WithNames actual = new WithNames(newHashSet(names));
     WithNames expected = new WithNames(newHashSet(names));
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .comparingOnlyFields("names")
                 .isEqualTo(expected);
   }
@@ -440,7 +440,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithL
     FriendlyPerson sherlock2 = new FriendlyPerson("Sherlock Holmes");
     sherlock2.friends.add(new FriendlyPerson("Dr. John Watson"));
     // WHEN/THEN
-    then(sherlock1).usingRecursiveComparison()
+    then(sherlock1).usingRecursiveComparison(recursiveComparisonConfiguration)
                    .comparingOnlyFields("friends.name")
                    .isEqualTo(sherlock2);
   }

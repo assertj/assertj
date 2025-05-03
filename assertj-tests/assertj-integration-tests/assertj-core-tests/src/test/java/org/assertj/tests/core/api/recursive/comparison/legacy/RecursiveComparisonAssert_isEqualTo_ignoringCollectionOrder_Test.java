@@ -37,7 +37,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
-  extends WithLegacyIntrospectionStrategyBaseTest {
+    extends WithLegacyIntrospectionStrategyBaseTest {
 
   @ParameterizedTest(name = "{0}: actual={1} / expected={2}")
   @MethodSource("should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_source")
@@ -45,7 +45,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
   void should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored(String description,
                                                                                    Object actual,
                                                                                    Object expected) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringCollectionOrder()
                       .isEqualTo(expected);
   }
@@ -107,7 +107,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                                                                                                        Object actual,
                                                                                                        Object expected,
                                                                                                        String[] fieldsToIgnoreCollectionOrder) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringCollectionOrderInFields(fieldsToIgnoreCollectionOrder)
                       .isEqualTo(expected);
   }
@@ -174,7 +174,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                                                                                                                         Object actual,
                                                                                                                         Object expected,
                                                                                                                         String[] regexes) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringCollectionOrderInFieldsMatchingRegexes(regexes)
                       .isEqualTo(expected);
   }
@@ -247,14 +247,14 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<Integer> listACopy = list(1, 2);
     List<Integer> listBCopy = list(1, 2);
     // The lists themselves are equal to each other.
-    assertThat(listA).usingRecursiveComparison()
+    assertThat(listA).usingRecursiveComparison(recursiveComparisonConfiguration)
                      .ignoringCollectionOrder()
                      .isEqualTo(listACopy);
-    assertThat(listB).usingRecursiveComparison()
+    assertThat(listB).usingRecursiveComparison(recursiveComparisonConfiguration)
                      .ignoringCollectionOrder()
                      .isEqualTo(listBCopy);
     // Also, nested lists are still considered equal (regardless of the order of the top-level list)
-    assertThat(list(listA, listB)).usingRecursiveComparison()
+    assertThat(list(listA, listB)).usingRecursiveComparison(recursiveComparisonConfiguration)
                                   .ignoringCollectionOrder()
                                   .isEqualTo(list(listACopy, listBCopy))
                                   .isEqualTo(list(listBCopy, listACopy));
@@ -264,21 +264,21 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<Integer> listAReverse = list(2, 1);
     List<Integer> listBReverse = list(2, 1);
     // The lists themselves are still equal to each other. So far so good.
-    assertThat(listA).usingRecursiveComparison()
+    assertThat(listA).usingRecursiveComparison(recursiveComparisonConfiguration)
                      .ignoringCollectionOrder()
                      .isEqualTo(listAReverse);
-    assertThat(listB).usingRecursiveComparison()
+    assertThat(listB).usingRecursiveComparison(recursiveComparisonConfiguration)
                      .ignoringCollectionOrder()
                      .isEqualTo(listBReverse);
     // Also, comparing a list with one reversed and one copy works!
-    assertThat(list(listA, listB)).usingRecursiveComparison()
+    assertThat(list(listA, listB)).usingRecursiveComparison(recursiveComparisonConfiguration)
                                   .ignoringCollectionOrder()
                                   .isEqualTo(list(listACopy, listBReverse))
                                   .isEqualTo(list(listAReverse, listBCopy));
 
     // <<<<<<<<<<<<<<<<<<<<<<<< HERE IS THE PROBLEM >>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // Comparing the original lists against two reversed lists fails!
-    assertThat(list(listA, listB)).usingRecursiveComparison()
+    assertThat(list(listA, listB)).usingRecursiveComparison(recursiveComparisonConfiguration)
                                   .ignoringCollectionOrder()
                                   .isEqualTo(list(listAReverse, listBReverse))
                                   .isEqualTo(list(listBReverse, listAReverse));
@@ -288,12 +288,12 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<Integer> listC = list(3, 4);
     List<Integer> listCReverse = list(4, 3);
     // The lists themselves are equal to each other.
-    assertThat(listC).usingRecursiveComparison()
+    assertThat(listC).usingRecursiveComparison(recursiveComparisonConfiguration)
                      .ignoringCollectionOrder()
                      .isEqualTo(listCReverse);
 
     // Interestingly, both of these assertions work fine!
-    assertThat(list(listA, listC)).usingRecursiveComparison()
+    assertThat(list(listA, listC)).usingRecursiveComparison(recursiveComparisonConfiguration)
                                   .ignoringCollectionOrder()
                                   .isEqualTo(list(listAReverse, listCReverse))
                                   .isEqualTo(list(listCReverse, listAReverse));
@@ -333,7 +333,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<Integer> listAReverse = list(2, 1);
     List<Integer> listBReverse = list(2, 1);
     // WHEN - THEN
-    assertThat(list(listA, listB)).usingRecursiveComparison()
+    assertThat(list(listA, listB)).usingRecursiveComparison(recursiveComparisonConfiguration)
                                   .ignoringCollectionOrder()
                                   .isEqualTo(list(listAReverse, listBReverse));
 
@@ -352,7 +352,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<FriendlyPerson> listAReverse = list(p4, p3);
     List<FriendlyPerson> listBReverse = list(p4, p3);
     // WHEN - THEN
-    assertThat(list(listA, listB)).usingRecursiveComparison()
+    assertThat(list(listA, listB)).usingRecursiveComparison(recursiveComparisonConfiguration)
                                   .ignoringCollectionOrder()
                                   .isEqualTo(list(listAReverse, listBReverse));
 
@@ -386,7 +386,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                                         new PersonWithEnum("name-2", SECOND));
 
     // WHEN/THEN
-    assertThat(persons).usingRecursiveComparison()
+    assertThat(persons).usingRecursiveComparison(recursiveComparisonConfiguration)
                        .ignoringCollectionOrder()
                        .isEqualTo(list(new PersonWithEnum("name-2", SECOND),
                                        new PersonWithEnum("name-2", FIRST),
@@ -429,7 +429,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                                        new PersonWithInt("name-2", 1),
                                        new PersonWithInt("name-2", 2));
     // WHEN/THEN
-    then(persons).usingRecursiveComparison()
+    then(persons).usingRecursiveComparison(recursiveComparisonConfiguration)
                  .ignoringCollectionOrder()
                  .isEqualTo(list(new PersonWithInt("name-2", 2),
                                  new PersonWithInt("name-2", 1),
@@ -470,7 +470,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     DataStore dataStore1 = createDataStore(d1, d2);
     DataStore dataStore2 = createDataStore(d2, d1);
     // WHEN/THEN
-    then(dataStore1).usingRecursiveComparison()
+    then(dataStore1).usingRecursiveComparison(recursiveComparisonConfiguration)
                     .withEqualsForType((data1, data2) -> data1.text.equals(data2.text), Data.class)
                     .ignoringCollectionOrder()
                     .isEqualTo(dataStore2);
@@ -504,7 +504,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<Outer> listBCopy = list(o2B, o1B, o3B);
 
     // WHEN/THEN
-    then(list(listA, listACopy)).usingRecursiveComparison()
+    then(list(listA, listACopy)).usingRecursiveComparison(recursiveComparisonConfiguration)
                                 .ignoringCollectionOrder()
                                 .isEqualTo(list(listB, listBCopy));
   }
@@ -543,7 +543,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<Item> actualItems = List.of(new Item("Pants", 3), new Item("Loafers", 1));
     registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison()
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                       .ignoringCollectionOrder()
                                                                                       .isEqualTo(expectedItems));
     // THEN

@@ -18,14 +18,13 @@ import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.recursive.comparison.RecursiveComparator;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.junit.jupiter.api.Test;
 
 // only check we are using the proper comparator since the implementation of isIn only switched comparator before calling
 // the super call isIn method.
-class RecursiveComparisonAssert_isNotIn_Test {
+class RecursiveComparisonAssert_isNotIn_Test extends WithLegacyIntrospectionStrategyBaseTest {
 
   @Test
   void should_use_recursive_comparator() {
@@ -33,7 +32,6 @@ class RecursiveComparisonAssert_isNotIn_Test {
     Person actual = new Person("jack");
     Person other = new Person("john");
     // WHEN
-    RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
     RecursiveComparisonAssert<?> recursiveComparisonAssert = assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                .isNotIn(other);
     // THEN
@@ -51,7 +49,7 @@ class RecursiveComparisonAssert_isNotIn_Test {
     Person other1 = new Person("john");
     Person other2 = new Person("jim");
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isNotIn(other1, other2)
                 .isNotIn(list(other1, other2));
   }

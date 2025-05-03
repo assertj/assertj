@@ -38,14 +38,14 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_withComparatorsForFieldMatchingRegexes_Test
-  extends WithLegacyIntrospectionStrategyBaseTest {
+    extends WithLegacyIntrospectionStrategyBaseTest {
 
   @ParameterizedTest(name = "{4}: actual={0} / expected={1} - fieldRegexes {3}")
   @MethodSource("recursivelyEqualObjectsWhenUsingFieldComparators")
   void should_pass_with_registered_BiPredicates_by_fields_matching_regexes(Object actual, Object expected,
                                                                            BiPredicate<Object, Object> equals,
                                                                            String[] fieldRegexes, String testDescription) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .withEqualsForFieldsMatchingRegexes(equals, fieldRegexes)
                       .isEqualTo(expected);
   }
@@ -120,7 +120,7 @@ class RecursiveComparisonAssert_isEqualTo_withComparatorsForFieldMatchingRegexes
     goliathTwin.height = 3.1;
 
     // THEN
-    then(goliath).usingRecursiveComparison()
+    then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                  .withEqualsForFieldsMatchingRegexes((Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.2, "hei...")
                  .isEqualTo(goliathTwin);
   }
@@ -139,7 +139,7 @@ class RecursiveComparisonAssert_isEqualTo_withComparatorsForFieldMatchingRegexes
     goliathTwin.home.address.number = 5;
 
     // THEN
-    then(goliath).usingRecursiveComparison()
+    then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                  .withEqualsForFieldsMatchingRegexes((Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.2, "height")
                  .withEqualsForFieldsMatchingRegexes((Integer d1, Integer d2) -> d1 - d2 <= 10, "home.address.number")
                  .isEqualTo(goliathTwin);
@@ -151,7 +151,7 @@ class RecursiveComparisonAssert_isEqualTo_withComparatorsForFieldMatchingRegexes
     Patient actual = new Patient(null);
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEqualsForFieldsMatchingRegexes(ALWAYS_EQUALS, "dateOfBirth")
                 .isEqualTo(expected);
   }
@@ -162,11 +162,11 @@ class RecursiveComparisonAssert_isEqualTo_withComparatorsForFieldMatchingRegexes
     Patient actual = new Patient(new Timestamp(1L));
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withComparatorForType(NEVER_EQUALS, Timestamp.class)
                 .withEqualsForFieldsMatchingRegexes(ALWAYS_EQUALS, "dateOfBirth")
                 .isEqualTo(expected);
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEqualsForFieldsMatchingRegexes(ALWAYS_EQUALS, "dateOfBirth")
                 .withComparatorForType(NEVER_EQUALS, Timestamp.class)
                 .isEqualTo(expected);
@@ -178,11 +178,11 @@ class RecursiveComparisonAssert_isEqualTo_withComparatorsForFieldMatchingRegexes
     Patient actual = new Patient(new Timestamp(1L));
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEqualsForFields(ALWAYS_EQUALS, "dateOfBirth")
                 .withEqualsForFieldsMatchingRegexes(ALWAYS_DIFFERENT, "dateOfB.*")
                 .isEqualTo(expected);
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEqualsForFieldsMatchingRegexes(ALWAYS_DIFFERENT, "dateOfBi.*")
                 .withEqualsForFields(ALWAYS_EQUALS, "dateOfBirth")
                 .isEqualTo(expected);
@@ -198,7 +198,7 @@ class RecursiveComparisonAssert_isEqualTo_withComparatorsForFieldMatchingRegexes
     expected.neighbour = new AlwaysEqualPerson();
     expected.neighbour.name = new Name("Omar2", "Sy");
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEqualsForFieldsMatchingRegexes(ALWAYS_EQUALS, "neighbour") // fails if commented
                 .usingOverriddenEquals()
                 .isEqualTo(expected);
@@ -211,7 +211,7 @@ class RecursiveComparisonAssert_isEqualTo_withComparatorsForFieldMatchingRegexes
     Foo expected = new Foo(1);
     BiPredicate<Integer, Integer> greaterThan = (i1, i2) -> Objects.equals(i1, i2 + 1);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                  .withEqualsForFieldsMatchingRegexes(greaterThan,
                                                                                                                      "b..")
                                                                                  .isEqualTo(expected));

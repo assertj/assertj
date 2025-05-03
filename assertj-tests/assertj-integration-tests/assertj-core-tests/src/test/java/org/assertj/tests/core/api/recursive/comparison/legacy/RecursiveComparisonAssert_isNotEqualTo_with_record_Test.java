@@ -16,7 +16,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 
 import org.junit.jupiter.api.Test;
 
-class RecursiveComparisonAssert_isNotEqualTo_with_record_Test {
+class RecursiveComparisonAssert_isNotEqualTo_with_record_Test extends WithLegacyIntrospectionStrategyBaseTest {
 
   // https://github.com/assertj/assertj/issues/3539
   @Test
@@ -27,7 +27,7 @@ class RecursiveComparisonAssert_isNotEqualTo_with_record_Test {
     Record actual = new Record("value1", true);
     Record other = new Record("value2", true);
     // WHEN/THEN
-    then(actual).usingRecursiveComparison().isNotEqualTo(other);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration).isNotEqualTo(other);
   }
 
 }

@@ -39,7 +39,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 @SuppressWarnings("unused")
 class RecursiveComparisonAssert_isEqualTo_ignoringFieldsOfTypesMatchingRegexes_Test
-  extends WithLegacyIntrospectionStrategyBaseTest {
+    extends WithLegacyIntrospectionStrategyBaseTest {
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1} / ignored types={3}")
   @MethodSource
@@ -47,7 +47,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFieldsOfTypesMatchingRegexes_T
                                                                            Object expected,
                                                                            List<String> regexes,
                                                                            @SuppressWarnings("unused") String testDescription) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringFieldsOfTypesMatchingRegexes(arrayOf(regexes))
                       .isEqualTo(expected);
   }
@@ -212,7 +212,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFieldsOfTypesMatchingRegexes_T
     Person expected = new Person("John");
     expected.home.address.number = 123;
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .ignoringFieldsOfTypesMatchingRegexes(".*Home")
                 .withStrictTypeChecking()
                 .isEqualTo(expected);

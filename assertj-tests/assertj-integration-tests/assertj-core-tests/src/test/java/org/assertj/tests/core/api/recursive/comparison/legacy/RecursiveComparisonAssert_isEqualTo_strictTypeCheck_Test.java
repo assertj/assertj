@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 
 @DisplayName("RecursiveComparisonAssert isEqualTo in strictTypeChecking mode")
 class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
-  extends WithLegacyIntrospectionStrategyBaseTest {
+    extends WithLegacyIntrospectionStrategyBaseTest {
 
   @Test
   void should_pass_by_default_when_objects_data_are_equals_whatever_their_types_are() {
@@ -53,7 +53,7 @@ class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
     expected.neighbour.neighbour.home.address.number = 124;
 
     // THEN
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .isEqualTo(expected);
   }
 
@@ -90,7 +90,7 @@ class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
     recursiveComparisonConfiguration.strictTypeChecking(true);
 
     // THEN
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .withStrictTypeChecking()
                       .isEqualTo(expected)
                       .isEqualTo(expected2);
@@ -140,7 +140,7 @@ class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
     Light actual = new Light(GREEN);
     Light expected = new Light(GREEN);
     // WHEN-THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withStrictTypeChecking()
                 .isEqualTo(expected);
   }

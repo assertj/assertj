@@ -39,7 +39,7 @@ class RecursiveComparisonAssert_isEqualTo_with_java_types_Test extends WithLegac
   @ParameterizedTest
   @MethodSource
   void should_pass_when_comparing_java_types(Object actual, Object expected) {
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isEqualTo(expected);
   }
 

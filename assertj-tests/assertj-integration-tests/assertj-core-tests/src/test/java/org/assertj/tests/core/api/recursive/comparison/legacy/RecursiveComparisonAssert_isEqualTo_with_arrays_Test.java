@@ -35,7 +35,7 @@ class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends WithLegacyInt
     WithArray<Author> actual = new WithArray<>(authors1);
     WithArray<Author> expected = new WithArray<>(authors2);
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isEqualTo(expected);
   }
 

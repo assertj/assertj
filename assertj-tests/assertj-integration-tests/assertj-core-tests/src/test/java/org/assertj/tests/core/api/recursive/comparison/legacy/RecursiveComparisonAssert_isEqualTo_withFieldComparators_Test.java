@@ -52,7 +52,7 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
                                                                                               Comparator<Object> comparator,
                                                                                               String[] fields,
                                                                                               String testDescription) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .withComparatorForFields(comparator, fields)
                       .isEqualTo(expected);
   }
@@ -64,7 +64,7 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
                                                                                               Comparator<Object> comparator,
                                                                                               String[] fields,
                                                                                               String testDescription) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .withEqualsForFields(asBiPredicate(comparator), fields)
                       .isEqualTo(expected);
   }
@@ -167,10 +167,10 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
     goliathTwin.height = 3.1;
 
     // THEN
-    then(goliath).usingRecursiveComparison()
+    then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                  .withComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
                  .isEqualTo(goliathTwin);
-    then(goliath).usingRecursiveComparison()
+    then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                  .withEqualsForFields((Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.2, "height")
                  .isEqualTo(goliathTwin);
   }
@@ -189,7 +189,7 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
     goliathTwin.home.address.number = 5;
 
     // THEN
-    then(goliath).usingRecursiveComparison()
+    then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                  .withComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
                  .withComparatorForFields(new AtPrecisionComparator<>(10), "home.address.number")
                  .isEqualTo(goliathTwin);
@@ -209,7 +209,7 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
     goliathTwin.home.address.number = 5;
 
     // THEN
-    then(goliath).usingRecursiveComparison()
+    then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                  .withEqualsForFields((Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.2, "height")
                  .withEqualsForFields((Integer i1, Integer i2) -> Math.abs(i1 - i2) <= 10, "home.address.number")
                  .isEqualTo(goliathTwin);
@@ -221,10 +221,10 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
     Patient actual = new Patient(null);
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withComparatorForFields(ALWAYS_EQUALS_TIMESTAMP, "dateOfBirth")
                 .isEqualTo(expected);
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEqualsForFields((o1, o2) -> true, "dateOfBirth")
                 .isEqualTo(expected);
   }
@@ -237,10 +237,10 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
     Person other = new Person(actual.name);
     other.dateOfBirth = new Date(1000L);
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withComparatorForFields(SYMMETRIC_DATE_COMPARATOR, "dateOfBirth")
                 .isEqualTo(other);
-    then(other).usingRecursiveComparison()
+    then(other).usingRecursiveComparison(recursiveComparisonConfiguration)
                .withEqualsForFields(asBiPredicate(SYMMETRIC_DATE_COMPARATOR), "dateOfBirth")
                .isEqualTo(actual);
   }
@@ -251,19 +251,19 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
     Patient actual = new Patient(new Timestamp(1L));
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withComparatorForType(NEVER_EQUALS, Timestamp.class)
                 .withComparatorForFields(ALWAYS_EQUALS_TIMESTAMP, "dateOfBirth")
                 .isEqualTo(expected);
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withComparatorForFields(ALWAYS_EQUALS_TIMESTAMP, "dateOfBirth")
                 .withComparatorForType(NEVER_EQUALS, Timestamp.class)
                 .isEqualTo(expected);
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEqualsForType((o1, o2) -> false, Timestamp.class)
                 .withEqualsForFields((o1, o2) -> true, "dateOfBirth")
                 .isEqualTo(expected);
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEqualsForFields((o1, o2) -> true, "dateOfBirth")
                 .withEqualsForType((o1, o2) -> false, Timestamp.class)
                 .isEqualTo(expected);
@@ -279,11 +279,11 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
     expected.neighbour = new AlwaysEqualPerson();
     expected.neighbour.name = "Omar2";
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withComparatorForFields(ALWAYS_EQUALS, "neighbour") // fails if commented
                 .ignoringOverriddenEqualsForFields("neighbour")
                 .isEqualTo(expected);
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEqualsForFields((o1, o2) -> true, "neighbour") // fails if commented
                 .ignoringOverriddenEqualsForFields("neighbour")
                 .isEqualTo(expected);
@@ -296,7 +296,7 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
     Foo expected = new Foo(1);
     BiPredicate<Integer, Integer> greaterThan = (i1, i2) -> Objects.equals(i1, i2 + 1);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                  .withEqualsForFields(greaterThan, "bar")
                                                                                  .isEqualTo(expected));
     // THEN
@@ -309,7 +309,7 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
     Foo actual = new Foo(1);
     Foo expected = new Foo(1);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                  .withComparatorForFields(NEVER_EQUALS, "bar")
                                                                                  .isEqualTo(expected));
     // THEN

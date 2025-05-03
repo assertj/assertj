@@ -91,7 +91,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
   @MethodSource("passComparingFieldsOfTypes")
   void should_pass_when_comparing_only_fields_of_types(Object actual, Object expected, Class<?>[] typesToCompare,
                                                        @SuppressWarnings("unused") String testDescription) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .comparingOnlyFieldsOfTypes(typesToCompare)
                       .isEqualTo(expected);
   }
@@ -137,7 +137,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
 
   @Test
   void should_pass_when_combined_with_comparingOnlyFields() {
-    assertThat(billie).usingRecursiveComparison()
+    assertThat(billie).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .comparingOnlyFieldsOfTypes(OptionalInt.class) // age field
                       .comparingOnlyFields("weight")
                       .isEqualTo(john);
@@ -157,7 +157,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
   @Test
   void should_pass_when_combined_with_ignoringFields() {
     // john and jill have the same age, that's the only field they have in common
-    assertThat(john).usingRecursiveComparison()
+    assertThat(john).usingRecursiveComparison(recursiveComparisonConfiguration)
                     .comparingOnlyFieldsOfTypes(String.class, OptionalInt.class) // name and age fields
                     .ignoringFieldsMatchingRegexes("name", "neighbour")
                     .isEqualTo(jill);
@@ -175,7 +175,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
 
   @Test
   void should_pass_when_combined_with_ignoringFieldsMatchingRegexes() {
-    assertThat(john).usingRecursiveComparison()
+    assertThat(john).usingRecursiveComparison(recursiveComparisonConfiguration)
                     .comparingOnlyFieldsOfTypes(String.class, OptionalInt.class) // name and age fields
                     .ignoringFieldsMatchingRegexes(".*ame", ".*age")
                     .isEqualTo(jill);
@@ -195,7 +195,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
   @Test
   void should_pass_when_combined_with_ignoringFieldsOfTypes() {
     // john and jill have the same age, that's the only field they have in common
-    assertThat(john).usingRecursiveComparison()
+    assertThat(john).usingRecursiveComparison(recursiveComparisonConfiguration)
                     .comparingOnlyFieldsOfTypes(String.class, OptionalInt.class) // name and age fields
                     .ignoringFieldsOfTypes(String.class)
                     .ignoringFields("neighbour")
@@ -220,7 +220,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test extend
     Person moriarty = new Person("Moriarty");
     moriarty.home.address.number = 221;
     // WHEN/THEN
-    then(sherlock).usingRecursiveComparison()
+    then(sherlock).usingRecursiveComparison(recursiveComparisonConfiguration)
                   .comparingOnlyFieldsOfTypes(Double.class, Integer.class)
                   .isEqualTo(moriarty);
   }

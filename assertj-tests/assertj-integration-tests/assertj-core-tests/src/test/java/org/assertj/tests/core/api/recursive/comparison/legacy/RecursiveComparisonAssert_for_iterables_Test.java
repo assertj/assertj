@@ -21,7 +21,6 @@ import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS
 
 import java.util.Set;
 
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.assertj.tests.core.api.recursive.data.PersonDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,8 +31,8 @@ class RecursiveComparisonAssert_for_iterables_Test extends WithLegacyIntrospecti
   private Set<Person> actual;
 
   @BeforeEach
-  void beforeEachTest() {
-    super.setup();
+  public void beforeEachTest() {
+    super.beforeEachTest();
     actual = newLinkedHashSet(new Person("Sheldon"), new Person("Leonard"));
   }
 
@@ -50,11 +49,11 @@ class RecursiveComparisonAssert_for_iterables_Test extends WithLegacyIntrospecti
   @Test
   void should_propagate_comparator_by_type() {
     // WHEN
-    RecursiveComparisonConfiguration assertion = assertThat(actual).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
-                                                                   .usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                   .getRecursiveComparisonConfiguration();
+    var configuration = assertThat(actual).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
+                                          .usingRecursiveComparison(recursiveComparisonConfiguration)
+                                          .getRecursiveComparisonConfiguration();
     // THEN
-    then(assertion.getTypeComparators().comparatorByTypes()).contains(entry(String.class, ALWAYS_EQUALS_STRING));
+    then(configuration.getTypeComparators().comparatorByTypes()).contains(entry(String.class, ALWAYS_EQUALS_STRING));
   }
 
 }

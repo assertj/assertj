@@ -28,8 +28,8 @@ class RecursiveComparisonAssert_softAssertions_Test extends WithLegacyIntrospect
 
   @Override
   @BeforeEach
-  public void setup() {
-    super.setup();
+  public void beforeEachTest() {
+    super.beforeEachTest();
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     softly = new SoftAssertions();
   }

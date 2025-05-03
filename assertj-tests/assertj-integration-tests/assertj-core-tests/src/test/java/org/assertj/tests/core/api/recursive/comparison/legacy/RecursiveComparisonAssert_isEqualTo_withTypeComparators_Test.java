@@ -46,8 +46,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
-  extends WithLegacyIntrospectionStrategyBaseTest {
+class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test extends WithLegacyIntrospectionStrategyBaseTest {
 
   @ParameterizedTest(name = "{3}: actual={0} / expected={1} - comparatorsByType: {2}")
   @MethodSource("recursivelyEqualObjectsWhenUsingTypeComparators")
@@ -154,10 +153,10 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     goliathTwin.height = 3.1;
 
     // THEN
-    assertThat(goliath).usingRecursiveComparison()
+    assertThat(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                        .withComparatorForType(new AtPrecisionComparator<>(0.2), Double.class)
                        .isEqualTo(goliathTwin);
-    assertThat(goliath).usingRecursiveComparison()
+    assertThat(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                        .withEqualsForType((d1, d2) -> Math.abs(d1 - d2) < 0.2, Double.class)
                        .isEqualTo(goliathTwin);
   }
@@ -168,10 +167,10 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     Patient actual = new Patient(null);
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .withComparatorForType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
                       .isEqualTo(expected);
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .withEqualsForType((o1, o2) -> true, Timestamp.class)
                       .isEqualTo(expected);
   }
@@ -183,7 +182,7 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     Patient actual = new Patient(dateOfBirth);
     Patient expected = new Patient(dateOfBirth);
     // THEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                  .withComparatorForType(NEVER_EQUALS,
                                                                                                         Timestamp.class)
                                                                                  .isEqualTo(expected));
@@ -198,7 +197,7 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     Patient actual = new Patient(dateOfBirth);
     Patient expected = new Patient(dateOfBirth);
     // THEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                  .withEqualsForType((o1, o2) -> false,
                                                                                                     Timestamp.class)
                                                                                  .isEqualTo(expected));
@@ -214,10 +213,10 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     Person expected = new Person(actual.name);
     expected.dateOfBirth = new Date(1000L);
     // THEN
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .withComparatorForType(SYMMETRIC_DATE_COMPARATOR, Timestamp.class)
                       .isEqualTo(expected);
-    assertThat(expected).usingRecursiveComparison()
+    assertThat(expected).usingRecursiveComparison(recursiveComparisonConfiguration)
                         .withComparatorForType(SYMMETRIC_DATE_COMPARATOR, Timestamp.class)
                         .isEqualTo(actual);
   }
@@ -232,11 +231,11 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test
     expected.neighbour = new AlwaysEqualPerson();
     expected.neighbour.name = "Omar2";
     // THEN
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .withComparatorForType(ALWAYS_EQUALS, AlwaysEqualPerson.class) // fails if commented
                       .ignoringOverriddenEqualsForFields("neighbour")
                       .isEqualTo(expected);
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .withEqualsForType((o1, o2) -> true, AlwaysEqualPerson.class) // fails if commented
                       .ignoringOverriddenEqualsForFields("neighbour")
                       .isEqualTo(expected);

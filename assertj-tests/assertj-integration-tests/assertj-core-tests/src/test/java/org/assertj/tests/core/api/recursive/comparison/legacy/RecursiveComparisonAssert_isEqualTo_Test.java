@@ -68,7 +68,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     Person actual = null;
     Person expected = null;
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isEqualTo(expected);
   }
 
@@ -78,7 +78,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     Person actual = null;
     Person expected = new Person();
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison().isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -89,7 +90,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     Person actual = new Person();
     Person expected = null;
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison().isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .isEqualTo(expected));
     // THEN
     var shouldBeEqual = shouldBeEqual(actual, null, StandardComparisonStrategy.instance(), info.representation());
     var expectedAssertionError = shouldBeEqual.toAssertionError(null, STANDARD_REPRESENTATION);
@@ -102,7 +104,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     Person actual = new Person("John");
     // WHEN
     var configuration = assertThat(actual).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
-                                          .usingRecursiveComparison()
+                                          .usingRecursiveComparison(recursiveComparisonConfiguration)
                                           .getRecursiveComparisonConfiguration();
     // THEN
     then(configuration.getTypeComparators().comparatorByTypes()).contains(entry(String.class, ALWAYS_EQUALS_STRING));
@@ -132,7 +134,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     Person expected = new Person("Fred");
     expected.dateOfBirth = new Timestamp(1000L);
     // THEN
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .isEqualTo(expected);
   }
 
@@ -167,7 +169,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
   void should_pass_for_objects_with_the_same_data_when_using_the_default_recursive_comparison(Object actual,
                                                                                               Object expected,
                                                                                               String testDescription) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .isEqualTo(expected);
   }
 
@@ -204,7 +206,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     actual.neighbour = expected;
 
     // THEN
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .isEqualTo(expected);
   }
 
@@ -233,7 +235,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     expected.friends.add(actual);
 
     // THEN
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .isEqualTo(expected);
   }
 
@@ -273,7 +275,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     expected.otherFriends.add(actual);
 
     // THEN
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .isEqualTo(expected);
   }
 
@@ -322,7 +324,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     final Container container1 = new Container("/tmp/example");
     final Container container2 = new Container("/tmp/example");
 
-    assertThat(container1).usingRecursiveComparison()
+    assertThat(container1).usingRecursiveComparison(recursiveComparisonConfiguration)
                           .isEqualTo(container2)
                           .ignoringAllOverriddenEquals()
                           .isEqualTo(container2);
@@ -337,7 +339,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     Wrappers actual = new Wrappers(a, b);
     Wrappers expected = new Wrappers(b, a);
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .ignoringCollectionOrderInFields("values")
                 .isEqualTo(expected);
   }
@@ -359,7 +361,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     Wrappers actual = new Wrappers(a, b);
     Wrappers expected = new Wrappers(b, a);
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .ignoringCollectionOrderInFields("values")
                 .withEqualsForType((x, y) -> Math.abs(x - y) <= 0.05, Double.class)
                 .isEqualTo(expected);
@@ -373,7 +375,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     Wrappers actual = new Wrappers(a, b);
     Wrappers expected = new Wrappers(b, a);
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withComparatorForFields(new DoubleComparator(0.01), "values.value")
                 .ignoringCollectionOrderInFields("values")
                 .isEqualTo(expected);
@@ -408,7 +410,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
 
   @Test
   void issue_2475_example_should_succeed() {
-    then(issue2475Map()).usingRecursiveComparison()
+    then(issue2475Map()).usingRecursiveComparison(recursiveComparisonConfiguration)
                         .isEqualTo(issue2475Map());
   }
 
@@ -463,7 +465,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
   @MethodSource
   void should_not_introspect_java_base_classes(Object actual, Object expected,
                                                @SuppressWarnings("unused") String testDescription) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .isEqualTo(expected);
   }
 
@@ -649,7 +651,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     p25b.neighbour = p26b;
 
     Stopwatch stopwatch = Stopwatch.createStarted();
-    assertThat(p1a).usingRecursiveComparison().isEqualTo(p1b);
+    assertThat(p1a).usingRecursiveComparison(recursiveComparisonConfiguration).isEqualTo(p1b);
     assertThat(stopwatch.elapsed()).isLessThan(Duration.ofSeconds(10));
   }
 }

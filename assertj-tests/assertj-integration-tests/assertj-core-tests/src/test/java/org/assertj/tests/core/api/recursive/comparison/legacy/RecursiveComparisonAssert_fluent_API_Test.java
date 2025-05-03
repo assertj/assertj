@@ -84,7 +84,7 @@ class RecursiveComparisonAssert_fluent_API_Test extends WithLegacyIntrospectionS
   @Test
   void should_allow_to_ignore_all_actual_null_fields() {
     // WHEN
-    var currentConfiguration = assertThat(ACTUAL).usingRecursiveComparison()
+    var currentConfiguration = assertThat(ACTUAL).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                  .ignoringActualNullFields()
                                                  .getRecursiveComparisonConfiguration();
     // THEN
@@ -243,13 +243,11 @@ class RecursiveComparisonAssert_fluent_API_Test extends WithLegacyIntrospectionS
     AlwaysEqualComparator<?> alwaysEqualComparator = alwaysEqual();
     AlwaysDifferentComparator<?> alwaysDifferentComparator = alwaysDifferent();
     // WHEN
-    // @format:off
     var currentConfiguration = assertThat(ACTUAL).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                  .withComparatorForFields(alwaysEqualComparator, field1, field3)
                                                  .withComparatorForFields(alwaysDifferentComparator, field2)
                                                  .withEqualsForFields((o1, o2) -> true, field4)
                                                  .getRecursiveComparisonConfiguration();
-    // @format:on
     // THEN
     then(currentConfiguration.comparatorByFields()).hasSize(4)
                                                    .contains(entry(field3, alwaysEqualComparator),
@@ -261,12 +259,10 @@ class RecursiveComparisonAssert_fluent_API_Test extends WithLegacyIntrospectionS
   @Test
   void should_allow_to_register_comparators_by_regex_matching_fields() {
     // WHEN
-    // @format:off
     var currentConfiguration = assertThat(ACTUAL).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                  .withEqualsForFieldsMatchingRegexes(STRING_EQUALS, ".*a", ".*b")
                                                  .withEqualsForFieldsMatchingRegexes(DOUBLE_EQUALS, ".*d", ".*e")
                                                  .getRecursiveComparisonConfiguration();
-    // @format:on
     // THEN
     FieldComparators fieldComparators = currentConfiguration.getFieldComparators();
     then(fieldComparators.hasRegexFieldComparators()).isTrue();
@@ -291,7 +287,7 @@ class RecursiveComparisonAssert_fluent_API_Test extends WithLegacyIntrospectionS
     then(currentConfiguration.getTypeComparators().comparatorByTypes()).contains(entry(type1, ALWAYS_EQUALS_STRING),
                                                                                  entry(type2, ALWAYS_EQUALS_TIMESTAMP));
     then(currentConfiguration.getTypeComparators().comparatorByTypes()).anyMatch(entry -> entry.getKey().equals(type3)
-      && entry.getValue() != null);
+                                                                                          && entry.getValue() != null);
   }
 
   @Test

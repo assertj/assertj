@@ -36,4 +36,3 @@ public enum ColorWithCode {
   abstract String code();
 
 }
-

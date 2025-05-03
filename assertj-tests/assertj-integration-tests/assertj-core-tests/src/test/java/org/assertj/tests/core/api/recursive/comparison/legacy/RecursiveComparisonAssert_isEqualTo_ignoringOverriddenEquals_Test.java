@@ -40,7 +40,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
-  extends WithLegacyIntrospectionStrategyBaseTest {
+    extends WithLegacyIntrospectionStrategyBaseTest {
 
   private static final Person sheldon = new Person("Sheldon");
   private static final PersonDto sheldonDto = new PersonDto("Sheldon");
@@ -51,7 +51,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   void should_pass_when_comparison_ignores_all_fields_overridden_equals_methods(Object actual,
                                                                                 Object expected,
                                                                                 String testDescription) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringAllOverriddenEquals()
                       .isEqualTo(expected);
   }
@@ -83,7 +83,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
                                                                                 Object expected,
                                                                                 String testDescription,
                                                                                 List<String> regexes) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringOverriddenEqualsForFieldsMatchingRegexes(regexes.toArray(new String[0]))
                       .isEqualTo(expected);
   }
@@ -158,7 +158,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
                                                                               Object expected,
                                                                               String testDescription,
                                                                               List<Class<?>> types) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringOverriddenEqualsForTypes(types.toArray(new Class[0]))
                       .isEqualTo(expected);
 
@@ -229,7 +229,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
                                                                                Object expected,
                                                                                String testDescription,
                                                                                List<String> fields) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringOverriddenEqualsForFields(fields.toArray(new String[0]))
                       .isEqualTo(expected);
   }
@@ -290,7 +290,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
     expected.name = "Jack";
     // THEN
     // would have succeeded if we had used AlwaysEqualPerson equals method
-    expectAssertionError(() -> assertThat(actual).usingRecursiveComparison().isEqualTo(expected));
+    expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration).isEqualTo(expected));
   }
 
   @Test
@@ -306,7 +306,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringOverriddenEquals_Test
   @ParameterizedTest(name = "actual {0} / expected {1}")
   @MethodSource("container_values")
   void should_pass_as_Person_overridden_equals_is_ignored(Object actual, Object expected) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringAllOverriddenEquals()
                       .isEqualTo(expected);
   }

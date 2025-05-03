@@ -31,7 +31,8 @@ import com.google.common.collect.ImmutableSortedMap;
 class RecursiveComparisonAssert_for_maps_Test extends WithLegacyIntrospectionStrategyBaseTest {
 
   @Test
-    // verify we don't need to cast actual to an Object as before when only Object assertions provided usingRecursiveComparison(configuration)
+  // verify we don't need to cast actual to an Object as before when only Object assertions provided
+  // usingRecursiveComparison(configuration)
   void should_be_directly_usable_with_maps() {
     // GIVEN
     Person sheldon = new Person("Sheldon");
@@ -48,7 +49,8 @@ class RecursiveComparisonAssert_for_maps_Test extends WithLegacyIntrospectionStr
     Map<String, PersonDto> expected = mapOf(entry(sheldonDto.name, sheldonDto),
                                             entry(leonardDto.name, leonardDto),
                                             entry(rajDto.name, rajDto));
-    // WHEN/THEN no need to cast actual to an Object as before (since only object assertions provided usingRecursiveComparison(configuration)
+    // WHEN/THEN no need to cast actual to an Object as before (since only object assertions provided
+    // usingRecursiveComparison(configuration)
     then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .ignoringAllOverriddenEquals()
                 .isEqualTo(expected);
@@ -63,11 +65,11 @@ class RecursiveComparisonAssert_for_maps_Test extends WithLegacyIntrospectionStr
                                                ImmutableMap.of("subFoo", "subBar", "description", "subBarFoo"));
     // THEN
     then(mapA).usingRecursiveComparison(recursiveComparisonConfiguration)
-                    .ignoringFields("description", "submap.description")
-                    .isEqualTo(mapB);
+              .ignoringFields("description", "submap.description")
+              .isEqualTo(mapB);
     then(mapA).usingRecursiveComparison(recursiveComparisonConfiguration)
-                    .ignoringFieldsMatchingRegexes(".*description")
-                    .isEqualTo(mapB);
+              .ignoringFieldsMatchingRegexes(".*description")
+              .isEqualTo(mapB);
   }
 
   @Test
@@ -79,11 +81,11 @@ class RecursiveComparisonAssert_for_maps_Test extends WithLegacyIntrospectionStr
                                                      ImmutableSortedMap.of("subFoo", "subBar", "description", "subBarFoo"));
     // THEN
     then(mapA).usingRecursiveComparison(recursiveComparisonConfiguration)
-                    .ignoringFields("description", "submap.description")
-                    .isEqualTo(mapB);
+              .ignoringFields("description", "submap.description")
+              .isEqualTo(mapB);
     then(mapA).usingRecursiveComparison(recursiveComparisonConfiguration)
-                    .ignoringFieldsMatchingRegexes(".*description")
-                    .isEqualTo(mapB);
+              .ignoringFieldsMatchingRegexes(".*description")
+              .isEqualTo(mapB);
   }
 
   @Test
@@ -95,7 +97,7 @@ class RecursiveComparisonAssert_for_maps_Test extends WithLegacyIntrospectionStr
                                                      ImmutableSortedMap.of("subFu", "subBar", "description", "subFuBar"));
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(mapA).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                               .isEqualTo(mapB));
+                                                                    .isEqualTo(mapB));
     // THEN
     then(assertionError).hasMessageContainingAll(format("map key difference:%n"
                                                         + "- actual key  : \"foo\"%n"

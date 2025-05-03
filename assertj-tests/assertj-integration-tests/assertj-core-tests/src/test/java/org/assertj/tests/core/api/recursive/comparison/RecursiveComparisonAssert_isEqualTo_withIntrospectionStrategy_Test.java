@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.tests.core.api.recursive.comparison.fields;
+package org.assertj.tests.core.api.recursive.comparison;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toSet;
@@ -29,12 +29,10 @@ import org.assertj.core.api.recursive.comparison.ComparingSnakeOrCamelCaseFields
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.internal.Objects;
-import org.assertj.tests.core.api.recursive.comparison.RecursiveComparisonAssert_BaseTest;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.junit.jupiter.api.Test;
 
-class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
-  extends RecursiveComparisonAssert_BaseTest {
+class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test extends RecursiveComparisonAssert_BaseTest {
 
   RecursiveComparisonIntrospectionStrategy comparingFieldsNameContaining_o = new ComparingFieldsNameContaining_o();
 
@@ -57,7 +55,7 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     actual.neighbour.phone = Optional.of("1122334455");
     expected.neighbour.phone = Optional.of("1122334455");
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withIntrospectionStrategy(comparingFieldsNameContaining_o)
                 .isEqualTo(expected);
   }
@@ -125,10 +123,10 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     RecursiveComparisonIntrospectionStrategy comparingSnakeOrCamelCaseFields = new ComparingSnakeOrCamelCaseFields();
 
     // WHEN/THEN
-    then(refactoring).usingRecursiveComparison()
+    then(refactoring).usingRecursiveComparison(recursiveComparisonConfiguration)
                      .withIntrospectionStrategy(comparingSnakeOrCamelCaseFields)
                      .isEqualTo(refactoringDto);
-    then(refactoringDto).usingRecursiveComparison()
+    then(refactoringDto).usingRecursiveComparison(recursiveComparisonConfiguration)
                         .withIntrospectionStrategy(comparingSnakeOrCamelCaseFields)
                         .isEqualTo(refactoring);
   }
@@ -203,7 +201,7 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     compareRecursivelyFailsWithDifferences(actual, expected, valuesDifference);
 
     // Note that this succeeds when it should not:
-    // then(actual).usingRecursiveComparison().isEqualTo(expected);
+    // then(actual).usingRecursiveComparison(recursiveComparisonConfiguration).isEqualTo(expected);
     // rationale is by default we get value by property first and field second which means that we call getValues(),
     // which returns the first element "A" of both actual and expected.
   }
@@ -237,10 +235,10 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     Animal fox = new Animal("fox");
     AnimalDto foxDto = new AnimalDto("fox");
     // WHEN/THEN
-    then(fox).usingRecursiveComparison()
+    then(fox).usingRecursiveComparison(recursiveComparisonConfiguration)
              .withIntrospectionStrategy(ComparingLowercaseNormalizedFields.INSTANCE)
              .isEqualTo(foxDto);
-    then(foxDto).usingRecursiveComparison()
+    then(foxDto).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withIntrospectionStrategy(ComparingLowercaseNormalizedFields.INSTANCE)
                 .isEqualTo(fox);
   }
@@ -253,10 +251,10 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     Animal fox2 = new Animal("fox");
     AnimalDto foxDto2 = new AnimalDto("fox");
     // WHEN/THEN
-    then(fox1).usingRecursiveComparison()
+    then(fox1).usingRecursiveComparison(recursiveComparisonConfiguration)
               .withIntrospectionStrategy(ComparingLowercaseNormalizedFields.INSTANCE)
               .isEqualTo(foxDto1);
-    then(fox2).usingRecursiveComparison()
+    then(fox2).usingRecursiveComparison(recursiveComparisonConfiguration)
               .withIntrospectionStrategy(ComparingLowercaseNormalizedFields.INSTANCE)
               .isEqualTo(foxDto2);
   }

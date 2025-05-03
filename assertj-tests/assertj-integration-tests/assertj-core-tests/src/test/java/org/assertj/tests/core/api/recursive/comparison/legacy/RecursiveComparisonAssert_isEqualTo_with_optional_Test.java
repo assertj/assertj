@@ -33,7 +33,7 @@ class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends WithLegacyI
   @MethodSource("sameBooks")
   void should_pass_when_comparing_optional_fields_recursively_and_not_using_optional_equals(BookWithOptionalCoAuthor actual,
                                                                                             BookWithOptionalCoAuthor expected) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .isEqualTo(expected);
   }
 

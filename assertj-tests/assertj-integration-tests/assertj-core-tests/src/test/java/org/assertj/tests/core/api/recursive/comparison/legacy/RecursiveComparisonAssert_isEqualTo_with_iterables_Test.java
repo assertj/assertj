@@ -50,7 +50,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithLegacy
     WithCollection<Author> actual = new WithCollection<>(authors1);
     WithCollection<Author> expected = new WithCollection<>(authors2);
     // THEN
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .isEqualTo(expected);
   }
 
@@ -181,7 +181,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithLegacy
     List<String> actual = list("aaa", "aaa");
     List<String> expected = list("aaa", "bbb");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                  // simulate unordered collection
                                                                                  .ignoringCollectionOrder()
                                                                                  .isEqualTo(expected));
@@ -196,7 +196,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithLegacy
     List<Tuple> first = list(tuple("VtQh0ZAo%s2FKCnQcirWL", "foo % %d"), tuple("%F", "VtQh0ZAo%s2FKCnQcirWL"));
     List<Tuple> second = list(tuple("%F", "VtQh0ZAo%s2FKCnQcirWL"), tuple("VtQh0ZAo%s2FKCnQcirWL", "bar % %d"));
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(first).usingRecursiveComparison()
+    Throwable thrown = catchThrowable(() -> assertThat(first).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                              .ignoringCollectionOrder()
                                                              .isEqualTo(second));
     // THEN
@@ -227,7 +227,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithLegacy
     Set<Item> actualItems = newHashSet(new Item("Pants", 3), new Item("Loafers", 1));
     registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison()
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                       .isEqualTo(expectedItems));
     // THEN
     then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual HashSet:%n" +

@@ -42,7 +42,7 @@ class RecursiveComparisonAssert_isEqualTo_with_enums_Test extends WithLegacyIntr
     Light actual = new Light(GREEN);
     Light expected = new Light(GREEN);
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withStrictTypeChecking()
                 .isEqualTo(expected);
   }
@@ -64,7 +64,7 @@ class RecursiveComparisonAssert_isEqualTo_with_enums_Test extends WithLegacyIntr
     Light actual = new Light(GREEN);
     LightDto expected = new LightDto(ColorDto.GREEN);
     // WHEN-THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isEqualTo(expected);
   }
 
@@ -84,7 +84,7 @@ class RecursiveComparisonAssert_isEqualTo_with_enums_Test extends WithLegacyIntr
     LightString actual = new LightString("GREEN");
     Light expected = new Light(GREEN);
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEnumStringComparison()
                 .isEqualTo(expected);
   }
@@ -95,7 +95,7 @@ class RecursiveComparisonAssert_isEqualTo_with_enums_Test extends WithLegacyIntr
     Light actual = new Light(GREEN);
     LightString expected = new LightString("GREEN");
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEnumStringComparison()
                 .isEqualTo(expected);
   }

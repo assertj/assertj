@@ -16,16 +16,13 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.api.recursive.data.Color.GREEN;
 import static org.assertj.tests.core.testkit.NeverEqualComparator.NEVER_EQUALS_STRING;
 
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.tests.core.api.recursive.data.Light;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.assertj.tests.core.testkit.CartoonCharacter;
 import org.assertj.tests.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
-class RecursiveComparisonAssert_isNotEqualTo_Test {
-
-  private RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+class RecursiveComparisonAssert_isNotEqualTo_Test extends WithLegacyIntrospectionStrategyBaseTest {
 
   @Test
   void should_pass_when_either_actual_or_expected_is_null() {
@@ -33,9 +30,9 @@ class RecursiveComparisonAssert_isNotEqualTo_Test {
     Person actual = null;
     Person other = new Person();
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isNotEqualTo(other);
-    then(other).usingRecursiveComparison()
+    then(other).usingRecursiveComparison(recursiveComparisonConfiguration)
                .isNotEqualTo(actual);
   }
 
@@ -56,7 +53,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test {
     RecursiveComparisonAssert_isEqualTo_Test.LightString actual = new RecursiveComparisonAssert_isEqualTo_Test.LightString("GREEN");
     Light other = new Light(GREEN);
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isNotEqualTo(other);
   }
 
@@ -114,7 +111,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test {
     CartoonCharacter other = new CartoonCharacter("Homer Simpson");
     Person actual = new Person("Homer Simpson");
     // THEN not equal because of children field in CartoonCharacter
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isNotEqualTo(other);
   }
 
@@ -124,7 +121,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi(new String("Yoda"), "Green");
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withComparatorForType(NEVER_EQUALS_STRING, String.class)
                 .isNotEqualTo(other);
   }
@@ -135,7 +132,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi(new String("Yoda"), "Green");
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEqualsForType((o1, o2) -> false, String.class)
                 .isNotEqualTo(other);
   }
@@ -147,7 +144,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test {
     Person other = new Person("Yoda");
     other.neighbour = other;
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isNotEqualTo(other);
   }
 
@@ -157,7 +154,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", new String("Green"));
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withComparatorForFields(NEVER_EQUALS_STRING, "lightSaberColor")
                 .isNotEqualTo(other);
   }
@@ -168,7 +165,7 @@ class RecursiveComparisonAssert_isNotEqualTo_Test {
     Jedi actual = new Jedi("Yoda", "Green");
     Jedi other = new Jedi("Yoda", new String("Green"));
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withEqualsForFields((o1, o2) -> false, "lightSaberColor")
                 .isNotEqualTo(other);
   }

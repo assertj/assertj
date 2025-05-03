@@ -22,21 +22,19 @@ import java.util.Objects;
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.recursive.comparison.RecursiveComparator;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.junit.jupiter.api.Test;
 
 // only check we are using the proper comparator since the implementation of isIn only switched comparator before calling
 // the super call isIn method.
-class RecursiveComparisonAssert_isIn_Test {
+class RecursiveComparisonAssert_isIn_Test extends WithLegacyIntrospectionStrategyBaseTest {
 
   @Test
   void should_use_recursive_comparator() {
     // GIVEN
     Person actual = new Person();
     // WHEN
-    RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
     RecursiveComparisonAssert<?> recursiveComparisonAssert = assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                .isIn(actual);
     // THEN
@@ -93,7 +91,7 @@ class RecursiveComparisonAssert_isIn_Test {
 
     // WHEN/THEN
     list2.forEach(person -> softAssertions.assertThat(person)
-                                          .usingRecursiveComparison()
+                                          .usingRecursiveComparison(recursiveComparisonConfiguration)
                                           .ignoringCollectionOrder()
                                           .isIn(list1));
     softAssertions.assertAll();

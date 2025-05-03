@@ -32,7 +32,7 @@ import org.assertj.tests.core.api.recursive.data.Person;
 import org.junit.jupiter.api.Test;
 
 class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
-  extends RecursiveComparisonAssert_BaseTest {
+    extends RecursiveComparisonAssert_BaseTest {
 
   RecursiveComparisonIntrospectionStrategy comparingFieldsNameContaining_o = new ComparingFieldsNameContaining_o();
 
@@ -55,7 +55,7 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     actual.neighbour.phone = Optional.of("1122334455");
     expected.neighbour.phone = Optional.of("1122334455");
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withIntrospectionStrategy(comparingFieldsNameContaining_o)
                 .isEqualTo(expected);
   }
@@ -117,13 +117,13 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     Message actual = new HelloMessage();
     Message expected = new GenericMessage("hello");
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .withIntrospectionStrategy(COMPARING_PROPERTIES)
                 .isEqualTo(expected);
 
     // note that the following assertion succeeds because the default behavior is to look for actual fields but not properties and
     // HelloMessage does not have fields
-    // then(actual).usingRecursiveComparison().isEqualTo(expected);
+    // then(actual).usingRecursiveComparison(recursiveComparisonConfiguration).isEqualTo(expected);
   }
 
   interface Message {
@@ -173,7 +173,7 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     Bean actual = new Bean();
     Bean expected = new Bean();
     // WHEN
-    Throwable throwable = catchThrowable(() -> then(actual).usingRecursiveComparison()
+    Throwable throwable = catchThrowable(() -> then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                            .withIntrospectionStrategy(COMPARING_PROPERTIES)
                                                            .isEqualTo(expected));
     // THEN fails due to getString failing as it tries to build an optional for a null value.
@@ -196,7 +196,7 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test
     User user = new User();
     UserDTO userDto = new UserDTO(user);
     // WHEN/THEN
-    then(user).usingRecursiveComparison()
+    then(user).usingRecursiveComparison(recursiveComparisonConfiguration)
               .withIntrospectionStrategy(COMPARING_PROPERTIES)
               .isEqualTo(userDto);
   }

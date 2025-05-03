@@ -28,7 +28,7 @@ class RecursiveComparisonAssert_bddSoftAssertions_Test extends WithLegacyIntrosp
 
   @BeforeEach
   public void beforeEachTest() {
-    super.setup();
+    super.beforeEachTest();
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     softly = new BDDSoftAssertions();
   }
@@ -60,11 +60,11 @@ class RecursiveComparisonAssert_bddSoftAssertions_Test extends WithLegacyIntrosp
     List<Throwable> errorsCollected = softly.errorsCollected();
     then(errorsCollected).hasSize(2);
     then(errorsCollected.get(0)).hasMessageContaining("field/property 'home.address.number' differ:")
-                                      .hasMessageContaining("- actual value  : 1")
-                                      .hasMessageContaining("- expected value: 2");
+                                .hasMessageContaining("- actual value  : 1")
+                                .hasMessageContaining("- expected value: 2");
     then(errorsCollected.get(1)).hasMessageContaining("field/property 'home.address.number' differ:")
-                                      .hasMessageContaining("- actual value  : 2")
-                                      .hasMessageContaining("- expected value: 1");
+                                .hasMessageContaining("- actual value  : 2")
+                                .hasMessageContaining("- expected value: 1");
   }
 
 }

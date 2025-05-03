@@ -66,7 +66,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
     WithMap<String, Author> actual = new WithMap<>(authors1);
     WithMap<String, Author> expected = new WithMap<>(authors2);
     // THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .isEqualTo(expected);
   }
 
@@ -155,7 +155,8 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
     Map<String, String> actual = ImmutableMap.of("a", "a", "b", "b", "e", "e");
     Map<String, String> expected = ImmutableMap.of("a", "a", "c", "c", "d", "d");
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison().isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContaining("The following keys were not found in the actual map value:%n  [\"c\", \"d\"]".formatted());
   }
@@ -180,7 +181,7 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
     Map<String, Item> actualItems = mapOf(entry("Pants", new Item("Pants", 3)), entry("Hat", new Item("Hat", 1)));
     registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison()
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                       .isEqualTo(expectedItems));
     // THEN
     then(assertionError).hasMessageContaining(format("The following keys were not found in the actual map value:%n" +

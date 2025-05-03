@@ -53,7 +53,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource("recursivelyEqualObjectsIgnoringActualNullValues")
   void should_pass_when_actual_null_fields_are_ignored(Object actual, Object expected, String testDescription) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringActualNullFields()
                       .isEqualTo(expected);
   }
@@ -113,7 +113,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
   void should_pass_when_actual_empty_optional_fields_are_ignored(Object actual,
                                                                  Object expected,
                                                                  String testDescription) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringActualEmptyOptionalFields()
                       .isEqualTo(expected);
   }
@@ -211,7 +211,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
                                                                                 Object expected,
                                                                                 String testDescription,
                                                                                 String[] ignoredFields) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringFields(ignoredFields)
                       .isEqualTo(expected);
   }
@@ -289,7 +289,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
                                                           Object expected,
                                                           String testDescription,
                                                           String[] ignoredFields) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringFields(ignoredFields)
                       .isEqualTo(expected);
   }
@@ -347,7 +347,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
                                                                                           Object expected,
                                                                                           String testDescription,
                                                                                           String regex) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringFieldsMatchingRegexes(regex)
                       .isEqualTo(expected);
   }
@@ -484,7 +484,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
                                                                   Object expected,
                                                                   String testDescription,
                                                                   String[] ignoredFieldRegexes) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringFieldsMatchingRegexes(ignoredFieldRegexes)
                       .isEqualTo(expected);
   }
@@ -574,7 +574,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
                                                             Object expected,
                                                             @SuppressWarnings("unused") String testDescription,
                                                             List<Class<?>> ignoredTypes) {
-    assertThat(actual).usingRecursiveComparison()
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                       .ignoringFieldsOfTypes(ignoredTypes.toArray(new Class<?>[0]))
                       .isEqualTo(expected);
   }
@@ -726,7 +726,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
   void should_pass_when_expected_null_fields_are_ignored(Object actual, Object expected,
                                                          @SuppressWarnings("unused") String testDescription) {
 
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .ignoringExpectedNullFields()
                 .isEqualTo(expected);
   }
@@ -758,7 +758,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
     Data actual = new Data(new Data.InnerData("match", "nonMatch"), null);
     Data expected = new Data(new Data.InnerData("match", "hctaMnon"), null);
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .ignoringFields("innerData.field2")
                 .isEqualTo(expected);
   }
@@ -770,7 +770,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
     Data expected = new Data(null, list(new Data.InnerData("match", "hctaMnon")));
     RecursiveComparisonConfiguration conf = new RecursiveComparisonConfiguration();
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .ignoringFieldsMatchingRegexes(".*field2")
                 .isEqualTo(expected);
   }
@@ -781,7 +781,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
     Data actual = new Data(new Data.InnerData("match", "nonMatch"), null);
     Data expected = new Data(new Data.InnerData("match", "hctaMnon"), null);
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .ignoringFieldsMatchingRegexes(".*field2")
                 .isEqualTo(expected);
   }
@@ -796,10 +796,10 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
                                       "description", "barfoo",
                                       "submap", Map.of("subFoo", "subBar"));
     // WHEN/THEN
-    then(mapA).usingRecursiveComparison()
+    then(mapA).usingRecursiveComparison(recursiveComparisonConfiguration)
               .ignoringFields("description", "submap.description")
               .isEqualTo(mapB);
-    then(mapA).usingRecursiveComparison()
+    then(mapA).usingRecursiveComparison(recursiveComparisonConfiguration)
               .ignoringFieldsMatchingRegexes(".*description")
               .isEqualTo(mapB);
   }
@@ -815,7 +815,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
     expected.put("foo", "value2");
     expected.put("bar", null);
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .ignoringFields("foo")
                 .isEqualTo(expected);
   }

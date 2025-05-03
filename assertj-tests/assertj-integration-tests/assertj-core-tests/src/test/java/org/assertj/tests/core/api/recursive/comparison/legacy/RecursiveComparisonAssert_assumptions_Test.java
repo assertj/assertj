@@ -33,7 +33,8 @@ class RecursiveComparisonAssert_assumptions_Test extends WithLegacyIntrospection
     unexpected.home.address.number = 2;
     // THEN
     assumeThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration).isEqualTo(expected);
-    expectAssumptionNotMetException(() -> assumeThat(actual).usingRecursiveComparison().isEqualTo(unexpected));
+    expectAssumptionNotMetException(() -> assumeThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                            .isEqualTo(unexpected));
   }
 
   @Test
@@ -53,7 +54,7 @@ class RecursiveComparisonAssert_assumptions_Test extends WithLegacyIntrospection
       assumeThat(actual).as("test description")
                         .withFailMessage("error message")
                         .withRepresentation(UNICODE_REPRESENTATION)
-                        .usingRecursiveComparison()
+                        .usingRecursiveComparison(recursiveComparisonConfiguration)
                         .isEqualTo(expected);
     }).doesNotThrowAnyException();
   }

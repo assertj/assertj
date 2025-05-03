@@ -34,12 +34,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
-  extends WithLegacyIntrospectionStrategyBaseTest {
+    extends WithLegacyIntrospectionStrategyBaseTest {
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource
   void should_pass_when_using_overridden_equals(Object actual, Object expected, String testDescription) {
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .usingOverriddenEquals()
                 .isEqualTo(expected);
   }
@@ -76,7 +76,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
   @MethodSource
   void should_fail_when_using_overridden_equals(Object actual, Object expected, String testDescription) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                  .usingOverriddenEquals()
                                                                                  .isEqualTo(expected));
     // THEN
@@ -157,7 +157,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
     WithObject actual = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
     WithObject expected = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
     // WHEN/THEN
-    then(actual).usingRecursiveComparison()
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .usingOverriddenEquals()
                 .comparingOnlyFields("group.name", "group.neverEquals.name")
                 .isEqualTo(expected);
@@ -169,7 +169,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
     WithObject actual = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
     WithObject expected = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison()
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                  .usingOverriddenEquals()
                                                                                  .comparingOnlyFields("group.name",
                                                                                                       "group.neverEquals")

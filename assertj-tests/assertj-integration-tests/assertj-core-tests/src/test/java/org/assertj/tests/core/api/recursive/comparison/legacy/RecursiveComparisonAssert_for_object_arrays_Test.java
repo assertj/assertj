@@ -40,7 +40,7 @@ class RecursiveComparisonAssert_for_object_arrays_Test extends WithLegacyIntrosp
     // WHEN
     var currentConfiguration = assertThat(actual).usingComparatorForType(ALWAYS_EQUALS_STRING, String.class)
                                                  .usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                   .getRecursiveComparisonConfiguration();
+                                                 .getRecursiveComparisonConfiguration();
     // THEN
     assertThat(currentConfiguration.getTypeComparators().comparatorByTypes()).contains(entry(String.class, ALWAYS_EQUALS_STRING));
   }
