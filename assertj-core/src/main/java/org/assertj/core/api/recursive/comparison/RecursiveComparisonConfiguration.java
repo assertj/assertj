@@ -50,7 +50,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private static final boolean DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS = true;
   public static final String INDENT_LEVEL_2 = "  -";
   private final Representation representation;
-  public static final RecursiveComparisonIntrospectionStrategy DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY = new LegacyRecursiveComparisonIntrospectionStrategy();
+  public static final RecursiveComparisonIntrospectionStrategy DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY = new ComparingFields();
   private boolean strictTypeChecking = false;
 
   // fields to ignore section

@@ -386,7 +386,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "  - foo -> AlwaysEqualComparator%n" +
                "- field comparators take precedence over type comparators.%n"+
                "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n" +
-                 "- the introspection strategy used was: LegacyRecursiveComparisonIntrospectionStrategy%n" +
+                 "- the introspection strategy used was: comparing fields%n" +
                "- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal%n"));
     // @format:on
   }
