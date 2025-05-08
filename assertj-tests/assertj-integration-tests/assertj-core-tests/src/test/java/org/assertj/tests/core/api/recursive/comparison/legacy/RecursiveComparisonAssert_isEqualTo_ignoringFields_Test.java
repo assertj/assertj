@@ -805,6 +805,24 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithLegacy
   }
 
   @Test
+  void should_honor_ignored_fields_in_map_with_null_key() {
+    // GIVEN
+    Map<String, String> actual = new HashMap<>();
+    actual.put("foo", "value1");
+    actual.put(null, "value");
+    Map<String, String> expected = new HashMap<>();
+    expected.put("foo", "value2");
+    expected.put(null, "value");
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .ignoringFields("foo")
+                .isEqualTo(expected);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .ignoringFieldsMatchingRegexes("f.o")
+                .isEqualTo(expected);
+  }
+
+  @Test
   void should_honor_ignored_fields_in_map_with_null_value() {
     // GIVEN
     Map<String, String> actual = new HashMap<>();
