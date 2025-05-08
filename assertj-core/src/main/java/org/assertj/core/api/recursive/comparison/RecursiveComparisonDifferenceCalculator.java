@@ -51,6 +51,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
 import org.assertj.core.internal.DeepDifference;
 
 /**
@@ -698,8 +699,10 @@ public class RecursiveComparisonDifferenceCalculator {
       return map;
     }
     return map.entrySet().stream()
-              .filter(e -> !configuration.matchesAnIgnoredField(fieldLocation.field(e.getKey().toString())))
-              .filter(e -> !configuration.matchesAnIgnoredFieldRegex(fieldLocation.field(e.getKey().toString())))
+              .filter(e -> e.getKey() == null
+                           || !configuration.matchesAnIgnoredField(fieldLocation.field(e.getKey().toString())))
+              .filter(e -> e.getKey() == null
+                           || !configuration.matchesAnIgnoredFieldRegex(fieldLocation.field(e.getKey().toString())))
               .collect(toMap(Entry::getKey, Entry::getValue));
   }
 
