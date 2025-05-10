@@ -72,6 +72,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   // ignore order in collections section
   private boolean ignoreCollectionOrder = false;
+  private boolean ignoreArrayOrder = false;
   private Set<String> ignoredCollectionOrderInFields = new LinkedHashSet<>();
   private final List<Pattern> ignoredCollectionOrderInFieldsMatchingRegexes = new ArrayList<>();
 
@@ -108,6 +109,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     ignoreOverriddenEqualsForFieldsMatchingRegexes(builder.ignoredOverriddenEqualsForFieldsMatchingRegexes);
     this.ignoreAllOverriddenEquals = builder.ignoreAllOverriddenEquals;
     this.ignoreCollectionOrder = builder.ignoreCollectionOrder;
+    this.ignoreArrayOrder = builder.ignoreArrayOrder;
     this.ignoredCollectionOrderInFields = newLinkedHashSet(builder.ignoredCollectionOrderInFields);
     ignoreCollectionOrderInFieldsMatchingRegexes(builder.ignoredCollectionOrderInFieldsMatchingRegexes);
     this.typeComparators = builder.typeComparators;
@@ -346,6 +348,21 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   public boolean getIgnoreCollectionOrder() {
     return ignoreCollectionOrder;
+  }
+
+  /**
+   * Sets whether to ignore array order in the comparison.
+   * <p>
+   * <b>Important:</b> ignoring array order has a high performance cost because each element of the actual array must
+   * be compared to each element of the expected array which is a O(n&sup2;) operation. For example with a array of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringArrayOrder()} for code examples.
+   *
+   * @param ignoreArrayOrder whether to ignore array order in the comparison.
+   */
+  public void ignoreArrayOrder(boolean ignoreArrayOrder) {
+    this.ignoreArrayOrder = ignoreArrayOrder;
   }
 
   /**
@@ -632,7 +649,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                                   getIgnoredFields(), getIgnoredFieldsRegexes(), ignoredOverriddenEqualsForFields,
                                   ignoredOverriddenEqualsForTypes, ignoredOverriddenEqualsForFieldsMatchingRegexes,
                                   getIgnoredTypes(), strictTypeChecking, typeComparators, comparedFields, comparedTypes,
-                                  fieldMessages, typeMessages, compareEnumAgainstString);
+                                  fieldMessages, typeMessages, compareEnumAgainstString, ignoreArrayOrder);
   }
 
   @Override
@@ -647,6 +664,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
            && ignoreAllExpectedNullFields == other.ignoreAllExpectedNullFields
            && ignoreAllOverriddenEquals == other.ignoreAllOverriddenEquals
            && ignoreCollectionOrder == other.ignoreCollectionOrder
+           && ignoreArrayOrder == other.ignoreArrayOrder
            && java.util.Objects.equals(ignoredCollectionOrderInFields, other.ignoredCollectionOrderInFields)
            && java.util.Objects.equals(getIgnoredFields(), other.getIgnoredFields())
            && java.util.Objects.equals(comparedFields, other.comparedFields)
@@ -677,6 +695,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     describeIgnoredTypes(description);
     describeIgnoredTypesRegexes(description);
     describeOverriddenEqualsMethodsUsage(description, representation);
+    describeIgnoreArrayOrder(description);
     describeIgnoreCollectionOrder(description);
     describeIgnoredCollectionOrderInFields(description);
     describeIgnoredCollectionOrderInFieldsMatchingRegexes(description);
@@ -820,6 +839,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
            || matchesAnIgnoredCollectionOrderInFieldRegex(fieldLocation);
   }
 
+  public boolean shouldIgnoreArrayOrder() {
+    return ignoreArrayOrder;
+  }
+
   private void describeComparedFields(StringBuilder description) {
     if (!comparedFields.isEmpty())
       description.append("- the comparison was performed on the following fields: %s%n".formatted(describeComparedFields()));
@@ -891,8 +914,13 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return join(ignoredOverriddenEqualsForFields);
   }
 
+  private void describeIgnoreArrayOrder(StringBuilder description) {
+    if (ignoreArrayOrder) description.append("- array order was ignored in all fields in the comparison%n".formatted());
+  }
+
   private void describeIgnoreCollectionOrder(StringBuilder description) {
-    if (ignoreCollectionOrder) description.append("- collection order was ignored in all fields in the comparison%n".formatted());
+    if (ignoreCollectionOrder)
+      description.append("- collection order was ignored in all fields in the comparison%n".formatted());
   }
 
   private void describeIgnoredCollectionOrderInFields(StringBuilder description) {
@@ -1186,6 +1214,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     private String[] ignoredOverriddenEqualsForFieldsMatchingRegexes = {};
     private boolean ignoreAllOverriddenEquals = DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS;
     private boolean ignoreCollectionOrder;
+    private boolean ignoreArrayOrder;
     private String[] ignoredCollectionOrderInFields = {};
     private String[] ignoredCollectionOrderInFieldsMatchingRegexes = {};
     private final TypeComparators typeComparators = defaultTypeComparators();
@@ -1352,6 +1381,19 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      */
     public Builder withIgnoreCollectionOrder(boolean ignoreCollectionOrder) {
       this.ignoreCollectionOrder = ignoreCollectionOrder;
+      return this;
+    }
+
+    /**
+     * Sets whether to ignore array order in the comparison.
+     * <p>
+     * See {@link RecursiveComparisonAssert#ignoringArrayOrder()} for code examples.
+     *
+     * @param ignoreArrayOrder whether to ignore array order in the comparison.
+     * @return this builder.
+     */
+    public Builder withIgnoreArrayOrder(boolean ignoreArrayOrder) {
+      this.ignoreArrayOrder = ignoreArrayOrder;
       return this;
     }
 

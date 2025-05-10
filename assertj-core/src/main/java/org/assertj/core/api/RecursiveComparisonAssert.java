@@ -1207,7 +1207,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
-   * Makes the recursive comparison to ignore collection order in all fields in the object under test.
+   * Makes the recursive comparison to ignore collection order in all fields of the object under test.
    * <p>
    * <b>Important:</b> ignoring collection order has a high performance cost because each element of the actual collection must
    * be compared to each element of the expected collection which is an O(n&sup2;) operation. For example with a collection of 100
@@ -1241,6 +1241,47 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   @CheckReturnValue
   public SELF ignoringCollectionOrder() {
     recursiveComparisonConfiguration.ignoreCollectionOrder(true);
+    return myself;
+  }
+
+  /**
+   * Makes the recursive comparison to ignore array order in all fields of the object under test.
+   * <p>
+   * <b>Important:</b> ignoring array order has a high performance cost because each element of the actual array must
+   * be compared to each element of the expected array which is an O(n&sup2;) operation. For example with a array of 100
+   * elements, the number of comparisons is 100x100 = 10 000!
+   * <p>
+   * Example:
+   * <pre><code class='java'> class Person {
+   *   String name;
+   *   Person[] friends = new Person[0];
+   *   void add(FriendlyPerson newFriend) {
+   *     // ... add newFriend to friends array
+   *   }
+   * }
+   *
+   * Person sherlock1 = new Person("Sherlock Holmes");
+   * sherlock1.add(new Person("Dr. John Watson"));
+   * sherlock1.add(new Person("Molly Hooper"));
+   *
+   * Person sherlock2 = new Person("Sherlock Holmes");
+   * sherlock2.add(new Person("Molly Hooper"));
+   * sherlock2.add(new Person("Dr. John Watson"));
+   *
+   * // assertion succeeds as all fields array order is ignored in the comparison
+   * assertThat(sherlock1).usingRecursiveComparison()
+   *                      .ignoringArrayOrder()
+   *                      .isEqualTo(sherlock2);
+   *
+   * // assertion fails as fields array order is not ignored in the comparison
+   * assertThat(sherlock1).usingRecursiveComparison()
+   *                      .isEqualTo(sherlock2);</code></pre>
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF ignoringArrayOrder() {
+    recursiveComparisonConfiguration.ignoreArrayOrder(true);
     return myself;
   }
 

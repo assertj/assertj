@@ -206,6 +206,16 @@ class RecursiveComparisonAssert_fluent_API_Test extends WithComparingFieldsIntro
   }
 
   @Test
+  void should_allow_to_ignore_array_order() {
+    // WHEN
+    var currentConfiguration = assertThat(ACTUAL).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                 .ignoringArrayOrder()
+                                                 .getRecursiveComparisonConfiguration();
+    // THEN
+    then(currentConfiguration.shouldIgnoreArrayOrder()).isTrue();
+  }
+
+  @Test
   void should_allow_to_ignore_collection_order_in_fields() {
     // GIVEN
     String field1 = "foo";

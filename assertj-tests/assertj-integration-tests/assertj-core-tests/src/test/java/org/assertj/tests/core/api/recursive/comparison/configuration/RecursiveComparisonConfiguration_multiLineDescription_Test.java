@@ -347,6 +347,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(".*oo", ".ar", "oo.ba");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFields("foo", "baz", "foo.baz");
+    recursiveComparisonConfiguration.ignoreArrayOrder(true);
     recursiveComparisonConfiguration.ignoreCollectionOrder(true);
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes("f.*", "ba.", "foo.*");
@@ -372,6 +373,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "  - the following fields: foo, baz, foo.baz%n" +
                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                "  - the fields matching the following regexes: .*oo, .ar, oo.ba%n" +
+                 "- array order was ignored in all fields in the comparison%n" +
                "- collection order was ignored in all fields in the comparison%n" +
                "- collection order was ignored in the following fields in the comparison: foo, bar, foo.bar%n" +
                "- collection order was ignored in the fields matching the following regexes in the comparison: f.*, ba., foo.*%n" +

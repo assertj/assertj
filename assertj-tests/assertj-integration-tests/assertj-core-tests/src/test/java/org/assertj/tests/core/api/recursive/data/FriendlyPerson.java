@@ -20,6 +20,7 @@ import java.util.Set;
 public class FriendlyPerson extends Person {
   public List<FriendlyPerson> friends = new ArrayList<>();
   public Set<FriendlyPerson> otherFriends = new HashSet<>();
+  public FriendlyPerson[] arrayFriends = new FriendlyPerson[0];
 
   public FriendlyPerson() {
     super();
@@ -31,5 +32,10 @@ public class FriendlyPerson extends Person {
 
   public static FriendlyPerson friend(String name) {
     return new FriendlyPerson(name);
+  }
+
+  public void add(FriendlyPerson friend) {
+    friends.add(friend);
+    arrayFriends = friends.toArray(new FriendlyPerson[0]);
   }
 }

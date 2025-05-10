@@ -307,7 +307,11 @@ public class RecursiveComparisonDifferenceCalculator {
       // TODO move hasFieldTypesDifference check into each compareXXX
 
       if (dualValue.isExpectedFieldAnArray()) {
-        compareArrays(dualValue, comparisonState);
+        if (recursiveComparisonConfiguration.shouldIgnoreArrayOrder()) {
+          compareUnorderedArrays(dualValue, comparisonState);
+        } else {
+          compareArrays(dualValue, comparisonState);
+        }
         continue;
       }
 
@@ -487,7 +491,7 @@ public class RecursiveComparisonDifferenceCalculator {
 
   private static void compareArrays(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualFieldAnArray()) {
-      // at the moment we only allow comparing arrays with arrays but we might allow comparing to collections later on
+      // at the moment we only allow comparing arrays with arrays, but we might allow comparing to collections later on
       // but only if we are not in strict type mode.
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an array"));
       return;
@@ -508,6 +512,35 @@ public class RecursiveComparisonDifferenceCalculator {
       FieldLocation elementFieldLocation = arrayFieldLocation.field("[%d]".formatted(i));
       comparisonState.registerForComparison(new DualValue(elementFieldLocation, actualElement, expectedElement));
     }
+  }
+
+  private static void compareUnorderedArrays(DualValue dualValue, ComparisonState comparisonState) {
+    if (!dualValue.isActualFieldAnArray()) {
+      // at the moment we only allow comparing arrays with arrays, but we might allow comparing to collections later on
+      // but only if we are not in strict type mode.
+      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an array"));
+      return;
+    }
+    // both values in dualValue are arrays
+    int actualArrayLength = Array.getLength(dualValue.actual);
+    int expectedArrayLength = Array.getLength(dualValue.expected);
+    if (actualArrayLength != expectedArrayLength) {
+      comparisonState.addDifference(dualValue, DIFFERENT_SIZE_ERROR.formatted("arrays", actualArrayLength, expectedArrayLength));
+      // no need to inspect elements, arrays are not equal as they don't have the same size
+      return;
+    }
+    // convert to iterables to reuse the compared unordered iterables algorithm
+    Iterable<Object> actual = asIterable(dualValue.actual, actualArrayLength);
+    Iterable<Object> expected = asIterable(dualValue.expected, expectedArrayLength);
+    doCompareUnorderedIterables(dualValue, actual, expected, comparisonState);
+  }
+
+  private static Iterable<Object> asIterable(Object array, int arrayLength) {
+    List<Object> list = new ArrayList<>(arrayLength);
+    for (int i = 0; i < arrayLength; i++) {
+      list.add(Array.get(array, i));
+    }
+    return list;
   }
 
   /*
@@ -541,8 +574,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static String differentTypeErrorMessage(DualValue dualValue, String actualTypeDescription) {
-    return DIFFERENT_ACTUAL_AND_EXPECTED_FIELD_TYPES.formatted(
-                                                               actualTypeDescription,
+    return DIFFERENT_ACTUAL_AND_EXPECTED_FIELD_TYPES.formatted(actualTypeDescription,
                                                                dualValue.actual.getClass().getCanonicalName());
   }
 
@@ -561,6 +593,11 @@ public class RecursiveComparisonDifferenceCalculator {
       // no need to inspect elements, iterables are not equal as they don't have the same size
       return;
     }
+    doCompareUnorderedIterables(dualValue, actual, expected, comparisonState);
+  }
+
+  private static void doCompareUnorderedIterables(DualValue dualValue, Iterable<?> actual, Iterable<?> expected,
+                                                  ComparisonState comparisonState) {
     List<Object> expectedElementsNotFound = list();
     for (Object expectedElement : expected) {
       boolean expectedElementMatched = false;
@@ -591,9 +628,8 @@ public class RecursiveComparisonDifferenceCalculator {
       }
     }
     if (!expectedElementsNotFound.isEmpty()) {
-      String unmatched = "The following expected elements were not matched in the actual %s:%n  %s".formatted(
-                                                                                                              actual.getClass()
-                                                                                                                    .getSimpleName(),
+      String type = actual.getClass().getSimpleName();
+      String unmatched = "The following expected elements were not matched in the actual %s:%n  %s".formatted(type,
                                                                                                               comparisonState.toStringOf(expectedElementsNotFound));
       comparisonState.addDifference(dualValue, unmatched);
       // TODO could improve the error by listing the actual elements not in expected but that would need
@@ -680,8 +716,8 @@ public class RecursiveComparisonDifferenceCalculator {
     Set<?> expectedKeysNotFound = new LinkedHashSet<>(expectedMap.keySet());
     expectedKeysNotFound.removeAll(actualMap.keySet());
     if (!expectedKeysNotFound.isEmpty()) {
-      comparisonState.addDifference(dualValue, "The following keys were not found in the actual map value:%n  %s".formatted(
-                                                                                                                            comparisonState.toStringOf(expectedKeysNotFound)));
+      comparisonState.addDifference(dualValue,
+                                    "The following keys were not found in the actual map value:%n  %s".formatted(comparisonState.toStringOf(expectedKeysNotFound)));
       return;
     }
     // actual and expected maps have the same keys, we need now to compare their values

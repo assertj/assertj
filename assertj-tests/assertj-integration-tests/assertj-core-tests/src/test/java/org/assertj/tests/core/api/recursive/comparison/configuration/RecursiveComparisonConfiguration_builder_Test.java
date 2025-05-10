@@ -45,7 +45,7 @@ class RecursiveComparisonConfiguration_builder_Test {
   @Test
   void should_set_ignoreAllActualNullFields() {
     // GIVEN
-    boolean value = RandomUtils.nextBoolean();
+    boolean value = RandomUtils.secure().randomBoolean();
     // WHEN
     RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreAllActualNullFields(value).build();
     // THEN
@@ -55,7 +55,7 @@ class RecursiveComparisonConfiguration_builder_Test {
   @Test
   void should_set_ignoreAllActualEmptyOptionalFields() {
     // GIVEN
-    boolean value = RandomUtils.nextBoolean();
+    boolean value = RandomUtils.secure().randomBoolean();
     // WHEN
     RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreAllActualEmptyOptionalFields(value).build();
     // THEN
@@ -65,7 +65,7 @@ class RecursiveComparisonConfiguration_builder_Test {
   @Test
   void should_set_ignoreAllExpectedNullFields() {
     // GIVEN
-    boolean value = RandomUtils.nextBoolean();
+    boolean value = RandomUtils.secure().randomBoolean();
     // WHEN
     RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreAllExpectedNullFields(value).build();
     // THEN
@@ -75,7 +75,7 @@ class RecursiveComparisonConfiguration_builder_Test {
   @Test
   void should_set_ignoreAllOverriddenEquals() {
     // GIVEN
-    boolean value = RandomUtils.nextBoolean();
+    boolean value = RandomUtils.secure().randomBoolean();
     // WHEN
     RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreAllOverriddenEquals(value).build();
     // THEN
@@ -85,11 +85,21 @@ class RecursiveComparisonConfiguration_builder_Test {
   @Test
   void should_set_ignoreCollectionOrder() {
     // GIVEN
-    boolean value = RandomUtils.nextBoolean();
+    boolean value = RandomUtils.secure().randomBoolean();
     // WHEN
     RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreCollectionOrder(value).build();
     // THEN
     then(configuration.getIgnoreCollectionOrder()).isEqualTo(value);
+  }
+
+  @Test
+  void should_set_ignoreArrayOrder() {
+    // GIVEN
+    boolean value = RandomUtils.secure().randomBoolean();
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreArrayOrder(value).build();
+    // THEN
+    then(configuration.shouldIgnoreArrayOrder()).isEqualTo(value);
   }
 
   @Test
@@ -190,7 +200,7 @@ class RecursiveComparisonConfiguration_builder_Test {
   @Test
   void should_set_strictTypeCheckingMode() {
     // GIVEN
-    boolean value = RandomUtils.nextBoolean();
+    boolean value = RandomUtils.secure().randomBoolean();
     // WHEN
     RecursiveComparisonConfiguration configuration = configBuilder().withStrictTypeChecking(value).build();
     // THEN
