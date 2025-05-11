@@ -29,6 +29,7 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -41,6 +42,7 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.ConfigurationProvider;
@@ -50,7 +52,6 @@ import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
@@ -519,8 +520,18 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
     requireNonNull(instanceOfAssertFactory, shouldNotBeNull("instanceOfAssertFactory")::create);
-    objects.assertIsInstanceOf(info, actual, instanceOfAssertFactory.getRawClass());
-    return (ASSERT) instanceOfAssertFactory.createAssert(actual).withAssertionState(myself);
+
+    ValueProvider<?> isInstanceOfValueProvider = type -> {
+      if (type instanceof Class<?>) {
+        isInstanceOf((Class<?>) type);
+      } else if (type instanceof ParameterizedType) {
+        ParameterizedType parameterizedType = (ParameterizedType) type;
+        isInstanceOf((Class<?>) parameterizedType.getRawType());
+      }
+      return actual;
+    };
+
+    return (ASSERT) instanceOfAssertFactory.createAssert(isInstanceOfValueProvider).withAssertionState(myself);
   }
 
   /**
@@ -1301,7 +1312,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @param other  the object to compare to actual
    * @return true if actual and other are equal according to the underlying comparison strategy.
    * @since 3.23.0
-   * @deprecated {@link ComparisonStrategy} will become part of the public API in the next major release and this method
+   * @deprecated {@link org.assertj.core.internal.ComparisonStrategy} will become part of the public API in the next major release and this method
    * will be removed.
    */
   @Deprecated

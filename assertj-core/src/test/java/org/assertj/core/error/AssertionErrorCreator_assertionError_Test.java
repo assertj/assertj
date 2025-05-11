@@ -47,7 +47,7 @@ class AssertionErrorCreator_assertionError_Test {
     then(assertionError).isInstanceOf(AssertionFailedError.class)
                         .hasMessage(message);
     AssertionFailedError assertionFailedError = (AssertionFailedError) assertionError;
-    then(assertionFailedError.getActual().getValue()).isSameAs(actual);
+    then(assertionFailedError.getActual().getValue()).as("").isSameAs(actual);
     then(assertionFailedError.getExpected().getValue()).isSameAs(expected);
   }
 
