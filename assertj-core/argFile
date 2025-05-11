@@ -129,7 +129,6 @@
 --add-opens org.assertj.core/org.assertj.core.internal.longs=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.internal.maps=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.internal.object2darrays=org.junit.platform.commons
---add-opens org.assertj.core/org.assertj.core.internal.objectarrays=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.internal.objects=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.presentation=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.testkit=org.junit.platform.commons
