@@ -25,8 +25,8 @@ import java.util.Objects;
 /**
  * {@link AssertFactory} decorator that casts the input value to the given type before invoking the decorated factory.
  *
- * @param <T>      the type to use for the cast.
- * @param <ASSERT> the type of the resulting {@code Assert}.
+ * @param <T>      the type to use for the cast
+ * @param <ASSERT> the type of the resulting {@link Assert}
  *
  * @author Stefano Cordio
  * @since 3.13.0
@@ -40,19 +40,20 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
   /**
    * Instantiates a new {@code InstanceOfAssertFactory} for a given type.
    *
-   * @param type     the {@link Class} instance of the given type.
-   * @param delegate the {@link AssertFactory} to decorate.
+   * @param type     the {@link Class} instance of the given type
+   * @param delegate the {@link AssertFactory} to decorate
    */
   public InstanceOfAssertFactory(Class<T> type, AssertFactory<T, ASSERT> delegate) {
     this(type, type, delegate);
   }
 
   /**
-   * Instantiates a new {@code InstanceOfAssertFactory} for a given type with type arguments.
+   * Instantiates a new {@code InstanceOfAssertFactory} for a given type
+   * with type arguments, usually representing a {@link ParameterizedType}.
    *
-   * @param rawClass      the raw {@link Class} instance of the given type.
-   * @param typeArguments the {@link Type} arguments of the given type.
-   * @param delegate      the {@link AssertFactory} to decorate.
+   * @param rawClass      the raw {@link Class} instance of the given type
+   * @param typeArguments the {@link Type} arguments of the given type
+   * @param delegate      the {@link AssertFactory} to decorate
    * @since 3.26.0
    */
   public InstanceOfAssertFactory(Class<T> rawClass, Type[] typeArguments, AssertFactory<T, ASSERT> delegate) {
@@ -63,10 +64,6 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
     this.type = requireNonNull(type, shouldNotBeNull("type")::create);
     this.rawClass = requireNonNull(rawClass, shouldNotBeNull("rawClass")::create);
     this.delegate = requireNonNull(delegate, shouldNotBeNull("delegate")::create);
-  }
-
-  Class<T> getRawClass() {
-    return rawClass;
   }
 
   /**
@@ -85,10 +82,10 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
 
   /**
    * Creates the custom {@link Assert} instance for the value provided by the
-   * given {@code valueProvider}.
+   * given {@link ValueProvider}.
    * <p>
-   * This is typically used by custom assertions that want to leverage existing
-   * factories and need to manipulate the value upfront.
+   * The given {@code ValueProvider} can execute type-aware logic before
+   * providing the required value, like type validation or value conversion.
    * <p>
    * This implementation requests a value compatible with the {@link Type}
    * defined during instantiation and casts the provided value to the
@@ -114,7 +111,7 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
     private final Class<?> rawClass;
     private final Type[] typeArguments;
 
-    public SyntheticParameterizedType(Class<?> rawClass, Type[] typeArguments) {
+    private SyntheticParameterizedType(Class<?> rawClass, Type[] typeArguments) {
       this.rawClass = requireNonNull(rawClass, shouldNotBeNull("rawClass")::create);
       this.typeArguments = requireNonNull(typeArguments, shouldNotBeNull("typeArguments")::create);
     }
@@ -146,10 +143,9 @@ public class InstanceOfAssertFactory<T, ASSERT extends AbstractAssert<?, ?>> imp
       if (this == other) {
         return true;
       }
-      if (!(other instanceof ParameterizedType)) {
+      if (!(other instanceof ParameterizedType otherType)) {
         return false;
       }
-      ParameterizedType otherType = (ParameterizedType) other;
       return (otherType.getOwnerType() == null && rawClass.equals(otherType.getRawType()) &&
               Arrays.equals(typeArguments, otherType.getActualTypeArguments()));
     }

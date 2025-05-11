@@ -25,6 +25,7 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.formatIfArgs;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
+import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -510,8 +511,17 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
     requireNonNull(instanceOfAssertFactory, shouldNotBeNull("instanceOfAssertFactory")::create);
-    objects.assertIsInstanceOf(info, actual, instanceOfAssertFactory.getRawClass());
-    return (ASSERT) instanceOfAssertFactory.createAssert(actual).withAssertionState(myself);
+
+    ValueProvider<?> isInstanceOfValueProvider = type -> {
+      if (type instanceof Class<?> clazz) {
+        isInstanceOf(clazz);
+      } else if (type instanceof ParameterizedType parameterizedType) {
+        isInstanceOf((Class<?>) parameterizedType.getRawType());
+      }
+      return actual;
+    };
+
+    return (ASSERT) instanceOfAssertFactory.createAssert(isInstanceOfValueProvider).withAssertionState(myself);
   }
 
   /**

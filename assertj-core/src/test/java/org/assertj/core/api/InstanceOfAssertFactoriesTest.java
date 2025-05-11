@@ -16,9 +16,8 @@ import static java.time.temporal.ChronoUnit.SECONDS;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.Assertions.within;
-import static org.assertj.core.api.BDDAssertions.from;
-import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.ARRAY_2D;
 import static org.assertj.core.api.InstanceOfAssertFactories.ATOMIC_BOOLEAN;
@@ -134,7 +133,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.testkit.Maps.mapOf;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.AdditionalAnswers.delegatesTo;
-import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -225,14 +224,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = (Predicate<Object>) Objects::isNull;
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = PREDICATE.getRawClass();
-      // THEN
-      then(result).isEqualTo(Predicate.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       PredicateAssert<Object> result = PREDICATE.createAssert(actual);
@@ -257,14 +248,6 @@ class InstanceOfAssertFactoriesTest {
   class Predicate_Typed_Factory {
 
     private final Object actual = (Predicate<String>) Strings::isNullOrEmpty;
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = PREDICATE.getRawClass();
-      // THEN
-      then(result).isEqualTo(Predicate.class);
-    }
 
     @Test
     void createAssert() {
@@ -293,14 +276,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = (IntPredicate) i -> i == 0;
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = INT_PREDICATE.getRawClass();
-      // THEN
-      then(result).isEqualTo(IntPredicate.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       IntPredicateAssert result = INT_PREDICATE.createAssert(actual);
@@ -325,14 +300,6 @@ class InstanceOfAssertFactoriesTest {
   class LongPredicate_Factory {
 
     private final Object actual = (LongPredicate) l -> l == 0L;
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = LONG_PREDICATE.getRawClass();
-      // THEN
-      then(result).isEqualTo(LongPredicate.class);
-    }
 
     @Test
     void createAssert() {
@@ -361,14 +328,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = (DoublePredicate) d -> d == 0.0;
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = DOUBLE_PREDICATE.getRawClass();
-      // THEN
-      then(result).isEqualTo(DoublePredicate.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       DoublePredicateAssert result = DOUBLE_PREDICATE.createAssert(actual);
@@ -393,14 +352,6 @@ class InstanceOfAssertFactoriesTest {
   class CompletableFuture_Factory {
 
     private final Object actual = completedFuture("done");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = COMPLETABLE_FUTURE.getRawClass();
-      // THEN
-      then(result).isEqualTo(CompletableFuture.class);
-    }
 
     @Test
     void createAssert() {
@@ -429,14 +380,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = completedFuture("done");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = completableFuture(String.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(CompletableFuture.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       CompletableFutureAssert<String> result = completableFuture(String.class).createAssert(actual);
@@ -461,14 +404,6 @@ class InstanceOfAssertFactoriesTest {
   class CompletionStage_Factory {
 
     private final Object actual = completedFuture("done");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = COMPLETION_STAGE.getRawClass();
-      // THEN
-      then(result).isEqualTo(CompletionStage.class);
-    }
 
     @Test
     void createAssert() {
@@ -497,14 +432,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = completedFuture("done");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = COMPLETION_STAGE.getRawClass();
-      // THEN
-      then(result).isEqualTo(CompletionStage.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       CompletableFutureAssert<String> result = completionStage(String.class).createAssert(actual);
@@ -529,14 +456,6 @@ class InstanceOfAssertFactoriesTest {
   class Optional_Factory {
 
     private final Object actual = Optional.of("something");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = OPTIONAL.getRawClass();
-      // THEN
-      then(result).isEqualTo(Optional.class);
-    }
 
     @Test
     void createAssert() {
@@ -565,14 +484,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = Optional.of("something");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = optional(String.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Optional.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       OptionalAssert<String> result = optional(String.class).createAssert(actual);
@@ -597,14 +508,6 @@ class InstanceOfAssertFactoriesTest {
   class OptionalDouble_Factory {
 
     private final Object actual = OptionalDouble.of(0.0);
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = OPTIONAL_DOUBLE.getRawClass();
-      // THEN
-      then(result).isEqualTo(OptionalDouble.class);
-    }
 
     @Test
     void createAssert() {
@@ -633,14 +536,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = OptionalInt.of(0);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = OPTIONAL_INT.getRawClass();
-      // THEN
-      then(result).isEqualTo(OptionalInt.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       OptionalIntAssert result = OPTIONAL_INT.createAssert(actual);
@@ -665,14 +560,6 @@ class InstanceOfAssertFactoriesTest {
   class OptionalLong_Factory {
 
     private final Object actual = OptionalLong.of(0L);
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = OPTIONAL_LONG.getRawClass();
-      // THEN
-      then(result).isEqualTo(OptionalLong.class);
-    }
 
     @Test
     void createAssert() {
@@ -701,14 +588,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = Pattern.compile("a*").matcher("aaa");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = MATCHER.getRawClass();
-      // THEN
-      then(result).isEqualTo(Matcher.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       MatcherAssert result = MATCHER.createAssert(actual);
@@ -733,14 +612,6 @@ class InstanceOfAssertFactoriesTest {
   class BigDecimal_Factory {
 
     private final Object actual = BigDecimal.valueOf(0.0);
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = BIG_DECIMAL.getRawClass();
-      // THEN
-      then(result).isEqualTo(BigDecimal.class);
-    }
 
     @Test
     void createAssert() {
@@ -769,14 +640,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = BigInteger.valueOf(0L);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = BIG_INTEGER.getRawClass();
-      // THEN
-      then(result).isEqualTo(BigInteger.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractBigIntegerAssert<?> result = BIG_INTEGER.createAssert(actual);
@@ -801,14 +664,6 @@ class InstanceOfAssertFactoriesTest {
   class URI_Factory {
 
     private final Object actual = URI.create("http://localhost");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = URI_TYPE.getRawClass();
-      // THEN
-      then(result).isEqualTo(URI.class);
-    }
 
     @Test
     void createAssert() {
@@ -839,14 +694,6 @@ class InstanceOfAssertFactoriesTest {
     URL_Factory() throws MalformedURLException {}
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = URL_TYPE.getRawClass();
-      // THEN
-      then(result).isEqualTo(URL.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractUrlAssert<?> result = URL_TYPE.createAssert(actual);
@@ -871,14 +718,6 @@ class InstanceOfAssertFactoriesTest {
   class Boolean_Factory {
 
     private final Object actual = true;
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = BOOLEAN.getRawClass();
-      // THEN
-      then(result).isEqualTo(Boolean.class);
-    }
 
     @Test
     void createAssert() {
@@ -907,14 +746,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new boolean[] { true, false };
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = BOOLEAN_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(boolean[].class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractBooleanArrayAssert<?> result = BOOLEAN_ARRAY.createAssert(actual);
@@ -939,14 +770,6 @@ class InstanceOfAssertFactoriesTest {
   class Boolean_2D_Array_Factory {
 
     private final Object actual = new boolean[][] { { true, false }, { false, true } };
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = BOOLEAN_2D_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(boolean[][].class);
-    }
 
     @Test
     void createAssert() {
@@ -975,14 +798,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = (byte) 0;
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = BYTE.getRawClass();
-      // THEN
-      then(result).isEqualTo(Byte.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractByteAssert<?> result = BYTE.createAssert(actual);
@@ -1007,14 +822,6 @@ class InstanceOfAssertFactoriesTest {
   class Byte_Array_Factory {
 
     private final Object actual = new byte[] { 0, 1 };
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = BYTE_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(byte[].class);
-    }
 
     @Test
     void createAssert() {
@@ -1043,14 +850,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new byte[][] { { 0, 1 }, { 2, 3 } };
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = BYTE_2D_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(byte[][].class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       Byte2DArrayAssert result = BYTE_2D_ARRAY.createAssert(actual);
@@ -1075,14 +874,6 @@ class InstanceOfAssertFactoriesTest {
   class Character_Factory {
 
     private final Object actual = 'a';
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = CHARACTER.getRawClass();
-      // THEN
-      then(result).isEqualTo(Character.class);
-    }
 
     @Test
     void createAssert() {
@@ -1111,14 +902,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new char[] { 'a', 'b' };
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = CHAR_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(char[].class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractCharArrayAssert<?> result = CHAR_ARRAY.createAssert(actual);
@@ -1143,14 +926,6 @@ class InstanceOfAssertFactoriesTest {
   class Char_2D_Array_Factory {
 
     private final Object actual = new char[][] { { 'a', 'b' }, { 'c', 'd' } };
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = CHAR_2D_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(char[][].class);
-    }
 
     @Test
     void createAssert() {
@@ -1179,14 +954,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = Function.class;
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = CLASS.getRawClass();
-      // THEN
-      then(result).isEqualTo(Class.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       ClassAssert result = CLASS.createAssert(actual);
@@ -1212,14 +979,6 @@ class InstanceOfAssertFactoriesTest {
   class Double_Factory {
 
     private final Object actual = 0.0;
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = DOUBLE.getRawClass();
-      // THEN
-      then(result).isEqualTo(Double.class);
-    }
 
     @Test
     void createAssert() {
@@ -1254,14 +1013,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new double[] { 0.0, 1.0 };
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = DOUBLE_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(double[].class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractDoubleArrayAssert<?> result = DOUBLE_ARRAY.createAssert(actual);
@@ -1286,14 +1037,6 @@ class InstanceOfAssertFactoriesTest {
   class Double_2D_Array_Factory {
 
     private final Object actual = new double[][] { { 0.0, 1.0 }, { 2.0, 3.0 } };
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = DOUBLE_2D_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(double[][].class);
-    }
 
     @Test
     void createAssert() {
@@ -1322,14 +1065,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new File("non-existing-file");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = FILE.getRawClass();
-      // THEN
-      then(result).isEqualTo(File.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractFileAssert<?> result = FILE.createAssert(actual);
@@ -1354,14 +1089,6 @@ class InstanceOfAssertFactoriesTest {
   class Future_Factory {
 
     private final Object actual = mock(Future.class);
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = FUTURE.getRawClass();
-      // THEN
-      then(result).isEqualTo(Future.class);
-    }
 
     @Test
     void createAssert() {
@@ -1390,14 +1117,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = mock(Future.class);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = future(String.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Future.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       FutureAssert<String> result = future(String.class).createAssert(actual);
@@ -1422,14 +1141,6 @@ class InstanceOfAssertFactoriesTest {
   class InputStream_Factory {
 
     private final Object actual = new ByteArrayInputStream("stream".getBytes());
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = INPUT_STREAM.getRawClass();
-      // THEN
-      then(result).isEqualTo(InputStream.class);
-    }
 
     @Test
     void createAssert() {
@@ -1458,14 +1169,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = 0.0f;
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = FLOAT.getRawClass();
-      // THEN
-      then(result).isEqualTo(Float.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractFloatAssert<?> result = FLOAT.createAssert(actual);
@@ -1490,14 +1193,6 @@ class InstanceOfAssertFactoriesTest {
   class Float_Array_Factory {
 
     private final Object actual = new float[] { 0.0f, 1.0f };
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = FLOAT_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(float[].class);
-    }
 
     @Test
     void createAssert() {
@@ -1526,14 +1221,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new float[][] { { 0.0f, 1.0f }, { 2.0f, 3.0f } };
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = FLOAT_2D_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(float[][].class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       Float2DArrayAssert result = FLOAT_2D_ARRAY.createAssert(actual);
@@ -1559,14 +1246,6 @@ class InstanceOfAssertFactoriesTest {
   class Integer_Factory {
 
     private final Object actual = 0;
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = INTEGER.getRawClass();
-      // THEN
-      then(result).isEqualTo(Integer.class);
-    }
 
     @Test
     void createAssert() {
@@ -1601,14 +1280,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new int[] { 0, 1 };
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = INT_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(int[].class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractIntArrayAssert<?> result = INT_ARRAY.createAssert(actual);
@@ -1633,14 +1304,6 @@ class InstanceOfAssertFactoriesTest {
   class Int_2D_Array_Factory {
 
     private final Object actual = new int[][] { { 0, 1 }, { 2, 3 } };
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = INT_2D_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(int[][].class);
-    }
 
     @Test
     void createAssert() {
@@ -1669,14 +1332,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = 0L;
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = LONG.getRawClass();
-      // THEN
-      then(result).isEqualTo(Long.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractLongAssert<?> result = LONG.createAssert(actual);
@@ -1701,14 +1356,6 @@ class InstanceOfAssertFactoriesTest {
   class Long_Array_Factory {
 
     private final Object actual = new long[] { 0L, 1L };
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = LONG_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(long[].class);
-    }
 
     @Test
     void createAssert() {
@@ -1737,14 +1384,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new long[][] { { 0L, 1L }, { 2L, 3L } };
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = LONG_2D_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(long[][].class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       Long2DArrayAssert result = LONG_2D_ARRAY.createAssert(actual);
@@ -1769,14 +1408,6 @@ class InstanceOfAssertFactoriesTest {
   class Type_Factory {
 
     private final Object actual = "string";
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = type(String.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(String.class);
-    }
 
     @Test
     void createAssert() {
@@ -1804,14 +1435,6 @@ class InstanceOfAssertFactoriesTest {
   class Array_Factory {
 
     private final Object actual = new Object[] { 0, "" };
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(Object[].class);
-    }
 
     @Test
     void createAssert() {
@@ -1847,14 +1470,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new Integer[] { 0, 1 };
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = array(Integer.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Integer[].class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       ObjectArrayAssert<Integer> result = array(Integer.class).createAssert(actual);
@@ -1887,14 +1502,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new Object[][] { { 0, "" }, { 3.0, 'b' } };
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ARRAY_2D.getRawClass();
-      // THEN
-      then(result).isEqualTo(Object[][].class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       Object2DArrayAssert<Object> result = ARRAY_2D.createAssert(actual);
@@ -1921,14 +1528,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new Integer[][] { { 0, 1 }, { 2, 3 } };
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = array2D(Integer.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Integer[][].class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       Object2DArrayAssert<Integer> result = array2D(Integer.class).createAssert(actual);
@@ -1952,14 +1551,6 @@ class InstanceOfAssertFactoriesTest {
   class Short_Factory {
 
     private final Object actual = (short) 0;
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = SHORT.getRawClass();
-      // THEN
-      then(result).isEqualTo(Short.class);
-    }
 
     @Test
     void createAssert() {
@@ -1988,14 +1579,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new short[] { 0, 1 };
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = SHORT_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(short[].class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractShortArrayAssert<?> result = SHORT_ARRAY.createAssert(actual);
@@ -2020,14 +1603,6 @@ class InstanceOfAssertFactoriesTest {
   class Short_2D_Array_Factory {
 
     private final Object actual = new short[][] { { 0, 1 }, { 2, 3 } };
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = SHORT_2D_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(short[][].class);
-    }
 
     @Test
     void createAssert() {
@@ -2056,14 +1631,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new Date();
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = DATE.getRawClass();
-      // THEN
-      then(result).isEqualTo(Date.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractDateAssert<?> result = DATE.createAssert(actual);
@@ -2088,14 +1655,6 @@ class InstanceOfAssertFactoriesTest {
   class Temporal_Factory {
 
     private final Object actual = ZonedDateTime.now();
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = TEMPORAL.getRawClass();
-      // THEN
-      then(result).isEqualTo(Temporal.class);
-    }
 
     @Test
     void createAssert() {
@@ -2124,14 +1683,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = ZonedDateTime.now();
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ZONED_DATE_TIME.getRawClass();
-      // THEN
-      then(result).isEqualTo(ZonedDateTime.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractZonedDateTimeAssert<?> result = ZONED_DATE_TIME.createAssert(actual);
@@ -2156,14 +1707,6 @@ class InstanceOfAssertFactoriesTest {
   class LocalDateTime_Factory {
 
     private final Object actual = LocalDateTime.now();
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = LOCAL_DATE_TIME.getRawClass();
-      // THEN
-      then(result).isEqualTo(LocalDateTime.class);
-    }
 
     @Test
     void createAssert() {
@@ -2192,14 +1735,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = OffsetDateTime.now();
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = OFFSET_DATE_TIME.getRawClass();
-      // THEN
-      then(result).isEqualTo(OffsetDateTime.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractOffsetDateTimeAssert<?> result = OFFSET_DATE_TIME.createAssert(actual);
@@ -2224,14 +1759,6 @@ class InstanceOfAssertFactoriesTest {
   class OffsetTime_Factory {
 
     private final Object actual = OffsetTime.now();
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = OFFSET_TIME.getRawClass();
-      // THEN
-      then(result).isEqualTo(OffsetTime.class);
-    }
 
     @Test
     void createAssert() {
@@ -2260,14 +1787,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = LocalTime.now();
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = LOCAL_TIME.getRawClass();
-      // THEN
-      then(result).isEqualTo(LocalTime.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractLocalTimeAssert<?> result = LOCAL_TIME.createAssert(actual);
@@ -2292,14 +1811,6 @@ class InstanceOfAssertFactoriesTest {
   class LocalDate_Factory {
 
     private final Object actual = LocalDate.now();
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = LOCAL_DATE.getRawClass();
-      // THEN
-      then(result).isEqualTo(LocalDate.class);
-    }
 
     @Test
     void createAssert() {
@@ -2328,14 +1839,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = YearMonth.now();
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = YEAR_MONTH.getRawClass();
-      // THEN
-      then(result).isEqualTo(YearMonth.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractYearMonthAssert<?> result = YEAR_MONTH.createAssert(actual);
@@ -2360,14 +1863,6 @@ class InstanceOfAssertFactoriesTest {
   class Instant_Factory {
 
     private final Object actual = Instant.now();
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = INSTANT.getRawClass();
-      // THEN
-      then(result).isEqualTo(Instant.class);
-    }
 
     @Test
     void createAssert() {
@@ -2396,14 +1891,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = Duration.ofHours(10);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = DURATION.getRawClass();
-      // THEN
-      then(result).isEqualTo(Duration.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractDurationAssert<?> result = DURATION.createAssert(actual);
@@ -2428,14 +1915,6 @@ class InstanceOfAssertFactoriesTest {
   class Period_Factory {
 
     private final Object actual = Period.ofYears(1);
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = PERIOD.getRawClass();
-      // THEN
-      then(result).isEqualTo(Period.class);
-    }
 
     @Test
     void createAssert() {
@@ -2464,14 +1943,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new AtomicBoolean();
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_BOOLEAN.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicBoolean.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AtomicBooleanAssert result = ATOMIC_BOOLEAN.createAssert(actual);
@@ -2496,14 +1967,6 @@ class InstanceOfAssertFactoriesTest {
   class AtomicInteger_Factory {
 
     private final Object actual = new AtomicInteger();
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_INTEGER.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicInteger.class);
-    }
 
     @Test
     void createAssert() {
@@ -2532,14 +1995,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new AtomicIntegerArray(new int[] { 0, 1 });
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_INTEGER_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicIntegerArray.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AtomicIntegerArrayAssert result = ATOMIC_INTEGER_ARRAY.createAssert(actual);
@@ -2566,14 +2021,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = AtomicIntegerFieldUpdater.newUpdater(Container.class, "intField");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_INTEGER_FIELD_UPDATER.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicIntegerFieldUpdater.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AtomicIntegerFieldUpdaterAssert<Object> result = ATOMIC_INTEGER_FIELD_UPDATER.createAssert(actual);
@@ -2592,7 +2039,7 @@ class InstanceOfAssertFactoriesTest {
       verify(valueProvider).apply(parameterizedType(AtomicIntegerFieldUpdater.class, Object.class));
     }
 
-    private class Container {
+    private static class Container {
 
       volatile int intField;
 
@@ -2604,14 +2051,6 @@ class InstanceOfAssertFactoriesTest {
   class AtomicIntegerFieldUpdater_Typed_Factory {
 
     private final Object actual = AtomicIntegerFieldUpdater.newUpdater(Container.class, "intField");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = atomicIntegerFieldUpdater(Container.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicIntegerFieldUpdater.class);
-    }
 
     @Test
     void createAssert() {
@@ -2632,7 +2071,7 @@ class InstanceOfAssertFactoriesTest {
       verify(valueProvider).apply(parameterizedType(AtomicIntegerFieldUpdater.class, Container.class));
     }
 
-    private class Container {
+    private static class Container {
 
       volatile int intField;
 
@@ -2644,14 +2083,6 @@ class InstanceOfAssertFactoriesTest {
   class LongAdder_Factory {
 
     private final Object actual = new LongAdder();
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = LONG_ADDER.getRawClass();
-      // THEN
-      then(result).isEqualTo(LongAdder.class);
-    }
 
     @Test
     void createAssert() {
@@ -2680,14 +2111,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new AtomicLong();
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_LONG.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicLong.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AtomicLongAssert result = ATOMIC_LONG.createAssert(actual);
@@ -2712,14 +2135,6 @@ class InstanceOfAssertFactoriesTest {
   class AtomicLongArray_Factory {
 
     private final Object actual = new AtomicLongArray(new long[] { 0L, 1L });
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_LONG_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicLongArray.class);
-    }
 
     @Test
     void createAssert() {
@@ -2748,14 +2163,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = AtomicLongFieldUpdater.newUpdater(Container.class, "longField");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_LONG_FIELD_UPDATER.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicLongFieldUpdater.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AtomicLongFieldUpdaterAssert<Object> result = ATOMIC_LONG_FIELD_UPDATER.createAssert(actual);
@@ -2774,7 +2181,7 @@ class InstanceOfAssertFactoriesTest {
       verify(valueProvider).apply(parameterizedType(AtomicLongFieldUpdater.class, Object.class));
     }
 
-    private class Container {
+    private static class Container {
 
       volatile long longField;
 
@@ -2786,14 +2193,6 @@ class InstanceOfAssertFactoriesTest {
   class AtomicLongFieldUpdater_Typed_Factory {
 
     private final Object actual = AtomicLongFieldUpdater.newUpdater(Container.class, "longField");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = atomicLongFieldUpdater(Container.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicLongFieldUpdater.class);
-    }
 
     @Test
     void createAssert() {
@@ -2814,7 +2213,7 @@ class InstanceOfAssertFactoriesTest {
       verify(valueProvider).apply(parameterizedType(AtomicLongFieldUpdater.class, Container.class));
     }
 
-    private class Container {
+    private static class Container {
 
       volatile long longField;
 
@@ -2826,14 +2225,6 @@ class InstanceOfAssertFactoriesTest {
   class AtomicReference_Factory {
 
     private final Object actual = new AtomicReference<>();
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_REFERENCE.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicReference.class);
-    }
 
     @Test
     void createAssert() {
@@ -2862,14 +2253,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new AtomicReference<>(0);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = atomicReference(Integer.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicReference.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AtomicReferenceAssert<Integer> result = atomicReference(Integer.class).createAssert(actual);
@@ -2894,14 +2277,6 @@ class InstanceOfAssertFactoriesTest {
   class AtomicReferenceArray_Factory {
 
     private final Object actual = new AtomicReferenceArray<>(new Object[] { 0, "" });
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_REFERENCE_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicReferenceArray.class);
-    }
 
     @Test
     void createAssert() {
@@ -2930,14 +2305,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new AtomicReferenceArray<>(new Integer[] { 0, 1 });
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_REFERENCE_ARRAY.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicReferenceArray.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AtomicReferenceArrayAssert<Integer> result = atomicReferenceArray(Integer.class).createAssert(actual);
@@ -2964,14 +2331,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = AtomicReferenceFieldUpdater.newUpdater(Container.class, String.class, "stringField");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_REFERENCE_FIELD_UPDATER.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicReferenceFieldUpdater.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AtomicReferenceFieldUpdaterAssert<Object, Object> result = ATOMIC_REFERENCE_FIELD_UPDATER.createAssert(actual);
@@ -2990,7 +2349,7 @@ class InstanceOfAssertFactoriesTest {
       verify(valueProvider).apply(parameterizedType(AtomicReferenceFieldUpdater.class, Object.class, Object.class));
     }
 
-    private class Container {
+    private static class Container {
 
       volatile String stringField;
 
@@ -3002,14 +2361,6 @@ class InstanceOfAssertFactoriesTest {
   class AtomicReferenceFieldUpdater_Typed_Factory {
 
     private final Object actual = AtomicReferenceFieldUpdater.newUpdater(Container.class, String.class, "stringField");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = atomicReferenceFieldUpdater(String.class, Container.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicReferenceFieldUpdater.class);
-    }
 
     @Test
     void createAssert() {
@@ -3033,7 +2384,7 @@ class InstanceOfAssertFactoriesTest {
                                                     Container.class));
     }
 
-    private class Container {
+    private static class Container {
 
       volatile String stringField;
 
@@ -3045,14 +2396,6 @@ class InstanceOfAssertFactoriesTest {
   class AtomicMarkableReference_Factory {
 
     private final Object actual = new AtomicMarkableReference<>(null, false);
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_MARKABLE_REFERENCE.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicMarkableReference.class);
-    }
 
     @Test
     void createAssert() {
@@ -3081,14 +2424,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new AtomicMarkableReference<>(0, false);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = atomicMarkableReference(Integer.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicMarkableReference.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AtomicMarkableReferenceAssert<Integer> result = atomicMarkableReference(Integer.class).createAssert(actual);
@@ -3113,14 +2448,6 @@ class InstanceOfAssertFactoriesTest {
   class AtomicStampedReference_Factory {
 
     private final Object actual = new AtomicStampedReference<>(null, 0);
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_STAMPED_REFERENCE.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicStampedReference.class);
-    }
 
     @Test
     void createAssert() {
@@ -3149,14 +2476,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new AtomicStampedReference<>(0, 0);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ATOMIC_STAMPED_REFERENCE.getRawClass();
-      // THEN
-      then(result).isEqualTo(AtomicStampedReference.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AtomicStampedReferenceAssert<Integer> result = atomicStampedReference(Integer.class).createAssert(actual);
@@ -3181,14 +2500,6 @@ class InstanceOfAssertFactoriesTest {
   class Throwable_Factory {
 
     private final Object actual = new RuntimeException("message");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = THROWABLE.getRawClass();
-      // THEN
-      then(result).isEqualTo(Throwable.class);
-    }
 
     @Test
     void createAssert() {
@@ -3217,14 +2528,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new RuntimeException("message");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = throwable(RuntimeException.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(RuntimeException.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractThrowableAssert<?, RuntimeException> result = throwable(RuntimeException.class).createAssert(actual);
@@ -3249,14 +2552,6 @@ class InstanceOfAssertFactoriesTest {
   class CharSequence_Factory {
 
     private final Object actual = "string";
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = CHAR_SEQUENCE.getRawClass();
-      // THEN
-      then(result).isEqualTo(CharSequence.class);
-    }
 
     @Test
     void createAssert() {
@@ -3285,14 +2580,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = new StringBuilder("string");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = STRING_BUILDER.getRawClass();
-      // THEN
-      then(result).isEqualTo(StringBuilder.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractCharSequenceAssert<?, ? extends CharSequence> result = STRING_BUILDER.createAssert(actual);
@@ -3317,14 +2604,6 @@ class InstanceOfAssertFactoriesTest {
   class StringBuffer_Factory {
 
     private final Object actual = new StringBuffer("string");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = STRING_BUFFER.getRawClass();
-      // THEN
-      then(result).isEqualTo(StringBuffer.class);
-    }
 
     @Test
     void createAssert() {
@@ -3353,14 +2632,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = "string";
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = STRING.getRawClass();
-      // THEN
-      then(result).isEqualTo(String.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractStringAssert<?> result = STRING.createAssert(actual);
@@ -3385,14 +2656,6 @@ class InstanceOfAssertFactoriesTest {
   class Iterable_Factory {
 
     private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ITERABLE.getRawClass();
-      // THEN
-      then(result).isEqualTo(Iterable.class);
-    }
 
     @Test
     void createAssert() {
@@ -3421,14 +2684,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = iterable(String.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Iterable.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       IterableAssert<String> result = iterable(String.class).createAssert(actual);
@@ -3453,14 +2708,6 @@ class InstanceOfAssertFactoriesTest {
   class Iterator_Factory {
 
     private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = ITERATOR.getRawClass();
-      // THEN
-      then(result).isEqualTo(Iterator.class);
-    }
 
     @Test
     void createAssert() {
@@ -3489,14 +2736,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie").iterator();
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = iterator(String.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Iterator.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       IteratorAssert<String> result = iterator(String.class).createAssert(actual);
@@ -3521,14 +2760,6 @@ class InstanceOfAssertFactoriesTest {
   class Collection_Factory {
 
     private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = COLLECTION.getRawClass();
-      // THEN
-      then(result).isEqualTo(Collection.class);
-    }
 
     @Test
     void createAssert() {
@@ -3557,14 +2788,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = Lists.list("Homer", "Marge", "Bart", "Lisa", "Maggie");
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = collection(String.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Collection.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> result = collection(String.class).createAssert(actual);
@@ -3590,14 +2813,6 @@ class InstanceOfAssertFactoriesTest {
   class Set_Factory {
 
     private final Object actual = Sets.set(123, 456, 789);
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = SET.getRawClass();
-      // THEN
-      then(result).isEqualTo(Set.class);
-    }
 
     @Test
     void createAssert() {
@@ -3633,14 +2848,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = Sets.set(123, 456, 789);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = set(String.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Set.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       AbstractCollectionAssert<?, Collection<? extends Integer>, Integer, ObjectAssert<Integer>> result = set(Integer.class).createAssert(actual);
@@ -3672,14 +2879,6 @@ class InstanceOfAssertFactoriesTest {
   class List_Factory {
 
     private final Object actual = Lists.list(123, 456, 789);
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = LIST.getRawClass();
-      // THEN
-      then(result).isEqualTo(List.class);
-    }
 
     @Test
     void createAssert() {
@@ -3715,14 +2914,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = Lists.list(123, 456, 789);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = list(String.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(List.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       ListAssert<Integer> result = list(Integer.class).createAssert(actual);
@@ -3755,14 +2946,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = Stream.of(1, 2, 3);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = STREAM.getRawClass();
-      // THEN
-      then(result).isEqualTo(Stream.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       ListAssert<Object> result = STREAM.createAssert(actual);
@@ -3787,14 +2970,6 @@ class InstanceOfAssertFactoriesTest {
   class Stream_Typed_Factory {
 
     private final Object actual = Stream.of(1, 2, 3);
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = stream(Integer.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Stream.class);
-    }
 
     @Test
     void createAssert() {
@@ -3823,14 +2998,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = DoubleStream.of(1.0, 2.0, 3.0);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = DOUBLE_STREAM.getRawClass();
-      // THEN
-      then(result).isEqualTo(DoubleStream.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       ListAssert<Double> result = DOUBLE_STREAM.createAssert(actual);
@@ -3855,14 +3022,6 @@ class InstanceOfAssertFactoriesTest {
   class LongStream_Factory {
 
     private final Object actual = LongStream.of(1L, 2L, 3L);
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = LONG_STREAM.getRawClass();
-      // THEN
-      then(result).isEqualTo(LongStream.class);
-    }
 
     @Test
     void createAssert() {
@@ -3891,14 +3050,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = IntStream.of(1, 2, 3);
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = INT_STREAM.getRawClass();
-      // THEN
-      then(result).isEqualTo(IntStream.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       ListAssert<Integer> result = INT_STREAM.createAssert(actual);
@@ -3923,14 +3074,6 @@ class InstanceOfAssertFactoriesTest {
   class Path_Factory {
 
     private final Object actual = Path.of("non-existing");
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = PATH.getRawClass();
-      // THEN
-      then(result).isEqualTo(Path.class);
-    }
 
     @Test
     void createAssert() {
@@ -3959,14 +3102,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = Stream.of(1, 2).spliterator();
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = SPLITERATOR.getRawClass();
-      // THEN
-      then(result).isEqualTo(Spliterator.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       SpliteratorAssert<Object> result = SPLITERATOR.createAssert(actual);
@@ -3991,14 +3126,6 @@ class InstanceOfAssertFactoriesTest {
   class Spliterator_Typed_Factory {
 
     private final Object actual = Stream.of(1, 2).spliterator();
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = spliterator(Integer.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Spliterator.class);
-    }
 
     @Test
     void createAssert() {
@@ -4027,14 +3154,6 @@ class InstanceOfAssertFactoriesTest {
     private final Object actual = mapOf(entry("key", "value"));
 
     @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = MAP.getRawClass();
-      // THEN
-      then(result).isEqualTo(Map.class);
-    }
-
-    @Test
     void createAssert() {
       // WHEN
       MapAssert<Object, Object> result = MAP.createAssert(actual);
@@ -4059,15 +3178,7 @@ class InstanceOfAssertFactoriesTest {
   @TestInstance(PER_CLASS)
   class Map_Typed_Factory {
 
-    private final Object actual = mapOf(entry(123, 456));
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = map(Integer.class, Integer.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Map.class);
-    }
+    private final Object actual = Map.of(123, 456);
 
     @Test
     void createAssert() {
@@ -4091,7 +3202,7 @@ class InstanceOfAssertFactoriesTest {
 
     private Stream<ValueProvider<?>> valueProviders() {
       return Stream.of(type -> actual,
-                       type -> convert(mapOf(entry("123", "456")), type));
+                       type -> convert(actual, type));
     }
 
   }
@@ -4100,14 +3211,6 @@ class InstanceOfAssertFactoriesTest {
   class Comparable_Factory {
 
     private final Object actual = 0;
-
-    @Test
-    void getRawClass() {
-      // WHEN
-      Class<?> result = comparable(Integer.class).getRawClass();
-      // THEN
-      then(result).isEqualTo(Integer.class);
-    }
 
     @Test
     void createAssert() {
@@ -4140,12 +3243,9 @@ class InstanceOfAssertFactoriesTest {
   }
 
   private static ParameterizedType parameterizedType(Class<?> rawClass, Class<?>... typeArguments) {
-    return argThat(argument -> {
-      assertThat(argument).returns(typeArguments, from(ParameterizedType::getActualTypeArguments))
-                          .returns(rawClass, from(ParameterizedType::getRawType))
-                          .returns(null, from(ParameterizedType::getOwnerType));
-      return true;
-    });
+    return assertArg(argument -> assertThat(argument).returns(typeArguments, from(ParameterizedType::getActualTypeArguments))
+                                                     .returns(rawClass, from(ParameterizedType::getRawType))
+                                                     .returns(null, from(ParameterizedType::getOwnerType)));
   }
 
   @SuppressWarnings("unchecked")

@@ -19,7 +19,7 @@ import static org.assertj.core.api.BDDAssertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.mockito.AdditionalAnswers.delegatesTo;
-import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.assertArg;
 import static org.mockito.BDDMockito.willReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -27,38 +27,24 @@ import static org.mockito.Mockito.verify;
 import java.lang.reflect.ParameterizedType;
 import java.util.Collections;
 import java.util.List;
-
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.assertj.core.api.AssertFactory.ValueProvider;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import nl.jqno.equalsverifier.EqualsVerifier;
 
 /**
  * @author Stefano Cordio
  */
-@ExtendWith(MockitoExtension.class)
 class InstanceOfAssertFactoryTest {
 
-  @Mock
-  private AbstractAssert<?, ?> abstractAssert;
+  private final AbstractAssert<?, ?> abstractAssert = mock();
 
   @Nested
   class With_Class {
 
-    private InstanceOfAssertFactory<Integer, AbstractAssert<?, ?>> underTest;
-
-    @Mock
-    private AssertFactory<Integer, AbstractAssert<?, ?>> delegate;
-
-    @BeforeEach
-    void setUp() {
-      underTest = new InstanceOfAssertFactory<>(Integer.class, delegate);
-    }
+    private final AssertFactory<Integer, AbstractAssert<?, ?>> delegate = mock();
+    private final InstanceOfAssertFactory<Integer, AbstractAssert<?, ?>> underTest = new InstanceOfAssertFactory<>(Integer.class,
+                                                                                                                   delegate);
 
     @Test
     void constructor_should_fail_if_type_is_null() {
@@ -76,14 +62,6 @@ class InstanceOfAssertFactoryTest {
       // THEN
       then(thrown).isInstanceOf(NullPointerException.class)
                   .hasMessage(shouldNotBeNull("delegate").create());
-    }
-
-    @Test
-    void getRawClass_should_return_given_class() {
-      // WHEN
-      Class<Integer> result = underTest.getRawClass();
-      // THEN
-      then(result).isEqualTo(Integer.class);
     }
 
     @Test
@@ -105,7 +83,7 @@ class InstanceOfAssertFactoryTest {
       Throwable throwable = catchThrowable(() -> underTest.createAssert(actual));
       // THEN
       then(throwable).isInstanceOf(ClassCastException.class)
-                     .hasMessage("Cannot cast %s to %s", actual.getClass().getName(), underTest.getRawClass().getName());
+                     .hasMessage("Cannot cast %s to java.lang.Integer", actual.getClass().getName());
     }
 
     @Test
@@ -130,7 +108,7 @@ class InstanceOfAssertFactoryTest {
       Throwable throwable = catchThrowable(() -> underTest.createAssert(valueProvider));
       // THEN
       then(throwable).isInstanceOf(ClassCastException.class)
-                     .hasMessage("Cannot cast %s to %s", actual.getClass().getName(), underTest.getRawClass().getName());
+                     .hasMessage("Cannot cast %s to java.lang.Integer", actual.getClass().getName());
     }
 
     @Test
@@ -147,16 +125,13 @@ class InstanceOfAssertFactoryTest {
   class With_Class_and_Type_array {
 
     @SuppressWarnings("rawtypes")
-    private InstanceOfAssertFactory<List, AbstractAssert<?, ?>> underTest;
+    private final AssertFactory<List, AbstractAssert<?, ?>> delegate = mock();
 
     @SuppressWarnings("rawtypes")
-    @Mock
-    private AssertFactory<List, AbstractAssert<?, ?>> delegate;
-
-    @BeforeEach
-    void setUp() {
-      underTest = new InstanceOfAssertFactory<>(List.class, new Class[] { Integer.class }, delegate);
-    }
+    private final InstanceOfAssertFactory<List, AbstractAssert<?, ?>> underTest = new InstanceOfAssertFactory<>(List.class,
+                                                                                                                new Class[] {
+                                                                                                                    Integer.class },
+                                                                                                                delegate);
 
     @Test
     void constructor_should_fail_if_rawClass_is_null() {
@@ -185,15 +160,6 @@ class InstanceOfAssertFactoryTest {
                   .hasMessage(shouldNotBeNull("delegate").create());
     }
 
-    @SuppressWarnings("rawtypes")
-    @Test
-    void getRawClass_should_return_given_raw_class() {
-      // WHEN
-      Class<List> result = underTest.getRawClass();
-      // THEN
-      then(result).isEqualTo(List.class);
-    }
-
     @Test
     void createAssert_should_return_assert_factory_result_if_actual_is_an_instance_of_given_type() {
       // GIVEN
@@ -213,7 +179,7 @@ class InstanceOfAssertFactoryTest {
       Throwable throwable = catchThrowable(() -> underTest.createAssert(actual));
       // THEN
       then(throwable).isInstanceOf(ClassCastException.class)
-                     .hasMessage("Cannot cast %s to %s", actual.getClass().getName(), underTest.getRawClass().getName());
+                     .hasMessage("Cannot cast %s to java.util.List", actual.getClass().getName());
     }
 
     @Test
@@ -238,7 +204,7 @@ class InstanceOfAssertFactoryTest {
       Throwable throwable = catchThrowable(() -> underTest.createAssert(valueProvider));
       // THEN
       then(throwable).isInstanceOf(ClassCastException.class)
-                     .hasMessage("Cannot cast %s to %s", actual.getClass().getName(), underTest.getRawClass().getName());
+                     .hasMessage("Cannot cast %s to java.util.List", actual.getClass().getName());
     }
 
     @Test
@@ -284,12 +250,9 @@ class InstanceOfAssertFactoryTest {
   }
 
   private static ParameterizedType parameterizedType(Class<?> rawClass, Class<?>... typeArguments) {
-    return argThat(argument -> {
-      assertThat(argument).returns(typeArguments, from(ParameterizedType::getActualTypeArguments))
-                          .returns(rawClass, from(ParameterizedType::getRawType))
-                          .returns(null, from(ParameterizedType::getOwnerType));
-      return true;
-    });
+    return assertArg(argument -> assertThat(argument).returns(typeArguments, from(ParameterizedType::getActualTypeArguments))
+                                                     .returns(rawClass, from(ParameterizedType::getRawType))
+                                                     .returns(null, from(ParameterizedType::getOwnerType)));
   }
 
 }

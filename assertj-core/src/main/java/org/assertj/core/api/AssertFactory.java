@@ -37,7 +37,7 @@ public interface AssertFactory<T, ASSERT extends Assert<?, ?>> {
   /**
    * Creates the custom {@link Assert} instance for the given value.
    * <p>
-   * Typically, this will just invoke <code>assertThat(actual)</code>.
+   * Typically, this will just invoke {@code assertThat(actual)}.
    *
    * @param actual the input value for the {@code Assert} instance
    * @return the custom {@code Assert} instance for the given value
@@ -46,19 +46,19 @@ public interface AssertFactory<T, ASSERT extends Assert<?, ?>> {
 
   /**
    * Creates the custom {@link Assert} instance for the value provided by the
-   * given {@code valueProvider}.
+   * given {@link ValueProvider}.
    * <p>
-   * This is typically used by custom assertions that want to leverage existing
-   * factories and need to manipulate the value upfront.
+   * The given {@code ValueProvider} can execute type-aware logic before
+   * providing the required value, like type validation or value conversion.
    * <p>
-   * The default implementation always requests a value compatible with {@code Object}.
+   * The default implementation always requests a value compatible with {@link Object}.
    * <p>
    * Overriding implementations might provide a more specific {@link Type}
    * instance to express the desired type of the value returned by the provider.
    * When doing so, the factory is required to be consistent with the type parameter {@link T}.
    *
    * @param valueProvider the value provider for the {@code Assert} instance
-   * @return the custom {@code Assert} instance for the value provided by the given value provider
+   * @return the custom {@code Assert} instance for the provided value
    * @since 3.26.0
    */
   default ASSERT createAssert(ValueProvider<? extends T> valueProvider) {
