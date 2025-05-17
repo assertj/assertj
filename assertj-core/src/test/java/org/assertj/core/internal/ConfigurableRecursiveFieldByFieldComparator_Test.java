@@ -87,4 +87,48 @@ class ConfigurableRecursiveFieldByFieldComparator_Test {
                    .hasMessage("RecursiveComparisonConfiguration must not be null");
   }
 
+  @Test
+  void should_success_ignore_non_existent_fields_when_configured() {
+    // GIVEN
+    RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator = mock(RecursiveComparisonDifferenceCalculator.class);
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+    recursiveComparisonConfiguration.setIgnoreNonExistentFields(true);
+
+    configurableRecursiveFieldByFieldComparator = new ConfigurableRecursiveFieldByFieldComparator(recursiveComparisonConfiguration,
+                                                                                                  recursiveComparisonDifferenceCalculator);
+    given(recursiveComparisonDifferenceCalculator.determineDifferences(any(), any(), any())).willReturn(emptyList());
+
+    Object actual = new Object();
+    Object other = new Object();
+
+    // WHEN
+    int compare = configurableRecursiveFieldByFieldComparator.compare(actual, other);
+
+    // THEN
+    verify(recursiveComparisonDifferenceCalculator).determineDifferences(actual, other, recursiveComparisonConfiguration);
+    then(compare).isZero();
+    then(recursiveComparisonConfiguration.getIgnoreNonExistentFields()).isTrue();
+  }
+
+  @Test
+  void should_success_not_ignore_non_existent_fields_by_default() {
+    // GIVEN
+    RecursiveComparisonDifferenceCalculator recursiveComparisonDifferenceCalculator = mock(RecursiveComparisonDifferenceCalculator.class);
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+
+    configurableRecursiveFieldByFieldComparator = new ConfigurableRecursiveFieldByFieldComparator(recursiveComparisonConfiguration,
+                                                                                                  recursiveComparisonDifferenceCalculator);
+    given(recursiveComparisonDifferenceCalculator.determineDifferences(any(), any(), any())).willReturn(emptyList());
+
+    Object actual = new Object();
+    Object other = new Object();
+
+    // WHEN
+    int compare = configurableRecursiveFieldByFieldComparator.compare(actual, other);
+
+    // THEN
+    verify(recursiveComparisonDifferenceCalculator).determineDifferences(actual, other, recursiveComparisonConfiguration);
+    then(compare).isZero();
+    then(recursiveComparisonConfiguration.getIgnoreNonExistentFields()).isFalse();
+  }
 }
