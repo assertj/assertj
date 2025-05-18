@@ -37,6 +37,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@SuppressWarnings("unused")
 class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithComparingFieldsIntrospectionStrategyBaseTest {
 
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
@@ -443,5 +444,44 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithC
     then(sherlock1).usingRecursiveComparison(recursiveComparisonConfiguration)
                    .comparingOnlyFields("friends.name")
                    .isEqualTo(sherlock2);
+  }
+
+  static class BaseClass {
+    final String common = "same";
+  }
+
+  static class SubType1 extends BaseClass {
+    // No 'inSubType2' field
+    final String inSubType1 = "type1";
+  }
+
+  static class SubType2 extends SubType1 {
+    final String inSubType2 = "type2";
+  }
+
+  @Test
+  void should_pass_when_actual_does_not_have_all_compared_fields_and_ignoringNonExistentComparedFields_is_enabled() {
+    // GIVEN
+    BaseClass actual = new SubType1();
+    BaseClass expected = new SubType2();
+    // WHEN
+    then(actual).usingRecursiveComparison()
+                .comparingOnlyFields("common", "inSubType1", "inSubType2")
+                .ignoringNonExistentComparedFields()
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_fail_when_actual_does_not_have_all_compared_fields() {
+    // GIVEN
+    BaseClass actual = new SubType1();
+    BaseClass expected = new SubType2();
+    // WHEN
+    var exception = catchIllegalArgumentException(() -> assertThat(actual).usingRecursiveComparison()
+                                                                          .comparingOnlyFields("common", "inSubType1",
+                                                                                               "inSubType2")
+                                                                          .isEqualTo(expected));
+    // THEN
+    then(exception).hasMessage("The following fields don't exist: {inSubType2}");
   }
 }

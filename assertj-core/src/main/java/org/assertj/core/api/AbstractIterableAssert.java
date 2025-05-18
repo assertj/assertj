@@ -2515,6 +2515,45 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
+   * In the recursive comparison, allows to ignore non-existent fields in the object under test when using
+   * {@link #usingRecursiveFieldByFieldElementComparatorOnFields(String...)}.
+   * <p>
+   * This is useful when comparing collections of polymorphic objects where some fields might not exist in all subtypes.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class BaseClass {
+   *   String common = "same";
+   * }
+   *
+   * class SubType1 extends BaseClass {
+   *   // No 'inSubType2' field
+   *   String inSubType1 = "type1";
+   * }
+   *
+   * class SubType2 extends SubType1 {
+   *   String inSubType2 = "type2";
+   * }
+   *
+   * List&lt;BaseClass&gt; list1 = List.of(new SubType1(), new SubType2());
+   * List&lt;BaseClass&gt; list2 = List.of(new SubType1(), new SubType2());
+   *
+   * // Without ignoringNonExistentComparedFields(), this would fail with an IllegalArgumentException
+   * // indicating that 'inSubType2' field doesn't exist in SubType1.
+   * assertThat(list1).usingRecursiveFieldByFieldElementComparatorOnFields("common", "inSubType1", "inSubType2")
+   *                  .ignoringNonExistentComparedFields()
+   *                  .containsAll(list2); </code></pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  @CheckReturnValue
+  public SELF ignoringNonExistentComparedFields() {
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = RecursiveComparisonConfiguration.builder()
+                                                                                                        .withIgnoreNonExistentComparedFields(true)
+                                                                                                        .build();
+    return usingRecursiveFieldByFieldElementComparator(recursiveComparisonConfiguration);
+  }
+
+  /**
    * Enable hexadecimal representation of Iterable elements instead of standard representation in error messages.
    * <p>
    * It can be useful to better understand what the error was with a more meaningful error message.

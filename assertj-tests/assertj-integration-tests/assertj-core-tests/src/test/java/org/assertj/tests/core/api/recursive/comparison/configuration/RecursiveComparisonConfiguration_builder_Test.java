@@ -397,6 +397,24 @@ class RecursiveComparisonConfiguration_builder_Test {
     then(recursiveComparisonConfiguration.getRepresentation()).isSameAs(STANDARD_REPRESENTATION);
   }
 
+  @Test
+  void should_set_ignoreNonExistentFields() {
+    // GIVEN
+    boolean value = RandomUtils.secure().randomBoolean();
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoreNonExistentComparedFields(value).build();
+    // THEN
+    then(configuration.getIgnoreNonExistentComparedFields()).isEqualTo(value);
+  }
+
+  @Test
+  void should_set_ignoreNonExistentFields_with_shortcut_method() {
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().build();
+    // THEN
+    then(configuration.getIgnoreNonExistentComparedFields()).isFalse();
+  }
+
   private static Builder configBuilder() {
     return RecursiveComparisonConfiguration.builder();
   }

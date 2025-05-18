@@ -57,6 +57,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private boolean ignoreAllActualNullFields = false;
   private boolean ignoreAllActualEmptyOptionalFields = false;
   private boolean ignoreAllExpectedNullFields = false;
+  private boolean ignoreNonExistentComparedFields = false;
 
   // fields to compare (no other field will be)
   private Set<FieldLocation> comparedFields = new LinkedHashSet<>();
@@ -102,6 +103,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.ignoreAllActualEmptyOptionalFields = builder.ignoreAllActualEmptyOptionalFields;
     this.strictTypeChecking = builder.strictTypeChecking;
     this.ignoreAllExpectedNullFields = builder.ignoreAllExpectedNullFields;
+    this.ignoreNonExistentComparedFields = builder.ignoreNonExistentComparedFields;
     this.comparedFields = newLinkedHashSet(builder.comparedFields);
     this.comparedTypes = newLinkedHashSet(builder.comparedTypes);
     ignoreOverriddenEqualsForTypes(builder.ignoredOverriddenEqualsForTypes);
@@ -189,6 +191,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return ignoreAllExpectedNullFields;
   }
 
+  public boolean getIgnoreNonExistentComparedFields() {
+    return ignoreNonExistentComparedFields;
+  }
+
   public boolean getIgnoreAllOverriddenEquals() {
     return ignoreAllOverriddenEquals;
   }
@@ -228,6 +234,19 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    */
   public void setIgnoreAllExpectedNullFields(boolean ignoreAllExpectedNullFields) {
     this.ignoreAllExpectedNullFields = ignoreAllExpectedNullFields;
+  }
+
+  /**
+   * Sets whether fields that don't exist in the object should be ignored in the recursive comparison.
+   * <p>
+   * This is useful when comparing polymorphic objects where some fields might not exist in all subtypes.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringNonExistentComparedFields()} for code examples.
+   *
+   * @param ignoreNonExistentComparedFields whether to ignore non-existent fields in the recursive comparison
+   */
+  public void setIgnoreNonExistentComparedFields(boolean ignoreNonExistentComparedFields) {
+    this.ignoreNonExistentComparedFields = ignoreNonExistentComparedFields;
   }
 
   /**
@@ -644,7 +663,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   @Override
   public int hashCode() {
     return java.util.Objects.hash(fieldComparators, ignoreAllActualEmptyOptionalFields, ignoreAllActualNullFields,
-                                  ignoreAllExpectedNullFields, ignoreAllOverriddenEquals, ignoreCollectionOrder,
+                                  ignoreAllExpectedNullFields, ignoreNonExistentComparedFields, ignoreAllOverriddenEquals,
+                                  ignoreCollectionOrder,
                                   ignoredCollectionOrderInFields, ignoredCollectionOrderInFieldsMatchingRegexes,
                                   getIgnoredFields(), getIgnoredFieldsRegexes(), ignoredOverriddenEqualsForFields,
                                   ignoredOverriddenEqualsForTypes, ignoredOverriddenEqualsForFieldsMatchingRegexes,
@@ -662,6 +682,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
            && ignoreAllActualEmptyOptionalFields == other.ignoreAllActualEmptyOptionalFields
            && ignoreAllActualNullFields == other.ignoreAllActualNullFields
            && ignoreAllExpectedNullFields == other.ignoreAllExpectedNullFields
+           && ignoreNonExistentComparedFields == other.ignoreNonExistentComparedFields
            && ignoreAllOverriddenEquals == other.ignoreAllOverriddenEquals
            && ignoreCollectionOrder == other.ignoreCollectionOrder
            && ignoreArrayOrder == other.ignoreArrayOrder
@@ -688,6 +709,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     describeIgnoreAllActualNullFields(description);
     describeIgnoreAllActualEmptyOptionalFields(description);
     describeIgnoreAllExpectedNullFields(description);
+    describeIgnoreNonExistentFields(description);
     describeComparedFields(description);
     describeComparedTypes(description);
     describeIgnoredFields(description);
@@ -876,6 +898,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private void describeIgnoreAllExpectedNullFields(StringBuilder description) {
     if (ignoreAllExpectedNullFields)
       description.append("- all expected null fields were ignored in the comparison%n".formatted());
+  }
+
+  private void describeIgnoreNonExistentFields(StringBuilder description) {
+    if (ignoreNonExistentComparedFields)
+      description.append("- when using compared fields, fields that do not exist in the actual object were ignored in the comparison%n".formatted());
   }
 
   private void describeOverriddenEqualsMethodsUsage(StringBuilder description, Representation representation) {
@@ -1132,6 +1159,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   void checkComparedFieldsExist(Object actual) {
+    if (ignoreNonExistentComparedFields) return;
     Map<FieldLocation, String> unknownComparedFields = new TreeMap<>();
     for (FieldLocation comparedField : comparedFields) {
       checkComparedFieldExists(actual,
@@ -1207,6 +1235,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     private boolean ignoreAllActualNullFields;
     private boolean ignoreAllActualEmptyOptionalFields;
     private boolean ignoreAllExpectedNullFields;
+    private boolean ignoreNonExistentComparedFields;
     private FieldLocation[] comparedFields = {};
     private Class<?>[] comparedTypes = {};
     private Class<?>[] ignoredOverriddenEqualsForTypes = {};
@@ -1289,6 +1318,19 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      */
     public Builder withIgnoreAllExpectedNullFields(boolean ignoreAllExpectedNullFields) {
       this.ignoreAllExpectedNullFields = ignoreAllExpectedNullFields;
+      return this;
+    }
+
+    /**
+     * Sets whether the field existence check should be ignored during recursive comparison.
+     * <p>
+     * This is useful when comparing polymorphic objects where some fields might not exist in all subtypes.
+     *
+     * @param ignoreNonExistentComparedFields whether to ignore the field existence check
+     * @return this builder.
+     */
+    public Builder withIgnoreNonExistentComparedFields(boolean ignoreNonExistentComparedFields) {
+      this.ignoreNonExistentComparedFields = ignoreNonExistentComparedFields;
       return this;
     }
 

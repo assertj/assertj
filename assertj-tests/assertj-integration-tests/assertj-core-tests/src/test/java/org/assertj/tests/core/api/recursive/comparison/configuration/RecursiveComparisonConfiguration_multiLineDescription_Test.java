@@ -338,6 +338,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
+    recursiveComparisonConfiguration.setIgnoreNonExistentComparedFields(true);
     recursiveComparisonConfiguration.compareOnlyFields("name", "address.number");
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class, Integer.class);
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
@@ -364,6 +365,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- all actual null fields were ignored in the comparison%n" +
                "- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n" +
                "- all expected null fields were ignored in the comparison%n" +
+               "- when using compared fields, fields that do not exist in the actual object were ignored in the comparison%n" +
                "- the comparison was performed on the following fields: name, address.number%n" +
                "- the comparison was performed on any fields with types: java.lang.String, java.lang.Integer%n" +
                "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
@@ -373,7 +375,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "  - the following fields: foo, baz, foo.baz%n" +
                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +
                "  - the fields matching the following regexes: .*oo, .ar, oo.ba%n" +
-                 "- array order was ignored in all fields in the comparison%n" +
+               "- array order was ignored in all fields in the comparison%n" +
                "- collection order was ignored in all fields in the comparison%n" +
                "- collection order was ignored in the following fields in the comparison: foo, bar, foo.bar%n" +
                "- collection order was ignored in the fields matching the following regexes in the comparison: f.*, ba., foo.*%n" +
@@ -388,7 +390,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "  - foo -> AlwaysEqualComparator%n" +
                "- field comparators take precedence over type comparators.%n"+
                "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n" +
-                 "- the introspection strategy used was: comparing fields%n" +
+               "- the introspection strategy used was: comparing fields%n" +
                "- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal%n"));
     // @format:on
   }
@@ -421,6 +423,17 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     then(multiLineDescription).contains("- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal");
+  }
+
+  @Test
+  void should_show_ignoreNonExistentFields_in_the_description() {
+    // GIVEN
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+    recursiveComparisonConfiguration.setIgnoreNonExistentComparedFields(true);
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains("- when using compared fields, fields that do not exist in the actual object were ignored in the comparison");
   }
 
   // just to test the description does not fail when given a comparator with various String.format reserved flags

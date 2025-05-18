@@ -650,6 +650,49 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * In the recursive comparison, allows to ignore non-existent fields in the object under test when using
+   * {@link #comparingOnlyFields(String...)}.
+   * <p>
+   * This is useful when comparing polymorphic objects where some fields might not exist in all subtypes.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class BaseClass {
+   *   String commonField = "common";
+   * }
+   *
+   * class SubType1 extends BaseClass {
+   *   // No 'inSubType2' field
+   *   String inSubType1 = "type1";
+   * }
+   *
+   * class SubType2 extends SubType1 {
+   *   String inSubType2 = "type2";
+   * }
+   *
+   * SubType1 actual = new SubType1();
+   * SubType2 expected = new SubType2();
+   *
+   * // this fails due to field existence check with an IllegalArgumentException
+   * // indicating that 'inSubType2' field doesn't exist in SubType1.
+   * assertThat(actual).usingRecursiveComparison()
+   *                   .comparingOnlyFields("common", "inSubType1", "inSubType2")
+   *                   .isEqualTo(expected);
+   *
+   * // Using ignoringNonExistentComparedFields() makes it pass
+   * assertThat(actual).usingRecursiveComparison()
+   *                   .comparingOnlyFields("common", "inSubType1", "inSubType2")
+   *                   .ignoringNonExistentComparedFields()
+   *                   .isEqualTo(expected); </code></pre>
+   *
+   * @return this {@link RecursiveComparisonAssert} to allow fluent chaining.
+   */
+  @CheckReturnValue
+  public SELF ignoringNonExistentComparedFields() {
+    recursiveComparisonConfiguration.setIgnoreNonExistentComparedFields(true);
+    return myself;
+  }
+
+  /**
    * Makes the recursive comparison to ignore all <b>expected null fields</b>.
    * <p>
    * Example:
