@@ -15,6 +15,7 @@ package org.assertj.tests.core.api.recursive.comparison.fields;
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchIllegalArgumentException;
+import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
@@ -22,12 +23,15 @@ import static org.assertj.core.util.Sets.set;
 import static org.assertj.tests.core.api.recursive.data.FriendlyPerson.friend;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
 import org.assertj.tests.core.api.recursive.data.Human;
@@ -443,5 +447,132 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithC
     then(sherlock1).usingRecursiveComparison(recursiveComparisonConfiguration)
                    .comparingOnlyFields("friends.name")
                    .isEqualTo(sherlock2);
+  }
+
+  static abstract class AppliedExemptionResponse {
+    private String exemptionCode;
+    private String description;
+    private String chargeItemCode;
+
+    public AppliedExemptionResponse(String exemptionCode, String description, String chargeItemCode) {
+      this.exemptionCode = exemptionCode;
+      this.description = description;
+      this.chargeItemCode = chargeItemCode;
+    }
+
+    public String getExemptionCode() {
+      return exemptionCode;
+    }
+
+    public String getDescription() {
+      return description;
+    }
+
+    public String getChargeItemCode() {
+      return chargeItemCode;
+    }
+  }
+
+  static class AppliedPartialExemptionResponse extends AppliedExemptionResponse {
+    private BigDecimal value;
+    private String type;
+
+    public AppliedPartialExemptionResponse(String exemptionCode, String description, String chargeItemCode,
+                                           BigDecimal value, String type) {
+      super(exemptionCode, description, chargeItemCode);
+      this.value = value;
+      this.type = type;
+    }
+
+    public BigDecimal getValue() {
+      return value;
+    }
+
+    public String getType() {
+      return type;
+    }
+  }
+
+  static class AppliedTotalExemptionResponse extends AppliedExemptionResponse {
+    public AppliedTotalExemptionResponse(String exemptionCode, String description, String chargeItemCode) {
+      super(exemptionCode, description, chargeItemCode);
+    }
+  }
+
+  @Test
+  void should_pass_when_comparing_polymorphic_objects_with_ignoring_non_existent_fields() {
+    // GIVEN
+    List<AppliedExemptionResponse> actualList = Arrays.asList(
+                                                              new AppliedTotalExemptionResponse("E1", "E1 Desc", "T1"),
+                                                              new AppliedPartialExemptionResponse("E2", "E2 Desc", "T2",
+                                                                                                  new BigDecimal("1"),
+                                                                                                  "type_0011"));
+
+    List<AppliedExemptionResponse> expectedList = Arrays.asList(
+                                                                new AppliedTotalExemptionResponse("E1", "E1 Desc", "T1"),
+                                                                new AppliedPartialExemptionResponse("E2", "E2 Desc", "T2",
+                                                                                                    new BigDecimal("1"),
+                                                                                                    "type_0011"));
+
+    // WHEN/THEN
+    assertThat(actualList)
+                          .usingRecursiveFieldByFieldElementComparatorOnFields("exemptionCode", "description", "chargeItemCode",
+                                                                               "value")
+                          .ignoringNonExistentComparedFields()
+                          .containsExactlyInAnyOrderElementsOf(expectedList);
+  }
+
+  @Test
+  void should_pass_when_comparing_objects_with_fields_that_dont_exist_in_all_types() {
+    // GIVEN
+    class BaseClass {
+      String common = "same";
+    }
+
+    class SubType1 extends BaseClass {
+      String onlyInSubType1 = "type1";
+    }
+
+    class SubType2 extends BaseClass {
+      // No 'onlyInSubType1' field
+      String onlyInSubType2 = "type2";
+    }
+
+    // WHEN
+    List<BaseClass> list1 = Arrays.asList(new SubType1(), new SubType2());
+    List<BaseClass> list2 = Arrays.asList(new SubType1(), new SubType2());
+
+    // THEN
+    assertThat(list1)
+                     .usingRecursiveFieldByFieldElementComparatorOnFields("common", "onlyInSubType1", "onlyInSubType2")
+                     .ignoringNonExistentComparedFields()
+                     .containsExactlyInAnyOrderElementsOf(list2);
+  }
+
+  @Test
+  void should_fail_when_comparing_objects_with_fields_that_dont_exist_without_ignoring_option() {
+    // GIVEN
+    class BaseClass {
+      String common = "same";
+    }
+
+    class SubType1 extends BaseClass {
+      String onlyInSubType1 = "type1";
+    }
+
+    class SubType2 extends BaseClass {
+      String onlyInSubType2 = "type2";
+    }
+
+    // WHEN
+    List<BaseClass> list1 = Arrays.asList(new SubType1(), new SubType2());
+    List<BaseClass> list2 = Arrays.asList(new SubType1(), new SubType2());
+
+    // THEN
+    assertThatExceptionOfType(IllegalArgumentException.class).isThrownBy(() -> {
+      assertThat(list1)
+                       .usingRecursiveFieldByFieldElementComparatorOnFields("common", "onlyInSubType1", "onlyInSubType2")
+                       .containsExactlyInAnyOrderElementsOf(list2);
+    }).withMessageContaining("The following fields don't exist:");
   }
 }

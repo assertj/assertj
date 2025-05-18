@@ -2515,6 +2515,52 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
+   * Allows to ignore non-existent fields in the recursive comparison when using
+   * {@link #usingRecursiveFieldByFieldElementComparatorOnFields(String...)} or similar methods.
+   * <p>
+   * This is useful when comparing collections of polymorphic objects where some fields might not exist in all subtypes.
+   * <p>
+   * Example:
+   * <pre><code class='java'>
+   * // GIVEN
+   * class BaseClass {
+   *   String common = "same";
+   * }
+   *
+   * class SubType1 extends BaseClass {
+   *   String onlyInSubType1 = "type1";
+   * }
+   *
+   * class SubType2 extends BaseClass {
+   *   // No 'onlyInSubType1' field
+   *   String onlyInSubType2 = "type2";
+   * }
+   *
+   * // WHEN
+   * List&lt;BaseClass&gt; list1 = Arrays.asList(new SubType1(), new SubType2());
+   * List&lt;BaseClass&gt; list2 = Arrays.asList(new SubType1(), new SubType2());
+   *
+   * // THEN
+   * // Without ignoringNonExistentComparedFields(), this would fail
+   * // because 'onlyInSubType1' and 'onlyInSubType2' don't exist in both types
+   * assertThat(list1)
+   *       .usingRecursiveFieldByFieldElementComparatorOnFields("common", "onlyInSubType1", "onlyInSubType2")
+   *       .ignoringNonExistentComparedFields()
+   *       .containsExactlyInAnyOrderElementsOf(list2);
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   */
+  @CheckReturnValue
+  public SELF ignoringNonExistentComparedFields() {
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = RecursiveComparisonConfiguration.builder()
+                                                                                                        .withIgnoreNonExistentComparedFields(true)
+                                                                                                        .build();
+
+    return usingRecursiveFieldByFieldElementComparator(recursiveComparisonConfiguration);
+  }
+
+  /**
    * Enable hexadecimal representation of Iterable elements instead of standard representation in error messages.
    * <p>
    * It can be useful to better understand what the error was with a more meaningful error message.

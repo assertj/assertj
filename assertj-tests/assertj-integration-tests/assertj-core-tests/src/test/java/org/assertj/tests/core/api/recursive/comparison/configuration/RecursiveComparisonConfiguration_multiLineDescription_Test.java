@@ -338,6 +338,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
     recursiveComparisonConfiguration.setIgnoreAllActualEmptyOptionalFields(true);
     recursiveComparisonConfiguration.setIgnoreAllExpectedNullFields(true);
+    recursiveComparisonConfiguration.setIgnoreNonExistentComparedFields(true);
     recursiveComparisonConfiguration.compareOnlyFields("name", "address.number");
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(String.class, Integer.class);
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
@@ -364,6 +365,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- all actual null fields were ignored in the comparison%n" +
                "- all actual empty optional fields were ignored in the comparison (including Optional, OptionalInt, OptionalLong and OptionalDouble)%n" +
                "- all expected null fields were ignored in the comparison%n" +
+               "- fields that do not exist in the actual object were ignored in the comparison%n" +
                "- the comparison was performed on the following fields: name, address.number%n" +
                "- the comparison was performed on any fields with types: java.lang.String, java.lang.Integer%n" +
                "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
@@ -421,6 +423,17 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
     then(multiLineDescription).contains("- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal");
+  }
+
+  @Test
+  void should_show_ignoreNonExistentFields_in_the_description() {
+    // GIVEN
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = new RecursiveComparisonConfiguration();
+    recursiveComparisonConfiguration.setIgnoreNonExistentComparedFields(true);
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains("- fields that do not exist in the actual object were ignored in the comparison");
   }
 
   // just to test the description does not fail when given a comparator with various String.format reserved flags
