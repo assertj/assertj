@@ -397,24 +397,24 @@ public class RecursiveComparisonDifferenceCalculator {
 
       Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
       Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(expectedFieldValue);
-      // Check if expected has more children nodes than actual, in that case the additional nodes are reported as difference
+      // Check if expected has more fields than actual, in that case the additional nodes are reported as difference
 
-      // Check if expected has more children nodes than actual, in that case the additional nodes are reported as difference
+      // Check if actual has more fields than expected, in that case the additional fields are reported as difference
       if (!expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
-        // report missing nodes in actual
+        // report missing nodes in expected = extra actual fields
         Set<String> actualNodesNamesNotInExpected = newHashSet(actualChildrenNodeNamesToCompare);
         actualNodesNamesNotInExpected.removeAll(expectedChildrenNodesNames);
         String missingNodes = actualNodesNamesNotInExpected.toString();
-        String expectedClassName = expectedFieldClass.getName();
-        String actualClassName = actualFieldValueClass.getName();
-        String missingNodesDescription = MISSING_FIELDS.formatted(actualClassName, expectedClassName,
+        String missingNodesDescription = MISSING_FIELDS.formatted(actualFieldValueClass.getName(),
+                                                                  expectedFieldClass.getName(),
                                                                   expectedFieldClass.getSimpleName(),
                                                                   actualFieldValueClass.getSimpleName(),
                                                                   missingNodes);
         comparisonState.addDifference(dualValue, missingNodesDescription);
       } else { // TODO remove else to report more diff
         // compare actual's children nodes against expected:
-        // - if actual has more nodes than expected, the additional nodes are ignored as expected is the reference
+        // - if expected has more nodes than actual, the additional nodes are ignored as actual is the reference
+        // - or we should add an option to make the comparison to fail and report the missing actual fields.
         for (String actualChildNodeName : actualChildrenNodeNamesToCompare) {
           if (expectedChildrenNodesNames.contains(actualChildNodeName)) {
             Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, actualFieldValue);
