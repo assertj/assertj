@@ -13,7 +13,6 @@
 package org.assertj.core.api.recursive.comparison;
 
 import static java.lang.System.identityHashCode;
-import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
 import static org.assertj.core.internal.RecursiveHelper.isContainer;
@@ -70,8 +69,7 @@ public final class DualValue {
 
   @Override
   public boolean equals(Object other) {
-    if (!(other instanceof DualValue)) return false;
-    DualValue that = (DualValue) other;
+    if (!(other instanceof DualValue that)) return false;
     return actual == that.actual && expected == that.expected && fieldLocation.equals(that.fieldLocation);
   }
 
@@ -101,7 +99,7 @@ public final class DualValue {
   }
 
   public List<String> getDecomposedPath() {
-    return unmodifiableList(fieldLocation.getDecomposedPath());
+    return fieldLocation.getDecomposedPath();
   }
 
   public String getConcatenatedPath() {
@@ -169,15 +167,15 @@ public final class DualValue {
   }
 
   private boolean isActualFieldAnEmptyOptionalInt() {
-    return isActualFieldAnOptionalInt() && !((OptionalInt) actual).isPresent();
+    return isActualFieldAnOptionalInt() && ((OptionalInt) actual).isEmpty();
   }
 
   private boolean isActualFieldAnEmptyOptionalLong() {
-    return isActualFieldAnOptionalLong() && !((OptionalLong) actual).isPresent();
+    return isActualFieldAnOptionalLong() && ((OptionalLong) actual).isEmpty();
   }
 
   private boolean isActualFieldAnEmptyOptionalDouble() {
-    return isActualFieldAnOptionalDouble() && !((OptionalDouble) actual).isPresent();
+    return isActualFieldAnOptionalDouble() && ((OptionalDouble) actual).isEmpty();
   }
 
   public boolean isExpectedFieldAnOptional() {

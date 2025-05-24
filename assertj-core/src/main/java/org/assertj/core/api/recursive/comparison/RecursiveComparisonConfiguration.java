@@ -179,10 +179,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return typeComparators;
   }
 
-  Stream<Entry<Class<?>, Comparator<?>>> comparatorByTypes() {
-    return typeComparators.comparatorByTypes();
-  }
-
   public boolean getIgnoreAllActualNullFields() {
     return ignoreAllActualNullFields;
   }
@@ -351,7 +347,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   public void ignoreOverriddenEqualsForFieldsMatchingRegexes(String... regexes) {
     ignoredOverriddenEqualsForFieldsMatchingRegexes.addAll(Stream.of(regexes)
                                                                  .map(Pattern::compile)
-                                                                 .collect(toList()));
+                                                                 .toList());
   }
 
   /**
@@ -434,7 +430,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   public void ignoreCollectionOrderInFieldsMatchingRegexes(String... regexes) {
     ignoredCollectionOrderInFieldsMatchingRegexes.addAll(Stream.of(regexes)
                                                                .map(Pattern::compile)
-                                                               .collect(toList()));
+                                                               .toList());
   }
 
   /**
@@ -933,7 +929,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private String describeIgnoredOverriddenEqualsForTypes(Representation representation) {
     List<String> fieldsDescription = ignoredOverriddenEqualsForTypes.stream()
                                                                     .map(representation::toStringOf)
-                                                                    .collect(toList());
+                                                                    .toList();
     return join(fieldsDescription);
   }
 
@@ -1040,7 +1036,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private String describeComparedTypes() {
     List<String> typesDescription = comparedTypes.stream()
                                                  .map(Class::getName)
-                                                 .collect(toList());
+                                                 .toList();
     return join(typesDescription);
   }
 
