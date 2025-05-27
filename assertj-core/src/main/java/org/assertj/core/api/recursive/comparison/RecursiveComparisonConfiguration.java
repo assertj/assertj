@@ -731,6 +731,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     describeIgnoreCollectionOrder(description);
     describeIgnoredCollectionOrderInFields(description);
     describeIgnoredCollectionOrderInFieldsMatchingRegexes(description);
+    describeTreatingNullAndEmptyCollectionsAsEqual(description);
     describeRegisteredComparatorByTypes(description);
     describeRegisteredComparatorForFields(description);
     describeTypeCheckingStrictness(description);
@@ -970,6 +971,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     if (!ignoredCollectionOrderInFieldsMatchingRegexes.isEmpty())
       description.append("- collection order was ignored in the fields matching the following regexes in the comparison: %s%n".formatted(
                                                                                                                                          describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
+  }
+
+  private void describeTreatingNullAndEmptyCollectionsAsEqual(StringBuilder description) {
+    if (treatingNullAndEmptyCollectionsAsEqual)
+      description.append("- null and empty iterables were considered equal%n".formatted());
   }
 
   private void describeIntrospectionStrategy(StringBuilder description) {

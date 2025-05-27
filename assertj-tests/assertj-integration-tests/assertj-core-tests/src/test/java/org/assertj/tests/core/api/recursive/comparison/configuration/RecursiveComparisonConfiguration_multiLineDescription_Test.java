@@ -333,6 +333,16 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
+  void should_show_when_treatingNullAndEmptyCollectionsAsEqual_is_enabled() {
+    // GIVEN
+    recursiveComparisonConfiguration.treatNullAndEmptyIterablesAsEqual();
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains("- null and empty iterables were considered equal%n".formatted());
+  }
+
+  @Test
   void should_show_a_complete_multiline_description() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
@@ -352,6 +362,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.ignoreCollectionOrder(true);
     recursiveComparisonConfiguration.ignoreCollectionOrderInFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreCollectionOrderInFieldsMatchingRegexes("f.*", "ba.", "foo.*");
+    recursiveComparisonConfiguration.treatNullAndEmptyIterablesAsEqual();
     recursiveComparisonConfiguration.registerComparatorForType(new AbsValueComparator<>(), Integer.class);
     recursiveComparisonConfiguration.registerComparatorForType(ALWAYS_EQUALS_TUPLE, Tuple.class);
     recursiveComparisonConfiguration.registerComparatorForFields(ALWAYS_EQUALS_TUPLE, "foo");
@@ -379,6 +390,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- collection order was ignored in all fields in the comparison%n" +
                "- collection order was ignored in the following fields in the comparison: foo, bar, foo.bar%n" +
                "- collection order was ignored in the fields matching the following regexes in the comparison: f.*, ba., foo.*%n" +
+               "- null and empty iterables were considered equal%n" +
                "- these types were compared with the following comparators:%n" +
                "  - java.lang.Double -> DoubleComparator[precision=1.0E-15]%n" +
                "  - java.lang.Float -> FloatComparator[precision=1.0E-6]%n" +
