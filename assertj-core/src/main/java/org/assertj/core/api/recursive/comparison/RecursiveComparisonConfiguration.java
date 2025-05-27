@@ -76,6 +76,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private boolean ignoreArrayOrder = false;
   private Set<String> ignoredCollectionOrderInFields = new LinkedHashSet<>();
   private final List<Pattern> ignoredCollectionOrderInFieldsMatchingRegexes = new ArrayList<>();
+  private boolean treatingNullAndEmptyCollectionsAsEqual = false;
 
   // registered comparators section
   private TypeComparators typeComparators = defaultTypeComparators();
@@ -440,6 +441,19 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    */
   public List<Pattern> getIgnoredCollectionOrderInFieldsMatchingRegexes() {
     return ignoredCollectionOrderInFieldsMatchingRegexes;
+  }
+
+  public boolean isTreatingNullAndEmptyIterablesAsEqualEnabled() {
+    return treatingNullAndEmptyCollectionsAsEqual;
+  }
+
+  /**
+   * Makes the recursive comparison to consider empty and null iterables as equal.
+   * <p>
+   * See {@link RecursiveComparisonAssert#treatingNullAndEmptyIterablesAsEqual()} for examples.
+   */
+  public void treatNullAndEmptyIterablesAsEqual() {
+    treatingNullAndEmptyCollectionsAsEqual = true;
   }
 
   /**

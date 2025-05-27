@@ -15,6 +15,7 @@ package org.assertj.tests.core.api.recursive.comparison.fields;
 import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.String.format;
 import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.tuple;
@@ -27,8 +28,10 @@ import static org.assertj.tests.core.api.recursive.data.Author.authorsTreeSet;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.UnknownFormatConversionException;
 import java.util.stream.Stream;
 
@@ -47,11 +50,11 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithCompar
   @MethodSource
   void should_pass_when_comparing_same_collection_fields(Collection<Author> authors1, Collection<Author> authors2) {
     // GIVEN
-    WithCollection<Author> actual = new WithCollection<>(authors1);
-    WithCollection<Author> expected = new WithCollection<>(authors2);
+    WithIterable<Author> actual = new WithIterable<>(authors1);
+    WithIterable<Author> expected = new WithIterable<>(authors2);
     // THEN
-    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .isEqualTo(expected);
   }
 
   static Stream<Arguments> should_pass_when_comparing_same_collection_fields() {
@@ -94,8 +97,8 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithCompar
   void should_fail_when_comparing_different_collection_fields(Collection<Author> authors1, Collection<Author> authors2,
                                                               ComparisonDifference difference) {
     // GIVEN
-    WithCollection<Author> actual = new WithCollection<>(authors1);
-    WithCollection<Author> expected = new WithCollection<>(authors2);
+    WithIterable<Author> actual = new WithIterable<>(authors1);
+    WithIterable<Author> expected = new WithIterable<>(authors2);
     // WHEN/THEN
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
@@ -150,7 +153,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithCompar
                                                            String path, Object value1, Object value2, String desc) {
     // GIVEN
     WithObject actual = new WithObject(actualFieldValue);
-    WithCollection<Author> expected = new WithCollection<>(expectedFieldValue);
+    WithIterable<Author> expected = new WithIterable<>(expectedFieldValue);
     // WHEN/THEN
     ComparisonDifference difference = desc == null ? diff(path, value1, value2) : diff(path, value1, value2, desc);
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
@@ -203,16 +206,16 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithCompar
     then(thrown).isNotInstanceOf(UnknownFormatConversionException.class);
   }
 
-  public static class WithCollection<E> {
-    public Collection<E> group;
+  public static class WithIterable<E> {
+    public Iterable<E> group;
 
-    public WithCollection(Collection<E> collection) {
-      this.group = collection;
+    public WithIterable(Iterable<E> iterable) {
+      this.group = iterable;
     }
 
     @Override
     public String toString() {
-      return "WithCollection group=%s".formatted(group);
+      return "WithIterable(%s)".formatted(group);
     }
 
   }
@@ -232,5 +235,32 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithCompar
     // THEN
     then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual HashSet:%n" +
                                                      "  [Item(Shoes, 2)]"));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void should_treat_null_and_empty_iterables_as_equal(Iterable<?> iterable1, Iterable<?> iterable2) {
+    // GIVEN
+    WithIterable<?> actual = new WithIterable<>(iterable1);
+    WithIterable<?> expected = new WithIterable<>(iterable2);
+    // THEN
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .treatingNullAndEmptyIterablesAsEqual()
+                .isEqualTo(expected);
+  }
+
+  static Stream<Arguments> should_treat_null_and_empty_iterables_as_equal() {
+    List<Author> emptyList = emptyList();
+    Set<Author> emptySet = emptySet();
+    Set<String> emptyTreeSet = new TreeSet<>();
+    Set<String> emptyHashSet = new HashSet<>();
+    return Stream.of(Arguments.of(null, emptyList),
+                     Arguments.of(emptyList, null),
+                     Arguments.of(null, emptySet),
+                     Arguments.of(emptySet, null),
+                     Arguments.of(null, emptyHashSet),
+                     Arguments.of(emptyHashSet, null),
+                     Arguments.of(null, emptyTreeSet),
+                     Arguments.of(emptyTreeSet, null));
   }
 }

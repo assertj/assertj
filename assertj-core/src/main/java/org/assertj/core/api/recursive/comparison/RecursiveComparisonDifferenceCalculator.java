@@ -21,6 +21,7 @@ import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 import static org.assertj.core.api.recursive.comparison.DualValue.DEFAULT_ORDERED_COLLECTION_TYPES;
 import static org.assertj.core.api.recursive.comparison.FieldLocation.rootFieldLocation;
+import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
@@ -289,6 +290,19 @@ public class RecursiveComparisonDifferenceCalculator {
       }
 
       if (actualFieldValue == expectedFieldValue) continue;
+
+      if (recursiveComparisonConfiguration.isTreatingNullAndEmptyIterablesAsEqualEnabled()
+          && (actualFieldValue == null || dualValue.isActualFieldAnIterable())
+          && (expectedFieldValue == null || dualValue.isExpectedFieldAnIterable())
+          && isNullOrEmpty((Iterable<?>) dualValue.actual)
+          && isNullOrEmpty((Iterable<?>) dualValue.expected)) {
+        // we know one of the value is not null since actualFieldValue != expectedFieldValue and is an iterable
+        // if the other value is null, we can't know if it was an iterable, we just assume so, this is true if actual
+        // and expected root values had the same type, but could be false if the types are different and both have a
+        // field with the same name but the field type is not an iterable in one of them.
+        // TODO add type to introspection strategy ?
+        continue;
+      }
 
       if (actualFieldValue == null || expectedFieldValue == null) {
         // one of the value is null while the other is not as we already know that actualFieldValue != expectedFieldValue

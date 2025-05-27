@@ -1422,6 +1422,37 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * Makes the recursive comparison to consider empty and null iterables as equal.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class Person {
+   *   String name;
+   *   List&lt;Person&gt; friends;
+   * }
+   *
+   * Person person1 = new Person("John Doe");
+   * person1.friends = null;
+   * Person person2 = new Person("John Doe");
+   * person2.friends = new ArrayList&lt;&gt;();
+   *
+   * // assertion succeeds as the friend field values (null vs empty list) are considered equal
+   * assertThat(person1).usingRecursiveComparison()
+   *                    .treatingNullAndEmptyIterablesAsEqual()
+   *                    .isEqualTo(person2);
+   *
+   * // assertion fails as the friend field values are different (null vs empty list)
+   * assertThat(person1).usingRecursiveComparison()
+   *                    .isEqualTo(person2);</code></pre>
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  @CheckReturnValue
+  public SELF treatingNullAndEmptyIterablesAsEqual() {
+    recursiveComparisonConfiguration.treatNullAndEmptyIterablesAsEqual();
+    return myself;
+  }
+
+  /**
    * Makes the recursive comparison to check that actual's type is compatible with expected's type (and do the same for each field). <br>
    * Compatible means that the expected's type is the same or a subclass of actual's type.
    * <p>
@@ -1914,4 +1945,5 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   private List<ComparisonDifference> determineDifferencesWith(Object expected) {
     return recursiveComparisonDifferenceCalculator.determineDifferences(actual, expected, recursiveComparisonConfiguration);
   }
+
 }
