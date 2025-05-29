@@ -121,6 +121,9 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.fieldMessages = builder.fieldMessages;
     this.typeMessages = builder.typeMessages;
     this.introspectionStrategy = builder.introspectionStrategy;
+    if (builder.ignoreTransientFields) {
+      this.introspectionStrategy.ignoreTransientFields();
+    }
     this.representation = builder.representation != null ? builder.representation : STANDARD_REPRESENTATION;
     this.treatNullAndEmptyIterablesAsEqual = builder.treatNullAndEmptyIterablesAsEqual;
   }
@@ -192,6 +195,20 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   public boolean getIgnoreNonExistentComparedFields() {
     return ignoreNonExistentComparedFields;
+  }
+
+  public boolean getIgnoreTransientFields() {
+    return introspectionStrategy.shouldIgnoreTransientFields();
+  }
+
+  /**
+   * Makes the recursive comparison to ignore <a href="https://docs.oracle.com/javase/specs/jvms/se6/html/Concepts.doc.html#18858">transient</a> fields.
+   * <p>
+   *
+   * See {@link RecursiveComparisonAssert#ignoringTransientFields()} for examples.
+   */
+  public void ignoreTransientFields() {
+    introspectionStrategy.ignoreTransientFields();
   }
 
   public boolean getIgnoreAllOverriddenEquals() {
@@ -676,7 +693,6 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   public int hashCode() {
     return java.util.Objects.hash(fieldComparators, ignoreAllActualEmptyOptionalFields, ignoreAllActualNullFields,
                                   ignoreAllExpectedNullFields, ignoreNonExistentComparedFields, ignoreAllOverriddenEquals,
-                                  ignoreCollectionOrder,
                                   ignoredCollectionOrderInFields, ignoredCollectionOrderInFieldsMatchingRegexes,
                                   getIgnoredFields(), getIgnoredFieldsRegexes(), ignoredOverriddenEqualsForFields,
                                   ignoredOverriddenEqualsForTypes, ignoredOverriddenEqualsForFieldsMatchingRegexes,
@@ -727,6 +743,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     describeIgnoredFields(description);
     describeIgnoredFieldsRegexes(description);
     describeIgnoredTypes(description);
+    describeIgnoreTransientFields(description);
     describeIgnoredTypesRegexes(description);
     describeOverriddenEqualsMethodsUsage(description, representation);
     describeIgnoreArrayOrder(description);
@@ -897,6 +914,11 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     if (!getIgnoredTypesRegexes().isEmpty())
       description.append("- the types matching the following regexes were ignored in the comparison: %s%n".formatted(
                                                                                                                      describeRegexes(getIgnoredTypesRegexes())));
+  }
+
+  private void describeIgnoreTransientFields(StringBuilder description) {
+    if (getIgnoreTransientFields())
+      description.append("- the transient fields were ignored%n".formatted());
   }
 
   protected void describeIgnoreAllActualNullFields(StringBuilder description) {
@@ -1254,6 +1276,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     private boolean ignoreAllActualEmptyOptionalFields;
     private boolean ignoreAllExpectedNullFields;
     private boolean ignoreNonExistentComparedFields;
+    private boolean ignoreTransientFields;
     private FieldLocation[] comparedFields = {};
     private Class<?>[] comparedTypes = {};
     private Class<?>[] ignoredOverriddenEqualsForTypes = {};
@@ -1670,6 +1693,17 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
      */
     public RecursiveComparisonConfiguration.Builder withIntrospectionStrategy(RecursiveComparisonIntrospectionStrategy introspectionStrategy) {
       this.introspectionStrategy = introspectionStrategy;
+      return this;
+    }
+
+    /**
+     * Makes the recursive comparison to ignore <a href="https://docs.oracle.com/javase/specs/jvms/se6/html/Concepts.doc.html#18858">transient</a> fields.
+     * <p>
+     *
+     * See {@link RecursiveComparisonAssert#ignoringTransientFields()} for examples.
+     */
+    public Builder withIgnoredTransientFields() {
+      ignoreTransientFields = true;
       return this;
     }
 

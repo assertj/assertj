@@ -166,6 +166,14 @@ class RecursiveComparisonConfiguration_builder_Test {
   }
 
   @Test
+  void should_set_ignoreTransientFields() {
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withIgnoredTransientFields().build();
+    // THEN
+    then(configuration.getIgnoreTransientFields()).isTrue();
+  }
+
+  @Test
   void should_set_ignoredOverriddenEqualsForFields() {
     // GIVEN
     String[] values = { "foo", "bar" };

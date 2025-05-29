@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
+import org.assertj.core.api.recursive.comparison.AbstractRecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.api.recursive.comparison.ComparingNormalizedFields;
 import org.assertj.core.api.recursive.comparison.ComparingSnakeOrCamelCaseFields;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
@@ -89,7 +90,7 @@ class RecursiveComparisonAssert_isEqualTo_withIntrospectionStrategy_Test extends
     compareRecursivelyFailsWithDifferences(actual, expected, neighbourDateOfBirthDifference, phoneDifference);
   }
 
-  static class ComparingFieldsNameContaining_o implements RecursiveComparisonIntrospectionStrategy {
+  static class ComparingFieldsNameContaining_o extends AbstractRecursiveComparisonIntrospectionStrategy {
 
     @Override
     public Set<String> getChildrenNodeNamesOf(Object node) {

@@ -17,14 +17,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.assertj.core.internal.Objects;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
  * A {@link RecursiveComparisonIntrospectionStrategy} that introspects fields including inherited ones but ignores static and
  * synthetic fields.
  */
-public class ComparingFields implements RecursiveComparisonIntrospectionStrategy {
+public class ComparingFields extends AbstractRecursiveComparisonIntrospectionStrategy {
 
   public static final ComparingFields COMPARING_FIELDS = new ComparingFields();
 
@@ -34,7 +33,7 @@ public class ComparingFields implements RecursiveComparisonIntrospectionStrategy
   @Override
   public Set<String> getChildrenNodeNamesOf(Object node) {
     if (node == null) return new HashSet<>();
-    return fieldNamesPerClass.computeIfAbsent(node.getClass(), Objects::getFieldsNames);
+    return fieldNamesPerClass.computeIfAbsent(node.getClass(), this::getFieldsNames);
   }
 
   @Override

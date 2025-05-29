@@ -15,6 +15,7 @@ package org.assertj.core.api.recursive.comparison;
 import java.util.Set;
 
 import org.assertj.core.annotations.Beta;
+import org.assertj.core.api.RecursiveComparisonAssert;
 
 /**
  * Defines how objects are introspected in the recursive comparison, the main operations it specifies are:
@@ -44,7 +45,7 @@ public interface RecursiveComparisonIntrospectionStrategy {
    * the implementation could consider the child node name to be a key of the map.
    *
    * @param childNodeName the child node identifier
-   * @param object the object to read the child node from
+   * @param object        the object to read the child node from
    * @return the object child node value
    */
   Object getChildNodeValue(String childNodeName, Object object);
@@ -58,5 +59,25 @@ public interface RecursiveComparisonIntrospectionStrategy {
    */
   default String getDescription() {
     return this.getClass().getSimpleName();
+  }
+
+  /**
+   * Makes the recursive comparison to ignore <a href="https://docs.oracle.com/javase/specs/jvms/se6/html/Concepts.doc.html#18858">transient</a> fields.
+   * <p>
+   * Inherits from {@link AbstractRecursiveComparisonIntrospectionStrategy} to benefit from the default implementation.
+   * <p>
+   * See {@link RecursiveComparisonAssert#ignoringTransientFields()} for examples.
+   */
+  default void ignoreTransientFields() {
+    // do nothing by default
+  }
+
+  /**
+   * Returns whether transient fields are ignored in the recursive comparison, this is false by default.
+   *
+   * @return whether transient fields are ignored in the recursive comparison.
+   */
+  default boolean shouldIgnoreTransientFields() {
+    return false;
   }
 }

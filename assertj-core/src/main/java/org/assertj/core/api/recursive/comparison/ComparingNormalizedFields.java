@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import org.assertj.core.internal.Objects;
+
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -32,7 +32,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
  *
  * @since 3.24.0
  */
-public abstract class ComparingNormalizedFields implements RecursiveComparisonIntrospectionStrategy {
+public abstract class ComparingNormalizedFields extends AbstractRecursiveComparisonIntrospectionStrategy {
 
   private static final String NO_FIELD_FOUND = "Unable to find field in %s, fields tried: %s and %s";
 
@@ -54,7 +54,7 @@ public abstract class ComparingNormalizedFields implements RecursiveComparisonIn
   public Set<String> getChildrenNodeNamesOf(Object node) {
     if (node == null) return new HashSet<>();
     Class<?> nodeClass = node.getClass();
-    Set<String> fieldsNames = Objects.getFieldsNames(nodeClass);
+    Set<String> fieldsNames = getFieldsNames(nodeClass);
     // we normalize fields so that we can compare actual and expected, for example if actual has a firstName field and expected
     // a first_name field, we won't find firstName in expected unless we normalize it
     // Note that normalize has side effects as it keeps track of the normalized name -> original name mapping

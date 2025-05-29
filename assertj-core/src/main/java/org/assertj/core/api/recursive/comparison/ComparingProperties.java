@@ -31,7 +31,7 @@ import org.assertj.core.util.introspection.PropertySupport;
  * A {@link RecursiveComparisonIntrospectionStrategy} that introspects properties by looking at public getters like
  * {@code getName()} or {@code isActive()}/{@code getActive()} for boolean properties.
  */
-public class ComparingProperties implements RecursiveComparisonIntrospectionStrategy {
+public class ComparingProperties extends AbstractRecursiveComparisonIntrospectionStrategy {
 
   public static final ComparingProperties COMPARING_PROPERTIES = new ComparingProperties();
 
@@ -55,6 +55,11 @@ public class ComparingProperties implements RecursiveComparisonIntrospectionStra
   @Override
   public String getDescription() {
     return "comparing properties";
+  }
+
+  @Override
+  public void ignoreTransientFields() {
+    throw new IllegalArgumentException("ignoringTransientFields is not supported since we are comparing properties");
   }
 
   static Set<String> getPropertiesNamesOf(Class<?> clazz) {

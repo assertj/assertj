@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.assertj.core.internal.Objects;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 /**
@@ -28,7 +27,7 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
  * There is a bit of discrepancy in this strategy as it looks for fields to compare but gets the value in this order: property
  * first, then field and finally tries as map value if the instance is a map.
  */
-public class LegacyRecursiveComparisonIntrospectionStrategy implements RecursiveComparisonIntrospectionStrategy {
+public class LegacyRecursiveComparisonIntrospectionStrategy extends AbstractRecursiveComparisonIntrospectionStrategy {
 
   // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
   private final Map<Class<?>, Set<String>> fieldNamesPerClass = new ConcurrentHashMap<>();
@@ -38,7 +37,7 @@ public class LegacyRecursiveComparisonIntrospectionStrategy implements Recursive
     if (node == null) return new HashSet<>();
     // Caches the names after getting them for efficiency, a node can be introspected multiple times for example if
     // it belongs to an unordered collection as all actual elements are compared to all expected elements.
-    return fieldNamesPerClass.computeIfAbsent(node.getClass(), Objects::getFieldsNames);
+    return fieldNamesPerClass.computeIfAbsent(node.getClass(), this::getFieldsNames);
   }
 
   @Override

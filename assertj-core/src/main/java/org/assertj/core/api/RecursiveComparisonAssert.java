@@ -944,6 +944,34 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
   }
 
   /**
+   * Makes the recursive comparison to ignore <a href="https://docs.oracle.com/javase/specs/jvms/se6/html/Concepts.doc.html#18858">transient</a> fields.
+   * <p>
+   * Example:
+   * <pre><code class='java'> class Person {
+   *   String name;
+   *   transient double height;
+   * }
+   *
+   * Person sherlock = new Person("Sherlock", 1.80);
+   * Person cherlock = new Person("Sherlock", 1.81);
+   *
+   * // assertion succeeds as we ignore the height transient field:
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .ignoreTransientFields()
+   *                     .isEqualTo(cherlock);
+   *
+   * // now this assertion fails as expected because the height field differs:
+   * assertThat(sherlock).usingRecursiveComparison()
+   *                     .isEqualTo(cherlock);</code></pre>
+   *
+   * @return this {@link RecursiveComparisonAssert} to chain other methods.
+   */
+  public RecursiveComparisonAssert<?> ignoringTransientFields() {
+    recursiveComparisonConfiguration.ignoreTransientFields();
+    return myself;
+  }
+
+  /**
    * This method instructs the recursive comparison to compare recursively all fields including the one whose type have overridden equals,
    * <b>except fields with java types</b> (at some point we need to compare something!).
    * <p>
