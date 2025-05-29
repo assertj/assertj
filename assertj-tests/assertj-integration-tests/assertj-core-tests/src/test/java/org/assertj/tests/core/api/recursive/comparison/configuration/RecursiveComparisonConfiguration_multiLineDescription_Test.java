@@ -343,6 +343,16 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
+  void should_show_when_ignoreTransientFields_is_enabled() {
+    // GIVEN
+    recursiveComparisonConfiguration.ignoreTransientFields();
+    // WHEN
+    String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
+    // THEN
+    then(multiLineDescription).contains("- the transient fields were ignored%n".formatted());
+  }
+
+  @Test
   void should_show_a_complete_multiline_description() {
     // GIVEN
     recursiveComparisonConfiguration.setIgnoreAllActualNullFields(true);
@@ -354,6 +364,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     recursiveComparisonConfiguration.ignoreFields("foo", "bar", "foo.bar");
     recursiveComparisonConfiguration.ignoreFieldsMatchingRegexes("f.*", ".ba.", "..b%sr..");
     recursiveComparisonConfiguration.ignoreFieldsOfTypes(UUID.class, ZonedDateTime.class);
+    recursiveComparisonConfiguration.ignoreTransientFields();
     recursiveComparisonConfiguration.useOverriddenEquals();
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForFieldsMatchingRegexes(".*oo", ".ar", "oo.ba");
     recursiveComparisonConfiguration.ignoreOverriddenEqualsForTypes(String.class, Multimap.class);
@@ -382,6 +393,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "- the following fields were ignored in the comparison: foo, bar, foo.bar%n" +
                "- the fields matching the following regexes were ignored in the comparison: f.*, .ba., ..b%%sr..%n"+
                "- the following types were ignored in the comparison: java.util.UUID, java.time.ZonedDateTime%n" +
+               "- the transient fields were ignored%n" +
                "- equals methods were used in the comparison except for:%n" +
                "  - the following fields: foo, baz, foo.baz%n" +
                "  - the following types: java.lang.String, com.google.common.collect.Multimap%n" +

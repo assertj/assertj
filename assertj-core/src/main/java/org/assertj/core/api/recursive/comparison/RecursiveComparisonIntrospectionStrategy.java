@@ -15,6 +15,7 @@ package org.assertj.core.api.recursive.comparison;
 import java.util.Set;
 
 import org.assertj.core.annotations.Beta;
+import org.assertj.core.api.recursive.FieldsIntrospectionConfiguration;
 
 /**
  * Defines how objects are introspected in the recursive comparison, the main operations it specifies are:
@@ -58,5 +59,10 @@ public interface RecursiveComparisonIntrospectionStrategy {
    */
   default String getDescription() {
     return this.getClass().getSimpleName();
+  }
+
+  default FieldsIntrospectionConfiguration lazyInitFieldsIntrospectionConfiguration() {
+    // let implementation to lazy init and return a proper configuration
+    return null;
   }
 }

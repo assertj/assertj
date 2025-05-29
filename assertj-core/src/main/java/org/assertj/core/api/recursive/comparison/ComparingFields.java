@@ -17,7 +17,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import org.assertj.core.internal.Objects;
+import org.assertj.core.api.recursive.FieldsIntrospectionConfiguration;
+import org.assertj.core.api.recursive.FieldsIntrospectionHelper;
 import org.assertj.core.util.introspection.FieldSupport;
 
 /**
@@ -30,11 +31,13 @@ public class ComparingFields implements RecursiveComparisonIntrospectionStrategy
 
   // use ConcurrentHashMap in case this strategy instance is used in a multi-thread context
   private final Map<Class<?>, Set<String>> fieldNamesPerClass = new ConcurrentHashMap<>();
+  private FieldsIntrospectionHelper fieldsIntrospectionHelper;
+  private FieldsIntrospectionConfiguration fieldsIntrospectionConfiguration;
 
   @Override
   public Set<String> getChildrenNodeNamesOf(Object node) {
     if (node == null) return new HashSet<>();
-    return fieldNamesPerClass.computeIfAbsent(node.getClass(), Objects::getFieldsNames);
+    return fieldNamesPerClass.computeIfAbsent(node.getClass(), clazz -> fieldsIntrospectionHelper.getFieldsNames(clazz));
   }
 
   @Override
@@ -47,4 +50,12 @@ public class ComparingFields implements RecursiveComparisonIntrospectionStrategy
     return "comparing fields";
   }
 
+  @Override
+  public FieldsIntrospectionConfiguration lazyInitFieldsIntrospectionConfiguration() {
+    if (fieldsIntrospectionConfiguration == null) {
+      fieldsIntrospectionConfiguration = new FieldsIntrospectionConfiguration(false);
+      fieldsIntrospectionHelper = new FieldsIntrospectionHelper(fieldsIntrospectionConfiguration);
+    }
+    return fieldsIntrospectionConfiguration;
+  }
 }

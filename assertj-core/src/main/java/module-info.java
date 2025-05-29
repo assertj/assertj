@@ -23,6 +23,7 @@ module org.assertj.core {
   exports org.assertj.core.api.filter;
   exports org.assertj.core.api.iterable;
   exports org.assertj.core.api.junit.jupiter;
+  exports org.assertj.core.api.recursive;
   exports org.assertj.core.api.recursive.assertion;
   exports org.assertj.core.api.recursive.comparison;
   exports org.assertj.core.condition;
