@@ -415,6 +415,14 @@ class RecursiveComparisonConfiguration_builder_Test {
     then(configuration.getIgnoreNonExistentComparedFields()).isFalse();
   }
 
+  @Test
+  void should_set_treatNullAndEmptyIterablesAsEqual() {
+    // WHEN
+    RecursiveComparisonConfiguration configuration = configBuilder().withTreatingNullAndEmptyIterablesAsEqual().build();
+    // THEN
+    then(configuration.isTreatingNullAndEmptyIterablesAsEqualEnabled()).isTrue();
+  }
+
   private static Builder configBuilder() {
     return RecursiveComparisonConfiguration.builder();
   }

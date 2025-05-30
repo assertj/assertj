@@ -48,6 +48,7 @@ import org.assertj.core.presentation.Representation;
 public class RecursiveComparisonConfiguration extends AbstractRecursiveOperationConfiguration {
 
   private static final boolean DEFAULT_IGNORE_ALL_OVERRIDDEN_EQUALS = true;
+  private static final boolean DEFAULT_TREAT_NULL_AND_EMPTY_COLLECTIONS_AS_EQUAL = false;
   public static final String INDENT_LEVEL_2 = "  -";
   private final Representation representation;
   public static final RecursiveComparisonIntrospectionStrategy DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY = new ComparingFields();
@@ -76,7 +77,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   private boolean ignoreArrayOrder = false;
   private Set<String> ignoredCollectionOrderInFields = new LinkedHashSet<>();
   private final List<Pattern> ignoredCollectionOrderInFieldsMatchingRegexes = new ArrayList<>();
-  private boolean treatingNullAndEmptyCollectionsAsEqual = false;
+  private boolean treatNullAndEmptyIterablesAsEqual = DEFAULT_TREAT_NULL_AND_EMPTY_COLLECTIONS_AS_EQUAL;
 
   // registered comparators section
   private TypeComparators typeComparators = defaultTypeComparators();
@@ -121,6 +122,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     this.typeMessages = builder.typeMessages;
     this.introspectionStrategy = builder.introspectionStrategy;
     this.representation = builder.representation != null ? builder.representation : STANDARD_REPRESENTATION;
+    this.treatNullAndEmptyIterablesAsEqual = builder.treatNullAndEmptyIterablesAsEqual;
   }
 
   public RecursiveComparisonConfiguration(Representation representation) {
@@ -444,7 +446,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   public boolean isTreatingNullAndEmptyIterablesAsEqualEnabled() {
-    return treatingNullAndEmptyCollectionsAsEqual;
+    return treatNullAndEmptyIterablesAsEqual;
   }
 
   /**
@@ -453,7 +455,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
    * See {@link RecursiveComparisonAssert#treatingNullAndEmptyIterablesAsEqual()} for examples.
    */
   public void treatNullAndEmptyIterablesAsEqual() {
-    treatingNullAndEmptyCollectionsAsEqual = true;
+    treatNullAndEmptyIterablesAsEqual = true;
   }
 
   /**
@@ -731,7 +733,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     describeIgnoreCollectionOrder(description);
     describeIgnoredCollectionOrderInFields(description);
     describeIgnoredCollectionOrderInFieldsMatchingRegexes(description);
-    describeTreatingNullAndEmptyCollectionsAsEqual(description);
+    describeTreatingNullAndEmptyIterablesAsEqual(description);
     describeRegisteredComparatorByTypes(description);
     describeRegisteredComparatorForFields(description);
     describeTypeCheckingStrictness(description);
@@ -973,8 +975,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                                                                                                                                          describeRegexes(ignoredCollectionOrderInFieldsMatchingRegexes)));
   }
 
-  private void describeTreatingNullAndEmptyCollectionsAsEqual(StringBuilder description) {
-    if (treatingNullAndEmptyCollectionsAsEqual)
+  private void describeTreatingNullAndEmptyIterablesAsEqual(StringBuilder description) {
+    if (treatNullAndEmptyIterablesAsEqual)
       description.append("- null and empty iterables were considered equal%n".formatted());
   }
 
@@ -1266,6 +1268,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     private final FieldComparators fieldComparators = new FieldComparators();
     private final FieldMessages fieldMessages = new FieldMessages();
     private final TypeMessages typeMessages = new TypeMessages();
+    private boolean treatNullAndEmptyIterablesAsEqual = DEFAULT_TREAT_NULL_AND_EMPTY_COLLECTIONS_AS_EQUAL;
 
     private RecursiveComparisonIntrospectionStrategy introspectionStrategy = DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY;
 
@@ -1670,9 +1673,15 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
       return this;
     }
 
+    public Builder withTreatingNullAndEmptyIterablesAsEqual() {
+      this.treatNullAndEmptyIterablesAsEqual = true;
+      return this;
+    }
+
     public RecursiveComparisonConfiguration build() {
       return new RecursiveComparisonConfiguration(this);
     }
+
   }
 
   @SuppressWarnings({ "rawtypes", "ComparatorMethodParameterNotUsed" })

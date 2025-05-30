@@ -333,7 +333,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
   }
 
   @Test
-  void should_show_when_treatingNullAndEmptyCollectionsAsEqual_is_enabled() {
+  void should_show_when_treatingNullAndEmptyIterablesAsEqual_is_enabled() {
     // GIVEN
     recursiveComparisonConfiguration.treatNullAndEmptyIterablesAsEqual();
     // WHEN
