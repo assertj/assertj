@@ -59,7 +59,9 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   protected void hasThrownExceptionOf(Class<? extends Throwable> expectedThrowableType) {
     if (actual == null) {
       String typeName = expectedThrowableType.getName();
-      throw Failures.instance().failure(info, new BasicErrorMessageFactory("%nExpecting code to throw %s, but no exception was thrown.".formatted(typeName)));
+      throw Failures.instance()
+                    .failure(info,
+                             new BasicErrorMessageFactory("%nExpecting code to throw %s, but no exception was thrown.".formatted(typeName)));
     }
     myself.isInstanceOf(expectedThrowableType);
   }
