@@ -15,6 +15,7 @@ package org.assertj.core.api.throwable;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.Test;
 
 class ExpectThrowableAssert_isThrownBy_Test {
@@ -51,6 +52,6 @@ class ExpectThrowableAssert_isThrownBy_Test {
   @Test
   void should_fail_if_nothing_is_thrown_by_lambda() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {}))
-                                                   .withMessage("%nExpecting code to raise a throwable.".formatted());
+                                                   .withMessage("%nExpecting code to throw java.util.NoSuchElementException, but no exception was thrown.".formatted());
   }
 }
