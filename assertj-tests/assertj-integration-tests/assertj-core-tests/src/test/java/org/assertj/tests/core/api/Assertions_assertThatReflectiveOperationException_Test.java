@@ -44,6 +44,6 @@ class Assertions_assertThatReflectiveOperationException_Test {
     // WHEN
     AssertionError assertionError = expectAssertionError(throwingCallable);
     // THEN
-    then(assertionError).hasMessage("%nExpecting code to raise a throwable.".formatted());
+    then(assertionError).hasMessage("%nExpecting code to throw java.lang.ReflectiveOperationException, but no exception was thrown.".formatted());
   }
 }
