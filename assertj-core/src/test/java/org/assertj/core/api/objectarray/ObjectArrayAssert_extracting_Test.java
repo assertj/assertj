@@ -71,7 +71,7 @@ class ObjectArrayAssert_extracting_Test {
     fellowshipOfTheRing[7] = TolkienCharacter.of("Boromir", 37, MAN);
   }
 
-  private static final ThrowingExtractor<Employee, Object, Exception> THROWING_EXTRACTOR = employee -> {
+  private static final ThrowingExtractor<Employee, Object> THROWING_EXTRACTOR = employee -> {
     if (employee.getAge() < 20) throw new Exception("age < 20");
     return employee.getName().getFirst();
   };
@@ -155,7 +155,7 @@ class ObjectArrayAssert_extracting_Test {
 
   @Test
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
-    assertThat(jedis).extracting((ThrowingExtractor<Employee, Object, Exception>) employee -> {
+    assertThat(jedis).extracting((ThrowingExtractor<Employee, Object>) employee -> {
       if (employee.getAge() < 20) throw new Exception("age < 20");
       return employee.getName().getFirst();
     }).containsOnly("Yoda", "Luke");

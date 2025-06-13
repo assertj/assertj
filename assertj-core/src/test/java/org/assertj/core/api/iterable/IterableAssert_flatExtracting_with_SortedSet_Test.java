@@ -46,7 +46,7 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
   private CartoonCharacter pebbles;
   private CartoonCharacter fred;
 
-  private static final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception> childrenThrowingExtractor = CartoonCharacter::getChildren;
+  private static final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>> childrenThrowingExtractor = CartoonCharacter::getChildren;
 
   private static final Function<CartoonCharacter, List<CartoonCharacter>> children = CartoonCharacter::getChildren;
 
@@ -58,7 +58,7 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
     }
   };
 
-  private final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception> throwingExtractor = new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+  private final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>> throwingExtractor = new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>>() {
     @Override
     public List<CartoonCharacter> extractThrows(CartoonCharacter cartoonCharacter) throws Exception {
       if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
@@ -150,7 +150,7 @@ class IterableAssert_flatExtracting_with_SortedSet_Test {
   @Test
   void should_allow_assertions_on_joined_lists_when_extracting_children_with_anonymous_class_throwing_extractor() {
     SortedSet<CartoonCharacter> cartoonCharacters = newSortedSet(homer, fred);
-    assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+    assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>>() {
       @Override
       public List<CartoonCharacter> extractThrows(CartoonCharacter cartoonCharacter) throws Exception {
         if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");

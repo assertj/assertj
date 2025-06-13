@@ -25,10 +25,9 @@ import org.assertj.core.api.ObjectArrayAssert;
  *
  * @param <F> type of element from which the conversion happens
  * @param <T> target element type
- * @param <EXCEPTION> type of exception which might be thrown during conversion
  */
 @FunctionalInterface
-public interface ThrowingExtractor<F, T, EXCEPTION extends Exception> extends Function<F, T> {
+public interface ThrowingExtractor<F, T> extends Function<F, T> {
 
   @Override
   default T apply(final F input) {
@@ -41,5 +40,5 @@ public interface ThrowingExtractor<F, T, EXCEPTION extends Exception> extends Fu
     }
   }
 
-  T extractThrows(F input) throws EXCEPTION;
+  T extractThrows(F input) throws Exception;
 }

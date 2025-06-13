@@ -23,7 +23,7 @@ import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.firstNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.lastNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.throwingFirstNameExtractor;
-import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.extractor.ThrowingExtractors.byName;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
@@ -40,6 +40,7 @@ import java.util.function.Function;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.extractor.Extractors;
+import org.assertj.core.extractor.ThrowingExtractors;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
@@ -55,16 +56,16 @@ class IterableAssert_extracting_with_SortedSet_Test {
   private SortedSet<TolkienCharacter> fellowshipOfTheRing;
 
   @SuppressWarnings("deprecation")
-  private static final Function<Employee, String> firstName = new Function<Employee, String>() {
+  private static final ThrowingExtractor<Employee, String> firstName = new ThrowingExtractor<Employee, String>() {
     @Override
-    public String apply(Employee input) {
+    public String extractThrows(Employee input) {
       return input.getName().getFirst();
     }
   };
 
-  private static final Function<Employee, Integer> age = Employee::getAge;
+  private static final ThrowingExtractor<Employee, Integer> age = Employee::getAge;
 
-  private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = new ThrowingExtractor<Employee, Object, Exception>() {
+  private static final ThrowingExtractor<Employee, Object> firstNameWithException = new ThrowingExtractor<Employee, Object>() {
     @Override
     public Object extractThrows(Employee employee) throws Exception {
       if (employee.getAge() < 20) throw new Exception("age < 20");
@@ -227,7 +228,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
 
   @Test
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
-    assertThat(jedis).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
+    assertThat(jedis).extracting(new ThrowingExtractor<Employee, Object>() {
       @Override
       public Object extractThrows(Employee employee) throws Exception {
         if (employee.getAge() < 20) throw new Exception("age < 20");
@@ -239,9 +240,9 @@ class IterableAssert_extracting_with_SortedSet_Test {
   @SuppressWarnings("deprecation")
   @Test
   void should_allow_extracting_multiple_values_using_extractor() {
-    assertThat(jedis).extracting(new Function<Employee, Tuple>() {
+    assertThat(jedis).extracting(new ThrowingExtractor<Employee, Tuple>() {
       @Override
-      public Tuple apply(Employee input) {
+      public Tuple extractThrows(Employee input) {
         return new Tuple(input.getName().getFirst(), input.getAge(), input.id);
       }
     }).containsOnly(tuple("Yoda", 800, 1L), tuple("Luke", 26, 2L));
@@ -249,7 +250,7 @@ class IterableAssert_extracting_with_SortedSet_Test {
 
   @Test
   void should_allow_extracting_by_toString_method() {
-    assertThat(jedis).extracting(Extractors.toStringMethod())
+    assertThat(jedis).extracting(ThrowingExtractors.toStringMethod())
                      .containsOnly("Employee[id=1, name=Name[first='Yoda', last='null'], age=800]",
                                    "Employee[id=2, name=Name[first='Luke', last='Skywalker'], age=26]");
   }
@@ -416,9 +417,9 @@ class IterableAssert_extracting_with_SortedSet_Test {
   }
 
   @Test
-  void should_keep_existing_description_if_set_when_extracting_using_throwing_extractor() {
+  void should_keep_existing_description_if_set_when_extracting_using_extractor_with_exception() {
     assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(jedis).as("expected exception")
-                                                                                      .extracting(throwingExtractor)
+                                                                                      .extracting(firstNameWithException)
                                                                                       .containsOnly("Luke"))
                                                    .withMessageContaining("[expected exception]");
   }

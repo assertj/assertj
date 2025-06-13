@@ -176,7 +176,7 @@ class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
-    assertThat(employees).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
+    assertThat(employees).extracting(new ThrowingExtractor<Employee, Object>() {
       @Override
       public Object extractThrows(Employee employee) throws Exception {
         if (employee.getAge() < 20) throw new Exception("age < 20");

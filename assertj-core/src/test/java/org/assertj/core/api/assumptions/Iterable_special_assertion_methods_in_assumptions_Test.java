@@ -37,19 +37,14 @@ class Iterable_special_assertion_methods_in_assumptions_Test extends BaseAssumpt
                      // extracting methods
                      assumptionRunner(iterable(frodo, sam),
                                       value -> assumeThat(value).extracting(throwingNameExtractor)
-                                                                .contains("Frodo"),
-                                      value -> assumeThat(value).extracting(throwingNameExtractor)
-                                                                .contains("Gandalf")),
-                     assumptionRunner(iterable(frodo, sam),
-                                      value -> assumeThat(value).map(throwingNameExtractor)
-                                                                .contains("Frodo"),
-                                      value -> assumeThat(value).map(throwingNameExtractor)
-                                                                .contains("Gandalf")),
-                     assumptionRunner(iterable(frodo, sam),
-                                      value -> assumeThat(value).extracting(nameExtractor)
                                                                 .contains("Frodo", "Sam"),
-                                      value -> assumeThat(value).extracting(nameExtractor)
+                                      value -> assumeThat(value).extracting(throwingNameExtractor)
                                                                 .contains("Gandalf", "Sam")),
+                     assumptionRunner(iterable(frodo, sam),
+                                      value -> assumeThat(value).map(throwingNameExtractor)
+                                                                .contains("Frodo"),
+                                      value -> assumeThat(value).map(throwingNameExtractor)
+                                                                .contains("Gandalf")),
                      assumptionRunner(iterable(frodo, sam),
                                       value -> assumeThat(value).map(nameExtractor)
                                                                 .contains("Frodo", "Sam"),

@@ -31,7 +31,7 @@ public class GroupAssertTestHelper {
 
   public static final Function<Employee, String> lastNameFunction = employee -> employee.name.getLast();
   public static final Function<Employee, String> firstNameFunction = employee -> employee.name.first;
-  public static final ThrowingExtractor<Employee, String, Exception> throwingFirstNameExtractor = employee -> employee.name.first;
-  public static final ThrowingExtractor<Employee, String, Exception> throwingLastNameExtractor = employee -> employee.name.getLast();
+  public static final ThrowingExtractor<Employee, String> throwingFirstNameExtractor = employee -> employee.name.first;
+  public static final ThrowingExtractor<Employee, String> throwingLastNameExtractor = employee -> employee.name.getLast();
 
 }

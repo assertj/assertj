@@ -2202,13 +2202,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * Note that the order of extracted property/field values is consistent with the iteration order of the array under test.
    *
    * @param <V>         the type of elements to extract.
-   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param extractor   the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of extracted values
    * @since 3.7.0
    */
   @CheckReturnValue
-  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
+  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V> extractor) {
     List<V> values = FieldsOrPropertiesExtractor.extract(newArrayList(actual), extractor);
     return newListAssertInstance(values).withAssertionState(myself);
   }
@@ -2346,13 +2345,12 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    *
    * @param <V>         the type of elements to extract.
    * @param <C>         the type of collection to flat/extract.
-   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param extractor   the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.7.0
    */
   @CheckReturnValue
-  public <V, C extends Collection<V>, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(ThrowingExtractor<? super ELEMENT, C, EXCEPTION> extractor) {
+  public <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(ThrowingExtractor<? super ELEMENT, C> extractor) {
     return doFlatExtracting(extractor);
   }
 
