@@ -340,4 +340,11 @@ public final class DualValue {
     return !canonicalName.startsWith("java.lang");
   }
 
+  public boolean isActualAThrowable() {
+    return actual != null && actual instanceof Throwable;
+  }
+
+  public boolean isExpectedAThrowable() {
+    return expected != null && expected instanceof Throwable;
+  }
 }

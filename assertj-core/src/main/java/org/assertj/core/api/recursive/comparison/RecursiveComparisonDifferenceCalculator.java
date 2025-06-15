@@ -64,6 +64,7 @@ import org.assertj.core.internal.DeepDifference;
  */
 public class RecursiveComparisonDifferenceCalculator {
 
+  private static final String ACTUAL_FIELD_TYPE_DIFFERENT_FROM_EXPECTED_FIELD_TYPE = "actual field is a %s but expected field is not (%s)";
   private static final String DIFFERENT_ACTUAL_AND_EXPECTED_FIELD_TYPES = "expected field is %s but actual field is not (%s)";
   private static final String ACTUAL_IS_AN_ENUM_WHILE_EXPECTED_IS_NOT = "expected field is a %s but actual field is an enum";
   private static final String ACTUAL_NOT_ORDERED_COLLECTION = "expected field is an ordered collection but actual field is not (%s), ordered collections are: "
@@ -318,6 +319,11 @@ public class RecursiveComparisonDifferenceCalculator {
         compareAsEnums(dualValue, comparisonState, recursiveComparisonConfiguration);
         continue;
       }
+
+      if (dualValue.isActualAThrowable()) {
+        compareAsThrowables(dualValue, comparisonState);
+        continue;
+      }
       // TODO move hasFieldTypesDifference check into each compareXXX
 
       if (dualValue.isExpectedFieldAnArray()) {
@@ -485,6 +491,39 @@ public class RecursiveComparisonDifferenceCalculator {
     comparisonState.addDifference(dualValue, typeErrorMessage);
   }
 
+  @SuppressWarnings("DuplicateExpressions")
+  private static void compareAsThrowables(final DualValue dualValue, ComparisonState comparisonState) {
+    if (!dualValue.isExpectedAThrowable()) {
+      comparisonState.addDifference(dualValue, actualFieldTypeDifferentFromExpectedErrorMessage(dualValue));
+      return;
+    }
+    Throwable actual = (Throwable) dualValue.actual;
+    Throwable expected = (Throwable) dualValue.expected;
+    Class<? extends Throwable> actualClass = actual.getClass();
+    Class<? extends Throwable> expectedClass = expected.getClass();
+    if (comparisonState.recursiveComparisonConfiguration.isInStrictTypeCheckingMode()) {
+      if (!actualClass.equals(expectedClass)) {
+        comparisonState.addDifference(dualValue, differentTypeMessage(actualClass, expectedClass));
+        return;
+      }
+    }
+    if (!expectedClass.isAssignableFrom(actualClass)) {
+      comparisonState.addDifference(dualValue, differentTypeMessage(actualClass, expectedClass));
+      return;
+    }
+
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field("detailMessage"),
+                                                        actual.getMessage(), expected.getMessage()));
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field("cause"),
+                                                        actual.getCause(), expected.getCause()));
+    comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field("suppressed"),
+                                                        actual.getSuppressed(), expected.getSuppressed()));
+  }
+
+  private static String differentTypeMessage(Class<? extends Throwable> actualClass, Class<? extends Throwable> expectedClass) {
+    return "actual is a %s but expected is not (%s)".formatted(actualClass.getName(), expectedClass.getName());
+  }
+
   private static boolean shouldHonorEquals(DualValue dualValue,
                                            RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     // since java 17 we can't introspect java types and get their fields so by default we compare them with equals
@@ -587,9 +626,15 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
-  private static String differentTypeErrorMessage(DualValue dualValue, String actualTypeDescription) {
-    return DIFFERENT_ACTUAL_AND_EXPECTED_FIELD_TYPES.formatted(actualTypeDescription,
+  private static String differentTypeErrorMessage(DualValue dualValue, String expectedTypeDescription) {
+    return DIFFERENT_ACTUAL_AND_EXPECTED_FIELD_TYPES.formatted(expectedTypeDescription,
                                                                dualValue.actual.getClass().getCanonicalName());
+  }
+
+  private static String actualFieldTypeDifferentFromExpectedErrorMessage(DualValue dualValue) {
+    String actualType = dualValue.actual == null ? "" : dualValue.actual.getClass().getCanonicalName();
+    String expectedType = dualValue.expected == null ? "" : dualValue.expected.getClass().getCanonicalName();
+    return ACTUAL_FIELD_TYPE_DIFFERENT_FROM_EXPECTED_FIELD_TYPE.formatted(actualType, expectedType);
   }
 
   private static void compareUnorderedIterables(DualValue dualValue, ComparisonState comparisonState) {
