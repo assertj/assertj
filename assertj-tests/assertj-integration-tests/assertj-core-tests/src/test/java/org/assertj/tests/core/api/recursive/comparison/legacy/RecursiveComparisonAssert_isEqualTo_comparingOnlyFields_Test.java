@@ -308,8 +308,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithL
                      arguments(john, alice, array("name", "neighbour", "number"), "{number}"),
                      arguments(john, alice, array("neighbor"), "{neighbor}"),
                      arguments(john, alice, array("neighbour.neighbor.name"), "{neighbor in <neighbour.neighbor.name>}"),
-                     // TODO for https://github.com/assertj/assertj/issues/3354
-                     // arguments(sherlockHolmes, drWatson, array("friends.other"), "{other in <friends.other>}"),
+                     arguments(sherlockHolmes, drWatson, array("friends.other"), "{other in <friends.other>}"),
                      arguments(john, alice, array("neighbour.neighbour.name", "neighbour.neighbour.number"),
                                "{number in <neighbour.neighbour.number>}"));
   }
