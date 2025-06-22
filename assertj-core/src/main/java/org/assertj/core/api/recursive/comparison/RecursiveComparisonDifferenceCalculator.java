@@ -293,8 +293,8 @@ public class RecursiveComparisonDifferenceCalculator {
       if (actualFieldValue == expectedFieldValue) continue;
 
       if (recursiveComparisonConfiguration.isTreatingNullAndEmptyIterablesAsEqualEnabled()
-          && (actualFieldValue == null || dualValue.isActualFieldAnIterable())
-          && (expectedFieldValue == null || dualValue.isExpectedFieldAnIterable())
+          && (actualFieldValue == null || dualValue.isActualAnIterable())
+          && (expectedFieldValue == null || dualValue.isExpectedAnIterable())
           && isNullOrEmpty((Iterable<?>) dualValue.actual)
           && isNullOrEmpty((Iterable<?>) dualValue.expected)) {
         // we know one of the value is not null since actualFieldValue != expectedFieldValue and is an iterable
@@ -311,11 +311,7 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      if (dualValue.isExpectedAnEnum()) {
-        compareAsEnums(dualValue, comparisonState, recursiveComparisonConfiguration);
-        continue;
-      }
-      if (dualValue.isActualAnEnum()) {
+      if (dualValue.isActualAnEnum() || dualValue.isExpectedAnEnum()) {
         compareAsEnums(dualValue, comparisonState, recursiveComparisonConfiguration);
         continue;
       }
@@ -326,7 +322,7 @@ public class RecursiveComparisonDifferenceCalculator {
       }
       // TODO move hasFieldTypesDifference check into each compareXXX
 
-      if (dualValue.isExpectedFieldAnArray()) {
+      if (dualValue.isExpectedAnArray()) {
         if (recursiveComparisonConfiguration.shouldIgnoreArrayOrder()) {
           compareUnorderedArrays(dualValue, comparisonState);
         } else {
@@ -337,61 +333,61 @@ public class RecursiveComparisonDifferenceCalculator {
 
       // we compare ordered collections specifically as to be matching, each pair of elements at a given index must match.
       // concretely we compare: (col1[0] vs col2[0]), (col1[1] vs col2[1])...(col1[n] vs col2[n])
-      if (dualValue.isExpectedFieldAnOrderedCollection()
+      if (dualValue.isExpectedAnOrderedCollection()
           && !recursiveComparisonConfiguration.shouldIgnoreCollectionOrder(dualValue.fieldLocation)) {
         compareOrderedCollections(dualValue, comparisonState);
         continue;
       }
 
-      if (dualValue.isExpectedFieldAnIterable()) {
+      if (dualValue.isExpectedAnIterable()) {
         compareUnorderedIterables(dualValue, comparisonState);
         continue;
       }
 
-      if (dualValue.isExpectedFieldAnOptional()) {
+      if (dualValue.isExpectedAnOptional()) {
         compareOptional(dualValue, comparisonState);
         continue;
       }
 
       // Compare two SortedMaps taking advantage of the fact that these Maps can be compared in O(N) time due to their ordering
-      if (dualValue.isExpectedFieldASortedMap()) {
+      if (dualValue.isExpectedASortedMap()) {
         compareSortedMap(dualValue, comparisonState);
         continue;
       }
 
       // Compare two Unordered Maps. This is a slightly more expensive comparison because order cannot be assumed, therefore a
       // temporary Map must be created, however the comparison still runs in O(N) time.
-      if (dualValue.isExpectedFieldAMap()) {
+      if (dualValue.isExpectedAMap()) {
         compareUnorderedMap(dualValue, comparisonState);
         continue;
       }
 
       // compare Atomic types by value manually as they are container type and we can't use introspection in java 17+
-      if (dualValue.isExpectedFieldAnAtomicBoolean()) {
+      if (dualValue.isExpectedAnAtomicBoolean()) {
         compareAtomicBoolean(dualValue, comparisonState);
         continue;
       }
-      if (dualValue.isExpectedFieldAnAtomicInteger()) {
+      if (dualValue.isExpectedAnAtomicInteger()) {
         compareAtomicInteger(dualValue, comparisonState);
         continue;
       }
-      if (dualValue.isExpectedFieldAnAtomicIntegerArray()) {
+      if (dualValue.isExpectedAnAtomicIntegerArray()) {
         compareAtomicIntegerArray(dualValue, comparisonState);
         continue;
       }
-      if (dualValue.isExpectedFieldAnAtomicLong()) {
+      if (dualValue.isExpectedAnAtomicLong()) {
         compareAtomicLong(dualValue, comparisonState);
         continue;
       }
-      if (dualValue.isExpectedFieldAnAtomicLongArray()) {
+      if (dualValue.isExpectedAnAtomicLongArray()) {
         compareAtomicLongArray(dualValue, comparisonState);
         continue;
       }
-      if (dualValue.isExpectedFieldAnAtomicReference()) {
+      if (dualValue.isExpectedAnAtomicReference()) {
         compareAtomicReference(dualValue, comparisonState);
         continue;
       }
-      if (dualValue.isExpectedFieldAnAtomicReferenceArray()) {
+      if (dualValue.isExpectedAnAtomicReferenceArray()) {
         compareAtomicReferenceArray(dualValue, comparisonState);
         continue;
       }
@@ -543,7 +539,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareArrays(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnArray()) {
+    if (!dualValue.isActualAnArray()) {
       // at the moment we only allow comparing arrays with arrays, but we might allow comparing to collections later on
       // but only if we are not in strict type mode.
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an array"));
@@ -568,7 +564,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareUnorderedArrays(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnArray()) {
+    if (!dualValue.isActualAnArray()) {
       // at the moment we only allow comparing arrays with arrays, but we might allow comparing to collections later on
       // but only if we are not in strict type mode.
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an array"));
@@ -600,7 +596,7 @@ public class RecursiveComparisonDifferenceCalculator {
    * Deeply compare two Collections that must be same length and in same order.
    */
   private static void compareOrderedCollections(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnOrderedCollection()) {
+    if (!dualValue.isActualAnOrderedCollection()) {
       // at the moment if expected is an ordered collection then actual should also be one
       comparisonState.addDifference(dualValue,
                                     ACTUAL_NOT_ORDERED_COLLECTION.formatted(dualValue.actual.getClass().getCanonicalName()));
@@ -638,7 +634,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareUnorderedIterables(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnIterable()) {
+    if (!dualValue.isActualAnIterable()) {
       // at the moment we only compare iterable with iterables (but we might allow arrays too)
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an iterable"));
       return;
@@ -720,7 +716,7 @@ public class RecursiveComparisonDifferenceCalculator {
 
   // TODO replace by ordered map
   private static <K, V> void compareSortedMap(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldASortedMap()) {
+    if (!dualValue.isActualASortedMap()) {
       // at the moment we only compare iterable with iterables (but we might allow arrays too)
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "a sorted map"));
       return;
@@ -756,7 +752,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareUnorderedMap(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAMap()) {
+    if (!dualValue.isActualAMap()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "a map"));
       return;
     }
@@ -819,7 +815,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareOptional(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnOptional()) {
+    if (!dualValue.isActualAnOptional()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an Optional"));
       return;
     }
@@ -839,7 +835,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareAtomicBoolean(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnAtomicBoolean()) {
+    if (!dualValue.isActualAnAtomicBoolean()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicBoolean"));
       return;
     }
@@ -852,7 +848,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareAtomicInteger(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnAtomicInteger()) {
+    if (!dualValue.isActualAnAtomicInteger()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicInteger"));
       return;
     }
@@ -865,7 +861,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareAtomicIntegerArray(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnAtomicIntegerArray()) {
+    if (!dualValue.isActualAnAtomicIntegerArray()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicIntegerArray"));
       return;
     }
@@ -893,7 +889,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareAtomicLong(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnAtomicLong()) {
+    if (!dualValue.isActualAnAtomicLong()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicLong"));
       return;
     }
@@ -906,7 +902,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareAtomicLongArray(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnAtomicLongArray()) {
+    if (!dualValue.isActualAnAtomicLongArray()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicLongArray"));
       return;
     }
@@ -933,7 +929,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareAtomicReferenceArray(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnAtomicReferenceArray()) {
+    if (!dualValue.isActualAnAtomicReferenceArray()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicReferenceArray"));
       return;
     }
@@ -961,7 +957,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareAtomicReference(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualFieldAnAtomicReference()) {
+    if (!dualValue.isActualAnAtomicReference()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicReference"));
       return;
     }

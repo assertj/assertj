@@ -1036,8 +1036,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private boolean matchesAnIgnoredEmptyOptionalField(DualValue dualValue) {
-    return ignoreAllActualEmptyOptionalFields
-           && dualValue.isActualFieldAnEmptyOptionalOfAnyType();
+    return ignoreAllActualEmptyOptionalFields && dualValue.isActualAnEmptyOptionalOfAnyType();
   }
 
   private boolean matchesAnIgnoredFieldType(DualValue dualValue) {

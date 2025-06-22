@@ -131,142 +131,142 @@ public final class DualValue {
            || className.startsWith("com.sun.");
   }
 
-  public boolean isExpectedFieldAnArray() {
+  public boolean isExpectedAnArray() {
     return isArray(expected);
   }
 
-  public boolean isActualFieldAnArray() {
+  public boolean isActualAnArray() {
     return isArray(actual);
   }
 
-  public boolean isActualFieldAnOptional() {
+  public boolean isActualAnOptional() {
     return actual instanceof Optional;
   }
 
-  public boolean isActualFieldAnOptionalInt() {
+  public boolean isActualAnOptionalInt() {
     return actual instanceof OptionalInt;
   }
 
-  public boolean isActualFieldAnOptionalLong() {
+  public boolean isActualAnOptionalLong() {
     return actual instanceof OptionalLong;
   }
 
-  public boolean isActualFieldAnOptionalDouble() {
+  public boolean isActualAnOptionalDouble() {
     return actual instanceof OptionalDouble;
   }
 
-  public boolean isActualFieldAnEmptyOptionalOfAnyType() {
-    return isActualFieldAnEmptyOptional()
-           || isActualFieldAnEmptyOptionalInt()
-           || isActualFieldAnEmptyOptionalLong()
-           || isActualFieldAnEmptyOptionalDouble();
+  public boolean isActualAnEmptyOptionalOfAnyType() {
+    return isActualAnEmptyOptional()
+           || isActualAnEmptyOptionalInt()
+           || isActualAnEmptyOptionalLong()
+           || isActualAnEmptyOptionalDouble();
   }
 
-  private boolean isActualFieldAnEmptyOptional() {
-    return isActualFieldAnOptional() && ((Optional<?>) actual).isEmpty();
+  private boolean isActualAnEmptyOptional() {
+    return isActualAnOptional() && ((Optional<?>) actual).isEmpty();
   }
 
-  private boolean isActualFieldAnEmptyOptionalInt() {
-    return isActualFieldAnOptionalInt() && ((OptionalInt) actual).isEmpty();
+  private boolean isActualAnEmptyOptionalInt() {
+    return isActualAnOptionalInt() && ((OptionalInt) actual).isEmpty();
   }
 
-  private boolean isActualFieldAnEmptyOptionalLong() {
-    return isActualFieldAnOptionalLong() && ((OptionalLong) actual).isEmpty();
+  private boolean isActualAnEmptyOptionalLong() {
+    return isActualAnOptionalLong() && ((OptionalLong) actual).isEmpty();
   }
 
-  private boolean isActualFieldAnEmptyOptionalDouble() {
-    return isActualFieldAnOptionalDouble() && ((OptionalDouble) actual).isEmpty();
+  private boolean isActualAnEmptyOptionalDouble() {
+    return isActualAnOptionalDouble() && ((OptionalDouble) actual).isEmpty();
   }
 
-  public boolean isExpectedFieldAnOptional() {
+  public boolean isExpectedAnOptional() {
     return expected instanceof Optional;
   }
 
-  public boolean isExpectedFieldAnAtomicReference() {
+  public boolean isExpectedAnAtomicReference() {
     return expected instanceof AtomicReference;
   }
 
-  public boolean isActualFieldAnAtomicReference() {
+  public boolean isActualAnAtomicReference() {
     return actual instanceof AtomicReference;
   }
 
-  public boolean isExpectedFieldAnAtomicReferenceArray() {
+  public boolean isExpectedAnAtomicReferenceArray() {
     return expected instanceof AtomicReferenceArray;
   }
 
-  public boolean isActualFieldAnAtomicReferenceArray() {
+  public boolean isActualAnAtomicReferenceArray() {
     return actual instanceof AtomicReferenceArray;
   }
 
-  public boolean isExpectedFieldAnAtomicInteger() {
+  public boolean isExpectedAnAtomicInteger() {
     return expected instanceof AtomicInteger;
   }
 
-  public boolean isActualFieldAnAtomicInteger() {
+  public boolean isActualAnAtomicInteger() {
     return actual instanceof AtomicInteger;
   }
 
-  public boolean isExpectedFieldAnAtomicIntegerArray() {
+  public boolean isExpectedAnAtomicIntegerArray() {
     return expected instanceof AtomicIntegerArray;
   }
 
-  public boolean isActualFieldAnAtomicIntegerArray() {
+  public boolean isActualAnAtomicIntegerArray() {
     return actual instanceof AtomicIntegerArray;
   }
 
-  public boolean isExpectedFieldAnAtomicLong() {
+  public boolean isExpectedAnAtomicLong() {
     return expected instanceof AtomicLong;
   }
 
-  public boolean isActualFieldAnAtomicLong() {
+  public boolean isActualAnAtomicLong() {
     return actual instanceof AtomicLong;
   }
 
-  public boolean isExpectedFieldAnAtomicLongArray() {
+  public boolean isExpectedAnAtomicLongArray() {
     return expected instanceof AtomicLongArray;
   }
 
-  public boolean isActualFieldAnAtomicLongArray() {
+  public boolean isActualAnAtomicLongArray() {
     return actual instanceof AtomicLongArray;
   }
 
-  public boolean isExpectedFieldAnAtomicBoolean() {
+  public boolean isExpectedAnAtomicBoolean() {
     return expected instanceof AtomicBoolean;
   }
 
-  public boolean isActualFieldAnAtomicBoolean() {
+  public boolean isActualAnAtomicBoolean() {
     return actual instanceof AtomicBoolean;
   }
 
-  public boolean isActualFieldAMap() {
+  public boolean isActualAMap() {
     return actual instanceof Map;
   }
 
-  public boolean isExpectedFieldAMap() {
+  public boolean isExpectedAMap() {
     return expected instanceof Map;
   }
 
-  public boolean isActualFieldASortedMap() {
+  public boolean isActualASortedMap() {
     return actual instanceof SortedMap;
   }
 
-  public boolean isExpectedFieldASortedMap() {
+  public boolean isExpectedASortedMap() {
     return expected instanceof SortedMap;
   }
 
-  public boolean isActualFieldAnOrderedCollection() {
+  public boolean isActualAnOrderedCollection() {
     return isAnOrderedCollection(actual);
   }
 
-  public boolean isExpectedFieldAnOrderedCollection() {
+  public boolean isExpectedAnOrderedCollection() {
     return isAnOrderedCollection(expected);
   }
 
-  public boolean isActualFieldAnIterable() {
+  public boolean isActualAnIterable() {
     return isAnIterable(actual);
   }
 
-  public boolean isExpectedFieldAnIterable() {
+  public boolean isExpectedAnIterable() {
     return isAnIterable(expected);
   }
 
@@ -280,28 +280,12 @@ public final class DualValue {
     return value instanceof Iterable && !(value instanceof Path || isAJsonValueNode(value) || isAnObjectNode(value));
   }
 
-  private static boolean isAJsonValueNode(Object value) {
-    try {
-      Class<?> valueNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ValueNode");
-      return valueNodeClass.isInstance(value);
-    } catch (ClassNotFoundException e) {
-      // value cannot be a ValueNode because the class couldn't be located
-      return false;
-    }
+  public boolean isActualAThrowable() {
+    return actual != null && actual instanceof Throwable;
   }
 
-  private static boolean isAnObjectNode(Object value) {
-    try {
-      Class<?> objectNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ObjectNode");
-      return objectNodeClass.isInstance(value);
-    } catch (ClassNotFoundException e) {
-      // value cannot be an ObjectNode because the class couldn't be located
-      return false;
-    }
-  }
-
-  private static boolean isAnOrderedCollection(Object value) {
-    return Stream.of(DEFAULT_ORDERED_COLLECTION_TYPES).anyMatch(type -> type.isInstance(value));
+  public boolean isExpectedAThrowable() {
+    return expected != null && expected instanceof Throwable;
   }
 
   public boolean isExpectedAnEnum() {
@@ -328,6 +312,30 @@ public final class DualValue {
     return isPotentialCyclingValue(actual) && isPotentialCyclingValue(expected);
   }
 
+  private static boolean isAJsonValueNode(Object value) {
+    try {
+      Class<?> valueNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ValueNode");
+      return valueNodeClass.isInstance(value);
+    } catch (ClassNotFoundException e) {
+      // value cannot be a ValueNode because the class couldn't be located
+      return false;
+    }
+  }
+
+  private static boolean isAnObjectNode(Object value) {
+    try {
+      Class<?> objectNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ObjectNode");
+      return objectNodeClass.isInstance(value);
+    } catch (ClassNotFoundException e) {
+      // value cannot be an ObjectNode because the class couldn't be located
+      return false;
+    }
+  }
+
+  private static boolean isAnOrderedCollection(Object value) {
+    return Stream.of(DEFAULT_ORDERED_COLLECTION_TYPES).anyMatch(type -> type.isInstance(value));
+  }
+
   private static boolean isPotentialCyclingValue(Object object) {
     if (object == null) return false;
     // java.lang are base types that can't cycle to themselves or other types
@@ -338,13 +346,5 @@ public final class DualValue {
     // enums can refer back to other object but since they are constants it is very unlikely that they generate cycles.
     if (object.getClass().isEnum()) return false;
     return !canonicalName.startsWith("java.lang");
-  }
-
-  public boolean isActualAThrowable() {
-    return actual != null && actual instanceof Throwable;
-  }
-
-  public boolean isExpectedAThrowable() {
-    return expected != null && expected instanceof Throwable;
   }
 }
