@@ -251,7 +251,6 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     return myself;
   }
 
-
   /**
    * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #contains(Object)}).
    * <p>
