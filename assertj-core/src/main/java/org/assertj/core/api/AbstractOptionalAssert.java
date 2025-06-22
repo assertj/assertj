@@ -24,6 +24,7 @@ import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.assertj.core.annotations.Beta;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
@@ -31,7 +32,9 @@ import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.error.ShouldMatch;
 import org.assertj.core.internal.Failures;
+import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.util.CheckReturnValue;
 
 /**
@@ -43,6 +46,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Jean-Christophe Gay
  * @author Nicolai Parlog
  * @author Grzegorz Piwowarek
+ * @author JongJun Kim
  */
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
@@ -203,6 +207,50 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     conditions.assertIs(info, actual.get(), condition);
     return myself;
   }
+
+  /**
+   * Verifies that the value in the actual {@link java.util.Optional} matches the given predicate.
+   * <p>
+   * Assertion will pass :
+   * <pre><code class='java'> assertThat(Optional.of("something")).hasValueMatching(s -&gt; s.startsWith("some"));</code></pre>
+   *
+   * Assertion will fail :
+   * <pre><code class='java'> assertThat(Optional.of("something")).hasValueMatching(s -&gt; s.startsWith("else"));
+   * assertThat(Optional.empty()).hasValueMatching(s -&gt; true);</code></pre>
+   *
+   * @param predicate the predicate to match.
+   * @return this assertion object.
+   */
+  public SELF hasValueMatching(Predicate<? super VALUE> predicate) {
+    return hasValueMatching(predicate, PredicateDescription.GIVEN);
+  }
+
+  /**
+   * Verifies that the value in the actual {@link java.util.Optional} matches the given predicate.
+   * <p>
+   * Assertion will pass :
+   * <pre><code class='java'> assertThat(Optional.of("something")).hasValueMatching(s -&gt; s.startsWith("some"), "starts with 'some'");</code></pre>
+   *
+   * Assertion will fail :
+   * <pre><code class='java'> assertThat(Optional.of("something")).hasValueMatching(s -&gt; s.startsWith("else"), "starts with 'else'");
+   * assertThat(Optional.empty()).hasValueMatching(s -&gt; true, "any");</code></pre>
+   *
+   * @param predicate the predicate to match.
+   * @param description the description of the predicate.
+   * @return this assertion object.
+   */
+  public SELF hasValueMatching(Predicate<? super VALUE> predicate, String description) {
+    return hasValueMatching(predicate, new PredicateDescription(description));
+  }
+
+  private SELF hasValueMatching(Predicate<? super VALUE> predicate, PredicateDescription description) {
+    assertValueIsPresent();
+    if (!predicate.test(actual.get())) {
+      throwAssertionError(ShouldMatch.shouldMatch(actual.get(), predicate, description));
+    }
+    return myself;
+  }
+
 
   /**
    * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #contains(Object)}).
