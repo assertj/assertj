@@ -13,8 +13,8 @@
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
 import static java.util.Collections.singletonMap;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.tests.core.testkit.Maps.mapOf;
 import static org.assertj.tests.core.testkit.Maps.treeMapOf;
@@ -35,24 +35,24 @@ class DualValue_mapValues_Test {
 
   @ParameterizedTest
   @MethodSource("maps")
-  void isActualFieldAMap_should_return_true_when_actual_is_not_an_iterable(Object actual) {
+  void isActualAMap_should_return_true_when_actual_is_a_map(Object actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
-    boolean haveMapValues = dualValue.isActualFieldAMap();
+    boolean haveMapValues = dualValue.isActualAMap();
     // THEN
-    assertThat(haveMapValues).isTrue();
+    then(haveMapValues).isTrue();
   }
 
   @ParameterizedTest
   @MethodSource("maps")
-  void isExpectedFieldAMap_should_return_true_when_expected_is_not_an_iterable(Object expected) {
+  void isExpectedAMap_should_return_true_when_expected_is_a_map(Object expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
-    boolean haveMapValues = dualValue.isExpectedFieldAMap();
+    boolean haveMapValues = dualValue.isExpectedAMap();
     // THEN
-    assertThat(haveMapValues).isTrue();
+    then(haveMapValues).isTrue();
   }
 
   static Stream<Object> maps() {
@@ -65,24 +65,24 @@ class DualValue_mapValues_Test {
 
   @ParameterizedTest
   @MethodSource("nonMaps")
-  void isActualFieldAMap_should_return_false_when_actual_is_not_an_iterable(Object actual) {
+  void isActualAMap_should_return_false_when_actual_is_not_a_map(Object actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, singletonMap("a", "b"));
     // WHEN
-    boolean haveMapValues = dualValue.isActualFieldAMap();
+    boolean haveMapValues = dualValue.isActualAMap();
     // THEN
-    assertThat(haveMapValues).isFalse();
+    then(haveMapValues).isFalse();
   }
 
   @ParameterizedTest
   @MethodSource("nonMaps")
-  void isExpectedFieldAMap_should_return_false_when_expected_is_not_an_iterable(Object expected) {
+  void isExpectedAMap_should_return_false_when_expected_is_not_a_map(Object expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, singletonMap("a", "b"), expected);
     // WHEN
-    boolean haveMapValues = dualValue.isExpectedFieldAMap();
+    boolean haveMapValues = dualValue.isExpectedAMap();
     // THEN
-    assertThat(haveMapValues).isFalse();
+    then(haveMapValues).isFalse();
   }
 
   static Stream<Object> nonMaps() {

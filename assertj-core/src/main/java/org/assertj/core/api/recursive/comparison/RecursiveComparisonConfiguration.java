@@ -25,8 +25,10 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
@@ -1033,8 +1036,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private boolean matchesAnIgnoredEmptyOptionalField(DualValue dualValue) {
-    return ignoreAllActualEmptyOptionalFields
-           && dualValue.isActualFieldAnEmptyOptionalOfAnyType();
+    return ignoreAllActualEmptyOptionalFields && dualValue.isActualAnEmptyOptionalOfAnyType();
   }
 
   private boolean matchesAnIgnoredFieldType(DualValue dualValue) {
@@ -1223,8 +1225,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
         return Optional.empty();
       }
       if (isContainer(node)) {
-        // TODO: supported with https://github.com/assertj/assertj/issues/3354
-        return Optional.empty();
+        node = unwrapContainer(node);
+        continue;
       }
       String comparedFieldNodeNameElement = comparedFieldLocation.getDecomposedPath().get(nestingLevel);
       Set<String> nodeNames = introspectionStrategy.getChildrenNodeNamesOf(node);
@@ -1235,6 +1237,24 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
       nestingLevel++;
     }
     return Optional.empty();
+  }
+
+  private Object unwrapContainer(Object container) {
+    if (container instanceof Optional) {
+      return ((Optional<?>) container).orElse(null);
+    }
+    if (container instanceof AtomicReference) {
+      return ((AtomicReference<?>) container).get();
+    }
+    if (container instanceof Iterable) {
+      Iterator<?> iterator = ((Iterable<?>) container).iterator();
+      return iterator.hasNext() ? iterator.next() : null;
+    }
+    if (container.getClass().isArray()) {
+      return Array.getLength(container) > 0 ? Array.get(container, 0) : null;
+    }
+    // To handle other types that might be identified as true by isContainer in the future.
+    return null;
   }
 
   private static String formatUnknownComparedField(FieldLocation fieldLocation, String unknownNodeNameElement) {

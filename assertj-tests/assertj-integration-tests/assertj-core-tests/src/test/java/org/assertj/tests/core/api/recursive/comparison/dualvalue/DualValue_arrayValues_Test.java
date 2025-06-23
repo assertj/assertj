@@ -12,7 +12,7 @@
  */
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 
@@ -29,47 +29,47 @@ class DualValue_arrayValues_Test {
   private static final List<String> PATH = list("foo", "bar");
 
   @Test
-  void isActualFieldAnArray_should_return_true_when_actual_is_an_array() {
+  void isActualAnArray_should_return_true_when_actual_is_an_array() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, array("a", "b"), "");
     // WHEN
-    boolean actualFieldIsArray = dualValue.isActualFieldAnArray();
+    boolean actualIsAnArray = dualValue.isActualAnArray();
     // THEN
-    assertThat(actualFieldIsArray).isTrue();
+    then(actualIsAnArray).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isActualFieldAnArray_should_return_false_when_actual_is_not_an_array(String actual) {
+  void isActualAnArray_should_return_false_when_actual_is_not_an_array(String actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
-    boolean actualFieldIsArray = dualValue.isActualFieldAnArray();
+    boolean actualIsAnArray = dualValue.isActualAnArray();
     // THEN
-    assertThat(actualFieldIsArray).isFalse();
+    then(actualIsAnArray).isFalse();
   }
 
   @Test
-  void isExpectedFieldAnArray_should_return_true_when_expected_is_an_array() {
+  void isExpectedAnArray_should_return_true_when_expected_is_an_array() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", array("a", "b"));
     // WHEN
-    boolean expectedFieldIsArray = dualValue.isExpectedFieldAnArray();
+    boolean expectedIsAnArray = dualValue.isExpectedAnArray();
     // THEN
-    assertThat(expectedFieldIsArray).isTrue();
+    then(expectedIsAnArray).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isExpectedFieldAnArray_should_return_false_when_expected_is_not_an_array(String expected) {
+  void isExpectedAnArray_should_return_false_when_expected_is_not_an_array(String expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
-    boolean expectedFieldIsArray = dualValue.isExpectedFieldAnArray();
+    boolean expectedIsAnArray = dualValue.isExpectedAnArray();
     // THEN
-    assertThat(expectedFieldIsArray).isFalse();
+    then(expectedIsAnArray).isFalse();
   }
 
 }
