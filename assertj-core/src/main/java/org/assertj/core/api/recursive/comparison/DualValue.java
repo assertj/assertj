@@ -97,6 +97,7 @@ public final class DualValue {
   public String toString() {
     return "DualValue [fieldLocation=%s, actual=%s, expected=%s]".formatted(fieldLocation, actual, expected);
   }
+
   public String getExpectedTypeDescription() {
     return expected == null ? "" : expected.getClass().getCanonicalName();
   }
