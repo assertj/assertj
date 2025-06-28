@@ -316,7 +316,7 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      if (dualValue.isActualAThrowable()) {
+      if (dualValue.isExpectedAThrowable()) {
         compareAsThrowables(dualValue, comparisonState);
         continue;
       }
@@ -396,7 +396,7 @@ public class RecursiveComparisonDifferenceCalculator {
       if (shouldHonorJavaTypeEquals || shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration)) {
         if (!actualFieldValue.equals(expectedFieldValue)) {
           String description = shouldHonorJavaTypeEquals
-              ? "Compared objects have java types and were thus compared with equals method"
+              ? "Actual value is a java type and thus was compared to the expected value with its equals method"
               : "Compared objects were compared with equals method";
           comparisonState.addDifference(dualValue, description);
         }
@@ -489,7 +489,7 @@ public class RecursiveComparisonDifferenceCalculator {
 
   @SuppressWarnings("DuplicateExpressions")
   private static void compareAsThrowables(final DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isExpectedAThrowable()) {
+    if (!dualValue.isActualAThrowable()) {
       comparisonState.addDifference(dualValue, actualFieldTypeDifferentFromExpectedErrorMessage(dualValue));
       return;
     }
@@ -529,7 +529,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static boolean shouldHonorJavaTypeEquals(DualValue dualValue) {
-    return dualValue.hasSomeJavaTypeValue() && !dualValue.isExpectedAContainer();
+    return dualValue.isActualJavaType() && !dualValue.isExpectedAContainer();
   }
 
   private static boolean shouldHonorOverriddenEquals(DualValue dualValue,
