@@ -316,13 +316,19 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      if (dualValue.isActualAThrowable()) {
+      if (dualValue.isExpectedAThrowable()) {
         compareAsThrowables(dualValue, comparisonState);
         continue;
       }
       // TODO move hasFieldTypesDifference check into each compareXXX
 
       if (dualValue.isExpectedAnArray()) {
+        if (!dualValue.isActualAnArray()) {
+          // at the moment we only allow comparing arrays with arrays, but we might allow comparing to collections later on
+          // but only if we are not in strict type mode.
+          comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an array"));
+          continue;
+        }
         if (recursiveComparisonConfiguration.shouldIgnoreArrayOrder()) {
           compareUnorderedArrays(dualValue, comparisonState);
         } else {
@@ -396,7 +402,7 @@ public class RecursiveComparisonDifferenceCalculator {
       if (shouldHonorJavaTypeEquals || shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration)) {
         if (!actualFieldValue.equals(expectedFieldValue)) {
           String description = shouldHonorJavaTypeEquals
-              ? "Compared objects have java types and were thus compared with equals method"
+              ? "Actual value is a java type and thus was compared to the expected value with its equals method"
               : "Compared objects were compared with equals method";
           comparisonState.addDifference(dualValue, description);
         }
@@ -407,7 +413,8 @@ public class RecursiveComparisonDifferenceCalculator {
       Class<?> expectedFieldClass = expectedFieldValue.getClass();
       if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode() && expectedTypeIsNotSubtypeOfActualType(dualValue)) {
         comparisonState.addDifference(dualValue,
-                                      STRICT_TYPE_ERROR.formatted(expectedFieldClass.getName(), actualFieldValueClass.getName()));
+                                      STRICT_TYPE_ERROR.formatted(dualValue.getExpectedTypeDescription(),
+                                                                  dualValue.getActualTypeDescription()));
         continue;
       }
 
@@ -421,8 +428,8 @@ public class RecursiveComparisonDifferenceCalculator {
         Set<String> actualNodesNamesNotInExpected = newHashSet(actualChildrenNodeNamesToCompare);
         actualNodesNamesNotInExpected.removeAll(expectedChildrenNodesNames);
         String missingNodes = actualNodesNamesNotInExpected.toString();
-        String missingNodesDescription = MISSING_FIELDS.formatted(actualFieldValueClass.getName(),
-                                                                  expectedFieldClass.getName(),
+        String missingNodesDescription = MISSING_FIELDS.formatted(dualValue.getActualTypeDescription(),
+                                                                  dualValue.getExpectedTypeDescription(),
                                                                   expectedFieldClass.getSimpleName(),
                                                                   actualFieldValueClass.getSimpleName(),
                                                                   missingNodes);
@@ -483,13 +490,13 @@ public class RecursiveComparisonDifferenceCalculator {
   private static void enumComparedToDifferentTypeError(DualValue dualValue, ComparisonState comparisonState) {
     String typeErrorMessage = dualValue.isExpectedAnEnum()
         ? differentTypeErrorMessage(dualValue, "an enum")
-        : ACTUAL_IS_AN_ENUM_WHILE_EXPECTED_IS_NOT.formatted(dualValue.expected.getClass().getCanonicalName());
+        : ACTUAL_IS_AN_ENUM_WHILE_EXPECTED_IS_NOT.formatted(dualValue.getExpectedTypeDescription());
     comparisonState.addDifference(dualValue, typeErrorMessage);
   }
 
   @SuppressWarnings("DuplicateExpressions")
   private static void compareAsThrowables(final DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isExpectedAThrowable()) {
+    if (!dualValue.isActualAThrowable()) {
       comparisonState.addDifference(dualValue, actualFieldTypeDifferentFromExpectedErrorMessage(dualValue));
       return;
     }
@@ -529,7 +536,7 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static boolean shouldHonorJavaTypeEquals(DualValue dualValue) {
-    return dualValue.hasSomeJavaTypeValue() && !dualValue.isExpectedAContainer();
+    return dualValue.isActualJavaType() && !dualValue.isExpectedAContainer();
   }
 
   private static boolean shouldHonorOverriddenEquals(DualValue dualValue,
@@ -539,13 +546,6 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareArrays(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualAnArray()) {
-      // at the moment we only allow comparing arrays with arrays, but we might allow comparing to collections later on
-      // but only if we are not in strict type mode.
-      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an array"));
-      return;
-    }
-    // both values in dualValue are arrays
     int actualArrayLength = Array.getLength(dualValue.actual);
     int expectedArrayLength = Array.getLength(dualValue.expected);
     if (actualArrayLength != expectedArrayLength) {
@@ -564,13 +564,6 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static void compareUnorderedArrays(DualValue dualValue, ComparisonState comparisonState) {
-    if (!dualValue.isActualAnArray()) {
-      // at the moment we only allow comparing arrays with arrays, but we might allow comparing to collections later on
-      // but only if we are not in strict type mode.
-      comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an array"));
-      return;
-    }
-    // both values in dualValue are arrays
     int actualArrayLength = Array.getLength(dualValue.actual);
     int expectedArrayLength = Array.getLength(dualValue.expected);
     if (actualArrayLength != expectedArrayLength) {
@@ -598,8 +591,7 @@ public class RecursiveComparisonDifferenceCalculator {
   private static void compareOrderedCollections(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnOrderedCollection()) {
       // at the moment if expected is an ordered collection then actual should also be one
-      comparisonState.addDifference(dualValue,
-                                    ACTUAL_NOT_ORDERED_COLLECTION.formatted(dualValue.actual.getClass().getCanonicalName()));
+      comparisonState.addDifference(dualValue, ACTUAL_NOT_ORDERED_COLLECTION.formatted(dualValue.getActualTypeDescription()));
       return;
     }
 
@@ -623,14 +615,12 @@ public class RecursiveComparisonDifferenceCalculator {
   }
 
   private static String differentTypeErrorMessage(DualValue dualValue, String expectedTypeDescription) {
-    return DIFFERENT_ACTUAL_AND_EXPECTED_FIELD_TYPES.formatted(expectedTypeDescription,
-                                                               dualValue.actual.getClass().getCanonicalName());
+    return DIFFERENT_ACTUAL_AND_EXPECTED_FIELD_TYPES.formatted(expectedTypeDescription, dualValue.getActualTypeDescription());
   }
 
   private static String actualFieldTypeDifferentFromExpectedErrorMessage(DualValue dualValue) {
-    String actualType = dualValue.actual == null ? "" : dualValue.actual.getClass().getCanonicalName();
-    String expectedType = dualValue.expected == null ? "" : dualValue.expected.getClass().getCanonicalName();
-    return ACTUAL_FIELD_TYPE_DIFFERENT_FROM_EXPECTED_FIELD_TYPE.formatted(actualType, expectedType);
+    return ACTUAL_FIELD_TYPE_DIFFERENT_FROM_EXPECTED_FIELD_TYPE.formatted(dualValue.getActualTypeDescription(),
+                                                                          dualValue.getExpectedTypeDescription());
   }
 
   private static void compareUnorderedIterables(DualValue dualValue, ComparisonState comparisonState) {

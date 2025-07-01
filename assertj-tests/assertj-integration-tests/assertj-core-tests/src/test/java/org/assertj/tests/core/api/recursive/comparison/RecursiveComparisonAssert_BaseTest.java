@@ -54,12 +54,12 @@ public class RecursiveComparisonAssert_BaseTest {
 
   public static ComparisonDifference javaTypeDiff(String path, Object actual, Object other) {
     return RecursiveComparisonAssert_BaseTest.diff(path, actual, other,
-                                                   "Compared objects have java types and were thus compared with equals method");
+                                                   "Actual value is a java type and thus was compared to the expected value with its equals method");
   }
 
   public static ComparisonDifference javaTypeDiff(List<String> path, Object actual, Object other) {
     return RecursiveComparisonAssert_BaseTest.diff(path, actual, other,
-                                                   "Compared objects have java types and were thus compared with equals method");
+                                                   "Actual value is a java type and thus was compared to the expected value with its equals method");
   }
 
   public void compareRecursivelyFailsWithDifferences(Object actual, Object expected, ComparisonDifference... differences) {

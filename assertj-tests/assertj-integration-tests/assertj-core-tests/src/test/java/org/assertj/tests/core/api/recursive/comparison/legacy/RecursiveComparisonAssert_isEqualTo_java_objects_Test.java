@@ -31,6 +31,6 @@ class RecursiveComparisonAssert_isEqualTo_java_objects_Test extends WithLegacyIn
     AssertionError assertionError = expectAssertionError(() -> assertThat(statisticsActual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                            .isEqualTo(statisticsExpected));
     // THEN
-    then(assertionError).hasMessageContaining("Compared objects have java types and were thus compared with equals method");
+    then(assertionError).hasMessageContaining("Actual value is a java type and thus was compared to the expected value with its equals method");
   }
 }

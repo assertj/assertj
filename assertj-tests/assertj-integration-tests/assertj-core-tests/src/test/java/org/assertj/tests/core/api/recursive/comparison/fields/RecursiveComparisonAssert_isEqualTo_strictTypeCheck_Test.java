@@ -124,13 +124,12 @@ class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
     // GIVEN
     Something withA = new Something(new A(10));
     Something withB = new Something(new B(10));
-
     recursiveComparisonConfiguration.strictTypeChecking(true);
 
     // WHEN/THEN
     // inner comparison fails as the fields have different types
     ComparisonDifference valueDifference = diff("inner", withA.inner, withB.inner,
-                                                "the fields are considered different since the comparison enforces strict type check and org.assertj.tests.core.api.recursive.comparison.fields.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test$B is not a subtype of org.assertj.tests.core.api.recursive.comparison.fields.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test$A");
+                                                "the fields are considered different since the comparison enforces strict type check and org.assertj.tests.core.api.recursive.comparison.fields.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test.B is not a subtype of org.assertj.tests.core.api.recursive.comparison.fields.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test.A");
     compareRecursivelyFailsWithDifferences(withA, withB, valueDifference);
   }
 
