@@ -107,7 +107,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
                                           .usingRecursiveComparison(recursiveComparisonConfiguration)
                                           .getRecursiveComparisonConfiguration();
     // THEN
-    then(configuration.getTypeComparators().comparatorByTypes()).contains(entry(String.class, ALWAYS_EQUALS_STRING));
+    then(configuration.comparatorByTypes()).anyMatch(e -> e.getKey().actual() == String.class && e.getKey().expected() == null
+                                                          && e.getValue() == ALWAYS_EQUALS_STRING);
   }
 
   @Test

@@ -18,6 +18,7 @@ import static org.assertj.core.api.BDDAssertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.DualClass.dualClass;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
@@ -107,7 +108,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
                                           .usingRecursiveComparison(recursiveComparisonConfiguration)
                                           .getRecursiveComparisonConfiguration();
     // THEN
-    then(configuration.getTypeComparators().comparatorByTypes()).contains(entry(String.class, ALWAYS_EQUALS_STRING));
+    then(configuration.comparatorByTypes()).contains(entry(dualClass(String.class, null), ALWAYS_EQUALS_STRING));
+
   }
 
   @Test

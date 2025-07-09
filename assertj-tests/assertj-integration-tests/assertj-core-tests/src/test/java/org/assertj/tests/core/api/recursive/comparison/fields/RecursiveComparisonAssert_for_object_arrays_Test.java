@@ -15,6 +15,7 @@ package org.assertj.tests.core.api.recursive.comparison.fields;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.DualClass.dualClass;
 import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 
 import org.assertj.tests.core.api.recursive.data.Person;
@@ -42,7 +43,7 @@ class RecursiveComparisonAssert_for_object_arrays_Test extends WithComparingFiel
                                                  .usingRecursiveComparison(recursiveComparisonConfiguration)
                                                  .getRecursiveComparisonConfiguration();
     // THEN
-    assertThat(currentConfiguration.getTypeComparators().comparatorByTypes()).contains(entry(String.class, ALWAYS_EQUALS_STRING));
+    then(currentConfiguration.comparatorByTypes()).contains(entry(dualClass(String.class, null), ALWAYS_EQUALS_STRING));
   }
 
 }

@@ -12,11 +12,11 @@
  */
 package org.assertj.tests.core.api.recursive.comparison.fields;
 
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
+import static org.assertj.core.util.DualClass.dualClass;
 import static org.assertj.tests.core.testkit.AlwaysDifferentComparator.alwaysDifferent;
 import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TIMESTAMP;
@@ -25,10 +25,7 @@ import static org.assertj.tests.core.testkit.BiPredicates.DOUBLE_EQUALS;
 import static org.assertj.tests.core.testkit.BiPredicates.STRING_EQUALS;
 
 import java.sql.Timestamp;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
-import java.util.Map.Entry;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -49,7 +46,7 @@ class RecursiveComparisonAssert_fluent_API_Test extends WithComparingFieldsIntro
                                           .getRecursiveComparisonConfiguration();
     // THEN
     then(configuration.isInStrictTypeCheckingMode()).isFalse();
-    List<Entry<Class<?>, Comparator<?>>> defaultComparators = defaultTypeComparators().comparatorByTypes().collect(toList());
+    var defaultComparators = defaultTypeComparators().comparatorByTypes().toList();
     then(configuration.getTypeComparators().comparatorByTypes()).containsExactlyElementsOf(defaultComparators);
     then(configuration.comparatorByFields()).isEmpty();
     then(configuration.getIgnoreAllActualNullFields()).isFalse();
@@ -294,10 +291,10 @@ class RecursiveComparisonAssert_fluent_API_Test extends WithComparingFieldsIntro
                                                  .withEqualsForType((o1, o2) -> true, type3)
                                                  .getRecursiveComparisonConfiguration();
     // THEN
-    then(currentConfiguration.getTypeComparators().comparatorByTypes()).contains(entry(type1, ALWAYS_EQUALS_STRING),
-                                                                                 entry(type2, ALWAYS_EQUALS_TIMESTAMP));
-    then(currentConfiguration.getTypeComparators().comparatorByTypes()).anyMatch(entry -> entry.getKey().equals(type3)
-                                                                                          && entry.getValue() != null);
+    then(currentConfiguration.comparatorByTypes()).contains(entry(dualClass(type1, null), ALWAYS_EQUALS_STRING),
+                                                            entry(dualClass(type2, null), ALWAYS_EQUALS_TIMESTAMP))
+                                                  .anyMatch(entry -> entry.getKey().actual().equals(type3)
+                                                                     && entry.getValue() != null);
   }
 
   @Test
@@ -334,8 +331,8 @@ class RecursiveComparisonAssert_fluent_API_Test extends WithComparingFieldsIntro
                                                  .withEqualsForType((o1, o2) -> false, type2)
                                                  .getRecursiveComparisonConfiguration();
     // THEN
-    then(currentConfiguration.getComparatorForType(type1)).isSameAs(alwaysDifferentComparator);
-    then(currentConfiguration.getComparatorForType(type2)).isNotSameAs(alwaysEqualComparator);
+    then(currentConfiguration.getComparatorForDualType(type1)).isSameAs(alwaysDifferentComparator);
+    then(currentConfiguration.getComparatorForDualType(type2)).isNotSameAs(alwaysEqualComparator);
   }
 
 }
