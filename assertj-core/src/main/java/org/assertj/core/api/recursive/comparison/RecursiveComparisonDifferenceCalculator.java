@@ -140,48 +140,15 @@ public class RecursiveComparisonDifferenceCalculator {
       dualValuesToCompare.addFirst(dualValue);
     }
 
-    private void initDualValuesToCompare(Object actual, Object expected, FieldLocation nodeLocation) {
-      // before anything are these values to be compared at all?
-      DualValue dualValue = new DualValue(nodeLocation, actual, expected);
-      if (recursiveComparisonConfiguration.shouldNotEvaluate(dualValue)) return;
-      boolean mustCompareNodesRecursively = mustCompareNodesRecursively(dualValue);
-      if (dualValue.hasNoNullValues() && mustCompareNodesRecursively) {
-        // disregard the equals method and start comparing fields
-        if (recursiveComparisonConfiguration.someComparedFieldsWereSpecified() && dualValue.fieldLocation.isRoot()) {
-          // We must check compared fields existence only once and at the root level, if we don't as we use the recursive
-          // comparison to compare unordered collection elements, we would check the compared fields at the wrong level.
-          recursiveComparisonConfiguration.checkComparedFieldsExist(actual);
-        }
-        // TODO should fail if actual and expected don't have the same fields (taking into account ignored/compared fields)
-        Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
-        if (!actualChildrenNodeNamesToCompare.isEmpty()) {
-          // fields to ignore are evaluated when adding their corresponding dualValues to dualValuesToCompare which filters
-          // ignored fields according to recursiveComparisonConfiguration
-          Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(expected);
-          if (expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
-            // we compare actual fields vs expected, ignoring expected additional fields
-            for (String actualChildNodeName : actualChildrenNodeNamesToCompare) {
-              Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, actual);
-              Object expectedChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, expected);
-              DualValue childNodeDualValue = new DualValue(nodeLocation.field(actualChildNodeName), actualChildNodeValue,
-                                                           expectedChildNodeValue);
-              registerForComparison(childNodeDualValue);
-            }
-          } else {
-            registerForComparison(dualValue);
-          }
-        } else {
-          registerForComparison(dualValue);
-        }
-      } else {
-        registerForComparison(dualValue);
+    private void initDualValuesToCompare(Object actual, Object expected, FieldLocation fieldLocation) {
+      // We must check compared fields existence only once and at the root level, if we don't as we use the recursive
+      // comparison to compare unordered collection elements, we would check the compared fields at the wrong level.
+      if (fieldLocation.isRoot() && recursiveComparisonConfiguration.someComparedFieldsWereSpecified()) {
+        recursiveComparisonConfiguration.checkComparedFieldsExist(actual);
       }
-    }
-
-    private boolean mustCompareNodesRecursively(DualValue dualValue) {
-      return !recursiveComparisonConfiguration.hasCustomComparator(dualValue)
-             && !shouldHonorEquals(dualValue, recursiveComparisonConfiguration)
-             && dualValue.hasNoContainerValues();
+      DualValue dualValue = new DualValue(fieldLocation, actual, expected);
+      if (recursiveComparisonConfiguration.shouldNotEvaluate(dualValue)) return;
+      registerForComparison(dualValue);
     }
 
     private String getCustomErrorMessage(DualValue dualValue) {
@@ -217,8 +184,8 @@ public class RecursiveComparisonDifferenceCalculator {
    * will call the customized .equals() method if it exists.
    * <p>
    * This method handles cycles correctly, for example A-&gt;B-&gt;C-&gt;A.
-   * Suppose a and a' are two separate instances of the A with the same values
-   * for all fields on A, B, and C. Then a.deepEquals(a') will return an empty list. It
+   * Suppose a1 and a2 are two separate instances of the A with the same values
+   * for all fields on A, B, and C. Then a1.deepEquals(a2) will return an empty list. It
    * uses cycle detection storing visited objects in a Set to prevent endless
    * loops.
    *
@@ -226,7 +193,7 @@ public class RecursiveComparisonDifferenceCalculator {
    * @param expected                         Object two to compare
    * @param recursiveComparisonConfiguration the recursive comparison configuration
    * @return the list of differences found or an empty list if objects are equivalent.
-   * Equivalent means that all field values of both subgraphs are the same,
+   * Equivalent means that all field values of both sub-graphs are the same,
    * either at the field level or via the respectively encountered overridden
    * .equals() methods during traversal.
    */
@@ -365,7 +332,7 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      // compare Atomic types by value manually as they are container type and we can't use introspection in java 17+
+      // compare Atomic types by value manually as they are container type, and we can't use introspection in java 17+
       if (dualValue.isExpectedAnAtomicBoolean()) {
         compareAtomicBoolean(dualValue, comparisonState);
         continue;
@@ -494,7 +461,7 @@ public class RecursiveComparisonDifferenceCalculator {
       return;
     }
     if (!recursiveComparisonConfiguration.isComparingEnumAgainstStringAllowed()) {
-      // either actual or expected is not an enum, not ok as we haven't allowed comparing enums to strings fields
+      // either actual or expected is not an enum, not ok as we haven't allowed comparing enums to string fields
       enumComparedToDifferentTypeError(dualValue, comparisonState);
       return;
     }
@@ -519,7 +486,6 @@ public class RecursiveComparisonDifferenceCalculator {
     comparisonState.addDifference(dualValue, typeErrorMessage);
   }
 
-  @SuppressWarnings("DuplicateExpressions")
   private static void compareAsThrowables(final DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAThrowable()) {
       comparisonState.addDifference(dualValue, actualFieldTypeDifferentFromExpectedErrorMessage(dualValue));
@@ -550,24 +516,6 @@ public class RecursiveComparisonDifferenceCalculator {
 
   private static String differentTypeMessage(Class<? extends Throwable> actualClass, Class<? extends Throwable> expectedClass) {
     return "actual is a %s but expected is not (%s)".formatted(actualClass.getName(), expectedClass.getName());
-  }
-
-  private static boolean shouldHonorEquals(DualValue dualValue,
-                                           RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    // since java 17 we can't introspect java types and get their fields so by default we compare them with equals
-    // unless for some container like java types: iterables, array, optional, atomic values where we take the contained values
-    // through accessors and register them in the recursive comparison.
-    return shouldHonorJavaTypeEquals(dualValue) || shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration);
-  }
-
-  private static boolean shouldHonorJavaTypeEquals(DualValue dualValue) {
-    return dualValue.isActualJavaType() && !dualValue.isExpectedAContainer();
-  }
-
-  private static boolean shouldHonorOverriddenEquals(DualValue dualValue,
-                                                     RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    boolean shouldHonorOverriddenEquals = !recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);
-    return shouldHonorOverriddenEquals && dualValue.actual != null && hasOverriddenEquals(dualValue.actual.getClass());
   }
 
   private static void compareArrays(DualValue dualValue, ComparisonState comparisonState) {
@@ -784,6 +732,7 @@ public class RecursiveComparisonDifferenceCalculator {
     }
     // actual and expected maps same size but do they have the same keys?
     Set<?> expectedKeysNotFound = new LinkedHashSet<>(expectedMap.keySet());
+    // noinspection SuspiciousMethodCalls
     expectedKeysNotFound.removeAll(actualMap.keySet());
     if (!expectedKeysNotFound.isEmpty()) {
       comparisonState.addDifference(dualValue,
@@ -875,6 +824,7 @@ public class RecursiveComparisonDifferenceCalculator {
     comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
   }
 
+  @SuppressWarnings("DuplicatedCode")
   private static void compareAtomicIntegerArray(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnAtomicIntegerArray()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicIntegerArray"));
@@ -916,6 +866,7 @@ public class RecursiveComparisonDifferenceCalculator {
     comparisonState.registerForComparison(new DualValue(dualValue.fieldLocation.field(VALUE_FIELD_NAME), value1, value2));
   }
 
+  @SuppressWarnings("DuplicatedCode")
   private static void compareAtomicLongArray(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnAtomicLongArray()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicLongArray"));
@@ -943,6 +894,7 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
+  @SuppressWarnings("DuplicatedCode")
   private static void compareAtomicReferenceArray(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAnAtomicReferenceArray()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "an AtomicReferenceArray"));
@@ -991,8 +943,9 @@ public class RecursiveComparisonDifferenceCalculator {
    *
    * @param c Class to check.
    * @return true, if the passed in Class has a .equals() method somewhere
-   * between itself and just below Object in it's inheritance.
+   * between itself and just below Object in its inheritance.
    */
+  @SuppressWarnings("DuplicatedCode")
   static boolean hasOverriddenEquals(Class<?> c) {
     if (customEquals.containsKey(c)) {
       return customEquals.get(c);
