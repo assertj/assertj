@@ -332,7 +332,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return comparedFields;
   }
 
-  boolean someComparedFieldsHaveBeenSpecified() {
+  boolean someComparedFieldsWereSpecified() {
     return !comparedFields.isEmpty();
   }
 
@@ -812,7 +812,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public boolean shouldNotEvaluate(DualValue dualValue) {
     // if we have some compared types, we can't discard any values since they could have fields we need to compare.
-    if (!comparedTypes.isEmpty()) return false;
+    if (hasComparedTypes()) return false;
     return shouldIgnore(dualValue);
   }
 
@@ -823,10 +823,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private boolean shouldBeCompared(DualValue dualValue) {
-    // no comparedFields and comparedTypes <=> no restriction on compared fields => everything must be compared
+    // no comparedFields nor comparedTypes <=> no restriction on compared fields => everything must be compared
     if (comparedFields.isEmpty() && comparedTypes.isEmpty()) return true;
     // if we have compared types, we can't ignore any values since they could have fields of types to compare
-    if (!comparedTypes.isEmpty()) return true;
+    if (hasComparedTypes()) return true;
     return comparedFields.stream().anyMatch(matchesComparedField(dualValue.fieldLocation));
   }
 
@@ -843,10 +843,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public Set<String> getActualChildrenNodeNamesToCompare(DualValue dualValue) {
     Set<String> actualChildrenNodeNames = getChildrenNodeNamesOf(dualValue.actual);
-    // if we have some compared types, we can't discard any nodes since they could have fields we need to compare.
+    // if we have some compared types, we can't discard any fields since they could have fields we need to compare.
     // we could evaluate the whole graphs to figure that but that would be bad performance wise so add everything
     // and exclude later on any differences that were on fields not to compare
-    if (!comparedTypes.isEmpty()) {
+    if (hasComparedTypes()) {
       registerFieldLocationOfFieldsOfTypesToCompare(dualValue);
       return actualChildrenNodeNames;
     }
@@ -921,12 +921,18 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     if (dualValue.isActualJavaType()) return false;
     // enums don't have fields, comparing them field by field makes no sense; we need to use equals, which is overridden and final
     if (dualValue.isActualAnEnum()) return false;
-    // if there are some compared fields, we must only honor overridden equals on them, if the value is not a compared
-    // field then we treat as usual and ignore its equals method and introspects it
-    if (someComparedFieldsHaveBeenSpecified() && !exactlyMatchesAnyComparedFields(dualValue)) return true;
-    return ignoreAllOverriddenEquals
-           || matchesAnIgnoredOverriddenEqualsField(dualValue)
-           || (dualValue.actual != null && shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass()));
+    return !shouldHonorOverriddenEquals(dualValue);
+  }
+
+  public boolean shouldHonorOverriddenEquals(DualValue dualValue) {
+    // we must only honor overridden equals on compared fields if any, we need to introspect recursively non compared
+    // fields in case a direct or indirect child is a compared field
+    if (someComparedFieldsWereSpecified() && isNotAComparedField(dualValue)) {
+      return false;
+    }
+    return !ignoreAllOverriddenEquals
+           && !matchesAnIgnoredOverriddenEqualsField(dualValue)
+           && !shouldIgnoreOverriddenEqualsOf(dualValue.actual.getClass());
   }
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
@@ -951,7 +957,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
   }
 
   private void describeComparedTypes(StringBuilder description) {
-    if (!comparedTypes.isEmpty())
+    if (hasComparedTypes())
       description.append("- the comparison was performed on any fields with types: %s%n".formatted(describeComparedTypes()));
   }
 
@@ -1072,7 +1078,7 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return ignoredOverriddenEqualsForTypes.contains(clazz);
   }
 
-  private boolean matchesAnIgnoredOverriddenEqualsField(DualValue dualValue) {
+  boolean matchesAnIgnoredOverriddenEqualsField(DualValue dualValue) {
     FieldLocation fieldLocation = dualValue.fieldLocation;
     return ignoredOverriddenEqualsForFields.stream().anyMatch(fieldLocation::exactlyMatches)
            || matchesAnIgnoredOverriddenEqualsRegex(fieldLocation);
@@ -1337,8 +1343,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
     return valueToCheck != null && comparedTypes.contains(valueToCheck.getClass());
   }
 
-  boolean exactlyMatchesAnyComparedFields(DualValue dualValue) {
-    return comparedFields.stream().anyMatch(comparedField -> comparedField.exactlyMatches(dualValue.fieldLocation));
+  boolean isNotAComparedField(DualValue dualValue) {
+    return comparedFields.stream().noneMatch(comparedField -> comparedField.exactlyMatches(dualValue.fieldLocation));
   }
 
   /**

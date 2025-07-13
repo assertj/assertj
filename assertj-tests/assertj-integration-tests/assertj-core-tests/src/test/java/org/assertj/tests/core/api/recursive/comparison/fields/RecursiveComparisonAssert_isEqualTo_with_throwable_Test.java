@@ -71,7 +71,7 @@ class RecursiveComparisonAssert_isEqualTo_with_throwable_Test extends WithCompar
     var expected = new Person("Tom");
     // WHEN/THEN
     ComparisonDifference difference = diff("", actual, expected,
-                                           "Actual value is a java type and thus was compared to the expected value with its equals method");
+                                           "Actual was compared to expected with equals because it is a java type (java.lang.Throwable) and expected is not (org.assertj.tests.core.api.recursive.data.Person)");
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 

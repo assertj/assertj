@@ -181,11 +181,52 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithComparingFi
     Map<String, Item> actualItems = mapOf(entry("Pants", new Item("Pants", 3)), entry("Hat", new Item("Hat", 1)));
     registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                      .isEqualTo(expectedItems));
+    var assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                           .isEqualTo(expectedItems));
     // THEN
     then(assertionError).hasMessageContaining(format("The following keys were not found in the actual map value:%n" +
                                                      "  [\"Shoes\"]"));
+  }
+
+  // @Test
+  // public void should_not_compare_data_object_with_map_by_default() {
+  // // GIVEN
+  // Data actual = new Data("Tom", 27);
+  // Map<String, Object> expected = Map.of("name", "Foo", "age", 27);
+  // // WHEN
+  // var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+  // .isEqualTo(expected));
+  // // THEN
+  // then(assertionError).hasMessageContaining("expected field is a map but actual field is not
+  // (org.assertj.tests.core.api.recursive.comparison.fields.RecursiveComparisonAssert_isEqualTo_with_maps_Test.Data)");
+  // }
+  //
+  // @Test
+  // public void should_not_compare_map_with_data_object_by_default() {
+  // // GIVEN
+  // Map<String, Object> actual = Map.of("name", "Foo", "age", 27);
+  // Data expected = new Data("Tom", 27);
+  // // WHEN
+  // var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+  // .isEqualTo(expected));
+  // // THEN
+  // then(assertionError).hasMessageContaining("expected field is a map but actual field is not
+  // (org.assertj.tests.core.api.recursive.comparison.fields.RecursiveComparisonAssert_isEqualTo_with_maps_Test.Data)");
+  // }
+  //
+  // @ParameterizedTest
+  // @MethodSource
+  // void should_treat_map_as_a_data_object(Object actual, Object expected) {
+  // assertThat(actual).usingRecursiveComparison()
+  // .isEqualTo(expected);
+  // }
+  //
+  // static Stream<Arguments> should_treat_map_as_a_data_object() {
+  // return Stream.of(arguments(new Data("Tom", 27), Map.of("name", "Foo", "age", 27)),
+  // arguments(new WithObject(new Data("Tom", 27)), new WithObject(Map.of("name", "Foo", "age", 27))));
+  // }
+
+  record Data(String name, int age) {
   }
 
 }

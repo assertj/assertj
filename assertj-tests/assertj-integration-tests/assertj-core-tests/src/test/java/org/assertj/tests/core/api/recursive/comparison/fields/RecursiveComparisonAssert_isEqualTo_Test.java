@@ -33,6 +33,7 @@ import java.net.InetAddress;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -45,12 +46,14 @@ import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.util.DoubleComparator;
+import org.assertj.tests.core.api.recursive.data.Address;
 import org.assertj.tests.core.api.recursive.data.AlwaysEqualPerson;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
 import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Human;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.assertj.tests.core.api.recursive.data.Theme;
+import org.assertj.tests.core.api.recursive.data.WithObject;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -97,6 +100,49 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
     var shouldBeEqual = shouldBeEqual(actual, null, StandardComparisonStrategy.instance(), info.representation());
     var expectedAssertionError = shouldBeEqual.toAssertionError(null, STANDARD_REPRESENTATION);
     then(assertionError).hasMessage(expectedAssertionError.getMessage());
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void should_fail_when_actual_value_is_java_type_and_expected_is_not(Object topLevelActual, Object topLevelExpected,
+                                                                      String reason) {
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(topLevelActual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                              .isEqualTo(topLevelExpected));
+    // THEN
+    then(assertionError).hasMessageContaining(reason);
+  }
+
+  private static Stream<Arguments> should_fail_when_actual_value_is_java_type_and_expected_is_not() {
+    return Stream.of(
+                     arguments(LocalDate.of(1970, 1, 1), new Address(), LocalDate.class.getCanonicalName(),
+                               "Actual was compared to expected with equals because it is a java type (java.time.LocalDate)"),
+                     arguments(Map.of("name", "Foo", "age", 27), new Address(), Map.of().getClass().getCanonicalName(),
+                               "Actual was compared to expected with equals because it is a java type (java.util.ImmutableCollections.MapN)"),
+                     arguments(WithObject.of(LocalDate.of(1970, 1, 1)), WithObject.of(new Address()),
+                               LocalDate.class.getCanonicalName(),
+                               "Actual was compared to expected with equals because it is a java type (java.time.LocalDate)"));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void should_fail_when_expected_value_is_java_type_and_actual_is_not(Object topLevelActual, Object topLevelExpected,
+                                                                      String reason) {
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(topLevelActual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                              .isEqualTo(topLevelExpected));
+    // THEN
+    then(assertionError).hasMessageContaining(reason);
+  }
+
+  private static Stream<Arguments> should_fail_when_expected_value_is_java_type_and_actual_is_not() {
+    return Stream.of(
+                     arguments(new Address(), LocalDate.of(1970, 1, 1),
+                               "Actual was compared to expected with equals because expected is a java type (java.time.LocalDate)"),
+                     arguments(new Address(), Map.of("name", "Foo", "age", 27),
+                               "expected field is a map but actual field is not (org.assertj.tests.core.api.recursive.data.Address)"),
+                     arguments(WithObject.of(new Address()), WithObject.of(LocalDate.of(1970, 1, 1)),
+                               "Actual was compared to expected with equals because expected is a java type (java.time.LocalDate)"));
   }
 
   @Test

@@ -83,7 +83,8 @@ class RecursiveComparisonAssert_isEqualTo_with_optional_Test extends WithLegacyI
     // WHEN/THEN
     compareRecursivelyFailsWithDifferences(actual, expected,
                                            diff("bookId", null, 0L),
-                                           javaTypeDiff("coAuthor", Optional.of(pratchett), pratchett),
+                                           diff("coAuthor", Optional.of(pratchett), pratchett,
+                                                "Actual was compared to expected with equals because it is a java type (java.util.Optional) and expected is not (org.assertj.tests.core.api.recursive.data.Author)"),
                                            diff("numberOfPages", null, 0),
                                            diff("price", null, 0.0));
   }

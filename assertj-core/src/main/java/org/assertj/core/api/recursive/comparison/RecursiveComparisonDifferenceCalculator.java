@@ -104,7 +104,7 @@ public class RecursiveComparisonDifferenceCalculator {
         // the comparison includes the union of fields of compared types and compared fields, if the difference is
         // reported on a field whose type is not in the compared types, we should ignore the difference unless it was
         // on a field from the set of compared fields.
-        if (!recursiveComparisonConfiguration.exactlyMatchesAnyComparedFields(dualValue)
+        if (recursiveComparisonConfiguration.isNotAComparedField(dualValue) // TODO check if there compared fields ?
             && !recursiveComparisonConfiguration.matchesOrIsChildOfFieldMatchingAnyComparedTypes(dualValue))
           // was not a field we had to compared
           return;
@@ -147,7 +147,7 @@ public class RecursiveComparisonDifferenceCalculator {
       boolean mustCompareNodesRecursively = mustCompareNodesRecursively(dualValue);
       if (dualValue.hasNoNullValues() && mustCompareNodesRecursively) {
         // disregard the equals method and start comparing fields
-        if (recursiveComparisonConfiguration.someComparedFieldsHaveBeenSpecified() && dualValue.fieldLocation.isRoot()) {
+        if (recursiveComparisonConfiguration.someComparedFieldsWereSpecified() && dualValue.fieldLocation.isRoot()) {
           // We must check compared fields existence only once and at the root level, if we don't as we use the recursive
           // comparison to compare unordered collection elements, we would check the compared fields at the wrong level.
           recursiveComparisonConfiguration.checkComparedFieldsExist(actual);
@@ -267,7 +267,7 @@ public class RecursiveComparisonDifferenceCalculator {
       // first time we evaluate this dual value, perform the usual recursive comparison from there
 
       // visited dual values are tracked to avoid cycle
-      if (recursiveComparisonConfiguration.someComparedFieldsHaveBeenSpecified()) {
+      if (recursiveComparisonConfiguration.someComparedFieldsWereSpecified()) {
         // only track dual values if their field location is a compared field or a child of one that could have cycles,
         // before we get to a compared field, tracking dual values is wrong, ex: given a person root object with a
         // neighbour.neighbour field that cycles back to itself, and we compare neighbour.neighbour.name, if we track
@@ -280,9 +280,6 @@ public class RecursiveComparisonDifferenceCalculator {
         comparisonState.visitedDualValues.registerVisitedDualValue(dualValue);
       }
 
-      final Object actualFieldValue = dualValue.actual;
-      final Object expectedFieldValue = dualValue.expected;
-
       // Custom comparators take precedence over all other types of comparison
       if (recursiveComparisonConfiguration.hasCustomComparator(dualValue)) {
         if (!areDualValueEqual(dualValue, recursiveComparisonConfiguration)) comparisonState.addDifference(dualValue);
@@ -290,11 +287,11 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      if (actualFieldValue == expectedFieldValue) continue;
+      if (dualValue.actual == dualValue.expected) continue;
 
       if (recursiveComparisonConfiguration.isTreatingNullAndEmptyIterablesAsEqualEnabled()
-          && (actualFieldValue == null || dualValue.isActualAnIterable())
-          && (expectedFieldValue == null || dualValue.isExpectedAnIterable())
+          && (dualValue.actual == null || dualValue.isActualAnIterable())
+          && (dualValue.expected == null || dualValue.isExpectedAnIterable())
           && isNullOrEmpty((Iterable<?>) dualValue.actual)
           && isNullOrEmpty((Iterable<?>) dualValue.expected)) {
         // we know one of the value is not null since actualFieldValue != expectedFieldValue and is an iterable
@@ -305,7 +302,7 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      if (actualFieldValue == null || expectedFieldValue == null) {
+      if (dualValue.actual == null || dualValue.expected == null) {
         // one of the value is null while the other is not as we already know that actualFieldValue != expectedFieldValue
         comparisonState.addDifference(dualValue);
         continue;
@@ -398,19 +395,44 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      boolean shouldHonorJavaTypeEquals = shouldHonorJavaTypeEquals(dualValue);
-      if (shouldHonorJavaTypeEquals || shouldHonorOverriddenEquals(dualValue, recursiveComparisonConfiguration)) {
-        if (!actualFieldValue.equals(expectedFieldValue)) {
-          String description = shouldHonorJavaTypeEquals
-              ? "Actual value is a java type and thus was compared to the expected value with its equals method"
-              : "Compared objects were compared with equals method";
+      // Taking expected as the reference, we have checked all java special cases (containers, enum, ...)
+      // If both actual and expected are java types, we compare them with equals because we need to compare values
+      // at some point (and we can't introspect java types anymore since Java 17).
+      boolean javaTypesOnly = dualValue.isActualJavaType() && dualValue.isExpectedJavaType();
+      if (javaTypesOnly) {
+        if (!deepEquals(dualValue.actual, dualValue.expected)) {
+          String description = dualValue.getActualTypeDescription().equals(dualValue.getExpectedTypeDescription())
+              ? "Actual and expected value are both java types (%s) and thus were compared to with equals".formatted(dualValue.getActualTypeDescription())
+              : "Actual and expected value are both java types (%s and %s) and thus were compared to with actual equals method".formatted(dualValue.getActualTypeDescription(),
+                                                                                                                                          dualValue.getExpectedTypeDescription());
           comparisonState.addDifference(dualValue, description);
         }
         continue;
       }
+      // If either actual or expected is a java types and the other is not, we compare them with equals since we
+      // can't introspect java types (it's the best we can at this point).
+      boolean oneJavaType = dualValue.isActualJavaType() || dualValue.isExpectedJavaType();
+      if (oneJavaType && !dualValue.actual.equals(dualValue.expected)) {
+        String description = dualValue.isActualJavaType()
+            ? "Actual was compared to expected with equals because it is a java type (%s) and expected is not (%s)".formatted(dualValue.getActualTypeDescription(),
+                                                                                                                              dualValue.getExpectedTypeDescription())
+            : "Actual was compared to expected with equals because expected is a java type (%s) and actual is not (%s)".formatted(dualValue.getExpectedTypeDescription(),
+                                                                                                                                  dualValue.getActualTypeDescription());
+        comparisonState.addDifference(dualValue, description);
+        continue;
+      }
+      // both actual and expected are not java types, we compare them recursively unless we were told to use equals
+      boolean shouldHonorOverriddenEquals = recursiveComparisonConfiguration.shouldHonorOverriddenEquals(dualValue);
+      if (shouldHonorOverriddenEquals && hasOverriddenEquals(dualValue.actual.getClass())) {
+        if (!dualValue.actual.equals(dualValue.expected)) {
+          comparisonState.addDifference(dualValue,
+                                        "Actual was compared to expected with equals as the recursive comparison was configured to do so.");
+        }
+        continue;
+      }
 
-      Class<?> actualFieldValueClass = actualFieldValue.getClass();
-      Class<?> expectedFieldClass = expectedFieldValue.getClass();
+      Class<?> actualFieldValueClass = dualValue.actual.getClass();
+      Class<?> expectedFieldClass = dualValue.expected.getClass();
       if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode() && expectedTypeIsNotSubtypeOfActualType(dualValue)) {
         comparisonState.addDifference(dualValue,
                                       STRICT_TYPE_ERROR.formatted(dualValue.getExpectedTypeDescription(),
@@ -419,10 +441,13 @@ public class RecursiveComparisonDifferenceCalculator {
       }
 
       Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
-      Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(expectedFieldValue);
+      Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(dualValue.expected);
       // Check if expected has more fields than actual, in that case the additional nodes are reported as difference
 
       // Check if actual has more fields than expected, in that case the additional fields are reported as difference
+      // TODO expected fields and actual fields to compare should match
+      // -> fail if actual has more fields than expected
+      // -> fail if actual has less fields than expected
       if (!expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
         // report missing nodes in expected = extra actual fields
         Set<String> actualNodesNamesNotInExpected = newHashSet(actualChildrenNodeNamesToCompare);
@@ -440,8 +465,8 @@ public class RecursiveComparisonDifferenceCalculator {
         // - or we should add an option to make the comparison to fail and report the missing actual fields.
         for (String actualChildNodeName : actualChildrenNodeNamesToCompare) {
           if (expectedChildrenNodesNames.contains(actualChildNodeName)) {
-            Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, actualFieldValue);
-            Object expectedChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, expectedFieldValue);
+            Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, dualValue.actual);
+            Object expectedChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, dualValue.expected);
             DualValue newDualValue = new DualValue(dualValue.fieldLocation.field(actualChildNodeName),
                                                    actualChildNodeValue, expectedChildNodeValue);
             comparisonState.registerForComparison(newDualValue);
@@ -541,8 +566,8 @@ public class RecursiveComparisonDifferenceCalculator {
 
   private static boolean shouldHonorOverriddenEquals(DualValue dualValue,
                                                      RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    boolean shouldHonorOverriddenEqualsIfAny = !recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);
-    return shouldHonorOverriddenEqualsIfAny && dualValue.actual != null && hasOverriddenEquals(dualValue.actual.getClass());
+    boolean shouldHonorOverriddenEquals = !recursiveComparisonConfiguration.shouldIgnoreOverriddenEqualsOf(dualValue);
+    return shouldHonorOverriddenEquals && dualValue.actual != null && hasOverriddenEquals(dualValue.actual.getClass());
   }
 
   private static void compareArrays(DualValue dualValue, ComparisonState comparisonState) {
@@ -998,7 +1023,8 @@ public class RecursiveComparisonDifferenceCalculator {
       return areEqualUsingComparator(actualFieldValue, expectedFieldValue, fieldComparator, fieldName);
     // check if a type comparators exist for the field type
     Comparator typeComparator = recursiveComparisonConfiguration.getComparator(dualValue);
-    if (typeComparator != null) return areEqualUsingComparator(actualFieldValue, expectedFieldValue, typeComparator, fieldName);
+    if (typeComparator != null)
+      return areEqualUsingComparator(actualFieldValue, expectedFieldValue, typeComparator, fieldName);
     // default comparison using equals
     return deepEquals(actualFieldValue, expectedFieldValue);
   }
