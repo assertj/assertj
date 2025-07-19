@@ -1211,8 +1211,8 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   private void describeTypeCheckingStrictness(StringBuilder description) {
     String str = strictTypeChecking
-        ? "- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"
-        : "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n";
+        ? "- actual and expected objects and their fields were considered different if their types are not equal even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n"
+        : "- actual and expected objects and their fields were compared field by field recursively even if their types are not equal, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n";
     description.append(str.formatted());
   }
 

@@ -123,8 +123,7 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   public String multiLineDescription(Representation representation) {
     UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual, expected);
     String additionalInfo = additionalInformation.map(ComparisonDifference::formatOnNewline).orElse("");
-    return getTemplate().formatted(
-                                   fieldPathDescription(),
+    return getTemplate().formatted(fieldPathDescription(),
                                    unambiguousRepresentation.getActual(),
                                    unambiguousRepresentation.getExpected(),
                                    additionalInfo);
@@ -133,8 +132,9 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   // returns a user-friendly path description
   protected String fieldPathDescription() {
     if (concatenatedPath.isEmpty()) return TOP_LEVEL_OBJECTS;
-    if (concatenatedPath.matches(TOP_LEVEL_ELEMENT_PATTERN)) return TOP_LEVEL_ELEMENTS.formatted(extractIndex(concatenatedPath));
-    return FIELD.formatted(concatenatedPath);
+    return concatenatedPath.matches(TOP_LEVEL_ELEMENT_PATTERN)
+        ? TOP_LEVEL_ELEMENTS.formatted(extractIndex(concatenatedPath))
+        : FIELD.formatted(concatenatedPath);
   }
 
   private static String extractIndex(String path) {

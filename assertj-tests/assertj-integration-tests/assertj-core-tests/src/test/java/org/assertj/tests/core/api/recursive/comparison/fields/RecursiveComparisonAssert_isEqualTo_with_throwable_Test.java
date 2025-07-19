@@ -60,7 +60,7 @@ class RecursiveComparisonAssert_isEqualTo_with_throwable_Test extends WithCompar
     recursiveComparisonConfiguration.strictTypeChecking(true);
     // WHEN/THEN
     ComparisonDifference difference = diff("", actual, expected,
-                                           "actual and expected are considered different since the comparison enforces strict type check and expected type org.assertj.tests.core.api.recursive.data.Person is not a subtype of actual type java.lang.Throwable");
+                                           "the compared values are considered different since the recursive comparison enforces strict type checking and the actual value type java.lang.Throwable is not equal to the expected value type org.assertj.tests.core.api.recursive.data.Person");
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 
@@ -116,7 +116,7 @@ class RecursiveComparisonAssert_isEqualTo_with_throwable_Test extends WithCompar
     recursiveComparisonConfiguration.strictTypeChecking(true);
     // WHEN/THEN
     ComparisonDifference difference = diff("", actual, expected,
-                                           "actual and expected are considered different since the comparison enforces strict type check and expected type java.lang.Exception is not a subtype of actual type java.lang.RuntimeException");
+                                           "the compared values are considered different since the recursive comparison enforces strict type checking and the actual value type java.lang.RuntimeException is not equal to the expected value type java.lang.Exception");
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 
@@ -139,7 +139,7 @@ class RecursiveComparisonAssert_isEqualTo_with_throwable_Test extends WithCompar
     recursiveComparisonConfiguration.strictTypeChecking(true);
     // WHEN/THEN
     ComparisonDifference difference = diff("", actual, expected,
-                                           "actual and expected are considered different since the comparison enforces strict type check and expected type java.io.IOException is not a subtype of actual type java.lang.RuntimeException");
+                                           "the compared values are considered different since the recursive comparison enforces strict type checking and the actual value type java.lang.RuntimeException is not equal to the expected value type java.io.IOException");
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 
