@@ -19,7 +19,7 @@ import static org.assertj.core.error.ShouldEndWithPath.shouldEndWith;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -51,9 +51,9 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
   }
 
   @Test
-  void should_rethrow_IOException_as_UncheckedIOException_if_actual_cannot_be_resolved() throws IOException {
+  void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
     // GIVEN
-    Path actual = mock(Path.class);
+    Path actual = spy(createFile(tempDir.resolve("actual")));
     Path other = tempDir.resolve("other");
     IOException exception = new IOException("boom!");
     given(actual.toRealPath()).willThrow(exception);
@@ -103,4 +103,12 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
     underTest.assertEndsWith(INFO, actual, other);
   }
 
+  @Test
+  void should_pass_on_non_existing_file() {
+    // GIVEN
+    Path actual = Path.of("foo/bar/baz");
+    Path other = Path.of("baz");
+    // WHEN/THEN
+    underTest.assertEndsWith(INFO, actual, other);
+  }
 }
