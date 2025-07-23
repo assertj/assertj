@@ -15,16 +15,17 @@ package org.assertj.tests.core.kotlin.api.collection
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class CollectionAssert_containsExactly_Test {
+class CollectionAssert_anyMatch_Test {
 
-  // https://github.com/assertj/assertj/issues/2439
+  // https://youtrack.jetbrains.com/issue/KT-53113
   @Test
-  fun should_work_with_kotlin_set() {
+  fun should_work_with_kotlin_collection() {
     // GIVEN
-    val set = setOf("value")
+    data class Person(val name: String, val age: Int)
+    val collection: Collection<Person> = listOf(Person("Donald", 33), Person("Daisy", 30))
     // WHEN/THEN
-    assertThat(set).containsExactly("value")
-    assertThat(set).describedAs("A description").containsExactly("value")
+    assertThat(collection).anyMatch { it.age > 30 }
+    assertThat(collection).describedAs("Older than 30").anyMatch { it.age > 30 }
   }
 
 }
