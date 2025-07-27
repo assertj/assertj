@@ -13,7 +13,7 @@
 package org.assertj.tests.core.api.recursive.comparison;
 
 import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.recursive.comparison.ComparisonDifference.rootComparisonDifference;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
@@ -28,10 +28,10 @@ class ComparisonDifference_rootComparisonDifference_Test {
     // WHEN
     String multiLineDescription = comparisonDifference.multiLineDescription();
     // THEN
-    assertThat(multiLineDescription).isEqualTo(format("Top level actual and expected objects differ:%n" +
-                                                      "- actual value  : \"foo\"%n" +
-                                                      "- expected value: \"bar\"%n" +
-                                                      "info"));
+    then(multiLineDescription).isEqualTo(format("Top level actual and expected objects differ:%n" +
+                                                "- actual value  : \"foo\"%n" +
+                                                "- expected value: \"bar\"%n" +
+                                                "info"));
   }
 
 }

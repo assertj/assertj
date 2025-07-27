@@ -19,6 +19,10 @@ public class WithObject {
     this.group = value;
   }
 
+  public static WithObject of(Object value) {
+    return new WithObject(value);
+  }
+
   @Override
   public String toString() {
     return "WithObject group=%s".formatted(group);
