@@ -35,7 +35,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.groups.Tuple;
 import org.assertj.tests.core.api.recursive.data.Author;
-import org.assertj.tests.core.api.recursive.data.WithObject;
+import org.assertj.tests.core.api.recursive.data.WithGroupField;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -149,7 +149,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithLegacy
   void should_fail_when_comparing_iterable_to_non_iterable(Object actualFieldValue, Collection<Author> expectedFieldValue,
                                                            String path, Object value1, Object value2, String desc) {
     // GIVEN
-    WithObject actual = new WithObject(actualFieldValue);
+    var actual = new WithGroupField(actualFieldValue);
     WithCollection<Author> expected = new WithCollection<>(expectedFieldValue);
     // WHEN/THEN
     ComparisonDifference difference = desc == null ? diff(path, value1, value2) : diff(path, value1, value2, desc);

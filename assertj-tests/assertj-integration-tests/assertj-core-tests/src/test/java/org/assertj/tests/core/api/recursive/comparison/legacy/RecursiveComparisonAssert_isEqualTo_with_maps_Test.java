@@ -166,9 +166,9 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
     Author georgeMartin = new Author("George Martin");
     Author none = null;
     Map<String, Author> mapOfTwoAuthors = mapOf(entry(pratchett.name, pratchett), entry(georgeMartin.name, georgeMartin));
-    return Stream.of(arguments(pratchett, mapOfTwoAuthors, "group", pratchett, mapOfTwoAuthors,
+    return Stream.of(arguments(pratchett, mapOfTwoAuthors, "value", pratchett, mapOfTwoAuthors,
                                "expected field is a map but actual field is not (org.assertj.tests.core.api.recursive.data.Author)"),
-                     arguments(none, mapOfTwoAuthors, "group", none, mapOfTwoAuthors, null));
+                     arguments(none, mapOfTwoAuthors, "value", none, mapOfTwoAuthors, null));
   }
 
   record Item(String name, int quantity) {

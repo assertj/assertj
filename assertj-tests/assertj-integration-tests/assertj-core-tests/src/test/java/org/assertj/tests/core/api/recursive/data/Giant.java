@@ -15,6 +15,15 @@ package org.assertj.tests.core.api.recursive.data;
 public class Giant extends Person {
   public double height = 3.0;
 
+  public Giant(String name, double height) {
+    super(name);
+    this.height = height;
+  }
+
+  public Giant(String name) {
+    super(name);
+  }
+
   @Override
   public String toString() {
     return "Giant [name=" + name + ", home=" + home + ", " + "height " + height + "]";

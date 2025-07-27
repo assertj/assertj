@@ -63,22 +63,18 @@ class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
   @Test
   void should_pass_in_strict_type_checking_mode_when_actual_and_expected_have_the_same_data_and_types() {
     // GIVEN
-    Giant actual = new Giant();
-    actual.name = "John";
+    Giant actual = new Giant("John");
     actual.home.address.number = 1;
     actual.dateOfBirth = new Date(123);
-    actual.neighbour = new Giant();
-    actual.neighbour.name = "Jack";
+    actual.neighbour = new Giant("Jack");
     actual.neighbour.home.address.number = 123;
     actual.neighbour.neighbour = new Person("James");
     actual.neighbour.neighbour.home.address.number = 124;
 
-    Giant expected = new Giant();
-    expected.name = "John";
+    Giant expected = new Giant("John");
     expected.home.address.number = 1;
     expected.dateOfBirth = new Date(123);
-    expected.neighbour = new Giant();
-    expected.neighbour.name = "Jack";
+    expected.neighbour = new Giant("Jack");
     expected.neighbour.home.address.number = 123;
     expected.neighbour.neighbour = new Person("James");
     expected.neighbour.neighbour.home.address.number = 124;

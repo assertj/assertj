@@ -158,14 +158,8 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
   @Test
   void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_fields() {
     // GIVEN
-    Giant goliath = new Giant();
-    goliath.name = "Goliath";
-    goliath.height = 3.0;
-
-    Giant goliathTwin = new Giant();
-    goliathTwin.name = "Goliath";
-    goliathTwin.height = 3.1;
-
+    Giant goliath = new Giant("Goliath", 3.0);
+    Giant goliathTwin = new Giant("Goliath", 3.1);
     // THEN
     then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                  .withComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
@@ -178,16 +172,10 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
   @Test
   void should_be_able_to_compare_objects_recursively_using_given_comparator_for_specified_nested_field() {
     // GIVEN
-    Giant goliath = new Giant();
-    goliath.name = "Goliath";
-    goliath.height = 3.0;
+    Giant goliath = new Giant("Goliath", 3.0);
     goliath.home.address.number = 1;
-
-    Giant goliathTwin = new Giant();
-    goliathTwin.name = "Goliath";
-    goliathTwin.height = 3.1;
+    Giant goliathTwin = new Giant("Goliath", 3.1);
     goliathTwin.home.address.number = 5;
-
     // THEN
     then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                  .withComparatorForFields(new AtPrecisionComparator<>(0.2), "height")
@@ -198,16 +186,10 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
   @Test
   void should_be_able_to_compare_objects_recursively_using_given_BiPredicate_for_specified_nested_field() {
     // GIVEN
-    Giant goliath = new Giant();
-    goliath.name = "Goliath";
-    goliath.height = 3.0;
+    Giant goliath = new Giant("Goliath", 3.0);
     goliath.home.address.number = 1;
-
-    Giant goliathTwin = new Giant();
-    goliathTwin.name = "Goliath";
-    goliathTwin.height = 3.1;
+    Giant goliathTwin = new Giant("Goliath", 3.1);
     goliathTwin.home.address.number = 5;
-
     // THEN
     then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                  .withEqualsForFields((Double d1, Double d2) -> Math.abs(d1 - d2) <= 0.2, "height")

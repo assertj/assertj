@@ -12,20 +12,18 @@
  */
 package org.assertj.tests.core.api.recursive.data;
 
-public class WithObject {
-  public Object value;
+import static java.lang.String.format;
 
-  public WithObject(Object value) {
-    this.value = value;
-  }
+public class Worker extends Person {
+  public String job;
 
-  public static WithObject of(Object value) {
-    return new WithObject(value);
+  public Worker(String name, String job) {
+    super(name);
+    this.job = job;
   }
 
   @Override
   public String toString() {
-    return "WithObject value=%s".formatted(value);
+    return format("Employee[name=%s, company=%s, home=%s]", this.name, this.job, this.home);
   }
-
 }

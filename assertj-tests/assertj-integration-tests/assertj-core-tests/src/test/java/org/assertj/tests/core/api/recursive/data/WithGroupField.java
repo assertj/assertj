@@ -12,20 +12,20 @@
  */
 package org.assertj.tests.core.api.recursive.data;
 
-public class WithObject {
-  public Object value;
+public class WithGroupField {
+  public Object group;
 
-  public WithObject(Object value) {
-    this.value = value;
+  public WithGroupField(Object value) {
+    this.group = value;
   }
 
-  public static WithObject of(Object value) {
-    return new WithObject(value);
+  public static WithGroupField of(Object value) {
+    return new WithGroupField(value);
   }
 
   @Override
   public String toString() {
-    return "WithObject value=%s".formatted(value);
+    return "WithGroupField group=%s".formatted(group);
   }
 
 }

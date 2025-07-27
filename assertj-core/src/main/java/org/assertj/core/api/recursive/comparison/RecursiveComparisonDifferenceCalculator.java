@@ -24,6 +24,7 @@ import static org.assertj.core.util.IterableUtil.isNullOrEmpty;
 import static org.assertj.core.util.IterableUtil.sizeOf;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newHashSet;
+import static org.assertj.core.util.Sets.removeAll;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -73,7 +74,12 @@ public class RecursiveComparisonDifferenceCalculator {
   private static final String ARRAY_FIELD_NAME = "array";
   private static final String STRICT_TYPE_ERROR = "the compared values are considered different since the recursive comparison enforces strict type checking and the actual value type %s is not equal to the expected value type %s";
   private static final String DIFFERENT_SIZE_ERROR = "actual and expected values are %s of different size, actual size=%s when expected size=%s";
-  private static final String MISSING_FIELDS = "%s can't be compared to %s as %s does not declare all %s fields, it lacks these: %s";
+  private static final String MISSING_ACTUAL_FIELDS = "actual value had less fields to compare than expected value, it did not have these fields: %s";
+  private static final String EXTRA_ACTUAL_FIELDS = "actual value had more fields to compare than expected value, actual value had more fields to compare than expected value, these actual fields could not be found in expected: %s";
+  private static final String MISSING_AND_EXTRA_ACTUAL_FIELDS = "actual value and expected value fields to compare differ:%n" +
+                                                                "- actual value had less fields to compare than expected value, it did not have these fields: %s%n"
+                                                                +
+                                                                "- actual value had more fields to compare than expected value, these actual fields could not be found in expected: %s";
   private static final Map<Class<?>, Boolean> customEquals = new ConcurrentHashMap<>();
 
   private static class ComparisonState {
@@ -406,48 +412,68 @@ public class RecursiveComparisonDifferenceCalculator {
         continue;
       }
 
-      Class<?> actualFieldValueClass = dualValue.actual.getClass();
-      Class<?> expectedFieldClass = dualValue.expected.getClass();
       if (recursiveComparisonConfiguration.isInStrictTypeCheckingMode() && typesDiffer(dualValue)) {
         comparisonState.addDifference(typeDifference(dualValue));
         continue;
       }
 
       Set<String> actualChildrenNodeNamesToCompare = recursiveComparisonConfiguration.getActualChildrenNodeNamesToCompare(dualValue);
-      Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(dualValue.expected);
-      // Check if expected has more fields than actual, in that case the additional nodes are reported as difference
-
-      // Check if actual has more fields than expected, in that case the additional fields are reported as difference
-      // TODO expected fields and actual fields to compare should match
-      // -> fail if actual has more fields than expected
-      // -> fail if actual has less fields than expected
-      if (!expectedChildrenNodesNames.containsAll(actualChildrenNodeNamesToCompare)) {
-        // report missing nodes in expected = extra actual fields
-        Set<String> actualNodesNamesNotInExpected = newHashSet(actualChildrenNodeNamesToCompare);
-        actualNodesNamesNotInExpected.removeAll(expectedChildrenNodesNames);
-        String missingNodes = actualNodesNamesNotInExpected.toString();
-        String missingNodesDescription = MISSING_FIELDS.formatted(dualValue.getActualTypeDescription(),
-                                                                  dualValue.getExpectedTypeDescription(),
-                                                                  expectedFieldClass.getSimpleName(),
-                                                                  actualFieldValueClass.getSimpleName(),
-                                                                  missingNodes);
-        comparisonState.addDifference(dualValue, missingNodesDescription);
-      } else { // TODO remove else to report more diff
-        // compare actual's children nodes against expected:
-        // - if expected has more nodes than actual, the additional nodes are ignored as actual is the reference TODO
-        // - or we should add an option to make the comparison to fail and report the missing actual fields.
-        for (String actualChildNodeName : actualChildrenNodeNamesToCompare) {
-          if (expectedChildrenNodesNames.contains(actualChildNodeName)) {
-            Object actualChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, dualValue.actual);
-            Object expectedChildNodeValue = recursiveComparisonConfiguration.getValue(actualChildNodeName, dualValue.expected);
-            DualValue newDualValue = new DualValue(dualValue.fieldLocation.field(actualChildNodeName),
-                                                   actualChildNodeValue, expectedChildNodeValue);
-            comparisonState.registerForComparison(newDualValue);
-          }
-        }
+      if (reportActualHasMissingOrExtraFields(dualValue, actualChildrenNodeNamesToCompare, comparisonState)) {
+        continue;
+      }
+      // compare actual and expected nodes
+      for (String nodeNameToCompare : actualChildrenNodeNamesToCompare) {
+        var nodeDualValue = new DualValue(dualValue.fieldLocation.field(nodeNameToCompare),
+                                          recursiveComparisonConfiguration.getValue(nodeNameToCompare, dualValue.actual),
+                                          recursiveComparisonConfiguration.getValue(nodeNameToCompare, dualValue.expected));
+        comparisonState.registerForComparison(nodeDualValue);
       }
     }
     return comparisonState.getDifferences();
+  }
+
+  private static boolean reportActualHasMissingOrExtraFields(DualValue dualValue, Set<String> actualChildrenNodeNamesToCompare,
+                                                             ComparisonState comparisonState) {
+    RecursiveComparisonConfiguration recursiveComparisonConfiguration = comparisonState.recursiveComparisonConfiguration;
+    if (typesDiffer(dualValue)) {
+      // check missing or extra actual fields, to do so, we get actual ignored fields, remove them from expected
+      // fields and see if there are any differences.
+      Set<String> actualChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(dualValue.actual);
+      Set<String> actualIgnoredChildrenNodesNames = removeAll(actualChildrenNodesNames, actualChildrenNodeNamesToCompare);
+      Set<String> expectedChildrenNodesNames = recursiveComparisonConfiguration.getChildrenNodeNamesOf(dualValue.expected);
+      Set<String> expectedChildrenNodesNamesToCompare = removeAll(expectedChildrenNodesNames, actualIgnoredChildrenNodesNames);
+      // if we have compared fields, we should only check they are in expected and ignore extra expected fields
+      if (recursiveComparisonConfiguration.hasComparedFields()) {
+        if (!expectedChildrenNodesNamesToCompare.containsAll(actualChildrenNodeNamesToCompare)) {
+          Set<String> actualNodesNamesNotInExpected = removeAll(actualChildrenNodeNamesToCompare,
+                                                                expectedChildrenNodesNamesToCompare);
+          comparisonState.addDifference(dualValue, EXTRA_ACTUAL_FIELDS.formatted(actualNodesNamesNotInExpected));
+          return true;
+        }
+        // all good, we ignore extra expected fields, which means we only check actual compared fields
+        expectedChildrenNodesNamesToCompare = actualChildrenNodeNamesToCompare;
+      }
+
+      if (!expectedChildrenNodesNamesToCompare.equals(actualChildrenNodeNamesToCompare)) {
+        // report expected nodes not in actual
+        Set<String> expectedNodesNamesNotInActual = newHashSet(expectedChildrenNodesNamesToCompare);
+        expectedNodesNamesNotInActual.removeAll(actualChildrenNodeNamesToCompare);
+        // report extra nodes in actual
+        Set<String> actualNodesNamesNotInExpected = newHashSet(actualChildrenNodeNamesToCompare);
+        actualNodesNamesNotInExpected.removeAll(expectedChildrenNodesNamesToCompare);
+        if (!expectedNodesNamesNotInActual.isEmpty() && !actualNodesNamesNotInExpected.isEmpty()) {
+          comparisonState.addDifference(dualValue, MISSING_AND_EXTRA_ACTUAL_FIELDS.formatted(expectedNodesNamesNotInActual,
+                                                                                             actualNodesNamesNotInExpected));
+        } else if (!expectedNodesNamesNotInActual.isEmpty()) {
+          comparisonState.addDifference(dualValue, MISSING_ACTUAL_FIELDS.formatted(expectedNodesNamesNotInActual));
+          return true;
+        } else if (!actualNodesNamesNotInExpected.isEmpty()) {
+          comparisonState.addDifference(dualValue, EXTRA_ACTUAL_FIELDS.formatted(actualNodesNamesNotInExpected));
+        }
+        return true;
+      }
+    }
+    return false;
   }
 
   // avoid comparing enum recursively since they contain static fields which are ignored in recursive comparison

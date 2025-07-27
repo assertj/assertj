@@ -301,14 +301,12 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
   @Test
   void should_report_missing_property() {
     // GIVEN
-    Giant actual = new Giant();
-    actual.name = "joe";
-    actual.height = 3.0;
+    Giant actual = new Giant("joe", 3.0);
     Human expected = new Human();
     expected.name = "joe";
     // WHEN/THEN
     ComparisonDifference missingFieldDifference = diff("", actual, expected,
-                                                       "org.assertj.tests.core.api.recursive.data.Giant can't be compared to org.assertj.tests.core.api.recursive.data.Human as Human does not declare all Giant fields, it lacks these: [height]");
+                                                       "actual value had more fields to compare than expected value, actual value had more fields to compare than expected value, these actual fields could not be found in expected: [height]");
     compareRecursivelyFailsWithDifferences(actual, expected, missingFieldDifference);
   }
 

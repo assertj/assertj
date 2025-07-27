@@ -30,8 +30,11 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
+import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Human;
 import org.assertj.tests.core.api.recursive.data.Person;
+import org.assertj.tests.core.api.recursive.data.WithObject;
+import org.assertj.tests.core.api.recursive.data.Worker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -481,5 +484,29 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithC
                                                                     .isEqualTo(expected));
     // THEN
     then(iae).hasMessage("The following fields don't exist: {inSubType2}");
+  }
+
+  @Test
+  void should_report_nested_extra_actual_compared_fields() {
+    // GIVEN
+    var actual = WithObject.of(new Giant("joe", 3.0));
+    var expected = WithObject.of(new Worker("joe", "teacher"));
+    // WHEN
+    recursiveComparisonConfiguration.compareOnlyFields("value.height");
+    // THEN
+    var comparisonDifference = diff("value", actual.value, expected.value,
+                                    "actual value had more fields to compare than expected value, actual value had more fields to compare than expected value, these actual fields could not be found in expected: [height]");
+    compareRecursivelyFailsWithDifferences(actual, expected, comparisonDifference);
+  }
+
+  @Test
+  void should_pass_when_actual_compared_fields_are_specified_and_expected_has_extra_fields() {
+    // GIVEN
+    var actual = WithObject.of(new Person("joe"));
+    var expected = WithObject.of(new Giant("joe", 3.0));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .comparingOnlyFields("value.name")
+                .isEqualTo(expected);
   }
 }
