@@ -75,28 +75,29 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   private static final String DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL = "Given date format pattern should not be null";
   private static final String DATE_FORMAT_SHOULD_NOT_BE_NULL = "Given date format should not be null";
 
+  private static boolean lenientParsing = Configuration.LENIENT_DATE_PARSING;
+
   /**
    * the default DateFormat used to parse any String date representation.
    */
-  private static List<DateFormat> DEFAULT_DATE_FORMATS = defaultDateFormats();
-  private static boolean lenientParsing = Configuration.LENIENT_DATE_PARSING;
+  private static final ThreadLocal<List<DateFormat>> DEFAULT_DATE_FORMATS = ThreadLocal.withInitial(() -> list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(lenientParsing),
+                                                                                                               newIsoDateTimeWithMsFormat(lenientParsing),
+                                                                                                               newTimestampDateFormat(lenientParsing),
+                                                                                                               newIsoDateTimeWithIsoTimeZoneFormat(lenientParsing),
+                                                                                                               newIsoDateTimeFormat(lenientParsing),
+                                                                                                               newIsoDateFormat(lenientParsing)));
 
   @VisibleForTesting
   static List<DateFormat> defaultDateFormats() {
-    if (DEFAULT_DATE_FORMATS == null || defaultDateFormatMustBeRecreated()) {
-      DEFAULT_DATE_FORMATS = list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(lenientParsing),
-                                  newIsoDateTimeWithMsFormat(lenientParsing),
-                                  newTimestampDateFormat(lenientParsing),
-                                  newIsoDateTimeWithIsoTimeZoneFormat(lenientParsing),
-                                  newIsoDateTimeFormat(lenientParsing),
-                                  newIsoDateFormat(lenientParsing));
+    if (defaultDateFormatMustBeRecreated()) {
+      DEFAULT_DATE_FORMATS.remove();
     }
-    return DEFAULT_DATE_FORMATS;
+    return DEFAULT_DATE_FORMATS.get();
   }
 
   private static boolean defaultDateFormatMustBeRecreated() {
     // check default timezone or lenient flag changes, only check one date format since all are configured the same way
-    DateFormat dateFormat = DEFAULT_DATE_FORMATS.get(0);
+    DateFormat dateFormat = DEFAULT_DATE_FORMATS.get().get(0);
     return !dateFormat.getTimeZone().getID().equals(TimeZone.getDefault().getID()) || dateFormat.isLenient() != lenientParsing;
   }
 
@@ -3600,7 +3601,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
                                            info.representation().toStringOf(dateFormatsInOrderOfUsage())));
   }
 
-  private synchronized Date parseDateWithDefaultDateFormats(final String dateAsString) {
+  private Date parseDateWithDefaultDateFormats(final String dateAsString) {
     return parseDateWith(dateAsString, defaultDateFormats());
   }
 
