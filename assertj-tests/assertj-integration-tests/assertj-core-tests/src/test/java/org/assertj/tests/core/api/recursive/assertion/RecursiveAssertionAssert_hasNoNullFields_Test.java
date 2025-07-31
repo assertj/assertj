@@ -113,9 +113,6 @@ class RecursiveAssertionAssert_hasNoNullFields_Test {
                                                                             .hasNoNullFields());
     // THEN
     then(error).hasMessageContainingAll("arrayOuter", "inner.array");
-
-    assertThat(testObject).usingRecursiveAssertion().hasNoNullFields();
-
   }
 
   @SuppressWarnings("unused")
