@@ -7,7 +7,7 @@ env:
 
 jobs:
 
-  java-21:
+  java:
 
     name: Java 21 (${{ matrix.os }})
     strategy:
@@ -111,3 +111,29 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  snapshot:
+
+    name: Publish Snapshot
+    needs: [java, javadoc]
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'assertj' && github.event_name == 'push' && github.ref == 'refs/heads/3.x'
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Maven Central
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+          server-id: central
+          server-username: MAVEN_CENTRAL_USERNAME
+          server-password: MAVEN_CENTRAL_TOKEN
+          gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
+
+      - name: Publish to Maven Central
+        run: ./mvnw $MAVEN_ARGS -DskipTests -Ppublish deploy
+        env:
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

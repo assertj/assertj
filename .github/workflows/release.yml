@@ -19,9 +19,9 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '21'
-          server-id: ossrh
-          server-username: OSSRH_USERNAME
-          server-password: OSSRH_TOKEN
+          server-id: central
+          server-username: MAVEN_CENTRAL_USERNAME
+          server-password: MAVEN_CENTRAL_TOKEN
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - name: Publish to Maven Central
@@ -30,6 +30,6 @@ jobs:
           git config user.email '${{ github.actor }}@users.noreply.github.com'
           ./mvnw $MAVEN_ARGS -Dpassword=${{ secrets.GITHUB_TOKEN }} release:prepare release:perform
         env:
-          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          OSSRH_TOKEN: ${{ secrets.OSSRH_TOKEN }}
+          MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
