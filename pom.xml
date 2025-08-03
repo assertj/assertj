@@ -193,9 +193,7 @@
           <version>${maven-release-plugin.version}</version>
           <configuration>
             <autoVersionSubmodules>true</autoVersionSubmodules>
-            <useReleaseProfile>false</useReleaseProfile>
-            <releaseProfiles>release</releaseProfiles>
-            <goals>deploy</goals>
+            <releaseProfiles>publish</releaseProfiles>
           </configuration>
         </plugin>
         <plugin>
@@ -281,7 +279,7 @@ Copyright ${project.inceptionYear}-${currentYear} the original author or authors
 
   <profiles>
     <profile>
-      <id>release</id>
+      <id>publish</id>
       <build>
         <plugins>
           <plugin>
