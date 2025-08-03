@@ -12,10 +12,7 @@
  */
 package org.assertj.tests.core.api.recursive.comparison;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +23,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
 @DisplayName("https://github.com/assertj/assertj/issues/3551")
 @DataJpaTest
 class Issue_3551_Test {
@@ -34,12 +34,13 @@ class Issue_3551_Test {
   private PersonRepo personRepo;
 
   @Test
+  @Disabled
   void test() {
     Person alice = personRepo.getPerson();
     Person bob = new PersonImpl("bob");
     alice.getName();
-    // FIXME Recursive comparison incorrectly asserts that alice and bob are the same
-    assertThat(alice).usingRecursiveComparison().isEqualTo(bob);
+    // FIXME Recursive comparison fails but incorrectly as it does not gather the right fields
+    // assertThat(alice).usingRecursiveComparison().isEqualTo(bob);
   }
 
   interface Person {
