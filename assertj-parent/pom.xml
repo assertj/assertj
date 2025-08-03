@@ -285,6 +285,11 @@
           </includes>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <inherited>false</inherited>
+      </plugin>
     </plugins>
   </build>
 
