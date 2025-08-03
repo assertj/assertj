@@ -132,7 +132,7 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - name: Publish to Maven Central
-        run: ./mvnw $MAVEN_ARGS -Ppublish deploy
+        run: ./mvnw $MAVEN_ARGS -DskipTests -Ppublish deploy
         env:
           MAVEN_CENTRAL_USERNAME: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.MAVEN_CENTRAL_TOKEN }}
