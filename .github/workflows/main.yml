@@ -117,7 +117,7 @@ jobs:
     name: Publish Snapshot
     needs: [java, javadoc]
     runs-on: ubuntu-latest
-    if: github.repository_owner == 'assertj' && github.event_name == 'push' && github.ref == 'refs/heads/3.x'
+    if: github.repository_owner == 'assertj' && github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - uses: actions/checkout@v4
