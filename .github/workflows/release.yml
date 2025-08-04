@@ -7,9 +7,10 @@ env:
   MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always -Djacoco.skip=true
 
 jobs:
-  release:
 
-    name: Release to Maven Central
+  publish-release:
+
+    name: Publish Release
     runs-on: ubuntu-latest
 
     steps:
