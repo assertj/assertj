@@ -14,6 +14,7 @@ package org.assertj.core.api;
 
 import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.annotation.Contract;
 
 /**
  * Common failures.
@@ -42,6 +43,7 @@ public final class Fail {
    * @throws AssertionError with the given message.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(String failureMessage) {
     throw Failures.instance().failure(failureMessage);
   }
@@ -56,6 +58,7 @@ public final class Fail {
    * @since 3.26.0
    */
   @CanIgnoreReturnValue
+  @Contract(" -> fail")
   public static <T> T fail() {
     // pass an empty string because passing null results in a "null" error message.
     return fail("");
@@ -71,6 +74,7 @@ public final class Fail {
    * @throws AssertionError with the given built message.
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Object... args) {
     return fail(String.format(failureMessage, args));
   }
@@ -85,6 +89,7 @@ public final class Fail {
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
@@ -100,6 +105,7 @@ public final class Fail {
    * @throws AssertionError with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(Throwable realCause) {
     return fail(null, realCause);
   }
@@ -114,9 +120,10 @@ public final class Fail {
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    *
-   * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
+   * @see #shouldHaveThrown(Class)
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     return shouldHaveThrown(throwableClass);
   }
@@ -132,6 +139,7 @@ public final class Fail {
    *           not been.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     throw Failures.instance().expectedThrowableNotThrown(throwableClass);
   }

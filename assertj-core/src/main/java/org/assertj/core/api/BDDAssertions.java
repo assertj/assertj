@@ -93,6 +93,7 @@ import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
@@ -2415,6 +2416,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(String failureMessage) {
     return Assertions.fail(failureMessage);
   }
@@ -2429,6 +2431,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.26.0
    */
   @CanIgnoreReturnValue
+  @Contract(" -> fail")
   public static <T> T fail() {
     return Assertions.fail();
   }
@@ -2445,6 +2448,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Object... args) {
     return Assertions.fail(failureMessage, args);
   }
@@ -2460,6 +2464,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Throwable realCause) {
     return Assertions.fail(failureMessage, realCause);
   }
@@ -2472,6 +2477,7 @@ public class BDDAssertions extends Assertions {
    * @throws AssertionError with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(Throwable realCause) {
     return fail(null, realCause);
   }
@@ -2488,6 +2494,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     return Assertions.shouldHaveThrown(throwableClass);
   }
