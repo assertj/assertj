@@ -16,7 +16,7 @@ import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
 
 import java.util.Iterator;
 
-import org.assertj.core.annotations.Beta;
+import org.assertj.core.annotation.Beta;
 import org.assertj.core.internal.Iterators;
 import org.assertj.core.util.VisibleForTesting;
 

@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.annotations;
+package org.assertj.core.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -30,7 +30,7 @@ import java.lang.annotation.Target;
  * <p>
  * Idea borrowed from Guava.
  *
- * @deprecated use {@link org.assertj.core.annotation.Beta} instead.
+ * @since 3.27.4
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({
@@ -40,6 +40,5 @@ import java.lang.annotation.Target;
     ElementType.METHOD,
     ElementType.TYPE
 })
-@Deprecated
 public @interface Beta {
 }

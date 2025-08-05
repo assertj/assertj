@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-import org.assertj.core.annotations.Beta;
+import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.recursive.assertion.DefaultRecursiveAssertionIntrospectionStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionDriver;

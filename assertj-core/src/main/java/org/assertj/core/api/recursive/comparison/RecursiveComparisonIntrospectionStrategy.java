@@ -14,7 +14,7 @@ package org.assertj.core.api.recursive.comparison;
 
 import java.util.Set;
 
-import org.assertj.core.annotations.Beta;
+import org.assertj.core.annotation.Beta;
 
 /**
  * Defines how objects are introspected in the recursive comparison, the main operations it specifies are:
