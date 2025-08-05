@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.CanIgnoreReturnValue;
 
 /**
  * Common failures.

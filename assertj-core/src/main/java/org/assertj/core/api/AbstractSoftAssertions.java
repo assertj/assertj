@@ -16,9 +16,9 @@ import static java.lang.String.format;
 
 import java.util.List;
 
+import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.CanIgnoreReturnValue;
 
 public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollector
     implements SoftAssertionsProvider, InstanceOfAssertFactories {

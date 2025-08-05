@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.util;
+package org.assertj.core.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -20,15 +20,8 @@ import java.lang.annotation.Target;
 /**
  * Annotation to skip "CheckReturnValue" check.
  *
- * @deprecated use {@link org.assertj.core.annotation.CanIgnoreReturnValue} instead
+ * @since 3.27.4
  */
-@Target({
-    ElementType.CONSTRUCTOR,
-    ElementType.METHOD,
-    ElementType.PACKAGE,
-    ElementType.TYPE,
-})
-@Retention(RetentionPolicy.CLASS)
-@Deprecated
+@Target({ ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PACKAGE, ElementType.TYPE })
 public @interface CanIgnoreReturnValue {
 }
