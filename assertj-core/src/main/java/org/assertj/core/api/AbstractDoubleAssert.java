@@ -19,12 +19,12 @@ import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
 
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Doubles;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

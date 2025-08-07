@@ -24,6 +24,7 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.function.BiPredicate;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.DefaultRecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.api.recursive.comparison.RecursiveComparator;
@@ -31,7 +32,6 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.internal.TypeComparators;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SELF>> extends AbstractAssert<SELF, Object> {

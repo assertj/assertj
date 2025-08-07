@@ -14,8 +14,8 @@ package org.assertj.core.api;
 
 import java.util.IllegalFormatException;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.description.Description;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Assertion methods for {@link java.lang.Throwable} similar to {@link ThrowableAssert} but with assertions methods named

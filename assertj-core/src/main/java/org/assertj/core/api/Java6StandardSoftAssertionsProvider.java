@@ -41,8 +41,8 @@ import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
 
 import org.assertj.core.annotation.CanIgnoreReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * AbstractStandardSoftAssertions compatible with Android. Duplicated from {@link StandardSoftAssertionsProvider}.

@@ -20,10 +20,10 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ByteArrays;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAssert<SELF>>

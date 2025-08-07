@@ -32,13 +32,6 @@ import java.lang.annotation.Target;
  *
  * @since 3.27.4
  */
-@Retention(RetentionPolicy.CLASS)
-@Target({
-    ElementType.ANNOTATION_TYPE,
-    ElementType.CONSTRUCTOR,
-    ElementType.FIELD,
-    ElementType.METHOD,
-    ElementType.TYPE
-})
+@Target({ ElementType.ANNOTATION_TYPE, ElementType.CONSTRUCTOR, ElementType.FIELD, ElementType.METHOD, ElementType.TYPE })
 public @interface Beta {
 }

@@ -32,6 +32,7 @@ import java.time.temporal.TemporalUnit;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.internal.ChronoLocalDateTimeComparator;
@@ -39,7 +40,6 @@ import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Assertions for {@link LocalDateTime} type from new Date &amp; Time API introduced in Java 8.

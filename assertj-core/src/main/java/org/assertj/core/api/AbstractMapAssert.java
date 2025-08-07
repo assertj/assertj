@@ -41,12 +41,12 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.assertj.core.annotation.Beta;
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Maps;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

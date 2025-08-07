@@ -18,11 +18,11 @@ import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue
 import java.util.Comparator;
 import java.util.concurrent.atomic.LongAdder;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Longs;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

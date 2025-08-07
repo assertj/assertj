@@ -14,8 +14,8 @@ package org.assertj.core.api;
 
 import static org.assertj.core.internal.Arrays.assertIsArray;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.internal.Arrays;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Base implementation for Enumerable class assertions.

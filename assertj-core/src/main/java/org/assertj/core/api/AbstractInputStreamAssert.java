@@ -31,12 +31,13 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.function.Supplier;
+
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.internal.BinaryDiff;
 import org.assertj.core.internal.BinaryDiffResult;
 import org.assertj.core.internal.Diff;
 import org.assertj.core.internal.DigestDiff;
 import org.assertj.core.internal.Digests;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.diff.Delta;
 
 /**

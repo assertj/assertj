@@ -25,8 +25,8 @@ import java.nio.file.FileSystem;
 import java.security.MessageDigest;
 import java.util.function.Predicate;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.internal.Files;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

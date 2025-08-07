@@ -30,9 +30,9 @@ import java.nio.file.spi.FileSystemProvider;
 import java.security.MessageDigest;
 import java.util.function.Predicate;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.exception.PathsException;
 import org.assertj.core.internal.Paths;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 /**

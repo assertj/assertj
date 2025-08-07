@@ -21,6 +21,7 @@ import java.lang.annotation.Target;
  * Findbugs handles any annotation with name "CheckReturnValue" in return value check.
  *
  * @see <a href="https://github.com/findbugsproject/findbugs/blob/264ae7baf890d2b347d91805c90057062b5dcb1e/findbugs/src/java/edu/umd/cs/findbugs/detect/BuildCheckReturnAnnotationDatabase.java#L120">Findbugs source code</a>
+ * @deprecated use {@link org.assertj.core.annotation.CheckReturnValue} instead
  */
 @Target({
     ElementType.CONSTRUCTOR,
@@ -29,5 +30,6 @@ import java.lang.annotation.Target;
     ElementType.TYPE,
 })
 @Retention(RetentionPolicy.CLASS)
+@Deprecated
 public @interface CheckReturnValue {
 }

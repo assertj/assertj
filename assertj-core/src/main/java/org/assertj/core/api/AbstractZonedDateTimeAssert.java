@@ -27,13 +27,13 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.TemporalUnit;
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.TemporalOffset;
 import org.assertj.core.internal.ChronoZonedDateTimeByInstantComparator;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
-import org.assertj.core.util.CheckReturnValue;
 
 public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDateTimeAssert<SELF>> extends
     AbstractTemporalAssert<SELF, ZonedDateTime> {

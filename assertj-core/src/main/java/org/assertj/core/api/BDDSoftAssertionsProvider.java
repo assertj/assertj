@@ -43,7 +43,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 
 @CheckReturnValue
 public interface BDDSoftAssertionsProvider extends Java6BDDSoftAssertionsProvider {

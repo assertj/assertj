@@ -29,7 +29,7 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 
 /**
  * Entry point for assertion methods for different data types. Each method in this class is a static factory for the

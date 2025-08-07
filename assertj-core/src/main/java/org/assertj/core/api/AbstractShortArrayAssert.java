@@ -16,10 +16,10 @@ import static java.util.stream.IntStream.range;
 
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.ShortArrays;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.VisibleForTesting;
 
 public abstract class AbstractShortArrayAssert<SELF extends AbstractShortArrayAssert<SELF>>
