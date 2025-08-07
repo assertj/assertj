@@ -19,6 +19,7 @@ import java.util.List;
 import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.error.AssertionErrorCreator;
 import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.annotation.Contract;
 
 public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollector
     implements SoftAssertionsProvider, InstanceOfAssertFactories {
@@ -57,6 +58,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public <T> T fail(String failureMessage) {
     AssertionError error = Failures.instance().failure(failureMessage);
     collectAssertionError(error);
@@ -72,6 +74,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @since 3.26.0
    */
   @CanIgnoreReturnValue
+  @Contract(" -> fail")
   public <T> T fail() {
     // pass an empty string because passing null results in a "null" error message.
     return fail("");
@@ -87,6 +90,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public <T> T fail(String failureMessage, Object... args) {
     return fail(format(failureMessage, args));
   }
@@ -101,6 +105,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @since 2.6.0 / 3.6.0
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public <T> T fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
@@ -120,6 +125,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * @since 3.26.0
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public <T> T fail(Throwable realCause) {
     return fail("", realCause);
   }
@@ -133,8 +139,9 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    *           not been.
    * @since 2.6.0 / 3.6.0
    *
-   * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
+   * @see #shouldHaveThrown(Class)
    */
+  @Contract("_ -> fail")
   public void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     shouldHaveThrown(throwableClass);
   }
@@ -148,6 +155,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    *           not been.
    * @since 2.6.0 / 3.6.0
    */
+  @Contract("_ -> fail")
   public void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     AssertionError error = Failures.instance().expectedThrowableNotThrown(throwableClass);
     collectAssertionError(error);

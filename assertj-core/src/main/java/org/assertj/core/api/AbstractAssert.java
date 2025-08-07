@@ -51,6 +51,7 @@ import org.assertj.core.internal.ComparisonStrategy;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.VisibleForTesting;
@@ -136,6 +137,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
    * @see #failure(String, Object...)
    */
+  @Contract("_, _ -> fail")
   protected void failWithMessage(String errorMessage, Object... arguments) {
     throw failure(errorMessage, arguments);
   }
@@ -198,6 +200,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @see #failWithMessage(String, Object...)
    * @see #failureWithActualExpected(Object, Object, String, Object...)
    */
+  @Contract("_, _, _, _ -> fail")
   protected void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessageFormat,
                                                   Object... arguments) {
     throw failureWithActualExpected(actual, expected, errorMessageFormat, arguments);
