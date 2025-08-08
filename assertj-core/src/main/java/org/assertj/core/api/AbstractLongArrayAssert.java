@@ -15,10 +15,10 @@ package org.assertj.core.api;
 import java.util.Arrays;
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.Index;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.LongArrays;
-import org.assertj.core.util.CheckReturnValue;
 
 public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, long[], Long> {

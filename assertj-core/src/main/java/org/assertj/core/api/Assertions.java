@@ -78,6 +78,8 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotation.CanIgnoreReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -100,13 +102,12 @@ import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.presentation.UnicodeRepresentation;
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.Paths;
 import org.assertj.core.util.URLs;
@@ -1638,6 +1639,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @throws AssertionError with the given message.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(String failureMessage) {
     return Fail.fail(failureMessage);
   }
@@ -1652,6 +1654,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @since 3.26.0
    */
   @CanIgnoreReturnValue
+  @Contract(" -> fail")
   public static <T> T fail() {
     return Fail.fail();
   }
@@ -1666,6 +1669,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @throws AssertionError with the given built message.
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Object... args) {
     return Fail.fail(failureMessage, args);
   }
@@ -1679,6 +1683,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Throwable realCause) {
     return Fail.fail(failureMessage, realCause);
   }
@@ -1695,6 +1700,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @throws AssertionError with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(Throwable realCause) {
     // pass an empty string because passing null results in a "null" error message.
     return fail("", realCause);
@@ -1713,6 +1719,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *           not been.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     return Fail.shouldHaveThrown(throwableClass);
   }
@@ -1727,6 +1734,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *           not been.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     return Fail.shouldHaveThrown(throwableClass);
   }

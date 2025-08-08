@@ -19,10 +19,10 @@ import static org.assertj.core.error.array2d.Array2dElementShouldBeDeepEqual.ele
 
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.Char2DArrays;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Assertion methods for two-dimensional arrays of {@code char}s.

@@ -45,7 +45,8 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.assertj.core.annotations.Beta;
+import org.assertj.core.annotation.Beta;
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.api.filter.FilterOperator;
@@ -66,7 +67,6 @@ import org.assertj.core.internal.ObjectArrays;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Strings;
 import org.assertj.core.util.introspection.IntrospectionError;
 

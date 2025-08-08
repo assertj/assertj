@@ -14,7 +14,7 @@ package org.assertj.core.api.recursive.comparison;
 
 import java.util.Set;
 
-import org.assertj.core.annotations.Beta;
+import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.RecursiveComparisonAssert;
 
 /**

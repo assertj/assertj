@@ -38,11 +38,11 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.Dates;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Base class for all implementations of assertions for {@link Date}s.

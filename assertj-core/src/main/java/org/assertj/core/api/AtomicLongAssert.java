@@ -18,12 +18,12 @@ import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Longs;
-import org.assertj.core.util.CheckReturnValue;
 
 public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAssert, AtomicLong> {
 

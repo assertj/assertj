@@ -15,11 +15,11 @@ package org.assertj.core.api;
 import java.math.BigInteger;
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigIntegers;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Base class for all implementations of assertions for {@link BigInteger}s.

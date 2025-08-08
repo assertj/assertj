@@ -73,6 +73,8 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotation.CanIgnoreReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -92,13 +94,12 @@ import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.presentation.UnicodeRepresentation;
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * A unified entry point to all non-deprecated assertions from both the new Java 8 core API and the pre-Java 8 core API.
@@ -169,6 +170,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @throws AssertionError with the given message.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   default <T> T fail(final String failureMessage) {
     return Assertions.fail(failureMessage);
   }
@@ -183,6 +185,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.26.0
    */
   @CanIgnoreReturnValue
+  @Contract(" -> fail")
   default <T> T fail() {
     return Assertions.fail();
   }
@@ -198,6 +201,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   default <T> T fail(String failureMessage, Object... args) {
     return Assertions.fail(failureMessage, args);
   }
@@ -212,7 +216,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
-  default <T> T fail(final String failureMessage, final Throwable realCause) {
+  @Contract("_, _ -> fail")
+  default <T> T fail(String failureMessage, Throwable realCause) {
     return Assertions.fail(failureMessage, realCause);
   }
 
@@ -225,7 +230,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @throws AssertionError with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
-  default <T> T fail(final Throwable realCause) {
+  @Contract("_ -> fail")
+  default <T> T fail(Throwable realCause) {
     return fail(null, realCause);
   }
 
@@ -2080,6 +2086,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *           not been.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   default <T> T failBecauseExceptionWasNotThrown(final Class<? extends Throwable> throwableClass) {
     return Assertions.failBecauseExceptionWasNotThrown(throwableClass);
   }
@@ -2095,6 +2102,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   default <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     return Assertions.shouldHaveThrown(throwableClass);
   }

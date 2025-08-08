@@ -10,22 +10,17 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api;
+package org.assertj.core.annotation;
 
-import org.assertj.core.annotation.CheckReturnValue;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
 
-public class FileSizeAssert<T> extends AbstractFileSizeAssert<FileAssert> {
-
-  private AbstractFileAssert<FileAssert> fileAssert;
-
-  public FileSizeAssert(AbstractFileAssert<FileAssert> fileAssert) {
-    super(fileAssert.actual.length(), FileSizeAssert.class);
-    this.fileAssert = fileAssert;
-  }
-
-  @Override
-  @CheckReturnValue
-  public AbstractFileAssert<FileAssert> returnToFile() {
-    return fileAssert;
-  }
+/**
+ * Findbugs handles any annotation with name "CheckReturnValue" in return value check.
+ *
+ * @see <a href="https://github.com/findbugsproject/findbugs/blob/264ae7baf890d2b347d91805c90057062b5dcb1e/findbugs/src/java/edu/umd/cs/findbugs/detect/BuildCheckReturnAnnotationDatabase.java#L120">Findbugs source code</a>
+ * @since 3.27.4
+ */
+@Target({ ElementType.CONSTRUCTOR, ElementType.METHOD, ElementType.PACKAGE, ElementType.TYPE })
+public @interface CheckReturnValue {
 }

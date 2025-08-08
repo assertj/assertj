@@ -16,10 +16,10 @@ import static java.util.stream.IntStream.range;
 
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.CharArrays;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.CheckReturnValue;
 
 public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, char[], Character> {

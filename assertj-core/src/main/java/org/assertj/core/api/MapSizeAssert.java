@@ -14,7 +14,7 @@ package org.assertj.core.api;
 
 import java.util.Map;
 
-import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 
 public class MapSizeAssert<KEY, VALUE> extends AbstractMapSizeAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 

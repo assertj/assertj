@@ -17,10 +17,10 @@ import static org.assertj.core.util.Arrays.array;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicIntegerArray;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.Index;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.IntArrays;
-import org.assertj.core.util.CheckReturnValue;
 
 public class AtomicIntegerArrayAssert
     extends AbstractEnumerableAssert<AtomicIntegerArrayAssert, AtomicIntegerArray, Integer> {

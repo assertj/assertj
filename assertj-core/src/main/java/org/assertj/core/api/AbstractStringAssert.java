@@ -26,10 +26,10 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.CheckReturnValue;
 
 public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> extends AbstractCharSequenceAssert<SELF, String> {
 
