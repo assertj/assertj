@@ -117,8 +117,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   private Map<String, Object> iterableMap;
 
-  private ThrowingExtractor<Name, String, Exception> throwingFirstNameExtractor;
-  private ThrowingExtractor<Name, String, Exception> throwingLastNameExtractor;
+  private ThrowingExtractor<Name, String> throwingFirstNameExtractor;
+  private ThrowingExtractor<Name, String> throwingLastNameExtractor;
   private Function<Name, String> firstNameFunction;
   private Function<Name, String> lastNameFunction;
 
@@ -1115,7 +1115,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .contains(tuple("John", "Doe"))
           .contains(tuple("Bilbo", "Baggins"));
     softly.then(names)
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameExtractor)
           .contains("John")
           .contains("sam");
     softly.then(names)
@@ -1127,7 +1127,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .hasSize(123);
     softly.then(names)
           .filteredOn(name -> name.first.startsWith("Jo"))
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameExtractor)
           .contains("Sauron");
     softly.then(names)
           .flatExtracting(firstNameFunction, lastNameFunction)
@@ -1320,7 +1320,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .contains(tuple("John", "Doe"))
           .contains(tuple("Bilbo", "Baggins"));
     softly.then(names)
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameExtractor)
           .contains("John")
           .contains("sam");
     softly.then(names)
@@ -1332,7 +1332,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .hasSize(123);
     softly.then(names)
           .filteredOn(name -> name.first.startsWith("Jo"))
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameExtractor)
           .contains("Sauron");
     softly.then(names)
           .flatExtracting(firstNameFunction, lastNameFunction)
