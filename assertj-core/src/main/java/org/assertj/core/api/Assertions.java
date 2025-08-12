@@ -12,9 +12,11 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.Percentage.withPercentage;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +45,7 @@ import java.time.temporal.TemporalUnit;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -108,8 +111,10 @@ import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.presentation.UnicodeRepresentation;
+import org.assertj.core.util.Executable;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.Paths;
+import org.assertj.core.util.Throwables;
 import org.assertj.core.util.URLs;
 import org.assertj.core.util.introspection.FieldSupport;
 import org.assertj.core.util.introspection.Introspection;
@@ -3363,6 +3368,71 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static <ELEMENT> ListAssert<ELEMENT> assertThatStream(Stream<? extends ELEMENT> actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Verifies that at least one of the executables does not fail.
+   * <p>
+   * This allows users to perform OR like assertions or just verify that at least one of the executables does not fail.
+   * <p>
+   * This is similar in intent to {@link org.assertj.core.api.AbstractAssert#satisfiesAnyOf(Consumer[]) satisfiesAnyOf},
+   * but useful for cases where there is no object under test and only the behavior of code blocks (executables) is being verified.
+   * <p>
+   * If all the executables fail,
+   * an {@link AssertionError} is thrown with a message listing all the stack traces of the thrown exceptions,
+   * numbered by the indices of the executables in the array.
+   * Example:
+   * <pre><code class='java'> Executable[] execsWithOneNotFailing = new Executable[] {
+   * () -> {
+   * throw new Throwable("Failure message 1");
+   * },
+   * () -> {
+   * throw new Throwable("Failure message 2");
+   * },
+   * () -> {
+   * }
+   * }
+   *
+   * // assertion succeeds:
+   * assertAny(executablesWithOneNotFailing);
+   *
+   *
+   * Executable[] allFailingExecs = new Executable[] {
+   * () -> {
+   * throw new Throwable("Failure message 1");
+   * },
+   * () -> {
+   * throw new Throwable("Failure message 2");
+   * }
+   * }
+   *
+   * // assertion fails:
+   * assertAny(failingExecutables); </code></pre>
+   * @param executables the group of executables to execute, must not be null.
+   * @throws IllegalArgumentException if any of the executables is null.
+   */
+  public static void assertAny(Executable... executables) {
+    checkArgument(stream(executables).allMatch(java.util.Objects::nonNull), "No executable can be null");
+    LinkedList<Throwable> exceptionsThrown = new LinkedList<>();
+    for (Executable executable : executables) {
+      try {
+        executable.execute();
+        return;
+      } catch (Throwable e) {
+        exceptionsThrown.add(e);
+      }
+    }
+
+    StringBuilder sb = new StringBuilder();
+    sb.append("None of the provided executables succeeded.");
+    int numberOfExecutables = executables.length;
+    for (int i = 0; i < numberOfExecutables; i++) {
+      sb.append("\nExecutable #%d failed with:\n".formatted(i));
+      Throwable throwable = exceptionsThrown.get(i);
+      sb.append(Throwables.getStackTrace(throwable));
+    }
+
+    throw new AssertionError(sb.toString());
   }
 
   /**
