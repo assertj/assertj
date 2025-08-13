@@ -14,9 +14,9 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Objects;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Base class for assertions that supports defining a comparator/BiPredicate to override the equals method of the type

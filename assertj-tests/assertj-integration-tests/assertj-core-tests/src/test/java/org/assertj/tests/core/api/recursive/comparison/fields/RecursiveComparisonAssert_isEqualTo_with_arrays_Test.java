@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.tests.core.api.recursive.data.Author;
-import org.assertj.tests.core.api.recursive.data.WithObject;
+import org.assertj.tests.core.api.recursive.data.WithGroupField;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -78,7 +78,7 @@ class RecursiveComparisonAssert_isEqualTo_with_arrays_Test extends WithComparing
   void should_fail_when_comparing_array_to_non_array(Object actualFieldValue, Author[] expectedFieldValue,
                                                      String path, Object value1, Object value2, String desc) {
     // GIVEN
-    WithObject actual = new WithObject(actualFieldValue);
+    var actual = new WithGroupField(actualFieldValue);
     WithArray<Author> expected = new WithArray<>(expectedFieldValue);
     // WHEN/THEN
     ComparisonDifference difference = desc == null ? diff(path, value1, value2) : diff(path, value1, value2, desc);

@@ -29,6 +29,8 @@ import java.lang.annotation.Target;
  * included on users' CLASSPATHs, outside the library developers' control) to do so.
  * <p>
  * Idea borrowed from Guava.
+ *
+ * @deprecated use {@link org.assertj.core.annotation.Beta} instead.
  */
 @Retention(RetentionPolicy.CLASS)
 @Target({
@@ -38,5 +40,6 @@ import java.lang.annotation.Target;
     ElementType.METHOD,
     ElementType.TYPE
 })
+@Deprecated
 public @interface Beta {
 }

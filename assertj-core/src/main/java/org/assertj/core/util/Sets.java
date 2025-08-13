@@ -116,5 +116,19 @@ public final class Sets {
     return set;
   }
 
+  /**
+   * Creates a <em>mutable</em> {@code HashSet} containing the reference elements not in the toRemove set.
+   *
+   * @param <T> the generic type of the {@code HashSet} to create.
+   * @param reference the reference elements
+   * @param toRemove the elements to remove from the reference sets
+   * @return the created {@code HashSet} containing the reference elements not in the toRemove set.
+   */
+  public static <T> Set<T> removeAll(Set<T> reference, Set<T> toRemove) {
+    Set<T> result = newHashSet(reference);
+    result.removeAll(toRemove);
+    return result;
+  }
+
   private Sets() {}
 }

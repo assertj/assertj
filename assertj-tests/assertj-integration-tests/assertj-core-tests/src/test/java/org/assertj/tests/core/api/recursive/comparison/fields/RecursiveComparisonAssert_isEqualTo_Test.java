@@ -12,6 +12,7 @@
  */
 package org.assertj.tests.core.api.recursive.comparison.fields;
 
+import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.entry;
@@ -54,6 +55,7 @@ import org.assertj.tests.core.api.recursive.data.Human;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.assertj.tests.core.api.recursive.data.Theme;
 import org.assertj.tests.core.api.recursive.data.WithObject;
+import org.assertj.tests.core.api.recursive.data.Worker;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -346,17 +348,55 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
   }
 
   @Test
-  void should_report_missing_property() {
+  void should_report_missing_actual_fields() {
     // GIVEN
-    Giant actual = new Giant();
+    Human actual = new Human();
     actual.name = "joe";
-    actual.height = 3.0;
-    Human expected = new Human();
-    expected.name = "joe";
+    Giant expected = new Giant("joe", 3.0);
     // WHEN/THEN
-    ComparisonDifference missingFieldDifference = diff("", actual, expected,
-                                                       "org.assertj.tests.core.api.recursive.data.Giant can't be compared to org.assertj.tests.core.api.recursive.data.Human as Human does not declare all Giant fields, it lacks these: [height]");
-    compareRecursivelyFailsWithDifferences(actual, expected, missingFieldDifference);
+    var difference = diff("", actual, expected,
+                          "actual value had less fields to compare than expected value, it did not have these fields: [height]");
+    compareRecursivelyFailsWithDifferences(actual, expected, difference);
+  }
+
+  @Test
+  void should_report_extra_actual_fields() {
+    // GIVEN
+    Human human = new Human();
+    human.name = "joe";
+    Giant giant = new Giant("joe", 3.0);
+    // WHEN/THEN
+    var difference = diff("", giant, human,
+                          "actual value had more fields to compare than expected value, actual value had more fields to compare than expected value, these actual fields could not be found in expected: [height]");
+    compareRecursivelyFailsWithDifferences(giant, human, difference);
+  }
+
+  @Test
+  void should_report_extra_and_missing_actual_fields() {
+    // GIVEN
+    Worker human = new Worker("joe", "teacher");
+    Giant giant = new Giant("joe", 3.0);
+    // WHEN/THEN
+    var difference = diff("", giant, human,
+                          format("actual value and expected value fields to compare differ:%n" +
+                                 "- actual value had less fields to compare than expected value, it did not have these fields: [job]%n"
+                                 +
+                                 "- actual value had more fields to compare than expected value, these actual fields could not be found in expected: [height]"));
+    compareRecursivelyFailsWithDifferences(giant, human, difference);
+  }
+
+  @Test
+  void should_report_nested_extra_and_missing_actual_fields() {
+    // GIVEN
+    var actual = WithObject.of(new Giant("joe", 3.0));
+    var expected = WithObject.of(new Worker("joe", "teacher"));
+    // WHEN/THEN
+    var difference = diff("value", actual.value, expected.value,
+                          format("actual value and expected value fields to compare differ:%n" +
+                                 "- actual value had less fields to compare than expected value, it did not have these fields: [job]%n"
+                                 +
+                                 "- actual value had more fields to compare than expected value, these actual fields could not be found in expected: [height]"));
+    compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 
   static class LightString {

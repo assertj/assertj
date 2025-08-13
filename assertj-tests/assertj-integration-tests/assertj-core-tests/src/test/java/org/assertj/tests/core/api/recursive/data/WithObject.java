@@ -13,10 +13,10 @@
 package org.assertj.tests.core.api.recursive.data;
 
 public class WithObject {
-  public Object group;
+  public Object value;
 
   public WithObject(Object value) {
-    this.group = value;
+    this.value = value;
   }
 
   public static WithObject of(Object value) {
@@ -25,7 +25,7 @@ public class WithObject {
 
   @Override
   public String toString() {
-    return "WithObject group=%s".formatted(group);
+    return "WithObject value=%s".formatted(value);
   }
 
 }

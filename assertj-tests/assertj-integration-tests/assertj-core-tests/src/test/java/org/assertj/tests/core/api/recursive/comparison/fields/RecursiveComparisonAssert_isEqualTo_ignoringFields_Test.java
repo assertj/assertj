@@ -220,9 +220,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithCompar
     Person person1 = new Person("John");
     person1.home.address.number = 1;
 
-    Giant giant1 = new Giant();
-    giant1.name = "Giant John";
-    giant1.height = 3.1;
+    Giant giant1 = new Giant("Giant John", 3.1);
     giant1.home.address.number = 1;
 
     Person person2 = new Person("Jack");
@@ -493,9 +491,7 @@ class RecursiveComparisonAssert_isEqualTo_ignoringFields_Test extends WithCompar
     Person person1 = new Person("John");
     person1.home.address.number = 1;
 
-    Giant giant1 = new Giant();
-    giant1.name = "Giant John";
-    giant1.height = 3.1;
+    Giant giant1 = new Giant("Giant John", 3.1);
     giant1.home.address.number = 1;
 
     Person person2 = new Person("Jack");

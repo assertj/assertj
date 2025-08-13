@@ -14,9 +14,9 @@ package org.assertj.core.api;
 
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.internal.Characters;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Base class for all implementations of assertions for {@link Character}s.

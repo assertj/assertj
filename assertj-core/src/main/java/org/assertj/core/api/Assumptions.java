@@ -78,11 +78,11 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.PreferredAssumptionException;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Throwables;
 
 import net.bytebuddy.ByteBuddy;

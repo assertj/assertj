@@ -34,6 +34,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
@@ -47,9 +49,9 @@ import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Base class for all assertions.
@@ -135,6 +137,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
    * @see #failure(String, Object...)
    */
+  @Contract("_, _ -> fail")
   protected void failWithMessage(String errorMessage, Object... arguments) {
     throw failure(errorMessage, arguments);
   }
@@ -197,6 +200,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @see #failWithMessage(String, Object...)
    * @see #failureWithActualExpected(Object, Object, String, Object...)
    */
+  @Contract("_, _, _, _ -> fail")
   protected void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessageFormat,
                                                   Object... arguments) {
     throw failureWithActualExpected(actual, expected, errorMessageFormat, arguments);

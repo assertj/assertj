@@ -15,9 +15,9 @@ package org.assertj.core.api;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.description.Description;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Throwables;
 
 /**

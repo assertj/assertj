@@ -159,7 +159,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
     // WHEN/THEN
     then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .usingOverriddenEquals()
-                .comparingOnlyFields("group.name", "group.neverEquals.name")
+                .comparingOnlyFields("value.name", "value.neverEquals.name")
                 .isEqualTo(expected);
   }
 
@@ -171,8 +171,8 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                                                                                  .usingOverriddenEquals()
-                                                                                 .comparingOnlyFields("group.name",
-                                                                                                      "group.neverEquals")
+                                                                                 .comparingOnlyFields("value.name",
+                                                                                                      "value.neverEquals")
                                                                                  .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContaining("- equals methods were used in the comparison");

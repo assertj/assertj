@@ -129,4 +129,27 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends It
       return "Bar(id=" + id + ")";
     }
   }
+
+  public record Person(String name, boolean hasPhd) {
+  }
+
+  public record Doctor(String name, boolean hasPhd) {
+  }
+
+  @Test
+  public void javadoc_example() {
+    // GIVEN
+    Person drSheldon = new Person("Sheldon Cooper", true);
+    Person sheldon = new Person("Sheldon Cooper", false);
+    Person drLeonard = new Person("Leonard Hofstadter", true);
+    Person leonard = new Person("Leonard Hofstadter", false);
+    Person drRaj = new Person("Raj Koothrappali", true);
+    Person raj = new Person("Raj Koothrappali", false);
+    // WHEN
+    var configuration = RecursiveComparisonConfiguration.builder().withIgnoredFields("hasPhd").build();
+    // THEN
+    then(List.of(drSheldon, drLeonard, drRaj)).usingRecursiveFieldByFieldElementComparator(configuration)
+                                              .containsExactlyElementsOf(List.of(sheldon, leonard, raj));
+  }
+
 }

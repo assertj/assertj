@@ -19,6 +19,8 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation to skip "CheckReturnValue" check.
+ *
+ * @deprecated use {@link org.assertj.core.annotation.CanIgnoreReturnValue} instead
  */
 @Target({
     ElementType.CONSTRUCTOR,
@@ -27,5 +29,6 @@ import java.lang.annotation.Target;
     ElementType.TYPE,
 })
 @Retention(RetentionPolicy.CLASS)
+@Deprecated
 public @interface CanIgnoreReturnValue {
 }

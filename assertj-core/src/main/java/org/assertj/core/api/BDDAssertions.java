@@ -73,6 +73,8 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotation.CanIgnoreReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.InFilter;
@@ -91,13 +93,12 @@ import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.presentation.UnicodeRepresentation;
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Behavior-driven development style entry point for assertion methods for different types. Each method in this class is a static factory
@@ -2112,6 +2113,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(String failureMessage) {
     return Assertions.fail(failureMessage);
   }
@@ -2126,6 +2128,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.26.0
    */
   @CanIgnoreReturnValue
+  @Contract(" -> fail")
   public static <T> T fail() {
     return Assertions.fail();
   }
@@ -2141,6 +2144,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Object... args) {
     return Assertions.fail(failureMessage, args);
   }
@@ -2156,6 +2160,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Throwable realCause) {
     return Assertions.fail(failureMessage, realCause);
   }
@@ -2169,6 +2174,7 @@ public class BDDAssertions extends Assertions {
    * @throws AssertionError with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(Throwable realCause) {
     return fail(null, realCause);
   }
@@ -2185,6 +2191,7 @@ public class BDDAssertions extends Assertions {
    * @since 3.20.0
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     return Assertions.shouldHaveThrown(throwableClass);
   }

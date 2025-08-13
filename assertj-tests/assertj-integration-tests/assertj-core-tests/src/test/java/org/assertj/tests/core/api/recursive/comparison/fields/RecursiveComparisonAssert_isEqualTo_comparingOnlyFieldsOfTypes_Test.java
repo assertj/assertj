@@ -23,8 +23,10 @@ import java.util.OptionalLong;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Home;
 import org.assertj.tests.core.api.recursive.data.Person;
+import org.assertj.tests.core.api.recursive.data.WithObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -236,6 +238,17 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(Home.class);
     // WHEN/THEN
     compareRecursivelyFailsWithDifferences(sherlock, moriarty, javaTypeDiff("home.address.number", 221, 222));
+  }
+
+  @Test
+  void should_pass_when_actual_compared_fields_are_specified_and_expected_has_extra_fields() {
+    // GIVEN
+    var actual = WithObject.of(new Person("joe"));
+    var expected = WithObject.of(new Giant("joe", 3.0));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .comparingOnlyFieldsOfTypes(String.class)
+                .isEqualTo(expected);
   }
 
   @Test

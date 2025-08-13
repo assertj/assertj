@@ -147,14 +147,8 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test extends WithL
   @Test
   void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_types() {
     // GIVEN
-    Giant goliath = new Giant();
-    goliath.name = "Goliath";
-    goliath.height = 3.0;
-
-    Giant goliathTwin = new Giant();
-    goliathTwin.name = "Goliath";
-    goliathTwin.height = 3.1;
-
+    Giant goliath = new Giant("Goliath", 3.0);
+    Giant goliathTwin = new Giant("Goliath", 3.1);
     // THEN
     then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
                  .withComparatorForType(new AtPrecisionComparator<>(0.2), Double.class)

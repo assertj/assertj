@@ -28,6 +28,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -35,7 +36,6 @@ import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -536,18 +536,18 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   @SafeVarargs
-  public final <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> extracting(Function<? super ACTUAL, ? extends T>... extractors) {
+  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
     return extractingForProxy(extractors);
   }
 
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> extractingForProxy(Function<? super ACTUAL, ? extends T>[] extractors) {
+  protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingForProxy(Function<? super ACTUAL, ?>[] extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors")::create);
-    List<T> values = Stream.of(extractors)
-                           .map(extractor -> extractor.apply(actual))
-                           .collect(toList());
+    List<Object> values = Stream.of(extractors)
+                                .map(extractor -> extractor.apply(actual))
+                                .collect(toList());
     return newListAssertInstance(values).withAssertionState(myself);
   }
 

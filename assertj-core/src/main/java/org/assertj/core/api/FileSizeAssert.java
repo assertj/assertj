@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 
 public class FileSizeAssert<T> extends AbstractFileSizeAssert<FileAssert> {
 

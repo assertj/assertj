@@ -66,9 +66,9 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.configuration.PreferredAssumptionException;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * A unified entry point to all assumptions from both the new Java 8 core API and the pre-Java 8 core API.

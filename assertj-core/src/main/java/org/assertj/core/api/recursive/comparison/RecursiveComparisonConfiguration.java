@@ -864,6 +864,32 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
                                   .collect(toSet());
   }
 
+  public Set<String> getExpectedChildrenNodeNamesToCompare(DualValue dualValue) {
+    Set<String> expectedChildrenNodeNames = getChildrenNodeNamesOf(dualValue.expected);
+    // if we have some compared types, we can't discard any fields since they could have fields we need to compare.
+    // we could evaluate the whole graphs to figure that but that would be bad performance wise so add everything
+    // and exclude later on any differences that were on fields not to compare
+    if (hasComparedTypes()) {
+      // don't register fieldLocation of fields of types to compare since we do it for actual;
+      return expectedChildrenNodeNames;
+    }
+    // we are doing the same as shouldIgnore(DualValue dualValue) but in two steps for performance reasons:
+    // - we filter first ignored nodes by names that don't need building DualValues
+    // - then we filter field DualValues with the remaining criteria that need to get the node value
+    // DualValues are built by introspecting node values which is expensive.
+    return expectedChildrenNodeNames.stream()
+                                    // evaluate field name ignoring criteria on dualValue field location + field name
+                                    .filter(fieldName -> !shouldIgnoreFieldBasedOnFieldLocation(dualValue.fieldLocation.field(fieldName)))
+                                    .map(fieldName -> dualValueForField(dualValue, fieldName))
+                                    // evaluate field value ignoring criteria
+                                    .filter(fieldDualValue -> !shouldIgnoreFieldBasedOnFieldValue(fieldDualValue))
+                                    .filter(this::shouldBeCompared)
+                                    // back to field name
+                                    .map(DualValue::getFieldName)
+                                    .filter(fieldName -> !fieldName.isEmpty())
+                                    .collect(toSet());
+  }
+
   Set<String> getChildrenNodeNamesOf(Object instance) {
     return introspectionStrategy.getChildrenNodeNamesOf(instance);
   }
@@ -1341,6 +1367,10 @@ public class RecursiveComparisonConfiguration extends AbstractRecursiveOperation
 
   boolean isNotAComparedField(DualValue dualValue) {
     return comparedFields.stream().noneMatch(comparedField -> comparedField.exactlyMatches(dualValue.fieldLocation));
+  }
+
+  public boolean hasComparedFields() {
+    return !comparedFields.isEmpty();
   }
 
   /**

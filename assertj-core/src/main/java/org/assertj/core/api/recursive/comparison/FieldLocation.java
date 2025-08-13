@@ -174,8 +174,7 @@ public final class FieldLocation implements Comparable<FieldLocation> {
   }
 
   public String getFieldName() {
-    if (decomposedPath.isEmpty()) return "";
-    return decomposedPath.get(decomposedPath.size() - 1);
+    return decomposedPath.isEmpty() ? "" : decomposedPath.get(decomposedPath.size() - 1);
   }
 
   public boolean isRoot() {

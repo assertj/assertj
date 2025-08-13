@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.assertj.core.annotations.Beta;
+import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.AbstractSoftAssertions;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.BDDSoftAssertions;

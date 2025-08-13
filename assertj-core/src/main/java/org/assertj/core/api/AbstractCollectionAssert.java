@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.NavigableSet;
 import java.util.Set;
 
-import org.assertj.core.annotations.Beta;
+import org.assertj.core.annotation.Beta;
 
 /**
  * Base class for all implementations of assertions for {@link Collection}s.

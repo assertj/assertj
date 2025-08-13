@@ -17,10 +17,10 @@ import static org.assertj.core.util.Arrays.array;
 import java.util.Comparator;
 import java.util.concurrent.atomic.AtomicLongArray;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.data.Index;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.LongArrays;
-import org.assertj.core.util.CheckReturnValue;
 
 public class AtomicLongArrayAssert
     extends AbstractEnumerableAssert<AtomicLongArrayAssert, AtomicLongArray, Long> {
