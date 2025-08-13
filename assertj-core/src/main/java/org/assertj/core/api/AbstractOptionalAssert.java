@@ -36,7 +36,6 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.error.ShouldMatch;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.PredicateDescription;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Assertions for {@link java.util.Optional}.
