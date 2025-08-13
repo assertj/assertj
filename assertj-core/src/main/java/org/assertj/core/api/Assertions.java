@@ -12,9 +12,12 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.Percentage.withPercentage;
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.File;
 import java.io.IOException;
@@ -40,6 +43,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -108,6 +112,7 @@ import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.presentation.UnicodeRepresentation;
+import org.assertj.core.util.Executable;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.Paths;
 import org.assertj.core.util.URLs;
@@ -3363,6 +3368,58 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static <ELEMENT> ListAssert<ELEMENT> assertThatStream(Stream<? extends ELEMENT> actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Verifies that at least one of the executables does not fail.
+   * <p>
+   * This allows users to perform OR like assertions or just verify that at least one of the executables does not fail.
+   * <p>
+   * This is similar in intent to {@link org.assertj.core.api.AbstractAssert#satisfiesAnyOf(Consumer[]) satisfiesAnyOf},
+   * but useful for cases where there is no object under test and only the behavior of code blocks (executables) is being verified.
+   * <p>
+   * If all the executables fail,
+   * an {@link AssertionError} is thrown with a message listing all the stack traces of the thrown exceptions,
+   * numbered by the indices of the executables in the array.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Executable[] executablesWithOneNotFailing = new Executable[] {
+   *   () -> { throw new Throwable("Failure message 1"); },
+   *   () -> { throw new Throwable("Failure message 2"); },
+   *   () -> {}
+   * };
+   * // assertion succeeds:
+   * assertAny(executablesWithOneNotFailing);
+   *
+   * Executable[] allFailingExecutables = new Executable[] {
+   *   () -> { throw new Throwable("Failure message 1"); },
+   *   () -> { throw new Throwable("Failure message 2"); }
+   * };
+   * // assertion fails:
+   * assertAny(allFailingExecutables); </code></pre>
+   *
+   * @param executables the group of executables to execute, must not be null.
+   * @throws IllegalArgumentException if any of the executables is null.
+   */
+  public static void assertAny(Executable... executables) {
+    checkArgument(stream(executables).allMatch(java.util.Objects::nonNull), "No executable can be null");
+    List<Throwable> exceptionsThrown = new ArrayList<>();
+    for (Executable executable : executables) {
+      try {
+        executable.execute();
+        return;
+      } catch (Throwable e) {
+        exceptionsThrown.add(e);
+      }
+    }
+
+    StringBuilder messageBuilder = new StringBuilder();
+    messageBuilder.append("None of the provided executables succeeded.");
+    for (int i = 0; i < executables.length; i++) {
+      messageBuilder.append("%nExecutable #%d failed with:%n%s".formatted(i, getStackTrace(exceptionsThrown.get(i))));
+    }
+
+    throw new AssertionError(messageBuilder.toString());
   }
 
   /**
