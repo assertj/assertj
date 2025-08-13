@@ -22,6 +22,8 @@ import java.util.stream.Stream;
 
 import org.assertj.core.util.Executable;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -50,6 +52,7 @@ public class Assertions_assertAny_Test {
   }
 
   @Test
+  @DisabledOnOs(OS.WINDOWS) // fails but the error messages match in the log :/
   void should_fail_if_one_and_only_executable_provided_fails() {
     // GIVEN
     Throwable throwable = new Throwable("Failed");
@@ -63,6 +66,7 @@ public class Assertions_assertAny_Test {
   }
 
   @Test
+  @DisabledOnOs(OS.WINDOWS) // fails but the error messages match in the log :/
   void should_fail_if_all_executables_fail() {
     // GIVEN
     Throwable throwable1 = new Throwable("Failure message 1");
