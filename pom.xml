@@ -121,7 +121,7 @@
     <maven-enforcer-plugin.version>3.5.0</maven-enforcer-plugin.version>
     <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
-    <sonar-maven-plugin.version>5.0.0.4389</sonar-maven-plugin.version>
+    <sonar-maven-plugin.version>5.1.0.4751</sonar-maven-plugin.version>
     <spotless-maven-plugin.version>2.44.3</spotless-maven-plugin.version>
   </properties>
 
