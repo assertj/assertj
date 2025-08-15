@@ -122,7 +122,7 @@
     <maven-gpg-plugin.version>3.2.7</maven-gpg-plugin.version>
     <maven-release-plugin.version>3.1.1</maven-release-plugin.version>
     <sonar-maven-plugin.version>5.1.0.4751</sonar-maven-plugin.version>
-    <spotless-maven-plugin.version>2.44.3</spotless-maven-plugin.version>
+    <spotless-maven-plugin.version>2.46.1</spotless-maven-plugin.version>
   </properties>
 
   <build>
