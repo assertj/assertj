@@ -83,17 +83,6 @@ class CollectionAssert_isUnmodifiable_Test {
                      arguments(newTreeSet("element"), shouldBeUnmodifiable("Collection.add(null)", new NullPointerException())));
   }
 
-  // https://issues.apache.org/jira/browse/COLLECTIONS-799
-  @Test
-  void should_fail_with_commons_collections_UnmodifiableNavigableSet() {
-    // GIVEN
-    Collection<?> actual = UnmodifiableNavigableSet.unmodifiableNavigableSet(newTreeSet("element"));
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
-    // THEN
-    then(assertionError).hasMessage(shouldBeUnmodifiable("NavigableSet.pollFirst()").create());
-  }
-
   @ParameterizedTest
   @MethodSource("unmodifiableCollections")
   void should_pass(Collection<?> actual) {
@@ -126,6 +115,7 @@ class CollectionAssert_isUnmodifiable_Test {
                      Sets.unmodifiableNavigableSet(newTreeSet("element")),
                      UnmodifiableCollection.unmodifiableCollection(list(new Object())),
                      UnmodifiableList.unmodifiableList(list(new Object())),
+                     UnmodifiableNavigableSet.unmodifiableNavigableSet(newTreeSet("element")),
                      UnmodifiableSet.unmodifiableSet(set(new Object())),
                      UnmodifiableSortedSet.unmodifiableSortedSet(newTreeSet("element")));
   }
