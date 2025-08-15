@@ -2,6 +2,8 @@ name: CI
 
 on: [push, pull_request]
 
+permissions: {}
+
 env:
   MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always
 

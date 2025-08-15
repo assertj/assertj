@@ -8,6 +8,8 @@ on:
     paths:
       - 'assertj-core/**'
 
+permissions: {}
+
 env:
   MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always -DskipTests
 

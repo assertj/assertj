@@ -3,6 +3,8 @@ name: Release
 on:
   workflow_dispatch:
 
+permissions: {}
+
 env:
   MAVEN_ARGS: -B -V -ntp -e -Djansi.passthrough=true -Dstyle.color=always -Djacoco.skip=true
 
