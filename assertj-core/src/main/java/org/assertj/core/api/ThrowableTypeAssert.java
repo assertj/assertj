@@ -63,7 +63,7 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
   }
 
   protected void checkThrowableType(Throwable throwable) {
-    assertThat(throwable).as(description).hasBeenThrown().isInstanceOf(expectedThrowableType);
+    assertThat(throwable).as(description).hasThrownExceptionOf(expectedThrowableType);
   }
 
   protected ThrowableAssertAlternative<T> buildThrowableTypeAssert(T throwable) {
