@@ -32,7 +32,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -746,29 +745,36 @@ public class RecursiveComparisonDifferenceCalculator {
     }
   }
 
+  @SuppressWarnings({ "unchecked", "rawtypes" })
   private static void compareUnorderedMap(DualValue dualValue, ComparisonState comparisonState) {
     if (!dualValue.isActualAMap()) {
       comparisonState.addDifference(dualValue, differentTypeErrorMessage(dualValue, "a map"));
       return;
     }
 
-    Map<?, ?> actualMap = filterIgnoredFields((Map<?, ?>) dualValue.actual, dualValue.fieldLocation,
-                                              comparisonState.recursiveComparisonConfiguration);
-    Map<?, ?> expectedMap = filterIgnoredFields((Map<?, ?>) dualValue.expected, dualValue.fieldLocation,
-                                                comparisonState.recursiveComparisonConfiguration);
+    Map actualMap = filterIgnoredFields((Map<?, ?>) dualValue.actual, dualValue.fieldLocation,
+                                        comparisonState.recursiveComparisonConfiguration);
+    Map expectedMap = filterIgnoredFields((Map<?, ?>) dualValue.expected, dualValue.fieldLocation,
+                                          comparisonState.recursiveComparisonConfiguration);
 
+    StringBuilder diffMessage = new StringBuilder();
     if (actualMap.size() != expectedMap.size()) {
-      comparisonState.addDifference(dualValue, DIFFERENT_SIZE_ERROR.formatted("maps", actualMap.size(), expectedMap.size()));
-      // no need to inspect entries, maps are not equal as they don't have the same size
-      return;
+      diffMessage.append(DIFFERENT_SIZE_ERROR.formatted("maps", actualMap.size(), expectedMap.size()));
+      diffMessage.append("%n".formatted());
+      // continue in order to show the maps differences in the error message
     }
-    // actual and expected maps same size but do they have the same keys?
-    Set<?> expectedKeysNotFound = new LinkedHashSet<>(expectedMap.keySet());
-    // noinspection SuspiciousMethodCalls
-    expectedKeysNotFound.removeAll(actualMap.keySet());
-    if (!expectedKeysNotFound.isEmpty()) {
-      comparisonState.addDifference(dualValue,
-                                    "The following keys were not found in the actual map value:%n  %s".formatted(comparisonState.toStringOf(expectedKeysNotFound)));
+    Set<?> expectedKeysNotInActual = removeAll(expectedMap.keySet(), actualMap.keySet());
+    Set<?> actualKeysNotInExpected = removeAll(actualMap.keySet(), expectedMap.keySet());
+    boolean someExpectedKeysWereNotFoundInActual = !expectedKeysNotInActual.isEmpty();
+    boolean someActualsKeysWereNotFoundInExpected = !actualKeysNotInExpected.isEmpty();
+    if (someExpectedKeysWereNotFoundInActual || someActualsKeysWereNotFoundInExpected) {
+      if (someExpectedKeysWereNotFoundInActual) {
+        diffMessage.append("The following keys were not found in the actual map value:%n  %s%n".formatted(comparisonState.toStringOf(expectedKeysNotInActual)));
+      }
+      if (someActualsKeysWereNotFoundInExpected) {
+        diffMessage.append("The following keys were present in the actual map value, but not in the expected map value:%n  %s".formatted(comparisonState.toStringOf(actualKeysNotInExpected)));
+      }
+      comparisonState.addDifference(dualValue, diffMessage.toString());
       return;
     }
     // actual and expected maps have the same keys, we need now to compare their values

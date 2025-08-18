@@ -117,10 +117,12 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
     Map<String, Author> singletonGeorgeMartinMap = singletonMap(georgeMartin.name, georgeMartin);
     return Stream.of(arguments(singletonPratchettMap, singletonGeorgeMartinMap, "map",
                                singletonPratchettMap, singletonGeorgeMartinMap,
-                               "The following keys were not found in the actual map value:%n  [\"George Martin\"]".formatted()),
+                               ("The following keys were not found in the actual map value:%n  [\"George Martin\"]" +
+                                "%nThe following keys were present in the actual map value, but not in the expected map value:%n  [\"Terry Pratchett\"]").formatted()),
                      arguments(nonSortedPratchettAndMartin, singletonPratchettMap, "map",
                                nonSortedPratchettAndMartin, singletonPratchettMap,
-                               "actual and expected values are maps of different size, actual size=2 when expected size=1"),
+                               ("actual and expected values are maps of different size, actual size=2 when expected size=1" +
+                                "%nThe following keys were present in the actual map value, but not in the expected map value:%n  [\"George Martin\"]").formatted()),
                      arguments(sortedMartinAndPratchett, sortedPratchettMap, "map",
                                sortedMartinAndPratchett, sortedPratchettMap,
                                "actual and expected values are sorted maps of different size, actual size=2 when expected size=1"),
@@ -131,10 +133,12 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
                                none, pratchett, null),
                      arguments(singletonPratchettMap, singletonMap(georgeMartin.name, pratchett), "map",
                                singletonPratchettMap, singletonMap(georgeMartin.name, pratchett),
-                               "The following keys were not found in the actual map value:%n  [\"George Martin\"]".formatted()),
+                               ("The following keys were not found in the actual map value:%n  [\"George Martin\"]" +
+                                "%nThe following keys were present in the actual map value, but not in the expected map value:%n  [\"Terry Pratchett\"]").formatted()),
                      arguments(singletonPratchettMap, empty, "map",
                                singletonPratchettMap, empty,
-                               "actual and expected values are maps of different size, actual size=1 when expected size=0"));
+                               ("actual and expected values are maps of different size, actual size=1 when expected size=0" +
+                                "%nThe following keys were present in the actual map value, but not in the expected map value:%n  [\"Terry Pratchett\"]").formatted()));
   }
 
   @ParameterizedTest(name = "authors {0} / object {1} / path {2} / value 1 {3}/ value 2 {4}")
