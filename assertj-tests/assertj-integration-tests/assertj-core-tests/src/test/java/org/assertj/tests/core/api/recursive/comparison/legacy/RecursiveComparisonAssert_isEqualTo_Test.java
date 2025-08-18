@@ -403,7 +403,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     ComparisonDifference difference = diff("_children",
                                            mapOf(entry("importantValue", "10"), entry("someNotImportantValue", 1)),
                                            mapOf(entry("bar", "10"), entry("foo", 1)),
-                                           "The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]".formatted());
+                                           ("The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]" +
+                                            "%nThe following keys were present in the actual map value, but not found in the expected map value:%n  [\"someNotImportantValue\", \"importantValue\"]").formatted());
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 

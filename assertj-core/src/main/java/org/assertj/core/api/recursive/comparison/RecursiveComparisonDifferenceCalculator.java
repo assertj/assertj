@@ -757,18 +757,35 @@ public class RecursiveComparisonDifferenceCalculator {
     Map<?, ?> expectedMap = filterIgnoredFields((Map<?, ?>) dualValue.expected, dualValue.fieldLocation,
                                                 comparisonState.recursiveComparisonConfiguration);
 
+    StringBuilder message = new StringBuilder();
     if (actualMap.size() != expectedMap.size()) {
-      comparisonState.addDifference(dualValue, DIFFERENT_SIZE_ERROR.formatted("maps", actualMap.size(), expectedMap.size()));
-      // no need to inspect entries, maps are not equal as they don't have the same size
-      return;
+      message.append(DIFFERENT_SIZE_ERROR.formatted("maps", actualMap.size(), expectedMap.size()));
+      message.append("%n".formatted());
+      // continue in order to add differences to the message even though actual and expected maps have different sizes, so they
+      // cannot be equal
     }
-    // actual and expected maps same size but do they have the same keys?
     Set<?> expectedKeysNotFound = new LinkedHashSet<>(expectedMap.keySet());
     // noinspection SuspiciousMethodCalls
     expectedKeysNotFound.removeAll(actualMap.keySet());
-    if (!expectedKeysNotFound.isEmpty()) {
-      comparisonState.addDifference(dualValue,
-                                    "The following keys were not found in the actual map value:%n  %s".formatted(comparisonState.toStringOf(expectedKeysNotFound)));
+
+    Set<?> actualKeysFound = new LinkedHashSet<>(actualMap.keySet());
+    // noinspection SuspiciousMethodCalls
+    actualKeysFound.removeAll(expectedMap.keySet());
+
+    if (!expectedKeysNotFound.isEmpty() || !actualKeysFound.isEmpty()) {
+
+      if (!expectedKeysNotFound.isEmpty()) {
+        message.append("The following keys were not found in the actual map value:%n  %s"
+                                                                                         .formatted(comparisonState.toStringOf(expectedKeysNotFound)));
+        message.append("%n".formatted());
+      }
+
+      if (!actualKeysFound.isEmpty()) {
+        message.append("The following keys were present in the actual map value, but not found in the expected map value:%n  %s"
+                                                                                                                                .formatted(comparisonState.toStringOf(actualKeysFound)));
+      }
+
+      comparisonState.addDifference(dualValue, message.toString());
       return;
     }
     // actual and expected maps have the same keys, we need now to compare their values
