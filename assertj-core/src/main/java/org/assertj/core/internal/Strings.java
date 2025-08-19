@@ -24,6 +24,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
+import static org.assertj.core.error.ShouldBeBase64Url.shouldBeBase64Url;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
@@ -819,6 +820,15 @@ public class Strings {
       Base64.getDecoder().decode(actual);
     } catch (IllegalArgumentException e) {
       throw failures.failure(info, shouldBeBase64(actual));
+    }
+  }
+
+  public void assertIsBase64Url(AssertionInfo info, String actual) {
+    assertNotNull(info, actual);
+    try {
+      Base64.getUrlDecoder().decode(actual);
+    } catch (IllegalArgumentException e) {
+      throw failures.failure(info, shouldBeBase64Url(actual));
     }
   }
 
