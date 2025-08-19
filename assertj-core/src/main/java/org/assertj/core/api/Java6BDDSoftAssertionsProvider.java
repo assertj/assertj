@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -862,6 +863,21 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <T extends Throwable> ThrowableAssert<T> then(T actual) {
+    return proxy(ThrowableAssert.class, Throwable.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ThrowableAssert}</code>.
+   * This overload's purpose is to disambiguate the call for <code>{@link SQLException}</code>.
+   * Indeed, this class implements <code>{@link Iterable}</code> and is considered ambiguous.
+   *
+   * @param <T> the type of the actual SQL exception.
+   * @param actual the actual value.
+   * @return the created assertion Throwable.
+   * @since 3.23.1
+   */
+  @SuppressWarnings("unchecked")
+  default <T extends SQLException> ThrowableAssert<T> then(T actual) {
     return proxy(ThrowableAssert.class, Throwable.class, actual);
   }
 

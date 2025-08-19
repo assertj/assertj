@@ -16,9 +16,11 @@ import static org.assertj.core.api.Assertions.assertThatIterator;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.PredicateAssert.assertThatPredicate;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 // not in org.assertj.core.api package to avoid resolving classes from it
@@ -34,6 +36,15 @@ class Assertions_solving_assertThat_ambiguous_Test {
     // assertions from AssertionsForClassTypes.assertThat
     assertThat("").isEmpty();
     assertThat(2L).isPositive();
+  }
+
+  @Test
+  void should_resolve_ambiguous_assertThat_for_SqlException() {
+    // GIVEN
+    SQLException sqlException = new SQLException("test");
+
+    // WHEN/THEN
+    Assertions.assertThat(sqlException).hasMessage("test");
   }
 
   static class IteratorPredicate<T> implements Iterator<T>, Predicate<T> {

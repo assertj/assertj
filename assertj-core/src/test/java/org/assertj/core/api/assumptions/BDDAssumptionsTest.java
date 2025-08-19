@@ -28,6 +28,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -645,6 +646,21 @@ class BDDAssumptionsTest {
   @Nested
   class BDDAssumptions_given_Throwable_Test {
     private final Throwable actual = new Exception("Yoda time");
+
+    @Test
+    void should_run_test_when_assumption_passes() {
+      thenCode(() -> given(actual).hasMessage("Yoda time")).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_ignore_test_when_assumption_fails() {
+      expectAssumptionNotMetException(() -> given(actual).hasMessage(""));
+    }
+  }
+
+  @Nested
+  class BDDAssumptions_given_SQLException_Test {
+    private final SQLException actual = new SQLException("Yoda time");
 
     @Test
     void should_run_test_when_assumption_passes() {

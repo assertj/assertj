@@ -19,6 +19,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -779,6 +780,26 @@ public interface InstanceOfAssertFactories {
    * @since 3.21.0
    */
   static <T extends Throwable> InstanceOfAssertFactory<T, AbstractThrowableAssert<?, T>> throwable(Class<T> type) {
+    return new InstanceOfAssertFactory<>(type, Assertions::assertThat);
+  }
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link SQLException}.
+   */
+  InstanceOfAssertFactory<SQLException, AbstractThrowableAssert<?, SQLException>> SQL_EXCEPTION = new InstanceOfAssertFactory<>(SQLException.class,
+    Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link SQLException}.
+   *
+   * @param <T>  the {@code SQLException} type.
+   * @param type the element type instance.
+   * @return the factory instance.
+   *
+   * @see #SQL_EXCEPTION
+   * @since 3.23.1
+   */
+  static <T extends SQLException> InstanceOfAssertFactory<T, AbstractThrowableAssert<?, T>> sqlException(Class<T> type) {
     return new InstanceOfAssertFactory<>(type, Assertions::assertThat);
   }
 
