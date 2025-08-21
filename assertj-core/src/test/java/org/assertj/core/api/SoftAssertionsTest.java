@@ -192,8 +192,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                                       + "  {\"54\"=\"55\"}%n"
                                                       + "to contain entries:%n"
                                                       + "  [\"1\"=\"2\"]%n"
-                                                      + "but could not find the following map entries:%n"
-                                                      + "  [\"1\"=\"2\"]"));
+                                                      + "but could not find the following map keys:%n"
+                                                      + "  [\"1\"]"));
     then(errors.get(1)).hasMessageStartingWith("%nExpecting empty but was: {\"54\"=\"55\"}".formatted());
   }
 
@@ -382,8 +382,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                            + "  {\"54\"=\"55\"}%n"
                                            + "to contain entries:%n"
                                            + "  [\"1\"=\"2\"]%n"
-                                           + "but could not find the following map entries:%n"
-                                           + "  [\"1\"=\"2\"]"));
+                                           + "but could not find the following map keys:%n"
+                                           + "  [\"1\"]"));
 
       then(errors.get(40)).contains(shouldBeEqualMessage("12:00", "13:00"));
       then(errors.get(41)).contains(shouldBeEqualMessage("12:00Z", "13:00Z"));
