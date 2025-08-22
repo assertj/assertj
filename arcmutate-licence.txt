@@ -1,0 +1,7 @@
+#Licence file for arcmutate mutation testing https://www.arcmutate.com
+#Mon Aug 18 07:22:15 BST 2025
+expires=18/08/2028
+keyVersion=1
+packages=org.assertj.*
+signature=PVWIvcOXB9Ja9jPGx34Xqfr6Ojaigub+Bvbmm9QpGbK/nqZBbeRsJZM6MWY8wgWdlATHb3GPKPO8bMDNBKf4juMEvNeaDSJbzt3THDhk5RCv1g/gNtdUdn2kZMMpjagBVu/VO6R1ukpNEK3wpnLAi0LAkRelJRJ/9uMCFQd9wio\=
+type=OSSS
