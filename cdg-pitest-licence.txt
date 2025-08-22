@@ -1,7 +1,0 @@
-#Licence file for pitest extensions
-#Tue Aug 15 08:24:27 BST 2023
-expires=15/08/2025
-keyVersion=1
-signature=GK1Rn0WFb/cojdFoUZehpBCASQdPh3XOM4Mf6sXb6lMI9ZEqTvE61eRDJUCBoYvu3CveJ1As3qtY5CXxs5wdZVXXDHp2cqLeydPkyYAwN5h0xw0B5XHb2tne4czk1ivj4omEWRWPv7iPrmTuNomrNxITZwOkG4/QWghTQ3skyGo\=
-packages=org.assertj.*
-type=OSSS
