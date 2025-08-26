@@ -50,6 +50,27 @@ jobs:
       - name: Test
         run: ./mvnw $MAVEN_ARGS verify
 
+  groovy:
+
+    name: Groovy ${{ matrix.groovy }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # https://groovy.apache.org/download.html
+        groovy: [4.0.28]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'zulu'
+          java-version: '21'
+          cache: 'maven'
+      - name: Test
+        run: ./mvnw $MAVEN_ARGS -Dgroovy.version=${{ matrix.groovy }} verify
+
   kotlin:
 
     name: Kotlin ${{ matrix.kotlin }}

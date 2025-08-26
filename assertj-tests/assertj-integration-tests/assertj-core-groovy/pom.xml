@@ -12,11 +12,15 @@
 
   <name>AssertJ Core Integration Tests (Groovy)</name>
 
+  <properties>
+    <groovy.version>5.0.0</groovy.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.groovy</groupId>
       <artifactId>groovy</artifactId>
-      <version>5.0.0</version>
+      <version>${groovy.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -56,9 +60,6 @@
             <goals>
               <goal>compileTests</goal>
             </goals>
-            <configuration>
-              <targetBytecode>1.8</targetBytecode>
-            </configuration>
           </execution>
         </executions>
       </plugin>
