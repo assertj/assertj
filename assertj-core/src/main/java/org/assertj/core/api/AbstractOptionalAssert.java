@@ -12,14 +12,12 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
-import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
