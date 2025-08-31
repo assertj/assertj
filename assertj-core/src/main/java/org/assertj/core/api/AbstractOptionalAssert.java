@@ -12,12 +12,14 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
+import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
@@ -175,8 +177,25 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF hasValueSatisfying(Consumer<VALUE> requirement) {
+    return internalHasValueSatisfying(requirement);
+  }
+
+  /**
+   * Verifies that the actual {@link java.util.Optional} contains a value and gives this value to the given
+   * {@link ThrowingConsumer} for further assertions. This is a same assertion as {@link #hasValueSatisfying(Condition)}
+   * except that a {@link ThrowingConsumer} rethrows checked exceptions as {@link RuntimeException}.
+   * <p>
+   *
+   * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
+  public SELF hasValueSatisfying(ThrowingConsumer<VALUE> requirement) {
+    return internalHasValueSatisfying(requirement);
+  }
+
+  private SELF internalHasValueSatisfying(Consumer<VALUE> requirements) {
     assertValueIsPresent();
-    requirement.accept(actual.get());
+    requirements.accept(actual.get());
     return myself;
   }
 
