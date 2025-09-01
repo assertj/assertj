@@ -41,12 +41,13 @@ public class SoftThrowableTypeAssert<T extends Throwable> extends ThrowableTypeA
   }
 
   @Override
-  protected void checkThrowableType(Throwable throwable) {
+  protected Throwable checkThrowableType(Throwable throwable) {
     try {
       super.checkThrowableType(throwable);
     } catch (AssertionError error) {
       this.softAssertionsProvider.collectAssertionError(error);
     }
+    return throwable;
   }
 
   @Override

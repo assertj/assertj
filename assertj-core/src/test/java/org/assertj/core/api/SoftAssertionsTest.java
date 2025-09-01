@@ -2713,8 +2713,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     Stream.of("A", "B").forEach(runAssertions);
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly("[checking A] %nExpecting code to raise a throwable.".formatted(),
-                                                   "[checking B] %nExpecting code to raise a throwable.".formatted());
+                                  .containsExactly("[checking A] %nExpecting code to throw a java.lang.Exception, but no throwable was thrown.".formatted(),
+                                                   "[checking B] %nExpecting code to throw a java.lang.Exception, but no throwable was thrown.".formatted());
   }
 
   @ParameterizedTest

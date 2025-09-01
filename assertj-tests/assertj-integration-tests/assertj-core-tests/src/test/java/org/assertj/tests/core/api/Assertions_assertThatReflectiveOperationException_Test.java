@@ -32,7 +32,7 @@ class Assertions_assertThatReflectiveOperationException_Test {
     // GIVEN
     ThrowingCallable throwingCallable = () -> assertThatReflectiveOperationException().isThrownBy(codeThrowing(new Error()));
     // WHEN
-    AssertionError assertionError = expectAssertionError(throwingCallable);
+    var assertionError = expectAssertionError(throwingCallable);
     // THEN
     then(assertionError).hasMessageContainingAll(Error.class.getName(), ReflectiveOperationException.class.getName());
   }
@@ -42,8 +42,8 @@ class Assertions_assertThatReflectiveOperationException_Test {
     // GIVEN
     ThrowingCallable throwingCallable = () -> assertThatReflectiveOperationException().isThrownBy(() -> {});
     // WHEN
-    AssertionError assertionError = expectAssertionError(throwingCallable);
+    var assertionError = expectAssertionError(throwingCallable);
     // THEN
-    then(assertionError).hasMessage("%nExpecting code to raise a throwable.".formatted());
+    then(assertionError).hasMessage("%nExpecting code to throw a java.lang.ReflectiveOperationException, but no throwable was thrown.".formatted());
   }
 }

@@ -13,12 +13,14 @@
 package org.assertj.core.api;
 
 import static java.util.Objects.requireNonNull;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.util.Throwables.catchThrowable;
 
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.description.Description;
-import org.assertj.core.util.Throwables;
+import org.assertj.core.error.BasicErrorMessageFactory;
+import org.assertj.core.internal.Failures;
+import org.assertj.core.internal.Objects;
 
 /**
  * Assertion class checking {@link Throwable} type.
@@ -40,7 +42,7 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
    * @param throwableType class representing the target (expected) exception.
    */
   public ThrowableTypeAssert(final Class<? extends T> throwableType) {
-    this.expectedThrowableType = requireNonNull(throwableType, "exceptionType");
+    this.expectedThrowableType = requireNonNull(throwableType, "throwableType");
   }
 
   /**
@@ -55,22 +57,29 @@ public class ThrowableTypeAssert<T extends Throwable> implements Descriptable<Th
    * @return return a {@link ThrowableAssertAlternative}.
    */
   public ThrowableAssertAlternative<T> isThrownBy(final ThrowingCallable throwingCallable) {
-    Throwable throwable = Throwables.catchThrowable(throwingCallable);
-    checkThrowableType(throwable);
     @SuppressWarnings("unchecked")
-    T castThrowable = (T) throwable;
+    T castThrowable = (T) checkThrowableType(catchThrowable(throwingCallable));
     return buildThrowableTypeAssert(castThrowable).as(description);
   }
 
-  protected void checkThrowableType(Throwable throwable) {
-    assertThat(throwable).as(description).hasBeenThrown().isInstanceOf(expectedThrowableType);
+  protected Throwable checkThrowableType(Throwable throwable) {
+    var info = new WritableAssertionInfo();
+    info.description(description);
+    if (throwable == null) {
+      var errorMessageFactory = new BasicErrorMessageFactory("%nExpecting code to throw a %s, but no throwable was thrown.".formatted(expectedThrowableType.getName()));
+      throw Failures.instance().failure(info, errorMessageFactory);
+    }
+    Objects.instance().assertIsInstanceOf(info, throwable, expectedThrowableType);
+    return throwable;
   }
 
   protected ThrowableAssertAlternative<T> buildThrowableTypeAssert(T throwable) {
     return new ThrowableAssertAlternative<>(throwable);
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public ThrowableTypeAssert<T> describedAs(Description description) {
