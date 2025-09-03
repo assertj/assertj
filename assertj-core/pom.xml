@@ -29,8 +29,6 @@
     <!-- Dependency versions -->
     <byte-buddy.version>1.17.7</byte-buddy.version>
     <hamcrest.version>3.0</hamcrest.version>
-    <!-- Plugin versions -->
-    <cdg.pitest.version>1.1.4</cdg.pitest.version>
   </properties>
 
   <dependencyManagement>
@@ -363,28 +361,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.pitest</groupId>
-        <artifactId>pitest-maven</artifactId>
-        <version>1.20.2</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.pitest</groupId>
-            <artifactId>pitest-junit5-plugin</artifactId>
-            <version>1.2.3</version>
-          </dependency>
-          <dependency>
-            <groupId>com.groupcdg</groupId>
-            <artifactId>pitest-git-plugin</artifactId>
-            <version>${cdg.pitest.version}</version>
-          </dependency>
-        </dependencies>
-        <configuration>
-          <threads>3</threads>
-          <timestampedReports>false</timestampedReports>
-          <failWhenNoMutations>false</failWhenNoMutations>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
       </plugin>
@@ -392,38 +368,6 @@
   </build>
 
   <profiles>
-    <profile>
-      <id>pitest</id>
-      <build>
-        <pluginManagement>
-          <plugins>
-            <!-- provides the pitest-git:aggregate goal to aggregate json files to be stored as artifact when accepting PRs from untrusted forks
-     refers to pitest-receive-pr.yml and pitest-updated-pr.yml for details.
--->
-            <plugin>
-              <groupId>com.groupcdg</groupId>
-              <artifactId>pitest-git-maven-plugin</artifactId>
-              <version>${cdg.pitest.version}</version>
-            </plugin>
-          </plugins>
-        </pluginManagement>
-        <plugins>
-          <plugin>
-            <groupId>org.pitest</groupId>
-            <artifactId>pitest-maven</artifactId>
-            <executions>
-              <execution>
-                <id>pitest</id>
-                <phase>test-compile</phase>
-                <goals>
-                  <goal>mutationCoverage</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
     <profile>
       <id>japicmp-branch</id>
       <build>
