@@ -142,6 +142,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     isNotNull();
     checkNotNull(expectedValue);
     if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
+    // noinspection OptionalGetWithoutIsPresent
     if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue))
       throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.get(), expectedValue);
     return myself;
@@ -175,7 +176,26 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF hasValueSatisfying(Consumer<VALUE> requirement) {
+    return internalHasValueSatisfying(requirement);
+  }
+
+  /**
+   * Verifies that the actual {@link java.util.Optional} contains a value and gives this value to the given
+   * {@link ThrowingConsumer} for further assertions.
+   * <p>
+   * This is a same assertion as {@link #hasValueSatisfying(Condition)}
+   * except that a {@link ThrowingConsumer} rethrows checked exceptions as {@link RuntimeException}.
+   *
+   * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
+  public SELF hasValueSatisfying(ThrowingConsumer<VALUE> requirement) {
+    return internalHasValueSatisfying(requirement);
+  }
+
+  private SELF internalHasValueSatisfying(Consumer<VALUE> requirement) {
     assertValueIsPresent();
+    // noinspection OptionalGetWithoutIsPresent
     requirement.accept(actual.get());
     return myself;
   }
@@ -204,6 +224,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    */
   public SELF hasValueSatisfying(Condition<? super VALUE> condition) {
     assertValueIsPresent();
+    // noinspection OptionalGetWithoutIsPresent
     conditions.assertIs(info, actual.get(), condition);
     return myself;
   }
@@ -291,6 +312,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    */
   public SELF containsInstanceOf(Class<?> clazz) {
     assertValueIsPresent();
+    // noinspection OptionalGetWithoutIsPresent
     if (!clazz.isInstance(actual.get())) throwAssertionError(shouldContainInstanceOf(actual, clazz));
     return myself;
   }
@@ -367,6 +389,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     isNotNull();
     checkNotNull(expectedValue);
     if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
+    // noinspection OptionalGetWithoutIsPresent
     if (actual.get() != expectedValue) throwAssertionError(shouldContainSame(actual, expectedValue));
     return myself;
   }
@@ -658,6 +681,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   private AbstractObjectAssert<?, VALUE> internalGet() {
     isPresent();
+    // noinspection OptionalGetWithoutIsPresent
     return assertThat(actual.get()).withAssertionState(myself);
   }
 
