@@ -191,9 +191,9 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     return internalHasValueSatisfying(requirement);
   }
 
-  private SELF internalHasValueSatisfying(Consumer<VALUE> requirements) {
+  private SELF internalHasValueSatisfying(Consumer<VALUE> requirement) {
     assertValueIsPresent();
-    requirements.accept(actual.get());
+    requirement.accept(actual.get());
     return myself;
   }
 
