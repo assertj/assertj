@@ -19,10 +19,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.ThrowingConsumer;
 import org.junit.jupiter.api.Test;
 
 class OptionalAssert_hasValueSatisfying_Test {
@@ -56,6 +58,20 @@ class OptionalAssert_hasValueSatisfying_Test {
                                                                               .startsWith("some")
                                                                               .endsWith("thing"));
     assertThat(Optional.of(10)).hasValueSatisfying(i -> assertThat(i).isGreaterThan(9));
+  }
+
+  @Test
+  void should_pass_when_throwing_consumer_passes() {
+    // GIVEN
+    Optional<String> optional = Optional.of("something");
+    ThrowingConsumer<String> throwingConsumer = value -> {
+      if (!value.equals("something")) {
+        throw new IOException("Value does not match");
+      }
+    };
+
+    // WHEN/THEN
+    assertThat(optional).hasValueSatisfying(throwingConsumer);
   }
 
   @Test

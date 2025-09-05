@@ -175,6 +175,23 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF hasValueSatisfying(Consumer<VALUE> requirement) {
+    return internalHasValueSatisfying(requirement);
+  }
+
+  /**
+   * Verifies that the actual {@link java.util.Optional} contains a value and gives this value to the given
+   * {@link ThrowingConsumer} for further assertions. This is a same assertion as {@link #hasValueSatisfying(Condition)}
+   * except that a {@link ThrowingConsumer} rethrows checked exceptions as {@link RuntimeException}.
+   * <p>
+   *
+   * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
+  public SELF hasValueSatisfying(ThrowingConsumer<VALUE> requirement) {
+    return internalHasValueSatisfying(requirement);
+  }
+
+  private SELF internalHasValueSatisfying(Consumer<VALUE> requirement) {
     assertValueIsPresent();
     requirement.accept(actual.get());
     return myself;
