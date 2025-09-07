@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api.junit.jupiter;
+package org.assertj.tests.core.api.junit.jupiter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
@@ -22,16 +22,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.assertj.core.api.AbstractThrowableAssert;
-import org.junit.jupiter.engine.JupiterTestEngine;
 import org.junit.platform.engine.TestExecutionResult;
 import org.junit.platform.testkit.engine.EngineTestKit;
 import org.junit.platform.testkit.engine.Event;
 
-public class TestKitUtils {
+class TestKitUtils {
 
   private TestKitUtils() {}
 
-  public static AbstractThrowableAssert<?, ? extends Throwable> assertThatTest(Class<?> testClass, String... config) {
+  static AbstractThrowableAssert<?, ? extends Throwable> assertThatTest(Class<?> testClass, String... config) {
     checkClass(testClass);
 
     Logger logger = Logger.getLogger("org.junit.jupiter");
@@ -39,7 +38,7 @@ public class TestKitUtils {
     try {
       // Suppress log output while the testkit is running
       logger.setLevel(Level.OFF);
-      EngineTestKit.Builder builder = EngineTestKit.engine(new JupiterTestEngine())
+      EngineTestKit.Builder builder = EngineTestKit.engine("junit-jupiter")
                                                    .selectors(selectClass(testClass))
                                                    .configurationParameter("junit.jupiter.conditions.deactivate", "*");
 

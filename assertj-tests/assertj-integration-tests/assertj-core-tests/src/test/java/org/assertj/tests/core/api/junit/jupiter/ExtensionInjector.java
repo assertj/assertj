@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api.junit.jupiter;
+package org.assertj.tests.core.api.junit.jupiter;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.extension.ParameterContext;

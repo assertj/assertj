@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api.junit.jupiter;
+package org.assertj.tests.core.api.junit.jupiter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
@@ -29,6 +29,7 @@ import org.assertj.core.api.AutoCloseableSoftAssertions;
 import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.DefaultAssertionErrorCollector;
 import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.assertj.core.error.AssertJMultipleFailuresError;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

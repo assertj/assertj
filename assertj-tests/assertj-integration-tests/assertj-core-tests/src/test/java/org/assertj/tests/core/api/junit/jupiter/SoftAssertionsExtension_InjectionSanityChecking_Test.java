@@ -10,13 +10,15 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api.junit.jupiter;
+package org.assertj.tests.core.api.junit.jupiter;
 
-import static org.assertj.core.api.junit.jupiter.TestKitUtils.assertThatTest;
+import static org.assertj.tests.core.api.junit.jupiter.TestKitUtils.assertThatTest;
 
 import org.assertj.core.api.AbstractSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.SoftAssertionsProvider;
+import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

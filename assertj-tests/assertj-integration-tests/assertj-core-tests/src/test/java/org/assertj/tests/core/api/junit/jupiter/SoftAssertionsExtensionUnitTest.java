@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api.junit.jupiter;
+package org.assertj.tests.core.api.junit.jupiter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -24,6 +24,7 @@ import org.assertj.core.api.AbstractSoftAssertions;
 import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.SoftAssertionsProvider;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -43,8 +44,8 @@ import org.junit.jupiter.api.extension.ParameterResolutionException;
 class SoftAssertionsExtensionUnitTest {
 
   private final SoftAssertionsExtension extension = new SoftAssertionsExtension();
-  private final ParameterContext parameterContext = mock(ParameterContext.class);
-  private final ExtensionContext extensionContext = mock(ExtensionContext.class);
+  private final ParameterContext parameterContext = mock();
+  private final ExtensionContext extensionContext = mock();
 
   @Test
   void supports_soft_assertions() throws Exception {

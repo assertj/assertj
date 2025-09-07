@@ -10,14 +10,15 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api.junit.jupiter;
+package org.assertj.tests.core.api.junit.jupiter;
 
-import static org.assertj.core.util.Lists.list;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_METHOD;
 
-import org.assertj.core.api.BDDSoftAssertions;
-import org.assertj.core.api.SoftAssertions;
+import java.util.Arrays;
+
+import org.assertj.core.api.SoftAssertionsProvider;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
@@ -31,18 +32,16 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 /**
- * Integration tests for {@link SoftAssertionsExtension} with {@link BDDSoftAssertions}.
- *
- * <p>This class is effectively a copy of {@link SoftAssertionsExtensionIntegrationTest}
- * with {@link SoftAssertions} replaced by {@link BDDSoftAssertions}.
+ * Integration tests for {@link SoftAssertionsExtension} with a custom implementation of {@link SoftAssertionsProvider}.
  *
  * @author Sam Brannen
- * @since 3.13
+ * @author Fr Jeremy Krieg
+ * @since 3.16
  * @see SoftAssertionsExtensionIntegrationTest
- * @see CustomSoftAssertionsExtensionIntegrationTest
+ * @see BDDSoftAssertionsExtensionIntegrationTest
  */
-@DisplayName("JUnit Jupiter BDD Soft Assertions extension integration tests (BDD)")
-class BDDSoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExtensionIntegrationTests {
+@DisplayName("JUnit Jupiter Soft Assertions extension integration tests (custom)")
+class CustomSoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsExtensionIntegrationTests {
 
   @Override
   protected Class<?> getTestInstancePerMethodTestCase() {
@@ -68,59 +67,59 @@ class BDDSoftAssertionsExtensionIntegrationTest extends AbstractSoftAssertionsEx
 
   @ExtendWith(SoftAssertionsExtension.class)
   @TestMethodOrder(OrderAnnotation.class)
-  private static abstract class AbstractSoftAssertionsExample {
+  private static abstract class AbstractCustomSoftAssertionsExample {
 
     @Test
     @Order(1)
-    void multipleFailures(BDDSoftAssertions softly) {
-      softly.then(1).isEqualTo(0);
-      softly.then(2).isEqualTo(2);
-      softly.then(3).isEqualTo(4);
+    void multipleFailures(CustomSoftAssertions softly) {
+      softly.expectThat(1).isEqualTo(0);
+      softly.expectThat(2).isEqualTo(2);
+      softly.expectThat(3).isEqualTo(4);
     }
 
     @Test
     @Order(2)
-    void allAssertionsShouldPass(BDDSoftAssertions softly) {
-      softly.then(1).isEqualTo(1);
-      softly.then(list(1, 2)).containsOnly(1, 2);
+    void allAssertionsShouldPass(CustomSoftAssertions softly) {
+      softly.expectThat(1).isEqualTo(1);
+      softly.expectThat(Arrays.asList(1, 2)).containsOnly(1, 2);
     }
 
     @ParameterizedTest
     @CsvSource({ "1, 1, 2", "1, 2, 3" })
     @Order(3)
-    void parameterizedTest(int a, int b, int sum, BDDSoftAssertions softly) {
-      softly.then(a + b).as("sum").isEqualTo(sum);
-      softly.then(a).as("operand 1 is equal to operand 2").isEqualTo(b);
+    void parameterizedTest(int a, int b, int sum, CustomSoftAssertions softly) {
+      softly.expectThat(a + b).as("sum").isEqualTo(sum);
+      softly.expectThat(a).as("operand 1 is equal to operand 2").isEqualTo(b);
     }
   }
 
   @TestInstance(PER_METHOD)
   @Disabled("Executed via the JUnit Platform Test Kit")
-  static class TestInstancePerMethodExample extends AbstractSoftAssertionsExample {
+  static class TestInstancePerMethodExample extends AbstractCustomSoftAssertionsExample {
   }
 
   @TestInstance(PER_CLASS)
-  @Disabled("Executed via the JUnit Platform Test Kit")
-  static class TestInstancePerClassExample extends AbstractSoftAssertionsExample {
+  @Disabled
+  static class TestInstancePerClassExample extends AbstractCustomSoftAssertionsExample {
   }
 
   @TestInstance(PER_METHOD)
   @Disabled("Executed via the JUnit Platform Test Kit")
-  static class TestInstancePerMethodNestedExample extends AbstractSoftAssertionsExample {
+  static class TestInstancePerMethodNestedExample extends AbstractCustomSoftAssertionsExample {
 
     @Nested
     @Disabled("Executed via the JUnit Platform Test Kit")
-    class InnerExample extends AbstractSoftAssertionsExample {
+    class InnerExample extends AbstractCustomSoftAssertionsExample {
     }
   }
 
   @TestInstance(PER_CLASS)
   @Disabled("Executed via the JUnit Platform Test Kit")
-  static class TestInstancePerClassNestedExample extends AbstractSoftAssertionsExample {
+  static class TestInstancePerClassNestedExample extends AbstractCustomSoftAssertionsExample {
 
     @Nested
     @Disabled("Executed via the JUnit Platform Test Kit")
-    class InnerExample extends AbstractSoftAssertionsExample {
+    class InnerExample extends AbstractCustomSoftAssertionsExample {
     }
   }
 

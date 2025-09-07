@@ -10,7 +10,7 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api.junit.jupiter;
+package org.assertj.tests.core.api.junit.jupiter;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
@@ -24,6 +24,8 @@ import java.util.concurrent.CountDownLatch;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.AutoCloseableSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -38,7 +40,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.platform.testkit.engine.EngineTestKit;
 
 @DisplayName("SoftAssertionsExtension PER_CLASS concurrent injection test")
-public class SoftAssertionsExtension_PER_CLASS_Concurrency_Test {
+class SoftAssertionsExtension_PER_CLASS_Concurrency_Test {
   // Use CountDownLatches to synchronize between the two parallel running tests to make sure that they overlap in time.
   @Disabled("Run by the testkit")
   @ExtendWith(SoftAssertionsExtension.class)

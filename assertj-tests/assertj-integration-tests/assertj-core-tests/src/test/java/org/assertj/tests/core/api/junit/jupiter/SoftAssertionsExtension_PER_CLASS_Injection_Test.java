@@ -10,22 +10,30 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.core.api.junit.jupiter;
+package org.assertj.tests.core.api.junit.jupiter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 @ExtendWith(SoftAssertionsExtension.class)
-@DisplayName("SoftAssertionsExtension injection test")
-class SoftAssertionsExtension_Injection_Test {
+@DisplayName("SoftAssertionsExtension PER_CLASS injection test")
+@TestInstance(Lifecycle.PER_CLASS)
+@Execution(ExecutionMode.SAME_THREAD) // Just in case we move to parallel threads in the future
+class SoftAssertionsExtension_PER_CLASS_Injection_Test {
 
-  // use a mix of private and package-private here to test behaviour in the variety of different circumstances.
+  // use mix of private and package-private here to test behaviour in the variety of different circumstances.
   @InjectSoftAssertions
   SoftAssertions softly;
 
