@@ -78,8 +78,7 @@ jobs:
       fail-fast: false
       matrix:
         # https://kotlinlang.org/docs/releases.html#release-details
-        # https://kotlinlang.org/docs/eap.html#build-details
-        kotlin: [1.9.25, 2.0.21, 2.1.21, 2.2.20-RC]
+        kotlin: [1.9.25, 2.0.21, 2.1.21]
     runs-on: ubuntu-latest
 
     steps:
