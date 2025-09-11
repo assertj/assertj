@@ -13,7 +13,7 @@
   <name>AssertJ Core Integration Tests (Groovy)</name>
 
   <properties>
-    <groovy.version>5.0.0</groovy.version>
+    <groovy.version>5.0.1</groovy.version>
   </properties>
 
   <dependencies>
