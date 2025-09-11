@@ -9,6 +9,10 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     labels:
       - "dependabot: GitHub Actions"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
