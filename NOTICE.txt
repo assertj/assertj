@@ -1,0 +1,6 @@
+AssertJ
+Copyright 2012-2025 the original author or authors.
+
+This product includes software developed at
+- https://code.google.com/archive/p/java-diff-utils/ (project under the Apache License 2.0)
+- https://github.com/jdereg/java-util - the DeepEquals feature inspired our recursive comparison (project under Apache License 2.0)
