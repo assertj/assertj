@@ -29,7 +29,7 @@
     <maven-javadoc-plugin.version>3.7.0</maven-javadoc-plugin.version>
     <maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-    <spotbugs-maven-plugin.version>4.9.4.2</spotbugs-maven-plugin.version>
+    <spotbugs-maven-plugin.version>4.9.5.0</spotbugs-maven-plugin.version>
     <versions-maven-plugin.version>2.19.0</versions-maven-plugin.version>
   </properties>
 
