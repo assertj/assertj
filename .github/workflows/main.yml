@@ -36,7 +36,7 @@ jobs:
       fail-fast: false
       matrix:
         # https://jdk.java.net/
-        java: [24, 25, 26]
+        java: [25, 26]
     runs-on: ubuntu-latest
 
     steps:
