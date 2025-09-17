@@ -19,7 +19,7 @@
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <guava.version>33.4.0-jre</guava.version>
+    <guava.version>33.4.8-jre</guava.version>
   </properties>
 
   <dependencies>
