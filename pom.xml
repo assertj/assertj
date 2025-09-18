@@ -4,7 +4,7 @@
 
   <groupId>org.assertj</groupId>
   <artifactId>assertj-build</artifactId>
-  <version>3.27.5-SNAPSHOT</version>
+  <version>3.27.5</version>
   <packaging>pom</packaging>
 
   <name>AssertJ Build</name>
@@ -103,7 +103,7 @@
     <developerConnection>scm:git:https://github.com/assertj/assertj.git</developerConnection>
     <connection>scm:git:https://github.com/assertj/assertj.git</connection>
     <url>https://github.com/assertj/assertj</url>
-    <tag>HEAD</tag>
+    <tag>assertj-build-3.27.5</tag>
   </scm>
   <issueManagement>
     <system>GitHub</system>
