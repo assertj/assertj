@@ -15,6 +15,9 @@ package org.assertj.core.api;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -3112,6 +3115,94 @@ public final class BDDAssumptions extends Assumptions {
    * @since 3.14.0
    */
   public static AbstractUrlAssert<?> given(URL actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link Constructor} value.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(String.class.getDeclaredConstructor()).isPublic();
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(String.class.getDeclaredConstructor()).isProtected();
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param <CLASS> the type of the class
+   * @param actual the actual {@link Constructor} value to be validated.
+   * @return the {@link AbstractConstructorAssert} assertion object to be used for assumptions.
+   * @since 3.27.0
+   */
+  public static <CLASS> AbstractConstructorAssert<?, CLASS> given(Constructor<CLASS> actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link Field} value.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(Math.class.getDeclaredField("PI")).isPublic();
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(Math.class.getDeclaredField("PI")).isProtected();
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual {@link Field} value to be validated.
+   * @return the {@link AbstractFieldAssert} assertion object to be used for assumptions.
+   * @since 3.27.0
+   */
+  public static AbstractFieldAssert<?> given(Field actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link Method} value.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(Math.class.getDeclaredMethod("abs", long.class)).isPublic();
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(Math.class.getDeclaredMethod("abs", long.class)).isProtected();
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param actual the actual {@link Method} value to be validated.
+   * @return the {@link AbstractMethodAssert} assertion object to be used for assumptions.
+   * @since 3.27.0
+   */
+  public static AbstractMethodAssert<?> given(Method actual) {
     return assumeThat(actual);
   }
 
