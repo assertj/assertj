@@ -14,9 +14,7 @@
   <name>AssertJ Integration Tests</name>
 
   <modules>
-    <module>assertj-core-junit4-with-opentest4j</module>
     <module>assertj-core-spring-boot</module>
-    <module>assertj-core-testng-with-junit4</module>
     <module>assertj-core-tests</module>
     <module>assertj-guava-tests</module>
   </modules>

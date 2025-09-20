@@ -17,9 +17,9 @@ import static java.util.stream.IntStream.range;
 import java.util.Comparator;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.CharArrays;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 
 public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, char[], Character> {
@@ -811,16 +811,16 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * With standard error message:
    * <pre><code class='java'> assertThat("a6c".toCharArray()).isEqualTo("abó".toCharArray());
    *
-   * org.junit.ComparisonFailure:
-   * Expected :['a', 'b', 'ó']
-   * Actual   :[a, 6, c]</code></pre>
+   * org.opentest4j.AssertionFailedError:
+   * expected: ['a', 'b', 'ó']
+   *  but was: [a, 6, c]</code></pre>
    *
    * With unicode based error message:
    * <pre><code class='java'> assertThat("a6c".toCharArray()).inUnicode().isEqualTo("abó".toCharArray());
    *
-   * org.junit.ComparisonFailure:
-   * Expected :[a, b, &bsol;u00f3]
-   * Actual   :[a, 6, c]</code></pre>
+   * org.opentest4j.AssertionFailedError:
+   * expected: [a, b, &bsol;u00f3]
+   *  but was: [a, 6, c]</code></pre>
    *
    * @return {@code this} assertion object.
    */

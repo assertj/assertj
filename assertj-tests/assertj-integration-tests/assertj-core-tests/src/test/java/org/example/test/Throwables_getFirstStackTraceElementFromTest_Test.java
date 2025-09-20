@@ -65,7 +65,6 @@ class Throwables_getFirstStackTraceElementFromTest_Test {
                                      "javax.",
                                      "org.junit.",
                                      "org.eclipse.jdt.internal.junit.",
-                                     "org.eclipse.jdt.internal.junit4.",
                                      "org.eclipse.jdt.internal.junit5.",
                                      "com.intellij.junit5.",
                                      "com.intellij.rt.execution.junit.",
@@ -74,6 +73,6 @@ class Throwables_getFirstStackTraceElementFromTest_Test {
                                      "org.pitest.",
                                      "org.assertj",
                                      "com.foo.Foo"),
-                               "com.foo.Foo.foo(Foo.java:14)"));
+                               "com.foo.Foo.foo(Foo.java:13)"));
   }
 }

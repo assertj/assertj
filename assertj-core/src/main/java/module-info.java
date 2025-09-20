@@ -51,7 +51,6 @@ module org.assertj.core {
   requires static java.management;
   requires static java.sql;
   requires static java.xml; // used for XML pretty print
-  requires static junit;
   requires static net.bytebuddy;
   requires static org.hamcrest;
   requires static org.junit.jupiter.api;

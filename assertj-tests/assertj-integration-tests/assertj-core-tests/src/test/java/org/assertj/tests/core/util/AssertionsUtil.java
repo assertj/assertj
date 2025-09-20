@@ -19,7 +19,7 @@ import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.ThrowableAssertAlternative;
-import org.junit.AssumptionViolatedException;
+import org.opentest4j.TestAbortedException;
 
 public class AssertionsUtil {
 
@@ -34,6 +34,6 @@ public class AssertionsUtil {
   }
 
   public static void expectAssumptionNotMetException(ThrowingCallable shouldRaiseError) {
-    assertThatThrownBy(shouldRaiseError).isInstanceOf(AssumptionViolatedException.class);
+    assertThatThrownBy(shouldRaiseError).isInstanceOf(TestAbortedException.class);
   }
 }

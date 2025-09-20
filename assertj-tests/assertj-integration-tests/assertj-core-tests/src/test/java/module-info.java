@@ -14,10 +14,9 @@ open module org.assertj.tests.core {
   requires com.fasterxml.jackson.core;
   requires com.fasterxml.jackson.databind;
   requires com.google.common;
-  requires hamcrest.core;
+  requires org.hamcrest;
   requires java.sql;
   requires javax.servlet.api;
-  requires junit;
   requires nl.jqno.equalsverifier;
   requires org.apache.commons.lang3;
   requires org.assertj.core;
@@ -26,4 +25,5 @@ open module org.assertj.tests.core {
   requires org.junit.jupiter.params;
   requires org.junitpioneer;
   requires org.mockito;
+  requires org.opentest4j;
 }

@@ -171,26 +171,27 @@ public class Failures {
    * <p>
    * See example below :
    * <pre><code class='java'> --------------- stack trace not filtered -----------------
-  org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
-  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
-  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
-  at java.lang.reflect.Constructor.newInstance(Constructor.java:501)
-  at org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:34)
-  at org.assertj.core.error.ShouldBeEqual.newComparisonFailure(ShouldBeEqual.java:111)
-  at org.assertj.core.error.ShouldBeEqual.comparisonFailure(ShouldBeEqual.java:103)
-  at org.assertj.core.error.ShouldBeEqual.newAssertionError(ShouldBeEqual.java:81)
-  at org.assertj.core.internal.Failures.failure(Failures.java:76)
-  at org.assertj.core.internal.Objects.assertEqual(Objects.java:116)
-  at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:74)
-  at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:13)
+   org.opentest4j.AssertionFailedError:
+   expected: "messi"
+    but was: "ronaldo"
+  
+   at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+   at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+   at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+   at org.assertj.core/org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:28)
+   at org.assertj.core/org.assertj.core.error.ShouldBeEqual.assertionFailedError(ShouldBeEqual.java:208)
+   at org.assertj.core/org.assertj.core.error.ShouldBeEqual.toAssertionError(ShouldBeEqual.java:113)
+   at org.assertj.core/org.assertj.core.internal.Failures.failure(Failures.java:88)
+   at org.assertj.core/org.assertj.core.internal.Objects.assertEqual(Objects.java:214)
   
   --------------- stack trace filtered -----------------
-  org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
-  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
-  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
-  at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:20)</code></pre>
+   org.opentest4j.AssertionFailedError:
+   expected: "messi"
+    but was: "ronaldo"
+  
+   at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+   at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+   at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)</code></pre>
    *
    * @param assertionError the {@code AssertionError} to filter stack trace if option is set.
    */

@@ -15,8 +15,8 @@ package org.assertj.core.api;
 import java.util.Comparator;
 
 import org.assertj.core.annotation.CheckReturnValue;
-import org.assertj.core.internal.Characters;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
+import org.assertj.core.internal.Characters;
 
 /**
  * Base class for all implementations of assertions for {@link Character}s.
@@ -160,16 +160,16 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * With standard error message:
    * <pre><code class='java'> assertThat('µ').isEqualTo('μ');
    *
-   * org.junit.ComparisonFailure:
-   * Expected :'μ'
-   * Actual   :'µ'</code></pre>
+   * org.opentest4j.AssertionFailedError:
+   * expected: 'μ'
+   *  but was: 'µ'</code></pre>
    *
    * With unicode based error message:
    * <pre><code class='java'> assertThat('µ').inUnicode().isEqualTo('μ');
    *
-   * org.junit.ComparisonFailure:
-   * Expected :&bsol;u03bc
-   * Actual   :&bsol;u00b5</code></pre>
+   * org.opentest4j.AssertionFailedError:
+   * expected: &bsol;u03bc
+   *  but was: &bsol;u00b5</code></pre>
    *
    * @return {@code this} assertion object.
    */

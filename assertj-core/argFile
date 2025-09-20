@@ -1,5 +1,5 @@
 ### in-module testing ###
---add-modules junit,net.bytebuddy,org.junit.jupiter.api,org.junit.platform.commons
+--add-modules net.bytebuddy,org.junit.jupiter.api,org.junit.platform.commons
 ### org.assertj.core ###
 --add-opens org.assertj.core/org.assertj.core.api=ALL-UNNAMED
 --add-opens org.assertj.core/org.assertj.core.internal=ALL-UNNAMED

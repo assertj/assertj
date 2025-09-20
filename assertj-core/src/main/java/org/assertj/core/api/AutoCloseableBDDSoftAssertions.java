@@ -43,7 +43,10 @@ package org.assertj.core.api;
  * </p>
  *
  * <pre>
- * org.junit.ComparisonFailure: [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;
+ * org.opentest4j.AssertionFailedError:
+ * [Living Guests]
+ * expected: 7
+ *  but was: 6
  * </pre>
  *
  * <p>
@@ -86,11 +89,24 @@ package org.assertj.core.api;
  * </p>
  *
  * <pre>
- * org.assertj.core.api.SoftAssertionError: The following 4 assertions failed:
- * 1) [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;
- * 2) [Library] expected:&lt;'[clean]'&gt; but was:&lt;'[messy]'&gt;
- * 3) [Candlestick] expected:&lt;'[pristine]'&gt; but was:&lt;'[bent]'&gt;
- * 4) [Professor] expected:&lt;'[well kempt]'&gt; but was:&lt;'[bloodied and disheveled]'&gt;
+ * org.assertj.core.error.AssertJMultipleFailuresError:
+ * Multiple Failures (4 failure)
+ * -- failure 1 --
+ * [Living Guests]
+ * expected: 7
+ *  but was: 6
+ * -- failure 2 --
+ * [Library]
+ * expected: clean
+ *  but was: messy
+ * -- failure 3 --
+ * [Candlestick]
+ * expected: pristine
+ *  but was: bent
+ * -- failure 4 --
+ * [Professor]
+ * expected: well kempt
+ *  but was: bloodied and disheveled
  * </pre>
  *
  * <p>
