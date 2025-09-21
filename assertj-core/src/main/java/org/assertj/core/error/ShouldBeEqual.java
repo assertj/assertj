@@ -43,7 +43,6 @@ public class ShouldBeEqual {
 
   private static final String EXPECTED_BUT_WAS_MESSAGE = "%nexpected: %s%n but was: %s";
   private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = EXPECTED_BUT_WAS_MESSAGE + "%n%s";
-  private static final Class<?>[] MSG_ARG_TYPES = array(String.class, String.class, String.class);
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class,
                                                                                    Object.class);
   protected final Object actual;
@@ -52,7 +51,6 @@ public class ShouldBeEqual {
   protected final ComparisonStrategy comparisonStrategy;
   private final Representation representation;
   private final ConstructorInvoker constructorInvoker = new ConstructorInvoker();
-  private final DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
 
   /**
    * Creates a new <code>{@link ShouldBeEqual}</code>.
@@ -94,12 +92,9 @@ public class ShouldBeEqual {
    * The <code>{@link AssertionError}</code> message is built so that it differentiates {@link #actual} and
    * {@link #expected} description in case their string representations are the same (as float 42 and double 42).
    * <p>
-   * If JUnit 4 is in the classpath and the description is standard (no comparator was used and {@link #actual} and
+   * If opentest4j is on the classpath and the description is standard (no comparator was used and {@link #actual} and
    * {@link #expected} string representation is different), this method will instead create a
-   * org.junit.ComparisonFailure that highlights the difference(s) between the expected and actual objects.
-   * </p>
-   * <p>
-   * If opentest4j is on the classpath then {@code org.opentest4j.AssertionFailedError} would be used.
+   * {@code org.opentest4j.AssertionFailedError} that highlights the difference(s) between the expected and actual objects.
    * </p>
    * {@link AssertionError} stack trace won't show AssertJ related elements if {@link Failures} is configured to filter
    * them (see {@link Failures#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
@@ -117,13 +112,9 @@ public class ShouldBeEqual {
       AssertionError assertionFailedError = assertionFailedError(message, representation);
       // assertionFailedError != null means that JUnit 5 and opentest4j are in the classpath
       if (assertionFailedError != null) return assertionFailedError;
-      // Junit5 was not used, try to build a JUnit 4 ComparisonFailure that is nicely displayed in IDEs
-      AssertionError error = comparisonFailure(description);
-      // error != null means that JUnit 4 was in the classpath and we build a ComparisonFailure.
-      if (error != null) return error;
     }
     AssertionError assertionFailedError = assertionFailedError(message, representation);
-    // assertionFailedError != null means that JUnit 5 and opentest4j was in the classpath
+    // assertionFailedError != null means that JUnit 5 and opentest4j are in the classpath
     if (assertionFailedError != null) return assertionFailedError;
     // No JUnit in the classpath => fall back to the default error message
     return Failures.instance().failure(message);
@@ -226,25 +217,6 @@ public class ShouldBeEqual {
     } catch (Throwable e) {
       return null;
     }
-  }
-
-  private AssertionError comparisonFailure(Description description) {
-    try {
-      AssertionError comparisonFailure = newComparisonFailure(descriptionFormatter.format(description).trim());
-      Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(comparisonFailure);
-      return comparisonFailure;
-    } catch (Throwable e) {
-      return null;
-    }
-  }
-
-  private AssertionError newComparisonFailure(String description) throws Exception {
-    Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure",
-                                              MSG_ARG_TYPES,
-                                              description,
-                                              representation.toStringOf(expected),
-                                              representation.toStringOf(actual));
-    return o instanceof AssertionError assertionError ? assertionError : null;
   }
 
   protected String detailedActual() {

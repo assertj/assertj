@@ -41,7 +41,7 @@ package org.assertj.core.api;
  * </p>
  *
  * <pre>
- * org.junit.ComparisonFailure: [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;
+ * org.opentest4j.AssertionFailedError: [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;
  * </pre>
  *
  * <p>

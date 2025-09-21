@@ -34,7 +34,7 @@ class ShouldBeEqual_equals_hashCode_Test {
 
   @BeforeAll
   public static void setUpOnce() {
-    factory = (ShouldBeEqual) shouldBeEqual("Yoda", "Luke", new StandardRepresentation());
+    factory = shouldBeEqual("Yoda", "Luke", new StandardRepresentation());
   }
 
   @Test

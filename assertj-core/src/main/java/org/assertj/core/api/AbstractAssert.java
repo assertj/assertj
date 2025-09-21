@@ -335,9 +335,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Example:
    * <pre><code class='java'> assertThat(1).inBinary().isEqualTo(2);
    *
-   * org.junit.ComparisonFailure:
-   * Expected :0b00000000_00000000_00000000_00000010
-   * Actual   :0b00000000_00000000_00000000_00000001</code></pre>
+   * org.opentest4j.AssertionFailedError:
+   * expected: 0b00000000_00000000_00000000_00000010
+    *  but was: 0b00000000_00000000_00000000_00000001</code></pre>
    *
    * @return {@code this} assertion object.
    */

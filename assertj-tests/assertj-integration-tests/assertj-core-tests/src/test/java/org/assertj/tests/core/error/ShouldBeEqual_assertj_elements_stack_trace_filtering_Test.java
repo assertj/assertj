@@ -18,14 +18,9 @@ import static org.assertj.tests.core.testkit.StackTraceUtils.checkNoAssertjStack
 import static org.assertj.tests.core.testkit.StackTraceUtils.hasAssertJStackTraceElement;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.BDDAssertions;
 import org.assertj.core.api.Fail;
-import org.assertj.core.error.ShouldBeEqual;
 import org.junit.jupiter.api.Test;
 
-/**
- * @author Joel Costigliola
- */
 class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
 
   @Test
@@ -33,9 +28,9 @@ class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
     // GIVEN
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(true);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat("Xavi").isEqualTo("Xabi"));
+    var assertionError = expectAssertionError(() -> assertThat("Xavi").isEqualTo("Xabi"));
     // THEN
-    checkNoAssertjStackTraceElementIn(error);
+    checkNoAssertjStackTraceElementIn(assertionError);
   }
 
   @Test
@@ -43,9 +38,9 @@ class ShouldBeEqual_assertj_elements_stack_trace_filtering_Test {
     // GIVEN
     Fail.setRemoveAssertJRelatedElementsFromStackTrace(false);
     // WHEN
-    AssertionError error = expectAssertionError(() -> then("Messi").isEqualTo("Ronaldo"));
+    var assertionError = expectAssertionError(() -> then("Messi").isEqualTo("Ronaldo"));
     // THEN
-    BDDAssertions.then(hasAssertJStackTraceElement(error)).isTrue();
+    then(hasAssertJStackTraceElement(assertionError)).isTrue();
   }
 
 }

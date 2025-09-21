@@ -110,9 +110,7 @@ public class Comparables {
    * @param actual the actual value.
    * @param expected the expected value.
    * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the expected one. This method will throw a
-   *           {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual
-   *           values are not equal.
+   * @throws AssertionError if the actual value is not equal to the expected one.
    */
   public <T> void assertEqual(AssertionInfo info, T actual, T expected) {
     assertNotNull(info, actual);
@@ -151,9 +149,7 @@ public class Comparables {
    * @param actual the actual value.
    * @param expected the expected value.
    * @throws AssertionError if the actual value is {@code null}.
-   * @throws AssertionError if the actual value is not equal to the expected one. This method will throw a
-   *           {@code org.junit.ComparisonFailure} instead if JUnit is in the classpath and the expected and actual
-   *           values are not equal.
+   * @throws AssertionError if the actual value is not equal to the expected one.
    */
   public <T> void assertEqualByComparison(AssertionInfo info, Comparable<? super T> actual, T expected) {
     assertNotNull(info, actual);

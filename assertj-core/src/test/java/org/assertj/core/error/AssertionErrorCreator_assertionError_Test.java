@@ -15,12 +15,10 @@ package org.assertj.core.error;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
 import org.assertj.core.presentation.Representation;
-import org.junit.ComparisonFailure;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
@@ -46,25 +44,7 @@ class AssertionErrorCreator_assertionError_Test {
   }
 
   @Test
-  void should_create_ComparisonFailure_when_AssertionFailedError_could_not_be_created() throws Exception {
-    // GIVEN
-    String message = "error message";
-    Representation representation = mock(Representation.class);
-    ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
-    ComparisonFailure expectedFailure = new ComparisonFailure(message, "expected", "actual");
-    // @format:off
-    given(constructorInvoker.newInstance(eq(AssertionFailedError.class.getName()), any(Class[].class), any(Object[].class))).willThrow(Exception.class);
-    given(constructorInvoker.newInstance(eq(ComparisonFailure.class.getName()), any(Class[].class), any(Object[].class))).willReturn(expectedFailure);
-    // @format:on
-    assertionErrorCreator.constructorInvoker = constructorInvoker;
-    // WHEN
-    AssertionError assertionError = assertionErrorCreator.assertionError(message, new Object(), new Object(), representation);
-    // THEN
-    then(assertionError).isSameAs(expectedFailure);
-  }
-
-  @Test
-  void should_create_AssertionError_when_neither_AssertionFailedError_nor_ComparisonFailure_could_be_created() throws Exception {
+  void should_create_AssertionError_when_an_AssertionFailedError_could_not_be_created() throws Exception {
     // GIVEN
     String message = "error message";
     ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);

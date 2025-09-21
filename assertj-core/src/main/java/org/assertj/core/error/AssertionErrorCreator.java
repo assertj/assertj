@@ -21,15 +21,12 @@ import java.util.Optional;
 import org.assertj.core.api.SoftAssertionError;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 public class AssertionErrorCreator {
 
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class, Object.class);
-
-  private static final Class<?>[] MSG_ARG_TYPES_FOR_COMPARISON_FAILURE = array(String.class, String.class, String.class);
 
   private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
 
@@ -47,39 +44,18 @@ public class AssertionErrorCreator {
   // single assertion error
 
   public AssertionError assertionError(String message, Object actual, Object expected, Representation representation) {
-    // @format:off
-    return assertionFailedError(message, actual,expected)
-                    .orElse(comparisonFailure(message, actual, expected, representation)
-                    .orElse(assertionError(message)));
-    // @format:on
+    return assertionFailedError(message, actual, expected).orElse(assertionError(message));
   }
 
   private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected) {
     try {
+      // TODO use UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual,
+      // expected);
       Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
                                                 MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
                                                 message,
                                                 expected,
                                                 actual);
-
-      if (o instanceof AssertionError error) return Optional.of(error);
-
-    } catch (@SuppressWarnings("unused") Throwable ignored) {}
-    return Optional.empty();
-  }
-
-  private Optional<AssertionError> comparisonFailure(String message,
-                                                     Object actual,
-                                                     Object expected,
-                                                     Representation representation) {
-    try {
-      UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual, expected);
-
-      Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure",
-                                                MSG_ARG_TYPES_FOR_COMPARISON_FAILURE,
-                                                message,
-                                                unambiguousRepresentation.getExpected(),
-                                                unambiguousRepresentation.getActual());
 
       if (o instanceof AssertionError error) return Optional.of(error);
 

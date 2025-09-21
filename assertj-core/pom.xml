@@ -28,7 +28,6 @@
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
     <byte-buddy.version>1.17.7</byte-buddy.version>
-    <hamcrest.version>3.0</hamcrest.version>
   </properties>
 
   <dependencyManagement>
@@ -42,11 +41,6 @@
         <groupId>net.bytebuddy</groupId>
         <artifactId>byte-buddy-agent</artifactId>
         <version>${byte-buddy.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.hamcrest</groupId>
-        <artifactId>hamcrest</artifactId>
-        <version>${hamcrest.version}</version>
       </dependency>
       <dependency> <!-- Included by hibernate-core -->
         <groupId>org.jboss.logging</groupId>
@@ -62,19 +56,6 @@
       <artifactId>byte-buddy</artifactId>
     </dependency>
     <!-- Provided -->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>provided</scope>
-      <optional>true</optional>
-      <exclusions>
-        <!-- This has to be excluded because it's subjecting the code to the incorrect version of certain hamcrest packages. -->
-        <exclusion>
-          <groupId>org.hamcrest</groupId>
-          <artifactId>hamcrest-core</artifactId>
-        </exclusion>
-      </exclusions>
-    </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest</artifactId>
@@ -103,7 +84,6 @@
     <dependency>
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.20.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -217,11 +197,6 @@
           <artifactId>japicmp-maven-plugin</artifactId>
           <configuration>
             <dependencies>
-              <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-              </dependency>
               <dependency>
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest</artifactId>
