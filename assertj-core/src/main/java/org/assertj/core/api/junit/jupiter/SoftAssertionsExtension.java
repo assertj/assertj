@@ -94,21 +94,20 @@ import org.junit.platform.commons.support.ReflectionSupport;
  * <code class='java'> {@literal @}ExtendWith(SoftAssertionsExtension.class)
  * class ExampleTestCase {
  *
- *    {@literal @}InjectSoftAssertions
- *    BDDSoftAssertions bdd;
- *
  *    {@literal @}Test
- *    void multipleFailures(SoftAssertions softly) {
- *       softly.assertThat(2 * 3).isEqualTo(0);
- *       softly.assertThat(Arrays.asList(1, 2)).containsOnly(1);
- *       softly.assertThat(1 + 1).isEqualTo(2);
+ *    void multipleFailures(SoftAssertions soft) {
+ *       // failure 1
+ *       soft.assertThat(2 * 3).isEqualTo(0);
+ *       // failure 2
+ *       soft.assertThat(Arrays.asList(1, 2)).containsOnly(1);
+ *       // this one is ok
+ *       soft.assertThat(1 + 1).isEqualTo(2);
  *    }
- * }</code>
- * </pre>
+ * }</code></pre>
  *
  * <h3>Example field injection</h3>
- * <pre><code> {@literal @}ExtendWith(SoftlyExtension.class)
- * public class SoftlyExtensionExample {
+ * <pre><code> {@literal @}ExtendWith(SoftAssertionsExtension.class)
+ * class ExampleTestCase {
  *
  *   // initialized by the SoftlyExtension extension
  *   {@literal @}InjectSoftAssertions
@@ -138,31 +137,10 @@ import org.junit.platform.commons.support.ReflectionSupport;
  *   }
  * } </code></pre>
  *
- * <h3>Example using a mix of field and parameter injection</h3>
- *
- * <pre>
- * <code class='java'> {@literal @}ExtendWith(SoftAssertionsExtension.class)
- * class ExampleTestCase {
- *
- *    {@literal @}InjectSoftAssertions
- *    SoftAssertions softly
- *
- *    {@literal @}Test
- *    void multipleFailures(BDDSoftAssertions bdd) {
- *       bdd.then(2 * 3).isEqualTo(0);
- *       softly.assertThat(Arrays.asList(1, 2)).containsOnly(1);
- *       bdd.then(1 + 1).isEqualTo(2);
- *       // When SoftAssertionsExtension calls assertAll(), the three
- *       // above failures above will be reported in-order.
- *    }
- * }</code>
- * </pre>
- *
  * <h3>Example third-party extension using {@code SoftAssertionsExtension}</h3>
  *
  * <pre>
- * <code class='java'>
- * class ExampleTestCase implements BeforeEachCallback {
+ * <code class='java'> class ExampleTestCase implements BeforeEachCallback {
  *
  *    {@literal @}Override
  *    public void beforeEach(ExtensionContext context) {
