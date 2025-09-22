@@ -16,6 +16,7 @@
  */
 module org.assertj.core {
   // AssertJ Core's package API
+  exports org.assertj.core.annotation;
   exports org.assertj.core.annotations;
   exports org.assertj.core.api;
   exports org.assertj.core.api.comparisonstrategy;
