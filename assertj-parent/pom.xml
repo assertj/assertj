@@ -27,11 +27,11 @@
     <bnd.version>7.1.0</bnd.version>
     <jacoco-maven-plugin.version>0.8.13</jacoco-maven-plugin.version>
     <japicmp-maven-plugin.version>0.23.1</japicmp-maven-plugin.version>
-    <maven-javadoc-plugin.version>3.7.0</maven-javadoc-plugin.version>
+    <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
     <maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
-    <spotbugs-maven-plugin.version>4.9.5.0</spotbugs-maven-plugin.version>
-    <versions-maven-plugin.version>2.19.0</versions-maven-plugin.version>
+    <spotbugs-maven-plugin.version>4.9.6.0</spotbugs-maven-plugin.version>
+    <versions-maven-plugin.version>2.19.1</versions-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
