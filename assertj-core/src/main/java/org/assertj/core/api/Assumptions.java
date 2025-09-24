@@ -24,7 +24,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.net.URI;
@@ -1530,6 +1532,38 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link ConstructorAssert}</code> assumption from the given {@link Constructor}.
+   *
+   * @param <CLASS> the type of the class
+   * @param actual the Constructor to test
+   * @return the created assumption for assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  public static <CLASS> AbstractConstructorAssert<?, CLASS> assumeThat(Constructor<CLASS> actual) {
+    return asAssumption(ConstructorAssert.class, Constructor.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link FieldAssert}</code> assumption from the given {@link Field}.
+   *
+   * @param actual the Field to test
+   * @return the created assumption for assertion object.
+   */
+  public static AbstractFieldAssert<?> assumeThat(Field actual) {
+    return asAssumption(FieldAssert.class, Field.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link MethodAssert}</code> assumption from the given {@link Method}.
+   *
+   * @param actual the Method to test
+   * @return the created assumption for assertion object.
+   */
+  public static AbstractMethodAssert<?> assumeThat(Method actual) {
+    return asAssumption(MethodAssert.class, Method.class, actual);
+  }
+
+  /**
    * Sets which exception is thrown if an assumption is not met. 
    * <p>
    * This method is useful if you are using a testing framework that supports assumptions and expect a specific exception to be thrown when an assumption is not met. 
@@ -1634,6 +1668,7 @@ public class Assumptions {
     if (assertion instanceof ClassAssert) return asAssumption(ClassAssert.class, Class.class, actual);
     if (assertion instanceof CollectionAssert) return asAssumption(CollectionAssert.class, Collection.class, actual);
     if (assertion instanceof CompletableFutureAssert) return asAssumption(CompletableFutureAssert.class, CompletableFuture.class, actual);
+    if (assertion instanceof ConstructorAssert) return asAssumption(ConstructorAssert.class, Constructor.class, actual);
     if (assertion instanceof DateAssert) return asAssumption(DateAssert.class, Date.class, actual);
     if (assertion instanceof DoubleAssert) return asAssumption(DoubleAssert.class, Double.class, actual);
     if (assertion instanceof Double2DArrayAssert) return asAssumption(Double2DArrayAssert.class, double[][].class, actual);
@@ -1641,6 +1676,7 @@ public class Assumptions {
     if (assertion instanceof DoublePredicateAssert) return asAssumption(DoublePredicateAssert.class, DoublePredicate.class, actual);
     if (assertion instanceof DurationAssert) return asAssumption(DurationAssert.class, Duration.class, actual);
     if (assertion instanceof FactoryBasedNavigableListAssert) return asAssumption(ListAssert.class, List.class, actual);
+    if (assertion instanceof FieldAssert) return asAssumption(FieldAssert.class, Field.class, actual);
     if (assertion instanceof FileAssert) return asAssumption(FileAssert.class, File.class, actual);
     if (assertion instanceof FileSizeAssert) return asFileSizeAssumption(assertion);
     if (assertion instanceof FloatAssert) return asAssumption(FloatAssert.class, Float.class, actual);
@@ -1666,6 +1702,7 @@ public class Assumptions {
     if (assertion instanceof LongPredicateAssert) return asAssumption(LongPredicateAssert.class, LongPredicate.class, actual);
     if (assertion instanceof MapAssert) return asAssumption(MapAssert.class, Map.class, actual);
     if (assertion instanceof MapSizeAssert) return asMapSizeAssumption(assertion);
+    if (assertion instanceof MethodAssert) return asAssumption(MethodAssert.class, Method.class, actual);
     if (assertion instanceof OffsetDateTimeAssert) return asAssumption(OffsetDateTimeAssert.class, OffsetDateTime.class, actual);
     if (assertion instanceof OffsetTimeAssert) return asAssumption(OffsetTimeAssert.class, OffsetTime.class, actual);
     if (assertion instanceof ObjectAssert) return asAssumption(ObjectAssert.class, Object.class, actual);

@@ -12,6 +12,9 @@
  */
 package org.assertj.core.api;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
@@ -439,4 +442,37 @@ public interface StandardSoftAssertionsProvider extends Java6StandardSoftAsserti
     return proxy(TemporalAssert.class, Temporal.class, actual);
   }
 
+  /**
+   * Create assertion for {@link Field}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  default AbstractFieldAssert<?> assertThat(Field actual) {
+    return proxy(FieldAssert.class, Field.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link Method}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  default AbstractMethodAssert<?> assertThat(Method actual) {
+    return proxy(MethodAssert.class, Method.class, actual);
+  }
+
+  /**
+   * Create assertion for {@link Constructor}.
+   *
+   * @param actual the actual value.
+   *
+   * @return the created assertion object.
+   */
+  @SuppressWarnings("unchecked")
+  default <CLASS> AbstractConstructorAssert<?, CLASS> assertThat(Constructor<CLASS> actual) {
+    return proxy(ConstructorAssert.class, Constructor.class, actual);
+  }
 }
