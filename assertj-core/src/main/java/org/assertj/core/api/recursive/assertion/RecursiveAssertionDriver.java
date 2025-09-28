@@ -32,6 +32,7 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.Set;
 import java.util.function.Predicate;
+
 import org.assertj.core.api.recursive.comparison.FieldLocation;
 import org.assertj.core.util.Arrays;
 
