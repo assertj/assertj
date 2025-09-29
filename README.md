@@ -15,6 +15,17 @@ AssertJ provides a rich and intuitive set of strongly-typed assertions to use fo
 
 You can ask questions in [**stackoverflow (assertj tag)**](https://stackoverflow.com/questions/tagged/assertj?mixed=1) and make suggestions by simply creating an issue.
 
+## Sponsors
+
+* [LambdaTest](https://www.lambdatest.com)
+
+<p style="font-size:21px; color:black;">Browser testing via 
+    <a href="https://www.lambdatest.com/" target="_blank">
+        <img src="https://www.lambdatest.com/blue-logo.png" style="vertical-align: middle;" width="250" height="45" />
+    </a>
+</p>
+
+
 ## <a name="goals"/>AssertJ's goals</a>
 
 AssertJ's ambition is to provide a rich and intuitive set of strongly-typed assertions for unit testing.
