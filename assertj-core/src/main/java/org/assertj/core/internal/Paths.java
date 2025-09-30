@@ -208,7 +208,13 @@ public class Paths {
   public void assertStartsWith(final AssertionInfo info, final Path actual, final Path other) {
     assertNotNull(info, actual);
     assertExpectedStartPathIsNotNull(other);
-    if (!toRealPath(actual).startsWith(toRealPath(other))) throw failures.failure(info, shouldStartWith(actual, other));
+
+    Path absoluteActual = Files.exists(actual) ? toRealPath(actual) : actual.toAbsolutePath().normalize();
+    Path absoluteOther = Files.exists(other) ? toRealPath(other) : other.toAbsolutePath().normalize();
+
+    if (!absoluteActual.startsWith(absoluteOther)) {
+      throw failures.failure(info, shouldStartWith(actual, other));
+    }
   }
 
   public void assertStartsWithRaw(final AssertionInfo info, final Path actual, final Path other) {
@@ -220,7 +226,8 @@ public class Paths {
   public void assertEndsWith(final AssertionInfo info, final Path actual, final Path other) {
     assertNotNull(info, actual);
     assertExpectedEndPathIsNotNull(other);
-    if (!toRealPath(actual).endsWith(other.normalize())) throw failures.failure(info, shouldEndWith(actual, other));
+    Path path = Files.exists(actual) ? toRealPath(actual) : actual;
+    if (!path.endsWith(other.normalize())) throw failures.failure(info, shouldEndWith(actual, other));
   }
 
   public void assertEndsWithRaw(final AssertionInfo info, final Path actual, final Path end) {
