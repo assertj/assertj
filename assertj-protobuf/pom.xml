@@ -146,8 +146,8 @@
         <configuration>
           <links>
             <link>https://protobuf.dev/reference/java/api-docs/</link>
-            <link>https://javadoc.io/static/org.assertj/assertj-core/${project.version}</link>
           </links>
+          <detectOfflineLinks>false</detectOfflineLinks>
         </configuration>
       </plugin>
       <plugin>
