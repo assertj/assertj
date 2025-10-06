@@ -121,14 +121,14 @@
     <rootDirectory>${project.basedir}</rootDirectory>
     <spotless.skip>true</spotless.skip>
     <!-- Plugin versions -->
-    <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
-    <flatten-maven-plugin.version>1.7.2</flatten-maven-plugin.version>
+    <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
+    <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
     <license-maven-plugin.version>5.0.0</license-maven-plugin.version>
     <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
-    <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
+    <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
     <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
     <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
-    <maven-enforcer-plugin.version>3.6.1</maven-enforcer-plugin.version>
+    <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
     <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
     <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
     <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
@@ -138,7 +138,7 @@
     <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
     <maven-surefire-report-plugin.version>3.5.4</maven-surefire-report-plugin.version>
     <sonar-maven-plugin.version>5.2.0.4988</sonar-maven-plugin.version>
-    <spotless-maven-plugin.version>2.46.1</spotless-maven-plugin.version>
+    <spotless-maven-plugin.version>3.0.0</spotless-maven-plugin.version>
   </properties>
 
   <build>
