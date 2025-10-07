@@ -124,7 +124,7 @@ You can generate the Javadoc and read it in your browser to see what it actually
 
 ## Binary compatibility
 
-Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se21/html/jls-13.html) whenever possible.
+Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se25/html/jls-13.html) whenever possible.
 It means that you can safely:
 * Rewrite the body of methods, constructors, and initializers (like static blocks).
 * Rewrite code in the above that previously threw exceptions to no longer do so.
