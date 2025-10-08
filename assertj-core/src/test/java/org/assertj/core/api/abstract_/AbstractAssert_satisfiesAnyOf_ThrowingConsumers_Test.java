@@ -48,7 +48,9 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     // checks that the code invoked in invoke_api_method called multipleAssertionsError with the correct parameters
     @SuppressWarnings("unchecked")
     ArgumentCaptor<List<AssertionError>> errors = ArgumentCaptor.forClass(List.class);
-    verify(assertionErrorCreator).multipleAssertionsError(eq(new TextDescription("description")), errors.capture());
+    verify(assertionErrorCreator).multipleAssertionsError(eq(new TextDescription("description")),
+                                                          eq(assertions.actual()),
+                                                          errors.capture());
     assertThat(errors.getValue()).hasSize(2);
     assertThat(errors.getValue().get(0)).hasMessageContaining("null");
     assertThat(errors.getValue().get(1)).hasMessageContaining("to be an instance of");
@@ -114,6 +116,7 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     ThrowingCallable failingAssertionCode = () -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ);
     // THEN
     AssertionError assertionError = expectAssertionError(failingAssertionCode);
+    System.out.println("msg " + assertionError.getMessage());
     // THEN
     then(assertionError).hasMessageContaining("String checks");
   }

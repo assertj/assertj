@@ -30,6 +30,10 @@ public class AssertionErrorCreator {
 
   private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
 
+  private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES_WITH_ACTUAL_ROOT_INSTANCE = array(String.class,
+                                                                                                           Object.class,
+                                                                                                           List.class);
+
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ConstructorInvoker constructorInvoker;
 
@@ -74,10 +78,11 @@ public class AssertionErrorCreator {
     return multipleFailuresError.orElse(new SoftAssertionError(describeErrors(errors)));
   }
 
-  public AssertionError multipleAssertionsError(Description description, List<? extends AssertionError> errors) {
+  public AssertionError multipleAssertionsError(Description description, Object actualRootInstance,
+                                                List<? extends AssertionError> errors) {
     String heading = headingFrom(description);
-    Optional<AssertionError> multipleFailuresError = tryBuildingMultipleFailuresError(heading, errors);
-    return multipleFailuresError.orElse(new MultipleAssertionsError(description, errors));
+    Optional<AssertionError> multipleFailuresError = tryBuildingMultipleFailuresError(heading, actualRootInstance, errors);
+    return multipleFailuresError.orElse(new MultipleAssertionsError(description, actualRootInstance, errors));
   }
 
   public void tryThrowingMultipleFailuresError(List<? extends Throwable> errorsCollected) {
@@ -94,10 +99,11 @@ public class AssertionErrorCreator {
   }
 
   private Optional<AssertionError> tryBuildingMultipleFailuresError(List<? extends Throwable> errorsCollected) {
-    return tryBuildingMultipleFailuresError(null, errorsCollected);
+    return tryBuildingMultipleFailuresError(null, null, errorsCollected);
   }
 
   private Optional<AssertionError> tryBuildingMultipleFailuresError(String heading,
+                                                                    Object actualRootInstance,
                                                                     List<? extends Throwable> errorsCollected) {
     if (errorsCollected.isEmpty()) return Optional.empty();
     try {
@@ -109,9 +115,13 @@ public class AssertionErrorCreator {
         List<Throwable> failures = extractFailuresOf(multipleFailuresError);
         // we switch to AssertJMultipleFailuresError in order to control the formatting of the error message.
         // we use reflection to avoid making opentest4j a required dependency
-        AssertionError assertionError = (AssertionError) constructorInvoker.newInstance("org.assertj.core.error.AssertJMultipleFailuresError",
-                                                                                        MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES,
-                                                                                        array(heading, failures));
+        AssertionError assertionError = actualRootInstance != null
+            ? (AssertionError) constructorInvoker.newInstance("org.assertj.core.error.AssertJMultipleFailuresError",
+                                                              MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES_WITH_ACTUAL_ROOT_INSTANCE,
+                                                              array(heading, actualRootInstance, failures))
+            : (AssertionError) constructorInvoker.newInstance("org.assertj.core.error.AssertJMultipleFailuresError",
+                                                              MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES,
+                                                              array(heading, failures));
         Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
         return Optional.of(assertionError);
       }

@@ -65,7 +65,8 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     // checks that the code invoked in invoke_api_method called multipleAssertionsError with the correct parameters
     @SuppressWarnings("unchecked")
     ArgumentCaptor<List<AssertionError>> errors = ArgumentCaptor.forClass(List.class);
-    verify(assertionErrorCreator).multipleAssertionsError(eq(new TextDescription("description")), errors.capture());
+    verify(assertionErrorCreator).multipleAssertionsError(eq(new TextDescription("description")), eq(assertions.actual()),
+                                                          errors.capture());
     assertThat(errors.getValue()).hasSize(2);
     assertThat(errors.getValue().get(0)).hasMessageContaining("null");
     assertThat(errors.getValue().get(1)).hasMessageContaining("to be an instance of");

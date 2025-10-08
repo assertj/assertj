@@ -26,14 +26,14 @@ public class MultipleAssertionsError extends AssertionError {
 
   private final List<? extends AssertionError> errors;
 
-  public MultipleAssertionsError(List<? extends AssertionError> errors) {
-    super(createMessage(errors));
+  public MultipleAssertionsError(Description description, Object actualRootInstance, List<? extends AssertionError> errors) {
+    super((formatDescription(description) + "%n" + createDescriptionOfActualRootInstance(actualRootInstance) + ","
+           + createMessage(errors)).formatted());
     this.errors = errors;
   }
 
-  public MultipleAssertionsError(Description description, List<? extends AssertionError> errors) {
-    super(formatDescription(description) + createMessage(errors));
-    this.errors = errors;
+  private static String createDescriptionOfActualRootInstance(Object actualRootInstance) {
+    return "For %s".formatted(actualRootInstance);
   }
 
   /**

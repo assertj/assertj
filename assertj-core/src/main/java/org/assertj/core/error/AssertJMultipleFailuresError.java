@@ -16,6 +16,7 @@ import static org.assertj.core.util.Throwables.addLineNumberToErrorMessages;
 
 import java.io.Serial;
 import java.util.List;
+
 import org.opentest4j.MultipleFailuresError;
 
 /**
@@ -30,10 +31,19 @@ public class AssertJMultipleFailuresError extends MultipleFailuresError {
   private static final String ERROR_SEPARATOR = EOL + "-- failure %d --";
 
   private String heading;
+  private Object actualRootInstance;
+  private boolean actualRootInstanceExists;
 
   public AssertJMultipleFailuresError(String heading, List<? extends Throwable> failures) {
     super(heading, failures);
     this.heading = heading;
+  }
+
+  public AssertJMultipleFailuresError(String heading, Object actualRootInstance, List<? extends Throwable> failures) {
+    super(heading, failures);
+    this.heading = heading;
+    this.actualRootInstance = actualRootInstance;
+    this.actualRootInstanceExists = true;
   }
 
   @Override
@@ -45,11 +55,14 @@ public class AssertJMultipleFailuresError extends MultipleFailuresError {
     if (failureCount == 0) return super.getMessage();
 
     heading = isBlank(heading) ? "Multiple Failures" : heading.trim();
-    StringBuilder builder = new StringBuilder(EOL).append(heading)
-                                                  .append(" (")
-                                                  .append(failureCount).append(" ")
-                                                  .append(pluralize(failureCount, "failure", "failures"))
-                                                  .append(")");
+    String beginningOfErrorMessage = actualRootInstanceExists ? "%nFor %s,%n".formatted(actualRootInstance) : EOL;
+    StringBuilder builder = new StringBuilder(beginningOfErrorMessage)
+                                                                      .append(heading)
+                                                                      .append(" (")
+                                                                      .append(failureCount).append(" ")
+                                                                      .append(pluralize(failureCount, "failure",
+                                                                                        "failures"))
+                                                                      .append(")");
     List<Throwable> failuresWithLineNumbers = addLineNumberToErrorMessages(failures);
     for (int i = 0; i < failureCount; i++) {
       builder.append(errorSeparator(i + 1));
