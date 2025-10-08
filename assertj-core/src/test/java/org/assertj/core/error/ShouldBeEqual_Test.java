@@ -22,6 +22,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.Objects;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Disabled;
@@ -75,6 +76,18 @@ class ShouldBeEqual_Test {
     // THEN
     then(error).hasMessageContainingAll("%nexpected: \"\"test\" (StringBuilder".formatted(),
                                         "%n but was: \"\"test\" (String".formatted());
+  }
+
+  @Test
+  void should_display_packages_for_classes_with_the_same_name_when_objects_representation_are_the_same() {
+    // GIVEN
+    Object actual = new org.assertj.core.internal.objects.pkg1.Foo("foo");
+    Object expected = new org.assertj.core.internal.objects.pkg2.Foo("foo");
+    // WHEN
+    var error = expectAssertionError(() -> then(actual).isEqualTo(expected));
+    // THEN
+    then(error).hasMessageContainingAll("expected: \"Foo[name=foo] (org.assertj.core.internal.objects.pkg2.Foo",
+                                        " but was: \"Foo[name=foo] (org.assertj.core.internal.objects.pkg1.Foo");
   }
 
   @Test

@@ -88,7 +88,7 @@ class CompositeRepresentation_Test extends AbstractBaseRepresentationTest {
       }
 
       @Override
-      public String unambiguousToStringOf(Object object) {
+      public String unambiguousToStringOf(Object object, boolean withPackageName) {
         return "" + getPriority();
       }
 

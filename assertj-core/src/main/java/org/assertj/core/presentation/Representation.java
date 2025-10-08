@@ -20,35 +20,35 @@ import org.assertj.core.configuration.Configuration;
 /**
  * Controls the formatting (String representation) of types in assertion error messages.
  * <p>
- * There are several ways to replace the {@link StandardRepresentation} as the default {@link Representation}:  
+ * There are several ways to replace the {@link StandardRepresentation} as the default {@link Representation}:
  * <ul>
  * <li>call {@link Assertions#useRepresentation(Representation)}, from this point all assertions will use the given representation.</li>
  * <li>use a {@link Configuration} overriding the default representation specified with {@link Configuration#representation()} as explained <a href="https://assertj.github.io/doc/#automatic-configuration-discovery">here</a>.</li>
  * <li>register a representation as a service discovered at program startup.</li>
  * </ul>
  * <p>
- * The advantage of registering a representation (or a  configuration overriding the default representation) is that you don't need to do anything in your tests, 
- * the java runtime will discover it and AssertJ will use it but it requires a bit more work than a simple call to {@link Assertions#useRepresentation(Representation)}.  
+ * The advantage of registering a representation (or a  configuration overriding the default representation) is that you don't need to do anything in your tests,
+ * the java runtime will discover it and AssertJ will use it but it requires a bit more work than a simple call to {@link Assertions#useRepresentation(Representation)}.
  * <p>
- * Note that a {@link Configuration} overriding the default representation takes precedence over any registered representation. 
+ * Note that a {@link Configuration} overriding the default representation takes precedence over any registered representation.
  * <p>
  * To register a {@link Representation}, you need to do several things:
  * <ul>
  * <li>create a file named {@code org.assertj.core.presentation.Representation} file in META-INF/services directory</li>
- * <li>put the fully qualified class name of your {@link Representation} in it</li>   
+ * <li>put the fully qualified class name of your {@link Representation} in it</li>
  * <li>make sure {@code META-INF/services/org.assertj.core.presentation.Representation} is in the runtime classpath, usually putting it in {@code src/test/resources} is enough</li>
  * </ul>
  * <p>
  * The <a href="https://github.com/assertj/assertj-examples/tree/main/assertions-examples">assertj-examples</a> project provides a working example of registering a custom representation.
  * <p>
- * Registering a representation has been introduced in AssertJ 2.9.0/3.9.0.  
+ * Registering a representation has been introduced in AssertJ 2.9.0/3.9.0.
  * <p>
- * Since 3.22.0, AssertJ can load multiples representations from the classpath, the idea behind is that different domain-specific libraries would be able to 
- * independently register representations for their respective domain. AssertJ aggregate them in a {@link CompositeRepresentation} which loops over 
- * the different representations and use the first non null representation value of the variable to display. If multiples representations overlap the highest priority one wins (see {@link #getPriority()}).   
+ * Since 3.22.0, AssertJ can load multiples representations from the classpath, the idea behind is that different domain-specific libraries would be able to
+ * independently register representations for their respective domain. AssertJ aggregate them in a {@link CompositeRepresentation} which loops over
+ * the different representations and use the first non null representation value of the variable to display. If multiples representations overlap the highest priority one wins (see {@link #getPriority()}).
  * The {@link StandardRepresentation} is the fallback option when all the registered representations returned a null representation of the value to display (meaning they did not know how to represent the value).
  * <p>
- * 
+ *
  * @author Mariusz Smykula
  */
 public interface Representation {
@@ -65,17 +65,32 @@ public interface Representation {
   String toStringOf(Object object);
 
   /**
-   * Override this method to return a {@code String} representation of the given object that is unambiguous so that it can 
+   * Override this method to return a {@code String} representation of the given object that is unambiguous so that it can
    * be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
    * <p>
-   * The default implementation calls {@link #toStringOf(Object)} but the {@link StandardRepresentation} adds 
-   * the object hexadecimal identity hash code.   
+   * The default implementation calls {@link #toStringOf(Object)} but the {@link StandardRepresentation} adds
+   * the object hexadecimal identity hash code.
+   *
+   * @param object          the object to represent.
+   * @param withPackageName if the object's representation includes the package name or not
+   * @return the unambiguous {@code toString} representation of the given object.
+   */
+  default String unambiguousToStringOf(Object object, boolean withPackageName) {
+    return toStringOf(object);
+  }
+
+  /**
+   * Override this method to return a {@code String} representation of the given object that is unambiguous so that it can
+   * be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
+   * <p>
+   * The default implementation calls {@link #toStringOf(Object)} but the {@link StandardRepresentation} adds
+   * the object hexadecimal identity hash code (but without the package).
    *
    * @param object the object to represent.
    * @return the unambiguous {@code toString} representation of the given object.
    */
   default String unambiguousToStringOf(Object object) {
-    return toStringOf(object);
+    return unambiguousToStringOf(object, false);
   }
 
   /**
@@ -85,7 +100,7 @@ public interface Representation {
    * The {@link StandardRepresentation} is the fallback option when all the registered representations returned a null representation of the value to display (meaning they did not know how to represent the value).
    * <p>
    * The default priority is 1.
-   * 
+   *
    * @return the representation priority.
    */
   default int getPriority() {

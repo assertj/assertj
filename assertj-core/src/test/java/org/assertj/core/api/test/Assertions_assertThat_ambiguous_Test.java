@@ -14,8 +14,12 @@ package org.assertj.core.api.test;
 
 import static org.assertj.core.api.Assertions.assertThatIterator;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenIterator;
+import static org.assertj.core.api.BDDAssertions.thenPredicate;
 import static org.assertj.core.api.PredicateAssert.assertThatPredicate;
 
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.function.Predicate;
 
@@ -25,15 +29,28 @@ import org.junit.jupiter.api.Test;
 class Assertions_solving_assertThat_ambiguous_Test {
 
   @Test
-  void should_resolve_ambiguous_assertThat_for_interfaces_and_use_assertThat_for_classes() {
+  void should_resolve_ambiguous_assertThat_for_interfaces_and_use_assertThat_or_then_for_classes() {
     // GIVEN
     IteratorPredicate<String> iteratorPredicate = new IteratorPredicate<>();
     // WHEN/THEN
     assertThatPredicate(iteratorPredicate).rejects("foo");
     assertThatIterator(iteratorPredicate).isExhausted();
+    thenPredicate(iteratorPredicate).rejects("foo");
+    thenIterator(iteratorPredicate).isExhausted();
     // assertions from AssertionsForClassTypes.assertThat
     assertThat("").isEmpty();
     assertThat(2L).isPositive();
+    then("").isEmpty();
+    then(2L).isPositive();
+  }
+
+  @Test
+  void should_resolve_ambiguous_assertThat_for_SqlException() {
+    // GIVEN
+    var sqlException = new SQLException("test");
+    // WHEN/THEN
+    assertThat(sqlException).hasMessage("test");
+    then(sqlException).hasMessage("test");
   }
 
   static class IteratorPredicate<T> implements Iterator<T>, Predicate<T> {

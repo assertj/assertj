@@ -12,6 +12,8 @@
  */
 package org.assertj.core.internal;
 
+import static org.assertj.core.util.introspection.ClassUtils.haveSameClassNameInDifferentPackages;
+
 import java.util.Objects;
 
 import org.assertj.core.presentation.Representation;
@@ -19,7 +21,7 @@ import org.assertj.core.presentation.Representation;
 /**
  * Utility class around {@link Representation} to provide the {@link Representation#toStringOf(Object) toStringOf}
  * representations of {@code actual} and {@code expected} when they are different, and their
- * {@link Representation#unambiguousToStringOf(Object) unambiguousToStringOf} representations if not.
+ * {@link Representation#unambiguousToStringOf(Object, boolean) unambiguousToStringOf} representations if not.
  */
 public class UnambiguousRepresentation {
 
@@ -32,17 +34,19 @@ public class UnambiguousRepresentation {
     String expectedRepresentation = representation.toStringOf(expected);
 
     boolean sameRepresentation = Objects.equals(actualRepresentation, expectedRepresentation);
+    boolean sameClassNameInDifferentPackages = haveSameClassNameInDifferentPackages(actual, expected);
     this.actual = sameRepresentation
-        ? representation.unambiguousToStringOf(actual)
+        ? representation.unambiguousToStringOf(actual, sameClassNameInDifferentPackages)
         : actualRepresentation;
     this.expected = sameRepresentation
-        ? representation.unambiguousToStringOf(expected)
+        ? representation.unambiguousToStringOf(expected, sameClassNameInDifferentPackages)
         : expectedRepresentation;
   }
 
   /**
    * Provide a representation of {@code actual} guaranteed to be different
    * from {@link #getExpected()}.
+   *
    * @return a suitable representation of the {@code actual} object given at
    * construction time.
    */
@@ -53,6 +57,7 @@ public class UnambiguousRepresentation {
   /**
    * Provide a representation of {@code expected} guaranteed to be different
    * from {@link #getActual()}.
+   *
    * @return a suitable representation of the {@code expected} object given at
    * construction time.
    */
