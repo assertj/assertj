@@ -13,8 +13,8 @@
 package org.assertj.core.api.abstract_;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.ArgumentMatchers.eq;
@@ -48,7 +48,9 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     // checks that the code invoked in invoke_api_method called multipleAssertionsError with the correct parameters
     @SuppressWarnings("unchecked")
     ArgumentCaptor<List<AssertionError>> errors = ArgumentCaptor.forClass(List.class);
-    verify(assertionErrorCreator).multipleAssertionsError(eq(new TextDescription("description")), errors.capture());
+    verify(assertionErrorCreator).multipleAssertionsError(eq(new TextDescription("description")),
+                                                          eq(assertions.actual()),
+                                                          errors.capture());
     assertThat(errors.getValue()).hasSize(2);
     assertThat(errors.getValue().get(0)).hasMessageContaining("null");
     assertThat(errors.getValue().get(1)).hasMessageContaining("to be an instance of");
@@ -101,9 +103,9 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     // GIVEN
     ThrowingConsumer<FileReader> hasReachedEOF = reader -> assertThat(reader.read()).isEqualTo(-1);
     // WHEN/THEN
-    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(new FileReader(resourceFile("empty.txt"))).satisfiesAnyOf(hasReachedEOF,
-                                                                                                                               null))
-                                        .withMessage("No assertions group should be null");
+    thenIllegalArgumentException().isThrownBy(() -> assertThat(new FileReader(resourceFile("empty.txt"))).satisfiesAnyOf(hasReachedEOF,
+                                                                                                                         null))
+                                  .withMessage("No assertions group should be null");
   }
 
   @Test
@@ -113,7 +115,7 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     ThrowingConsumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
     ThrowingCallable failingAssertionCode = () -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ);
     // THEN
-    AssertionError assertionError = expectAssertionError(failingAssertionCode);
+    var assertionError = expectAssertionError(failingAssertionCode);
     // THEN
     then(assertionError).hasMessageContaining("String checks");
   }
@@ -125,7 +127,7 @@ class AbstractAssert_satisfiesAnyOf_ThrowingConsumers_Test extends AbstractAsser
     ThrowingConsumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
     ThrowingCallable failingAssertionCode = () -> assertThat("abc").satisfiesAnyOf(isEmpty, endsWithZ);
     // WHEN
-    AssertionError assertionError = expectAssertionError(failingAssertionCode);
+    var assertionError = expectAssertionError(failingAssertionCode);
     // THEN
     then(assertionError).hasMessageContaining("fail empty");
   }
