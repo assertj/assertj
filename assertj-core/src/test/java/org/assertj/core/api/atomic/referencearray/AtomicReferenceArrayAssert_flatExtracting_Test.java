@@ -124,7 +124,7 @@ class AtomicReferenceArrayAssert_flatExtracting_Test {
   @Test
   void should_allow_assertions_on_joined_lists_when_extracting_children_with_anonymous_class_throwing_extractor() {
     AtomicReferenceArray<CartoonCharacter> cartoonCharacters = new AtomicReferenceArray<>(array(homer, fred));
-    assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+    assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>>() {
       @Override
       public List<CartoonCharacter> extractThrows(CartoonCharacter cartoonCharacter) throws Exception {
         if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
