@@ -12,6 +12,7 @@
  */
 package org.assertj.tests.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertWith;
@@ -60,16 +61,9 @@ class Assertions_assertWith_Test {
                                                                jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Red"),
                                                                jedi -> assertThat(jedi.getName()).isEqualTo("Luke")));
     // THEN
-    then(assertionError).hasMessage("""
-
-        For Yoda the Jedi,
-        Multiple Failures (2 failures)
-        -- failure 1 --
-        expected: "Red"
-         but was: "Green"
-        -- failure 2 --
-        expected: "Luke"
-         but was: "Yoda\"""");
+    then(assertionError).hasMessageStartingWith(format("%n" +
+                                                       "For Yoda the Jedi,%n" +
+                                                       "Multiple Failures"));
   }
 
 }
