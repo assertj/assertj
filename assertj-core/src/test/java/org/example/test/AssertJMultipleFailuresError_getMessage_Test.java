@@ -27,14 +27,54 @@ import org.junit.jupiter.api.Test;
 class AssertJMultipleFailuresError_getMessage_Test {
 
   @Test
-  void should_honor_description() {
+  void should_include_line_numbers() {
     // GIVEN
-    String description = "desc";
-    var error = new AssertJMultipleFailuresError(description, list(new AssertionError("boom")));
+    var assertionError = new AssertionError("boom");
     // WHEN
-    String message = error.getMessage();
+    var error = new AssertJMultipleFailuresError("", list(assertionError));
     // THEN
-    then(message).startsWith("%n%s".formatted(description));
+    then(error).hasStackTraceContaining("AssertJMultipleFailuresError_getMessage_Test.java:32");
+  }
+
+  // also verifies that we don't add stack trace line numbers twice (in soft assertion
+  // DefaultAssertionErrorCollector.decorateErrorsCollected and AssertJMultipleFailuresError
+  @Test
+  void should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    softly.assertThat(list("")).isEmpty();
+    softly.assertThat("abc").as("isEmpty string").isEmpty();
+    softly.assertThat("abc").isEqualTo("bcd");
+    // WHEN
+    var error = expectAssertionError(softly::assertAll);
+    // THEN
+    // @format:off
+    then(error).isInstanceOf(AssertJMultipleFailuresError.class)
+               .hasMessage(format("%nMultiple Failures (3 failures)%n" +
+                                    "-- failure 1 --%n" +
+                                    "Expecting empty but was: [\"\"]%n" +
+                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:45)%n" +
+                                    "-- failure 2 --%n" +
+                                    "[isEmpty string] %n" +
+                                    "Expecting empty but was: \"abc\"%n" +
+                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:46)%n" +
+                                    "-- failure 3 --"
+                                    + shouldBeEqualMessage("\"abc\"", "\"bcd\"") + "%n" +
+                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:47)"));
+    // @format:on
+  }
+
+  @Test
+  void should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_satisfies_assertion() {
+    // WHEN
+    var error = expectAssertionError(() -> then("abc").satisfies(value -> then(list(value)).isEmpty(),
+                                                                 value -> then(value).as("isEmpty string").isEmpty(),
+                                                                 value -> then(value).isEqualTo("bcd")));
+    // THEN
+    then(error).isInstanceOf(AssertJMultipleFailuresError.class)
+               .hasMessageContainingAll("AssertJMultipleFailuresError_getMessage_Test.java:70)",
+                                        "AssertJMultipleFailuresError_getMessage_Test.java:71)",
+                                        "AssertJMultipleFailuresError_getMessage_Test.java:72)");
   }
 
   @Test
@@ -45,13 +85,23 @@ class AssertJMultipleFailuresError_getMessage_Test {
     // WHEN
     String message = error.getMessage();
     // THEN
-    then(message).startsWith("""
+    then(message).startsWith(format("%n" +
+                                    "For Person[name='tim'],%n" +
+                                    "desc (1 failure)%n" +
+                                    "-- failure 1 --%n" +
+                                    "boom%n" +
+                                    "at AssertJMultipleFailuresError_getMessage_Test"));
+  }
 
-        For Person[name='tim'],
-        desc (1 failure)
-        -- failure 1 --
-        boom
-        at AssertJMultipleFailuresError_getMessage_Test""");
+  @Test
+  void should_honor_description() {
+    // GIVEN
+    String description = "desc";
+    var error = new AssertJMultipleFailuresError(description, list(new AssertionError("boom")));
+    // WHEN
+    String message = error.getMessage();
+    // THEN
+    then(message).startsWith("%n%s".formatted(description));
   }
 
   @Test
@@ -117,57 +167,6 @@ class AssertJMultipleFailuresError_getMessage_Test {
                                         "  [\"a\"]%n".formatted(),
                                         "but found%n".formatted(),
                                         "  [\"a\"]%n".formatted());
-  }
-
-  // also verifies that we don't add stack trace line numbers twice (in soft assertion
-  // DefaultAssertionErrorCollector.decorateErrorsCollected and AssertJMultipleFailuresError
-  @Test
-  void should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context() {
-    // GIVEN
-    SoftAssertions softly = new SoftAssertions();
-    softly.assertThat(list("")).isEmpty();
-    softly.assertThat("abc").as("isEmpty string").isEmpty();
-    softly.assertThat("abc").isEqualTo("bcd");
-    // WHEN
-    var error = expectAssertionError(softly::assertAll);
-    // THEN
-    // @format:off
-    then(error).isInstanceOf(AssertJMultipleFailuresError.class)
-               .hasMessage(format("%nMultiple Failures (3 failures)%n" +
-                                    "-- failure 1 --%n" +
-                                    "Expecting empty but was: [\"\"]%n" +
-                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:128)%n" +
-                                    "-- failure 2 --%n" +
-                                    "[isEmpty string] %n" +
-                                    "Expecting empty but was: \"abc\"%n" +
-                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:129)%n" +
-                                    "-- failure 3 --"
-                                    + shouldBeEqualMessage("\"abc\"", "\"bcd\"") + "%n" +
-                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:130)"));
-    // @format:on
-  }
-
-  @Test
-  void should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_satisfies_assertion() {
-    // WHEN
-    var error = expectAssertionError(() -> then("abc").satisfies(value -> then(list(value)).isEmpty(),
-                                                                 value -> then(value).as("isEmpty string").isEmpty(),
-                                                                 value -> then(value).isEqualTo("bcd")));
-    // THEN
-    then(error).isInstanceOf(AssertJMultipleFailuresError.class)
-               .hasMessageContainingAll("AssertJMultipleFailuresError_getMessage_Test.java:153)",
-                                        "AssertJMultipleFailuresError_getMessage_Test.java:154)",
-                                        "AssertJMultipleFailuresError_getMessage_Test.java:155)");
-  }
-
-  @Test
-  void should_include_line_numbers() {
-    // GIVEN
-    var assertionError = new AssertionError("boom");
-    // WHEN
-    var error = new AssertJMultipleFailuresError("", list(assertionError));
-    // THEN
-    then(error).hasStackTraceContaining("AssertJMultipleFailuresError_getMessage_Test.java:168");
   }
 
 }
