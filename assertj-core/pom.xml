@@ -27,7 +27,7 @@
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <byte-buddy.version>1.17.7</byte-buddy.version>
+    <byte-buddy.version>1.17.8</byte-buddy.version>
   </properties>
 
   <dependencyManagement>
