@@ -1285,42 +1285,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return newListAssertInstanceForMethodsChangingElementType(values).as(description);
   }
 
-  /**
-   * Extract the values from Iterable's elements under test by applying an extracting function on them. The returned
-   * iterable becomes the instance under test.
-   * <p>
-   * It allows to test values from the elements more safely than by using {@link #extracting(String)}, as it
-   * doesn't utilize introspection.
-   * <p>
-   * Let's have a look at an example:
-   * <pre><code class='java'> // Build a list of TolkienCharacter, a TolkienCharacter has a name, and age and a Race (a specific class)
-   * // they can be public field or properties, both can be extracted.
-   * List&lt;TolkienCharacter&gt; fellowshipOfTheRing = new ArrayList&lt;TolkienCharacter&gt;();
-   *
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Frodo&quot;, 33, HOBBIT));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Sam&quot;, 38, HOBBIT));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gandalf&quot;, 2020, MAIA));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Legolas&quot;, 1000, ELF));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Pippin&quot;, 28, HOBBIT));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Gimli&quot;, 139, DWARF));
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Aragorn&quot;, 87, MAN);
-   * fellowshipOfTheRing.add(new TolkienCharacter(&quot;Boromir&quot;, 37, MAN));
-   *
-   * // fellowship has hobbitses, right, my presioussss?
-   * assertThat(fellowshipOfTheRing).extracting(TolkienCharacter::getRace).contains(HOBBIT);</code></pre>
-   *
-   * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
-   * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values order.
-   *
-   * @param <V> the type of elements extracted.
-   * @param extractor the object transforming input object to desired one
-   * @return a new assertion object whose object under test is the list of values extracted
-   */
-  @CheckReturnValue
-  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(Function<? super ELEMENT, V> extractor) {
-    return internalExtracting(extractor);
-  }
-
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> internalExtracting(Function<? super ELEMENT, V> extractor) {
     if (actual == null) throwAssertionError(shouldNotBeNull());
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
@@ -1395,14 +1359,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
    *
-   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param <V> the type of elements extracted.
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.7.0
    */
   @CheckReturnValue
-  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
+  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V> extractor) {
     return internalExtracting(extractor);
   }
 
@@ -1437,14 +1400,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Note that the order of mapped values is consistent with the order of the Iterable under test, for example if it's a
    * {@link HashSet}, you won't be able to make any assumptions on the extracted values order.
    *
-   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param <V> the type of elements extracted.
    * @param mapper the function transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.19.0
    */
   @CheckReturnValue
-  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> map(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> mapper) {
+  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> map(ThrowingExtractor<? super ELEMENT, V> mapper) {
     return internalExtracting(mapper);
   }
 
@@ -1560,13 +1522,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * The extracted values order is consistent with both the order of the iterable itself and the extracted collections.
    *
    * @param <V> the type of extracted values.
-   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param extractor the object transforming input object to an {@code Iterable} of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.7.0
    */
   @CheckReturnValue
-  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(ThrowingExtractor<? super ELEMENT, ? extends Collection<V>, EXCEPTION> extractor) {
+  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatExtracting(ThrowingExtractor<? super ELEMENT, ? extends Collection<V>> extractor) {
     return doFlatExtracting(extractor);
   }
 
@@ -1597,13 +1558,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * The mapped values order is consistent with both the order of the iterable itself and the mapped collections.
    *
    * @param <V> the type of mapped values.
-   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param mapper the object transforming input object to an {@code Iterable} of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.19.0
    */
   @CheckReturnValue
-  public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatMap(ThrowingExtractor<? super ELEMENT, ? extends Collection<V>, EXCEPTION> mapper) {
+  public <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> flatMap(ThrowingExtractor<? super ELEMENT, ? extends Collection<V>> mapper) {
     return doFlatExtracting(mapper);
   }
 
@@ -1718,14 +1678,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * The resulting extracted values list is ordered by {@code Iterable}'s element first and then extracted values,
    * this is why is in the example age values come before names.
    *
-   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param extractors all the extractors to apply on each actual {@code Iterable}'s elements
    * @return a new assertion object whose object under test is a flattened list of all extracted values.
    * @since 3.7.0
    */
   @CheckReturnValue
   @SafeVarargs
-  public final <EXCEPTION extends Exception> AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... extractors) {
+  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(ThrowingExtractor<? super ELEMENT, ?>... extractors) {
     return flatExtractingForProxy(extractors);
   }
 
@@ -1759,14 +1718,13 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * The resulting mapped values list is ordered by {@code Iterable}'s element first and then mapped values, this is why is in
    * the example age values come before names.
    *
-   * @param <EXCEPTION> the exception type of {@link ThrowingExtractor}
    * @param mappers all the mappers to apply on each actual {@code Iterable}'s elements
    * @return a new assertion object whose object under test is a flattened list of all extracted values.
    * @since 3.19.0
    */
   @CheckReturnValue
   @SafeVarargs
-  public final <EXCEPTION extends Exception> AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatMap(ThrowingExtractor<? super ELEMENT, ?, EXCEPTION>... mappers) {
+  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatMap(ThrowingExtractor<? super ELEMENT, ?>... mappers) {
     return flatExtractingForProxy(mappers);
   }
 
