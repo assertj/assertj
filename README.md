@@ -15,16 +15,9 @@ You can ask questions in [**stackoverflow (assertj tag)**](https://stackoverflow
 
 ## Sponsors
 
-* [LambdaTest](https://www.lambdatest.com)
+<a href="https://www.lambdatest.com" target="_blank"><img src="https://www.lambdatest.com/blue-logo.png" style="vertical-align: middle;" height="45" alt="Browser testing via LambdaTest" /></a>
 
-<p style="font-size:21px; color:black;">Browser testing via 
-    <a href="https://www.lambdatest.com/" target="_blank">
-        <img src="https://www.lambdatest.com/blue-logo.png" style="vertical-align: middle;" width="250" height="45" />
-    </a>
-</p>
-
-
-## <a name="goals"/>AssertJ's goals</a>
+## AssertJ's Goals
 
 AssertJ's ambition is to provide a rich and intuitive set of strongly-typed assertions for unit testing.
 
@@ -43,7 +36,7 @@ AssertJ is composed of several modules:
 * A **[DB module](https://github.com/assertj/assertj-db#readme)** to provide assertions for relational database types (`Table`, `Row`, `Column`...) - see [AssertJ DB documentation](https://assertj.github.io/doc/#assertj-db) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-db/latest/index.html).
 * A **[Swing module](https://github.com/assertj/assertj-swing#readme)** provides a simple and intuitive API for functional testing of Swing user interfaces - see [AssertJ Swing documentation](http://joel-costigliola.github.io/assertj/assertj-swing.html) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-swing/latest/index.html).
 
-## <a name="contributing"/>Want to contribute?</a>
+## Want to Contribute?
 
 You are encouraged to contribute any missing useful assertions. 
 
