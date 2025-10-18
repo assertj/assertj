@@ -657,4 +657,38 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
     return new ThrowableAssertAlternative<>(rootCauseAssert.actual);
   }
 
+  /**
+   * Returns a new assertion object that uses the suppressed exceptions of the current {@link Throwable} as the object under test.
+   * <p>
+   * As suppressed exceptions is a {@code Throwable[]}, you can chain any array assertions after {@code withSuppressedExceptionsThat()}.
+   * <p>
+   * You can navigate back to the current {@link Throwable} with {@link AbstractSuppressedExceptionsAssert#returnToInitialThrowable() returnToInitialThrowable()}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>var exception = new Exception("boom!");
+   * Throwable invalidArgException = new IllegalArgumentException("invalid argument");
+   * Throwable ioException = new IOException("IO error");
+   * exception.addSuppressed(invalidArgException);
+   * exception.addSuppressed(ioException);
+   *
+   * // these assertions succeed:
+   * assertThatException().isThrownBy(() -> { throw exception; })
+   *                      .withSuppressedExceptionsThat()
+   *                      .containsOnly(invalidArgException, ioException)
+   *                      .returnToInitialThrowable()
+   *                      .hasMessage("boom!");
+   *
+   * // this assertion fails:
+   * assertThatException().isThrownBy(() -> { throw exception; })
+   *                      .withSuppressedExceptionsThat()
+   *                      .isEmpty();</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @since 4.0.0
+   */
+  public AbstractSuppressedExceptionsAssert<ThrowableAssert<ACTUAL>, ACTUAL> withSuppressedExceptionsThat() {
+    return getDelegate().suppressedExceptions();
+  }
+
 }

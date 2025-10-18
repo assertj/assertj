@@ -12,6 +12,7 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.ShouldNotHaveThrown.shouldNotHaveThrown;
 import static org.assertj.core.error.ShouldNotHaveThrownExcept.shouldNotHaveThrownExcept;
@@ -29,11 +30,10 @@ import org.assertj.core.internal.Throwables;
 /**
  * Base class for all implementations of assertions for {@link Throwable}s.
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
+ * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *                 target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *                 for more details.
  * @param <ACTUAL> the type of the "actual" value.
- *
  * @author David DIDIER
  * @author Alex Ruiz
  * @author Joel Costigliola
@@ -88,11 +88,11 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * assertThat(throwable).hasMessage("%s is not a valid input", 12);
    * assertThat(null).hasMessage("%s is not a valid input", "foo");</code></pre>
    *
-   * @param message a format string representing the expected message
+   * @param message    a format string representing the expected message
    * @param parameters argument referenced by the format specifiers in the format string
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
+   * @throws AssertionError         if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError         if the message of the actual {@code Throwable} is not equal to the given one.
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessage(String message, Object... parameters) {
@@ -151,7 +151,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @return a new assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} does not have a cause.
-   *
    * @since 3.23.0
    */
   public AbstractThrowableAssert<?, ?> cause() {
@@ -174,7 +173,6 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @return a new assertion object
    * @throws AssertionError if the actual {@code Throwable} is {@code null}.
    * @throws AssertionError if the actual {@code Throwable} does not have a root cause.
-   *
    * @since 3.23.0
    */
   public AbstractThrowableAssert<?, ?> rootCause() {
@@ -256,10 +254,10 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * assertThat(throwableWithMessage).hasMessageStartingWith("%s amount", "right"); </code></pre>
    *
    * @param description the description expected to start the actual {@code Throwable}'s message.
-   * @param parameters argument referenced by the format specifiers in the format string
+   * @param parameters  argument referenced by the format specifiers in the format string
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the message of the actual {@code Throwable} does not start with the given description.
+   * @throws AssertionError         if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError         if the message of the actual {@code Throwable} does not start with the given description.
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessageStartingWith(String description, Object... parameters) {
@@ -401,10 +399,10 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * assertThat(throwableWithMessage).hasStackTraceContaining("%d", 456);</code></pre>
    *
    * @param description the description expected to be contained in the actual {@code Throwable}'s stack trace.
-   * @param parameters argument referenced by the format specifiers in the format string
+   * @param parameters  argument referenced by the format specifiers in the format string
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the stack trace of the actual {@code Throwable} does not contain the given description.
+   * @throws AssertionError         if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError         if the stack trace of the actual {@code Throwable} does not contain the given description.
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasStackTraceContaining(String description, Object... parameters) {
@@ -426,8 +424,8 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * @param regex the regular expression of value expected to be matched the actual {@code Throwable}'s message.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the message of the actual {@code Throwable} does not match the given regular expression.
+   * @throws AssertionError       if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError       if the message of the actual {@code Throwable} does not match the given regular expression.
    * @throws NullPointerException if the regex is null
    */
   public SELF hasMessageMatching(String regex) {
@@ -449,8 +447,8 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * @param regex the regular expression of value expected to be matched the actual {@code Throwable}'s message.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the message of the actual {@code Throwable} does not match the given regular expression.
+   * @throws AssertionError       if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError       if the message of the actual {@code Throwable} does not match the given regular expression.
    * @throws NullPointerException if the regex is null
    */
   public SELF hasMessageMatching(Pattern regex) {
@@ -476,8 +474,8 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * @param regex the regular expression expected to be found in the actual {@code Throwable}'s message.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the message of the actual {@code Throwable} doesn't contain any sequence matching with the given regular expression
+   * @throws AssertionError       if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError       if the message of the actual {@code Throwable} doesn't contain any sequence matching with the given regular expression
    * @throws NullPointerException if the regex is null
    * @since 3.12.0
    */
@@ -522,10 +520,10 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * assertThat(throwableWithMessage).hasMessageEndingWith("amount %d", 456);</code></pre>
    *
    * @param description the description expected to end the actual {@code Throwable}'s message.
-   * @param parameters argument referenced by the format specifiers in the format string
+   * @param parameters  argument referenced by the format specifiers in the format string
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the message of the actual {@code Throwable} does not end with the given description.
+   * @throws AssertionError         if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError         if the message of the actual {@code Throwable} does not end with the given description.
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessageEndingWith(String description, Object... parameters) {
@@ -549,9 +547,9 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @param type the expected cause type.
    * @return this assertion object.
    * @throws NullPointerException if given type is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} has no cause.
-   * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
+   * @throws AssertionError       if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError       if the actual {@code Throwable} has no cause.
+   * @throws AssertionError       if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
   public SELF hasCauseInstanceOf(Class<? extends Throwable> type) {
     throwables.assertHasCauseInstanceOf(info, actual, type);
@@ -574,10 +572,10 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @param type the expected cause type.
    * @return this assertion object.
    * @throws NullPointerException if given type is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} has no cause.
-   * @throws AssertionError if the cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the given
-   *           type.
+   * @throws AssertionError       if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError       if the actual {@code Throwable} has no cause.
+   * @throws AssertionError       if the cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the given
+   *                              type.
    */
   public SELF hasCauseExactlyInstanceOf(Class<? extends Throwable> type) {
     throwables.assertHasCauseExactlyInstanceOf(info, actual, type);
@@ -627,9 +625,9 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @param type the expected cause type.
    * @return this assertion object.
    * @throws NullPointerException if given type is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} has no cause.
-   * @throws AssertionError if the cause of the actual {@code Throwable} is not an instance of the given type.
+   * @throws AssertionError       if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError       if the actual {@code Throwable} has no cause.
+   * @throws AssertionError       if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
   public SELF hasRootCauseInstanceOf(Class<? extends Throwable> type) {
     throwables.assertHasRootCauseInstanceOf(info, actual, type);
@@ -652,10 +650,10 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @param type the expected cause type.
    * @return this assertion object.
    * @throws NullPointerException if given type is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} has no cause.
-   * @throws AssertionError if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the
-   *           given type.
+   * @throws AssertionError       if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError       if the actual {@code Throwable} has no cause.
+   * @throws AssertionError       if the root cause of the actual {@code Throwable} is not <b>exactly</b> an instance of the
+   *                              given type.
    */
   public SELF hasRootCauseExactlyInstanceOf(Class<? extends Throwable> type) {
     throwables.assertHasRootCauseExactlyInstanceOf(info, actual, type);
@@ -706,12 +704,12 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * assertThat(new Throwable()).hasRootCauseMessage("%s %s", "expected", "message");
    * assertThat(new Throwable(new NullPointerException())).hasRootCauseMessage("%s %s", "expected", "message");</code></pre>
    *
-   * @param message the expected root cause message.
+   * @param message    the expected root cause message.
    * @param parameters argument referenced by the format specifiers in the format string.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the root cause of the actual {@code Throwable} is {@code null}.
-   * @throws AssertionError if the message of the root cause of the actual {@code Throwable} is not equal to the given one.
+   * @throws AssertionError         if the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError         if the root cause of the actual {@code Throwable} is {@code null}.
+   * @throws AssertionError         if the message of the root cause of the actual {@code Throwable} is not equal to the given one.
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    * @since 3.14.0
    */
@@ -733,7 +731,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *
    * @return this assertion object.
    * @throws NullPointerException if given type is {@code null}.
-   * @throws AssertionError if the actual {@code Throwable} has any suppressed exceptions.
+   * @throws AssertionError       if the actual {@code Throwable} has any suppressed exceptions.
    * @since 2.6.0 / 3.6.0
    */
   public SELF hasNoSuppressedExceptions() {
@@ -767,6 +765,42 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   public SELF hasSuppressedException(Throwable suppressedException) {
     throwables.assertHasSuppressedException(info, actual, suppressedException);
     return myself;
+  }
+
+  /**
+   * Returns a new assertion object that uses the suppressed exceptions of the current {@link Throwable} as the object under test.
+   * <p>
+   * As suppressed exceptions is a {@code Throwable[]}, you can chain any array assertions after {@code suppressedExceptions()}.
+   * <p>
+   * You can navigate back to the current {@link Throwable} with {@link AbstractSuppressedExceptionsAssert#returnToInitialThrowable() returnToInitialThrowable()}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>Throwable throwable = new Throwable("boom!");
+   * Throwable invalidArgException = new IllegalArgumentException("invalid argument");
+   * Throwable ioException = new IOException("IO error");
+   * throwable.addSuppressed(invalidArgException);
+   * throwable.addSuppressed(ioException);
+   *
+   * // these assertions succeed:
+   * assertThat(throwable).suppressedExceptions()
+   *                      .containsOnly(invalidArgException, ioException)
+   *                      .returnToInitialThrowable()
+   *                      .hasMessage("boom!");
+   *
+   * // this assertion fails:
+   * assertThat(throwable).suppressedExceptions()
+   *                      .isEmpty();</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @since 4.0.0
+   */
+  public AbstractSuppressedExceptionsAssert<SELF, ACTUAL> suppressedExceptions() {
+    requireNonNull(actual, "Can not perform assertions on the suppressed exceptions of a null throwable.");
+    var suppressedExceptionsAssert = new SuppressedExceptionsAssert<>(this, actual.getSuppressed());
+    suppressedExceptionsAssert.withAssertionState(myself);
+    suppressedExceptionsAssert.describedAs("checking suppressed exceptions");
+    return suppressedExceptionsAssert;
   }
 
   /**
@@ -821,7 +855,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   /**
-   * A shortcut for <code>extracting(Throwable::getMessage, as(InstanceOfAssertFactories.STRING))</code> which allows 
+   * A shortcut for <code>extracting(Throwable::getMessage, as(InstanceOfAssertFactories.STRING))</code> which allows
    * to extract a throwable message and then execute assertions on it.
    * <p>
    * Note that once you have navigated to the throwable message you can't navigate back to the throwable.
@@ -832,7 +866,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * // assertions succeed:
    * assertThat(throwable).message().startsWith("boo")
    *                                .endsWith("!");
-   *                                
+   *
    * // assertion fails:
    * assertThat(throwable).message().isEmpty();</code></pre>
    *
