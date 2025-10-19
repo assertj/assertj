@@ -17,6 +17,7 @@ import static org.assertj.core.error.AssertionErrorMessagesAggregator.aggregateE
 
 import java.io.Serial;
 import java.util.List;
+
 import org.assertj.core.description.Description;
 
 public class MultipleAssertionsError extends AssertionError {
@@ -26,19 +27,19 @@ public class MultipleAssertionsError extends AssertionError {
 
   private final List<? extends AssertionError> errors;
 
-  public MultipleAssertionsError(List<? extends AssertionError> errors) {
-    super(createMessage(errors));
+  public MultipleAssertionsError(Description description, Object objectUnderTest, List<? extends AssertionError> errors) {
+    super(formatDescription(description) + "%n".formatted() + describesObjectUnderTest(objectUnderTest) + ","
+          + createMessage(errors));
     this.errors = errors;
   }
 
-  public MultipleAssertionsError(Description description, List<? extends AssertionError> errors) {
-    super(formatDescription(description) + createMessage(errors));
-    this.errors = errors;
+  private static String describesObjectUnderTest(Object objectUnderTest) {
+    return "For %s".formatted(objectUnderTest);
   }
 
   /**
    * Returns the causal AssertionErrors in the order that they were thrown.
-   * 
+   *
    * @return the list of errors
    */
   public List<? extends AssertionError> getErrors() {

@@ -1461,7 +1461,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link Stream}.
+   * interacts with the {@link List} built from the {@link Stream}. The stream is closed after the list is built.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
@@ -1480,7 +1480,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link Stream}.
+   * interacts with the {@link List} built from the {@link Stream}. The stream is closed after the list is built.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -1497,7 +1497,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link DoubleStream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link DoubleStream}.
+   * interacts with the {@link List} built from the {@link DoubleStream}. The stream is closed after the list is built.
    *
    * @param actual the actual {@link DoubleStream} value.
    * @return the created assertion object.
@@ -1512,7 +1512,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link LongStream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link LongStream}.
+   * interacts with the {@link List} built from the {@link LongStream}. The stream is closed after the list is built.
    *
    * @param actual the actual {@link LongStream} value.
    * @return the created assertion object.
@@ -1527,7 +1527,7 @@ public interface BDDSoftAssertionsProvider extends SoftAssertionsProvider {
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link IntStream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link IntStream}.
+   * interacts with the {@link List} built from the {@link IntStream}. The stream is closed after the list is built.
    *
    * @param actual the actual {@link IntStream} value.
    * @return the created assertion object.

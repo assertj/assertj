@@ -980,7 +980,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
                                                                    .flatMap(Optional::stream)
                                                                    .collect(toList());
     if (!assertionErrors.isEmpty()) {
-      throw multipleAssertionsError(assertionErrors);
+      throw multipleAssertionsError(actual, assertionErrors);
     }
     return myself;
   }
@@ -1077,12 +1077,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
       }
       assertionErrors.add(maybeError.get());
     }
-    throw multipleAssertionsError(assertionErrors);
+    throw multipleAssertionsError(actual, assertionErrors);
   }
 
-  private AssertionError multipleAssertionsError(List<AssertionError> assertionErrors) {
+  private AssertionError multipleAssertionsError(ACTUAL actual, List<AssertionError> assertionErrors) {
     // we don't allow overriding the error message to avoid loosing all the failed assertions error message.
-    return assertionErrorCreator.multipleAssertionsError(info.description(), assertionErrors);
+    return assertionErrorCreator.multipleAssertionsError(info.description(), actual, assertionErrors);
   }
 
   private SELF matches(Predicate<? super ACTUAL> predicate, PredicateDescription predicateDescription) {

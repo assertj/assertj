@@ -27,7 +27,7 @@
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <byte-buddy.version>1.17.7</byte-buddy.version>
+    <byte-buddy.version>1.17.8</byte-buddy.version>
   </properties>
 
   <dependencyManagement>
@@ -131,7 +131,7 @@
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>7.1.1.Final</version>
+      <version>7.1.4.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
