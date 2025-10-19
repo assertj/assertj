@@ -27,9 +27,9 @@ import org.assertj.core.api.recursive.comparison.DualValue;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 class DualValue_iterableValues_Test {
 
@@ -194,10 +194,10 @@ class DualValue_iterableValues_Test {
   }
 
   private static JsonNode toJsonNode(String value) {
-    ObjectMapper objectMapper = new ObjectMapper();
+    JsonMapper jsonMapper = JsonMapper.builder().build();
     try {
-      return objectMapper.readTree(value);
-    } catch (JsonProcessingException e) {
+      return jsonMapper.readTree(value);
+    } catch (JacksonException e) {
       throw new RuntimeException(e);
     }
   }

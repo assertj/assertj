@@ -322,7 +322,7 @@ public final class DualValue {
 
   private static boolean isAJsonValueNode(Object value) {
     try {
-      Class<?> valueNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ValueNode");
+      Class<?> valueNodeClass = Class.forName("tools.jackson.databind.node.ValueNode");
       return valueNodeClass.isInstance(value);
     } catch (ClassNotFoundException e) {
       // value cannot be a ValueNode because the class couldn't be located
@@ -332,7 +332,7 @@ public final class DualValue {
 
   private static boolean isAnObjectNode(Object value) {
     try {
-      Class<?> objectNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ObjectNode");
+      Class<?> objectNodeClass = Class.forName("tools.jackson.databind.node.ObjectNode");
       return objectNodeClass.isInstance(value);
     } catch (ClassNotFoundException e) {
       // value cannot be an ObjectNode because the class couldn't be located

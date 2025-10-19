@@ -62,9 +62,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 import com.google.common.base.Stopwatch;
+import tools.jackson.databind.json.JsonMapper;
 
 class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntrospectionStrategyBaseTest {
 
@@ -485,7 +486,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
   @Test
   void should_not_handle_object_node_as_iterable() throws IOException {
     // GIVEN
-    ObjectMapper om = new ObjectMapper();
+    ObjectMapper om = JsonMapper.builder().build();
     JsonNode actual = om.readTree("{\"someNotImportantValue\":1,\"importantValue\":\"10\"}");
     JsonNode expected = om.readTree("{\"foo\":1,\"bar\":\"10\"}");
     // WHEN/THEN

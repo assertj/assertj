@@ -21,8 +21,8 @@
       --add-opens java.base/java.math=ALL-UNNAMED
       --add-opens java.base/java.util=ALL-UNNAMED
       --add-opens java.base/sun.nio.fs=ALL-UNNAMED
-      <!-- com.fasterxml.jackson.databind -->
-      --add-opens com.fasterxml.jackson.databind/com.fasterxml.jackson.databind.node=org.assertj.core
+      <!-- tools.jackson.databind -->
+      --add-opens tools.jackson.databind/tools.jackson.databind.node=org.assertj.core
       <!-- nl.jqno.equalsverifier -->
       --add-opens org.assertj.core/org.assertj.core.api.recursive.comparison=nl.jqno.equalsverifier
       --add-opens org.assertj.core/org.assertj.core.groups=nl.jqno.equalsverifier
@@ -92,15 +92,15 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
+      <groupId>tools.jackson.core</groupId>
       <artifactId>jackson-core</artifactId>
-      <version>2.20.0</version>
+      <version>3.0.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
+      <groupId>tools.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
-      <version>2.20.0</version>
+      <version>3.0.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
