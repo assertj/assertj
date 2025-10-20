@@ -286,7 +286,8 @@ public final class DualValue {
     // Don't consider ValueNode as an Iterable as they only contain one value and iterating them does not make sense.
     // Don't consider or ObjectNode as an Iterable as it holds a map but would only iterate on values and not entries.
     return value instanceof Iterable && !(value instanceof Path || isAJsonValueNode(value) || isAnObjectNode(
-      value)) || isAJackson3JsonValueNode(value) || isAnJackson3ObjectNode(value);
+                                                                                                             value))
+           || isAJackson3JsonValueNode(value) || isAnJackson3ObjectNode(value);
   }
 
   public boolean isActualAThrowable() {
