@@ -12,6 +12,18 @@
  */
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
+
+import org.assertj.core.api.recursive.comparison.DualValue;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import java.nio.file.Path;
+import java.util.List;
+import java.util.stream.Stream;
+
 import static com.google.common.collect.Sets.newHashSet;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
@@ -19,19 +31,7 @@ import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.assertj.core.util.Sets.newTreeSet;
 
-import java.nio.file.Path;
-import java.util.List;
-import java.util.stream.Stream;
-
-import org.assertj.core.api.recursive.comparison.DualValue;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
-
-import tools.jackson.core.JacksonException;
-import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.json.JsonMapper;
-
-class DualValue_iterableValues_Test {
+class DualValue_jackson3_iterableValues_Test {
 
   private static final List<String> PATH = list("foo", "bar");
 
@@ -185,18 +185,18 @@ class DualValue_iterableValues_Test {
 
   static Stream<JsonNode> iterableJsonNodes() {
     return Stream.of("{\"value\": []}")
-                 .map(DualValue_iterableValues_Test::toJsonNode);
+                 .map(DualValue_jackson3_iterableValues_Test::toJsonNode);
   }
 
   static Stream<JsonNode> nonIterableJsonNodes() {
     return Stream.of("{\"value\": \"foo\"}", "{\"value\": 42}", "{\"value\": true}", "{\"value\": {}}")
-                 .map(DualValue_iterableValues_Test::toJsonNode);
+                 .map(DualValue_jackson3_iterableValues_Test::toJsonNode);
   }
 
   private static JsonNode toJsonNode(String value) {
-    JsonMapper jsonMapper = JsonMapper.builder().build();
+    JsonMapper objectMapper = JsonMapper.builder().build();
     try {
-      return jsonMapper.readTree(value);
+      return objectMapper.readTree(value);
     } catch (JacksonException e) {
       throw new RuntimeException(e);
     }

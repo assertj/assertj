@@ -325,8 +325,13 @@ public final class DualValue {
       Class<?> valueNodeClass = Class.forName("tools.jackson.databind.node.ValueNode");
       return valueNodeClass.isInstance(value);
     } catch (ClassNotFoundException e) {
-      // value cannot be a ValueNode because the class couldn't be located
-      return false;
+      try {
+        Class<?> valueNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ValueNode");
+        return valueNodeClass.isInstance(value);
+      } catch (ClassNotFoundException e2) {
+        // value cannot be a ValueNode because the class couldn't be located
+        return false;
+      }
     }
   }
 
@@ -335,8 +340,13 @@ public final class DualValue {
       Class<?> objectNodeClass = Class.forName("tools.jackson.databind.node.ObjectNode");
       return objectNodeClass.isInstance(value);
     } catch (ClassNotFoundException e) {
-      // value cannot be an ObjectNode because the class couldn't be located
-      return false;
+      try {
+        Class<?> objectNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ObjectNode");
+        return objectNodeClass.isInstance(value);
+      } catch (ClassNotFoundException e2) {
+        // value cannot be an ObjectNode because the class couldn't be located
+        return false;
+      }
     }
   }
 
