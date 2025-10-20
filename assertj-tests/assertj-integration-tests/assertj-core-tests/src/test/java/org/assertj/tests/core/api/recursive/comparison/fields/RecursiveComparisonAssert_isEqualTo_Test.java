@@ -500,7 +500,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
   @Test
   void should_not_handle_jackson3_value_node_as_iterable() throws IOException {
     // GIVEN
-    tools.jackson.databind.json.JsonMapper om = tools.jackson.databind.json.JsonMapper.builder().build();
+    tools.jackson.databind.ObjectMapper om = tools.jackson.databind.json.JsonMapper.builder().build();
     tools.jackson.databind.JsonNode actual = om.readTree("{\"someNotImportantValue\":1,\"importantValue\":\"10\"}");
     tools.jackson.databind.JsonNode expected = om.readTree("{\"someNotImportantValue\":10,\"importantValue\":\"1\"}");
     // WHEN/THEN
@@ -513,7 +513,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
   @Test
   void should_not_handle_jackson3_object_node_as_iterable() throws IOException {
     // GIVEN
-    tools.jackson.databind.json.JsonMapper om = tools.jackson.databind.json.JsonMapper.builder().build();
+    tools.jackson.databind.ObjectMapper om = tools.jackson.databind.json.JsonMapper.builder().build();
     tools.jackson.databind.JsonNode actual = om.readTree("{\"someNotImportantValue\":1,\"importantValue\":\"10\"}");
     tools.jackson.databind.JsonNode expected = om.readTree("{\"foo\":1,\"bar\":\"10\"}");
     // WHEN/THEN
@@ -521,7 +521,7 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
                                            mapOf(entry("importantValue", "10"), entry("someNotImportantValue", 1)),
                                            mapOf(entry("bar", "10"), entry("foo", 1)),
                                            ("The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]%n" +
-                                            "The following keys were present in the actual map value, but not in the expected map value:%n  [\"someNotImportantValue\", \"importantValue\"]").formatted());
+                                             "The following keys were present in the actual map value, but not in the expected map value:%n  [\"someNotImportantValue\", \"importantValue\"]").formatted());
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 
