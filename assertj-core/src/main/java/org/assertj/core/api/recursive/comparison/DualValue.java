@@ -285,7 +285,8 @@ public final class DualValue {
     // so /tmp is going to be compared recursively but /tmp first element is itself leading to an infinite recursion
     // Don't consider ValueNode as an Iterable as they only contain one value and iterating them does not make sense.
     // Don't consider or ObjectNode as an Iterable as it holds a map but would only iterate on values and not entries.
-    return value instanceof Iterable && !(value instanceof Path || isAJsonValueNode(value) || isAnObjectNode(value));
+    return value instanceof Iterable && !(value instanceof Path || isAJsonValueNode(value) || isAnObjectNode(
+      value)) || isAJackson3JsonValueNode(value) || isAnJackson3ObjectNode(value);
   }
 
   public boolean isActualAThrowable() {
@@ -322,31 +323,41 @@ public final class DualValue {
 
   private static boolean isAJsonValueNode(Object value) {
     try {
-      Class<?> valueNodeClass = Class.forName("tools.jackson.databind.node.ValueNode");
+      Class<?> valueNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ValueNode");
       return valueNodeClass.isInstance(value);
     } catch (ClassNotFoundException e) {
-      try {
-        Class<?> valueNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ValueNode");
-        return valueNodeClass.isInstance(value);
-      } catch (ClassNotFoundException e2) {
-        // value cannot be a ValueNode because the class couldn't be located
-        return false;
-      }
+      // value cannot be a ValueNode because the class couldn't be located
+      return false;
     }
   }
 
   private static boolean isAnObjectNode(Object value) {
     try {
+      Class<?> objectNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ObjectNode");
+      return objectNodeClass.isInstance(value);
+    } catch (ClassNotFoundException e) {
+      // value cannot be an ObjectNode because the class couldn't be located
+      return false;
+    }
+  }
+
+  private static boolean isAJackson3JsonValueNode(Object value) {
+    try {
+      Class<?> valueNodeClass = Class.forName("tools.jackson.databind.node.ValueNode");
+      return valueNodeClass.isInstance(value);
+    } catch (ClassNotFoundException e) {
+      // value cannot be a ValueNode because the class couldn't be located
+      return false;
+    }
+  }
+
+  private static boolean isAnJackson3ObjectNode(Object value) {
+    try {
       Class<?> objectNodeClass = Class.forName("tools.jackson.databind.node.ObjectNode");
       return objectNodeClass.isInstance(value);
     } catch (ClassNotFoundException e) {
-      try {
-        Class<?> objectNodeClass = Class.forName("com.fasterxml.jackson.databind.node.ObjectNode");
-        return objectNodeClass.isInstance(value);
-      } catch (ClassNotFoundException e2) {
-        // value cannot be an ObjectNode because the class couldn't be located
-        return false;
-      }
+      // value cannot be an ObjectNode because the class couldn't be located
+      return false;
     }
   }
 
