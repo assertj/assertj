@@ -11,6 +11,8 @@
  * Copyright 2012-2025 the original author or authors.
  */
 open module org.assertj.tests.core {
+  requires com.fasterxml.jackson.core;
+  requires com.fasterxml.jackson.databind;
   requires tools.jackson.core;
   requires tools.jackson.databind;
   requires com.google.common;
