@@ -23,13 +23,13 @@
       --add-opens java.base/sun.nio.fs=ALL-UNNAMED
       <!-- com.fasterxml.jackson.databind -->
       --add-opens com.fasterxml.jackson.databind/com.fasterxml.jackson.databind.node=org.assertj.core
-      <!-- tools.jackson.databind -->
-      --add-opens tools.jackson.databind/tools.jackson.databind.node=org.assertj.core
       <!-- nl.jqno.equalsverifier -->
       --add-opens org.assertj.core/org.assertj.core.api.recursive.comparison=nl.jqno.equalsverifier
       --add-opens org.assertj.core/org.assertj.core.groups=nl.jqno.equalsverifier
       <!-- org.apache.commons.lang3 -->
       --add-opens org.assertj.core/org.assertj.core.internal=org.apache.commons.lang3
+      <!-- tools.jackson.databind -->
+      --add-opens tools.jackson.databind/tools.jackson.databind.node=org.assertj.core
     </argLine>
     <rootDirectory>${project.basedir}/../../../</rootDirectory>
     <spotless.skip>false</spotless.skip>
