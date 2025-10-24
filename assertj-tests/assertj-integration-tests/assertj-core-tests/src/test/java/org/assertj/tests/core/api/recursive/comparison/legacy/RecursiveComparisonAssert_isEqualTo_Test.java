@@ -409,6 +409,38 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
   }
 
   @Test
+  void should_not_handle_jackson3_value_node_as_iterable() throws IOException {
+    // GIVEN
+    tools.jackson.databind.json.JsonMapper om = tools.jackson.databind.json.JsonMapper.builder().build();
+    tools.jackson.databind.JsonNode actual = om.readTree("""
+        {"someNotImportantValue":1,"importantValue":"10"}""");
+    tools.jackson.databind.JsonNode expected = om.readTree("""
+        {"someNotImportantValue":10,"importantValue":"1"}""");
+    // WHEN/THEN
+    ComparisonDifference difference1 = javaTypeDiff("_children.importantValue._value", "10", "1");
+    ComparisonDifference difference2 = javaTypeDiff("_children.someNotImportantValue._value", 1, 10);
+    compareRecursivelyFailsWithDifferences(actual, expected, difference1, difference2);
+  }
+
+  // issue #2459
+  @Test
+  void should_not_handle_jackson3_object_node_as_iterable() throws IOException {
+    // GIVEN
+    tools.jackson.databind.json.JsonMapper om = tools.jackson.databind.json.JsonMapper.builder().build();
+    tools.jackson.databind.JsonNode actual = om.readTree("""
+        {"someNotImportantValue":1,"importantValue":"10"}""");
+    tools.jackson.databind.JsonNode expected = om.readTree("""
+        {"foo":1,"bar":"10"}""");
+    // WHEN/THEN
+    ComparisonDifference difference = diff("_children",
+                                           mapOf(entry("importantValue", "10"), entry("someNotImportantValue", 1)),
+                                           mapOf(entry("bar", "10"), entry("foo", 1)),
+                                           ("The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]" +
+                                            "%nThe following keys were present in the actual map value, but not in the expected map value:%n  [\"someNotImportantValue\", \"importantValue\"]").formatted());
+    compareRecursivelyFailsWithDifferences(actual, expected, difference);
+  }
+
+  @Test
   void issue_2475_example_should_succeed() {
     then(issue2475Map()).usingRecursiveComparison(recursiveComparisonConfiguration)
                         .isEqualTo(issue2475Map());
