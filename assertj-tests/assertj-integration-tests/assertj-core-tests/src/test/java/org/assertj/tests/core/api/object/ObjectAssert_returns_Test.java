@@ -33,7 +33,7 @@ class ObjectAssert_returns_Test {
     // GIVEN
     Jedi actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).returns("Yoda", from(Jedi::getName)));
+    var assertionError = expectAssertionError(() -> assertThat(actual).returns("Yoda", from(Jedi::getName)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

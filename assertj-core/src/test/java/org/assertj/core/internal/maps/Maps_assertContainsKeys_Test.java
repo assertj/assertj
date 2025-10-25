@@ -57,7 +57,7 @@ class Maps_assertContainsKeys_Test extends MapsBaseTest {
     // GIVEN
     String[] keys = { "name" };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsKeys(someInfo(), null, keys));
+    var assertionError = expectAssertionError(() -> maps.assertContainsKeys(someInfo(), null, keys));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -98,7 +98,7 @@ class Maps_assertContainsKeys_Test extends MapsBaseTest {
     Object[] expected = array("name", "color");
     Set<Object> notFound = set("color");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsKeys(info, actual, expected));
+    var assertionError = expectAssertionError(() -> maps.assertContainsKeys(info, actual, expected));
     // THEN
     then(assertionError).hasMessage(shouldContainKeys(actual, notFound).create());
   }

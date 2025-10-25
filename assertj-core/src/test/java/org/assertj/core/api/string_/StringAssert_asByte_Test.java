@@ -64,7 +64,7 @@ class StringAssert_asByte_Test extends StringAssertBaseTest {
   @ValueSource(strings = { "1024", "1L", "foo" })
   void should_throw_AssertionError_for_null_or_invalid_string(String string) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(string).asByte());
+    var assertionError = expectAssertionError(() -> assertThat(string).asByte());
     // WHEN/
     then(assertionError).hasMessage(shouldBeNumeric(string, NumericType.BYTE).create());
   }

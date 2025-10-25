@@ -37,7 +37,7 @@ class OptionalAssert_hasValueSatisfying_Condition_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<String> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(passingCondition));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(passingCondition));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -47,7 +47,7 @@ class OptionalAssert_hasValueSatisfying_Condition_Test {
     // GIVEN
     Optional<String> actual = Optional.empty();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(passingCondition));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(passingCondition));
     // THEN
     then(assertionError).hasMessage(shouldBePresent(Optional.empty()).create());
   }
@@ -68,7 +68,7 @@ class OptionalAssert_hasValueSatisfying_Condition_Test {
     // GIVEN
     Optional<String> actual = Optional.of("something");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(notPassingCondition));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(notPassingCondition));
     // THEN
     then(assertionError).hasMessage(shouldBe("something", notPassingCondition).create());
   }

@@ -27,7 +27,7 @@ class ClassAssert_isPublic_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPublic());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isPublic());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -37,7 +37,7 @@ class ClassAssert_isPublic_Test {
     // GIVEN
     Class<?> actual = PrivateClass.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPublic());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isPublic());
     // THEN
     then(assertionError).hasMessage(shouldBePublic(actual).create());
   }

@@ -58,7 +58,7 @@ class IteratorAssert_isUnmodifiable_Test {
     // GIVEN
     Iterator<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -67,7 +67,7 @@ class IteratorAssert_isUnmodifiable_Test {
   @MethodSource({ "modifiableIterators", "startedModifiableIterators" })
   void should_fail_if_actual_can_be_modified(Iterator<?> actual, ErrorMessageFactory errorMessageFactory) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
     // THEN
     then(assertionError).as(actual.getClass().getName())
                         .hasMessage(errorMessageFactory.create());

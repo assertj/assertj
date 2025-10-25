@@ -185,8 +185,8 @@ class RecursiveComparisonAssert_isEqualTo_with_maps_Test extends WithLegacyIntro
     Map<String, Item> actualItems = mapOf(entry("Pants", new Item("Pants", 3)), entry("Hat", new Item("Hat", 1)));
     registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                      .isEqualTo(expectedItems));
+    var assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                           .isEqualTo(expectedItems));
     // THEN
     then(assertionError).hasMessageContaining(format("The following keys were not found in the actual map value:%n" +
                                                      "  [\"Shoes\"]"));

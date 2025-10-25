@@ -31,7 +31,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news");
     String name = "article";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name).create());
   }
@@ -61,7 +61,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String name = "article";
     String expectedValue = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue).create());
   }
@@ -84,7 +84,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = null;
     List<String> actualValues = newArrayList("11");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
@@ -97,7 +97,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = null;
     List<String> actualValues = newArrayList("11", "12");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
@@ -109,7 +109,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String name = "article";
     String expectedValue = "10";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue).create());
   }
@@ -122,7 +122,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = "10";
     List<String> actualValues = newArrayList((String) null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
@@ -135,7 +135,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = "10";
     List<String> actualValues = newArrayList(null, null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
@@ -148,7 +148,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = "10";
     List<String> actualValues = newArrayList("11");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }

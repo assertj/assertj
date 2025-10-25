@@ -91,7 +91,7 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertContainsExactly(INFO, actual, array("Yoda")));
+    var assertionError = expectAssertionError(() -> iterables.assertContainsExactly(INFO, actual, array("Yoda")));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

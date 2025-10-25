@@ -81,7 +81,7 @@ class AtomicReferenceAssert_hasValueMatching_Test {
     String expectedValue = "foo";
     AtomicReference<String> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueMatching(expectedValue::equalsIgnoreCase));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasValueMatching(expectedValue::equalsIgnoreCase));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

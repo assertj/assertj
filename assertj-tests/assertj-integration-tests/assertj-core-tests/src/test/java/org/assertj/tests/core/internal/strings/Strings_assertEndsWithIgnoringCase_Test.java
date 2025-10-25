@@ -44,7 +44,7 @@ class Strings_assertEndsWithIgnoringCase_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_does_not_end_with_suffix() {
     // GIVEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertEndsWithIgnoringCase(INFO, "Yoda", "Luke"));
+    var assertionError = expectAssertionError(() -> strings.assertEndsWithIgnoringCase(INFO, "Yoda", "Luke"));
     // THEN
     then(assertionError).hasMessage(shouldEndWithIgnoringCase("Yoda", "Luke", StandardComparisonStrategy.instance()).create());
   }
@@ -58,7 +58,7 @@ class Strings_assertEndsWithIgnoringCase_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertEndsWithIgnoringCase(INFO, null, "Yoda"));
+    var assertionError = expectAssertionError(() -> strings.assertEndsWithIgnoringCase(INFO, null, "Yoda"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -76,9 +76,9 @@ class Strings_assertEndsWithIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     ComparisonStrategy hashCodeComparisonStrategy = new ComparatorBasedComparisonStrategy(new StringHashCodeTestComparator());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> new Strings(hashCodeComparisonStrategy).assertEndsWithIgnoringCase(INFO,
-                                                                                                                                  "Yoda",
-                                                                                                                                  "Luke"));
+    var assertionError = expectAssertionError(() -> new Strings(hashCodeComparisonStrategy).assertEndsWithIgnoringCase(INFO,
+                                                                                                                       "Yoda",
+                                                                                                                       "Luke"));
     // THEN
     then(assertionError).hasMessage(shouldEndWithIgnoringCase("Yoda", "Luke", hashCodeComparisonStrategy).create());
   }

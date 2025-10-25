@@ -63,7 +63,7 @@ class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
     ThrowingCallable assertion = () -> iterables.assertZipSatisfy(someInfo(), actual, other,
                                                                   (s1, s2) -> assertThat(s1).startsWith(s2));
     // WHEN
-    AssertionError assertionError = expectAssertionError(assertion);
+    var assertionError = expectAssertionError(assertion);
     // THEN
     List<ZipSatisfyError> errors = list(new ZipSatisfyError("Luke", "LUKE", shouldStartWith("Luke", "LUKE").create()),
                                         new ZipSatisfyError("Yoda", "YODA", shouldStartWith("Yoda", "YODA").create()),

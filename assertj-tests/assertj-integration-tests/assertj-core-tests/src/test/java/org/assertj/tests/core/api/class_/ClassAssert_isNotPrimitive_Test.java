@@ -40,7 +40,7 @@ class ClassAssert_isNotPrimitive_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotPrimitive());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotPrimitive());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -50,7 +50,7 @@ class ClassAssert_isNotPrimitive_Test {
       char.class })
   void should_fail_if_actual_is_a_primitive_type(Class<?> primitiveClass) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(primitiveClass).isNotPrimitive());
+    var assertionError = expectAssertionError(() -> assertThat(primitiveClass).isNotPrimitive());
     // THEN
     then(assertionError).hasMessage(shouldNotBePrimitive(primitiveClass).create());
   }

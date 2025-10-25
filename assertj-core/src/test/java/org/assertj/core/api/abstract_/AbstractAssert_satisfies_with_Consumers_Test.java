@@ -49,7 +49,7 @@ class AbstractAssert_satisfies_with_Consumers_Test {
     // GIVEN
     Consumer<Jedi> isNamedVader = jedi -> assertThat(jedi.getName()).as("check vader").isEqualTo("Darth Vader");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).satisfies(isNamedVader));
+    var assertionError = expectAssertionError(() -> assertThat(yoda).satisfies(isNamedVader));
     // THEN
     then(assertionError).hasMessageContaining("check vader");
   }
@@ -60,7 +60,7 @@ class AbstractAssert_satisfies_with_Consumers_Test {
     Consumer<Jedi> isNamedVader = jedi -> assertThat(jedi.getName()).as("check vader").isEqualTo("Darth Vader");
     Consumer<Jedi> isDarth = jedi -> assertThat(jedi.getName()).as("check darth").contains("Darth");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).satisfies(isNamedVader, isDarth));
+    var assertionError = expectAssertionError(() -> assertThat(yoda).satisfies(isNamedVader, isDarth));
     // THEN
     then(assertionError).hasMessageContainingAll("check vader", "check darth");
   }
@@ -71,7 +71,7 @@ class AbstractAssert_satisfies_with_Consumers_Test {
     Consumer<Jedi> isNamedYoda = jedi -> assertThat(jedi.getName()).as("check yoda").isEqualTo("Yoda");
     Consumer<Jedi> isDarth = jedi -> assertThat(jedi.getName()).as("check darth").contains("Darth");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).satisfies(isNamedYoda, isDarth));
+    var assertionError = expectAssertionError(() -> assertThat(yoda).satisfies(isNamedYoda, isDarth));
     // THEN
     then(assertionError).hasMessageContaining("check darth")
                         .hasMessageNotContaining("check yoda");

@@ -34,7 +34,7 @@ class Shorts_assertIsNotPositive_Test extends ShortsBaseTest {
   @Test
   void should_fail_since_actual_is_positive() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> shorts.assertIsNotPositive(someInfo(), (short) 6));
+    var assertionError = expectAssertionError(() -> shorts.assertIsNotPositive(someInfo(), (short) 6));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual((short) 6, (short) 0).create());
   }
@@ -42,8 +42,8 @@ class Shorts_assertIsNotPositive_Test extends ShortsBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
-                                                                                                                        (short) -1));
+    var assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                             (short) -1));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual((short) -1, (short) 0, absValueComparisonStrategy).create());
   }
@@ -51,8 +51,8 @@ class Shorts_assertIsNotPositive_Test extends ShortsBaseTest {
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
-                                                                                                                        (short) 1));
+    var assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                             (short) 1));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual((short) 1, (short) 0, absValueComparisonStrategy).create());
   }

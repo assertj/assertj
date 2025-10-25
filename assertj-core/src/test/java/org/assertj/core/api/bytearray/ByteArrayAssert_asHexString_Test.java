@@ -48,7 +48,7 @@ class ByteArrayAssert_asHexString_Test {
     // GIVEN
     byte[] actual = new byte[] { -1, 0, 1 };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).asHexString().isEqualTo("010203"));
+    var assertionError = expectAssertionError(() -> assertThat(actual).asHexString().isEqualTo("010203"));
     // THEN
     assertThat(assertionError).hasMessage(shouldBeEqualMessage("\"FF0001\"", "\"010203\""))
                               .isExactlyInstanceOf(AssertionFailedError.class);
@@ -82,7 +82,7 @@ class ByteArrayAssert_asHexString_Test {
           .asHexString()
           .isEqualTo("010203")
           .isBlank();
-    AssertionError assertionError = expectAssertionError(softly::assertAll);
+    var assertionError = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(assertionError).hasMessageContainingAll("Multiple Failures (2 failures)",
                                                        "-- failure 1 --",

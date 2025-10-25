@@ -37,7 +37,7 @@ class Longs_assertIsNegative_Test extends LongsBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> longs.assertIsNegative(INFO, 6L));
+    var assertionError = expectAssertionError(() -> longs.assertIsNegative(INFO, 6L));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(6L, 0L).create());
   }
@@ -45,7 +45,7 @@ class Longs_assertIsNegative_Test extends LongsBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> longs.assertIsNegative(INFO, 0L));
+    var assertionError = expectAssertionError(() -> longs.assertIsNegative(INFO, 0L));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(0L, 0L).create());
   }
@@ -53,7 +53,7 @@ class Longs_assertIsNegative_Test extends LongsBaseTest {
   @Test
   void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsNegative(INFO, 6L));
+    var assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsNegative(INFO, 6L));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(6L, 0L, absValueComparisonStrategy).create());
   }
@@ -61,7 +61,7 @@ class Longs_assertIsNegative_Test extends LongsBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsNegative(INFO, -1L));
+    var assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsNegative(INFO, -1L));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(-1L, 0L, absValueComparisonStrategy).create());
   }

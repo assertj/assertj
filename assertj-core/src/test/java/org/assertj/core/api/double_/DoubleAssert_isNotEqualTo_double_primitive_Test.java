@@ -73,7 +73,7 @@ class DoubleAssert_isNotEqualTo_double_primitive_Test extends DoubleAssertBaseTe
     double actual = 0.0;
     double expected = -0.0;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  0.0%n" +
@@ -87,7 +87,7 @@ class DoubleAssert_isNotEqualTo_double_primitive_Test extends DoubleAssertBaseTe
     Double actual = null;
     double expected = 1.0d;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContaining(shouldNotBeNull().create());
   }

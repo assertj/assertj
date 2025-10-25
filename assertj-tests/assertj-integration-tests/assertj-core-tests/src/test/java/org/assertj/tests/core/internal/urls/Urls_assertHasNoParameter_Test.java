@@ -44,7 +44,7 @@ class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     String name = "article";
     List<String> actualValues = newArrayList((String) null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoParameter(info, url, name));
+    var assertionError = expectAssertionError(() -> urls.assertHasNoParameter(info, url, name));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameter(url, name, actualValues).create());
   }
@@ -56,7 +56,7 @@ class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     String name = "article";
     List<String> actualValues = newArrayList("10");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoParameter(info, url, name));
+    var assertionError = expectAssertionError(() -> urls.assertHasNoParameter(info, url, name));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameter(url, name, actualValues).create());
   }
@@ -68,7 +68,7 @@ class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     String name = "article";
     List<String> actualValues = newArrayList(null, "10");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoParameter(info, url, name));
+    var assertionError = expectAssertionError(() -> urls.assertHasNoParameter(info, url, name));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameter(url, name, actualValues).create());
   }
@@ -91,7 +91,7 @@ class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     String expectedValue = null;
     List<String> actualValues = newArrayList((String) null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasNoParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameter(url, name, expectedValue, actualValues).create());
   }
@@ -144,7 +144,7 @@ class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     String expectedValue = "10";
     List<String> actualValues = newArrayList("10");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasNoParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameter(url, name, expectedValue, actualValues).create());
   }
@@ -163,7 +163,7 @@ class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news?article=10&locked=false");
     Set<String> actualValues = newLinkedHashSet("article", "locked");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoParameters(info, url));
+    var assertionError = expectAssertionError(() -> urls.assertHasNoParameters(info, url));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameters(url, actualValues).create());
   }
@@ -174,7 +174,7 @@ class Urls_assertHasNoParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news?article=10");
     Set<String> actualValues = newLinkedHashSet("article");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoParameters(info, url));
+    var assertionError = expectAssertionError(() -> urls.assertHasNoParameters(info, url));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameters(url, actualValues).create());
   }

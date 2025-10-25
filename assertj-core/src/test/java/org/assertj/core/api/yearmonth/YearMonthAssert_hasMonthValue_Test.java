@@ -38,7 +38,7 @@ class YearMonthAssert_hasMonthValue_Test {
     YearMonth actual = YearMonth.of(2022, 1);
     int wrongMonth = 12;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(wrongMonth));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(wrongMonth));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "month", wrongMonth).create());
   }
@@ -48,7 +48,7 @@ class YearMonthAssert_hasMonthValue_Test {
     // GIVEN
     YearMonth actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(5));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(5));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

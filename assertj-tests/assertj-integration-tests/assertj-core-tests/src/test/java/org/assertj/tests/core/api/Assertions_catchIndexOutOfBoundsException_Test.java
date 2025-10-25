@@ -29,7 +29,7 @@ class Assertions_catchIndexOutOfBoundsException_Test {
     // GIVEN
     ThrowingCallable code = () -> catchIndexOutOfBoundsException(raisingException("boom!!"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     assertThat(assertionError).hasMessageContainingAll(IndexOutOfBoundsException.class.getName(), Exception.class.getName());
   }

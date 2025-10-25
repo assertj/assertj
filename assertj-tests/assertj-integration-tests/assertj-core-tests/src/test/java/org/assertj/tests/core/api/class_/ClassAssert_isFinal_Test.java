@@ -30,7 +30,7 @@ class ClassAssert_isFinal_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isFinal());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isFinal());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -40,7 +40,7 @@ class ClassAssert_isFinal_Test {
     // GIVEN
     Class<?> actual = Object.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isFinal());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isFinal());
     // THEN
     then(assertionError).hasMessage(shouldBeFinal(actual).create());
   }

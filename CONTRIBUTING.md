@@ -34,7 +34,7 @@ class OptionalAssert_containsInstanceOf_Test extends BaseTest {
     // GIVEN
     Optional<Object> actual = Optional.empty();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(Object.class));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(Object.class));
     // THEN
     then(assertionError).hasMessage(shouldBePresent(actual).create());
   }

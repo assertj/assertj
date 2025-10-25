@@ -65,7 +65,7 @@ class Double2DArrayAssert_isDeepEqualTo_Test {
     double[][] actual = null;
     double[][] expected = new double[][] { { 1.0, 2.0 }, { 3.0 }, { 4.0, 5.0, 6.0 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -76,7 +76,7 @@ class Double2DArrayAssert_isDeepEqualTo_Test {
     double[][] actual = new double[][] { { 1.0, 2.0 }, null, { 4.0, 5.0, 6.0 } };
     double[][] expected = new double[][] { { 1.0, 2.0 }, { 3.0 }, { 4.0, 5.0, 6.0 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull("actual[1]").create());
   }
@@ -87,7 +87,7 @@ class Double2DArrayAssert_isDeepEqualTo_Test {
     double[][] actual = new double[][] { { 1.0, 2.0 }, { 3.0 } };
     double[][] expected = new double[][] { { 1.0, 2.0 }, { 3.0 }, { 4.0, 5.0, 6.0 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameSizeAs(actual, expected, actual.length, expected.length).create());
   }
@@ -100,7 +100,7 @@ class Double2DArrayAssert_isDeepEqualTo_Test {
     double[] actualSubArrayWithDifference = new double[] { 3.0, 999.0 };
     double[] expectedSubArrayWithDifference = new double[] { 3.0 };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     ErrorMessageFactory subarraysShouldHaveSameSize = subarraysShouldHaveSameSize(actual, expected,
                                                                                   actualSubArrayWithDifference,
@@ -120,7 +120,7 @@ class Double2DArrayAssert_isDeepEqualTo_Test {
     double[][] actual = new double[][] { { 1.0, 2.0 }, { actualValue }, { 4.0, 5.0, 6.0 } };
     double[][] expected = new double[][] { { 1.0, 2.0 }, { expectedValue }, { 4.0, 5.0, 6.0 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     ErrorMessageFactory elementShouldBeEqual = elementShouldBeEqual(actualValue, expectedValue, 1, 0);
     then(assertionError).hasMessage(elementShouldBeEqual.create(emptyDescription(), STANDARD_REPRESENTATION));

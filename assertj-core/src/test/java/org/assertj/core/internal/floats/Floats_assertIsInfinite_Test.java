@@ -46,7 +46,7 @@ class Floats_assertIsInfinite_Test extends FloatsBaseTest {
   })
   void should_fail_when_actual_is_not_infinite(float actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> floats.assertIsInfinite(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> floats.assertIsInfinite(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeInfinite(actual).create());
   }
@@ -56,7 +56,7 @@ class Floats_assertIsInfinite_Test extends FloatsBaseTest {
     // GIVEN
     Float actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> floats.assertIsInfinite(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> floats.assertIsInfinite(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

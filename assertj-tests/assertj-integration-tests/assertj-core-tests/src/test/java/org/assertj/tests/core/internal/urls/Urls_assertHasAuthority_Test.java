@@ -30,7 +30,7 @@ class Urls_assertHasAuthority_Test extends UrlsBaseTest {
     URL url = null;
     String expectedAuthority = "http://www.helloworld.org";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAuthority(info, url, expectedAuthority));
+    var assertionError = expectAssertionError(() -> urls.assertHasAuthority(info, url, expectedAuthority));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -59,7 +59,7 @@ class Urls_assertHasAuthority_Test extends UrlsBaseTest {
     URL url = new URL("http://example.com:8080/pages/");
     String expectedAuthority = "example.com:8888";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAuthority(info, url, expectedAuthority));
+    var assertionError = expectAssertionError(() -> urls.assertHasAuthority(info, url, expectedAuthority));
     // THEN
     then(assertionError).hasMessage(shouldHaveAuthority(url, expectedAuthority).create());
   }
@@ -70,7 +70,7 @@ class Urls_assertHasAuthority_Test extends UrlsBaseTest {
     URL url = new URL("http://example.com:8080/pages/");
     String expectedAuthority = "example.org:8080";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAuthority(info, url, expectedAuthority));
+    var assertionError = expectAssertionError(() -> urls.assertHasAuthority(info, url, expectedAuthority));
     // THEN
     then(assertionError).hasMessage(shouldHaveAuthority(url, expectedAuthority).create());
   }

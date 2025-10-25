@@ -31,7 +31,7 @@ class Uris_assertHasPath_Test extends UrisBaseTest {
     URI uri = null;
     String expectedPath = "path";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
+    var assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -62,7 +62,7 @@ class Uris_assertHasPath_Test extends UrisBaseTest {
     URI uri = URI.create("http://example.com/pages/");
     String expectedPath = "/news/";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
+    var assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
     // THEN
     then(assertionError).hasMessage(shouldHavePath(uri, expectedPath).create());
   }
@@ -73,7 +73,7 @@ class Uris_assertHasPath_Test extends UrisBaseTest {
     URI uri = URI.create("http://example.com/pages/");
     String expectedPath = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
+    var assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
     // THEN
     then(assertionError).hasMessage(shouldHavePath(uri, expectedPath).create());
   }
@@ -84,7 +84,7 @@ class Uris_assertHasPath_Test extends UrisBaseTest {
     URI uri = URI.create("mailto:java-net@java.sun.com");
     String expectedPath = "";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
+    var assertionError = expectAssertionError(() -> uris.assertHasPath(info, uri, expectedPath));
     // THEN
     then(assertionError).hasMessage(shouldHavePath(uri, expectedPath).create());
   }

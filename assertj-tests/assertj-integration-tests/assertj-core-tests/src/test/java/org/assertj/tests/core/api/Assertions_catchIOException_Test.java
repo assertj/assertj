@@ -31,7 +31,7 @@ class Assertions_catchIOException_Test {
     // GIVEN
     ThrowingCallable code = () -> catchIOException(raisingException("boom!!"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     assertThat(assertionError).hasMessageContainingAll(Exception.class.getName(), IOException.class.getName());
   }

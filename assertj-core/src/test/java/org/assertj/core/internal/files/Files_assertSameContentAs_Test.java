@@ -78,8 +78,8 @@ class Files_assertSameContentAs_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> underTest.assertSameContentAs(INFO, actual, defaultCharset(),
-                                                                                             expected, defaultCharset()));
+    var assertionError = expectAssertionError(() -> underTest.assertSameContentAs(INFO, actual, defaultCharset(),
+                                                                                  expected, defaultCharset()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

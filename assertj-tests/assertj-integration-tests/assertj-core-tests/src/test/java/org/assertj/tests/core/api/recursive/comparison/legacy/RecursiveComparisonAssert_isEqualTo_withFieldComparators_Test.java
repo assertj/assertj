@@ -278,9 +278,9 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
     Foo expected = new Foo(1);
     BiPredicate<Integer, Integer> greaterThan = (i1, i2) -> Objects.equals(i1, i2 + 1);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withEqualsForFields(greaterThan, "bar")
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withEqualsForFields(greaterThan, "bar")
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll("- these fields were compared with the following comparators:", "  - bar -> ");
   }
@@ -291,9 +291,9 @@ class RecursiveComparisonAssert_isEqualTo_withFieldComparators_Test extends With
     Foo actual = new Foo(1);
     Foo expected = new Foo(1);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withComparatorForFields(NEVER_EQUALS, "bar")
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withComparatorForFields(NEVER_EQUALS, "bar")
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll("- these fields were compared with the following comparators:", "  - bar -> ");
   }

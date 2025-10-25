@@ -78,7 +78,7 @@ class OptionalAssert_hasValueSatisfying_Test {
     // GIVEN
     ThrowingCallable code = () -> assertThat(Optional.of("something else")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("\"something else\"", "\"something\""));
   }

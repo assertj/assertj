@@ -29,7 +29,7 @@ class ObjectArrayAssert_singleElement_Test {
     // GIVEN
     String[] array = new String[0];
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(array).singleElement());
+    var assertionError = expectAssertionError(() -> assertThat(array).singleElement());
     // THEN
     then(assertionError).hasMessageContaining("Expected size: 1 but was: 0");
   }
@@ -45,7 +45,7 @@ class ObjectArrayAssert_singleElement_Test {
   @Test
   void should_fail_with_an_error_describing_thenavigation() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(babySimpsons).singleElement().isEqualTo("Bart"));
+    var assertionError = expectAssertionError(() -> assertThat(babySimpsons).singleElement().isEqualTo("Bart"));
     // THEN
     then(assertionError).hasMessageStartingWith("[ObjectArray check single element]");
   }
@@ -53,7 +53,7 @@ class ObjectArrayAssert_singleElement_Test {
   @Test
   void should_fail_if_iterable_has_more_than_one_element() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(simpsons).singleElement());
+    var assertionError = expectAssertionError(() -> assertThat(simpsons).singleElement());
     // THEN
     then(assertionError).hasMessageContaining("Expected size: 1 but was: 5");
   }

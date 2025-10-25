@@ -31,7 +31,7 @@ class OptionalAssert_containsInstanceOf_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<Object> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(Object.class));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(Object.class));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -41,7 +41,7 @@ class OptionalAssert_containsInstanceOf_Test {
     // GIVEN
     Optional<Object> actual = Optional.empty();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(Object.class));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(Object.class));
     // THEN
     then(assertionError).hasMessage(shouldBePresent(actual).create());
   }
@@ -67,7 +67,7 @@ class OptionalAssert_containsInstanceOf_Test {
     // GIVEN
     Optional<ParentClass> actual = Optional.of(new ParentClass());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(OtherClass.class));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(OtherClass.class));
     // THEN
     then(assertionError).hasMessage(shouldContainInstanceOf(actual, OtherClass.class).create());
   }

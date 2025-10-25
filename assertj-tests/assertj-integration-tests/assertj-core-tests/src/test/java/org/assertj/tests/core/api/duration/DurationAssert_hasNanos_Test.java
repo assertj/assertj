@@ -39,7 +39,7 @@ class DurationAssert_hasNanos_Test {
     // GIVEN
     Duration duration = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasNanos(190L));
+    var assertionError = expectAssertionError(() -> assertThat(duration).hasNanos(190L));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class DurationAssert_hasNanos_Test {
     // GIVEN
     Duration duration = Duration.ofNanos(1892L);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasNanos(190L));
+    var assertionError = expectAssertionError(() -> assertThat(duration).hasNanos(190L));
     // THEN
     then(assertionError).hasMessage(shouldHaveNanos(duration, 1892L, 190L).create());
   }

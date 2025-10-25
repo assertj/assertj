@@ -65,7 +65,7 @@ class StringAssert_asDouble_Test extends StringAssertBaseTest {
   @ValueSource(strings = { "foo", "", "0xffg" })
   void should_throw_AssertionError_when_null_or_not_numeric(String string) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(string).asDouble());
+    var assertionError = expectAssertionError(() -> assertThat(string).asDouble());
     // WHEN/
     then(assertionError).hasMessage(shouldBeNumeric(string, NumericType.DOUBLE).create());
   }

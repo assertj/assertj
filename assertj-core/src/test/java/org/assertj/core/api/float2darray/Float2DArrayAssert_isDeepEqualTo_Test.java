@@ -65,7 +65,7 @@ class Float2DArrayAssert_isDeepEqualTo_Test {
     float[][] actual = null;
     float[][] expected = new float[][] { { 1.0f, 2.0f }, { 3.0f }, { 4.0f, 5.0f, 6.0f } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -76,7 +76,7 @@ class Float2DArrayAssert_isDeepEqualTo_Test {
     float[][] actual = new float[][] { { 1.0f, 2.0f }, null, { 4.0f, 5.0f, 6.0f } };
     float[][] expected = new float[][] { { 1.0f, 2.0f }, { 3.0f }, { 4.0f, 5.0f, 6.0f } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull("actual[1]").create());
   }
@@ -87,7 +87,7 @@ class Float2DArrayAssert_isDeepEqualTo_Test {
     float[][] actual = new float[][] { { 1.0f, 2.0f }, { 3.0f } };
     float[][] expected = new float[][] { { 1.0f, 2.0f }, { 3.0f }, { 4.0f, 5.0f, 6.0f } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameSizeAs(actual, expected, actual.length, expected.length).create());
   }
@@ -100,7 +100,7 @@ class Float2DArrayAssert_isDeepEqualTo_Test {
     float[] actualSubArrayWithDifference = new float[] { 3.0f, 999.0f };
     float[] expectedSubArrayWithDifference = new float[] { 3.0f };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     ErrorMessageFactory subarraysShouldHaveSameSize = subarraysShouldHaveSameSize(actual, expected,
                                                                                   actualSubArrayWithDifference,
@@ -119,7 +119,7 @@ class Float2DArrayAssert_isDeepEqualTo_Test {
     float[][] actual = new float[][] { { 1.0f, 2.0f }, { actualValue }, { 4.0f, 5.0f, 6.0f } };
     float[][] expected = new float[][] { { 1.0f, 2.0f }, { expectedValue }, { 4.0f, 5.0f, 6.0f } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     ErrorMessageFactory elementShouldBeEqual = elementShouldBeEqual(actualValue, expectedValue, 1, 0);
     then(assertionError).hasMessage(elementShouldBeEqual.create(emptyDescription(), STANDARD_REPRESENTATION));

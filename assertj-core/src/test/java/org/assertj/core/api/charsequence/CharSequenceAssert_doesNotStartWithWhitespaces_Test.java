@@ -71,7 +71,7 @@ class CharSequenceAssert_doesNotStartWithWhitespaces_Test {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).doesNotStartWithWhitespaces());
+    var assertionError = expectAssertionError(() -> assertThat(actual).doesNotStartWithWhitespaces());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -86,7 +86,7 @@ class CharSequenceAssert_doesNotStartWithWhitespaces_Test {
   @MethodSource
   protected void should_fail_if_actual_starts_with_whitespaces(String actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).doesNotStartWithWhitespaces());
+    var assertionError = expectAssertionError(() -> assertThat(actual).doesNotStartWithWhitespaces());
     // THEN
     then(assertionError).hasMessage(shouldNotStartWithWhitespaces(actual).create());
   }

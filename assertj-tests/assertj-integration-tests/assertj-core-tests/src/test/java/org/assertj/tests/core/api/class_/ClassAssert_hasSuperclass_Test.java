@@ -31,7 +31,7 @@ class ClassAssert_hasSuperclass_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSuperclass(Object.class));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSuperclass(Object.class));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -62,7 +62,7 @@ class ClassAssert_hasSuperclass_Test {
     // GIVEN
     Class<?> actual = Integer.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSuperclass(superclass));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSuperclass(superclass));
     // THEN
     then(assertionError).hasMessage(shouldHaveSuperclass(actual, superclass).create());
   }

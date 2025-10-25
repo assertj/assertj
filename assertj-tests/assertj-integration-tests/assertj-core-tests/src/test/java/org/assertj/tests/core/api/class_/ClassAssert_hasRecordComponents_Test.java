@@ -68,8 +68,8 @@ class ClassAssert_hasRecordComponents_Test {
   @Test
   void should_fail_if_record_components_are_missing() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(MyRecord.class).hasRecordComponents("componentOne",
-                                                                                                              "missing"));
+    var assertionError = expectAssertionError(() -> assertThat(MyRecord.class).hasRecordComponents("componentOne",
+                                                                                                   "missing"));
     // THEN
     then(assertionError).hasMessage(shouldHaveRecordComponents(MyRecord.class,
                                                                set("componentOne", "missing"),

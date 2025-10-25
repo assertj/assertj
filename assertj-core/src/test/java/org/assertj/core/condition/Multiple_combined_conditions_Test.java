@@ -54,7 +54,7 @@ class Multiple_combined_conditions_Test {
                                                                               contains("b"),
                                                                               contains("c")))));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     then(assertionError).hasMessage(format("%n" +
                                            "Expecting actual:%n" +
@@ -82,7 +82,7 @@ class Multiple_combined_conditions_Test {
                                                                                         contains("b"),
                                                                                         contains("c")))))));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     then(assertionError).hasMessage(format("%n" +
                                            "Expecting actual:%n" +

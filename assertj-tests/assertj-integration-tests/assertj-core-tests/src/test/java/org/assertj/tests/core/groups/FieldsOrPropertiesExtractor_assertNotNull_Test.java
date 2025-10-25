@@ -23,7 +23,7 @@ class FieldsOrPropertiesExtractor_assertNotNull_Test {
   @Test
   void should_throw_assertion_error_in_absence_of_iterable() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> extract((Iterable<?>) null, null));
+    var assertionError = expectAssertionError(() -> extract((Iterable<?>) null, null));
     // THEN
     then(assertionError).hasMessage("Expecting actual not to be null");
   }
@@ -31,7 +31,7 @@ class FieldsOrPropertiesExtractor_assertNotNull_Test {
   @Test
   void should_throw_assertion_error_in_absence_of_array() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> extract((Object[]) null, null));
+    var assertionError = expectAssertionError(() -> extract((Object[]) null, null));
     // THEN
     then(assertionError).hasMessage("Expecting actual not to be null");
   }

@@ -31,7 +31,7 @@ class Strings_assertIsMixedCase_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertMixedCase(someInfo(), null));
+    var assertionError = expectAssertionError(() -> strings.assertMixedCase(someInfo(), null));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -43,7 +43,7 @@ class Strings_assertIsMixedCase_Test extends StringsBaseTest {
   })
   void should_fail_if_actual_is_uppercase(CharSequence actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertMixedCase(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> strings.assertMixedCase(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeMixedCase(actual).create());
   }
@@ -55,7 +55,7 @@ class Strings_assertIsMixedCase_Test extends StringsBaseTest {
   })
   void should_fail_if_actual_is_lowercase(CharSequence actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertMixedCase(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> strings.assertMixedCase(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeMixedCase(actual).create());
   }

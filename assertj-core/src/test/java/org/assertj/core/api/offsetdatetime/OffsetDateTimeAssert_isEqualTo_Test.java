@@ -71,7 +71,7 @@ class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeAssertBa
   @Test
   void should_fail_if_actual_is_not_equal_to_offsetDateTime_with_different_offset() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(AFTER_WITH_DIFFERENT_OFFSET).isEqualTo(REFERENCE));
+    var assertionError = expectAssertionError(() -> assertThat(AFTER_WITH_DIFFERENT_OFFSET).isEqualTo(REFERENCE));
     // THEN
     then(assertionError).hasMessage(format(shouldBeEqualMessage(AFTER_WITH_DIFFERENT_OFFSET + " (java.time.OffsetDateTime)",
                                                                 REFERENCE + " (java.time.OffsetDateTime)")

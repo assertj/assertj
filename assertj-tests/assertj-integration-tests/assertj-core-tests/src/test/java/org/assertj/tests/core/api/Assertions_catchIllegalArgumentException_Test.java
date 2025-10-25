@@ -29,7 +29,7 @@ class Assertions_catchIllegalArgumentException_Test {
     // GIVEN
     ThrowingCallable code = () -> catchIllegalArgumentException(raisingException("boom!!"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     assertThat(assertionError).hasMessageContainingAll(Exception.class.getName(), IllegalArgumentException.class.getName());
   }

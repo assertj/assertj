@@ -37,7 +37,7 @@ class LocalDateTimeAssert_hasHour_Test {
     LocalDateTime actual = LocalDateTime.of(2021, 12, 31, 23, 59, 59);
     int expectedHour = 22;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasHour(expectedHour));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasHour(expectedHour));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "hour", expectedHour).create());
   }
@@ -47,7 +47,7 @@ class LocalDateTimeAssert_hasHour_Test {
     // GIVEN
     LocalDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasHour(1));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasHour(1));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

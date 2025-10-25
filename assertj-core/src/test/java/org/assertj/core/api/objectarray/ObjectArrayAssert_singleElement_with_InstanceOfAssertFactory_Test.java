@@ -33,7 +33,7 @@ class ObjectArrayAssert_singleElement_with_InstanceOfAssertFactory_Test {
     // GIVEN
     String[] array = new String[0];
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(array).singleElement(STRING));
+    var assertionError = expectAssertionError(() -> assertThat(array).singleElement(STRING));
     // THEN
     then(assertionError).hasMessageContaining("Expected size: 1 but was: 0");
   }
@@ -58,7 +58,7 @@ class ObjectArrayAssert_singleElement_with_InstanceOfAssertFactory_Test {
   @Test
   void should_fail_if_first_element_is_not_an_instance_of_the_factory_type() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(babySimpsons).singleElement(INTEGER));
+    var assertionError = expectAssertionError(() -> assertThat(babySimpsons).singleElement(INTEGER));
     // THEN
     then(assertionError).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }
@@ -66,7 +66,7 @@ class ObjectArrayAssert_singleElement_with_InstanceOfAssertFactory_Test {
   @Test
   void should_fail_if_iterable_has_more_than_one_element() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(simpsons).singleElement(STRING));
+    var assertionError = expectAssertionError(() -> assertThat(simpsons).singleElement(STRING));
     // THEN
     then(assertionError).hasMessageContaining("Expected size: 1 but was: 5");
   }

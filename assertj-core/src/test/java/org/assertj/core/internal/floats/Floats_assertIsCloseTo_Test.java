@@ -107,7 +107,7 @@ class Floats_assertIsCloseTo_Test extends FloatsBaseTest {
     // GIVEN
     Float actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> floats.assertIsCloseTo(INFO, actual, ONE, within(ONE)));
+    var assertionError = expectAssertionError(() -> floats.assertIsCloseTo(INFO, actual, ONE, within(ONE)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

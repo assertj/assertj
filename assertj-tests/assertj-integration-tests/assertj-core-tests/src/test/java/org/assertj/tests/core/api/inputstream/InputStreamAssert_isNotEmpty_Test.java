@@ -34,7 +34,7 @@ class InputStreamAssert_isNotEmpty_Test {
     // GIVEN
     InputStream actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotEmpty());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }

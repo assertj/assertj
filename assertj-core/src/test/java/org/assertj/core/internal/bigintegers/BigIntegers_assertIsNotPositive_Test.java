@@ -40,7 +40,7 @@ class BigIntegers_assertIsNotPositive_Test extends BigIntegersBaseTest {
   @Test
   void should_fail_since_actual_is_positive() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbers.assertIsNotPositive(someInfo(), new BigInteger("6")));
+    var assertionError = expectAssertionError(() -> numbers.assertIsNotPositive(someInfo(), new BigInteger("6")));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(new BigInteger("6"), BigInteger.ZERO).create());
   }
@@ -48,8 +48,8 @@ class BigIntegers_assertIsNotPositive_Test extends BigIntegersBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
-                                                                                                                         new BigInteger("-1")));
+    var assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                              new BigInteger("-1")));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(new BigInteger("-1"), BigInteger.ZERO,
                                                         absValueComparisonStrategy).create());
@@ -58,8 +58,8 @@ class BigIntegers_assertIsNotPositive_Test extends BigIntegersBaseTest {
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
-                                                                                                                         BigInteger.ONE));
+    var assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                              BigInteger.ONE));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(BigInteger.ONE, BigInteger.ZERO, absValueComparisonStrategy).create());
   }

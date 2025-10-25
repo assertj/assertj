@@ -199,10 +199,10 @@ class RecursiveComparisonAssert_isEqualTo_withComparatorsForFieldMatchingRegexes
     Foo expected = new Foo(1);
     BiPredicate<Integer, Integer> greaterThan = (i1, i2) -> Objects.equals(i1, i2 + 1);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withEqualsForFieldsMatchingRegexes(greaterThan,
-                                                                                                                     "b..")
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withEqualsForFieldsMatchingRegexes(greaterThan,
+                                                                                                          "b..")
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll("- the fields matching these regexes were compared with the following comparators",
                                                  "  - [b..] -> ");

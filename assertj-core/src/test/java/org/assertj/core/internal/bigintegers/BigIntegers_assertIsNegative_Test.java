@@ -51,7 +51,7 @@ class BigIntegers_assertIsNegative_Test extends BigIntegersBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbers.assertIsNegative(someInfo(), BigInteger.ONE));
+    var assertionError = expectAssertionError(() -> numbers.assertIsNegative(someInfo(), BigInteger.ONE));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(BigInteger.ONE, BigInteger.ZERO).create());
   }

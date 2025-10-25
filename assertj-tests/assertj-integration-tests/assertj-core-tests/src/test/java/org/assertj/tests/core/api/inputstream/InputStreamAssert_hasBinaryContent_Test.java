@@ -37,7 +37,7 @@ class InputStreamAssert_hasBinaryContent_Test {
     InputStream actual = null;
     byte[] expected = new byte[0];
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasBinaryContent(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasBinaryContent(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -97,7 +97,7 @@ class InputStreamAssert_hasBinaryContent_Test {
     InputStream actual = new ByteArrayInputStream("12345".getBytes());
     byte[] expected = "67890".getBytes();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasBinaryContent(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasBinaryContent(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveBinaryContent(actual, diff("12345", "67890")).create());
     then(actual.read()).isEqualTo('1');
@@ -109,7 +109,7 @@ class InputStreamAssert_hasBinaryContent_Test {
     InputStream actual = new UnmarkableByteArrayInputStream("12345".getBytes());
     byte[] expected = "67890".getBytes();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasBinaryContent(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasBinaryContent(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveBinaryContent(actual, diff("12345", "67890")).create());
     then(actual.read()).isEqualTo('2');

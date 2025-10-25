@@ -29,7 +29,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_byte_in_binary() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((byte) 2).inBinary().isEqualTo((byte) 3));
+    var assertionError = expectAssertionError(() -> assertThat((byte) 2).inBinary().isEqualTo((byte) 3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0b00000010", "0b00000011"));
   }
@@ -37,7 +37,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_signed_byte_in_binary() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((byte) -2).inBinary().isEqualTo((byte) 3));
+    var assertionError = expectAssertionError(() -> assertThat((byte) -2).inBinary().isEqualTo((byte) 3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0b11111110", "0b00000011"));
   }
@@ -53,7 +53,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_short_in_binary() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((short) 2).inBinary().isEqualTo((short) 3));
+    var assertionError = expectAssertionError(() -> assertThat((short) 2).inBinary().isEqualTo((short) 3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0b00000000_00000010",
                                                          "0b00000000_00000011"));
@@ -62,7 +62,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_signed_short_in_binary() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((short) -1).inBinary().isEqualTo((short) 3));
+    var assertionError = expectAssertionError(() -> assertThat((short) -1).inBinary().isEqualTo((short) 3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0b11111111_11111111",
                                                          "0b00000000_00000011"));
@@ -71,7 +71,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_integer_in_binary() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(2).inBinary().isEqualTo(3));
+    var assertionError = expectAssertionError(() -> assertThat(2).inBinary().isEqualTo(3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0b00000000_00000000_00000000_00000010",
                                                          "0b00000000_00000000_00000000_00000011"));
@@ -80,7 +80,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_negative_integer_in_binary() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(3).inBinary().isEqualTo(-3));
+    var assertionError = expectAssertionError(() -> assertThat(3).inBinary().isEqualTo(-3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0b00000000_00000000_00000000_00000011",
                                                          "0b11111111_11111111_11111111_11111101"));
@@ -89,7 +89,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_long_in_binary() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((long) 2).inBinary().isEqualTo(3));
+    var assertionError = expectAssertionError(() -> assertThat((long) 2).inBinary().isEqualTo(3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000010",
                                                          "0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000011"));
@@ -98,7 +98,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_negative_long_in_binary() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((long) -2).inBinary().isEqualTo(3));
+    var assertionError = expectAssertionError(() -> assertThat((long) -2).inBinary().isEqualTo(3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0b11111111_11111111_11111111_11111111_11111111_11111111_11111111_11111110",
                                                          "0b00000000_00000000_00000000_00000000_00000000_00000000_00000000_00000011"));
@@ -107,7 +107,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_float_in_binary() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(2.1f).inBinary().isEqualTo(3f));
+    var assertionError = expectAssertionError(() -> assertThat(2.1f).inBinary().isEqualTo(3f));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0b01000000_00000110_01100110_01100110",
                                                          "0b01000000_01000000_00000000_00000000"));
@@ -116,7 +116,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_double_in_binary() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(2.1d).inBinary().isEqualTo(3d));
+    var assertionError = expectAssertionError(() -> assertThat(2.1d).inBinary().isEqualTo(3d));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0b01000000_00000000_11001100_11001100_11001100_11001100_11001100_11001101",
                                                          "0b01000000_00001000_00000000_00000000_00000000_00000000_00000000_00000000"));
@@ -125,7 +125,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_String_in_binary() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("ab").inBinary().isEqualTo("a6"));
+    var assertionError = expectAssertionError(() -> assertThat("ab").inBinary().isEqualTo("a6"));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("\"['0b00000000_01100001', '0b00000000_01100010']\"",
                                                          "\"['0b00000000_01100001', '0b00000000_00110110']\""));
@@ -136,7 +136,7 @@ class Assertions_assertThat_inBinary_Test {
     // GIVEN
     String description = "My description";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("ab").as(description).inBinary().isNull());
+    var assertionError = expectAssertionError(() -> assertThat("ab").as(description).inBinary().isNull());
     // THEN
     then(assertionError).hasMessageContaining(description);
   }

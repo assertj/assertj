@@ -54,8 +54,8 @@ class ByteArrayAssert_asString_with_Charset_Test {
     String real = "Gerçek";
     byte[] bytes = real.getBytes(TURKISH);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(bytes).asString(TURKISH)
-                                                                                .isEqualTo("bar"));
+    var assertionError = expectAssertionError(() -> assertThat(bytes).asString(TURKISH)
+                                                                     .isEqualTo("bar"));
     // THEN
     assertThat(assertionError).hasMessage(shouldBeEqualMessage("\"Gerçek\"", "\"bar\""))
                               .isExactlyInstanceOf(AssertionFailedError.class);
@@ -83,7 +83,7 @@ class ByteArrayAssert_asString_with_Charset_Test {
           .asString(TURKISH)
           .isEqualTo("bar")
           .isBlank();
-    AssertionError assertionError = expectAssertionError(softly::assertAll);
+    var assertionError = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(assertionError).hasMessageContainingAll("Multiple Failures (2 failures)",
                                                        "-- failure 1 --",

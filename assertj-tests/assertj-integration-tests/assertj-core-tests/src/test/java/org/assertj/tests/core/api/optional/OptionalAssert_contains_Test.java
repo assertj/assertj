@@ -33,7 +33,7 @@ class OptionalAssert_contains_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<String> nullActual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).contains("something"));
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).contains("something"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -68,7 +68,7 @@ class OptionalAssert_contains_Test {
     // GIVEN
     String expectedValue = "something";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(Optional.empty()).contains(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(Optional.empty()).contains(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldContain(expectedValue).create());
   }

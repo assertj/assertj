@@ -27,7 +27,7 @@ class ClassAssert_isProtected_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isProtected());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isProtected());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -37,7 +37,7 @@ class ClassAssert_isProtected_Test {
     // GIVEN
     Class<?> actual = String.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isProtected());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isProtected());
     // THEN
     then(assertionError).hasMessage(shouldBeProtected(actual).create());
   }

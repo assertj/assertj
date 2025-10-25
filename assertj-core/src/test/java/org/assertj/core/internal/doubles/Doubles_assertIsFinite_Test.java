@@ -46,7 +46,7 @@ class Doubles_assertIsFinite_Test extends DoublesBaseTest {
   })
   void should_fail_when_actual_is_not_finite(double actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsFinite(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> doubles.assertIsFinite(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeFinite(actual).create());
   }
@@ -56,7 +56,7 @@ class Doubles_assertIsFinite_Test extends DoublesBaseTest {
     // GIVEN
     Double actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsFinite(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> doubles.assertIsFinite(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

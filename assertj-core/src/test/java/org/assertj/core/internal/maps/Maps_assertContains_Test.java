@@ -98,7 +98,7 @@ class Maps_assertContains_Test extends MapsBaseTest {
     actual = null;
     Entry<String, String>[] expected = array(entry("name", "Yoda"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContains(info, actual, expected));
+    var assertionError = expectAssertionError(() -> maps.assertContains(info, actual, expected));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

@@ -36,7 +36,7 @@ class AtomicReferenceAssert_hasNullValue_Test {
     // GIVEN
     AtomicReference<String> actual = new AtomicReference<>("foo");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasNullValue());
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasNullValue());
     // THEN
     then(assertionError).hasMessage(shouldHaveValue(actual, null).create());
   }

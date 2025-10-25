@@ -35,7 +35,7 @@ class CharSequenceAssert_isHexadecimal_Test {
   @ValueSource(strings = { "g", "§", "1.2", "" })
   void should_fail_if_actual_is_not_hexadecimal(CharSequence actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isHexadecimal());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isHexadecimal());
     // THEN
     then(assertionError).hasMessage(shouldBeHexadecimal(actual).create());
   }
@@ -45,7 +45,7 @@ class CharSequenceAssert_isHexadecimal_Test {
     // GIVEN
     CharSequence actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isHexadecimal());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isHexadecimal());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

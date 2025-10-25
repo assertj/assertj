@@ -49,7 +49,7 @@ class ThrowableAssert_message_Test {
     // GIVEN
     Throwable actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).message());
+    var assertionError = expectAssertionError(() -> assertThat(actual).message());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

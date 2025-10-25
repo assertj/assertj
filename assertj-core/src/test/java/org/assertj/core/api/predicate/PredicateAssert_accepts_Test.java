@@ -55,7 +55,7 @@ class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
     // GIVEN
     String[] values = { "first", "second" };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((Predicate<String>) null).accepts(values));
+    var assertionError = expectAssertionError(() -> assertThat((Predicate<String>) null).accepts(values));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -66,7 +66,7 @@ class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
     String[] values = { "football", "basketball", "curling" };
     Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(ballSportPredicate).accepts(values));
+    var assertionError = expectAssertionError(() -> assertThat(ballSportPredicate).accepts(values));
     // THEN
     then(assertionError).hasMessage(elementsShouldMatch(values, "curling", PredicateDescription.GIVEN).create());
   }
@@ -85,7 +85,7 @@ class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something else";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(predicate).accepts(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(predicate).accepts(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
   }
@@ -96,7 +96,7 @@ class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something else";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(predicate).as("test").accepts(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(predicate).as("test").accepts(expectedValue));
     // THEN
     then(assertionError).hasMessage("[test] " + shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
   }

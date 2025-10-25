@@ -65,7 +65,7 @@ class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     int sleepDuration = 100000;
     CompletableFuture<String> future = completedFutureAfter("ook!", sleepDuration, executorService);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(10, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(10, MILLISECONDS));
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
                                                        "  <CompletableFuture[Incomplete]>%n" +
@@ -78,7 +78,7 @@ class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(1, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(1, MILLISECONDS));
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
                                                        "  <CompletableFuture[Cancelled]>%n" +
@@ -92,7 +92,7 @@ class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(1, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(1, MILLISECONDS));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -103,7 +103,7 @@ class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException("boom%s%n"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(1, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(1, MILLISECONDS));
     // THEN
     then(assertionError).hasMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n".formatted())
                         .hasMessageContaining("to be completed within 1L Millis.");

@@ -56,7 +56,7 @@ class Uris_assertHasFragment_Test extends UrisBaseTest {
     URI uri = null;
     String expectedFragment = "http://www.helloworld.org/index.html#print";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
+    var assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -67,7 +67,7 @@ class Uris_assertHasFragment_Test extends UrisBaseTest {
     URI uri = URI.create("http://example.com/index.html#print");
     String expectedFragment = "foo";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
+    var assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
     // THEN
     then(assertionError).hasMessage(shouldHaveFragment(uri, expectedFragment).create());
   }
@@ -78,7 +78,7 @@ class Uris_assertHasFragment_Test extends UrisBaseTest {
     URI uri = URI.create("http://example.com/index.html");
     String expectedFragment = "print";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
+    var assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
     // THEN
     then(assertionError).hasMessage(shouldHaveFragment(uri, expectedFragment).create());
   }
@@ -89,7 +89,7 @@ class Uris_assertHasFragment_Test extends UrisBaseTest {
     URI uri = URI.create("http://example.com/index.html#print");
     String expectedFragment = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
+    var assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
     // THEN
     then(assertionError).hasMessage(shouldHaveFragment(uri, expectedFragment).create());
   }
@@ -100,7 +100,7 @@ class Uris_assertHasFragment_Test extends UrisBaseTest {
     URI uri = URI.create("http://www.helloworld.org/index.html");
     String expectedFragment = "print";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
+    var assertionError = expectAssertionError(() -> uris.assertHasFragment(info, uri, expectedFragment));
     // THEN
     then(assertionError).hasMessage(shouldHaveFragment(uri, expectedFragment).create());
   }

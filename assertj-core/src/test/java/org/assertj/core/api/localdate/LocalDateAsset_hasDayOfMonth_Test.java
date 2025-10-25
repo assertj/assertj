@@ -38,7 +38,7 @@ class LocalDateAsset_hasDayOfMonth_Test {
     LocalDate actual = LocalDate.of(2022, 1, 1);
     int expectedDay = 2;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDayOfMonth(expectedDay));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasDayOfMonth(expectedDay));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "day", expectedDay).create());
   }
@@ -48,7 +48,7 @@ class LocalDateAsset_hasDayOfMonth_Test {
     // GIVEN
     LocalDate actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDayOfMonth(LocalDate.now().getDayOfMonth()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasDayOfMonth(LocalDate.now().getDayOfMonth()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

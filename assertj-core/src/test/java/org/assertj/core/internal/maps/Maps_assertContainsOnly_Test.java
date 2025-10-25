@@ -65,7 +65,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] entries = array(entry("name", "Yoda"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsOnly(someInfo(), null, entries));
+    var assertionError = expectAssertionError(() -> maps.assertContainsOnly(someInfo(), null, entries));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

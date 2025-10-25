@@ -28,7 +28,7 @@ class ClassAssert_isAbstract_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAbstract());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isAbstract());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -38,7 +38,7 @@ class ClassAssert_isAbstract_Test {
     // GIVEN
     Class<?> actual = Object.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAbstract());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isAbstract());
     // THEN
     then(assertionError).hasMessage(shouldBeAbstract(actual).create());
   }

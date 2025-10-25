@@ -181,10 +181,10 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithLegacy
     List<String> actual = list("aaa", "aaa");
     List<String> expected = list("aaa", "bbb");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 // simulate unordered collection
-                                                                                 .ignoringCollectionOrder()
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      // simulate unordered collection
+                                                                      .ignoringCollectionOrder()
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContaining("The following expected elements were not matched in the actual ArrayList:%n  [\"bbb\"]".formatted());
   }
@@ -227,8 +227,8 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithLegacy
     Set<Item> actualItems = newHashSet(new Item("Pants", 3), new Item("Loafers", 1));
     registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                      .isEqualTo(expectedItems));
+    var assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                           .isEqualTo(expectedItems));
     // THEN
     then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual HashSet:%n" +
                                                      "  [Item(Shoes, 2)]"));

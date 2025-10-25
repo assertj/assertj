@@ -34,7 +34,7 @@ class CharSequenceAssert_isASCII_Test {
   @ValueSource(strings = { "½", "§", "©", "«abc»", "" })
   void should_fail_if_actual_is_not_ASCII(CharSequence actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isASCII());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isASCII());
     // THEN
     then(assertionError).hasMessage(shouldBeASCII(actual).create());
   }
@@ -44,7 +44,7 @@ class CharSequenceAssert_isASCII_Test {
     // GIVEN
     CharSequence actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isASCII());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isASCII());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

@@ -50,7 +50,7 @@ class NestableCondition_assertionMessage_Test {
                                                      firstLine("10, Downing Street"),
                                                      postcode("SW2A 2AA")));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(boris).is(condition));
+    var assertionError = expectAssertionError(() -> assertThat(boris).is(condition));
 
     // THEN
     then(assertionError).hasMessageContaining(format("[✗] customer:[%n" +
@@ -73,7 +73,7 @@ class NestableCondition_assertionMessage_Test {
                                                      firstLine("10, Downing Street"),
                                                      country(name("Gibraltar"))));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(boris).is(condition));
+    var assertionError = expectAssertionError(() -> assertThat(boris).is(condition));
 
     // THEN
     then(assertionError).hasMessageContaining(format("[✗] customer:[%n" +

@@ -64,7 +64,7 @@ class StringAssert_asInt_Test extends StringAssertBaseTest {
   @ValueSource(strings = { "1e100", "foo" })
   void should_throw_AssertionError_when_null_or_not_a_valid_int(String string) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(string).asInt());
+    var assertionError = expectAssertionError(() -> assertThat(string).asInt());
     // WHEN/THEN
     then(assertionError).hasMessage(shouldBeNumeric(string, NumericType.INTEGER).create());
   }

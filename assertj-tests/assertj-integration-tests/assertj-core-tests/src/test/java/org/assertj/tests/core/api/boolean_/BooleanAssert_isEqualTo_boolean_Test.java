@@ -28,7 +28,7 @@ class BooleanAssert_isEqualTo_boolean_Test {
     // GIVEN
     Boolean actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(true));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(true));
     // THEN
     then(assertionError).hasMessage(format("%n" +
                                            "expected: true%n" +
@@ -53,7 +53,7 @@ class BooleanAssert_isEqualTo_boolean_Test {
     boolean actual = false;
     boolean expected = true;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(format("%n" +
                                            "expected: true%n" +

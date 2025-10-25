@@ -51,7 +51,7 @@ class Maps_assertDoesNotContainKey_Test extends MapsBaseTest {
     // GIVEN
     String key = "name";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertDoesNotContainKey(someInfo(), null, key));
+    var assertionError = expectAssertionError(() -> maps.assertDoesNotContainKey(someInfo(), null, key));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

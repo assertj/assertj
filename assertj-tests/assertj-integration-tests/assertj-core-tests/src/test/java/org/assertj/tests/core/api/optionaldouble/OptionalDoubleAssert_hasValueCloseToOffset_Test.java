@@ -36,7 +36,7 @@ class OptionalDoubleAssert_hasValueCloseToOffset_Test {
     // GIVEN
     OptionalDouble nullActual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).hasValueCloseTo(10.0, within(2.0)));
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).hasValueCloseTo(10.0, within(2.0)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

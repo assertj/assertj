@@ -39,7 +39,7 @@ class Shorts_assertIsEven_Test extends ShortsBaseTest {
   @ValueSource(shorts = { 1, 3, -5, 7 })
   void should_fail_since_actual_is_not_even(short actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> shorts.assertIsEven(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> shorts.assertIsEven(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeEven(actual).create());
   }
@@ -54,8 +54,8 @@ class Shorts_assertIsEven_Test extends ShortsBaseTest {
   @ValueSource(shorts = { 1, 3, -5, 7 })
   void should_fail_since_actual_is_not_even_whatever_custom_comparison_strategy_is(short actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
-                                                                                                                 actual));
+    var assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
+                                                                                                      actual));
     // THEN
     then(assertionError).hasMessage(shouldBeEven(actual).create());
   }

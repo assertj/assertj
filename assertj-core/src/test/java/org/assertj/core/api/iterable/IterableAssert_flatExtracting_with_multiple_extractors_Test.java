@@ -73,7 +73,7 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
     // GIVEN
     List<TolkienCharacter> hobbits = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(hobbits).flatExtracting(age, name));
+    var assertionError = expectAssertionError(() -> assertThat(hobbits).flatExtracting(age, name));
     // THEN
     then(assertionError).hasMessageContaining("Expecting actual not to be null");
   }

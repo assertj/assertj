@@ -44,7 +44,7 @@ class Uris_assertHasParameter_Test extends UrisBaseTest {
     // GIVEN
     String name = "article";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name));
+    var assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(uri, name).create());
   }
@@ -73,7 +73,7 @@ class Uris_assertHasParameter_Test extends UrisBaseTest {
     // GIVEN
     String name = "article";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
+    var assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(uri, name, expected).create());
   }
@@ -90,7 +90,7 @@ class Uris_assertHasParameter_Test extends UrisBaseTest {
     // GIVEN
     String name = "article";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
+    var assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(uri, name, expected, list(actual)).create());
   }
@@ -104,7 +104,7 @@ class Uris_assertHasParameter_Test extends UrisBaseTest {
     // GIVEN
     String name = "article";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
+    var assertionError = expectAssertionError(() -> uris.assertHasParameter(info, uri, name, expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(uri, name, expected, list(actual1, actual2)).create());
   }

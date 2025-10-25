@@ -43,7 +43,7 @@ class Bytes_assertIsEven_Test extends BytesBaseTest {
   @ValueSource(bytes = { 1, 3, -1, 0x05, -0x05 })
   void should_fail_since_actual_is_not_even(byte actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytes.assertIsEven(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> bytes.assertIsEven(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeEven(actual).create());
   }
@@ -59,8 +59,8 @@ class Bytes_assertIsEven_Test extends BytesBaseTest {
   @ValueSource(bytes = { 1, 3, -1, 0x05, -0x05 })
   void should_fail_since_actual_is_not_even_whatever_custom_comparison_strategy_is(byte actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
-                                                                                                                actual));
+    var assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
+                                                                                                     actual));
     // THEN
     then(assertionError).hasMessage(shouldBeEven(actual).create());
   }

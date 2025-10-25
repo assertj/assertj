@@ -35,7 +35,7 @@ class CharSequenceAssert_isPrintable_Test {
   @ValueSource(strings = { "\t", "\n", "½", "§", "©", "«abc»", "" })
   void should_fail_if_actual_is_not_printable(CharSequence actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPrintable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isPrintable());
     // THEN
     then(assertionError).hasMessage(shouldBePrintable(actual).create());
   }
@@ -45,7 +45,7 @@ class CharSequenceAssert_isPrintable_Test {
     // GIVEN
     CharSequence actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPrintable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isPrintable());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

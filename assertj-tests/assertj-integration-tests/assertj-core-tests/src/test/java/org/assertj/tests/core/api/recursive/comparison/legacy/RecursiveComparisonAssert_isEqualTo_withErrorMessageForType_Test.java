@@ -35,9 +35,9 @@ class RecursiveComparisonAssert_isEqualTo_withErrorMessageForType_Test extends W
     String message = "Name must be the same";
     Class<String> type = String.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withErrorMessageForType(message, type)
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withErrorMessageForType(message, type)
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll(message,
                                                  ERROR_MESSAGE_DESCRIPTION_FOR_TYPE,

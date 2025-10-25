@@ -51,7 +51,7 @@ class NotThrownAssert_description_Test {
       throw new IllegalArgumentException();
     };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatNoException.isThrownBy(throwingCallable));
+    var assertionError = expectAssertionError(() -> assertThatNoException.isThrownBy(throwingCallable));
     // THEN
     then(assertionError).hasMessageStartingWith(format("[test description] %n" +
                                                        "Expecting code not to raise a throwable but caught%n"

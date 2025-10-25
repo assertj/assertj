@@ -43,7 +43,7 @@ class Assertions_allOf_with_ThrowingConsumer_Test {
     ThrowingConsumer<String> underTest = allOf(e -> assertThat(e).isBlank(),
                                                e -> assertThat(e).isNotBlank());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> underTest.accept(value));
+    var assertionError = expectAssertionError(() -> underTest.accept(value));
     // THEN
     then(assertionError).isInstanceOf(MultipleFailuresError.class);
   }

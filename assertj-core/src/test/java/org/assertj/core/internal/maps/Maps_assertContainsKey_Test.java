@@ -52,7 +52,7 @@ class Maps_assertContainsKey_Test extends MapsBaseTest {
     // GIVEN
     String key = "name";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsKey(someInfo(), null, key));
+    var assertionError = expectAssertionError(() -> maps.assertContainsKey(someInfo(), null, key));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

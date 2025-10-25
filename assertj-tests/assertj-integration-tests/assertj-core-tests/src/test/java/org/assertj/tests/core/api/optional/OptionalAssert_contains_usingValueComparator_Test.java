@@ -34,8 +34,8 @@ class OptionalAssert_contains_usingValueComparator_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<Foo> nullActual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).usingValueComparator(FOO_COMPARATOR)
-                                                                                     .contains(new Foo("something")));
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).usingValueComparator(FOO_COMPARATOR)
+                                                                          .contains(new Foo("something")));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -58,8 +58,8 @@ class OptionalAssert_contains_usingValueComparator_Test {
     Optional<Foo> actual = Optional.of(new Foo("something"));
     Foo expectedValue = new Foo("something else");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR)
-                                                                                 .contains(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR)
+                                                                      .contains(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldContain(actual, expectedValue).create());
   }
@@ -71,8 +71,8 @@ class OptionalAssert_contains_usingValueComparator_Test {
     Foo expectedValue = new Foo("test");
     Optional<Foo> actual = Optional.empty();
     // THEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR)
-                                                                                 .contains(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR)
+                                                                      .contains(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldContain(expectedValue).create());
   }

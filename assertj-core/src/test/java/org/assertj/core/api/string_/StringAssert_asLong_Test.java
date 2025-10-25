@@ -64,7 +64,7 @@ class StringAssert_asLong_Test extends StringAssertBaseTest {
   @ValueSource(strings = { "1.1", "foo", "" })
   void should_throw_AssertionError_when_null_or_not_a_valid_long(String string) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(string).asLong());
+    var assertionError = expectAssertionError(() -> assertThat(string).asLong());
     // WHEN/THEN
     then(assertionError).hasMessage(shouldBeNumeric(string, NumericType.LONG).create());
   }

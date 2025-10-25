@@ -75,7 +75,7 @@ class IterableAssert_flatMap_Test {
     // GIVEN
     List<CartoonCharacter> simpsons = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(simpsons).flatMap(children));
+    var assertionError = expectAssertionError(() -> assertThat(simpsons).flatMap(children));
     // THEN
     then(assertionError).hasMessage("Expecting actual not to be null");
   }
@@ -148,9 +148,9 @@ class IterableAssert_flatMap_Test {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatMap(children)
-                                                                                            .isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
+                                                                                 .flatMap(children)
+                                                                                 .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -160,9 +160,9 @@ class IterableAssert_flatMap_Test {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatMap(children, children)
-                                                                                            .isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
+                                                                                 .flatMap(children, children)
+                                                                                 .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -172,10 +172,10 @@ class IterableAssert_flatMap_Test {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatMap(childrenThrowingExtractor,
-                                                                                                     childrenThrowingExtractor)
-                                                                                            .isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
+                                                                                 .flatMap(childrenThrowingExtractor,
+                                                                                          childrenThrowingExtractor)
+                                                                                 .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }

@@ -28,8 +28,8 @@ class RecursiveComparisonAssert_isEqualTo_java_objects_Test extends WithLegacyIn
     IntSummaryStatistics statisticsActual = new IntSummaryStatistics();
     IntSummaryStatistics statisticsExpected = new IntSummaryStatistics();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(statisticsActual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                           .isEqualTo(statisticsExpected));
+    var assertionError = expectAssertionError(() -> assertThat(statisticsActual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                                .isEqualTo(statisticsExpected));
     // THEN
     then(assertionError).hasMessageContaining("Actual and expected value are both java types (java.util.IntSummaryStatistics) and thus were compared to with equals");
   }

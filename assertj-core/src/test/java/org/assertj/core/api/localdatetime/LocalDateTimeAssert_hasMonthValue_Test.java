@@ -29,7 +29,7 @@ class LocalDateTimeAssert_hasMonthValue_Test {
     // GIVEN
     LocalDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(1));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(1));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -40,7 +40,7 @@ class LocalDateTimeAssert_hasMonthValue_Test {
     LocalDateTime actual = LocalDateTime.of(2030, 8, 5, 0, 59, 59);
     int monthValue = 10;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(monthValue));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(monthValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "month", monthValue).create());
   }

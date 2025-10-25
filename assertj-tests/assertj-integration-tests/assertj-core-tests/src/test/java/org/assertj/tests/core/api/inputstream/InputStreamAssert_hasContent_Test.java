@@ -43,7 +43,7 @@ class InputStreamAssert_hasContent_Test {
     InputStream actual = null;
     String expected = "";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -103,7 +103,7 @@ class InputStreamAssert_hasContent_Test {
     InputStream actual = new ByteArrayInputStream("12345".getBytes());
     String expected = "67890";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameContent(actual, expected, diff("12345", "67890")).create());
     then(actual).isNotEmpty();
@@ -115,7 +115,7 @@ class InputStreamAssert_hasContent_Test {
     InputStream actual = new UnmarkableByteArrayInputStream("12345".getBytes());
     String expected = "67890";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameContent(actual, expected, diff("12345", "67890")).create());
     then(actual).isEmpty();

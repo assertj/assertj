@@ -31,7 +31,7 @@ class Urls_assertHasHost_Test extends UrlsBaseTest {
     URL actual = null;
     String expected = "www.helloworld.org";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasHost(info, actual, expected));
+    var assertionError = expectAssertionError(() -> urls.assertHasHost(info, actual, expected));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -72,7 +72,7 @@ class Urls_assertHasHost_Test extends UrlsBaseTest {
     URL actual = new URL("http://example.com/pages/");
     String expected = "example.org";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasHost(info, actual, expected));
+    var assertionError = expectAssertionError(() -> urls.assertHasHost(info, actual, expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveHost(actual, expected).create());
   }

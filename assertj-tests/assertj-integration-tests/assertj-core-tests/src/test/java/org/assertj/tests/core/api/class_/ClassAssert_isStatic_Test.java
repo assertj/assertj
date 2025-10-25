@@ -27,7 +27,7 @@ class ClassAssert_isStatic_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isStatic());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isStatic());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -37,7 +37,7 @@ class ClassAssert_isStatic_Test {
     // GIVEN
     Class<?> actual = String.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isStatic());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isStatic());
     // THEN
     then(assertionError).hasMessage(shouldBeStatic(actual).create());
   }

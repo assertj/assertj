@@ -51,7 +51,7 @@ class CharSequenceAssert_doesNotContainOnlyWhitespaces_Test {
   })
   void should_fail_if_actual_contains_only_whitespaces(String actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).doesNotContainOnlyWhitespaces());
+    var assertionError = expectAssertionError(() -> assertThat(actual).doesNotContainOnlyWhitespaces());
     // THEN
     then(assertionError).hasMessage(shouldNotContainOnlyWhitespaces(actual).create());
   }

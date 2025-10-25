@@ -58,7 +58,7 @@ class CollectionAssert_isUnmodifiable_Test {
     // GIVEN
     Collection<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -67,7 +67,7 @@ class CollectionAssert_isUnmodifiable_Test {
   @MethodSource("modifiableCollections")
   void should_fail_if_actual_can_be_modified(Collection<?> actual, ErrorMessageFactory errorMessageFactory) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
     // THEN
     then(assertionError).as(actual.getClass().getName())
                         .hasMessage(errorMessageFactory.create());

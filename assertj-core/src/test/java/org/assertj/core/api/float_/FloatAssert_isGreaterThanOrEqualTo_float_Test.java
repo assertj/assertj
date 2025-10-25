@@ -72,7 +72,7 @@ class FloatAssert_isGreaterThanOrEqualTo_float_Test extends FloatAssertBaseTest 
     float actual = 6.0f;
     float expected = 7.0f;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isGreaterThanOrEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isGreaterThanOrEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldBeGreaterOrEqual(actual, expected).create());
   }

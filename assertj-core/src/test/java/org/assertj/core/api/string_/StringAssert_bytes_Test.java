@@ -86,7 +86,7 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
   @Test
   void should_throw_assertion_error_for_null_input() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(assertThat((String) null)::bytes);
+    var assertionError = expectAssertionError(assertThat((String) null)::bytes);
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -113,7 +113,7 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).bytes(StandardCharsets.US_ASCII));
+    var assertionError = expectAssertionError(() -> assertThat(actual).bytes(StandardCharsets.US_ASCII));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -145,7 +145,7 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).bytes("UTF-8"));
+    var assertionError = expectAssertionError(() -> assertThat(actual).bytes("UTF-8"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -159,7 +159,7 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
   @Test
   void should_throw_AssertionError_for_invalid_charset_name() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("abc").bytes("UNSUPPORTED_CHARSET"));
+    var assertionError = expectAssertionError(() -> assertThat("abc").bytes("UNSUPPORTED_CHARSET"));
     // THEN
     then(assertionError).hasMessage("UNSUPPORTED_CHARSET is not a supported Charset");
   }

@@ -49,7 +49,7 @@ class MapAssert_isUnmodifiable_Test {
     // GIVEN
     Map<?, ?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -58,7 +58,7 @@ class MapAssert_isUnmodifiable_Test {
   @MethodSource("modifiableMaps")
   void should_fail_if_actual_can_be_modified(Map<?, ?> actual, ErrorMessageFactory errorMessageFactory) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
     // THEN
     then(assertionError).as(actual.getClass().getName())
                         .hasMessage(errorMessageFactory.create());
@@ -77,7 +77,7 @@ class MapAssert_isUnmodifiable_Test {
     // GIVEN
     Map<?, ?> actual = UnmodifiableMap.unmodifiableMap(new HashMap<>());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
     // THEN
     then(assertionError).hasMessage(shouldBeUnmodifiable("Map.compute(null, (k, v) -> v)").create());
   }
@@ -87,7 +87,7 @@ class MapAssert_isUnmodifiable_Test {
     // GIVEN
     Map<?, ?> actual = UnmodifiableSortedMap.unmodifiableSortedMap(new TreeMap<>());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
     // THEN
     then(assertionError).hasMessage(shouldBeUnmodifiable("Map.compute(null, (k, v) -> v)", new NullPointerException()).create());
   }

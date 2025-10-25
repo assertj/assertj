@@ -107,9 +107,9 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
     // GIVEN
     String description = "expected exception";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(jedis).as(description)
-                                                                                .extracting(throwingExtractor)
-                                                                                .containsOnly("Luke"));
+    var assertionError = expectAssertionError(() -> assertThat(jedis).as(description)
+                                                                     .extracting(throwingExtractor)
+                                                                     .containsOnly("Luke"));
     // THEN
     then(assertionError).hasMessageContaining(description);
   }

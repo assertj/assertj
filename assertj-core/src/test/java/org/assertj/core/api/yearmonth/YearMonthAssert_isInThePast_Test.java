@@ -32,7 +32,7 @@ class YearMonthAssert_isInThePast_Test extends YearMonthAssertBaseTest {
   @Test
   void should_fail_if_actual_is_today() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE).isInThePast());
+    var assertionError = expectAssertionError(() -> assertThat(REFERENCE).isInThePast());
     // THEN
     then(assertionError).hasMessage(shouldBeInThePast(REFERENCE).create());
   }
@@ -40,7 +40,7 @@ class YearMonthAssert_isInThePast_Test extends YearMonthAssertBaseTest {
   @Test
   void should_fail_if_actual_is_in_the_future() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(AFTER).isInThePast());
+    var assertionError = expectAssertionError(() -> assertThat(AFTER).isInThePast());
     // THEN
     then(assertionError).hasMessage(shouldBeInThePast(AFTER).create());
   }
@@ -50,7 +50,7 @@ class YearMonthAssert_isInThePast_Test extends YearMonthAssertBaseTest {
     // GIVEN
     YearMonth actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isInThePast());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isInThePast());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

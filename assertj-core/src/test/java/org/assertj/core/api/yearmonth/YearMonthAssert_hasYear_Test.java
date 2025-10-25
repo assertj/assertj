@@ -38,7 +38,7 @@ class YearMonthAssert_hasYear_Test {
     YearMonth actual = YearMonth.of(2022, 1);
     int expectedYear = 2021;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasYear(expectedYear));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasYear(expectedYear));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "year", expectedYear).create());
   }
@@ -48,7 +48,7 @@ class YearMonthAssert_hasYear_Test {
     // GIVEN
     YearMonth actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasYear(YearMonth.now().getYear()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasYear(YearMonth.now().getYear()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

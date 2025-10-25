@@ -79,8 +79,8 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends It
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(2)));
 
-    AssertionError assertionError = expectAssertionError(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
-                                                                                .isEqualTo(list2));
+    var assertionError = expectAssertionError(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
+                                                                     .isEqualTo(list2));
 
     then(assertionError).hasMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=Bar(id=1))]", "[Foo(id=id, bar=Bar(id=2))]") +
                                            "%n" +
@@ -92,8 +92,8 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends It
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(2)));
 
-    AssertionError assertionError = expectAssertionError(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
-                                                                                .isIn(list(list2)));
+    var assertionError = expectAssertionError(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
+                                                                     .isIn(list(list2)));
 
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  [Foo(id=id, bar=Bar(id=1))]%n" +

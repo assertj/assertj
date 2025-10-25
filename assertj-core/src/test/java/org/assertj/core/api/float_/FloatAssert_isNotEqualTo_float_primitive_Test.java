@@ -72,7 +72,7 @@ class FloatAssert_isNotEqualTo_float_primitive_Test extends FloatAssertBaseTest 
     float actual = 0.0f;
     float expected = -0.0f;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  0.0f%n" +

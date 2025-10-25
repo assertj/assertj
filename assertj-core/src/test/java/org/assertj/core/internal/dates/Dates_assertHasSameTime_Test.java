@@ -46,7 +46,7 @@ class Dates_assertHasSameTime_Test extends DatesBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> dates.assertHasSameTime(INFO, null, new Date()));
+    var assertionError = expectAssertionError(() -> dates.assertHasSameTime(INFO, null, new Date()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

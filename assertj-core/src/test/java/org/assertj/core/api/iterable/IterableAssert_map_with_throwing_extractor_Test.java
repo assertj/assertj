@@ -59,7 +59,7 @@ class IterableAssert_map_with_throwing_extractor_Test {
     // GIVEN
     List<TolkienCharacter> elves = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(elves).map(nameThrowingExtractor));
+    var assertionError = expectAssertionError(() -> assertThat(elves).map(nameThrowingExtractor));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -69,8 +69,8 @@ class IterableAssert_map_with_throwing_extractor_Test {
     // GIVEN
     List<TolkienCharacter> elves = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(elves).map(nameThrowingExtractor,
-                                                                                     raceThrowingExtractor));
+    var assertionError = expectAssertionError(() -> assertThat(elves).map(nameThrowingExtractor,
+                                                                          raceThrowingExtractor));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

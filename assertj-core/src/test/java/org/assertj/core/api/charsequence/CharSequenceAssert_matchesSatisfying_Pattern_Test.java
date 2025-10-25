@@ -43,8 +43,8 @@ class CharSequenceAssert_matchesSatisfying_Pattern_Test {
     // GIVEN
     Pattern pattern = Pattern.compile(".*(a).*");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("Frodo").matchesSatisfying(pattern,
-                                                                                                     matcher -> assertThat(true).isTrue()));
+    var assertionError = expectAssertionError(() -> assertThat("Frodo").matchesSatisfying(pattern,
+                                                                                          matcher -> assertThat(true).isTrue()));
     // THEN
     then(assertionError).hasMessage(shouldMatch("Frodo", pattern.toString()).create());
   }
@@ -54,8 +54,8 @@ class CharSequenceAssert_matchesSatisfying_Pattern_Test {
     // GIVEN
     Pattern pattern = Pattern.compile(".*(a).*");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("bar").matchesSatisfying(pattern,
-                                                                                                   matcher -> assertThat(matcher.group(1)).contains("b")));
+    var assertionError = expectAssertionError(() -> assertThat("bar").matchesSatisfying(pattern,
+                                                                                        matcher -> assertThat(matcher.group(1)).contains("b")));
     // THEN
     then(assertionError).hasMessage(shouldContain("a", "b", StandardComparisonStrategy.instance()).create());
   }

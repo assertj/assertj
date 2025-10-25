@@ -29,7 +29,7 @@ class Assertions_catchRuntimeException_Test {
     // GIVEN
     ThrowingCallable code = () -> catchRuntimeException(raisingException("boom!!"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     assertThat(assertionError).hasMessageContainingAll(RuntimeException.class.getName(), Exception.class.getName());
   }

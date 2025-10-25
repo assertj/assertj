@@ -24,7 +24,7 @@ class Fail_fail_withoutMessage_Test {
   @Test
   void should_throw_AssertionError_without_message() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(Fail::fail);
+    var assertionError = expectAssertionError(Fail::fail);
     // THEN
     then(assertionError).hasMessage("");
   }
@@ -34,7 +34,7 @@ class Fail_fail_withoutMessage_Test {
     // GIVEN
     String causeMessage = "boom!";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> fail(new Exception(causeMessage)));
+    var assertionError = expectAssertionError(() -> fail(new Exception(causeMessage)));
     // THEN
     then(assertionError).cause().hasMessage(causeMessage);
   }

@@ -46,7 +46,7 @@ class BooleanArrays_assertContainsSubsequence_Test extends BooleanArraysBaseTest
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, null, arrayOf(true)));
+    var assertionError = expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, null, arrayOf(true)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

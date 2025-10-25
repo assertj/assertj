@@ -37,7 +37,7 @@ class LocalTimeAssert_hasNano_Test {
     LocalTime actual = LocalTime.of(23, 59, 59, 59);
     int expectedNano = 58;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasNano(expectedNano));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasNano(expectedNano));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "nano", expectedNano).create());
   }
@@ -47,7 +47,7 @@ class LocalTimeAssert_hasNano_Test {
     // GIVEN
     LocalTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasNano(LocalTime.now().getNano()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasNano(LocalTime.now().getNano()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

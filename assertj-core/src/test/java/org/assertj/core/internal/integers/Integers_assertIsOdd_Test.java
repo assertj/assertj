@@ -43,7 +43,7 @@ class Integers_assertIsOdd_Test extends IntegersBaseTest {
   @ValueSource(ints = { 0, 2, -4, 6 })
   void should_fail_since_actual_is_not_odd(int actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> integers.assertIsOdd(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> integers.assertIsOdd(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeOdd(actual).create());
 
@@ -60,8 +60,8 @@ class Integers_assertIsOdd_Test extends IntegersBaseTest {
   @ValueSource(ints = { 0, 2, -4, 6 })
   void should_fail_since_actual_is_not_odd_whatever_custom_comparison_strategy_is(int actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
-                                                                                                                  actual));
+    var assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
+                                                                                                       actual));
     // THEN
     then(assertionError).hasMessage(shouldBeOdd(actual).create());
   }

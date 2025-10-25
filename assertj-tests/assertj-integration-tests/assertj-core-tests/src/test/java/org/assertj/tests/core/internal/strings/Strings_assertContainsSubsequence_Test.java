@@ -101,7 +101,7 @@ class Strings_assertContainsSubsequence_Test extends StringsBaseTest {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsSubsequence(INFO, actual, array("a", "b")));
+    var assertionError = expectAssertionError(() -> strings.assertContainsSubsequence(INFO, actual, array("a", "b")));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

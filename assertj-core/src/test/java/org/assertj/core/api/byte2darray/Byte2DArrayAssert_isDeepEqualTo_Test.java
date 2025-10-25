@@ -65,7 +65,7 @@ class Byte2DArrayAssert_isDeepEqualTo_Test {
     byte[][] actual = null;
     byte[][] expected = new byte[][] { { 1, 2 }, { 3 }, { 4, 5, 6 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -76,7 +76,7 @@ class Byte2DArrayAssert_isDeepEqualTo_Test {
     byte[][] actual = new byte[][] { { 1, 2 }, null, { 4, 5, 6 } };
     byte[][] expected = new byte[][] { { 1, 2 }, { 3 }, { 4, 5, 6 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull("actual[1]").create());
   }
@@ -87,7 +87,7 @@ class Byte2DArrayAssert_isDeepEqualTo_Test {
     byte[][] actual = new byte[][] { { 1, 2 }, { 3 } };
     byte[][] expected = new byte[][] { { 1, 2 }, { 3 }, { 4, 5, 6 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameSizeAs(actual, expected, actual.length, expected.length).create());
   }
@@ -100,7 +100,7 @@ class Byte2DArrayAssert_isDeepEqualTo_Test {
     byte[] actualSubArrayWithDifference = new byte[] { 3, 127 };
     byte[] expectedSubArrayWithDifference = new byte[] { 3 };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     ErrorMessageFactory subarraysShouldHaveSameSize = subarraysShouldHaveSameSize(actual, expected,
                                                                                   actualSubArrayWithDifference,
@@ -120,7 +120,7 @@ class Byte2DArrayAssert_isDeepEqualTo_Test {
     byte[][] actual = new byte[][] { { 1, 2 }, { actualValue }, { 4, 5, 6 } };
     byte[][] expected = new byte[][] { { 1, 2 }, { expectedValue }, { 4, 5, 6 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> then(actual).isDeepEqualTo(expected));
     // THEN
     ErrorMessageFactory elementShouldBeEqual = elementShouldBeEqual(actualValue, expectedValue, 1, 0);
     then(assertionError).hasMessage(elementShouldBeEqual.create(emptyDescription(), STANDARD_REPRESENTATION));

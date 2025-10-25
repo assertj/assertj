@@ -70,7 +70,7 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
     int sleepDuration = 100_000;
     Future<String> future = futureAfter("ook!", sleepDuration, executorService);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(10)));
+    var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(10)));
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" + "  <FutureTask[Incomplete]>%n"
                                                        + "to be completed within 0.01S.%n"));
@@ -82,7 +82,7 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
     Future<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(1)));
+    var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(1)));
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
                                                        "  <CompletableFuture[Cancelled]>%n" +
@@ -96,7 +96,7 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
     // GIVEN
     Future<String> future = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(1)));
+    var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(1)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

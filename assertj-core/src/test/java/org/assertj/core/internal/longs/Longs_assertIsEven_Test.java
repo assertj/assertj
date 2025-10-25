@@ -43,7 +43,7 @@ class Longs_assertIsEven_Test extends LongsBaseTest {
   @ValueSource(longs = { 1, 3, -5, 7 })
   void should_fail_since_actual_is_not_even(long actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> longs.assertIsEven(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> longs.assertIsEven(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeEven(actual).create());
   }
@@ -59,8 +59,8 @@ class Longs_assertIsEven_Test extends LongsBaseTest {
   @ValueSource(longs = { 1, 3, -5, 7 })
   void should_fail_since_actual_is_not_even_whatever_custom_comparison_strategy_is(long actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
-                                                                                                                actual));
+    var assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
+                                                                                                     actual));
     // THEN
     then(assertionError).hasMessage(shouldBeEven(actual).create());
   }

@@ -46,7 +46,7 @@ class Remove_assertJ_stacktrace_elements_Test {
   @MethodSource
   void stacktrace_should_not_include_assertj_elements_nor_elements_coming_from_assertj(ThrowingCallable throwingCallable) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(throwingCallable);
+    var assertionError = expectAssertionError(throwingCallable);
     // THEN
     checkNoAssertjStackTraceElementIn(assertionError);
     checkTestClassStackTraceElementsAreConsecutive(assertionError);

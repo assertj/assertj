@@ -122,7 +122,7 @@ class AbstractAssert_extracting_with_Function_and_AssertFactory_Test implements 
     // GIVEN
     TestAssert underTest = new TestAssert(null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> underTest.extracting(Employee::getAge, Assertions::assertThat));
+    var assertionError = expectAssertionError(() -> underTest.extracting(Employee::getAge, Assertions::assertThat));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

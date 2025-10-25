@@ -39,7 +39,7 @@ class CustomAsserts_filter_stacktrace_Test {
   @MethodSource
   void stacktrace_should_not_include_assertj_elements_nor_elements_coming_from_assertj(ThrowingCallable throwingCallable) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(throwingCallable);
+    var assertionError = expectAssertionError(throwingCallable);
     // THEN
     StackTraceElement[] stackTrace = assertionError.getStackTrace();
     then(stackTrace).noneSatisfy(stackTraceElement -> assertThat(stackTraceElement.toString()).contains("org.assertj.core"));

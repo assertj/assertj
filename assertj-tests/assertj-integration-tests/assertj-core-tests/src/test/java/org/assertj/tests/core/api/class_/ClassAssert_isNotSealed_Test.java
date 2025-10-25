@@ -39,7 +39,7 @@ class ClassAssert_isNotSealed_Test {
   @Test
   void should_fail_if_actual_is_sealed() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(SealedClass.class).isNotSealed());
+    var assertionError = expectAssertionError(() -> assertThat(SealedClass.class).isNotSealed());
     // THEN
     then(assertionError).hasMessage(shouldNotBeSealed(SealedClass.class).create());
   }

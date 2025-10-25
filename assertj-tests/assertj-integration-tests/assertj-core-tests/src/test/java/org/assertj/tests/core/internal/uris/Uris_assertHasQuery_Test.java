@@ -54,7 +54,7 @@ class Uris_assertHasQuery_Test extends UrisBaseTest {
     URI uri = null;
     String expectedQuery = "http://www.helloworld.org/index.html?type=test";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasQuery(info, uri, expectedQuery));
+    var assertionError = expectAssertionError(() -> uris.assertHasQuery(info, uri, expectedQuery));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -65,7 +65,7 @@ class Uris_assertHasQuery_Test extends UrisBaseTest {
     URI uri = URI.create("http://assertj.org/news?type=beta");
     String expectedQuery = "type=final";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasQuery(info, uri, expectedQuery));
+    var assertionError = expectAssertionError(() -> uris.assertHasQuery(info, uri, expectedQuery));
     // THEN
     then(assertionError).hasMessage(shouldHaveQuery(uri, expectedQuery).create());
   }
@@ -76,7 +76,7 @@ class Uris_assertHasQuery_Test extends UrisBaseTest {
     URI uri = URI.create("http://assertj.org/news");
     String expectedQuery = "type=final";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasQuery(info, uri, expectedQuery));
+    var assertionError = expectAssertionError(() -> uris.assertHasQuery(info, uri, expectedQuery));
     // THEN
     then(assertionError).hasMessage(shouldHaveQuery(uri, expectedQuery).create());
   }
@@ -87,7 +87,7 @@ class Uris_assertHasQuery_Test extends UrisBaseTest {
     URI uri = URI.create("http://assertj.org/news?type=beta");
     String expectedQuery = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasQuery(info, uri, expectedQuery));
+    var assertionError = expectAssertionError(() -> uris.assertHasQuery(info, uri, expectedQuery));
     // THEN
     then(assertionError).hasMessage(shouldHaveQuery(uri, expectedQuery).create());
   }

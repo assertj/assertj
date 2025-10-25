@@ -50,7 +50,7 @@ class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
     URL url = null;
     String expectedUserInfo = "http://test:pass@www.helloworld.org/index.html";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -61,7 +61,7 @@ class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
     URL url = new URL("http://test:pass@assertj.org/news");
     String expectedUserInfo = "test:ok";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(shouldHaveUserInfo(url, expectedUserInfo).create());
   }
@@ -73,7 +73,7 @@ class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news");
     String expectedUserInfo = "test:pass";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(shouldHaveUserInfo(url, expectedUserInfo).create());
   }
@@ -84,7 +84,7 @@ class Urls_assertHasUserInfo_Test extends UrlsBaseTest {
     URL url = new URL("http://test:pass@assertj.org");
     String expectedUserInfo = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> urls.assertHasUserInfo(info, url, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(shouldHaveUserInfo(url, expectedUserInfo).create());
   }

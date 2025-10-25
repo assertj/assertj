@@ -44,8 +44,8 @@ class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
     int[][] actual = null;
     int[] expectedElement = new int[] { 0, 2, 4 };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), failures, actual,
-                                                                                     expectedElement, someIndex()));
+    var assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), failures, actual,
+                                                                          expectedElement, someIndex()));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -56,8 +56,8 @@ class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
     int[][] actual = {};
     int[] expectedElement = new int[] { 0, 2, 4 };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), failures, actual,
-                                                                                     expectedElement, someIndex()));
+    var assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), failures, actual,
+                                                                          expectedElement, someIndex()));
     // THEN
     then(assertionError).hasMessage(shouldNotBeEmpty().create());
   }
@@ -89,8 +89,8 @@ class Arrays2D_assertContains_at_Index_Test extends Arrays2D_BaseTest {
     // GIVEN
     Index index = atIndex(1);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), failures, actual,
-                                                                                     new int[] { 0, 2, 4 }, index));
+    var assertionError = expectAssertionError(() -> arrays.assertContains(someInfo(), failures, actual,
+                                                                          new int[] { 0, 2, 4 }, index));
     // THEN
     then(assertionError).hasMessage(shouldContainAtIndex(actual, new int[] { 0, 2, 4 }, index, new int[] { 6, 8, 10 }).create());
   }

@@ -109,7 +109,7 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertContainsSubsequence(INFO, actual, array("Yoda")));
+    var assertionError = expectAssertionError(() -> iterables.assertContainsSubsequence(INFO, actual, array("Yoda")));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -180,9 +180,9 @@ class Iterables_assertContainsSubsequence_Test extends IterablesBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO,
-                                                                                                                                        actual,
-                                                                                                                                        array("Yoda")));
+    var assertionError = expectAssertionError(() -> iterablesWithCaseInsensitiveComparisonStrategy.assertContainsSubsequence(INFO,
+                                                                                                                             actual,
+                                                                                                                             array("Yoda")));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

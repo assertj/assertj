@@ -140,7 +140,7 @@ class Strings_assertNotEqualsIgnoringCase_Test extends StringsBaseTest {
   @DefaultLocale("tr-TR")
   void should_fail_with_Turkish_default_locale() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertNotEqualsIgnoringCase(INFO, "Leia", "LEIA"));
+    var assertionError = expectAssertionError(() -> strings.assertNotEqualsIgnoringCase(INFO, "Leia", "LEIA"));
     // THEN
     then(assertionError).hasMessage(shouldNotBeEqualIgnoringCase("Leia", "LEIA").create());
   }

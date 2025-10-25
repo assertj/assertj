@@ -55,8 +55,8 @@ class ClassAssert_hasPermittedSubclasses_Test {
   @Test
   void should_fail_if_one_of_the_given_classes_is_not_permitted() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(SealedClass.class).hasPermittedSubclasses(NonSealedClass.class,
-                                                                                                                    String.class));
+    var assertionError = expectAssertionError(() -> assertThat(SealedClass.class).hasPermittedSubclasses(NonSealedClass.class,
+                                                                                                         String.class));
     // THEN
     then(assertionError).hasMessage(shouldHavePermittedSubclasses(SealedClass.class,
                                                                   array(NonSealedClass.class, String.class),

@@ -44,7 +44,7 @@ class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test {
     // GIVEN
     OffsetDateTime offsetDateTime = OffsetDateTime.of(2000, 1, 5, 12, 1, 0, 0, UTC);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringTimezone(offsetDateTime));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringTimezone(offsetDateTime));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  2000-01-05T12:00+18:00 (java.time.OffsetDateTime)%n" +
@@ -58,7 +58,7 @@ class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test {
     // GIVEN
     OffsetDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringTimezone(OffsetDateTime.now()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringTimezone(OffsetDateTime.now()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

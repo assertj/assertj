@@ -51,7 +51,7 @@ class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
     // GIVEN
     final byte[] actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameSizeAs(new byte[] { 2, 3 }));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSameSizeAs(new byte[] { 2, 3 }));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -61,7 +61,7 @@ class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
     // GIVEN
     byte[] actual = { 1, 2 };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameSizeAs("a string"));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSameSizeAs("a string"));
     // THEN
     then(assertionError).hasMessage("%nExpecting an array but was: \"a string\"".formatted());
   }
@@ -72,7 +72,7 @@ class AbstractEnumerableAssert_hasSameSizeAs_with_Array_Test {
     final byte[] actual = new byte[] { 1, 2 };
     final byte[] other = new byte[] { 1, 2, 3 };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameSizeAs(other));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSameSizeAs(other));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameSizeAs(actual, other, actual.length, other.length).create());
   }

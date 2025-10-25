@@ -41,10 +41,10 @@ class ObjectAssert_usingEquals_Test {
     Jedi yoda = new Jedi("Yoda", "green");
     Jedi luke = new Jedi("Luke", "green");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).usingEquals((o1, o2) -> o1.getName()
-                                                                                                          .equals(o2.getName()),
-                                                                                            "comparing names")
-                                                                               .isEqualTo(luke));
+    var assertionError = expectAssertionError(() -> assertThat(yoda).usingEquals((o1, o2) -> o1.getName()
+                                                                                               .equals(o2.getName()),
+                                                                                 "comparing names")
+                                                                    .isEqualTo(luke));
     // THEN
     then(assertionError).hasMessageContaining("comparing names");
   }

@@ -57,7 +57,7 @@ class Urls_assertHasQuery_Test extends UrlsBaseTest {
     URL url = null;
     String expectedQuery = "http://www.helloworld.org/index.html?type=test";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
+    var assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -68,7 +68,7 @@ class Urls_assertHasQuery_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news?type=beta");
     String expectedQuery = "type=final";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
+    var assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
     // THEN
     then(assertionError).hasMessage(shouldHaveQuery(url, expectedQuery).create());
   }
@@ -79,7 +79,7 @@ class Urls_assertHasQuery_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news");
     String expectedQuery = "type=final";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
+    var assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
     // THEN
     then(assertionError).hasMessage(shouldHaveQuery(url, expectedQuery).create());
   }
@@ -90,7 +90,7 @@ class Urls_assertHasQuery_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news?type=beta");
     String expectedQuery = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
+    var assertionError = expectAssertionError(() -> urls.assertHasQuery(info, url, expectedQuery));
     // THEN
     then(assertionError).hasMessage(shouldHaveQuery(url, expectedQuery).create());
   }

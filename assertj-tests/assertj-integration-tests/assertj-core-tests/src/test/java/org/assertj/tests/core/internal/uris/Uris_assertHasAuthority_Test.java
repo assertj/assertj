@@ -29,7 +29,7 @@ class Uris_assertHasAuthority_Test extends UrisBaseTest {
     URI uri = null;
     String expectedAuthority = "http://www.helloworld.org";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasAuthority(info, uri, expectedAuthority));
+    var assertionError = expectAssertionError(() -> uris.assertHasAuthority(info, uri, expectedAuthority));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -58,7 +58,7 @@ class Uris_assertHasAuthority_Test extends UrisBaseTest {
     URI uri = URI.create("http://example.com:8080/pages/");
     String expectedAuthority = "example.com:8888";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasAuthority(info, uri, expectedAuthority));
+    var assertionError = expectAssertionError(() -> uris.assertHasAuthority(info, uri, expectedAuthority));
     // THEN
     then(assertionError).hasMessage(shouldHaveAuthority(uri, expectedAuthority).create());
   }
@@ -69,7 +69,7 @@ class Uris_assertHasAuthority_Test extends UrisBaseTest {
     URI uri = URI.create("http://example.com:8080/pages/");
     String expectedAuthority = "example.org:8080";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasAuthority(info, uri, expectedAuthority));
+    var assertionError = expectAssertionError(() -> uris.assertHasAuthority(info, uri, expectedAuthority));
     // THEN
     then(assertionError).hasMessage(shouldHaveAuthority(uri, expectedAuthority).create());
   }

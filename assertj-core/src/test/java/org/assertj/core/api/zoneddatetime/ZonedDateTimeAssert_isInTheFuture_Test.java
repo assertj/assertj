@@ -49,7 +49,7 @@ class ZonedDateTimeAssert_isInTheFuture_Test extends AbstractZonedDateTimeAssert
   @Test
   void should_fail_if_actual_is_now() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(NOW).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(NOW).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(shouldBeInTheFuture(NOW).create());
   }
@@ -57,7 +57,7 @@ class ZonedDateTimeAssert_isInTheFuture_Test extends AbstractZonedDateTimeAssert
   @Test
   void should_fail_if_actual_with_different_zone_is_now() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(NOW_WITH_DIFFERENT_ZONE).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(NOW_WITH_DIFFERENT_ZONE).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(shouldBeInTheFuture(NOW_WITH_DIFFERENT_ZONE).create());
   }
@@ -65,7 +65,7 @@ class ZonedDateTimeAssert_isInTheFuture_Test extends AbstractZonedDateTimeAssert
   @Test
   void should_fail_if_actual_is_in_the_past() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(YESTERDAY).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(YESTERDAY).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(shouldBeInTheFuture(YESTERDAY).create());
   }
@@ -73,7 +73,7 @@ class ZonedDateTimeAssert_isInTheFuture_Test extends AbstractZonedDateTimeAssert
   @Test
   void should_fail_if_actual_with_different_zone_is_in_the_past() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(YESTERDAY_WITH_DIFFERENT_ZONE).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(YESTERDAY_WITH_DIFFERENT_ZONE).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(shouldBeInTheFuture(YESTERDAY_WITH_DIFFERENT_ZONE).create());
   }
@@ -83,7 +83,7 @@ class ZonedDateTimeAssert_isInTheFuture_Test extends AbstractZonedDateTimeAssert
     // GIVEN
     ZonedDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

@@ -31,7 +31,7 @@ class OptionalAssert_containsSame_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<Object> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsSame("something"));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsSame("something"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -53,7 +53,7 @@ class OptionalAssert_containsSame_Test {
     Optional<String> actual = Optional.of("not-expected");
     String expectedValue = "something";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsSame(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsSame(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldContainSame(actual, expectedValue).create());
   }
@@ -64,7 +64,7 @@ class OptionalAssert_containsSame_Test {
     Optional<String> actual = Optional.of(new String("something"));
     String expectedValue = "something";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsSame(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsSame(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldContainSame(actual, expectedValue).create());
   }
@@ -75,7 +75,7 @@ class OptionalAssert_containsSame_Test {
     String expectedValue = "something";
     // WHEN
     Optional<Object> actual = Optional.empty();
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsSame(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsSame(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldContainSame(actual, expectedValue).create());
   }

@@ -42,7 +42,7 @@ class BigDecimals_assertIsNotPositive_Test extends BigDecimalsBaseTest {
   @Test
   void should_fail_since_actual_is_positive() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbers.assertIsNotPositive(someInfo(), new BigDecimal(6)));
+    var assertionError = expectAssertionError(() -> numbers.assertIsNotPositive(someInfo(), new BigDecimal(6)));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(new BigDecimal(6), BigDecimal.ZERO).create());
   }
@@ -50,8 +50,8 @@ class BigDecimals_assertIsNotPositive_Test extends BigDecimalsBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
-                                                                                                                         new BigDecimal(-1)));
+    var assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                              new BigDecimal(-1)));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(new BigDecimal(-1), BigDecimal.ZERO,
                                                         absValueComparisonStrategy).create());
@@ -60,8 +60,8 @@ class BigDecimals_assertIsNotPositive_Test extends BigDecimalsBaseTest {
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
-                                                                                                                         BigDecimal.ONE));
+    var assertionError = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                              BigDecimal.ONE));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(BigDecimal.ONE, BigDecimal.ZERO, absValueComparisonStrategy).create());
   }

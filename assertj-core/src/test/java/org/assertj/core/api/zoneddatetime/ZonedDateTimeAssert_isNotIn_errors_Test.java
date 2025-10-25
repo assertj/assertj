@@ -46,7 +46,7 @@ class ZonedDateTimeAssert_isNotIn_errors_Test extends ZonedDateTimeAssertBaseTes
     ZonedDateTime actual = ZonedDateTime.of(2000, 1, 5, 3, 0, 5, 0, UTC);
     ZonedDateTime other = ZonedDateTime.of(2012, 1, 1, 3, 3, 3, 0, UTC);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotIn(actual.toString(), other.toString()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotIn(actual.toString(), other.toString()));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  2000-01-05T03:00:05Z (java.time.ZonedDateTime)%n" +

@@ -65,7 +65,7 @@ class ZonedDateTimeAssert_isNotEqualTo_Test extends AbstractZonedDateTimeAssertB
     ZonedDateTime nullActual = null;
     ZonedDateTime nullExpected = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).isNotEqualTo(nullExpected));
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).isNotEqualTo(nullExpected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeEqual(nullActual, nullExpected).create());
   }
@@ -90,7 +90,7 @@ class ZonedDateTimeAssert_isNotEqualTo_Test extends AbstractZonedDateTimeAssertB
   void should_fail_if_actual_is_the_same_point_in_time_than_given_zonedDateTime_in_another_chronology() {
     ChronoZonedDateTime<JapaneseDate> nowInJapaneseChronology = JapaneseChronology.INSTANCE.zonedDateTime(NOW);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(NOW).isNotEqualTo(nowInJapaneseChronology));
+    var assertionError = expectAssertionError(() -> assertThat(NOW).isNotEqualTo(nowInJapaneseChronology));
     // THEN
     then(assertionError).hasMessage(shouldNotBeEqual(NOW, nowInJapaneseChronology, COMPARISON_STRATEGY).create());
   }

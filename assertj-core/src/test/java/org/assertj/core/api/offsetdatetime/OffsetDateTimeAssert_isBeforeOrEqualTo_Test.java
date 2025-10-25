@@ -60,7 +60,7 @@ class OffsetDateTimeAssert_isBeforeOrEqualTo_Test extends AbstractOffsetDateTime
   @Test
   void should_fail_if_actual_is_after_offsetDateTime_parameter_with_different_offset() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(AFTER_WITH_DIFFERENT_OFFSET).isBeforeOrEqualTo(REFERENCE));
+    var assertionError = expectAssertionError(() -> assertThat(AFTER_WITH_DIFFERENT_OFFSET).isBeforeOrEqualTo(REFERENCE));
     // THEN
     String errorMessage = shouldBeBeforeOrEqualTo(AFTER_WITH_DIFFERENT_OFFSET, REFERENCE, COMPARISON_STRATEGY).create();
     then(assertionError).hasMessage(errorMessage);

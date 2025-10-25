@@ -39,7 +39,7 @@ class AbstractAssert_satisfiesAllOf_Test {
     Condition<String> condition1 = new Condition<>(Objects::nonNull, "not null");
     Condition<String> condition2 = new Condition<>(text -> text.equals("abc"), "equals abc");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("def").satisfies(allOf(condition1, condition2)));
+    var assertionError = expectAssertionError(() -> assertThat("def").satisfies(allOf(condition1, condition2)));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  \"def\"%n" +
@@ -56,7 +56,7 @@ class AbstractAssert_satisfiesAllOf_Test {
     Condition<String> condition1 = new Condition<>(text -> text.length() > 10, "has more that 10 characters");
     Condition<String> condition2 = new Condition<>(text -> text.equals("abc"), "not equals abc");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("def").satisfies(allOf(condition1, condition2)));
+    var assertionError = expectAssertionError(() -> assertThat("def").satisfies(allOf(condition1, condition2)));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  \"def\"%n" +

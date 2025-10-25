@@ -44,7 +44,7 @@ class Arrays2D_assertDoesNotContain_at_Index_Test extends Arrays2D_BaseTest {
     int[] expectedElement = { 0, 2, 4 };
     // WHEN
     ThrowingCallable assertion = () -> arrays.assertDoesNotContain(someInfo(), failures, actual, expectedElement, someIndex());
-    AssertionError assertionError = expectAssertionError(assertion);
+    var assertionError = expectAssertionError(assertion);
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -83,7 +83,7 @@ class Arrays2D_assertDoesNotContain_at_Index_Test extends Arrays2D_BaseTest {
     int[] expectedElement = { 0, 2, 4 };
     // WHEN
     ThrowingCallable assertion = () -> arrays.assertDoesNotContain(someInfo(), failures, actual, expectedElement, index);
-    AssertionError assertionError = expectAssertionError(assertion);
+    var assertionError = expectAssertionError(assertion);
     // THEN
     then(assertionError).hasMessage(shouldNotContainAtIndex(actual, new int[] { 0, 2, 4 }, index).create());
   }

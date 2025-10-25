@@ -63,7 +63,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(10, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(10, MILLISECONDS));
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
     assertThat(assertionError).hasMessageContaining("Cancelled");
@@ -75,8 +75,8 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(10, MILLISECONDS,
-                                                                                                        as(STRING)));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(10, MILLISECONDS,
+                                                                                             as(STRING)));
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
     assertThat(assertionError).hasMessageContaining("Cancelled");
@@ -88,7 +88,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(TEN_MILLIS));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(TEN_MILLIS));
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
     assertThat(assertionError).hasMessageContaining("Cancelled");
@@ -100,8 +100,8 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(TEN_MILLIS,
-                                                                                                        as(STRING)));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(TEN_MILLIS,
+                                                                                             as(STRING)));
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
     assertThat(assertionError).hasMessageContaining("Cancelled");
@@ -113,7 +113,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     Future<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(10, HOURS));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(10, HOURS));
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
     assertThat(assertionError).hasMessageContaining("Cancelled");
@@ -125,7 +125,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     Future<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(10, HOURS, as(STRING)));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(10, HOURS, as(STRING)));
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
     assertThat(assertionError).hasMessageContaining("Cancelled");
@@ -137,7 +137,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     Future<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(TEN_MILLIS));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(TEN_MILLIS));
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
     assertThat(assertionError).hasMessageContaining("Cancelled");
@@ -149,7 +149,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     Future<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(TEN_MILLIS, as(STRING)));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(TEN_MILLIS, as(STRING)));
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
     assertThat(assertionError).hasMessageContaining("Cancelled");
@@ -160,7 +160,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     // GIVEN
     Future<String> future = completedFuture("done");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(10, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(10, MILLISECONDS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("to have failed within 10L MILLISECONDS.");
@@ -171,7 +171,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     // GIVEN
     Future<String> future = completedFuture("done");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(TEN_MILLIS));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(TEN_MILLIS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("to have failed within 0.01S.");
@@ -182,7 +182,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     // GIVEN
     CompletableFuture<String> future = completedFuture("done");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(10, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(10, MILLISECONDS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("to have failed within 10L MILLISECONDS.");
@@ -193,7 +193,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     // GIVEN
     CompletableFuture<String> future = completedFuture("done");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(TEN_MILLIS));
+    var assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(TEN_MILLIS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("to have failed within 0.01S.");

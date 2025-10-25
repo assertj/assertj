@@ -39,7 +39,7 @@ class Files_assertIsRelative_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> underTest.assertIsRelative(INFO, actual));
+    var assertionError = expectAssertionError(() -> underTest.assertIsRelative(INFO, actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

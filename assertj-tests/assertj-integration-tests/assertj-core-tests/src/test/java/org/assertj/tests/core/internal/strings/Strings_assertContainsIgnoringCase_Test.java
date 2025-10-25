@@ -33,7 +33,7 @@ class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_does_not_contain_sequence() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke"));
+    var assertionError = expectAssertionError(() -> strings.assertContainsIgnoringCase(someInfo(), "Yoda", "Luke"));
     // THEN
     then(assertionError).hasMessage(shouldContainIgnoringCase("Yoda", "Luke").create());
   }
@@ -50,7 +50,7 @@ class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsIgnoringCase(someInfo(), null, "Yoda"));
+    var assertionError = expectAssertionError(() -> strings.assertContainsIgnoringCase(someInfo(), null, "Yoda"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -70,9 +70,9 @@ class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_does_not_contain_sequence_whatever_custom_comparison_strategy_is() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(),
-                                                                                                                                       "Yoda",
-                                                                                                                                       "Luke"));
+    var assertionError = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(),
+                                                                                                                            "Yoda",
+                                                                                                                            "Luke"));
     // THEN
     then(assertionError).hasMessage(shouldContainIgnoringCase("Yoda", "Luke").create());
   }
@@ -90,9 +90,9 @@ class Strings_assertContainsIgnoringCase_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(),
-                                                                                                                                       null,
-                                                                                                                                       "Yoda"));
+    var assertionError = expectAssertionError(() -> stringsWithCaseInsensitiveComparisonStrategy.assertContainsIgnoringCase(someInfo(),
+                                                                                                                            null,
+                                                                                                                            "Yoda"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
