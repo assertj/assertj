@@ -173,7 +173,7 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     var assertionError = expectAssertionError(() -> softly.then(future).failsWithin(TEN_MILLIS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("to have failed within 0.01S.");
+    then(assertionError).hasMessageContaining("to have failed within 0.01s.");
   }
 
   @Test
@@ -195,7 +195,7 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     var assertionError = expectAssertionError(() -> softly.then(future).failsWithin(TEN_MILLIS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("to have failed within 0.01S.");
+    then(assertionError).hasMessageContaining("to have failed within 0.01s.");
   }
 
   @Test

@@ -19,6 +19,7 @@ import static org.assertj.core.util.Throwables.getStackTrace;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+
 import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +35,7 @@ class ShouldBeCompletedWithin_create_Test {
     String error = shouldBeCompletedWithin(actual, duration, exception).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo("[TEST] %n" + "Expecting%n" + "  <CompletableFuture[Incomplete]>%n"
-                          + "to be completed within 1M10.001S.%n" + "%n"
+                          + "to be completed within 1m10.001s.%n" + "%n"
                           + "exception caught while trying to get the future result: %s", getStackTrace(exception));
   }
 

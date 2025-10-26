@@ -20,6 +20,7 @@ import static org.assertj.core.error.future.Warning.WARNING;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+
 import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
@@ -47,7 +48,7 @@ class ShouldHaveCompletedExceptionallyWithin_create_Test {
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting%n" +
                                  "  <CompletableFuture[Incomplete]>%n" +
-                                 "to have completed exceptionally within 1S.%n%s", WARNING));
+                                 "to have completed exceptionally within 1s.%n%s", WARNING));
   }
 
 }

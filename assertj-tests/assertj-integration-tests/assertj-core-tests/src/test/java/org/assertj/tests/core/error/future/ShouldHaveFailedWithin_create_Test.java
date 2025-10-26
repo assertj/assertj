@@ -22,6 +22,7 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+
 import org.assertj.tests.core.testkit.TestDescription;
 import org.junit.jupiter.api.Test;
 
@@ -37,7 +38,7 @@ class ShouldHaveFailedWithin_create_Test {
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting%n" +
                                  "  <CompletableFuture[Completed: \"ok\"]>%n" +
-                                 "to have failed within 1H.%n%s",
+                                 "to have failed within 1h.%n%s",
                                  WARNING));
   }
 

@@ -24,6 +24,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -72,7 +73,7 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
                                                        "  <CompletableFuture[Incomplete]>%n" +
-                                                       "to be completed within 0.01S.%n"));
+                                                       "to be completed within 0.01s.%n"));
   }
 
   @Test
@@ -85,7 +86,7 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
                                                        "  <CompletableFuture[Cancelled]>%n" +
-                                                       "to be completed within 0.001S.%n" +
+                                                       "to be completed within 0.001s.%n" +
                                                        "%n" +
                                                        "exception caught while trying to get the future result: java.util.concurrent.CancellationException"));
   }
@@ -109,7 +110,7 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.of(1L, MILLIS)));
     // THEN
     then(assertionError).hasMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n".formatted())
-                        .hasMessageContaining("to be completed within 0.001S.");
+                        .hasMessageContaining("to be completed within 0.001s.");
   }
 
 }

@@ -37,7 +37,7 @@ class CompletableFutureAssert_completesExceptionallyWithin_Test extends Abstract
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(Duration.ofMillis(50)));
     // THEN
-    then(assertionError).hasMessageContainingAll("Incomplete", "to have completed exceptionally within 0.05S.");
+    then(assertionError).hasMessageContainingAll("Incomplete", "to have completed exceptionally within 0.05s.");
   }
 
   @Test
@@ -68,7 +68,7 @@ class CompletableFutureAssert_completesExceptionallyWithin_Test extends Abstract
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(Duration.ofMillis(500)));
     // THEN
-    then(assertionError).hasMessageContainingAll("Completed", "to have completed exceptionally within 0.5S.");
+    then(assertionError).hasMessageContainingAll("Completed", "to have completed exceptionally within 0.5s.");
   }
 
   @Test

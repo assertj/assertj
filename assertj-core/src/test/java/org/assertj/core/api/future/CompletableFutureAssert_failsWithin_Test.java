@@ -84,7 +84,7 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(future).failsWithin(Duration.ofMillis(500)));
     // THEN
-    then(assertionError).hasMessageContainingAll("Completed", "to have failed within 0.5S.");
+    then(assertionError).hasMessageContainingAll("Completed", "to have failed within 0.5s.");
   }
 
   @Test

@@ -174,7 +174,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     var assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(TEN_MILLIS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("to have failed within 0.01S.");
+    then(assertionError).hasMessageContaining("to have failed within 0.01s.");
   }
 
   @Test
@@ -196,7 +196,7 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     var assertionError = expectAssertionError(() -> softly.assertThat(future).failsWithin(TEN_MILLIS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("to have failed within 0.01S.");
+    then(assertionError).hasMessageContaining("to have failed within 0.01s.");
   }
 
   @Test

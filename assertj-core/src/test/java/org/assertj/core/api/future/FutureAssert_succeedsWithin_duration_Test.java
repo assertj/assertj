@@ -73,7 +73,7 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
     var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(10)));
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" + "  <FutureTask[Incomplete]>%n"
-                                                       + "to be completed within 0.01S.%n"));
+                                                       + "to be completed within 0.01s.%n"));
   }
 
   @Test
@@ -86,7 +86,7 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
                                                        "  <CompletableFuture[Cancelled]>%n" +
-                                                       "to be completed within 0.001S.%n" +
+                                                       "to be completed within 0.001s.%n" +
                                                        "%n" +
                                                        "exception caught while trying to get the future result: java.util.concurrent.CancellationException"));
   }
