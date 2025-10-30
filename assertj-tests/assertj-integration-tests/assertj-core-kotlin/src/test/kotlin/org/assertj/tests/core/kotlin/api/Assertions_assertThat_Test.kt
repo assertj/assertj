@@ -12,7 +12,10 @@
  */
 package org.assertj.tests.core.kotlin.api
 
+import org.assertj.tests.core.kotlin.testkit.TolkienCharacter.Race.HOBBIT
+
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.tests.core.kotlin.testkit.TolkienCharacter
 import org.junit.jupiter.api.Test
 
 class Assertions_assertThat_Test {
@@ -37,6 +40,13 @@ class Assertions_assertThat_Test {
   fun `mutable list`() {
     val list = mutableListOf("Viserys", "Rhaenyra", "Daemon")
     assertThat(list).contains("Viserys", "Rhaenyra", "Daemon")
+  }
+
+  @Test
+  fun `should allow assertions by using function extracted from given iterable`() {
+    val infos = listOf(TolkienCharacter("Frodo", 33, HOBBIT))
+    assertThat(infos).extracting(TolkienCharacter::name).doesNotContain("Sauron")
+    assertThat(infos).extracting { it.name }.doesNotContain("Sauron")
   }
 
 }

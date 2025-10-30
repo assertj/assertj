@@ -30,8 +30,8 @@ import org.junit.jupiter.api.Test;
 class IterableAssert_map_with_throwing_extractor_Test {
 
   private final List<TolkienCharacter> hobbits = new ArrayList<>();
-  private final ThrowingExtractor<TolkienCharacter, String, Exception> nameThrowingExtractor = TolkienCharacter::getName;
-  private final ThrowingExtractor<TolkienCharacter, Race, Exception> raceThrowingExtractor = TolkienCharacter::getRace;
+  private final ThrowingExtractor<TolkienCharacter, String> nameThrowingExtractor = TolkienCharacter::getName;
+  private final ThrowingExtractor<TolkienCharacter, Race> raceThrowingExtractor = TolkienCharacter::getRace;
 
   @BeforeEach
   void setUp() {
