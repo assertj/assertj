@@ -21,7 +21,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainValue.shouldContainValue;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -49,7 +48,7 @@ class Maps_assertContainsValue_Test extends MapsBaseTest {
     // GIVEN
     String value = "Yoda";
     // WHEN
-    var assertionError = expectAssertionError(() -> maps.assertContainsValue(someInfo(), null, value));
+    var assertionError = expectAssertionError(() -> maps.assertContainsValue(INFO, null, value, null));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -62,7 +61,7 @@ class Maps_assertContainsValue_Test extends MapsBaseTest {
   void should_pass(Map<String, String> actual, String expected) {
     // WHEN/THEN
     assertThatNoException().as(actual.getClass().getName())
-                           .isThrownBy(() -> maps.assertContainsValue(info, actual, expected));
+                           .isThrownBy(() -> maps.assertContainsValue(info, actual, expected, null));
   }
 
   private static Stream<Arguments> unmodifiableMapsSuccessfulTestCases() {
@@ -87,7 +86,7 @@ class Maps_assertContainsValue_Test extends MapsBaseTest {
   void should_fail(Map<String, String> actual, String expected) {
     // WHEN
     assertThatExceptionOfType(AssertionError.class).as(actual.getClass().getName())
-                                                   .isThrownBy(() -> maps.assertContainsValue(info, actual, expected))
+                                                   .isThrownBy(() -> maps.assertContainsValue(info, actual, expected, null))
                                                    // THEN
                                                    .withMessage(shouldContainValue(actual, expected).create());
   }

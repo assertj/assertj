@@ -13,13 +13,11 @@
 package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -32,7 +30,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link Maps#assertNotEmpty(AssertionInfo, Map)}</code>.
- * 
+ *
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -41,23 +39,18 @@ class Maps_assertNotEmpty_Test extends MapsBaseTest {
   @Test
   void should_pass_if_actual_is_not_empty() {
     Map<?, ?> actual = mapOf(entry("name", "Yoda"));
-    maps.assertNotEmpty(someInfo(), actual);
+    maps.assertNotEmpty(INFO, actual);
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertNotEmpty(someInfo(), null))
-                                                   .withMessage(actualIsNull());
+    assertThatAssertionErrorIsThrownBy(() -> maps.assertNotEmpty(INFO, null)).withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_empty() {
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> maps.assertNotEmpty(info, emptyMap()));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotBeEmpty());
+    expectAssertionError(() -> maps.assertNotEmpty(INFO, emptyMap()));
+    verify(failures).failure(INFO, shouldNotBeEmpty());
   }
 
 }

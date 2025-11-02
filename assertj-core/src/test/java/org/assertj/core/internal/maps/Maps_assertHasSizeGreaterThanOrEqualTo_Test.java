@@ -14,7 +14,6 @@ package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSizeGreaterThanOrEqualTo.shouldHaveSizeGreaterThanOrEqualTo;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.internal.MapsBaseTest;
@@ -24,13 +23,13 @@ class Maps_assertHasSizeGreaterThanOrEqualTo_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeGreaterThanOrEqualTo(someInfo(), null, 6))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeGreaterThanOrEqualTo(INFO, null, 6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_size_of_actual_is_not_greater_than_or_equal_to_boundary() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual,
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeGreaterThanOrEqualTo(INFO, actual,
                                                                                                             6))
                                                    .withMessage(shouldHaveSizeGreaterThanOrEqualTo(actual, actual.size(),
                                                                                                    6).create());
@@ -38,11 +37,11 @@ class Maps_assertHasSizeGreaterThanOrEqualTo_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_size_of_actual_is_greater_than_boundary() {
-    maps.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual, 1);
+    maps.assertHasSizeGreaterThanOrEqualTo(INFO, actual, 1);
   }
 
   @Test
   void should_pass_if_size_of_actual_is_equal_to_boundary() {
-    maps.assertHasSizeGreaterThanOrEqualTo(someInfo(), actual, actual.size());
+    maps.assertHasSizeGreaterThanOrEqualTo(INFO, actual, actual.size());
   }
 }

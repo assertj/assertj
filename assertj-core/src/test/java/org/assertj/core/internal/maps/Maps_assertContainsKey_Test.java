@@ -21,7 +21,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.set;
@@ -52,7 +51,7 @@ class Maps_assertContainsKey_Test extends MapsBaseTest {
     // GIVEN
     String key = "name";
     // WHEN
-    var assertionError = expectAssertionError(() -> maps.assertContainsKey(someInfo(), null, key));
+    var assertionError = expectAssertionError(() -> maps.assertContainsKey(INFO, null, key));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

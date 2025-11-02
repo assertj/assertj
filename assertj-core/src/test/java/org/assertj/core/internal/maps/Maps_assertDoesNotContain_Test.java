@@ -12,32 +12,24 @@
  */
 package org.assertj.core.internal.maps;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
 
-import java.util.Map;
-
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.data.MapEntry;
-import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Maps#assertDoesNotContain(AssertionInfo, Map, MapEntry[])}</code>.
- * 
  * @author Alex Ruiz
  * @author Joel Costigliola
  */
@@ -45,38 +37,37 @@ class Maps_assertDoesNotContain_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_does_not_contain_given_values() {
-    maps.assertDoesNotContain(someInfo(), actual, array(entry("job", "Jedi")));
+    maps.assertDoesNotContain(INFO, actual, array(entry("job", "Jedi")), null);
   }
 
   @SuppressWarnings("unchecked")
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_empty() {
-    assertThatIllegalArgumentException().isThrownBy(() -> maps.assertDoesNotContain(someInfo(), actual,
-                                                                                    new MapEntry[0]))
+    assertThatIllegalArgumentException().isThrownBy(() -> maps.assertDoesNotContain(INFO, actual,
+                                                                                    new MapEntry[0], null))
                                         .withMessage(entriesToLookForIsEmpty());
   }
 
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> maps.assertDoesNotContain(someInfo(), actual, null))
+    assertThatNullPointerException().isThrownBy(() -> maps.assertDoesNotContain(INFO, actual, null, null))
                                     .withMessage(entriesToLookForIsNull());
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContain(someInfo(), null,
-                                                                                               array(entry("job", "Jedi"))))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertDoesNotContain(INFO, null,
+                                                                                               array(entry("job", "Jedi")), null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_contains_given_values() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"), entry("job", "Jedi"));
-
-    Throwable error = catchThrowable(() -> maps.assertDoesNotContain(info, actual, expected));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldNotContain(actual, expected, newLinkedHashSet(entry("name", "Yoda"))));
+    // WHEN
+    expectAssertionError(() -> maps.assertDoesNotContain(INFO, actual, expected, null));
+    // THEN
+    verify(failures).failure(INFO, shouldNotContain(actual, expected, newLinkedHashSet(entry("name", "Yoda"))));
   }
 }

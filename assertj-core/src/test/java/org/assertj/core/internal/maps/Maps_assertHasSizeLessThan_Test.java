@@ -14,7 +14,6 @@ package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.error.ShouldHaveSizeLessThan.shouldHaveSizeLessThan;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.internal.MapsBaseTest;
@@ -24,18 +23,18 @@ class Maps_assertHasSizeLessThan_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeLessThan(someInfo(), null, 6))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeLessThan(INFO, null, 6))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_size_of_actual_is_not_less_than_boundary() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeLessThan(someInfo(), actual, 1))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSizeLessThan(INFO, actual, 1))
                                                    .withMessage(shouldHaveSizeLessThan(actual, actual.size(), 1).create());
   }
 
   @Test
   void should_pass_if_size_of_actual_is_less_than_boundary() {
-    maps.assertHasSizeLessThan(someInfo(), actual, 4);
+    maps.assertHasSizeLessThan(INFO, actual, 4);
   }
 }

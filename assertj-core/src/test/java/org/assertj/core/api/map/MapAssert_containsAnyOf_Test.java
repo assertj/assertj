@@ -13,9 +13,12 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
+
+import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
@@ -33,11 +36,20 @@ class MapAssert_containsAnyOf_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContainsAnyOf(getInfo(assertions), getActual(assertions), entries);
+    verify(maps).assertContainsAnyOf(getInfo(assertions), getActual(assertions), entries, null);
   }
 
   @Test
   void invoke_api_like_user() {
     assertThat(map("key1", "value1", "key2", "value2")).containsAnyOf(entry("key2", "value2"));
+  }
+
+  @Test
+  void should_honor_custom_value_equals_when_comparing_entry_values() {
+    // GIVEN
+    var map = Map.of("key1", "value1", "key2", "value2");
+    // WHEN/THEN
+    then(map).usingEqualsForValues(String::equalsIgnoreCase)
+             .containsAnyOf(entry("key2", "VALUE2"));
   }
 }

@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldBeNullOrEmpty.shouldBeNullOrEmpty;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
@@ -38,7 +37,7 @@ class Maps_assertNullOrEmpty_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_array_is_not_null_and_is_not_empty() {
-    AssertionInfo info = someInfo();
+    AssertionInfo info = INFO;
     Map<?, ?> actual = mapOf(entry("name", "Yoda"));
 
     Throwable error = catchThrowable(() -> maps.assertNullOrEmpty(info, actual));
@@ -49,11 +48,11 @@ class Maps_assertNullOrEmpty_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_array_is_null() {
-    maps.assertNullOrEmpty(someInfo(), null);
+    maps.assertNullOrEmpty(INFO, null);
   }
 
   @Test
   void should_pass_if_array_is_empty() {
-    maps.assertNullOrEmpty(someInfo(), emptyMap());
+    maps.assertNullOrEmpty(INFO, emptyMap());
   }
 }

@@ -12,12 +12,10 @@
  */
 package org.assertj.core.internal.maps;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainKey.shouldContainKey;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -34,14 +32,14 @@ import org.junit.jupiter.api.Test;
  */
 class Maps_assertHasKeySatisfying_Test extends MapsBaseTest {
 
-  private Condition<String> isColor = new Condition<String>("is color condition") {
+  private final Condition<String> isColor = new Condition<>("is color condition") {
     @Override
     public boolean matches(String value) {
       return "color".equals(value);
     }
   };
 
-  private Condition<Object> isAge = new Condition<Object>() {
+  private final Condition<Object> isAge = new Condition<>() {
     @Override
     public boolean matches(Object value) {
       return "age".equals(value);
@@ -50,28 +48,26 @@ class Maps_assertHasKeySatisfying_Test extends MapsBaseTest {
 
   @Test
   void should_fail_if_condition_is_null() {
-    assertThatNullPointerException().isThrownBy(() -> maps.assertHasKeySatisfying(someInfo(), actual, null))
+    assertThatNullPointerException().isThrownBy(() -> maps.assertHasKeySatisfying(INFO, actual, null))
                                     .withMessage("The condition to evaluate should not be null");
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasKeySatisfying(someInfo(), null, isColor))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasKeySatisfying(INFO, null, isColor))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_contain_any_key_matching_the_given_condition() {
-    AssertionInfo info = someInfo();
-
-    Throwable error = catchThrowable(() -> maps.assertHasKeySatisfying(info, actual, isAge));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainKey(actual, isAge));
+    // WHEN
+    expectAssertionError(() -> maps.assertHasKeySatisfying(INFO, actual, isAge));
+    // THEN
+    verify(failures).failure(INFO, shouldContainKey(actual, isAge));
   }
 
   @Test
   void should_pass_if_actual_contains_a_key_matching_the_given_condition() {
-    maps.assertHasKeySatisfying(someInfo(), actual, isColor);
+    maps.assertHasKeySatisfying(INFO, actual, isColor);
   }
 }

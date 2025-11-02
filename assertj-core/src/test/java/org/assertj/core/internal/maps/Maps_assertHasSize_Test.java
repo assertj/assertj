@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldHaveSize.shouldHaveSize;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.Map;
@@ -37,21 +36,20 @@ class Maps_assertHasSize_Test extends MapsBaseTest {
   @Test
   void should_pass_if_size_of_actual_is_equal_to_expected_size() {
     Map<?, ?> actual = mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));
-    maps.assertHasSize(someInfo(), actual, 2);
+    maps.assertHasSize(INFO, actual, 2);
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSize(someInfo(), null, 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSize(INFO, null, 8))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
-    AssertionInfo info = someInfo();
     Map<?, ?> actual = mapOf(entry("name", "Yoda"), entry("job", "Yedi Master"));
 
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSize(info, actual, 8))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasSize(INFO, actual, 8))
                                                    .withMessage(shouldHaveSize(actual, actual.size(), 8).create());
   }
 }

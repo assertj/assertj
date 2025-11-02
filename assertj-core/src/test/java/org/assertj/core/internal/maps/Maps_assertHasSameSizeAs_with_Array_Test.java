@@ -15,21 +15,16 @@ package org.assertj.core.internal.maps;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldHaveSameSizeAs.shouldHaveSameSizeAs;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
-import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
-import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Maps#assertHasSameSizeAs(org.assertj.core.api.AssertionInfo, java.util.Map, Object[])}</code>.
- *
  * @author Nicolas François
  */
 class Maps_assertHasSameSizeAs_with_Array_Test extends MapsBaseTest {
@@ -46,7 +41,7 @@ class Maps_assertHasSameSizeAs_with_Array_Test extends MapsBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    ThrowingCallable code = () -> maps.assertHasSameSizeAs(someInfo(), actual, array("Solo", "Leia"));
+    ThrowingCallable code = () -> maps.assertHasSameSizeAs(INFO, actual, array("Solo", "Leia"));
     // THEN
     assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
   }
@@ -54,18 +49,16 @@ class Maps_assertHasSameSizeAs_with_Array_Test extends MapsBaseTest {
   @Test
   void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     // GIVEN
-    AssertionInfo info = someInfo();
     String[] other = array("Solo", "Leia", "Yoda");
     // WHEN
-    ThrowingCallable code = () -> maps.assertHasSameSizeAs(info, actual, other);
+    ThrowingCallable code = () -> maps.assertHasSameSizeAs(INFO, actual, other);
     // THEN
-    String error = shouldHaveSameSizeAs(actual, other, actual.size(), other.length).create(null, info.representation());
+    String error = shouldHaveSameSizeAs(actual, other, actual.size(), other.length).create(null, INFO.representation());
     assertThatAssertionErrorIsThrownBy(code).withMessage(error);
   }
 
   @Test
   void should_pass_if_size_of_actual_is_equal_to_expected_size() {
-
-    maps.assertHasSameSizeAs(someInfo(), actual, array("Solo", "Leia"));
+    maps.assertHasSameSizeAs(INFO, actual, array("Solo", "Leia"));
   }
 }

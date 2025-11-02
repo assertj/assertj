@@ -12,17 +12,22 @@
  */
 package org.assertj.core.api.map;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.assertj.core.data.MapEntry;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link MapAssert#containsEntry(Object, Object)}</code>.
- * 
+ *
  * @author William Delanoue
  */
 class MapAssert_containsEntry_Test extends MapAssertBaseTest {
@@ -36,6 +41,16 @@ class MapAssert_containsEntry_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContains(getInfo(assertions), getActual(assertions), entries);
+    verify(maps).assertContains(getInfo(assertions), getActual(assertions), entries, null);
   }
+
+  @Test
+  void should_honor_custom_value_equals_when_comparing_entry_values() {
+    // GIVEN
+    var map = Map.of("key", new AtomicInteger(1));
+    // WHEN/THEN
+    then(map).usingEqualsForValues((v1, v2) -> v1.get() == v2.get())
+             .containsEntry("key", new AtomicInteger(1));
+  }
+
 }

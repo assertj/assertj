@@ -64,6 +64,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -92,9 +93,6 @@ public class Maps {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Conditions conditions = Conditions.instance();
-
-  // TODO reduce the visibility of the fields annotated with @VisibleForTesting
-  Maps() {}
 
   public <K, V> void assertAllSatisfy(AssertionInfo info, Map<K, V> actual,
                                       BiConsumer<? super K, ? super V> entryRequirements) {
@@ -218,32 +216,35 @@ public class Maps {
     hasSameSizeAsCheck(info, map, other, map.size());
   }
 
-  public <K, V> void assertContains(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
+  public <K, V> void assertContains(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
+                                    BiPredicate<? super V, ? super V> valueEquals) {
     failIfNull(entries);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
-    failIfAnyEntryNotFoundInActualMap(info, actual, entries);
+    failIfAnyEntryNotFoundInActualMap(info, actual, entries, valueEquals);
   }
 
   @SuppressWarnings("unchecked")
-  public <K, V> void assertContainsAllEntriesOf(AssertionInfo info, Map<K, V> actual, Map<? extends K, ? extends V> other) {
+  public <K, V> void assertContainsAllEntriesOf(AssertionInfo info, Map<K, V> actual, Map<? extends K, ? extends V> other,
+                                                BiPredicate<? super V, ? super V> valueEquals) {
     failIfNull(other);
     assertNotNull(info, actual);
     // assertion passes if other is empty since actual contains all other entries.
     if (other.isEmpty()) return;
-    failIfAnyEntryNotFoundInActualMap(info, actual, other.entrySet().toArray(new Entry[0]));
+    failIfAnyEntryNotFoundInActualMap(info, actual, other.entrySet().toArray(new Entry[0]), valueEquals);
   }
 
-  public <K, V> void assertContainsAnyOf(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
+  public <K, V> void assertContainsAnyOf(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
+                                         BiPredicate<? super V, ? super V> valueEquals) {
     failIfNull(entries);
     assertNotNull(info, actual);
     // if both actual and values are empty, then assertion passes.
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
     for (Entry<? extends K, ? extends V> entry : entries) {
-      if (containsEntry(actual, entry)) return;
+      if (containsEntry(actual, entry, valueEquals)) return;
     }
     throw failures.failure(info, shouldContainAnyOf(actual, entries));
   }
@@ -309,12 +310,13 @@ public class Maps {
     throw failures.failure(info, shouldContainValue(actual, valueCondition));
   }
 
-  public <K, V> void assertDoesNotContain(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
+  public <K, V> void assertDoesNotContain(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
+                                          BiPredicate<? super V, ? super V> valueEquals) {
     failIfNullOrEmpty(entries);
     assertNotNull(info, actual);
     Set<Entry<? extends K, ? extends V>> found = new LinkedHashSet<>();
     for (Entry<? extends K, ? extends V> entry : entries) {
-      if (containsEntry(actual, entry)) {
+      if (containsEntry(actual, entry, valueEquals)) {
         found.add(entry);
       }
     }
@@ -451,99 +453,114 @@ public class Maps {
     }
   }
 
-  public <K, V> void assertContainsValue(AssertionInfo info, Map<K, V> actual, V value) {
+  public <K, V> void assertContainsValue(AssertionInfo info, Map<K, V> actual, V value,
+                                         BiPredicate<? super V, ? super V> valueEquals) {
     assertNotNull(info, actual);
-    if (!containsValue(actual, value)) throw failures.failure(info, shouldContainValue(actual, value));
+    if (!containsValue(actual, value, valueEquals)) throw failures.failure(info, shouldContainValue(actual, value));
   }
 
-  public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual, V[] values) {
+  public <K, V> void assertContainsValues(AssertionInfo info, Map<K, V> actual, V[] values,
+                                          BiPredicate<? super V, ? super V> valueEquals) {
     assertNotNull(info, actual);
     requireNonNull(values, "The array of values to look for should not be null");
     if (actual.isEmpty() && values.length == 0) return;
     failIfEmpty(values, valuesToLookForIsEmpty());
 
-    Set<V> notFound = getNotFoundValues(actual, values);
+    Set<V> notFound = getNotFoundValues(actual, values, valueEquals);
     if (!notFound.isEmpty()) throw failures.failure(info, shouldContainValues(actual, notFound));
   }
 
-  public <K, V> void assertDoesNotContainValue(AssertionInfo info, Map<K, V> actual, V value) {
+  public <K, V> void assertDoesNotContainValue(AssertionInfo info, Map<K, V> actual, V value,
+                                               BiPredicate<? super V, ? super V> valueEquals) {
     assertNotNull(info, actual);
-    if (containsValue(actual, value)) throw failures.failure(info, shouldNotContainValue(actual, value));
+    if (containsValue(actual, value, valueEquals)) throw failures.failure(info, shouldNotContainValue(actual, value));
   }
 
-  private static <V> Set<V> getNotFoundValues(Map<?, V> actual, V[] expectedValues) {
+  private static <V> Set<V> getNotFoundValues(Map<?, V> actual, V[] expectedValues,
+                                              BiPredicate<? super V, ? super V> valueEquals) {
     // Stream API avoided for performance reasons
     Set<V> notFound = new LinkedHashSet<>();
     for (V expectedValue : expectedValues) {
-      if (!containsValue(actual, expectedValue)) notFound.add(expectedValue);
+      if (!containsValue(actual, expectedValue, valueEquals)) notFound.add(expectedValue);
     }
     return notFound;
   }
 
-  private static <V> boolean containsValue(Map<?, V> actual, V value) {
+  private static <V> boolean containsValue(Map<?, V> actual, V value, BiPredicate<? super V, ? super V> valueEquals) {
     try {
-      return actual.containsValue(value);
+      return valueEquals == null ? actual.containsValue(value) : containsValueAccordingToCustomEquals(actual, value, valueEquals);
     } catch (NullPointerException e) {
       if (value == null) return false; // null values not permitted
       throw e;
     }
   }
 
-  public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
+  private static <V> boolean containsValueAccordingToCustomEquals(Map<?, V> actual, V value,
+                                                                  BiPredicate<? super V, ? super V> valueEquals) {
+    return actual.values().stream().anyMatch(actualValue -> valueEquals.test(value, actualValue));
+  }
+
+  public <K, V> void assertContainsOnly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
+                                        BiPredicate<? super V, ? super V> valueEquals) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
 
-    Set<Entry<? extends K, ? extends V>> notFound = getNotFoundEntries(actual, entries);
-    Set<Entry<K, V>> notExpected = getNotExpectedEntries(actual, entries);
+    Set<Entry<? extends K, ? extends V>> notFound = getNotFoundEntries(actual, entries, valueEquals);
+    Set<Entry<K, V>> notExpected = getNotExpectedEntries(actual, entries, valueEquals);
 
     if (!(notFound.isEmpty() && notExpected.isEmpty()))
       throw failures.failure(info, shouldContainOnly(actual, entries, notFound, notExpected));
   }
 
-  private static <K, V> Set<Entry<? extends K, ? extends V>> getNotFoundEntries(Map<K, V> actual,
-                                                                                Entry<? extends K, ? extends V>[] entries) {
+  private <K, V> Set<Entry<? extends K, ? extends V>> getNotFoundEntries(Map<K, V> actual,
+                                                                         Entry<? extends K, ? extends V>[] entries,
+                                                                         BiPredicate<? super V, ? super V> valueEquals) {
     // Stream API avoided for performance reasons
     Set<Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     for (Entry<? extends K, ? extends V> entry : entries) {
-      if (!containsEntry(actual, entry)) notFound.add(entry);
+      if (!containsEntry(actual, entry, valueEquals)) notFound.add(entry);
     }
     return notFound;
   }
 
-  private static <K, V> Set<Entry<K, V>> getNotExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
+  private <K, V> Set<Entry<K, V>> getNotExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
+                                                        BiPredicate<? super V, ? super V> valueEquals) {
     // Stream API avoided for performance reasons
     Set<Entry<K, V>> notExpected = new LinkedHashSet<>();
-    for (Entry<K, V> entry : mapWithoutExpectedEntries(actual, entries).entrySet()) {
+    for (Entry<K, V> entry : mapWithoutExpectedEntries(actual, entries, valueEquals).entrySet()) {
       MapEntry<K, V> mapEntry = entry(entry.getKey(), entry.getValue());
       notExpected.add(mapEntry);
     }
     return notExpected;
   }
 
-  private static <K, V> Map<K, V> mapWithoutExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] expectedEntries) {
+  private <K, V> Map<K, V> mapWithoutExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] expectedEntries,
+                                                     BiPredicate<? super V, ? super V> valueEquals) {
     try {
       Map<K, V> clonedMap = clone(actual);
-      removeEntries(clonedMap, expectedEntries);
+      removeEntries(clonedMap, expectedEntries, valueEquals);
       return clonedMap;
     } catch (NoSuchMethodException | RuntimeException e) {
       // actual cannot be cloned or is unmodifiable, falling back to LinkedHashMap
       Map<K, V> copiedMap = new LinkedHashMap<>(actual);
-      removeEntries(copiedMap, expectedEntries);
+      removeEntries(copiedMap, expectedEntries, valueEquals);
       return copiedMap;
     }
   }
 
-  private static <K, V> void removeEntries(Map<K, V> map, Entry<? extends K, ? extends V>[] entries) {
+  private <K, V> void removeEntries(Map<K, V> map, Entry<? extends K, ? extends V>[] entries,
+                                    BiPredicate<? super V, ? super V> valueEquals) {
     // Stream API avoided for performance reasons
     for (Entry<? extends K, ? extends V> entry : entries) {
       // must perform deep equals comparison on values as Map.remove(Object, Object) relies on
       // Objects.equals which does not handle deep equality (e.g. arrays in map entry values)
-      if (containsEntry(map, entry)) map.remove(entry.getKey());
+      if (containsEntry(map, entry, valueEquals)) map.remove(entry.getKey());
     }
   }
 
-  public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries) {
+  public <K, V> void assertContainsExactly(AssertionInfo info, Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
+                                           BiPredicate<? super V, ? super V> valueEquals) {
     doCommonContainsCheck(info, actual, entries);
     if (actual.isEmpty() && entries.length == 0) return;
     failIfEntriesIsEmptySinceActualIsNotEmpty(info, actual, entries);
@@ -552,7 +569,7 @@ public class Maps {
     Set<Entry<? extends K, ? extends V>> notFound = new LinkedHashSet<>();
     Set<Entry<? extends K, ? extends V>> notExpected = new LinkedHashSet<>();
 
-    compareActualMapAndExpectedEntries(actual, entries, notExpected, notFound);
+    compareActualMapAndExpectedEntries(actual, entries, notExpected, notFound, valueEquals);
 
     if (notExpected.isEmpty() && notFound.isEmpty()) {
       // check entries order
@@ -573,11 +590,12 @@ public class Maps {
 
   private <K, V> void compareActualMapAndExpectedEntries(Map<K, V> actual, Entry<? extends K, ? extends V>[] entries,
                                                          Set<Entry<? extends K, ? extends V>> notExpected,
-                                                         Set<Entry<? extends K, ? extends V>> notFound) {
+                                                         Set<Entry<? extends K, ? extends V>> notFound,
+                                                         BiPredicate<? super V, ? super V> valueEquals) {
     Map<K, V> expectedEntries = entriesToMap(entries);
     Map<K, V> actualEntries = new LinkedHashMap<>(actual);
     for (Entry<K, V> entry : expectedEntries.entrySet()) {
-      if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()))) {
+      if (containsEntry(actualEntries, entry(entry.getKey(), entry.getValue()), valueEquals)) {
         // this is an expected entry
         actualEntries.remove(entry.getKey());
       } else {
@@ -597,13 +615,15 @@ public class Maps {
   }
 
   private <K, V> void failIfAnyEntryNotFoundInActualMap(AssertionInfo info, Map<K, V> actual,
-                                                        Entry<? extends K, ? extends V>[] entries) {
+                                                        Entry<? extends K, ? extends V>[] entries,
+                                                        BiPredicate<? super V, ? super V> valueEquals) {
     Set<Entry<? extends K, ? extends V>> entriesWithKeyNotFound = new LinkedHashSet<>();
     Set<Entry<? extends K, ? extends V>> entriesWithWrongValue = new LinkedHashSet<>();
     for (Entry<? extends K, ? extends V> entry : entries) {
       requireNonNull(entry, ErrorMessages.entryToLookForIsNull());
       if (!actual.containsKey(entry.getKey())) entriesWithKeyNotFound.add(entry);
-      else if (!containsEntry(actual, entry)) entriesWithWrongValue.add(entry); // can only be wrong value since key was found
+      else if (!containsEntry(actual, entry, valueEquals))
+        entriesWithWrongValue.add(entry); // can only be wrong value since key was found
     }
     if (!entriesWithWrongValue.isEmpty() || !entriesWithKeyNotFound.isEmpty())
       throw failures.failure(info, shouldContainEntries(actual, entries, entriesWithWrongValue, entriesWithKeyNotFound,
@@ -643,9 +663,18 @@ public class Maps {
     requireNonNull(map, ErrorMessages.mapOfEntriesToLookForIsNull());
   }
 
-  private static <K, V> boolean containsEntry(Map<K, V> actual, Entry<? extends K, ? extends V> entry) {
+  private <K, V> boolean containsEntry(Map<K, V> actual, Entry<? extends K, ? extends V> entry,
+                                       BiPredicate<? super V, ? super V> valueEquals) {
     requireNonNull(entry, ErrorMessages.entryToLookForIsNull());
-    return actual.containsKey(entry.getKey()) && deepEquals(actual.get(entry.getKey()), entry.getValue());
+    boolean keyFound = actual.containsKey(entry.getKey());
+    if (!keyFound) return false;
+    V actualEntryValue = actual.get(entry.getKey());
+    V expectedEntryValue = entry.getValue();
+    return areEqual(actualEntryValue, expectedEntryValue, valueEquals);
+  }
+
+  private <V> boolean areEqual(V actual, V expected, BiPredicate<? super V, ? super V> valueEquals) {
+    return valueEquals != null ? valueEquals.test(actual, expected) : deepEquals(actual, expected);
   }
 
   private void assertNotNull(AssertionInfo info, Map<?, ?> actual) {

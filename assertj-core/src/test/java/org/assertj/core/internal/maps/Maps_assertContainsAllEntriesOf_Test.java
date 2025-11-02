@@ -34,28 +34,28 @@ class Maps_assertContainsAllEntriesOf_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_map_entries() {
-    maps.assertContainsAllEntriesOf(info, actual, mapOf(entry("name", "Yoda")));
+    maps.assertContainsAllEntriesOf(info, actual, mapOf(entry("name", "Yoda")), null);
   }
 
   @Test
   void should_pass_if_actual_contains_given_map_entries_in_different_order() {
-    maps.assertContainsAllEntriesOf(info, actual, mapOf(entry("color", "green"), entry("name", "Yoda")));
+    maps.assertContainsAllEntriesOf(info, actual, mapOf(entry("color", "green"), entry("name", "Yoda")), null);
   }
 
   @Test
   void should_pass_if_actual_contains_all_given_map_entries() {
-    maps.assertContainsAllEntriesOf(info, actual, mapOf(entry("name", "Yoda"), entry("color", "green")));
+    maps.assertContainsAllEntriesOf(info, actual, mapOf(entry("name", "Yoda"), entry("color", "green")), null);
   }
 
   @Test
   void should_pass_if_actual_and_given_map_are_empty() {
     actual = emptyMap();
-    maps.assertContainsAllEntriesOf(info, actual, mapOf());
+    maps.assertContainsAllEntriesOf(info, actual, mapOf(), null);
   }
 
   @Test
   void should_pass_if_actual_is_not_empty_and_given_map_is_empty() {
-    maps.assertContainsAllEntriesOf(info, actual, emptyMap());
+    maps.assertContainsAllEntriesOf(info, actual, emptyMap(), null);
   }
 
   @Test
@@ -63,7 +63,7 @@ class Maps_assertContainsAllEntriesOf_Test extends MapsBaseTest {
     // GIVEN
     Map<String, String> other = null;
     // WHEN
-    NullPointerException npe = catchNullPointerException(() -> maps.assertContainsAllEntriesOf(info, actual, other));
+    var npe = catchNullPointerException(() -> maps.assertContainsAllEntriesOf(info, actual, other, null));
     // THEN
     then(npe).hasMessage(mapOfEntriesToLookForIsNull());
   }
@@ -74,7 +74,7 @@ class Maps_assertContainsAllEntriesOf_Test extends MapsBaseTest {
     Map<String, String> actual = null;
     // WHEN
     var assertionError = expectAssertionError(() -> maps.assertContainsAllEntriesOf(info, actual,
-                                                                                    mapOf(entry("name", "Yoda"))));
+                                                                                    mapOf(entry("name", "Yoda")), null));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -84,7 +84,7 @@ class Maps_assertContainsAllEntriesOf_Test extends MapsBaseTest {
     // GIVEN
     Map<String, String> expected = mapOf(entry("name", "Yoda"), entry("job", "Jedi"));
     // WHEN
-    var assertionError = expectAssertionError(() -> maps.assertContainsAllEntriesOf(info, actual, expected));
+    var assertionError = expectAssertionError(() -> maps.assertContainsAllEntriesOf(info, actual, expected, null));
     // THEN
     then(assertionError).hasMessage(shouldContainEntries(actual, asEntriesArray(expected), emptySet(), set(entry("job", "Jedi")),
                                                          info.representation()).create());
@@ -95,7 +95,7 @@ class Maps_assertContainsAllEntriesOf_Test extends MapsBaseTest {
     // GIVEN
     Map<String, String> expected = mapOf(entry("name", "Yoda"), entry("color", "red"));
     // WHEN
-    var assertionError = expectAssertionError(() -> maps.assertContainsAllEntriesOf(info, actual, expected));
+    var assertionError = expectAssertionError(() -> maps.assertContainsAllEntriesOf(info, actual, expected, null));
     // THEN
     then(assertionError).hasMessage(shouldContainEntries(actual, asEntriesArray(expected), set(entry("color", "red")), emptySet(),
                                                          info.representation()).create());
@@ -106,7 +106,7 @@ class Maps_assertContainsAllEntriesOf_Test extends MapsBaseTest {
     // GIVEN
     Map<String, String> expected = mapOf(entry("name", "Yoda"), entry("color", "red"), entry("job", "Jedi"));
     // WHEN
-    var assertionError = expectAssertionError(() -> maps.assertContainsAllEntriesOf(info, actual, expected));
+    var assertionError = expectAssertionError(() -> maps.assertContainsAllEntriesOf(info, actual, expected, null));
     // THEN
     then(assertionError).hasMessage(shouldContainEntries(actual, asEntriesArray(expected), set(entry("color", "red")),
                                                          set(entry("job", "Jedi")), info.representation()).create());

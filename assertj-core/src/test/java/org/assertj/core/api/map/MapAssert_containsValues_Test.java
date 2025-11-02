@@ -12,11 +12,13 @@
  */
 package org.assertj.core.api.map;
 
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link org.assertj.core.api.MapAssert#containsValue(Object)}</code>.
@@ -32,6 +34,16 @@ class MapAssert_containsValues_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContainsValues(getInfo(assertions), getActual(assertions), array("value1", "value2"));
+    verify(maps).assertContainsValues(getInfo(assertions), getActual(assertions), array("value1", "value2"), null);
+  }
+
+  @Test
+  void should_honor_custom_value_equals_when_comparing_entry_values() {
+    // GIVEN
+    var map = map("key1", "value1", "key2", "value2");
+    // WHEN/THEN
+    then(map).usingEqualsForValues(String::equalsIgnoreCase)
+             .containsValues("VALUE1")
+             .containsValues("VALUE2", "VALUE1");
   }
 }

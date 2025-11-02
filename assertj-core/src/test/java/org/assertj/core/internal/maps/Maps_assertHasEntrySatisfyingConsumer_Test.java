@@ -14,12 +14,11 @@ package org.assertj.core.internal.maps;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldContainKeys.shouldContainKeys;
 import static org.assertj.core.error.ShouldContainPattern.shouldContainPattern;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.mockito.Mockito.verify;
@@ -52,43 +51,41 @@ class Maps_assertHasEntrySatisfyingConsumer_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_contains_null_key_with_value_matching_condition() {
-    maps.assertHasEntrySatisfying(someInfo(), actual, null, s -> assertThat(s).isNull());
+    maps.assertHasEntrySatisfying(INFO, actual, null, s -> assertThat(s).isNull());
   }
 
   @Test
   void should_pass_if_actual_contains_key_with_value_matching_condition() {
-    maps.assertHasEntrySatisfying(someInfo(), actual, "name", s -> assertThat(s).startsWith("Yo"));
+    maps.assertHasEntrySatisfying(INFO, actual, "name", s -> assertThat(s).startsWith("Yo"));
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), null, 8,
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(INFO, null, 8,
                                                                                                    o -> assertThat(o).isNotNull()))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_does_not_contains_key() {
-    AssertionInfo info = someInfo();
+    // GIVEN
     String key = "id";
-
-    Throwable error = catchThrowable(() -> maps.assertHasEntrySatisfying(info, actual, key,
-                                                                         s -> assertThat(s).containsPattern(IS_DIGITS)));
-
-    assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, shouldContainKeys(actual, newLinkedHashSet(key)));
+    // WHEN
+    expectAssertionError(() -> maps.assertHasEntrySatisfying(INFO, actual, key, s -> assertThat(s).containsPattern(IS_DIGITS)));
+    // THEN
+    verify(failures).failure(INFO, shouldContainKeys(actual, newLinkedHashSet(key)));
   }
 
   @Test
   void should_fail_if_actual_contains_key_with_value_not_matching_condition() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), actual, "name",
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(INFO, actual, "name",
                                                                                                    s -> assertThat(s).containsPattern(IS_DIGITS)))
                                                    .withMessage(shouldContainPattern("Yoda", IS_DIGITS.pattern()).create());
   }
 
   @Test
   void should_fail_if_actual_contains_null_key_with_value_does_not_matching_condition() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(someInfo(), actual, null,
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertHasEntrySatisfying(INFO, actual, null,
                                                                                                    s -> assertThat(s).isNotNull()))
                                                    .withMessage(actualIsNull());
   }

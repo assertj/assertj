@@ -13,9 +13,12 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
+
+import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
@@ -23,8 +26,8 @@ import org.assertj.core.data.MapEntry;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link MapAssert#contains(MapEntry...)}</code>.
- * 
+ * Tests for <code>{@link MapAssert#contains(Map.Entry[])}</code>.
+ *
  * @author Alex Ruiz
  * @author Nicolas François
  */
@@ -39,11 +42,20 @@ class MapAssert_contains_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContains(getInfo(assertions), getActual(assertions), entries);
+    verify(maps).assertContains(getInfo(assertions), getActual(assertions), entries, null);
   }
 
   @Test
   void invoke_api_like_user() {
     assertThat(map("key1", "value1", "key2", "value2")).contains(entry("key2", "value2"));
+  }
+
+  @Test
+  void should_honor_custom_value_equals_when_comparing_entry_values() {
+    // GIVEN
+    var map = Map.of("key", "VALUE");
+    // WHEN/THEN
+    then(map).usingEqualsForValues(String::equalsIgnoreCase)
+             .contains(entry("key", "value"));
   }
 }

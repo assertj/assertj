@@ -19,7 +19,6 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
 import static org.assertj.core.internal.ErrorMessages.entryToLookForIsNull;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -36,33 +35,33 @@ class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_contains_one_of_the_given_entries_but_not_the_others() {
-    maps.assertContainsAnyOf(someInfo(), actual, array(entry("name", "Yoda"), entry("name", "Vador")));
+    maps.assertContainsAnyOf(INFO, actual, array(entry("name", "Yoda"), entry("name", "Vador")), null);
   }
 
   @Test
   void should_pass_if_actual_contains_one_of_the_given_entries() {
-    maps.assertContainsAnyOf(someInfo(), actual, array(entry("name", "Yoda")));
+    maps.assertContainsAnyOf(INFO, actual, array(entry("name", "Yoda")), null);
   }
 
   @Test
   void should_pass_if_actual_contains_all_given_entries() {
-    maps.assertContainsAnyOf(someInfo(), actual, array(entry("name", "Yoda"), entry("color", "green")));
+    maps.assertContainsAnyOf(INFO, actual, array(entry("name", "Yoda"), entry("color", "green")), null);
   }
 
   @SuppressWarnings("unchecked")
   @Test
   void should_pass_if_actual_and_given_entries_are_empty() {
     actual = new HashMap<>();
-    maps.assertContainsAnyOf(someInfo(), actual, new MapEntry[0]);
+    maps.assertContainsAnyOf(INFO, actual, new MapEntry[0], null);
   }
 
   @Test
   void should_fail_if_array_of_entries_to_look_for_is_empty_and_the_map_under_test_is_not() {
     // GIVEN
-    AssertionInfo info = someInfo();
+    AssertionInfo info = INFO;
     MapEntry<String, String>[] expected = emptyEntries();
     // WHEN
-    expectAssertionError(() -> maps.assertContainsAnyOf(info, actual, expected));
+    expectAssertionError(() -> maps.assertContainsAnyOf(info, actual, expected, null));
     // THEN
     verify(failures).failure(info, shouldBeEmpty(actual));
   }
@@ -72,7 +71,7 @@ class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
     // GIVEN
     MapEntry<String, String>[] entries = null;
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsAnyOf(someInfo(), actual, entries))
+    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsAnyOf(INFO, actual, entries, null))
                                     .withMessage(entriesToLookForIsNull());
   }
 
@@ -82,7 +81,7 @@ class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
     MapEntry<String, String> nullEntry = null;
     MapEntry<String, String>[] entries = array(nullEntry);
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsAnyOf(someInfo(), actual, entries))
+    assertThatNullPointerException().isThrownBy(() -> maps.assertContainsAnyOf(INFO, actual, entries, null))
                                     .withMessage(entryToLookForIsNull());
   }
 
@@ -92,7 +91,7 @@ class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
     actual = null;
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
     // WHEN
-    var assertionError = expectAssertionError(() -> maps.assertContainsAnyOf(someInfo(), actual, expected));
+    var assertionError = expectAssertionError(() -> maps.assertContainsAnyOf(INFO, actual, expected, null));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -100,10 +99,10 @@ class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
   @Test
   void should_fail_if_actual_does_not_contain_any_of_the_given_entries() {
     // GIVEN
-    AssertionInfo info = someInfo();
+    AssertionInfo info = INFO;
     MapEntry<String, String>[] expected = array(entry("name", "Vador"), entry("job", "Jedi"));
     // WHEN
-    expectAssertionError(() -> maps.assertContainsAnyOf(info, actual, expected));
+    expectAssertionError(() -> maps.assertContainsAnyOf(info, actual, expected, null));
     // THEN
     verify(failures).failure(info, shouldContainAnyOf(actual, expected));
   }

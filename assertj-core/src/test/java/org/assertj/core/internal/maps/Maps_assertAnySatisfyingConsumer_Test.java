@@ -20,7 +20,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ElementsShouldSatisfy.elementsShouldSatisfyAny;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -62,7 +61,7 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
     // first entry does not match -> assertion error, 2nd entry does match -> doNothing()
     doThrow(new AssertionError("some error message")).doNothing().when(consumer).accept(anyString(), any(Player.class));
     // WHEN
-    maps.assertAnySatisfy(someInfo(), greatPlayers, consumer);
+    maps.assertAnySatisfy(INFO, greatPlayers, consumer);
     // THEN
     // make sure that we only evaluated 2 out of 3 entries
     verify(consumer, times(2)).accept(anyString(), any(Player.class));
@@ -70,7 +69,7 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_one_entry_satisfies_the_given_requirements() {
-    maps.assertAnySatisfy(someInfo(), greatPlayers, (team, player) -> {
+    maps.assertAnySatisfy(INFO, greatPlayers, (team, player) -> {
       assertThat(team).isEqualTo("Lakers");
       assertThat(player.getPointsPerGame()).isGreaterThan(18);
     });
@@ -81,17 +80,17 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
     // GIVEN
     actual.clear();
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), actual,
+    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(INFO, actual,
                                                                             ($1, $2) -> assertThat(true).isTrue()));
     // THEN
-    then(error).hasMessage(elementsShouldSatisfyAny(actual, emptyList(), someInfo()).create());
+    then(error).hasMessage(elementsShouldSatisfyAny(actual, emptyList(), INFO).create());
   }
 
   @Test
   void should_fail_if_no_entry_satisfies_the_given_requirements() {
     // WHEN
     BiConsumer<String, String> requirements = ($1, $2) -> assertThat(true).isFalse();
-    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), actual, requirements));
+    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(INFO, actual, requirements));
     // THEN
     // can't build the exact error message due to internal stack traces
     then(error).hasMessageStartingWith(format("%n" +
@@ -104,14 +103,14 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(someInfo(), null, (team, player) -> {}));
+    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(INFO, null, (team, player) -> {}));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_given_requirements_are_null() {
-    assertThatNullPointerException().isThrownBy(() -> maps.assertAnySatisfy(someInfo(), greatPlayers, null))
+    assertThatNullPointerException().isThrownBy(() -> maps.assertAnySatisfy(INFO, greatPlayers, null))
                                     .withMessage("The BiConsumer<K, V> expressing the assertions requirements must not be null");
   }
 

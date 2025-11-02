@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.mockito.Mockito.verify;
 
@@ -40,18 +39,18 @@ class Maps_assertEmpty_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_is_empty() {
-    maps.assertEmpty(someInfo(), emptyMap());
+    maps.assertEmpty(INFO, emptyMap());
   }
 
   @Test
   void should_fail_if_actual_is_null() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertEmpty(someInfo(), null))
+    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> maps.assertEmpty(INFO, null))
                                                    .withMessage(actualIsNull());
   }
 
   @Test
   void should_fail_if_actual_has_elements() {
-    AssertionInfo info = someInfo();
+    AssertionInfo info = INFO;
     Map<?, ?> actual = mapOf(entry("name", "Yoda"));
 
     Throwable error = catchThrowable(() -> maps.assertEmpty(info, actual));

@@ -13,10 +13,10 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.Arrays.array;
-import static org.mockito.Mockito.verify;
 
 import java.util.Map;
 
@@ -24,6 +24,7 @@ import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
 import org.assertj.core.data.MapEntry;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 /**
  * Tests for <code>{@link MapAssert#containsExactlyInAnyOrderEntriesOf(Map)}</code>.
@@ -40,7 +41,7 @@ class MapAssert_containsExactlyInAnyOrderEntriesOf_Test extends MapAssertBaseTes
   @Override
   protected void verify_internal_effects() {
     final MapEntry<String, String>[] entries = array(entry("key1", "value1"), entry("key2", "value2"));
-    verify(maps).assertContainsOnly(getInfo(assertions), getActual(assertions), entries);
+    Mockito.verify(maps).assertContainsOnly(getInfo(assertions), getActual(assertions), (Map.Entry<?, ?>[]) entries, null);
   }
 
   @Test
@@ -52,4 +53,12 @@ class MapAssert_containsExactlyInAnyOrderEntriesOf_Test extends MapAssertBaseTes
     assertThat(actualMap).containsExactlyInAnyOrderEntriesOf(expectedMap);
   }
 
+  @Test
+  void should_honor_custom_value_equals_when_comparing_entry_values() {
+    // GIVEN
+    var map = map("key1", "value1", "key2", "value2");
+    // WHEN/THEN
+    then(map).usingEqualsForValues(String::equalsIgnoreCase)
+             .containsExactlyInAnyOrderEntriesOf(Map.of("key2", "VALUE2", "key1", "VALUE1"));
+  }
 }

@@ -13,7 +13,9 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import java.util.Map;
@@ -32,11 +34,22 @@ class MapAssert_doesNotContain_with_Java_Util_MapEntry_Test extends MapAssertBas
   @Override
   protected void verify_internal_effects() {
     Map.Entry<String, String>[] entries = array(javaMapEntry("key1", "value1"), javaMapEntry("key2", "value2"));
-    verify(maps).assertDoesNotContain(getInfo(assertions), getActual(assertions), entries);
+    verify(maps).assertDoesNotContain(getInfo(assertions), getActual(assertions), entries, null);
   }
 
   @Test
   void invoke_api_like_user() {
     assertThat(map("key1", "value1")).doesNotContain(javaMapEntry("key2", "value2"), javaMapEntry("key3", "value3"));
+  }
+
+  @Test
+  void should_honor_custom_value_equals_when_comparing_entry_values() {
+    // GIVEN
+    var map = Map.of("key", "value");
+    // WHEN/THEN
+    then(map).usingEqualsForValues(String::equalsIgnoreCase)
+             .doesNotContain(javaMapEntry("otherKey", "value"), javaMapEntry("key", "otherValue"));
+    expectAssertionError(() -> assertThat(map).usingEqualsForValues(String::equalsIgnoreCase)
+                                              .doesNotContain(javaMapEntry("key", "Value")));
   }
 }

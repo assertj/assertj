@@ -12,10 +12,16 @@
  */
 package org.assertj.core.api.map;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
+
+import java.util.Map;
 
 import org.assertj.core.api.MapAssert;
 import org.assertj.core.api.MapAssertBaseTest;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for <code>{@link MapAssert#doesNotContainValue(Object)}</code>.
@@ -31,6 +37,17 @@ class MapAssert_doesNotContainValue_Test extends MapAssertBaseTest {
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertDoesNotContainValue(getInfo(assertions), getActual(assertions), "value1");
+    verify(maps).assertDoesNotContainValue(getInfo(assertions), getActual(assertions), "value1", null);
+  }
+
+  @Test
+  void should_honor_custom_value_equals_when_comparing_entry_values() {
+    // GIVEN
+    var map = Map.of("key", "value");
+    // WHEN/THEN
+    then(map).usingEqualsForValues(String::equalsIgnoreCase)
+             .doesNotContainValue("otherValue");
+    expectAssertionError(() -> assertThat(map).usingEqualsForValues(String::equalsIgnoreCase)
+                                              .doesNotContainValue("Value"));
   }
 }

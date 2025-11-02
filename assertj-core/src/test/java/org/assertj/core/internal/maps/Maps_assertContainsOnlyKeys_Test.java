@@ -25,7 +25,6 @@ import static org.assertj.core.error.ShouldContainOnlyKeys.shouldContainOnlyKeys
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsEmpty;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -48,7 +47,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.util.MultiValueMapAdapter;
 
 import com.google.common.collect.ImmutableMap;
-
 import jakarta.ws.rs.core.MultivaluedHashMap;
 
 /**
@@ -61,7 +59,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     // GIVEN
     String[] keys = { "name" };
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(someInfo(), null, keys));
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(INFO, null, keys));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -71,7 +69,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     // GIVEN
     String[] keys = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> maps.assertContainsOnlyKeys(someInfo(), actual, keys));
+    Throwable thrown = catchThrowable(() -> maps.assertContainsOnlyKeys(INFO, actual, keys));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class).hasMessage(keysToLookForIsNull("array of keys"));
   }
@@ -81,7 +79,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     // GIVEN
     String[] keys = emptyKeys();
     // WHEN
-    Throwable thrown = catchThrowable(() -> maps.assertContainsOnlyKeys(someInfo(), actual, keys));
+    Throwable thrown = catchThrowable(() -> maps.assertContainsOnlyKeys(INFO, actual, keys));
     // THEN
     then(thrown).isInstanceOf(IllegalArgumentException.class).hasMessage(keysToLookForIsEmpty("array of keys"));
   }

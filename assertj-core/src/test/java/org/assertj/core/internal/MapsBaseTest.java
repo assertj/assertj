@@ -53,6 +53,7 @@ import org.springframework.util.LinkedCaseInsensitiveMap;
 public class MapsBaseTest extends WithPlayerData {
 
   private static final Supplier<Map<String, String>> CASE_INSENSITIVE_TREE_MAP = () -> new TreeMap<>(CASE_INSENSITIVE_ORDER);
+  protected static final AssertionInfo INFO = someInfo();
 
   @SuppressWarnings("unchecked")
   protected static final Supplier<Map<String, String>>[] CASE_INSENSITIVE_MAPS = new Supplier[] {

@@ -25,20 +25,29 @@ class MapAssert_containsAllEntriesOf_Test extends MapAssertBaseTest {
 
   @Override
   protected MapAssert<Object, Object> invoke_api_method() {
-    return assertions.containsAllEntriesOf(map("firstKey", "firstValue", "secondKey", "secondValue"));
+    return assertions.containsAllEntriesOf(Map.of("key1", "value1", "key2", "value2"));
   }
 
   @Override
   protected void verify_internal_effects() {
     verify(maps).assertContainsAllEntriesOf(getInfo(assertions), getActual(assertions),
-                                            map("firstKey", "firstValue", "secondKey", "secondValue"));
+                                            Map.of("key1", "value1", "key2", "value2"), null);
   }
 
   @Test
   void invoke_api_like_user() {
     // GIVEN
-    Map<String, String> actual = map("firstKey", "firstValue", "secondKey", "secondValue");
+    Map<String, String> actual = Map.of("key1", "value1", "key2", "value2");
     // WHEN/THEN
-    then(actual).containsAllEntriesOf(map("secondKey", "secondValue", "firstKey", "firstValue"));
+    then(actual).containsAllEntriesOf(Map.of("key2", "value2", "key1", "value1"));
+  }
+
+  @Test
+  void should_honor_custom_value_equals_when_comparing_entry_values() {
+    // GIVEN
+    var map = Map.of("key1", "value1", "key2", "value2");
+    // WHEN/THEN
+    then(map).usingEqualsForValues(String::equalsIgnoreCase)
+             .containsAllEntriesOf(Map.of("key2", "VALUE2", "key1", "VALUE1"));
   }
 }

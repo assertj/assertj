@@ -13,6 +13,7 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.mockito.Mockito.verify;
 
@@ -33,12 +34,21 @@ class MapAssert_containsExactly_with_Java_Util_MapEntry_Test extends MapAssertBa
 
   @Override
   protected void verify_internal_effects() {
-    verify(maps).assertContainsExactly(getInfo(assertions), getActual(assertions), entries);
+    verify(maps).assertContainsExactly(getInfo(assertions), getActual(assertions), entries, null);
   }
 
   @Test
   void invoke_api_like_user() {
     assertThat(map("key1", "value1", "key2", "value2")).containsExactly(javaMapEntry("key1", "value1"),
                                                                         javaMapEntry("key2", "value2"));
+  }
+
+  @Test
+  void should_honor_custom_value_equals_when_comparing_entry_values() {
+    // GIVEN
+    var map = map("key1", "value1", "key2", "value2");
+    // WHEN/THEN
+    then(map).usingEqualsForValues(String::equalsIgnoreCase)
+             .containsExactly(javaMapEntry("key1", "VALUE1"), javaMapEntry("key2", "VALUE2"));
   }
 }

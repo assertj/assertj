@@ -23,7 +23,6 @@ import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldNotContainKeys.shouldNotContainKeys;
 import static org.assertj.core.internal.ErrorMessages.keysToLookForIsNull;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -55,7 +54,7 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
     // GIVEN
     String[] keys = { "name" };
     // WHEN
-    var assertionError = expectAssertionError(() -> maps.assertDoesNotContainKeys(someInfo(), null, keys));
+    var assertionError = expectAssertionError(() -> maps.assertDoesNotContainKeys(INFO, null, keys));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -65,7 +64,7 @@ class Maps_assertDoesNotContainKeys_Test extends MapsBaseTest {
     // GIVEN
     String[] keys = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> maps.assertDoesNotContainKeys(someInfo(), actual, keys));
+    Throwable thrown = catchThrowable(() -> maps.assertDoesNotContainKeys(INFO, actual, keys));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class).hasMessage(keysToLookForIsNull("array of keys"));
   }
