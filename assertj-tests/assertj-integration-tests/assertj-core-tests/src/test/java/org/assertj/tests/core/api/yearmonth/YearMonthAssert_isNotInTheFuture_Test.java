@@ -15,8 +15,8 @@ package org.assertj.tests.core.api.yearmonth;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeNotInTheFuture.shouldBeNotInTheFuture;
-import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.YearMonth;
 
@@ -34,7 +34,7 @@ class YearMonthAssert_isNotInTheFuture_Test extends YearMonthAssertBaseTest {
 
   @Test
   void should_pass_if_actual_is_today() {
-     assertThat(REFERENCE).isNotInTheFuture();
+    assertThat(REFERENCE).isNotInTheFuture();
   }
 
   @Test
