@@ -34,7 +34,7 @@ class YearMonthAssert_isNotInTheFuture_Test extends YearMonthAssertBaseTest {
 
   @Test
   void should_pass_if_actual_is_today() {
-     assertThat(REFERENCE).isNotInTheFuture();
+    assertThat(REFERENCE).isNotInTheFuture();
   }
 
   @Test
