@@ -19,6 +19,7 @@ import static org.assertj.core.error.ShouldBeBeforeOrEqualTo.shouldBeBeforeOrEqu
 import static org.assertj.core.error.ShouldBeCurrentYearMonth.shouldBeCurrentYearMonth;
 import static org.assertj.core.error.ShouldBeInTheFuture.shouldBeInTheFuture;
 import static org.assertj.core.error.ShouldBeInThePast.shouldBeInThePast;
+import static org.assertj.core.error.ShouldBeNotInTheFuture.shouldBeNotInTheFuture;
 import static org.assertj.core.error.ShouldBeNotInThePast.shouldBeNotInThePast;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveDateField;
 import static org.assertj.core.error.ShouldHaveDateField.shouldHaveMonth;
@@ -395,6 +396,26 @@ public abstract class AbstractYearMonthAssert<SELF extends AbstractYearMonthAsse
   public SELF isInTheFuture() {
     Objects.instance().assertNotNull(info, actual);
     if (!actual.isAfter(YearMonth.now())) throwAssertionError(shouldBeInTheFuture(actual));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code YearMonth} is strictly not in the future.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(YearMonth.now().minusMonths(1)).isNotInTheFuture();
+   * // assertion also succeeds:
+   * assertThat(YearMonth.now()).isNotInTheFuture();
+   * </code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual {@code YearMonth} is {@code null}.
+   * @throws AssertionError if the actual {@code YearMonth} is not in the future.
+   */
+  public SELF isNotInTheFuture() {
+    Objects.instance().assertNotNull(info, actual);
+    if (actual.isAfter(YearMonth.now())) throwAssertionError(shouldBeNotInTheFuture(actual));
     return myself;
   }
 
