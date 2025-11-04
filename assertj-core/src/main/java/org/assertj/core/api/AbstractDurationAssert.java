@@ -22,13 +22,16 @@ import static org.assertj.core.error.ShouldHaveDuration.shouldHaveSeconds;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.Duration;
+import java.util.function.Function;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.presentation.StandardRepresentation;
 
 /**
  * Assertions for {@link Duration} type.
  * @author Filip Hrisafov
+ * @author Eric Rizzo
  * @since 3.15.0
  */
 public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert<SELF>>
@@ -294,6 +297,44 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
       throw Failures.instance().failure(info, shouldBeCloseTo(actual, expected, allowedDifference, absDiff(actual, expected)));
     }
     return myself;
+  }
+
+  /**
+   * Overrides AssertJ default formatting for <code>Duration</code> objects in failure messages.
+   * <p>
+   * The formatting function is only called if the assertion fails.
+   * <p>
+   * You must set the formatter <b>before</b> calling the assertion, otherwise it is ignored as the failing assertion breaks
+   * the call chain by throwing an {@link AssertionError}.
+   * <p>
+   * Calling this method will override any previous calls to {@link #withRepresentation(org.assertj.core.presentation.Representation)
+   * withRepresentation(Representation)} because this method uses a custom <code>Representation</code> to do the formatting. Similarly,
+   * a <code>Representation</code> specified via {@link #withRepresentation(org.assertj.core.presentation.Representation)
+   * withRepresentation(Representation)} <b>after</b> this method will take precedence over a formatter provided here.
+   * <p>
+   * Example using lambda:
+   * <pre><code class='java'> var formatter = d -> "%s days or %s hours".formatted(d.toDays(), d.toHours());
+   * assertThat(timeSpent)
+   *     .withFormatter(formatter);
+   *     .isTrue();</code></pre>
+   * <p>
+   * Example using <code>org.apache.commons.lang3.time.DurationFormatUtils.formatDuration(long, String)</code>:
+   * <pre><code class='java'> assertThat(timeSpent)
+   *     .withFormatter(d -> DurationFormatUtils.formatDuration(d.toMillis(), "HH:mm:ss"));
+   *     .isTrue();</code></pre>
+   *
+   * @param formatter the function to format all Duration objects that are included in error messages. This can include actual and expected Duration values.
+   * @return this assertion object.
+   */
+  public SELF withFormatter(Function<Duration, String> formatter) {
+    checkArgument(formatter != null, "formatter should not be null");
+
+    return withRepresentation(new StandardRepresentation() {
+      @Override
+      public String toStringOf(Duration duration) {
+        return formatter.apply(duration);
+      }
+    });
   }
 
   private static Duration absDiff(Duration actual, Duration expected) {
