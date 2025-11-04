@@ -27,7 +27,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class DurationAssert_isCloseTo_Test {
 
-  @ParameterizedTest(name = "PT2M should close to {0} withMarginOf {1}")
+  @ParameterizedTest(name = "PT2M should be close to {0} withMarginOf {1}")
   @CsvSource({
       "PT1M, PT70S",
       "PT70S, PT1M",
