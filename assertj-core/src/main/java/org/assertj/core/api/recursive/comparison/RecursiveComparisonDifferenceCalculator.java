@@ -52,11 +52,12 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.assertj.core.internal.DeepDifference;
-
 /**
- * Based on {@link DeepDifference} but takes a {@link RecursiveComparisonConfiguration}, {@link DeepDifference}
- * being itself based on the deep equals implementation of <a href="https://github.com/jdereg/java-util">https://github.com/jdereg/java-util</a>
+ * Based on {@link org.assertj.core.internal.DeepDifference}
+ * but takes a {@link RecursiveComparisonConfiguration},
+ * {@link org.assertj.core.internal.DeepDifference}
+ * being itself based on the deep equals implementation of
+ * <a href="https://github.com/jdereg/java-util">https://github.com/jdereg/java-util</a>
  *
  * @author John DeRegnaucourt (john@cedarsoftware.com)
  * @author Pascal Schumacher

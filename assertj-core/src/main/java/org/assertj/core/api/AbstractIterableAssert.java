@@ -3007,9 +3007,10 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return toAssert(lastElement(), navigationDescription("check last element"));
   }
 
+  @SuppressWarnings("unchecked")
   private ELEMENT lastElement() {
-    if (actual instanceof List<? extends ELEMENT> list) {
-      return list.get(list.size() - 1);
+    if (actual instanceof @SuppressWarnings("rawtypes") List list) {
+      return (ELEMENT) list.get(list.size() - 1);
     }
     Iterator<? extends ELEMENT> actualIterator = actual.iterator();
     ELEMENT last = actualIterator.next();
@@ -3143,13 +3144,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return internalElement(index).asInstanceOf(assertFactory);
   }
 
+  @SuppressWarnings("unchecked")
   private ELEMENT_ASSERT internalElement(int index) {
     isNotEmpty();
     assertThat(index).describedAs(navigationDescription("check index validity"))
                      .isBetween(0, IterableUtil.sizeOf(actual) - 1);
     ELEMENT elementAtIndex;
-    if (actual instanceof List<? extends ELEMENT> list) {
-      elementAtIndex = list.get(index);
+    if (actual instanceof @SuppressWarnings("rawtypes") List list) {
+      elementAtIndex = (ELEMENT) list.get(index);
     } else {
       Iterator<? extends ELEMENT> actualIterator = actual.iterator();
       for (int i = 0; i < index; i++) {

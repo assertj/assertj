@@ -465,7 +465,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
-    return super.extracting(propertyOrField, this::newObjectAssert);
+    AssertFactory<Object, AbstractObjectAssert<?, Object>> assertFactory = this::newObjectAssert;
+    return super.extracting(propertyOrField, assertFactory);
   }
 
   /**
@@ -510,7 +511,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                  InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return super.extracting(propertyOrField, this::newObjectAssert).asInstanceOf(assertFactory);
+    AssertFactory<Object, AbstractObjectAssert<?, Object>> assertFactory1 = this::newObjectAssert;
+    return super.extracting(propertyOrField, assertFactory1).asInstanceOf(assertFactory);
   }
 
   /**
@@ -582,7 +584,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public <T> AbstractObjectAssert<?, T> extracting(Function<? super ACTUAL, T> extractor) {
-    return super.extracting(extractor, this::newObjectAssert);
+    AssertFactory<T, AbstractObjectAssert<?, T>> assertFactory = this::newObjectAssert;
+    return super.extracting(extractor, assertFactory);
   }
 
   /**
@@ -619,7 +622,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, T> extractor,
                                                                     InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return super.extracting(extractor, this::newObjectAssert).asInstanceOf(assertFactory);
+    AssertFactory<T, AbstractObjectAssert<?, T>> factory = this::newObjectAssert;
+    return super.extracting(extractor, factory).asInstanceOf(assertFactory);
   }
 
   /**
