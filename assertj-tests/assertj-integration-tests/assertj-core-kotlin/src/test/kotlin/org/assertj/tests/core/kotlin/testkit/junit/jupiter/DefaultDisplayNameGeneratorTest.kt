@@ -25,7 +25,7 @@ class DefaultDisplayNameGeneratorTest {
         "org.assertj.tests.core.kotlin.testkit.junit.jupiter.SomeAssert_someMethod_Test, SomeAssert someMethod",
         "org.assertj.tests.core.kotlin.testkit.junit.jupiter.SomeAssert_someMethod_with_SomeType_Test, SomeAssert someMethod with SomeType"
     )
-    fun generateDisplayNameForClass_should_remove_test_suffix(testClass: Class<*>?, expected: String?) {
+    fun generateDisplayNameForClass_should_remove_test_suffix(testClass: Class<*>, expected: String?) {
         // WHEN
         val displayName = underTest.generateDisplayNameForClass(testClass)
         // THEN

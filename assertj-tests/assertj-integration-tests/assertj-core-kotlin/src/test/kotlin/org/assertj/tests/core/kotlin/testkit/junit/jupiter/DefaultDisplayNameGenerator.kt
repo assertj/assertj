@@ -18,13 +18,13 @@ private const val TEST_SUFFIX = " Test"
 
 class DefaultDisplayNameGenerator : ReplaceUnderscores() {
 
-  override fun generateDisplayNameForClass(testClass: Class<*>?): String {
+  override fun generateDisplayNameForClass(testClass: Class<*>): String {
     return removeTestSuffixIfExists(super.generateDisplayNameForClass(testClass))
   }
 
   private fun removeTestSuffixIfExists(displayName: String): String {
     return if (displayName.endsWith(TEST_SUFFIX))
-      displayName.substring(0, displayName.lastIndexOf(TEST_SUFFIX))
+      displayName.take(displayName.lastIndexOf(TEST_SUFFIX))
     else
       displayName
   }
