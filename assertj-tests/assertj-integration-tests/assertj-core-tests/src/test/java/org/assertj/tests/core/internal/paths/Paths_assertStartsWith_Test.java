@@ -52,7 +52,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
   }
 
   @Test
-  void should_rethrow_IOException_as_UncheckedIOException_if_resolving_actual_throws() throws IOException {
+  void should_rethrow_IOException_as_UncheckedIOException_if_actual_cannot_be_resolved() throws IOException {
     // GIVEN
     Path actual = spy(createFile(tempDir.resolve("actual")));
     Path other = createFile(tempDir.resolve("other"));
@@ -66,7 +66,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
   }
 
   @Test
-  void should_rethrow_IOException_as_UncheckedIOException_if_resolving_other_throws() throws IOException {
+  void should_rethrow_IOException_as_UncheckedIOException_if_other_cannot_be_resolved() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = spy(createFile(tempDir.resolve("other")));
@@ -91,7 +91,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
   }
 
   @Test
-  void should_pass_if_actual_starts_with_other() throws IOException {
+  void should_pass_if_actual_starts_with_existing_other() throws IOException {
     // GIVEN
     Path other = createDirectory(tempDir.resolve("other")).toRealPath();
     Path actual = createFile(other.resolve("actual")).toRealPath();
@@ -120,11 +120,12 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
   }
 
   @Test
-  void should_pass_on_non_existing_file() {
+  void should_pass_if_actual_does_not_exist() {
     // GIVEN
     Path actual = Path.of("foo/bar/baz");
     Path other = Path.of("foo");
     // WHEN/THEN
     underTest.assertStartsWith(INFO, actual, other);
   }
+
 }

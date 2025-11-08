@@ -51,7 +51,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
   }
 
   @Test
-  void should_rethrow_IOException_as_UncheckedIOException() throws IOException {
+  void should_rethrow_IOException_as_UncheckedIOException_if_actual_cannot_be_resolved() throws IOException {
     // GIVEN
     Path actual = spy(createFile(tempDir.resolve("actual")));
     Path other = tempDir.resolve("other");
@@ -76,7 +76,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
   }
 
   @Test
-  void should_pass_if_actual_ends_with_other() throws IOException {
+  void should_pass_if_actual_ends_with_non_existing_other() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = Path.of("actual");
@@ -104,11 +104,12 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
   }
 
   @Test
-  void should_pass_on_non_existing_file() {
+  void should_pass_if_actual_does_not_exist() {
     // GIVEN
     Path actual = Path.of("foo/bar/baz");
     Path other = Path.of("baz");
     // WHEN/THEN
     underTest.assertEndsWith(INFO, actual, other);
   }
+
 }
