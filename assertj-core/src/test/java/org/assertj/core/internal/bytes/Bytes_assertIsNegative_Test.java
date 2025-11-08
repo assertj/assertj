@@ -41,7 +41,7 @@ class Bytes_assertIsNegative_Test extends BytesBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytes.assertIsNegative(someInfo(), (byte) 6));
+    var assertionError = expectAssertionError(() -> bytes.assertIsNegative(someInfo(), (byte) 6));
     // THEN
     then(assertionError).hasMessage(shouldBeLess((byte) 6, (byte) 0).create());
   }
@@ -49,7 +49,7 @@ class Bytes_assertIsNegative_Test extends BytesBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytes.assertIsNegative(someInfo(), (byte) 0));
+    var assertionError = expectAssertionError(() -> bytes.assertIsNegative(someInfo(), (byte) 0));
     // THEN
     then(assertionError).hasMessage(shouldBeLess((byte) 0, (byte) 0).create());
   }
@@ -66,7 +66,7 @@ class Bytes_assertIsNegative_Test extends BytesBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative_with_hex_representation() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytes.assertIsNegative(hexInfo, (byte) 6));
+    var assertionError = expectAssertionError(() -> bytes.assertIsNegative(hexInfo, (byte) 6));
     // THEN
     then(assertionError).hasMessage(shouldBeLess((byte) 0x06, (byte) 0x00).create(hexInfo.description(),
                                                                                   hexInfo.representation()));
@@ -75,8 +75,8 @@ class Bytes_assertIsNegative_Test extends BytesBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative_according_to_absolute_value_comparison_strategy_in_hex_representation() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNegative(someHexInfo(),
-                                                                                                                    (byte) 0xFA));
+    var assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNegative(someHexInfo(),
+                                                                                                         (byte) 0xFA));
     // THEN
     then(assertionError).hasMessage(shouldBeLess((byte) 0xFA, (byte) 0x00,
                                                  absValueComparisonStrategy).create(hexInfo.description(),

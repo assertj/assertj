@@ -56,7 +56,7 @@ class InputStreamAssert_hasDigest_Test {
       MessageDigest algorithm = getInstance("MD5");
       byte[] digest = new byte[16];
       // WHEN
-      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, digest));
+      var assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, digest));
       // THEN
       then(assertionError).hasMessage(shouldNotBeNull().create());
     }
@@ -136,7 +136,7 @@ class InputStreamAssert_hasDigest_Test {
       InputStream actual = new ByteArrayInputStream(input);
       byte[] expected = new byte[16];
       // WHEN
-      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, expected));
+      var assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, expected));
       // THEN
       then(assertionError).hasMessage(shouldHaveDigest(actual, new DigestDiff(digest, toHex(expected), algorithm)).create());
     }
@@ -153,7 +153,7 @@ class InputStreamAssert_hasDigest_Test {
       MessageDigest algorithm = getInstance("MD5");
       String digest = "00000000000000000000000000000000";
       // WHEN
-      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, digest));
+      var assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, digest));
       // THEN
       then(assertionError).hasMessage(shouldNotBeNull().create());
     }
@@ -233,7 +233,7 @@ class InputStreamAssert_hasDigest_Test {
       InputStream actual = new ByteArrayInputStream(input);
       String expected = "00000000000000000000000000000000";
       // WHEN
-      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, expected));
+      var assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, expected));
       // THEN
       then(assertionError).hasMessage(shouldHaveDigest(actual, new DigestDiff(digest, expected, algorithm)).create());
     }
@@ -250,7 +250,7 @@ class InputStreamAssert_hasDigest_Test {
       String algorithm = "MD5";
       byte[] digest = new byte[16];
       // WHEN
-      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, digest));
+      var assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, digest));
       // THEN
       then(assertionError).hasMessage(shouldNotBeNull().create());
     }
@@ -343,7 +343,7 @@ class InputStreamAssert_hasDigest_Test {
       InputStream actual = new ByteArrayInputStream(input);
       byte[] expected = new byte[16];
       // WHEN
-      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, expected));
+      var assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, expected));
       // THEN
       then(assertionError).hasMessage(shouldHaveDigest(actual,
                                                        new DigestDiff(digest, toHex(expected), getInstance(algorithm))).create());
@@ -361,7 +361,7 @@ class InputStreamAssert_hasDigest_Test {
       String algorithm = "MD5";
       String digest = "00000000000000000000000000000000";
       // WHEN
-      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, digest));
+      var assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, digest));
       // THEN
       then(assertionError).hasMessage(shouldNotBeNull().create());
     }
@@ -454,7 +454,7 @@ class InputStreamAssert_hasDigest_Test {
       InputStream actual = new ByteArrayInputStream(input);
       String expected = "00000000000000000000000000000000";
       // WHEN
-      AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, expected));
+      var assertionError = expectAssertionError(() -> assertThat(actual).hasDigest(algorithm, expected));
       // THEN
       then(assertionError).hasMessage(shouldHaveDigest(actual,
                                                        new DigestDiff(digest, expected, getInstance(algorithm))).create());

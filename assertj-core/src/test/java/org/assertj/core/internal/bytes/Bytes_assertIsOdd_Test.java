@@ -43,7 +43,7 @@ class Bytes_assertIsOdd_Test extends BytesBaseTest {
   @ValueSource(bytes = { 0, 2, -2, 0x04, -0x04 })
   void should_fail_since_actual_is_not_odd(byte actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytes.assertIsOdd(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> bytes.assertIsOdd(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeOdd(actual).create());
   }
@@ -59,8 +59,8 @@ class Bytes_assertIsOdd_Test extends BytesBaseTest {
   @ValueSource(bytes = { 0, 2, -2, 0x04, -0x04 })
   void should_fail_since_actual_is_not_odd_whatever_custom_comparison_strategy_is(byte actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
-                                                                                                               actual));
+    var assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
+                                                                                                    actual));
     // THEN
     then(assertionError).hasMessage(shouldBeOdd(actual).create());
   }

@@ -28,6 +28,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -35,7 +36,6 @@ import org.assertj.core.description.Description;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.Objects;
 import org.assertj.core.internal.TypeComparators;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -156,6 +156,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual object is {@code null}.
    * @throws AssertionError if some (non ignored) fields or properties of the actual object are null.
+   * @throws AssertionError if any of the properties or fields to ignore doesn't exist.
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
@@ -464,7 +465,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
-    return super.extracting(propertyOrField, this::newObjectAssert);
+    AssertFactory<Object, AbstractObjectAssert<?, Object>> assertFactory = this::newObjectAssert;
+    return super.extracting(propertyOrField, assertFactory);
   }
 
   /**
@@ -509,7 +511,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
                                                                  InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return super.extracting(propertyOrField, this::newObjectAssert).asInstanceOf(assertFactory);
+    AssertFactory<Object, AbstractObjectAssert<?, Object>> assertFactory1 = this::newObjectAssert;
+    return super.extracting(propertyOrField, assertFactory1).asInstanceOf(assertFactory);
   }
 
   /**
@@ -536,18 +539,18 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   @SafeVarargs
-  public final <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> extracting(Function<? super ACTUAL, ? extends T>... extractors) {
+  public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
     return extractingForProxy(extractors);
   }
 
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected <T> AbstractListAssert<?, List<? extends T>, T, ObjectAssert<T>> extractingForProxy(Function<? super ACTUAL, ? extends T>[] extractors) {
+  protected AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingForProxy(Function<? super ACTUAL, ?>[] extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors")::create);
-    List<T> values = Stream.of(extractors)
-                           .map(extractor -> extractor.apply(actual))
-                           .collect(toList());
+    List<Object> values = Stream.of(extractors)
+                                .map(extractor -> extractor.apply(actual))
+                                .collect(toList());
     return newListAssertInstance(values).withAssertionState(myself);
   }
 
@@ -581,7 +584,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public <T> AbstractObjectAssert<?, T> extracting(Function<? super ACTUAL, T> extractor) {
-    return super.extracting(extractor, this::newObjectAssert);
+    AssertFactory<T, AbstractObjectAssert<?, T>> assertFactory = this::newObjectAssert;
+    return super.extracting(extractor, assertFactory);
   }
 
   /**
@@ -618,7 +622,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @CheckReturnValue
   public <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(Function<? super ACTUAL, T> extractor,
                                                                     InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return super.extracting(extractor, this::newObjectAssert).asInstanceOf(assertFactory);
+    AssertFactory<T, AbstractObjectAssert<?, T>> factory = this::newObjectAssert;
+    return super.extracting(extractor, factory).asInstanceOf(assertFactory);
   }
 
   /**

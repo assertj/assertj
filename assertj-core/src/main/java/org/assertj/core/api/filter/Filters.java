@@ -29,17 +29,23 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 /**
  * Filters the elements of a given <code>{@link Iterable}</code> or array according to the specified filter criteria.
  * <p>
- * Filter criteria can be expressed either by a {@link Condition} or a pseudo filter language on elements properties.
+ *  Filter criteria can be expressed using {@link Condition} in two different ways:
+ *  <ul>
+ *    <li>
+ *      on the iterable elements themselves using {@link Filters#being(Condition)} or {@link Filters#having(Condition)}.
+ *    </li>
+ *    <li>
+ *      using a pseudo filter language on element properties or fields using {@link Filters#with(String)} followed by
+ *      a call to {@link Filters#matching(Condition)}
+ *    </li>
+ *  </ul>
+ *  Additionally, you can also filter on element properties or fields using {@link Filters#equalsTo(Object)} or
+ *  {@link Filters#notEqualsTo(Object)}.
  * <p>
- * With fluent filter language on element properties/fields :
- * <pre><code class='java'> assertThat(filter(players).with("pointsPerGame").greaterThan(20)
- *                           .and("assistsPerGame").greaterThan(7).get())
- *                           .containsOnly(james, rose);</code></pre>
- *
- * With {@link Condition} :
+ * Example of usage filtering on the elements themselves using a {@link Condition}:
  * <pre><code class='java'> List&lt;Player&gt; players = ...;
  *
- * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP"){
+ * Condition&lt;Player&gt; potentialMVP = new Condition&lt;Player&gt;("is a possible MVP") {
  *   public boolean matches(Player player) {
  *     return player.getPointsPerGame() &gt; 20 &amp;&amp; player.getAssistsPerGame() &gt; 7;
  *   };
@@ -47,8 +53,20 @@ import org.assertj.core.util.introspection.PropertyOrFieldSupport;
  *
  * // use filter static method to build Filters
  * assertThat(filter(players).being(potentialMVP).get()).containsOnly(james, rose);</code></pre>
+ * <p>
+ * Example of usage with selection of and fields using matches:
+ * <pre><code class='java'>
+ * Condition&lt;Integer&gt; greaterThan20 = new Condition&lt;&gt;(i -> i &gt; 20, "&gt; 20");
+ * Condition&lt;Integer&gt; greaterThan7 = new Condition&lt;&gt;(i -> i &gt; 7, "&gt; 7");
  *
- * @param <E> the type of element of group to filter.
+ * assertThat(
+ *   filter(players)
+ *     .with("pointsPerGame").matches(greaterThan20)
+ *     .with("assistsPerGame").matches(greaterThan7)
+ *     .get()
+ * ).containsOnly(jordan);</code></pre>
+ *
+ * @param <E> the type of element of the iterable to filter.
  *
  * @author Joel Costigliola
  * @author Mikhail Mazursky
@@ -256,8 +274,8 @@ public class Filters<E> {
   }
 
   /**
-   * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>equals to</b>
-   * given value.
+   * Filters the underlying iterable to keep elements with the property (specified by {@link #with(String)}) that are
+   * <b>equal to</b> the given value.
    * <p>
    * Typical usage :
    * <pre><code class='java'> filter(employees).with("name").equalsTo("Luke").get();</code></pre>
@@ -268,17 +286,12 @@ public class Filters<E> {
    */
   public Filters<E> equalsTo(Object propertyValue) {
     checkPropertyNameToFilterOnIsNotNull();
-    this.filteredIterable = filteredIterable.stream().filter(element -> {
-      Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldNameToFilterOn, element);
-      return deepEquals(propertyValueOfCurrentElement, propertyValue);
-    }).collect(toList());
-    return this;
+    return matching(new Condition<>(elem -> deepEquals(elem, propertyValue), "equalsTo(%s)", propertyValue));
   }
 
   /**
-   * Filters the underlying iterable to keep object with property (specified by {@link #with(String)}) <b>not equals
-   * to</b> given
-   * value.
+   * Filters the underlying iterable to keep elements with the property (specified by {@link #with(String)}) that are
+   * <b>not equal to</b> the given value.
    * <p>
    * Typical usage :
    * <pre><code class='java'> filter(employees).with("name").notEqualsTo("Vader").get();</code></pre>
@@ -289,10 +302,35 @@ public class Filters<E> {
    */
   public Filters<E> notEqualsTo(Object propertyValue) {
     checkPropertyNameToFilterOnIsNotNull();
+    return matching(new Condition<>(elem -> !deepEquals(elem, propertyValue), "notEqualsTo(%s)", propertyValue));
+  }
+
+  /**
+   * Filters the underlying iterable to keep elements with the property (specified by {@link #with(String)}) that
+   * <b>match</b> the given condition.
+   * <p>
+   * Typical usage :
+   * <pre><code class='java'> Condition&lt;String&gt; minor = new Condition&lt;&gt;(age -&gt; age &lt; 19, "minor");
+   *
+   * filter(employees).with("age").matching(minor).get();</code></pre>
+   *
+   * @param condition the condition to match
+   * @return this {@link Filters} to chain other filter operation.
+   * @throws IllegalArgumentException if the property name to filter on has not been set.
+   * @throws IllegalArgumentException if the given condition is {@code null} or the type does not match
+   * the type of the selected property.
+   */
+  public <T> Filters<E> matching(Condition<T> condition) {
+    checkPropertyNameToFilterOnIsNotNull();
+    checkArgument(condition != null, "The filter condition should not be null");
     this.filteredIterable = filteredIterable.stream().filter(element -> {
       Object propertyValueOfCurrentElement = PROPERTY_OR_FIELD_SUPPORT.getValueOf(propertyOrFieldNameToFilterOn, element);
-      return !deepEquals(propertyValueOfCurrentElement, propertyValue);
-    }).collect(toList());
+      try {
+        return condition.matches((T) propertyValueOfCurrentElement);
+      } catch (ClassCastException e) {
+        throw new IllegalArgumentException("Condition type does not match the property type.");
+      }
+    }).toList();
     return this;
   }
 

@@ -22,41 +22,34 @@ public enum PreferredAssumptionException {
    */
   TEST_NG("org.testng.SkipException"),
   /**
-   * {@code org.junit.AssumptionViolatedException} - works with JUnit 4
-   */
-  JUNIT4("org.junit.AssumptionViolatedException"),
-  /**
-   * {@code org.opentest4j.TestAbortedException} - works with JUnit 5 
+   * {@code org.opentest4j.TestAbortedException} - works with JUnit 5
    */
   JUNIT5("org.opentest4j.TestAbortedException"),
   /**
    * AssertJ will try to build the exception to throw in this order:
    * <ol>
    * <li>{@code org.testng.SkipException} for TestNG (if available in the classpath)</li>
-   * <li>{@code org.junit.AssumptionViolatedException} for JUnit 4 (if available in the classpath)</li>
    * <li>{@code org.opentest4j.TestAbortedException} for JUnit 5</li>
-   * </ol> 
+   * </ol>
    * If none are available, AssertJ throws an {@link IllegalStateException}.
    */
   AUTO_DETECT(null) {
-
     @Override
     public Class<?> getAssumptionExceptionClass() {
       return autoDetectAssumptionExceptionClass();
     }
 
     private Class<?> autoDetectAssumptionExceptionClass() {
-      return Stream.of(TEST_NG, JUNIT4, JUNIT5)
+      return Stream.of(TEST_NG, JUNIT5)
                    .map(PreferredAssumptionException::loadAssumptionExceptionClass)
                    .flatMap(optional -> optional.map(Stream::of).orElse(Stream.empty()))
                    .findFirst()
-                   .orElseThrow(() -> new IllegalStateException("Assumptions require TestNG, JUnit 4 or opentest4j on the classpath"));
+                   .orElseThrow(() -> new IllegalStateException("Assumptions require TestNG, JUnit 5 or opentest4j on the classpath"));
     }
 
     @Override
     public String toString() {
-      return "%s(%s)".formatted(name(),
-                                "try in order org.testng.SkipException, org.junit.AssumptionViolatedException and org.opentest4j.TestAbortedException");
+      return name() + "(try in order org.testng.SkipException and org.opentest4j.TestAbortedException)";
     }
 
   };

@@ -79,8 +79,8 @@ class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementComparator_Tes
     AtomicReferenceArray<Foo> array1 = atomicArrayOf(new Foo("id", new Bar(1)));
     Foo[] array2 = { new Foo("id", new Bar(2)) };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
-                                                                                 .isEqualTo(array2));
+    var assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
+                                                                      .isEqualTo(array2));
     // THEN
     then(assertionError).hasMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=Bar(id=1))]", "[Foo(id=id, bar=Bar(id=2))]") +
                                            "%n" +
@@ -93,8 +93,8 @@ class AtomicReferenceArrayAssert_usingRecursiveFieldByFieldElementComparator_Tes
     AtomicReferenceArray<Foo> array1 = atomicArrayOf(new Foo("id", new Bar(1)));
     Foo[] array2 = { new Foo("id", new Bar(2)) };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
-                                                                                 .isIn(new Object[] { array2 }));
+    var assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
+                                                                      .isIn(new Object[] { array2 }));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  [Foo(id=id, bar=Bar(id=1))]%n" +

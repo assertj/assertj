@@ -38,7 +38,7 @@ class Floats_assertIsNegative_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> floats.assertIsNegative(someInfo(), 6.0f));
+    var assertionError = expectAssertionError(() -> floats.assertIsNegative(someInfo(), 6.0f));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(6.0f, 0.0f).create());
   }
@@ -46,7 +46,7 @@ class Floats_assertIsNegative_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> floats.assertIsNegative(someInfo(), 0.0f));
+    var assertionError = expectAssertionError(() -> floats.assertIsNegative(someInfo(), 0.0f));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(0.0f, 0.0f).create());
   }

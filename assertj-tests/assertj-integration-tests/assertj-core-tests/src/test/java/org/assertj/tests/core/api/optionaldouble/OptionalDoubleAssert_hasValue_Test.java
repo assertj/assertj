@@ -46,7 +46,7 @@ class OptionalDoubleAssert_hasValue_Test {
     // GIVEN
     OptionalDouble nullActual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).hasValue(10.0));
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).hasValue(10.0));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

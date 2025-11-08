@@ -58,7 +58,7 @@ class OffsetDateTimeAssert_isNotEqualTo_Test extends AbstractOffsetDateTimeAsser
   @Test
   void should_fail_if_actual_is_at_same_instant_as_offsetDateTime_with_different_offset() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE).isNotEqualTo(REFERENCE_WITH_DIFFERENT_OFFSET));
+    var assertionError = expectAssertionError(() -> assertThat(REFERENCE).isNotEqualTo(REFERENCE_WITH_DIFFERENT_OFFSET));
     // THEN
     String errorMesssage = shouldNotBeEqual(REFERENCE, REFERENCE_WITH_DIFFERENT_OFFSET, COMPARISON_STRATEGY).create();
     assertThat(assertionError).hasMessage(errorMesssage);
@@ -70,7 +70,7 @@ class OffsetDateTimeAssert_isNotEqualTo_Test extends AbstractOffsetDateTimeAsser
     OffsetDateTime nullActual = null;
     OffsetDateTime nullExpected = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).isNotEqualTo(nullExpected));
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).isNotEqualTo(nullExpected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeEqual(nullActual, nullExpected).create());
   }

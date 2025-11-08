@@ -38,7 +38,7 @@ class Doubles_assertIsNegative_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsNegative(someInfo(), 6.0));
+    var assertionError = expectAssertionError(() -> doubles.assertIsNegative(someInfo(), 6.0));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(6.0, 0.0).create());
   }
@@ -46,7 +46,7 @@ class Doubles_assertIsNegative_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsNegative(someInfo(), 0.0));
+    var assertionError = expectAssertionError(() -> doubles.assertIsNegative(someInfo(), 0.0));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(0.0, 0.0).create());
   }

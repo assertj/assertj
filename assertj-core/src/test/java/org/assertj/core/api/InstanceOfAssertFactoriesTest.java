@@ -60,6 +60,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
+import static org.assertj.core.api.InstanceOfAssertFactories.HASH_SET;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.INSTANT;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
@@ -95,6 +96,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.SHORT;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SHORT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.SPLITERATOR;
+import static org.assertj.core.api.InstanceOfAssertFactories.SQL_EXCEPTION;
 import static org.assertj.core.api.InstanceOfAssertFactories.STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING_BUFFER;
@@ -119,6 +121,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.comparable;
 import static org.assertj.core.api.InstanceOfAssertFactories.completableFuture;
 import static org.assertj.core.api.InstanceOfAssertFactories.completionStage;
 import static org.assertj.core.api.InstanceOfAssertFactories.future;
+import static org.assertj.core.api.InstanceOfAssertFactories.hashSet;
 import static org.assertj.core.api.InstanceOfAssertFactories.iterable;
 import static org.assertj.core.api.InstanceOfAssertFactories.iterator;
 import static org.assertj.core.api.InstanceOfAssertFactories.list;
@@ -127,10 +130,12 @@ import static org.assertj.core.api.InstanceOfAssertFactories.optional;
 import static org.assertj.core.api.InstanceOfAssertFactories.predicate;
 import static org.assertj.core.api.InstanceOfAssertFactories.set;
 import static org.assertj.core.api.InstanceOfAssertFactories.spliterator;
+import static org.assertj.core.api.InstanceOfAssertFactories.sqlException;
 import static org.assertj.core.api.InstanceOfAssertFactories.stream;
 import static org.assertj.core.api.InstanceOfAssertFactories.throwable;
 import static org.assertj.core.api.InstanceOfAssertFactories.type;
 import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 import static org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS;
 import static org.mockito.AdditionalAnswers.delegatesTo;
 import static org.mockito.ArgumentMatchers.assertArg;
@@ -148,6 +153,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -161,6 +167,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -198,6 +205,7 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
+
 import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.assertj.core.util.Lists;
 import org.assertj.core.util.Sets;
@@ -2549,6 +2557,57 @@ class InstanceOfAssertFactoriesTest {
   }
 
   @Nested
+  class SQLException_Factory {
+
+    private final Object actual = new SQLException("message");
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractThrowableAssert<?, SQLException> result = SQL_EXCEPTION.createAssert(actual);
+      // THEN
+      result.hasMessage("message");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractThrowableAssert<?, SQLException> result = SQL_EXCEPTION.createAssert(valueProvider);
+      // THEN
+      result.hasMessage("message");
+      verify(valueProvider).apply(SQLException.class);
+    }
+  }
+
+  @Nested
+  class SQLException_Typed_Factory {
+
+    private final Object actual = new SQLException("message");
+
+    @Test
+    void createAssert() {
+      // WHEN
+      AbstractThrowableAssert<?, SQLException> result = sqlException(SQLException.class).createAssert(actual);
+      // THEN
+      result.hasMessage("message");
+    }
+
+    @Test
+    void createAssert_with_ValueProvider() {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(type -> actual);
+      // WHEN
+      AbstractThrowableAssert<?, SQLException> result = sqlException(SQLException.class).createAssert(valueProvider);
+      // THEN
+      result.hasMessage("message");
+      verify(valueProvider).apply(SQLException.class);
+    }
+
+  }
+
+  @Nested
   class CharSequence_Factory {
 
     private final Object actual = "string";
@@ -2931,6 +2990,72 @@ class InstanceOfAssertFactoriesTest {
       // THEN
       result.contains(456, 789);
       verify(valueProvider).apply(parameterizedType(List.class, Integer.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new String[] { "123", "456", "789" }, type));
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class HashSet_Factory {
+
+    private final Object actual = newLinkedHashSet(123, 456, 789);
+
+    @Test
+    void createAssert() {
+      // WHEN
+      HashSetAssert<Object> result = HASH_SET.createAssert(actual);
+      // THEN
+      result.contains(456, 789);
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      HashSetAssert<Object> result = HASH_SET.createAssert(valueProvider);
+      // THEN
+      result.contains(456, 789);
+      verify(valueProvider).apply(parameterizedType(HashSet.class, Object.class));
+    }
+
+    private Stream<ValueProvider<?>> valueProviders() {
+      return Stream.of(type -> actual,
+                       type -> convert(new int[] { 123, 456, 789 }, type));
+    }
+
+  }
+
+  @Nested
+  @TestInstance(PER_CLASS)
+  class HashSet_Typed_Factory {
+
+    private final Object actual = newLinkedHashSet(123, 456, 789);
+
+    @Test
+    void createAssert() {
+      // WHEN
+      HashSetAssert<Integer> result = hashSet(Integer.class).createAssert(actual);
+      // THEN
+      result.contains(456, 789);
+    }
+
+    @ParameterizedTest
+    @MethodSource("valueProviders")
+    void createAssert_with_ValueProvider(ValueProvider<?> delegate) {
+      // GIVEN
+      ValueProvider<?> valueProvider = mockThatDelegatesTo(delegate);
+      // WHEN
+      HashSetAssert<Integer> result = hashSet(Integer.class).createAssert(valueProvider);
+      // THEN
+      result.contains(456, 789);
+      verify(valueProvider).apply(parameterizedType(HashSet.class, Integer.class));
     }
 
     private Stream<ValueProvider<?>> valueProviders() {

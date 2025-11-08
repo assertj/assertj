@@ -111,7 +111,7 @@ class Iterables_assertContainsOnly_Test extends IterablesBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertContainsOnly(someInfo(), null, array("Yoda")));
+    var assertionError = expectAssertionError(() -> iterables.assertContainsOnly(someInfo(), null, array("Yoda")));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }

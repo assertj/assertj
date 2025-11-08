@@ -46,7 +46,7 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
     // GIVEN
     actual.add("Luke");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(INFO, actual, REQUIREMENTS));
+    var assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(INFO, actual, REQUIREMENTS));
     // THEN
     then(assertionError).hasMessage(shouldSatisfyOnlyOnce(actual, List.of("Luke", "Luke")).create());
   }
@@ -56,7 +56,7 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
     // GIVEN
     Consumer<String> requirements = value -> assertThat(value).isEqualTo("Vader");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(INFO, actual, requirements));
+    var assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(INFO, actual, requirements));
     // THEN
     then(assertionError).hasMessage(shouldSatisfyOnlyOnce(actual, List.of()).create());
   }
@@ -66,7 +66,7 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
     // GIVEN
     actual = List.of();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(INFO, actual, REQUIREMENTS));
+    var assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(INFO, actual, REQUIREMENTS));
     // THEN
     then(assertionError).hasMessage(shouldSatisfyOnlyOnce(List.of(), List.of()).create());
   }
@@ -76,7 +76,7 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(INFO, actual, REQUIREMENTS));
+    var assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(INFO, actual, REQUIREMENTS));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

@@ -30,7 +30,7 @@ class ClassAssert_isNotInterface_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotInterface());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotInterface());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -40,7 +40,7 @@ class ClassAssert_isNotInterface_Test {
     // GIVEN
     Class<?> actual = CharSequence.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotInterface());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotInterface());
     // THEN
     then(assertionError).hasMessage(shouldNotBeInterface(actual).create());
   }

@@ -29,7 +29,7 @@ class Assertions_catchException_Test {
     // GIVEN
     ThrowingCallable code = () -> catchException(raisingThrowable("boom!!"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     assertThat(assertionError).hasMessageContainingAll(Exception.class.getName(), Throwable.class.getName());
   }

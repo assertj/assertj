@@ -33,7 +33,7 @@ class DurationAssert_isNegative_Test {
     // GIVEN
     Duration actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNegative());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNegative());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -42,7 +42,7 @@ class DurationAssert_isNegative_Test {
   @ValueSource(strings = { "PT0S", "PT1S" })
   void should_fail_if_actual_is_not_negative(Duration actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNegative());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNegative());
     // THEN
     then(assertionError).hasMessage(shouldBeLess(actual, Duration.ZERO).create());
   }

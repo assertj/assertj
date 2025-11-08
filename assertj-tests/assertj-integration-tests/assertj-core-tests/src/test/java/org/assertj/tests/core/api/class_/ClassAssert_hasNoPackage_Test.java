@@ -30,7 +30,7 @@ class ClassAssert_hasNoPackage_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasNoPackage());
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasNoPackage());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -40,7 +40,7 @@ class ClassAssert_hasNoPackage_Test {
     // GIVEN
     Class<?> actual = Object.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasNoPackage());
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasNoPackage());
     // THEN
     then(assertionError).hasMessage(shouldHaveNoPackage(actual).create());
   }

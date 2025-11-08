@@ -43,7 +43,7 @@ class Longs_assertIsOdd_Test extends LongsBaseTest {
   @ValueSource(longs = { 0, 2, -4, 6 })
   void should_fail_since_actual_is_not_odd(long actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> longs.assertIsOdd(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> longs.assertIsOdd(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeOdd(actual).create());
 
@@ -60,8 +60,8 @@ class Longs_assertIsOdd_Test extends LongsBaseTest {
   @ValueSource(longs = { 0, 2, -4, 6 })
   void should_fail_since_actual_is_not_odd_whatever_custom_comparison_strategy_is(long actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
-                                                                                                               actual));
+    var assertionError = expectAssertionError(() -> longsWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
+                                                                                                    actual));
     // THEN
     then(assertionError).hasMessage(shouldBeOdd(actual).create());
   }

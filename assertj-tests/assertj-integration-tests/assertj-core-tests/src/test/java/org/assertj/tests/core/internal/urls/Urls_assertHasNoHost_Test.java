@@ -32,7 +32,7 @@ class Urls_assertHasNoHost_Test extends UrlsBaseTest {
     // GIVEN
     URL actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoHost(info, actual));
+    var assertionError = expectAssertionError(() -> urls.assertHasNoHost(info, actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -42,7 +42,7 @@ class Urls_assertHasNoHost_Test extends UrlsBaseTest {
     // GIVEN
     URL actual = new URL("https://example.com");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasNoHost(info, actual));
+    var assertionError = expectAssertionError(() -> urls.assertHasNoHost(info, actual));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoHost(actual).create());
   }

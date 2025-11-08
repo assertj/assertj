@@ -41,7 +41,7 @@ class Integers_assertIsNotPositive_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_is_positive() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> integers.assertIsNotPositive(someInfo(), 6));
+    var assertionError = expectAssertionError(() -> integers.assertIsNotPositive(someInfo(), 6));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(6, 0).create());
   }
@@ -49,8 +49,8 @@ class Integers_assertIsNotPositive_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
-                                                                                                                          -1));
+    var assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                               -1));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(-1, 0, absValueComparisonStrategy).create());
   }
@@ -58,8 +58,8 @@ class Integers_assertIsNotPositive_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
-                                                                                                                          1));
+    var assertionError = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                               1));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(1, 0, absValueComparisonStrategy).create());
   }

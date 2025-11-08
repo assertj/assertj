@@ -52,7 +52,7 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
     // GIVEN
     String[] values = array("Yoda");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertContains(someInfo(), null, values));
+    var assertionError = expectAssertionError(() -> iterables.assertContains(someInfo(), null, values));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -72,7 +72,7 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
     // GIVEN
     String[] values = array();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertContains(someInfo(), actual, values));
+    var assertionError = expectAssertionError(() -> iterables.assertContains(someInfo(), actual, values));
     // THEN
     then(assertionError).isNotNull();
   }

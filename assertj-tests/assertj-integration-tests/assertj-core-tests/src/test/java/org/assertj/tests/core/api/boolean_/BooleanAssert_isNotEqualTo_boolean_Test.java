@@ -50,7 +50,7 @@ class BooleanAssert_isNotEqualTo_boolean_Test {
     boolean actual = TRUE;
     boolean expected = true;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeEqual(actual, expected).create());
   }

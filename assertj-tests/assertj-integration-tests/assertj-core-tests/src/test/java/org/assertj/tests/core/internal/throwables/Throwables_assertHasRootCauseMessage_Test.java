@@ -34,7 +34,7 @@ class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTest {
     // GIVEN
     Throwable throwable = new RuntimeException();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, throwable, "message"));
+    var assertionError = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, throwable, "message"));
     // THEN
     then(assertionError).hasMessage(shouldHaveRootCauseWithMessage(throwable, null, "message").create());
   }
@@ -45,7 +45,7 @@ class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTest {
     Throwable root = new RuntimeException();
     Throwable throwable = new RuntimeException(root);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, throwable, "message"));
+    var assertionError = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, throwable, "message"));
     // THEN
     then(assertionError).hasMessage(shouldHaveRootCauseWithMessage(throwable, root, "message").create());
   }
@@ -56,7 +56,7 @@ class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTest {
     Throwable root = new RuntimeException("fail");
     Throwable throwable = new RuntimeException(root);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, throwable, "message"));
+    var assertionError = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, throwable, "message"));
     // THEN
     then(assertionError).hasMessage(shouldHaveRootCauseWithMessage(throwable, root, "message").create());
   }

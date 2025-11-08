@@ -62,7 +62,7 @@ class DurationAssert_isCloseTo_Test {
     // GIVEN
     Duration actual = Duration.ofMinutes(2);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isCloseTo(expected, allowedDifference));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isCloseTo(expected, allowedDifference));
     // THEN
     then(assertionError).hasMessage(shouldBeCloseTo(actual, expected, allowedDifference, difference).create());
   }
@@ -74,7 +74,7 @@ class DurationAssert_isCloseTo_Test {
     Duration expected = Duration.ofDays(4);
     Duration allowedDifference = Duration.ofDays(5);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isCloseTo(expected, allowedDifference));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isCloseTo(expected, allowedDifference));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

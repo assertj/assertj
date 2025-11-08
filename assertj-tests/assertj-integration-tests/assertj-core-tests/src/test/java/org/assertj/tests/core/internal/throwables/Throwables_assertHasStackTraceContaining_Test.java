@@ -28,8 +28,8 @@ class Throwables_assertHasStackTraceContaining_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_actual_stacktrace_does_not_contain_the_expected_description() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> throwables.assertHasStackTraceContaining(INFO, actual,
-                                                                                                        "expected description part"));
+    var assertionError = expectAssertionError(() -> throwables.assertHasStackTraceContaining(INFO, actual,
+                                                                                             "expected description part"));
     // THEN
     then(assertionError).hasMessage(shouldContain(getStackTrace(actual), "expected description part").create());
   }

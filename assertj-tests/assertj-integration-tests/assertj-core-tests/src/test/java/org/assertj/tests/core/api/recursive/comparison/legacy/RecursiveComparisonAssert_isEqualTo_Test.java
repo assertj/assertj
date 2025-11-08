@@ -107,7 +107,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
                                           .usingRecursiveComparison(recursiveComparisonConfiguration)
                                           .getRecursiveComparisonConfiguration();
     // THEN
-    then(configuration.getTypeComparators().comparatorByTypes()).contains(entry(String.class, ALWAYS_EQUALS_STRING));
+    then(configuration.comparatorByTypes()).anyMatch(e -> e.getKey().actual() == String.class && e.getKey().expected() == null
+                                                          && e.getValue() == ALWAYS_EQUALS_STRING);
   }
 
   @Test
@@ -300,14 +301,12 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
   @Test
   void should_report_missing_property() {
     // GIVEN
-    Giant actual = new Giant();
-    actual.name = "joe";
-    actual.height = 3.0;
+    Giant actual = new Giant("joe", 3.0);
     Human expected = new Human();
     expected.name = "joe";
     // WHEN/THEN
     ComparisonDifference missingFieldDifference = diff("", actual, expected,
-                                                       "org.assertj.tests.core.api.recursive.data.Giant can't be compared to org.assertj.tests.core.api.recursive.data.Human as Human does not declare all Giant fields, it lacks these: [height]");
+                                                       "actual value had more fields to compare than expected value, actual value had more fields to compare than expected value, these actual fields could not be found in expected: [height]");
     compareRecursivelyFailsWithDifferences(actual, expected, missingFieldDifference);
   }
 
@@ -404,7 +403,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithLegacyIntrospectionSt
     ComparisonDifference difference = diff("_children",
                                            mapOf(entry("importantValue", "10"), entry("someNotImportantValue", 1)),
                                            mapOf(entry("bar", "10"), entry("foo", 1)),
-                                           "The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]".formatted());
+                                           ("The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]" +
+                                            "%nThe following keys were present in the actual map value, but not in the expected map value:%n  [\"someNotImportantValue\", \"importantValue\"]").formatted());
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 

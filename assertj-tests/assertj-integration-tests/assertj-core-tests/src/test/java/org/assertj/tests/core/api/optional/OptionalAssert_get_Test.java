@@ -40,7 +40,7 @@ class OptionalAssert_get_Test implements NavigationMethodBaseTest<OptionalAssert
     // GIVEN
     Optional<String> optional = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(optional).get());
+    var assertionError = expectAssertionError(() -> assertThat(optional).get());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -50,7 +50,7 @@ class OptionalAssert_get_Test implements NavigationMethodBaseTest<OptionalAssert
     // GIVEN
     Optional<String> optional = Optional.empty();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(optional).get());
+    var assertionError = expectAssertionError(() -> assertThat(optional).get());
     // THEN
     then(assertionError).hasMessage(shouldBePresent(optional).create());
   }

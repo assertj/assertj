@@ -64,7 +64,7 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
     actual = null;
     Entry<String, String>[] expected = array(entry("name", "Yoda"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsExactly(someInfo(), actual, expected));
+    var assertionError = expectAssertionError(() -> maps.assertContainsExactly(someInfo(), actual, expected));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -164,7 +164,7 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
     Map<String, String[]> actual = singletonMap("color", array("yellow"));
     Entry<String, String[]>[] expected = array(entry("color", array("green")));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsExactly(someInfo(), actual, expected));
+    var assertionError = expectAssertionError(() -> maps.assertContainsExactly(someInfo(), actual, expected));
     // THEN
     then(assertionError).hasMessage(shouldContainExactly(actual, asList(expected),
                                                          set(entry("color", array("green"))),
@@ -186,7 +186,7 @@ class Maps_assertContainsExactly_Test extends MapsBaseTest {
     Properties actual = mapOf(Properties::new, entry("name", "Yoda"), entry("job", "Jedi"));
     Entry<Object, Object>[] expected = array(entry("name", "Yoda"), entry("color", "green"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsExactly(info, actual, expected));
+    var assertionError = expectAssertionError(() -> maps.assertContainsExactly(info, actual, expected));
     // THEN
     then(assertionError).hasMessage(shouldContainExactly(actual, asList(expected),
                                                          set(entry("color", "green")),

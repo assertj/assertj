@@ -38,7 +38,7 @@ class LocalDateAssert_hasMonthValue_Test {
     LocalDate actual = LocalDate.of(2022, 1, 1);
     int wrongMonth = 12;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(wrongMonth));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(wrongMonth));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "month", wrongMonth).create());
   }
@@ -48,7 +48,7 @@ class LocalDateAssert_hasMonthValue_Test {
     // GIVEN
     LocalDate actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(5));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonthValue(5));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

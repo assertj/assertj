@@ -76,8 +76,8 @@ class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test extends
     Foo[] array1 = { new Foo("id", new Bar(1)) };
     Foo[] array2 = { new Foo("id", new Bar(2)) };
 
-    AssertionError assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
-                                                                                 .isEqualTo(array2));
+    var assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
+                                                                      .isEqualTo(array2));
 
     then(assertionError).hasMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=Bar(id=1))]", "[Foo(id=id, bar=Bar(id=2))]") +
                                            "%n" +
@@ -89,8 +89,8 @@ class ObjectArrayAssert_usingRecursiveFieldByFieldElementComparator_Test extends
     Foo[] array1 = { new Foo("id", new Bar(1)) };
     Foo[] array2 = { new Foo("id", new Bar(2)) };
 
-    AssertionError assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
-                                                                                 .isIn(singletonList(array2)));
+    var assertionError = expectAssertionError(() -> assertThat(array1).usingRecursiveFieldByFieldElementComparator()
+                                                                      .isIn(singletonList(array2)));
 
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  [Foo(id=id, bar=Bar(id=1))]%n" +

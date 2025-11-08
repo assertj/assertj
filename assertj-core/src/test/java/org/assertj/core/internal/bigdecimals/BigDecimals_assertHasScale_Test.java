@@ -31,7 +31,7 @@ class BigDecimals_assertHasScale_Test extends BigDecimalsBaseTest {
     // GIVEN
     BigDecimal nullBigDecimal = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbers.assertHasScale(info, nullBigDecimal, 0));
+    var assertionError = expectAssertionError(() -> numbers.assertHasScale(info, nullBigDecimal, 0));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

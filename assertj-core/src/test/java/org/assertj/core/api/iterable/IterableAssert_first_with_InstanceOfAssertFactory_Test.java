@@ -44,7 +44,7 @@ class IterableAssert_first_with_InstanceOfAssertFactory_Test {
     // GIVEN
     Iterable<String> iterable = emptyList();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).first(STRING));
+    var assertionError = expectAssertionError(() -> assertThat(iterable).first(STRING));
     // THEN
     then(assertionError).hasMessage(actualIsEmpty());
   }
@@ -69,7 +69,7 @@ class IterableAssert_first_with_InstanceOfAssertFactory_Test {
   @Test
   void should_fail_if_first_element_is_not_an_instance_of_the_factory_type() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).first(INTEGER));
+    var assertionError = expectAssertionError(() -> assertThat(iterable).first(INTEGER));
     // THEN
     then(assertionError).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }

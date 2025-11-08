@@ -72,7 +72,7 @@ class DoubleAssert_isGreaterThanOrEqualTo_double_Test extends DoubleAssertBaseTe
     double actual = 6.0;
     double expected = 7.0;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isGreaterThanOrEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isGreaterThanOrEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldBeGreaterOrEqual(actual, expected).create());
   }

@@ -76,9 +76,9 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
   @MethodSource
   void should_fail_when_using_overridden_equals(Object actual, Object expected, String testDescription) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .usingOverriddenEquals()
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .usingOverriddenEquals()
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContaining("- equals methods were used in the comparison");
   }
@@ -159,7 +159,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
     // WHEN/THEN
     then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .usingOverriddenEquals()
-                .comparingOnlyFields("group.name", "group.neverEquals.name")
+                .comparingOnlyFields("value.name", "value.neverEquals.name")
                 .isEqualTo(expected);
   }
 
@@ -169,11 +169,11 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
     WithObject actual = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
     WithObject expected = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .usingOverriddenEquals()
-                                                                                 .comparingOnlyFields("group.name",
-                                                                                                      "group.neverEquals")
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .usingOverriddenEquals()
+                                                                      .comparingOnlyFields("value.name",
+                                                                                           "value.neverEquals")
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContaining("- equals methods were used in the comparison");
   }

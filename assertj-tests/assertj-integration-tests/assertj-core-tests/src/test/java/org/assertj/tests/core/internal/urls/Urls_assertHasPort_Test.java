@@ -30,7 +30,7 @@ class Urls_assertHasPort_Test extends UrlsBaseTest {
     URL url = null;
     int expectedPort = 8080;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPort(info, url, expectedPort));
+    var assertionError = expectAssertionError(() -> urls.assertHasPort(info, url, expectedPort));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -51,7 +51,7 @@ class Urls_assertHasPort_Test extends UrlsBaseTest {
     URL url = new URL("http://example.com:8080/pages/");
     int expectedPort = 8888;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPort(info, url, expectedPort));
+    var assertionError = expectAssertionError(() -> urls.assertHasPort(info, url, expectedPort));
     // THEN
     then(assertionError).hasMessage(shouldHavePort(url, expectedPort).create());
   }

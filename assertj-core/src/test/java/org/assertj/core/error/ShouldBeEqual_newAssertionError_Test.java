@@ -13,18 +13,14 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
 import java.util.stream.Stream;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.AssertionFailedError;
@@ -37,31 +33,19 @@ import org.opentest4j.AssertionFailedError;
  */
 class ShouldBeEqual_newAssertionError_Test {
 
-  private Description description;
-  private ShouldBeEqual factory;
-  private DescriptionFormatter formatter;
-
-  @BeforeEach
-  public void setUp() throws IllegalAccessException {
-    description = new TestDescription("Jedi");
-    factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
-    DescriptionFormatter descriptionFormatterMock = mock(DescriptionFormatter.class);
-    writeField(factory, "descriptionFormatter", descriptionFormatterMock, true);
-    formatter = descriptionFormatterMock;
-  }
-
   @ParameterizedTest
   @MethodSource("parameters")
   void should_create_AssertionFailedError_if_JUnit5_is_present_and_trim_spaces_in_formatted_description(String formattedDescription) {
     // GIVEN
-    given(formatter.format(description)).willReturn(formattedDescription);
+    Description description = new TestDescription("Jedi");
+    var shouldBeEqual = shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
     // WHEN
-    AssertionError error = factory.toAssertionError(description, STANDARD_REPRESENTATION);
+    var assertionError = shouldBeEqual.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
-    then(error).isInstanceOf(AssertionFailedError.class)
-               .hasMessage(format("[Jedi] %n" +
-                                  "expected: \"Yoda\"%n" +
-                                  " but was: \"Luke\""));
+    then(assertionError).isInstanceOf(AssertionFailedError.class)
+                        .hasMessage(format("[Jedi] %n" +
+                                           "expected: \"Yoda\"%n" +
+                                           " but was: \"Luke\""));
   }
 
   public static Stream<String> parameters() {

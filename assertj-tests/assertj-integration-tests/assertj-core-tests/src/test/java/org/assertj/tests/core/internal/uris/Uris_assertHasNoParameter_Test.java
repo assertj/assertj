@@ -43,7 +43,7 @@ class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     String name = "article";
     List<String> actualValues = newArrayList((String) null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name));
+    var assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameter(uri, name, actualValues).create());
   }
@@ -55,7 +55,7 @@ class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     String name = "article";
     List<String> actualValue = newArrayList("10");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name));
+    var assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameter(uri, name, actualValue).create());
   }
@@ -67,7 +67,7 @@ class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     String name = "article";
     List<String> actualValues = newArrayList(null, "10");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name));
+    var assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameter(uri, name, actualValues).create());
   }
@@ -90,7 +90,7 @@ class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     String expectedValue = null;
     List<String> actualValues = newArrayList((String) null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name, expectedValue));
+    var assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameter(uri, name, expectedValue, actualValues).create());
   }
@@ -143,7 +143,7 @@ class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     String expectedValue = "10";
     List<String> actualValue = newArrayList("10");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name, expectedValue));
+    var assertionError = expectAssertionError(() -> uris.assertHasNoParameter(info, uri, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameter(uri, name, expectedValue, actualValue).create());
   }
@@ -162,7 +162,7 @@ class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     URI uri = URI.create("http://assertj.org/news?article=10&locked=false");
     Set<String> actualValues = newLinkedHashSet("article", "locked");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameters(info, uri));
+    var assertionError = expectAssertionError(() -> uris.assertHasNoParameters(info, uri));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameters(uri, actualValues).create());
   }
@@ -173,7 +173,7 @@ class Uris_assertHasNoParameter_Test extends UrisBaseTest {
     URI uri = URI.create("http://assertj.org/news?article=10");
     Set<String> actualValues = newLinkedHashSet("article");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoParameters(info, uri));
+    var assertionError = expectAssertionError(() -> uris.assertHasNoParameters(info, uri));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoParameters(uri, actualValues).create());
   }

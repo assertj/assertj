@@ -63,6 +63,20 @@ public final class Sets {
   }
 
   /**
+   * Creates a <em>mutable</em> {@code LinkedHashSet} containing the given elements.
+   *
+   * @param <T> the generic type of the {@code LinkedHashSet} to create.
+   * @param elements the elements to store in the {@code LinkedHashSet}.
+   * @return the created {@code LinkedHashSet}, or {@code null} if the given array of elements is {@code null}.
+   */
+  public static <T> LinkedHashSet<T> newLinkedHashSet(Iterable<? extends T> elements) {
+    if (elements == null) {
+      return null;
+    }
+    return Streams.stream(elements).collect(toCollection(LinkedHashSet::new));
+  }
+
+  /**
    * Creates a <em>mutable</em> {@code LinkedHashSet}.
    *
    * @param <T> the generic type of the {@code LinkedHashSet} to create.
@@ -114,6 +128,20 @@ public final class Sets {
     TreeSet<T> set = newTreeSet();
     java.util.Collections.addAll(set, elements);
     return set;
+  }
+
+  /**
+   * Creates a <em>mutable</em> {@code HashSet} containing the reference elements not in the toRemove set.
+   *
+   * @param <T> the generic type of the {@code HashSet} to create.
+   * @param reference the reference elements
+   * @param toRemove the elements to remove from the reference sets
+   * @return the created {@code HashSet} containing the reference elements not in the toRemove set.
+   */
+  public static <T> Set<T> removeAll(Set<T> reference, Set<T> toRemove) {
+    Set<T> result = newLinkedHashSet(reference);
+    result.removeAll(toRemove);
+    return result;
   }
 
   private Sets() {}

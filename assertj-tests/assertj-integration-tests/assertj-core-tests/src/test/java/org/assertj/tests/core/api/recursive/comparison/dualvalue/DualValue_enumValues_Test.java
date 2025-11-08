@@ -31,9 +31,9 @@ class DualValue_enumValues_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", BLUE);
     // WHEN
-    boolean expectedFieldIsEnum = dualValue.isExpectedAnEnum();
+    boolean isExpectedAnEnum = dualValue.isExpectedAnEnum();
     // THEN
-    then(expectedFieldIsEnum).isTrue();
+    then(isExpectedAnEnum).isTrue();
   }
 
   @Test
@@ -41,9 +41,9 @@ class DualValue_enumValues_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, RED, "");
     // WHEN
-    boolean expectedFieldIsEnum = dualValue.isExpectedAnEnum();
+    boolean isExpectedAnEnum = dualValue.isExpectedAnEnum();
     // THEN
-    then(expectedFieldIsEnum).isFalse();
+    then(isExpectedAnEnum).isFalse();
   }
 
   @Test
@@ -51,9 +51,9 @@ class DualValue_enumValues_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, RED, null);
     // WHEN
-    boolean expectedFieldIsEnum = dualValue.isExpectedAnEnum();
+    boolean isExpectedAnEnum = dualValue.isExpectedAnEnum();
     // THEN
-    then(expectedFieldIsEnum).isFalse();
+    then(isExpectedAnEnum).isFalse();
   }
 
   @Test
@@ -61,9 +61,9 @@ class DualValue_enumValues_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, BLUE, "");
     // WHEN
-    boolean actualFieldIsEnum = dualValue.isActualAnEnum();
+    boolean isActualAnEnum = dualValue.isActualAnEnum();
     // THEN
-    then(actualFieldIsEnum).isTrue();
+    then(isActualAnEnum).isTrue();
   }
 
   @Test
@@ -71,9 +71,9 @@ class DualValue_enumValues_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", RED);
     // WHEN
-    boolean actualFieldIsEnum = dualValue.isActualAnEnum();
+    boolean isActualAnEnum = dualValue.isActualAnEnum();
     // THEN
-    then(actualFieldIsEnum).isFalse();
+    then(isActualAnEnum).isFalse();
   }
 
   @Test

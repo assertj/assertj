@@ -37,7 +37,7 @@ class VerboseConditionTest {
   @Test
   public void should_fail_and_display_actual_description_as_per_transformation_function_with_isCondition() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("foooo").is(VERBOSE_CONDITION));
+    var assertionError = expectAssertionError(() -> assertThat("foooo").is(VERBOSE_CONDITION));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  \"foooo\"%n" +
@@ -51,7 +51,7 @@ class VerboseConditionTest {
                                                      "length shorter than 4",
                                                      s -> " but length was %s".formatted(s.length(), s));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("foooo").has(shortLength));
+    var assertionError = expectAssertionError(() -> assertThat("foooo").has(shortLength));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  \"foooo\"%n" +

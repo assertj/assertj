@@ -38,7 +38,7 @@ import java.util.stream.Stream;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.groups.Tuple;
 import org.assertj.tests.core.api.recursive.data.Author;
-import org.assertj.tests.core.api.recursive.data.WithObject;
+import org.assertj.tests.core.api.recursive.data.WithGroupField;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -152,7 +152,7 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithCompar
   void should_fail_when_comparing_iterable_to_non_iterable(Object actualFieldValue, Collection<Author> expectedFieldValue,
                                                            String path, Object value1, Object value2, String desc) {
     // GIVEN
-    WithObject actual = new WithObject(actualFieldValue);
+    var actual = new WithGroupField(actualFieldValue);
     WithIterable<Author> expected = new WithIterable<>(expectedFieldValue);
     // WHEN/THEN
     ComparisonDifference difference = desc == null ? diff(path, value1, value2) : diff(path, value1, value2, desc);
@@ -184,10 +184,10 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithCompar
     List<String> actual = list("aaa", "aaa");
     List<String> expected = list("aaa", "bbb");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 // simulate unordered collection
-                                                                                 .ignoringCollectionOrder()
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      // simulate unordered collection
+                                                                      .ignoringCollectionOrder()
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContaining("The following expected elements were not matched in the actual ArrayList:%n  [\"bbb\"]".formatted());
   }
@@ -230,8 +230,8 @@ class RecursiveComparisonAssert_isEqualTo_with_iterables_Test extends WithCompar
     Set<Item> actualItems = newHashSet(new Item("Pants", 3), new Item("Loafers", 1));
     registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                      .isEqualTo(expectedItems));
+    var assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                           .isEqualTo(expectedItems));
     // THEN
     then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual HashSet:%n" +
                                                      "  [Item(Shoes, 2)]"));

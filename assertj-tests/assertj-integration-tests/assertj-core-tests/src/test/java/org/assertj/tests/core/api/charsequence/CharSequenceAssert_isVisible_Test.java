@@ -36,7 +36,7 @@ class CharSequenceAssert_isVisible_Test {
   @ValueSource(strings = { "\t", "\n", "½", "§", "©", "«abc»", " ", "" })
   void should_fail_if_actual_is_not_visible(CharSequence actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isVisible());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isVisible());
     // THEN
     then(assertionError).hasMessage(shouldBeVisible(actual).create());
   }
@@ -46,7 +46,7 @@ class CharSequenceAssert_isVisible_Test {
     // GIVEN
     CharSequence actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isVisible());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isVisible());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

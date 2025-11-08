@@ -13,11 +13,10 @@
 package org.assertj.core.util;
 
 import java.math.BigDecimal;
-import java.util.Comparator;
 
 /**
  * 
- * A {@link BigDecimal} {@link Comparator} based on {@link BigDecimal#compareTo(BigDecimal)}.<br>
+ * A {@link BigDecimal} {@link java.util.Comparator} based on {@link BigDecimal#compareTo(BigDecimal)}.<br>
  * Is useful if ones wants to use BigDecimal assertions based on {@link BigDecimal#compareTo(BigDecimal)} instead of
  * {@link BigDecimal#equals(Object)} method.
  * 

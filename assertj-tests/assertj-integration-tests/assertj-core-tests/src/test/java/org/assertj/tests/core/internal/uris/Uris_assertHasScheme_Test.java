@@ -41,7 +41,7 @@ class Uris_assertHasScheme_Test extends UrisBaseTest {
     URI uri = null;
     String expectedScheme = "http";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasScheme(info, uri, expectedScheme));
+    var assertionError = expectAssertionError(() -> uris.assertHasScheme(info, uri, expectedScheme));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -52,7 +52,7 @@ class Uris_assertHasScheme_Test extends UrisBaseTest {
     URI uri = URI.create("http://example.com/pages/");
     String expectedScheme = "ftp";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasScheme(info, uri, expectedScheme));
+    var assertionError = expectAssertionError(() -> uris.assertHasScheme(info, uri, expectedScheme));
     // THEN
     then(assertionError).hasMessage(shouldHaveScheme(uri, expectedScheme).create());
   }

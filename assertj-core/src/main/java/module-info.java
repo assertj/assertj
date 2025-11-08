@@ -16,6 +16,7 @@
  */
 module org.assertj.core {
   // AssertJ Core's package API
+  exports org.assertj.core.annotation;
   exports org.assertj.core.annotations;
   exports org.assertj.core.api;
   exports org.assertj.core.api.comparisonstrategy;
@@ -51,7 +52,6 @@ module org.assertj.core {
   requires static java.management;
   requires static java.sql;
   requires static java.xml; // used for XML pretty print
-  requires static junit;
   requires static net.bytebuddy;
   requires static org.hamcrest;
   requires static org.junit.jupiter.api;

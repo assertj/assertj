@@ -62,7 +62,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
     Path asciiFile = resourcePath("ascii.txt");
     ThrowingConsumer<Path> emptyConsumer = path -> assertThat(readAllLines(path)).isEmpty();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer));
+    var assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer));
     // THEN
     then(assertionError).hasMessageContaining("Expecting empty but was: [\"abc\"]");
   }
@@ -74,7 +74,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
     ThrowingConsumer<Path> emptyConsumer = path -> assertThat(readAllLines(path)).as("empty check").isEmpty();
     ThrowingConsumer<Path> directoryConsumer = path -> assertThat(path).as("directory check").isDirectory();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer, directoryConsumer));
+    var assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer, directoryConsumer));
     // THEN
     then(assertionError).hasMessageContainingAll("empty check", "directory check");
   }
@@ -86,8 +86,8 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
     ThrowingConsumer<Path> notEmptyConsumer = path -> assertThat(readAllLines(path)).as("not empty check").isNotEmpty();
     ThrowingConsumer<Path> directoryConsumer = path -> assertThat(path).as("directory check").isDirectory();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(directoryConsumer,
-                                                                                               notEmptyConsumer));
+    var assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(directoryConsumer,
+                                                                                    notEmptyConsumer));
     // THEN
     then(assertionError).hasMessageContaining("directory check")
                         .hasMessageNotContaining("not empty check");

@@ -319,7 +319,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    then(multiLineDescription).contains("- actual and expected objects and their fields were considered different when of incompatible types (i.e. expected type does not extend actual's type) even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n".formatted());
+    then(multiLineDescription).contains("- actual and expected objects and their fields were considered different if their types are not equal even if all their fields match, for example a Person instance will never match a PersonDto (call strictTypeChecking(false) to change that behavior).%n".formatted());
   }
 
   @Test
@@ -329,7 +329,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
     // WHEN
     String multiLineDescription = recursiveComparisonConfiguration.multiLineDescription(STANDARD_REPRESENTATION);
     // THEN
-    then(multiLineDescription).contains("- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n".formatted());
+    then(multiLineDescription).contains("- actual and expected objects and their fields were compared field by field recursively even if their types are not equal, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n".formatted());
   }
 
   @Test
@@ -413,7 +413,7 @@ class RecursiveComparisonConfiguration_multiLineDescription_Test {
                "  - bar.baz -> AlwaysDifferentComparator%n" +
                "  - foo -> AlwaysEqualComparator%n" +
                "- field comparators take precedence over type comparators.%n"+
-               "- actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n" +
+               "- actual and expected objects and their fields were compared field by field recursively even if their types are not equal, this allows for example to compare a Person to a PersonDto (call strictTypeChecking(true) to change that behavior).%n" +
                "- the introspection strategy used was: comparing fields%n" +
                "- enums can be compared against strings (and vice versa), e.g. Color.RED and \"RED\" are considered equal%n"));
     // @format:on

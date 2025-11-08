@@ -43,7 +43,7 @@ class Urls_assertHasPath_Test extends UrlsBaseTest {
     URL url = null;
     String expectedPath = "path";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPath(info, url, expectedPath));
+    var assertionError = expectAssertionError(() -> urls.assertHasPath(info, url, expectedPath));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -64,7 +64,7 @@ class Urls_assertHasPath_Test extends UrlsBaseTest {
     URL url = new URL("http://example.com/pages/");
     String expectedPath = "/news/";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPath(info, url, expectedPath));
+    var assertionError = expectAssertionError(() -> urls.assertHasPath(info, url, expectedPath));
     // THEN
     then(assertionError).hasMessage(shouldHavePath(url, expectedPath).create());
   }
@@ -75,7 +75,7 @@ class Urls_assertHasPath_Test extends UrlsBaseTest {
     URL url = new URL("http://example.com");
     String expectedPath = "/news";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasPath(info, url, expectedPath));
+    var assertionError = expectAssertionError(() -> urls.assertHasPath(info, url, expectedPath));
     // THEN
     then(assertionError).hasMessage(shouldHavePath(url, expectedPath).create());
   }

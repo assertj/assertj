@@ -12,7 +12,7 @@
  */
 package org.assertj.core.api;
 
-import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 
 //@format:off
 public class IterableSizeAssert<T> extends AbstractIterableSizeAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> {

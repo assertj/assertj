@@ -44,7 +44,7 @@ class InputStreamAssert_hasSameContentAs_Test {
     InputStream actual = null;
     InputStream expected = new ByteArrayInputStream(new byte[0]);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameContentAs(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSameContentAs(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -130,7 +130,7 @@ class InputStreamAssert_hasSameContentAs_Test {
     InputStream actual = new ByteArrayInputStream("12345".getBytes());
     InputStream expected = new ByteArrayInputStream("67890".getBytes());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameContentAs(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSameContentAs(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameContent(actual, expected, diff("12345", "67890")).create());
     then(actual).isNotEmpty();
@@ -143,7 +143,7 @@ class InputStreamAssert_hasSameContentAs_Test {
     InputStream actual = new ByteArrayInputStream("12345".getBytes());
     InputStream expected = new UnmarkableByteArrayInputStream("67890".getBytes());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameContentAs(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSameContentAs(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameContent(actual, expected, diff("12345", "67890")).create());
     then(actual).isNotEmpty();
@@ -156,7 +156,7 @@ class InputStreamAssert_hasSameContentAs_Test {
     InputStream actual = new UnmarkableByteArrayInputStream("12345".getBytes());
     InputStream expected = new ByteArrayInputStream("67890".getBytes());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameContentAs(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSameContentAs(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameContent(actual, expected, diff("12345", "67890")).create());
     then(actual).isEmpty();
@@ -169,7 +169,7 @@ class InputStreamAssert_hasSameContentAs_Test {
     InputStream actual = new UnmarkableByteArrayInputStream("12345".getBytes());
     InputStream expected = new ByteArrayInputStream("67890".getBytes());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameContentAs(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSameContentAs(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameContent(actual, expected, diff("12345", "67890")).create());
     then(actual).isEmpty();

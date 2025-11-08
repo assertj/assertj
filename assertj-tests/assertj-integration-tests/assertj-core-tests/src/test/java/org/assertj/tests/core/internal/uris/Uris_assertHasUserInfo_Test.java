@@ -47,7 +47,7 @@ class Uris_assertHasUserInfo_Test extends UrisBaseTest {
     URI uri = null;
     String expectedUserInfo = "http://test:pass@www.helloworld.org/index.html";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -58,7 +58,7 @@ class Uris_assertHasUserInfo_Test extends UrisBaseTest {
     URI uri = URI.create("http://test:pass@assertj.org/news");
     String expectedUserInfo = "test:ok";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(shouldHaveUserInfo(uri, expectedUserInfo).create());
   }
@@ -69,7 +69,7 @@ class Uris_assertHasUserInfo_Test extends UrisBaseTest {
     URI uri = URI.create("http://assertj.org/news");
     String expectedUserInfo = "test:pass";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(shouldHaveUserInfo(uri, expectedUserInfo).create());
   }
@@ -80,7 +80,7 @@ class Uris_assertHasUserInfo_Test extends UrisBaseTest {
     URI uri = URI.create("http://test:pass@assertj.org");
     String expectedUserInfo = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(shouldHaveUserInfo(uri, expectedUserInfo).create());
   }

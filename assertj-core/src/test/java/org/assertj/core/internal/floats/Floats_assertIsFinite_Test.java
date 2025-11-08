@@ -49,7 +49,7 @@ class Floats_assertIsFinite_Test extends FloatsBaseTest {
   })
   void should_fail_when_actual_is_not_finite(float actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> floats.assertIsFinite(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> floats.assertIsFinite(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeFinite(actual).create());
   }
@@ -59,7 +59,7 @@ class Floats_assertIsFinite_Test extends FloatsBaseTest {
     // GIVEN
     Float actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> floats.assertIsFinite(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> floats.assertIsFinite(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

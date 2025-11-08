@@ -233,7 +233,7 @@ class AbstractTemporalAssert_isCloseTo_Test {
   @MethodSource("parameters")
   void should_fail_if_actual_is_null(ArgumentsAccessor args) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> nullAssert(args).isCloseTo(closeTemporal(args), offset(args)));
+    var assertionError = expectAssertionError(() -> nullAssert(args).isCloseTo(closeTemporal(args), offset(args)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -290,7 +290,7 @@ class AbstractTemporalAssert_isCloseTo_Test {
   @MethodSource("parameters")
   void should_fail_outside_offset(ArgumentsAccessor args) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> temporalAssert(args).isCloseTo(farTemporal(args), offset(args)));
+    var assertionError = expectAssertionError(() -> temporalAssert(args).isCloseTo(farTemporal(args), offset(args)));
     // THEN
     then(assertionError).hasMessage(differenceMessage(args));
   }

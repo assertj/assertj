@@ -69,7 +69,7 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
   @Test
   void should_use_property_field_name_as_description_when_extracting_single_property() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(luke).extracting("name.first").isNull());
+    var assertionError = expectAssertionError(() -> assertThat(luke).extracting("name.first").isNull());
     // THEN
     then(assertionError).hasMessageContaining("[Extracted: name.first]");
   }
@@ -77,9 +77,9 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
   @Test
   void should_keep_existing_description_if_set_when_extracting_single_property() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(luke).as("check luke first name")
-                                                                               .extracting("name.first")
-                                                                               .isNull());
+    var assertionError = expectAssertionError(() -> assertThat(luke).as("check luke first name")
+                                                                    .extracting("name.first")
+                                                                    .isNull());
     // THEN
     then(assertionError).hasMessageContaining("[check luke first name]");
   }

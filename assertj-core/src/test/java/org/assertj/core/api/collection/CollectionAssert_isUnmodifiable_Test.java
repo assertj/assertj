@@ -58,7 +58,7 @@ class CollectionAssert_isUnmodifiable_Test {
     // GIVEN
     Collection<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -67,7 +67,7 @@ class CollectionAssert_isUnmodifiable_Test {
   @MethodSource("modifiableCollections")
   void should_fail_if_actual_can_be_modified(Collection<?> actual, ErrorMessageFactory errorMessageFactory) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
     // THEN
     then(assertionError).as(actual.getClass().getName())
                         .hasMessage(errorMessageFactory.create());
@@ -81,17 +81,6 @@ class CollectionAssert_isUnmodifiable_Test {
                      arguments(newArrayList(new Object()), shouldBeUnmodifiable("Collection.add(null)")),
                      arguments(newLinkedHashSet(new Object()), shouldBeUnmodifiable("Collection.add(null)")),
                      arguments(newTreeSet("element"), shouldBeUnmodifiable("Collection.add(null)", new NullPointerException())));
-  }
-
-  // https://issues.apache.org/jira/browse/COLLECTIONS-799
-  @Test
-  void should_fail_with_commons_collections_UnmodifiableNavigableSet() {
-    // GIVEN
-    Collection<?> actual = UnmodifiableNavigableSet.unmodifiableNavigableSet(newTreeSet("element"));
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isUnmodifiable());
-    // THEN
-    then(assertionError).hasMessage(shouldBeUnmodifiable("NavigableSet.pollFirst()").create());
   }
 
   @ParameterizedTest
@@ -126,6 +115,7 @@ class CollectionAssert_isUnmodifiable_Test {
                      Sets.unmodifiableNavigableSet(newTreeSet("element")),
                      UnmodifiableCollection.unmodifiableCollection(list(new Object())),
                      UnmodifiableList.unmodifiableList(list(new Object())),
+                     UnmodifiableNavigableSet.unmodifiableNavigableSet(newTreeSet("element")),
                      UnmodifiableSet.unmodifiableSet(set(new Object())),
                      UnmodifiableSortedSet.unmodifiableSortedSet(newTreeSet("element")));
   }

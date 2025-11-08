@@ -30,8 +30,11 @@ import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
+import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Human;
 import org.assertj.tests.core.api.recursive.data.Person;
+import org.assertj.tests.core.api.recursive.data.WithObject;
+import org.assertj.tests.core.api.recursive.data.Worker;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -43,10 +46,9 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithC
   @ParameterizedTest(name = "{2}: actual={0} / expected={1}")
   @MethodSource
   void should_only_compare_given_fields(Object actual, Object expected, String[] fieldNamesToCompare) {
-
-    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                .comparingOnlyFields(fieldNamesToCompare)
-                .isEqualTo(expected);
+    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                      .comparingOnlyFields(fieldNamesToCompare)
+                      .isEqualTo(expected);
   }
 
   private static Stream<Arguments> should_only_compare_given_fields() {
@@ -153,7 +155,7 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithC
                 .isEqualTo(expected);
   }
 
-  @SuppressWarnings("unused")
+  @SuppressWarnings({ "unused", "FieldCanBeLocal" })
   static class Staff {
 
     private Boolean deleted;
@@ -280,9 +282,9 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithC
     // GIVEN
     recursiveComparisonConfiguration.compareOnlyFields(fieldNamesToCompare);
     // WHEN
-    IllegalArgumentException iae = catchIllegalArgumentException(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                         .comparingOnlyFields(fieldNamesToCompare)
-                                                                                         .isEqualTo(expected));
+    var iae = catchIllegalArgumentException(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                    .comparingOnlyFields(fieldNamesToCompare)
+                                                                    .isEqualTo(expected));
     // THEN
     then(iae).hasMessage("The following fields don't exist: " + unknownFields);
   }
@@ -309,8 +311,8 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithC
                      arguments(john, alice, array("name", "neighbour", "number"), "{number}"),
                      arguments(john, alice, array("neighbor"), "{neighbor}"),
                      arguments(john, alice, array("neighbour.neighbor.name"), "{neighbor in <neighbour.neighbor.name>}"),
-                     // TODO for https://github.com/assertj/assertj/issues/3354
-                     // arguments(sherlockHolmes, drWatson, array("friends.other"), "{other in <friends.other>}"),
+                     arguments(sherlockHolmes, drWatson, array("friends.other"), "{other in <friends.other>}"),
+                     arguments(sherlockHolmes, drWatson, array("friends.friends.other"), "{other in <friends.friends.other>}"),
                      arguments(john, alice, array("neighbour.neighbour.name", "neighbour.neighbour.number"),
                                "{number in <neighbour.neighbour.number>}"));
   }
@@ -477,11 +479,34 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFields_Test extends WithC
     BaseClass actual = new SubType1();
     BaseClass expected = new SubType2();
     // WHEN
-    var exception = catchIllegalArgumentException(() -> assertThat(actual).usingRecursiveComparison()
-                                                                          .comparingOnlyFields("common", "inSubType1",
-                                                                                               "inSubType2")
-                                                                          .isEqualTo(expected));
+    var iae = catchIllegalArgumentException(() -> assertThat(actual).usingRecursiveComparison()
+                                                                    .comparingOnlyFields("common", "inSubType1", "inSubType2")
+                                                                    .isEqualTo(expected));
     // THEN
-    then(exception).hasMessage("The following fields don't exist: {inSubType2}");
+    then(iae).hasMessage("The following fields don't exist: {inSubType2}");
+  }
+
+  @Test
+  void should_report_nested_extra_actual_compared_fields() {
+    // GIVEN
+    var actual = WithObject.of(new Giant("joe", 3.0));
+    var expected = WithObject.of(new Worker("joe", "teacher"));
+    // WHEN
+    recursiveComparisonConfiguration.compareOnlyFields("value.height");
+    // THEN
+    var comparisonDifference = diff("value", actual.value, expected.value,
+                                    "actual value had more fields to compare than expected value, actual value had more fields to compare than expected value, these actual fields could not be found in expected: [height]");
+    compareRecursivelyFailsWithDifferences(actual, expected, comparisonDifference);
+  }
+
+  @Test
+  void should_pass_when_actual_compared_fields_are_specified_and_expected_has_extra_fields() {
+    // GIVEN
+    var actual = WithObject.of(new Person("joe"));
+    var expected = WithObject.of(new Giant("joe", 3.0));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .comparingOnlyFields("value.name")
+                .isEqualTo(expected);
   }
 }

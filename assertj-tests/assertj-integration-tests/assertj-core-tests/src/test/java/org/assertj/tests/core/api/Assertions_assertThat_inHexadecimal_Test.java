@@ -30,7 +30,7 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_byte_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((byte) 2).inHexadecimal().isEqualTo((byte) 3));
+    var assertionError = expectAssertionError(() -> assertThat((byte) 2).inHexadecimal().isEqualTo((byte) 3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0x02", "0x03"));
 
@@ -39,7 +39,7 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_signed_byte_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((byte) -2).inHexadecimal().isEqualTo((byte) 3));
+    var assertionError = expectAssertionError(() -> assertThat((byte) -2).inHexadecimal().isEqualTo((byte) 3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0xFE", "0x03"));
   }
@@ -50,7 +50,7 @@ class Assertions_assertThat_inHexadecimal_Test {
     byte[] actual = { 2, 3 };
     byte expected = 1;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().contains(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().contains(expected));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting byte[]:%n" +
                                            "  [0x02, 0x03]%n" +
@@ -63,7 +63,7 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_short_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((short) 2).inHexadecimal().isEqualTo((short) 3));
+    var assertionError = expectAssertionError(() -> assertThat((short) 2).inHexadecimal().isEqualTo((short) 3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0x0002", "0x0003"));
   }
@@ -71,7 +71,7 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_signed_short_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((short) -2).inHexadecimal().isEqualTo((short) 3));
+    var assertionError = expectAssertionError(() -> assertThat((short) -2).inHexadecimal().isEqualTo((short) 3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0xFFFE", "0x0003"));
   }
@@ -79,7 +79,7 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_shorts_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(new short[] { (short) 1,
+    var assertionError = expectAssertionError(() -> assertThat(new short[] { (short) 1,
         (short) 2 }).inHexadecimal().isEqualTo(new short[] { (short) 3 }));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("[0x0001, 0x0002]", "[0x0003]"));
@@ -88,7 +88,7 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_integer_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(2).inHexadecimal().isEqualTo(3));
+    var assertionError = expectAssertionError(() -> assertThat(2).inHexadecimal().isEqualTo(3));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0x0000_0002", "0x0000_0003"));
   }
@@ -99,7 +99,7 @@ class Assertions_assertThat_inHexadecimal_Test {
     int[] actual = { 1, 2 };
     int[] expected = { 2 };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().isEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("[0x0000_0001, 0x0000_0002]", "[0x0000_0002]"));
   }
@@ -107,8 +107,8 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_long_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(Long.MAX_VALUE).inHexadecimal()
-                                                                                         .isEqualTo(Long.MIN_VALUE));
+    var assertionError = expectAssertionError(() -> assertThat(Long.MAX_VALUE).inHexadecimal()
+                                                                              .isEqualTo(Long.MIN_VALUE));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0x7FFF_FFFF_FFFF_FFFF", "0x8000_0000_0000_0000"));
   }
@@ -116,7 +116,7 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_signed_long_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(-2L).inHexadecimal().isEqualTo(2L));
+    var assertionError = expectAssertionError(() -> assertThat(-2L).inHexadecimal().isEqualTo(2L));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0xFFFF_FFFF_FFFF_FFFE", "0x0000_0000_0000_0002"));
   }
@@ -127,7 +127,7 @@ class Assertions_assertThat_inHexadecimal_Test {
     long[] actual = { -1L, 2L };
     long[] expected = { 3L };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().isEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("[0xFFFF_FFFF_FFFF_FFFF, 0x0000_0000_0000_0002]",
                                                          "[0x0000_0000_0000_0003]"));
@@ -136,7 +136,7 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_float_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(4.3f).inHexadecimal().isEqualTo(2.3f));
+    var assertionError = expectAssertionError(() -> assertThat(4.3f).inHexadecimal().isEqualTo(2.3f));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0x4089_999A", "0x4013_3333"));
   }
@@ -147,7 +147,7 @@ class Assertions_assertThat_inHexadecimal_Test {
     float[] actual = { 4.3f, -2f };
     float[] expected = { 4.1f };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().isEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("[0x4089_999A, 0xC000_0000]", "[0x4083_3333]"));
   }
@@ -155,7 +155,7 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_double_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(4.3d).inHexadecimal().isEqualTo(2.3d));
+    var assertionError = expectAssertionError(() -> assertThat(4.3d).inHexadecimal().isEqualTo(2.3d));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("0x4011_3333_3333_3333", "0x4002_6666_6666_6666"));
   }
@@ -166,7 +166,7 @@ class Assertions_assertThat_inHexadecimal_Test {
     double[] actual = { 1d, 2d };
     double[] expected = { 3d };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().isEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("[0x3FF0_0000_0000_0000, 0x4000_0000_0000_0000]",
                                                          "[0x4008_0000_0000_0000]"));
@@ -178,7 +178,7 @@ class Assertions_assertThat_inHexadecimal_Test {
     List<Integer> actual = List.of(1, 2);
     List<Integer> expected = List.of(3);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).inHexadecimal().isEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("[0x0000_0001, 0x0000_0002]", "[0x0000_0003]"));
   }
@@ -186,7 +186,7 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_Character_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat('a').inHexadecimal().isEqualTo('b'));
+    var assertionError = expectAssertionError(() -> assertThat('a').inHexadecimal().isEqualTo('b'));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("'0x0061'", "'0x0062'"));
   }
@@ -194,7 +194,7 @@ class Assertions_assertThat_inHexadecimal_Test {
   @Test
   void should_assert_String_in_hexadecimal() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("a6c").inHexadecimal().isEqualTo("abc"));
+    var assertionError = expectAssertionError(() -> assertThat("a6c").inHexadecimal().isEqualTo("abc"));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("\"['0x0061', '0x0036', '0x0063']\"",
                                                          "\"['0x0061', '0x0062', '0x0063']\""));
@@ -205,7 +205,7 @@ class Assertions_assertThat_inHexadecimal_Test {
     // GIVEN
     String description = "My description";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("ab").as(description).inHexadecimal().isNull());
+    var assertionError = expectAssertionError(() -> assertThat("ab").as(description).inHexadecimal().isNull());
     // THEN
     then(assertionError).hasMessageContaining(description);
   }

@@ -65,7 +65,7 @@ class StringAssert_asFloat_Test extends StringAssertBaseTest {
   @ValueSource(strings = { "foo", "" })
   void should_throw_AssertionError_when_null_or_not_numeric(String string) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(string).asFloat());
+    var assertionError = expectAssertionError(() -> assertThat(string).asFloat());
     // WHEN/THEN
     then(assertionError).hasMessage(shouldBeNumeric(string, NumericType.FLOAT).create());
   }

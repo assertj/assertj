@@ -13,7 +13,9 @@
 package org.assertj.core.internal;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.IterableDiff.diff;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Lists.newArrayList;
 
@@ -152,19 +154,18 @@ class IterableDiff_Test {
   }
 
   // issue #2147
-  @SuppressWarnings("deprecation")
   @Test
-  void should_work_when_comparison_strategy_is_not_symmetrical() {
+  void should_fail_when_comparison_strategy_is_not_symmetrical() {
     // GIVEN
     Address address1 = new Address(12, "xyz", "abc", "432432", "asdsa");
     Address address2 = new Address(13, "xyzx", "abcds", "32432432", "asdsdfsa");
     Address address3 = new Address(14, "xyzsa", "axbc", "4sd32432", "asdsfsda");
     List<Object> addressDtoList = list(AddressDto.from(address1), AddressDto.from(address2), AddressDto.from(address3));
-    // WHEN/THEN
-    assertThat(addressDtoList).usingRecursiveComparison()
-                              .isEqualTo(list(address1, address2, address3));
-    assertThat(addressDtoList).usingRecursiveFieldByFieldElementComparator()
-                              .containsExactly(address1, address2, address3);
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(addressDtoList).usingRecursiveFieldByFieldElementComparator()
+                                                                              .containsExactly(address1, address2, address3));
+    // THEN
+    then(assertionError).hasMessageContaining("when comparing values using recursive field");
   }
 
   static class Address {

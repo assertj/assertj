@@ -65,7 +65,7 @@ class AtomicReferenceAssert_hasValueSatisfying_Test {
     String expectedValue = "foo";
     AtomicReference<String> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(value -> assertThat(value).isEqualToIgnoringCase(expectedValue)));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(value -> assertThat(value).isEqualToIgnoringCase(expectedValue)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

@@ -30,7 +30,7 @@ class Strings_assertIsBase64_Test extends StringsBaseTest {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertIsBase64(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> strings.assertIsBase64(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -40,7 +40,7 @@ class Strings_assertIsBase64_Test extends StringsBaseTest {
     // GIVEN
     String actual = "inv@lid";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertIsBase64(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> strings.assertIsBase64(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeBase64(actual).create());
   }

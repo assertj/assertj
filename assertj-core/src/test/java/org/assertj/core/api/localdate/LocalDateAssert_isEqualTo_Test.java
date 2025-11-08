@@ -39,7 +39,7 @@ class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
   @Test
   void should_fail_if_actual_is_not_equal_to_date_as_string_parameter() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(AFTER).isEqualTo(REFERENCE.toString()));
+    var assertionError = expectAssertionError(() -> assertThat(AFTER).isEqualTo(REFERENCE.toString()));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage(AFTER + " (java.time.LocalDate)", REFERENCE + " (java.time.LocalDate)"));
   }

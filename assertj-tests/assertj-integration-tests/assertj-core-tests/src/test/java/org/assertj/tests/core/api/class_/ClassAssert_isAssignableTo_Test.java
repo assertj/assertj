@@ -48,7 +48,7 @@ class ClassAssert_isAssignableTo_Test {
     Class<?> actual = null;
     Class<?> other = List.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAssignableTo(other));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isAssignableTo(other));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -60,7 +60,7 @@ class ClassAssert_isAssignableTo_Test {
   })
   void should_fail_if_actual_is_not_assignable_to_other(Class<?> actual, Class<?> other) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAssignableTo(other));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isAssignableTo(other));
     // THEN
     then(assertionError).hasMessage(shouldBeAssignableTo(actual, other).create());
   }

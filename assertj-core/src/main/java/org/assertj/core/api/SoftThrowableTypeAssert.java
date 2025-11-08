@@ -12,8 +12,8 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.description.Description;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * ThrowableTypeAssert for soft assertions.
@@ -41,12 +41,13 @@ public class SoftThrowableTypeAssert<T extends Throwable> extends ThrowableTypeA
   }
 
   @Override
-  protected void checkThrowableType(Throwable throwable) {
+  protected Throwable checkThrowableType(Throwable throwable) {
     try {
       super.checkThrowableType(throwable);
     } catch (AssertionError error) {
       this.softAssertionsProvider.collectAssertionError(error);
     }
+    return throwable;
   }
 
   @Override

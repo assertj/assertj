@@ -56,7 +56,7 @@ class OffsetDateTimeAssert_isAfter_Test extends AbstractOffsetDateTimeAssertBase
   @Test
   void should_fail_if_actual_is_equal_to_offsetDateTime_parameter_with_different_offset() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE_WITH_DIFFERENT_OFFSET).isAfter(REFERENCE));
+    var assertionError = expectAssertionError(() -> assertThat(REFERENCE_WITH_DIFFERENT_OFFSET).isAfter(REFERENCE));
     // THEN
     then(assertionError).hasMessage(shouldBeAfter(REFERENCE_WITH_DIFFERENT_OFFSET, REFERENCE, COMPARISON_STRATEGY).create());
   }
@@ -64,7 +64,7 @@ class OffsetDateTimeAssert_isAfter_Test extends AbstractOffsetDateTimeAssertBase
   @Test
   void should_fail_if_actual_is_before_offsetDateTime_parameter_with_different_offset() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(BEFORE_WITH_DIFFERENT_OFFSET).isAfter(REFERENCE));
+    var assertionError = expectAssertionError(() -> assertThat(BEFORE_WITH_DIFFERENT_OFFSET).isAfter(REFERENCE));
     // THEN
     then(assertionError).hasMessage(shouldBeAfter(BEFORE_WITH_DIFFERENT_OFFSET, REFERENCE, COMPARISON_STRATEGY).create());
   }

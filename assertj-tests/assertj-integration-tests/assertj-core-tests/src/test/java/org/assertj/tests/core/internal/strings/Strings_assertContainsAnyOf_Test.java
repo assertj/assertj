@@ -32,7 +32,7 @@ class Strings_assertContainsAnyOf_Test extends StringsBaseTest {
     CharSequence actual = null;
     CharSequence[] values = array("Yoda", "Luke");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsAnyOf(someInfo(), actual, values));
+    var assertionError = expectAssertionError(() -> strings.assertContainsAnyOf(someInfo(), actual, values));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -79,7 +79,7 @@ class Strings_assertContainsAnyOf_Test extends StringsBaseTest {
     CharSequence actual = "Leia";
     CharSequence[] values = array("Yoda", "Luke");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertContainsAnyOf(someInfo(), actual, values));
+    var assertionError = expectAssertionError(() -> strings.assertContainsAnyOf(someInfo(), actual, values));
     // THEN
     then(assertionError).hasMessage(shouldContainAnyOf(actual, values, StandardComparisonStrategy.instance()).create());
   }

@@ -49,7 +49,7 @@ class ZonedDateTimeAssert_isInThePast_Test extends AbstractZonedDateTimeAssertBa
   @Test
   void should_fail_if_actual_is_in_the_future() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(TOMORROW).isInThePast());
+    var assertionError = expectAssertionError(() -> assertThat(TOMORROW).isInThePast());
     // THEN
     then(assertionError).hasMessage(shouldBeInThePast(TOMORROW).create());
   }
@@ -57,7 +57,7 @@ class ZonedDateTimeAssert_isInThePast_Test extends AbstractZonedDateTimeAssertBa
   @Test
   void should_fail_if_actual_with_different_zone_is_in_the_future() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(TOMORROW_WITH_DIFFERENT_ZONE).isInThePast());
+    var assertionError = expectAssertionError(() -> assertThat(TOMORROW_WITH_DIFFERENT_ZONE).isInThePast());
     // THEN
     then(assertionError).hasMessage(shouldBeInThePast(TOMORROW_WITH_DIFFERENT_ZONE).create());
   }
@@ -67,7 +67,7 @@ class ZonedDateTimeAssert_isInThePast_Test extends AbstractZonedDateTimeAssertBa
     // GIVEN
     LocalDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isInThePast());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isInThePast());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

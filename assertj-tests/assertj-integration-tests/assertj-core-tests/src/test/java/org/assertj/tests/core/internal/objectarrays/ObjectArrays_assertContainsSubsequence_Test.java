@@ -71,7 +71,7 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, null, array("Yoda")));
+    var assertionError = expectAssertionError(() -> arrays.assertContainsSubsequence(INFO, null, array("Yoda")));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -155,9 +155,9 @@ class ObjectArrays_assertContainsSubsequence_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO,
-                                                                                                                            null,
-                                                                                                                            array("Yoda")));
+    var assertionError = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertContainsSubsequence(INFO,
+                                                                                                                 null,
+                                                                                                                 array("Yoda")));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

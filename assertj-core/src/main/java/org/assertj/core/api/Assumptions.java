@@ -30,6 +30,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -43,6 +44,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -78,11 +80,11 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ClassLoadingStrategyFactory.ClassLoadingStrategyPair;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.configuration.PreferredAssumptionException;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Throwables;
 
 import net.bytebuddy.ByteBuddy;
@@ -1035,6 +1037,22 @@ public class Assumptions {
   }
 
   /**
+   * Creates a new instance of <code>{@link ThrowableAssert}</code> assumption.
+   * <p>
+   * This overload's purpose is to disambiguate the call for <code>{@link SQLException}</code>.
+   * Indeed, this class implements <code>{@link Iterable}</code> and is considered ambiguous.
+   *
+   * @param <T> the type of the actual SQL exception.
+   * @param actual the actual value.
+   * @return the created assumption for assertion object.
+   * @since 4.0.0
+   */
+  @SuppressWarnings("unchecked")
+  public static <T extends SQLException> AbstractThrowableAssert<?, T> assumeThat(T actual) {
+    return asAssumption(ThrowableAssert.class, Throwable.class, actual);
+  }
+
+  /**
    * Entry point to check that an exception of type T is thrown by a given {@code throwingCallable}
    * which allows to chain assertions on the thrown exception.
    *
@@ -1538,22 +1556,19 @@ public class Assumptions {
    * You can choose one of:
    * <ul>
    * <li>{@link PreferredAssumptionException#TEST_NG} to throw a {@code org.testng.SkipException} if you are using TestNG</li>
-   * <li>{@link PreferredAssumptionException#JUNIT4} to throw a {@code org.junit.AssumptionViolatedException} if you are using JUnit 4</li>
    * <li>{@link PreferredAssumptionException#JUNIT5} a {@code org.opentest4j.TestAbortedException} if you are using JUnit 5</li>
    * <li>{@link PreferredAssumptionException#AUTO_DETECT} to get the default behavior where AssertJ tries different exception (explained later on)</li>
    * </ul>
    * <p>
    * Make sure that the exception you choose can be found in the classpath otherwise AssertJ will throw an {@link IllegalStateException}.
    * <p>
-   * For example JUnit4 expects {@code org.junit.AssumptionViolatedException}, you can tell AssertJ to use it as shown below:
-   * <pre><code class='java'> // after this call, AssertJ will throw an org.junit.AssumptionViolatedException when an assumption is not met   
-   * Assertions.setPreferredAssumptionExceptions(PreferredAssumptionException.JUNIT4);
-   * </code></pre>
+   * For example TestNG expects {@code org.testng.SkipException}, you can tell AssertJ to use it as shown below:
+   * <pre><code class='java'> // after this call, AssertJ will throw an org.testng.SkipException when an assumption is not met
+   * Assertions.setPreferredAssumptionExceptions(PreferredAssumptionException.TEST_NG); </code></pre>
    * <p>
    * By default, AssertJ uses the {@link PreferredAssumptionException#AUTO_DETECT AUTO_DETECT} mode and tries to throw one of the following exceptions, in this order:
    * <ol>
    * <li>{@code org.testng.SkipException} for TestNG (if available in the classpath)</li>
-   * <li>{@code org.junit.AssumptionViolatedException} for JUnit 4 (if available in the classpath)</li>
    * <li>{@code org.opentest4j.TestAbortedException} for JUnit 5</li>
    * </ol> 
    *
@@ -1649,6 +1664,7 @@ public class Assumptions {
     if (assertion instanceof FloatArrayAssert) return asAssumption(FloatArrayAssert.class, float[].class, actual);
     if (assertion instanceof FutureAssert) return asAssumption(FutureAssert.class, Future.class, actual);
     if (assertion instanceof InputStreamAssert) return asAssumption(InputStreamAssert.class, InputStream.class, actual);
+    if (assertion instanceof HashSetAssert) return asAssumption(HashSetAssert.class, HashSet.class, actual);
     if (assertion instanceof InstantAssert) return asAssumption(InstantAssert.class, Instant.class, actual);
     if (assertion instanceof IntegerAssert) return asAssumption(IntegerAssert.class, Integer.class, actual);
     if (assertion instanceof Int2DArrayAssert) return asAssumption(Int2DArrayAssert.class, int[][].class, actual);

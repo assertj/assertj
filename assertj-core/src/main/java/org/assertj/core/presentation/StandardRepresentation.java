@@ -63,11 +63,11 @@ import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
 
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.util.Closeables;
 import org.assertj.core.util.diff.ChangeDelta;
 import org.assertj.core.util.diff.DeleteDelta;
@@ -182,8 +182,8 @@ public class StandardRepresentation implements Representation {
   /**
    * Registers new formatter for the given type. All instances of the given type will be formatted with the provided formatter.
    *
-   * @param <T> the type to register a formatter for
-   * @param type the class of the type to register a formatter for
+   * @param <T>       the type to register a formatter for
+   * @param type      the class of the type to register a formatter for
    * @param formatter the formatter
    */
   public static <T> void registerFormatterForType(Class<T> type, Function<T, String> formatter) {
@@ -221,7 +221,8 @@ public class StandardRepresentation implements Representation {
     if (object instanceof LongAdder adder) return toStringOf(adder);
     // if object was a subtype of any atomic type overriding toString, use it as it's more relevant than our generic
     // representation, if that's not the case (e.g., an AtomicReference subclass not overriding String) we use our representation.
-    if (isInstanceOfNotOverridingToString(object, AtomicReference.class)) return toStringOf((AtomicReference<?>) object);
+    if (isInstanceOfNotOverridingToString(object, AtomicReference.class))
+      return toStringOf((AtomicReference<?>) object);
     if (isInstanceOfNotOverridingToString(object, AtomicMarkableReference.class))
       return toStringOf((AtomicMarkableReference<?>) object);
     if (isInstanceOfNotOverridingToString(object, AtomicStampedReference.class))
@@ -251,7 +252,8 @@ public class StandardRepresentation implements Representation {
     // Only format Iterables that are not collections and have not overridden toString
     // ex: JsonNode is an Iterable that is best formatted with its own String
     // Path is another example, but we can deal with it specifically as it is part of the JDK.
-    if (object instanceof Iterable<?> iterable && !hasOverriddenToString(object.getClass())) return smartFormat(iterable);
+    if (object instanceof Iterable<?> iterable && !hasOverriddenToString(object.getClass()))
+      return smartFormat(iterable);
     if (object instanceof AtomicInteger atomicInteger) return toStringOf(atomicInteger);
     if (object instanceof AtomicBoolean atomicBoolean) return toStringOf(atomicBoolean);
     if (object instanceof AtomicLong atomicLong) return toStringOf(atomicLong);
@@ -303,14 +305,16 @@ public class StandardRepresentation implements Representation {
    * Returns the {@code String} representation of the given object with its type and hexadecimal identity hash code so that
    * it can be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
    *
-   * @param obj the object to represent.
+   * @param obj             the object to represent.
+   * @param withPackageName if the object's representation includes the package or not
    * @return the unambiguous {@code toString} representation of the given object.
    */
   @Override
-  public String unambiguousToStringOf(Object obj) {
+  public String unambiguousToStringOf(Object obj, boolean withPackageName) {
     // some types have already an unambiguous toString, no need to double down
     if (hasAlreadyAnUnambiguousToStringOf(obj)) return toStringOf(obj);
-    return obj == null ? null : "%s (%s@%s)".formatted(toStringOf(obj), classNameOf(obj), identityHexCodeOf(obj));
+    return obj == null ? null
+        : "%s (%s@%s)".formatted(toStringOf(obj), classNameOf(obj, withPackageName), identityHexCodeOf(obj));
   }
 
   @Override
@@ -332,6 +336,7 @@ public class StandardRepresentation implements Representation {
 
   /**
    * Determine whether the given object's type has a representation that is not ambiguous.
+   *
    * @param obj the object to check
    * @return true if the given object's type has a representation that is not ambiguous, false otherwise.
    */
@@ -743,8 +748,12 @@ public class StandardRepresentation implements Representation {
                                                          formatLines(insertDelta.getRevised().getLines()));
   }
 
-  private String toStringOf(Duration duration) {
-    return duration.toString().substring(2);
+  protected String toStringOf(Duration duration) {
+    String durationString = duration.toString();
+    if (durationString.startsWith("PT")) {
+      durationString = durationString.substring(2);
+    }
+    return durationString.toLowerCase();
   }
 
   private String formatLines(List<?> lines) {
@@ -759,8 +768,16 @@ public class StandardRepresentation implements Representation {
     return toHexString(System.identityHashCode(obj));
   }
 
-  private static Object classNameOf(Object obj) {
+  private static String classNameOf(Object obj) {
     return obj.getClass().isAnonymousClass() ? obj.getClass().getName() : obj.getClass().getSimpleName();
+  }
+
+  private static String classNameOf(Object obj, boolean shouldKeepPackage) {
+    return shouldKeepPackage ? packageAndClassNameOf(obj) : classNameOf(obj);
+  }
+
+  private static String packageAndClassNameOf(Object obj) {
+    return "%s.%s".formatted(obj.getClass().getPackage().getName(), classNameOf(obj));
   }
 
   private String defaultToStringWithClassNameDisambiguation(Object o) {

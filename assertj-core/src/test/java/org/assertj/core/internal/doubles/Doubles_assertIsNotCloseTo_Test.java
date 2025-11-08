@@ -87,7 +87,7 @@ class Doubles_assertIsNotCloseTo_Test extends DoublesBaseTest {
     // GIVEN
     Double actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsNotCloseTo(INFO, actual, ONE, within(ONE)));
+    var assertionError = expectAssertionError(() -> doubles.assertIsNotCloseTo(INFO, actual, ONE, within(ONE)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

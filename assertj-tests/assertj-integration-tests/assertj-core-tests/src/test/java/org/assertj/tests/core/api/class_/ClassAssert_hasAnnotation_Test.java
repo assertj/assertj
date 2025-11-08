@@ -43,7 +43,7 @@ class ClassAssert_hasAnnotation_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotation(FunctionalInterface.class));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotation(FunctionalInterface.class));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -78,7 +78,7 @@ class ClassAssert_hasAnnotation_Test {
   @MethodSource
   void should_fail_if_actual_does_not_have_annotation(Class<?> actual, Class<? extends Annotation> annotation) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotation(annotation));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasAnnotation(annotation));
     // THEN
     then(assertionError).hasMessage(shouldHaveAnnotations(actual, Set.of(annotation), Set.of(annotation)).create());
   }

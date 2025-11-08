@@ -31,7 +31,7 @@ class EntryPointAssertions_shouldHaveThrown_Test extends EntryPointAssertionsBas
     // GIVEN
     Class<? extends Throwable> throwableClass = NullPointerException.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> shouldHaveThrownFunction.apply(throwableClass));
+    var assertionError = expectAssertionError(() -> shouldHaveThrownFunction.apply(throwableClass));
     // THEN
     then(assertionError).hasMessage("NullPointerException should have been thrown");
   }

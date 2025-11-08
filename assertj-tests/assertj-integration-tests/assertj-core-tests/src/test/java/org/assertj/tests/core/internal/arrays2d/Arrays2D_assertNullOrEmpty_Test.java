@@ -33,7 +33,7 @@ class Arrays2D_assertNullOrEmpty_Test extends Arrays2D_BaseTest {
     // GIVEN
     int[][] actual = { { 1, 2 }, { 6, 8 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertNullOrEmpty(someInfo(), failures, actual));
+    var assertionError = expectAssertionError(() -> arrays.assertNullOrEmpty(someInfo(), failures, actual));
     // THEN
     then(assertionError).hasMessage(shouldBeNullOrEmpty(actual).create());
   }

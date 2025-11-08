@@ -48,7 +48,7 @@ class Assertions_assertThat_asString_Test {
     // GIVEN
     String description = "My description";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("foo").as(description).asString().isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat("foo").as(description).asString().isEmpty());
     // THEN
     then(assertionError).hasMessageContaining(description);
   }

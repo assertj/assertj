@@ -38,7 +38,7 @@ class LocalDateTimeAssert_hasSecond_Test {
     LocalDateTime actual = LocalDateTime.of(2021, 12, 31, 23, 59, 55);
     int expectedSecond = 58;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSecond(expectedSecond));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSecond(expectedSecond));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "second", expectedSecond).create());
   }
@@ -48,7 +48,7 @@ class LocalDateTimeAssert_hasSecond_Test {
     // GIVEN
     LocalDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSecond(1));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSecond(1));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

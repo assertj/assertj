@@ -39,7 +39,7 @@ class DurationAssert_hasMillis_Test {
     // GIVEN
     Duration duration = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasMillis(190L));
+    var assertionError = expectAssertionError(() -> assertThat(duration).hasMillis(190L));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class DurationAssert_hasMillis_Test {
     // GIVEN
     Duration duration = Duration.ofMillis(5866L);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasMillis(758L));
+    var assertionError = expectAssertionError(() -> assertThat(duration).hasMillis(758L));
     // THEN
     then(assertionError).hasMessage(shouldHaveMillis(duration, 5866L, 758L).create());
   }

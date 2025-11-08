@@ -33,7 +33,7 @@ class ClassAssert_hasPackage_with_String_Test {
     Class<?> actual = null;
     String expected = "java.lang";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasPackage(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasPackage(expected));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -55,7 +55,7 @@ class ClassAssert_hasPackage_with_String_Test {
     Class<?> actual = Object.class;
     String expected = "java.util";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasPackage(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasPackage(expected));
     // THEN
     then(assertionError).hasMessage(shouldHavePackage(actual, expected).create());
   }

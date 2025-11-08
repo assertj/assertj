@@ -51,7 +51,7 @@ class Classes_assertHasMethods_Test extends ClassesBaseTest {
   @Test
   void should_fail_if_no_methods_are_expected_and_methods_are_available() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> classes.assertHasMethods(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> classes.assertHasMethods(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldNotHaveMethods(actual, false, actualMethods()).create());
   }

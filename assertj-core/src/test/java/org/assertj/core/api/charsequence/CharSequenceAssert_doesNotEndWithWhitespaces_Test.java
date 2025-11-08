@@ -36,7 +36,7 @@ class CharSequenceAssert_doesNotEndWithWhitespaces_Test {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).doesNotStartWithWhitespaces());
+    var assertionError = expectAssertionError(() -> assertThat(actual).doesNotEndWithWhitespaces());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -47,11 +47,16 @@ class CharSequenceAssert_doesNotEndWithWhitespaces_Test {
     assertThat(actual).doesNotEndWithWhitespaces();
   }
 
+  static Stream<String> should_pass_if_actual_does_not_end_with_whitespaces() {
+    return Stream.concat(Stream.of("<abc>", "  ?", "\t\t\"", ""),
+                         Stream.of(WHITESPACES).map(whitespace -> unescapeJava(whitespace + "abc")));
+  }
+
   @ParameterizedTest
   @MethodSource
   protected void should_fail_if_actual_ends_with_whitespaces(String actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).doesNotEndWithWhitespaces());
+    var assertionError = expectAssertionError(() -> assertThat(actual).doesNotEndWithWhitespaces());
     // THEN
     then(assertionError).hasMessage(shouldNotEndWithWhitespaces(actual).create());
   }
@@ -60,8 +65,4 @@ class CharSequenceAssert_doesNotEndWithWhitespaces_Test {
     return Stream.of(WHITESPACES).map(whitespace -> unescapeJava("abc" + whitespace));
   }
 
-  static Stream<String> should_pass_if_actual_does_not_end_with_whitespaces() {
-    return Stream.concat(Stream.of("<abc>", "  ?", "\t\t\"", ""),
-                         Stream.of(WHITESPACES).map(whitespace -> unescapeJava(whitespace + "abc")));
-  }
 }

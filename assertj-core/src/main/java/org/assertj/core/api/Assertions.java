@@ -12,9 +12,12 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
 import static org.assertj.core.data.Percentage.withPercentage;
+import static org.assertj.core.util.Preconditions.checkArgument;
+import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +29,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -40,8 +44,10 @@ import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -78,6 +84,8 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotation.CanIgnoreReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -100,13 +108,13 @@ import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.presentation.UnicodeRepresentation;
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.util.Executable;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.Paths;
 import org.assertj.core.util.URLs;
@@ -177,7 +185,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Create assertion for {@link Predicate}.
    * <p>
-   * Use this over {@link #assertThat(Predicate)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Predicate)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param actual the actual value.
@@ -1041,6 +1049,21 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
+   * Creates a new instance of <code>{@link ThrowableAssert}</code>.
+   * <p>
+   * This overload's purpose is to disambiguate the call for <code>{@link SQLException}</code>.
+   * Indeed, this class implements <code>{@link Iterable}</code> and is considered ambiguous.
+   *
+   * @param <T> the type of the actual SQL exception.
+   * @param actual the actual value.
+   * @return the created {@link ThrowableAssert}.
+   * @since 4.0.0
+   */
+  public static <T extends SQLException> AbstractThrowableAssert<?, T> assertThat(T actual) {
+    return AssertionsForClassTypes.assertThat(actual);
+  }
+
+  /**
    * Allows to capture and then assert on a {@link Throwable} (easier done with lambdas).
    * <p>
    * Java 8 example :
@@ -1638,6 +1661,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @throws AssertionError with the given message.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(String failureMessage) {
     return Fail.fail(failureMessage);
   }
@@ -1652,6 +1676,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @since 3.26.0
    */
   @CanIgnoreReturnValue
+  @Contract(" -> fail")
   public static <T> T fail() {
     return Fail.fail();
   }
@@ -1666,6 +1691,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @throws AssertionError with the given built message.
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Object... args) {
     return Fail.fail(failureMessage, args);
   }
@@ -1679,6 +1705,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Throwable realCause) {
     return Fail.fail(failureMessage, realCause);
   }
@@ -1688,13 +1715,14 @@ public class Assertions implements InstanceOfAssertFactories {
    * <p>
    * Example:
    * <pre><code class='java'> doSomething(optional.orElseGet(() -> fail(cause)));</code></pre>
-   * 
+   *
    * @param <T> dummy return value type
    * @param realCause cause of the error.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
    * @throws AssertionError with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(Throwable realCause) {
     // pass an empty string because passing null results in a "null" error message.
     return fail("", realCause);
@@ -1713,6 +1741,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *           not been.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     return Fail.shouldHaveThrown(throwableClass);
   }
@@ -1727,6 +1756,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *           not been.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     return Fail.shouldHaveThrown(throwableClass);
   }
@@ -2422,7 +2452,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param unit the {@link TemporalUnit} of the offset.
    * @return the created {@code Offset}.
    * @since 3.7.0
-   * @see #within(long, TemporalUnit) 
+   * @see #within(long, TemporalUnit)
    */
   public static TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
     return new TemporalUnitLessThanOffset(value, unit);
@@ -3188,7 +3218,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
@@ -3226,7 +3256,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(Iterator)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Iterator)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
@@ -3253,7 +3283,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <E> the type of elements.
@@ -3263,6 +3293,17 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThatCollection(Collection<? extends E> actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link HashSetAssert}</code>.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   */
+  public static <ELEMENT> HashSetAssert<ELEMENT> assertThat(HashSet<? extends ELEMENT> actual) {
+    return AssertionsForClassTypes.assertThat(actual);
   }
 
   /**
@@ -3279,7 +3320,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(List)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(List)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
@@ -3325,7 +3366,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    * <p>
    * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
@@ -3355,6 +3396,58 @@ public class Assertions implements InstanceOfAssertFactories {
    */
   public static <ELEMENT> ListAssert<ELEMENT> assertThatStream(Stream<? extends ELEMENT> actual) {
     return assertThat(actual);
+  }
+
+  /**
+   * Verifies that at least one of the executables does not fail.
+   * <p>
+   * This allows users to perform OR like assertions or just verify that at least one of the executables does not fail.
+   * <p>
+   * This is similar in intent to {@link org.assertj.core.api.AbstractAssert#satisfiesAnyOf(Consumer[]) satisfiesAnyOf},
+   * but useful for cases where there is no object under test and only the behavior of code blocks (executables) is being verified.
+   * <p>
+   * If all the executables fail,
+   * an {@link AssertionError} is thrown with a message listing all the stack traces of the thrown exceptions,
+   * numbered by the indices of the executables in the array.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Executable[] executablesWithOneNotFailing = new Executable[] {
+   *   () -> { throw new Throwable("Failure message 1"); },
+   *   () -> { throw new Throwable("Failure message 2"); },
+   *   () -> {}
+   * };
+   * // assertion succeeds:
+   * assertAny(executablesWithOneNotFailing);
+   *
+   * Executable[] allFailingExecutables = new Executable[] {
+   *   () -> { throw new Throwable("Failure message 1"); },
+   *   () -> { throw new Throwable("Failure message 2"); }
+   * };
+   * // assertion fails:
+   * assertAny(allFailingExecutables); </code></pre>
+   *
+   * @param executables the group of executables to execute, must not be null.
+   * @throws IllegalArgumentException if any of the executables is null.
+   */
+  public static void assertAny(Executable... executables) {
+    checkArgument(stream(executables).allMatch(java.util.Objects::nonNull), "No executable can be null");
+    List<Throwable> exceptionsThrown = new ArrayList<>();
+    for (Executable executable : executables) {
+      try {
+        executable.execute();
+        return;
+      } catch (Throwable e) {
+        exceptionsThrown.add(e);
+      }
+    }
+
+    StringBuilder messageBuilder = new StringBuilder();
+    messageBuilder.append("None of the provided executables succeeded.");
+    for (int i = 0; i < executables.length; i++) {
+      messageBuilder.append("%nExecutable #%d failed with:%n%s".formatted(i, getStackTrace(exceptionsThrown.get(i))));
+    }
+
+    throw new AssertionError(messageBuilder.toString());
   }
 
   /**
@@ -3476,7 +3569,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of {@link PathAssert}
    * <p>
-   * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param actual the path to test
@@ -3518,7 +3611,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with
    * standard comparison semantics.
    * <p>
-   * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <T> the type of actual.
@@ -3674,7 +3767,7 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Reset the representaion being used to the one from the {@link Configuration} to revert the effect of calling {@link #useRepresentation(Representation)}.
+   * Reset the representation being used to the one from the {@link Configuration} to revert the effect of calling {@link #useRepresentation(Representation)}.
    * <p>
    * Unless a specific {@link Configuration} is in use, this method resets the representation to the {@link StandardRepresentation}.
    *

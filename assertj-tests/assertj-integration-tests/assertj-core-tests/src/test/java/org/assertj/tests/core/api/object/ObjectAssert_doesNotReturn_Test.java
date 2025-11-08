@@ -32,7 +32,7 @@ class ObjectAssert_doesNotReturn_Test {
     // GIVEN
     Jedi actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).doesNotReturn("Yoda", from(Jedi::getName)));
+    var assertionError = expectAssertionError(() -> assertThat(actual).doesNotReturn("Yoda", from(Jedi::getName)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -70,9 +70,9 @@ class ObjectAssert_doesNotReturn_Test {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingComparatorForType(CASE_INSENSITIVE_ORDER,
-                                                                                                         String.class)
-                                                                                 .doesNotReturn("YODA", from(Jedi::getName)));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingComparatorForType(CASE_INSENSITIVE_ORDER,
+                                                                                              String.class)
+                                                                      .doesNotReturn("YODA", from(Jedi::getName)));
     // THEN
     then(assertionError).hasMessage(shouldNotBeEqual("Yoda", "YODA",
                                                      new ComparatorBasedComparisonStrategy(CASE_INSENSITIVE_ORDER)).create());

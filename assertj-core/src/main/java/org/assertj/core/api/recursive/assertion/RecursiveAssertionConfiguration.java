@@ -20,6 +20,7 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
+
 import org.assertj.core.api.RecursiveAssertionAssert;
 import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 
@@ -516,7 +517,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
 
     /**
      * <p>Selects the {@link CollectionAssertionPolicy} to use for recursive application of a {@link Predicate} to an object tree. 
-     * If not set, defaults to {@link CollectionAssertionPolicy#COLLECTION_OBJECT_AND_ELEMENTS}.</p>
+     * If not set, defaults to {@link CollectionAssertionPolicy#ELEMENTS_ONLY}.</p>
      * <p>Note that for the purposes of recursive asserting, an array counts as a collection, so this policy is applied to
      * arrays as well as children of {@link Collection}.
      *
@@ -530,7 +531,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
 
     /**
      * <p>Selects the {@link MapAssertionPolicy} to use for recursive application of a {@link Predicate} to an object tree. 
-     * If not set, defaults to {@link MapAssertionPolicy#MAP_OBJECT_AND_ENTRIES}.</p>
+     * If not set, defaults to {@link MapAssertionPolicy#MAP_VALUES_ONLY}.</p>
      *
      * @param policy The policy to use for maps in recursive asserting.
      * @return This builder.

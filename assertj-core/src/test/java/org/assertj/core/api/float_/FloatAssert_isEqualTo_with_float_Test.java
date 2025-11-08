@@ -69,7 +69,7 @@ class FloatAssert_isEqualTo_with_float_Test extends FloatAssertBaseTest {
     float actual = 6f;
     float expected = 7f;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("6.0f", "7.0f"));
   }
@@ -80,7 +80,7 @@ class FloatAssert_isEqualTo_with_float_Test extends FloatAssertBaseTest {
     float actual = Float.NaN;
     float expected = Float.NaN;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
     // THEN
     then(assertionError).hasMessage("Actual and expected values were compared with == because expected was a primitive float, the assertion failed as both were Float.NaN and Float.NaN != Float.NaN (as per Float#equals javadoc)");
   }

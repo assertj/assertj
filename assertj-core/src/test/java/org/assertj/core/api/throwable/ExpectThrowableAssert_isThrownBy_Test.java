@@ -13,27 +13,33 @@
 package org.assertj.core.api.throwable;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenExceptionOfType;
+import static org.assertj.core.testkit.ThrowingCallableFactory.codeThrowing;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.NoSuchElementException;
+
 import org.junit.jupiter.api.Test;
 
 class ExpectThrowableAssert_isThrownBy_Test {
 
   @Test
   void should_build_ExpectThrowableAssert_with_exception_thrown_by_lambda() {
+    // WHEN
     NoSuchElementException ex = new NoSuchElementException("no such element!");
-    // @format:off
-    assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {throw ex;})
+    // THEN
+    thenExceptionOfType(NoSuchElementException.class).isThrownBy(codeThrowing(ex))
                                                      .isSameAs(ex)
                                                      .withNoCause();
-    // @format:on
   }
 
   @Test
   void should_allow_to_check_exception_thrown_by_lambda() {
-    // @format:off
-    Throwable exceptionWithCause = new NoSuchElementException("this too 234").initCause(new IllegalArgumentException("The cause"));
-    assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> { throw exceptionWithCause;})
+    // WHEN
+    Throwable exceptionWithCause = new NoSuchElementException("this too 234", new IllegalArgumentException("The cause"));
+    // THEN
+    thenExceptionOfType(NoSuchElementException.class).isThrownBy(codeThrowing(exceptionWithCause))
                                                      .withMessage("this too 234")
                                                      .withMessage("this %s %d", "too", 234)
                                                      .withMessageStartingWith("this")
@@ -45,12 +51,13 @@ class ExpectThrowableAssert_isThrownBy_Test {
                                                      .withStackTraceContaining("is %s", "to")
                                                      .withCauseExactlyInstanceOf(IllegalArgumentException.class)
                                                      .withCauseInstanceOf(IllegalArgumentException.class);
-    // @format:on
   }
 
   @Test
   void should_fail_if_nothing_is_thrown_by_lambda() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {}))
-                                                   .withMessage("%nExpecting code to raise a throwable.".formatted());
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThatExceptionOfType(NoSuchElementException.class).isThrownBy(() -> {}));
+    // THEN
+    then(assertionError).hasMessage("%nExpecting code to throw a java.util.NoSuchElementException, but no throwable was thrown.".formatted());
   }
 }

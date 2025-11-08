@@ -74,7 +74,7 @@ class AbstractAssert_isInstanceOfSatisfying_Test extends AbstractAssertBaseTest 
     // GIVEN
     ThrowingCallable code = () -> assertThat(new Jedi("Vader", "Red")).isInstanceOfSatisfying(Jedi.class, jediRequirements);
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     then(assertionError).hasMessage(format("[check light saber] %n" +
                                            "expected: \"Green\"%n" +

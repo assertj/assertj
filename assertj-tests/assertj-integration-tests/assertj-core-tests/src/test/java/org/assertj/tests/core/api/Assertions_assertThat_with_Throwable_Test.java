@@ -47,7 +47,7 @@ class Assertions_assertThat_with_Throwable_Test {
     // GIVEN a failing assertion with a description
     ThrowingCallable code = () -> assertThatThrownBy(raisingException("boom"), "Test %s", "code").hasMessage("bam");
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     assertThat(assertionError).hasMessageContaining("[Test code]");
   }
@@ -75,7 +75,7 @@ class Assertions_assertThat_with_Throwable_Test {
     final Exception exception = new Exception("boom!!");
     ThrowingCallable codeThrowingException = codeThrowing(exception);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> catchThrowableOfType(IOException.class, codeThrowingException));
+    var assertionError = expectAssertionError(() -> catchThrowableOfType(IOException.class, codeThrowingException));
     // THEN
     assertThat(assertionError).hasMessageContainingAll(IOException.class.getName(),
                                                        Exception.class.getName(),

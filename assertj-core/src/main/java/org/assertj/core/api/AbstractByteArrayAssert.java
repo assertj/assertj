@@ -20,10 +20,10 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Index;
 import org.assertj.core.internal.ByteArrays;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.CheckReturnValue;
 
 public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAssert<SELF>>
     extends AbstractArrayAssert<SELF, byte[], Byte> {
@@ -1340,6 +1340,24 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   public AbstractStringAssert<?> asBase64Encoded() {
     objects.assertNotNull(info, actual);
     return new StringAssert(Base64.getEncoder().encodeToString(actual)).withAssertionState(myself);
+  }
+
+  /**
+   * Encodes the actual array into a Base64 URL string, the encoded string becoming the new object under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat("AssertJ".getBytes()).asBase64UrlEncoded().isEqualTo(&quot;QXNzZXJ0Sg&quot;);</code></pre>
+   *
+   * @return a new {@link StringAssert} instance whose string under test is the result of the encoding.
+   * @throws AssertionError if the actual value is {@code null}.
+   *
+   * @since 4.0.0
+   */
+  @CheckReturnValue
+  public AbstractStringAssert<?> asBase64UrlEncoded() {
+    objects.assertNotNull(info, actual);
+    return new StringAssert(Base64.getUrlEncoder().encodeToString(actual)).withAssertionState(myself);
   }
 
   private static byte[] toPrimitiveByteArray(Byte[] values) {

@@ -19,10 +19,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.ThrowingConsumer;
 import org.junit.jupiter.api.Test;
 
 class OptionalAssert_hasValueSatisfying_Test {
@@ -35,7 +37,7 @@ class OptionalAssert_hasValueSatisfying_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<String> nullActual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(nullActual).hasValueSatisfying(NO_OP));
+    var error = expectAssertionError(() -> assertThat(nullActual).hasValueSatisfying(NO_OP));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -45,7 +47,7 @@ class OptionalAssert_hasValueSatisfying_Test {
     // GIVEN
     Optional<String> actual = Optional.empty();
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(NO_OP));
+    var error = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(NO_OP));
     // THEN
     then(error).hasMessage(shouldBePresent(Optional.empty()).create());
   }
@@ -59,11 +61,24 @@ class OptionalAssert_hasValueSatisfying_Test {
   }
 
   @Test
+  void should_pass_when_throwing_consumer_passes() {
+    // GIVEN
+    Optional<String> optional = Optional.of("something");
+    ThrowingConsumer<String> throwingConsumer = value -> {
+      if (!value.equals("something")) {
+        throw new IOException("Value does not match");
+      }
+    };
+    // WHEN/THEN
+    then(optional).hasValueSatisfying(throwingConsumer);
+  }
+
+  @Test
   void should_fail_from_consumer() {
     // GIVEN
     ThrowingCallable code = () -> assertThat(Optional.of("something else")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("\"something else\"", "\"something\""));
   }

@@ -28,12 +28,13 @@ import static org.assertj.core.util.Strings.formatIfArgs;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.AssertFactory.ValueProvider;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
@@ -41,15 +42,14 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.description.Description;
 import org.assertj.core.error.AssertionErrorCreator;
-import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.internal.Conditions;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.PredicateDescription;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Base class for all assertions.
@@ -97,6 +97,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
+  @SuppressWarnings("unchecked")
   protected AbstractAssert(ACTUAL actual, Class<?> selfType) {
     myself = (SELF) selfType.cast(this);
     this.actual = actual;
@@ -135,6 +136,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @see #failWithActualExpectedAndMessage(Object, Object, String, Object...)
    * @see #failure(String, Object...)
    */
+  @Contract("_, _ -> fail")
   protected void failWithMessage(String errorMessage, Object... arguments) {
     throw failure(errorMessage, arguments);
   }
@@ -197,6 +199,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @see #failWithMessage(String, Object...)
    * @see #failureWithActualExpected(Object, Object, String, Object...)
    */
+  @Contract("_, _, _, _ -> fail")
   protected void failWithActualExpectedAndMessage(Object actual, Object expected, String errorMessageFormat,
                                                   Object... arguments) {
     throw failureWithActualExpected(actual, expected, errorMessageFormat, arguments);
@@ -248,7 +251,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Utility method to throw an {@link AssertionError} given a {@link BasicErrorMessageFactory}.
+   * Utility method to throw an {@link AssertionError} given a {@link org.assertj.core.error.BasicErrorMessageFactory}.
    * <p>
    * Instead of writing ...
    *
@@ -258,7 +261,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <pre><code class='java'> throwAssertionError(info, ShouldBePresent.shouldBePresent());</code></pre>
    *
    * @param errorMessageFactory used to define the error message.
-   * @throws AssertionError with a message corresponding to the given {@link BasicErrorMessageFactory}.
+   * @throws AssertionError with a message corresponding to the given {@code BasicErrorMessageFactory}.
    */
   protected void throwAssertionError(ErrorMessageFactory errorMessageFactory) {
     throw assertionError(errorMessageFactory);
@@ -331,9 +334,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Example:
    * <pre><code class='java'> assertThat(1).inBinary().isEqualTo(2);
    *
-   * org.junit.ComparisonFailure:
-   * Expected :0b00000000_00000000_00000000_00000010
-   * Actual   :0b00000000_00000000_00000000_00000001</code></pre>
+   * org.opentest4j.AssertionFailedError:
+   * expected: 0b00000000_00000000_00000000_00000010
+    *  but was: 0b00000000_00000000_00000000_00000001</code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -536,6 +539,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * {@inheritDoc}
    */
+  @SuppressWarnings("unchecked")
   @Override
   public <T> SELF isInstanceOfSatisfying(Class<T> type, Consumer<T> requirements) {
     objects.assertIsInstanceOf(info, actual, type);
@@ -976,7 +980,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
                                                                    .flatMap(Optional::stream)
                                                                    .collect(toList());
     if (!assertionErrors.isEmpty()) {
-      throw multipleAssertionsError(assertionErrors);
+      throw multipleAssertionsError(actual, assertionErrors);
     }
     return myself;
   }
@@ -1073,12 +1077,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
       }
       assertionErrors.add(maybeError.get());
     }
-    throw multipleAssertionsError(assertionErrors);
+    throw multipleAssertionsError(actual, assertionErrors);
   }
 
-  private AssertionError multipleAssertionsError(List<AssertionError> assertionErrors) {
+  private AssertionError multipleAssertionsError(ACTUAL actual, List<AssertionError> assertionErrors) {
     // we don't allow overriding the error message to avoid loosing all the failed assertions error message.
-    return assertionErrorCreator.multipleAssertionsError(info.description(), assertionErrors);
+    return assertionErrorCreator.multipleAssertionsError(info.description(), actual, assertionErrors);
   }
 
   private SELF matches(Predicate<? super ACTUAL> predicate, PredicateDescription predicateDescription) {
@@ -1178,7 +1182,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Extracts the value of given field/property from the object under test and creates a new assertion object using the
    * given assert factory.
    * <p>
-   * If the object under test is a {@link Map}, the {@code propertyOrField} parameter is used as a key to the map.
+   * If the object under test is a {@link java.util.Map}, the {@code propertyOrField} parameter is used as a key to the map.
    * <p>
    * Nested field/property is supported, specifying "address.street.number" is equivalent to get the value
    * corresponding to actual.getAddress().getStreet().getNumber()
@@ -1203,7 +1207,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     Object value = byName(propertyOrField).apply(actual);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-    return (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
+    @SuppressWarnings("unchecked")
+    ASSERT result = (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
+    return result;
   }
 
   /**
@@ -1227,7 +1233,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
     isNotNull();
     T extractedValue = extractor.apply(actual);
-    return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
+    @SuppressWarnings("unchecked")
+    ASSERT result = (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
+    return result;
   }
 
   /**

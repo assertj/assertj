@@ -34,7 +34,7 @@ class CharSequenceAssert_isAlphabetic_Test {
   @ValueSource(strings = { "@", "abc#", "123", "abc ", " ", "" })
   void should_fail_if_actual_is_not_alphabetic(CharSequence actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAlphabetic());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isAlphabetic());
     // THEN
     then(assertionError).hasMessage(shouldBeAlphabetic(actual).create());
   }
@@ -44,7 +44,7 @@ class CharSequenceAssert_isAlphabetic_Test {
     // GIVEN
     CharSequence actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAlphabetic());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isAlphabetic());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

@@ -31,7 +31,7 @@ class Arrays2D_assertNumberOfRows_Test extends Arrays2D_BaseTest {
     // GIVEN
     char[][] actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertNumberOfRows(someInfo(), failures, actual, 1));
+    var assertionError = expectAssertionError(() -> arrays.assertNumberOfRows(someInfo(), failures, actual, 1));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -42,9 +42,9 @@ class Arrays2D_assertNumberOfRows_Test extends Arrays2D_BaseTest {
     // GIVEN
     int expectedNumberOfRows = 2;
     // WHEN
-    AssertionError assertionError = expectAssertionError(
-                                                         () -> arrays.assertNumberOfRows(someInfo(), failures, actual,
-                                                                                         expectedNumberOfRows));
+    var assertionError = expectAssertionError(
+                                              () -> arrays.assertNumberOfRows(someInfo(), failures, actual,
+                                                                              expectedNumberOfRows));
     // THEN
     then(assertionError).hasMessage(shouldHaveFirstDimension(actual, actual.length, expectedNumberOfRows).create());
   }

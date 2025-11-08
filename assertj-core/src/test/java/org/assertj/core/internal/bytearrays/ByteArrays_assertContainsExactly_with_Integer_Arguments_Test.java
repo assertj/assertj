@@ -25,7 +25,6 @@ import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.asList;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.newArrayList;
-import static org.junit.jupiter.params.shadow.com.univocity.parsers.common.ArgumentUtils.toByteArray;
 import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AssertionInfo;
@@ -57,7 +56,8 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
     Throwable error = catchThrowable(() -> arrays.assertContainsExactly(info, actual, expected));
 
     assertThat(error).isInstanceOf(AssertionError.class);
-    verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1), asList(actual), asList(toByteArray(expected)));
+    verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1), asList(actual),
+                             asList(arrays.toByteArray(expected)));
   }
 
   @Test
@@ -129,7 +129,7 @@ class ByteArrays_assertContainsExactly_with_Integer_Arguments_Test extends ByteA
 
     assertThat(error).isInstanceOf(AssertionError.class);
     verify(failures).failure(info, elementsDifferAtIndex((byte) 8, (byte) 10, 1, absValueComparisonStrategy), asList(actual),
-                             asList(toByteArray(expected)));
+                             asList(arrays.toByteArray(expected)));
   }
 
   @Test

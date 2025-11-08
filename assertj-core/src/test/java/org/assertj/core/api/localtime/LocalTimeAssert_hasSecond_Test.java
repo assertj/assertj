@@ -37,7 +37,7 @@ class LocalTimeAssert_hasSecond_Test {
     LocalTime actual = LocalTime.of(23, 59, 59);
     int expectedSecond = 58;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSecond(expectedSecond));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSecond(expectedSecond));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "second", expectedSecond).create());
   }
@@ -47,7 +47,7 @@ class LocalTimeAssert_hasSecond_Test {
     // GIVEN
     LocalTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasHour(LocalTime.now().getHour()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasHour(LocalTime.now().getHour()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

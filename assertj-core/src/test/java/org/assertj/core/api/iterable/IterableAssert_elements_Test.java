@@ -37,7 +37,7 @@ class IterableAssert_elements_Test {
     // GIVEN
     Iterable<String> iterable = emptyList();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).elements(1));
+    var assertionError = expectAssertionError(() -> assertThat(iterable).elements(1));
     // THEN
     then(assertionError).hasMessage(actualIsEmpty());
   }
@@ -77,7 +77,7 @@ class IterableAssert_elements_Test {
   @Test
   void should_fail_if_index_out_of_range() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).elements(5));
+    var assertionError = expectAssertionError(() -> assertThat(iterable).elements(5));
     // THEN
     then(assertionError).hasMessageContainingAll("check actual size is enough to get element[5]",
                                                  "Expecting size of:",
@@ -105,7 +105,7 @@ class IterableAssert_elements_Test {
   @Test
   void should_fail_if_iterable_is_null() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((Iterable<?>) null).elements(1));
+    var assertionError = expectAssertionError(() -> assertThat((Iterable<?>) null).elements(1));
     // THEN
     then(assertionError).hasMessageContaining("Expecting actual not to be null");
   }

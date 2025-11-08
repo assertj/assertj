@@ -83,8 +83,8 @@ public class CompletableFutureAssert_isCompletedWithValueMatchingWithin_Test ext
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatchingWithin(s -> s.length() == 6,
-                                                                                                                     TEN_MS));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatchingWithin(s -> s.length() == 6,
+                                                                                                          TEN_MS));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

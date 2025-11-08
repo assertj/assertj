@@ -16,6 +16,7 @@ import static org.assertj.core.util.Throwables.addLineNumberToErrorMessages;
 
 import java.io.Serial;
 import java.util.List;
+
 import org.opentest4j.MultipleFailuresError;
 
 /**
@@ -30,10 +31,19 @@ public class AssertJMultipleFailuresError extends MultipleFailuresError {
   private static final String ERROR_SEPARATOR = EOL + "-- failure %d --";
 
   private String heading;
+  private Object objectUnderTest;
+  private boolean showObjectUnderTest;
 
   public AssertJMultipleFailuresError(String heading, List<? extends Throwable> failures) {
     super(heading, failures);
     this.heading = heading;
+  }
+
+  public AssertJMultipleFailuresError(String heading, Object objectUnderTest, List<? extends Throwable> failures) {
+    super(heading, failures);
+    this.heading = heading;
+    this.objectUnderTest = objectUnderTest;
+    this.showObjectUnderTest = true;
   }
 
   @Override
@@ -45,11 +55,12 @@ public class AssertJMultipleFailuresError extends MultipleFailuresError {
     if (failureCount == 0) return super.getMessage();
 
     heading = isBlank(heading) ? "Multiple Failures" : heading.trim();
-    StringBuilder builder = new StringBuilder(EOL).append(heading)
-                                                  .append(" (")
-                                                  .append(failureCount).append(" ")
-                                                  .append(pluralize(failureCount, "failure", "failures"))
-                                                  .append(")");
+    String beginningOfErrorMessage = showObjectUnderTest ? "%nFor %s,%n".formatted(objectUnderTest) : EOL;
+    var builder = new StringBuilder(beginningOfErrorMessage).append(heading)
+                                                            .append(" (")
+                                                            .append(failureCount).append(" ")
+                                                            .append(failureCount == 1 ? "failure" : "failures")
+                                                            .append(")");
     List<Throwable> failuresWithLineNumbers = addLineNumberToErrorMessages(failures);
     for (int i = 0; i < failureCount; i++) {
       builder.append(errorSeparator(i + 1));
@@ -72,10 +83,6 @@ public class AssertJMultipleFailuresError extends MultipleFailuresError {
 
   private static boolean isBlank(String str) {
     return str == null || str.trim().isEmpty();
-  }
-
-  private static String pluralize(int count, String singular, String plural) {
-    return count == 1 ? singular : plural;
   }
 
   private static String nullSafeMessage(Throwable failure) {

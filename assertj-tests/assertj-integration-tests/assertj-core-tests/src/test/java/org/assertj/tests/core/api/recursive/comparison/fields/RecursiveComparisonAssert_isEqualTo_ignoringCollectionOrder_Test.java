@@ -543,9 +543,9 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<Item> actualItems = List.of(new Item("Pants", 3), new Item("Loafers", 1));
     registerFormatterForType(Item.class, item -> "Item(%s, %d)".formatted(item.name(), item.quantity()));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                      .ignoringCollectionOrder()
-                                                                                      .isEqualTo(expectedItems));
+    var assertionError = expectAssertionError(() -> assertThat(actualItems).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                           .ignoringCollectionOrder()
+                                                                           .isEqualTo(expectedItems));
     // THEN
     then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual List12:%n" +
                                                      "  [Item(Shoes, 2)]"));

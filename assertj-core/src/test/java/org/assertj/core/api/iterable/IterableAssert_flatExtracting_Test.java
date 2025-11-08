@@ -108,7 +108,7 @@ class IterableAssert_flatExtracting_Test {
     // GIVEN
     List<CartoonCharacter> simpsons = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(simpsons).flatExtracting(childrenExtractor));
+    var assertionError = expectAssertionError(() -> assertThat(simpsons).flatExtracting(childrenExtractor));
     // THEN
     then(assertionError).hasMessage("Expecting actual not to be null");
   }
@@ -189,9 +189,9 @@ class IterableAssert_flatExtracting_Test {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting(childrenExtractor)
-                                                                                            .isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
+                                                                                 .flatExtracting(childrenExtractor)
+                                                                                 .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -201,9 +201,9 @@ class IterableAssert_flatExtracting_Test {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting(children)
-                                                                                            .isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
+                                                                                 .flatExtracting(children)
+                                                                                 .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -213,9 +213,9 @@ class IterableAssert_flatExtracting_Test {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting("children")
-                                                                                            .isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
+                                                                                 .flatExtracting("children")
+                                                                                 .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -225,9 +225,9 @@ class IterableAssert_flatExtracting_Test {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting("children", "name")
-                                                                                            .isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
+                                                                                 .flatExtracting("children", "name")
+                                                                                 .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -237,9 +237,9 @@ class IterableAssert_flatExtracting_Test {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting(children, children)
-                                                                                            .isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
+                                                                                 .flatExtracting(children, children)
+                                                                                 .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }
@@ -249,10 +249,10 @@ class IterableAssert_flatExtracting_Test {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
-                                                                                            .flatExtracting(throwingExtractor,
-                                                                                                            throwingExtractor)
-                                                                                            .isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(cartoonCharacters).as("expected description")
+                                                                                 .flatExtracting(throwingExtractor,
+                                                                                                 throwingExtractor)
+                                                                                 .isEmpty());
     // THEN
     then(assertionError).hasMessageContaining("[expected description]");
   }

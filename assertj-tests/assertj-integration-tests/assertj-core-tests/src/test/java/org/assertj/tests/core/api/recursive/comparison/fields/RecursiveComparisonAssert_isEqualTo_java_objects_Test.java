@@ -24,13 +24,13 @@ class RecursiveComparisonAssert_isEqualTo_java_objects_Test extends WithComparin
 
   @Test
   void should_describe_cause_of_equals_use() {
-    // GIVEN two equal values of a type from a java package
-    IntSummaryStatistics statisticsActual = new IntSummaryStatistics();
-    IntSummaryStatistics statisticsExpected = new IntSummaryStatistics();
+    // GIVEN two equal values of a type from a java package that are compared by reference
+    IntSummaryStatistics actual = new IntSummaryStatistics();
+    IntSummaryStatistics expected = new IntSummaryStatistics();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(statisticsActual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                           .isEqualTo(statisticsExpected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .isEqualTo(expected));
     // THEN
-    then(assertionError).hasMessageContaining("Compared objects have java types and were thus compared with equals method");
+    then(assertionError).hasMessageContaining("Actual and expected value are both java types (java.util.IntSummaryStatistics) and thus were compared to with equals");
   }
 }

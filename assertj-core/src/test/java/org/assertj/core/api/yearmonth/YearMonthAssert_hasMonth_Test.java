@@ -39,7 +39,7 @@ class YearMonthAssert_hasMonth_Test {
     YearMonth actual = YearMonth.of(2022, 1);
     Month wrongMonth = Month.DECEMBER;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(wrongMonth));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(wrongMonth));
     // THEN
     then(assertionError).hasMessage(shouldHaveMonth(actual, wrongMonth).create());
   }
@@ -49,7 +49,7 @@ class YearMonthAssert_hasMonth_Test {
     // GIVEN
     YearMonth actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(YearMonth.now().getMonth()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(YearMonth.now().getMonth()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

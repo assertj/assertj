@@ -20,6 +20,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -65,9 +66,9 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.configuration.PreferredAssumptionException;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Behavior-driven development style entry point for assumption methods for different types, which allow to skip test execution when assumptions are not met.
@@ -1444,6 +1445,36 @@ public final class BDDAssumptions extends Assumptions {
    * @since 3.14.0
    */
   public static <T extends Throwable> AbstractThrowableAssert<?, T> given(T actual) {
+    return assumeThat(actual);
+  }
+
+  /**
+   * Creates a new assumption's instance for a {@link java.sql.SQLException} value.
+   * <p>
+   * Examples:
+   * <p>
+   * Executed test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_met_the_test_is_executed() {
+   *   given(new SQLException("Yoda time")).hasMessage("Yoda time");
+   *   // the remaining code is executed
+   *   // ...
+   * }</code></pre>
+   * <p>
+   * Skipped test:
+   * <pre><code class='java'> {@literal @Test}
+   * public void given_the_assumption_is_not_met_the_test_is_skipped() {
+   *   given(new SQLException("Yoda time")).hasMessage("");
+   *   // the remaining code is NOT executed.
+   *   // ...
+   *}</code></pre>
+   *
+   * @param <T> the type of the actual SQL exception.
+   * @param actual the actual {@link java.sql.SQLException} value to be validated.
+   * @return the {@link AbstractThrowableAssert} assertion object to be used for assumptions.
+   * @since 4.0.0
+   */
+  public static <T extends SQLException> AbstractThrowableAssert<?, T> given(T actual) {
     return assumeThat(actual);
   }
 
@@ -3123,22 +3154,19 @@ public final class BDDAssumptions extends Assumptions {
    * You can choose one of:
    * <ul>
    * <li>{@link PreferredAssumptionException#TEST_NG} to throw a {@code org.testng.SkipException} if you are using TestNG</li>
-   * <li>{@link PreferredAssumptionException#JUNIT4} to throw a {@code org.junit.AssumptionViolatedException} if you are using JUnit 4</li>
    * <li>{@link PreferredAssumptionException#JUNIT5} a {@code org.opentest4j.TestAbortedException} if you are using JUnit 5</li>
    * <li>{@link PreferredAssumptionException#AUTO_DETECT} to get the default behavior where AssertJ tries different exception (explained later on)</li>
    * </ul>
    * <p>
    * Make sure that the exception you choose can be found in the classpath otherwise AssertJ will throw an {@link IllegalStateException}.
    * <p>
-   * For example JUnit4 expects {@code org.junit.AssumptionViolatedException}, you can tell AssertJ to use it as shown below:
-   * <pre><code class='java'> // after this call, AssertJ will throw an org.junit.AssumptionViolatedException when an assumption is not met
-   * Assertions.setPreferredAssumptionExceptions(PreferredAssumptionException.JUNIT4);
-   * </code></pre>
+   * For example TestNG expects {@code org.testng.SkipException}, you can tell AssertJ to use it as shown below:
+   * <pre><code class='java'> // after this call, AssertJ will throw an org.testng.SkipException when an assumption is not met
+   * Assertions.setPreferredAssumptionExceptions(PreferredAssumptionException.TEST_NG); </code></pre>
    * <p>
    * By default, AssertJ uses the {@link PreferredAssumptionException#AUTO_DETECT AUTO_DETECT} mode and tries to throw one of the following exceptions, in this order:
    * <ol>
    * <li>{@code org.testng.SkipException} for TestNG (if available in the classpath)</li>
-   * <li>{@code org.junit.AssumptionViolatedException} for JUnit 4 (if available in the classpath)</li>
    * <li>{@code org.opentest4j.TestAbortedException} for JUnit 5</li>
    * </ol>
    *

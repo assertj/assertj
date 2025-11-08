@@ -39,7 +39,7 @@ class IterableAssert_last_Test {
     // GIVEN
     Iterable<String> iterable = emptyList();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).last());
+    var assertionError = expectAssertionError(() -> assertThat(iterable).last());
     // THEN
     then(assertionError).hasMessage(actualIsEmpty());
   }

@@ -39,7 +39,7 @@ class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
     // GIVEN
     OffsetTime time = OffsetTime.of(3, 0, 5, 0, UTC);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(time).isEqualTo("03:03:03Z"));
+    var assertionError = expectAssertionError(() -> assertThat(time).isEqualTo("03:03:03Z"));
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("03:00:05Z", "03:03:03Z"));
   }

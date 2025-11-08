@@ -49,7 +49,7 @@ class Doubles_assertIsNotInfinite_Test extends DoublesBaseTest {
   })
   void should_fail_when_actual_is_infinite(double actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsNotInfinite(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> doubles.assertIsNotInfinite(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldNotBeInfinite(actual).create());
   }
@@ -59,7 +59,7 @@ class Doubles_assertIsNotInfinite_Test extends DoublesBaseTest {
     // GIVEN
     Double actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsNotInfinite(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> doubles.assertIsNotInfinite(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

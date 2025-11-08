@@ -35,7 +35,7 @@ class OffsetDateTimeAssert_isAtSameInstantAs_Test extends OffsetDateTimeAssertBa
   @Test
   void should_fail_if_at_a_different_instant() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE).isAtSameInstantAs(AFTER_WITH_DIFFERENT_OFFSET));
+    var assertionError = expectAssertionError(() -> assertThat(REFERENCE).isAtSameInstantAs(AFTER_WITH_DIFFERENT_OFFSET));
     // THEN
     assertThat(assertionError).hasMessage(shouldBeAtSameInstant(REFERENCE, AFTER_WITH_DIFFERENT_OFFSET).create());
   }
@@ -45,7 +45,7 @@ class OffsetDateTimeAssert_isAtSameInstantAs_Test extends OffsetDateTimeAssertBa
     // GIVEN
     OffsetDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAtSameInstantAs(now()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isAtSameInstantAs(now()));
     // THEN
     assertThat(assertionError).hasMessage(actualIsNull());
   }

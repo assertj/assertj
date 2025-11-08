@@ -16,7 +16,8 @@ import static java.util.Objects.requireNonNull;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.function.Function;
-import org.assertj.core.annotations.Beta;
+
+import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.Condition;
 import org.assertj.core.description.Description;
 import org.assertj.core.description.JoinDescription;

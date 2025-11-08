@@ -44,7 +44,7 @@ class IterableAssert_singleElement_with_InstanceOfAssertFactory_Test {
     // GIVEN
     Iterable<String> iterable = emptyList();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(iterable).singleElement(STRING));
+    var assertionError = expectAssertionError(() -> assertThat(iterable).singleElement(STRING));
     // THEN
     then(assertionError).hasMessageContaining("Expected size: 1 but was: 0");
   }
@@ -69,7 +69,7 @@ class IterableAssert_singleElement_with_InstanceOfAssertFactory_Test {
   @Test
   void should_fail_if_first_element_is_not_an_instance_of_the_factory_type() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(babySimpsons).singleElement(INTEGER));
+    var assertionError = expectAssertionError(() -> assertThat(babySimpsons).singleElement(INTEGER));
     // THEN
     then(assertionError).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }
@@ -77,7 +77,7 @@ class IterableAssert_singleElement_with_InstanceOfAssertFactory_Test {
   @Test
   void should_fail_if_iterable_has_more_than_one_element() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(simpsons).singleElement(STRING));
+    var assertionError = expectAssertionError(() -> assertThat(simpsons).singleElement(STRING));
     // THEN
     then(assertionError).hasMessageContaining("Expected size: 1 but was: 5");
   }

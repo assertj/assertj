@@ -36,7 +36,7 @@ class OptionalDoubleAssert_isNotPresent_Test {
     // GIVEN
     OptionalDouble nullActual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).isNotPresent());
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).isNotPresent());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -46,7 +46,7 @@ class OptionalDoubleAssert_isNotPresent_Test {
     // GIVEN
     OptionalDouble actual = OptionalDouble.of(10.0);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotPresent());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotPresent());
     // THEN
     then(assertionError).hasMessage(shouldBeEmpty(actual).create());
   }

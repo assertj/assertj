@@ -54,7 +54,7 @@ class Maps_assertContainsValues_Test extends MapsBaseTest {
     // GIVEN
     String[] values = { "Yoda" };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsValues(someInfo(), null, values));
+    var assertionError = expectAssertionError(() -> maps.assertContainsValues(someInfo(), null, values));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

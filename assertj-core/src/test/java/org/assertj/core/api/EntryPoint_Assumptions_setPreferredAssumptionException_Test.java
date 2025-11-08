@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.AssumptionExceptionFactory.getPreferredAssumptionException;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.configuration.PreferredAssumptionException.JUNIT4;
 import static org.assertj.core.configuration.PreferredAssumptionException.JUNIT5;
 import static org.assertj.core.configuration.PreferredAssumptionException.TEST_NG;
 import static org.mockito.Answers.CALLS_REAL_METHODS;
@@ -29,7 +28,6 @@ import java.util.stream.Stream;
 
 import org.assertj.core.configuration.PreferredAssumptionException;
 import org.assertj.core.testkit.MutatesGlobalConfiguration;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -66,17 +64,6 @@ class EntryPoint_Assumptions_setPreferredAssumptionException_Test {
     Throwable thrown = catchThrowable(() -> assumeThat(true).isEqualTo(false));
     // THEN
     then(thrown).isInstanceOf(TestAbortedException.class);
-  }
-
-  @ParameterizedTest
-  @MethodSource("setPreferredAssumptionExceptionFunctions")
-  void should_throw_AssumptionViolatedException_when_assumption_fails_if_preferredAssumptionException_is_set_to_junit4(Consumer<PreferredAssumptionException> setPreferredAssumptionExceptionFunction) {
-    // GIVEN
-    setPreferredAssumptionExceptionFunction.accept(JUNIT4);
-    // WHEN
-    Throwable thrown = catchThrowable(() -> assumeThat(true).isEqualTo(false));
-    // THEN
-    then(thrown).isInstanceOf(AssumptionViolatedException.class);
   }
 
   @ParameterizedTest

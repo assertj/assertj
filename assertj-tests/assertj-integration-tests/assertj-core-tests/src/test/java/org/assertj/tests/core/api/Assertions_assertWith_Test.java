@@ -12,11 +12,15 @@
  */
 package org.assertj.tests.core.api;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertWith;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.function.Consumer;
+
 import org.assertj.tests.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
@@ -48,6 +52,18 @@ class Assertions_assertWith_Test {
     // WHEN/THEN
     assertThatIllegalArgumentException().isThrownBy(() -> assertWith(yoda, nullRequirements))
                                         .withMessage("No assertions group should be null");
+  }
+
+  @Test
+  void should_include_root_object_in_failure_message() {
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertWith(yoda,
+                                                               jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Red"),
+                                                               jedi -> assertThat(jedi.getName()).isEqualTo("Luke")));
+    // THEN
+    then(assertionError).hasMessageStartingWith(format("%n" +
+                                                       "For Yoda the Jedi,%n" +
+                                                       "Multiple Failures"));
   }
 
 }

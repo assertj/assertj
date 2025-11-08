@@ -51,7 +51,7 @@ class CharSequenceAssert_isNotBlank_Test {
   })
   void should_fail_if_actual_is_blank(String actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotBlank());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotBlank());
     // THEN
     then(assertionError).hasMessage(shouldNotBeBlank(actual).create());
   }

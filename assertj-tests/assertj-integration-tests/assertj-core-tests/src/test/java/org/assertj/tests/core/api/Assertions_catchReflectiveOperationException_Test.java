@@ -29,7 +29,7 @@ class Assertions_catchReflectiveOperationException_Test {
     // GIVEN
     ThrowingCallable code = () -> catchReflectiveOperationException(raisingException("boom!!"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     assertThat(assertionError).hasMessageContainingAll(ReflectiveOperationException.class.getName(), Exception.class.getName());
   }

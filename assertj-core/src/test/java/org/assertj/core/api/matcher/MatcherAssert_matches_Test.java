@@ -30,7 +30,7 @@ class MatcherAssert_matches_Test {
     // GIVEN
     Matcher nullActual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).matches());
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).matches());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -40,7 +40,7 @@ class MatcherAssert_matches_Test {
     // GIVEN
     Matcher actual = Pattern.compile("a*").matcher("abc");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).matches());
+    var assertionError = expectAssertionError(() -> assertThat(actual).matches());
     // THEN
     then(assertionError).hasMessage(shouldMatch(actual).create());
   }

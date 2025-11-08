@@ -336,8 +336,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     RecursiveComparisonConfiguration configuration = configBuilder().withComparatorForType(alwaysEqualComparator, String.class)
                                                                     .build();
     // THEN
-    then(configuration.hasComparatorForType(String.class)).isTrue();
-    then(configuration.getComparatorForType(String.class)).isSameAs(alwaysEqualComparator);
+    then(configuration.getComparatorForDualType(String.class)).isSameAs(alwaysEqualComparator);
   }
 
   @Test
@@ -345,7 +344,7 @@ class RecursiveComparisonConfiguration_builder_Test {
     // WHEN
     RecursiveComparisonConfiguration configuration = configBuilder().withEqualsForType(STRING_EQUALS, String.class).build();
     // THEN
-    then(configuration.hasComparatorForType(String.class)).isTrue();
+    then(configuration.getComparatorForDualType(String.class)).isNotNull();
   }
 
   @Test

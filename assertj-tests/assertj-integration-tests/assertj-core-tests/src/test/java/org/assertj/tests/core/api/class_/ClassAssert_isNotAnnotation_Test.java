@@ -30,7 +30,7 @@ class ClassAssert_isNotAnnotation_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotAnnotation());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotAnnotation());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -40,7 +40,7 @@ class ClassAssert_isNotAnnotation_Test {
     // GIVEN
     Class<?> actual = Override.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotAnnotation());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotAnnotation());
     // THEN
     then(assertionError).hasMessage(shouldNotBeAnnotation(actual).create());
   }

@@ -64,7 +64,7 @@ class StringAssert_asShort_Test extends StringAssertBaseTest {
   @ValueSource(strings = { "3276900", "foo", "1L" })
   void should_throw_AssertionError_when_null_or_not_a_valid_short(String string) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(string).asShort());
+    var assertionError = expectAssertionError(() -> assertThat(string).asShort());
     // WHEN/THEN
     then(assertionError).hasMessage(shouldBeNumeric(string, NumericType.SHORT).create());
   }

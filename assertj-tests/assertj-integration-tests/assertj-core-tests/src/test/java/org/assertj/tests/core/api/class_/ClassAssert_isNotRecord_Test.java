@@ -41,7 +41,7 @@ class ClassAssert_isNotRecord_Test {
   @Test
   void should_fail_if_actual_is_a_record() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(MyRecord.class).isNotRecord());
+    var assertionError = expectAssertionError(() -> assertThat(MyRecord.class).isNotRecord());
     // THEN
     then(assertionError).hasMessage(shouldNotBeRecord(MyRecord.class).create());
   }

@@ -71,7 +71,7 @@ class Arrays2D_assertHasSameDimensionsAs_Test extends Arrays2D_BaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasSameDimensionsAs(info, actual, other));
+    var assertionError = expectAssertionError(() -> arrays.assertHasSameDimensionsAs(info, actual, other));
     // THEN
     ErrorMessageFactory factory = shouldHaveSameDimensionsAs(rowIndex, 3, expectedRowSize, actualRow, expectedRow, actual, other);
     then(assertionError).hasMessage(factory.create(info.description(), info.representation()));

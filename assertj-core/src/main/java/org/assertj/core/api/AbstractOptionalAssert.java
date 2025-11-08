@@ -18,21 +18,24 @@ import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
+import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
-import org.assertj.core.annotations.Beta;
+import org.assertj.core.annotation.Beta;
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.presentation.PredicateDescription;
 
 /**
  * Assertions for {@link java.util.Optional}.
@@ -43,6 +46,7 @@ import org.assertj.core.util.CheckReturnValue;
  * @author Jean-Christophe Gay
  * @author Nicolai Parlog
  * @author Grzegorz Piwowarek
+ * @author JongJun Kim
  */
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
 @SuppressWarnings({ "deprecation", "RedundantSuppression" })
@@ -138,6 +142,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     isNotNull();
     checkNotNull(expectedValue);
     if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
+    // noinspection OptionalGetWithoutIsPresent
     if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue))
       throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.get(), expectedValue);
     return myself;
@@ -171,7 +176,26 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF hasValueSatisfying(Consumer<VALUE> requirement) {
+    return internalHasValueSatisfying(requirement);
+  }
+
+  /**
+   * Verifies that the actual {@link java.util.Optional} contains a value and gives this value to the given
+   * {@link ThrowingConsumer} for further assertions.
+   * <p>
+   * This is a same assertion as {@link #hasValueSatisfying(Condition)}
+   * except that a {@link ThrowingConsumer} rethrows checked exceptions as {@link RuntimeException}.
+   *
+   * @param requirement to further assert on the object contained inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
+  public SELF hasValueSatisfying(ThrowingConsumer<VALUE> requirement) {
+    return internalHasValueSatisfying(requirement);
+  }
+
+  private SELF internalHasValueSatisfying(Consumer<VALUE> requirement) {
     assertValueIsPresent();
+    // noinspection OptionalGetWithoutIsPresent
     requirement.accept(actual.get());
     return myself;
   }
@@ -200,7 +224,54 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    */
   public SELF hasValueSatisfying(Condition<? super VALUE> condition) {
     assertValueIsPresent();
+    // noinspection OptionalGetWithoutIsPresent
     conditions.assertIs(info, actual.get(), condition);
+    return myself;
+  }
+
+  /**
+   * Verifies that the value in the actual {@link java.util.Optional} matches the given predicate.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(Optional.of("something")).hasValueMatching(s -&gt; s.startsWith("some"));
+   *
+   * // assertions fail:
+   * assertThat(Optional.of("something")).hasValueMatching(s -&gt; s.startsWith("else"));
+   * assertThat(Optional.empty()).hasValueMatching(s -&gt; true);</code></pre>
+   *
+   * @param predicate the predicate to match.
+   * @return this assertion object.
+   */
+  public SELF hasValueMatching(Predicate<? super VALUE> predicate) {
+    return hasValueMatching(predicate, PredicateDescription.GIVEN);
+  }
+
+  /**
+   * Verifies that the value in the actual {@link java.util.Optional} matches the given predicate.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(Optional.of("something")).hasValueMatching(s -&gt; s.startsWith("some"), "starts with 'some'");
+   *
+   * // assertions fail:
+   * assertThat(Optional.of("something")).hasValueMatching(s -&gt; s.startsWith("else"), "starts with 'else'");
+   * assertThat(Optional.empty()).hasValueMatching(s -&gt; true, "any");</code></pre>
+   *
+   * @param predicate the predicate to match.
+   * @param description the description of the predicate.
+   * @return this assertion object.
+   */
+  public SELF hasValueMatching(Predicate<? super VALUE> predicate, String description) {
+    return hasValueMatching(predicate, new PredicateDescription(description));
+  }
+
+  private SELF hasValueMatching(Predicate<? super VALUE> predicate, PredicateDescription description) {
+    assertValueIsPresent();
+    // noinspection OptionalGetWithoutIsPresent
+    if (!predicate.test(actual.get())) {
+      throwAssertionError(shouldMatch(actual.get(), predicate, description));
+    }
     return myself;
   }
 
@@ -241,6 +312,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    */
   public SELF containsInstanceOf(Class<?> clazz) {
     assertValueIsPresent();
+    // noinspection OptionalGetWithoutIsPresent
     if (!clazz.isInstance(actual.get())) throwAssertionError(shouldContainInstanceOf(actual, clazz));
     return myself;
   }
@@ -317,6 +389,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
     isNotNull();
     checkNotNull(expectedValue);
     if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
+    // noinspection OptionalGetWithoutIsPresent
     if (actual.get() != expectedValue) throwAssertionError(shouldContainSame(actual, expectedValue));
     return myself;
   }
@@ -608,6 +681,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   private AbstractObjectAssert<?, VALUE> internalGet() {
     isPresent();
+    // noinspection OptionalGetWithoutIsPresent
     return assertThat(actual.get()).withAssertionState(myself);
   }
 

@@ -46,7 +46,7 @@ class DoesNotMatchPredicateTest implements WithAssertions {
   @Test
   void should_fail_if_object_matches_predicate() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).doesNotMatch(x -> x.lightSaberColor.equals("Green")));
+    var assertionError = expectAssertionError(() -> assertThat(yoda).doesNotMatch(x -> x.lightSaberColor.equals("Green")));
     // THEN
     then(assertionError).hasMessage(format("%n" +
                                            "Expecting actual:%n" +
@@ -67,9 +67,9 @@ class DoesNotMatchPredicateTest implements WithAssertions {
 
   @Test
   void should_fail_if_object_matches_predicate_and_use_predicate_description_in_error_message() {
-    AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).as("check light saber")
-                                                                               .doesNotMatch(x -> x.lightSaberColor.equals("Green"),
-                                                                                             "does not have green light saber"));
+    var assertionError = expectAssertionError(() -> assertThat(yoda).as("check light saber")
+                                                                    .doesNotMatch(x -> x.lightSaberColor.equals("Green"),
+                                                                                  "does not have green light saber"));
     // THEN
     then(assertionError).hasMessage(format("[check light saber] %n" +
                                            "Expecting actual:%n" +

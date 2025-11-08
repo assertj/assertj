@@ -27,7 +27,7 @@ class BooleanAssert_isFalse_Test {
     // GIVEN
     Boolean actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isFalse());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isFalse());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -53,7 +53,7 @@ class BooleanAssert_isFalse_Test {
     // GIVEN
     boolean actual = true;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isFalse());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isFalse());
     // THEN
     then(assertionError).hasMessage(shouldBeFalse(actual).create());
   }
@@ -63,7 +63,7 @@ class BooleanAssert_isFalse_Test {
     // GIVEN
     Boolean actual = true;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isFalse());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isFalse());
     // THEN
     then(assertionError).hasMessage(shouldBeFalse(actual).create());
   }

@@ -35,7 +35,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
     // GIVEN
     String message = "boom!";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> failFunction.apply(message));
+    var assertionError = expectAssertionError(() -> failFunction.apply(message));
     // THEN
     then(assertionError).hasMessage(message);
   }
@@ -50,7 +50,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
     // GIVEN
     String message = "%sm!";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> failWithParamFunction.apply(message, array("boo")));
+    var assertionError = expectAssertionError(() -> failWithParamFunction.apply(message, array("boo")));
     // THEN
     then(assertionError).hasMessage("boom!");
   }
@@ -66,7 +66,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
     String message = "boom!";
     Throwable cause = new NullPointerException();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> failWithCauseFunction.apply(message, cause));
+    var assertionError = expectAssertionError(() -> failWithCauseFunction.apply(message, cause));
     // THEN
     then(assertionError).hasMessage("boom!")
                         .hasCause(cause);
@@ -83,7 +83,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
     String message = "boom!";
     Optional<Integer> empty = Optional.empty();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doSomethingWithInt(empty.orElseGet(() -> failFunction.apply(message))));
+    var assertionError = expectAssertionError(() -> doSomethingWithInt(empty.orElseGet(() -> failFunction.apply(message))));
     // THEN
     then(assertionError).hasMessage("boom!");
   }
@@ -96,7 +96,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
   @MethodSource
   void should_fail_without_message(Supplier<Void> supplier) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> supplier.get());
+    var assertionError = expectAssertionError(() -> supplier.get());
     // THEN
     then(assertionError).hasMessage("");
   }
@@ -112,7 +112,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
     String message = "boom!";
     Exception cause = new Exception(message);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> failWithCauseFunction.apply(cause));
+    var assertionError = expectAssertionError(() -> failWithCauseFunction.apply(cause));
     // THEN
     then(assertionError).hasCause(cause);
   }

@@ -72,7 +72,7 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
     // GIVEN
     CompletableFuture<Void> future = futureCompletingAfter(Duration.ofMillis(10), executorService);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> then(future).failsWithin(500, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> then(future).failsWithin(500, MILLISECONDS));
     // THEN
     then(assertionError).hasMessageContainingAll("Completed", "to have failed within 500L MILLISECONDS.");
   }
@@ -82,9 +82,9 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
     // GIVEN
     CompletableFuture<Void> future = futureCompletingAfter(Duration.ofMillis(10), executorService);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).failsWithin(Duration.ofMillis(500)));
+    var assertionError = expectAssertionError(() -> assertThat(future).failsWithin(Duration.ofMillis(500)));
     // THEN
-    then(assertionError).hasMessageContainingAll("Completed", "to have failed within 0.5S.");
+    then(assertionError).hasMessageContainingAll("Completed", "to have failed within 0.5s.");
   }
 
   @Test
@@ -117,7 +117,7 @@ class CompletableFutureAssert_failsWithin_Test extends AbstractFutureTest {
     // GIVEN
     CompletableFuture<Void> future = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).failsWithin(1, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> assertThat(future).failsWithin(1, MILLISECONDS));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

@@ -50,8 +50,8 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Yoda";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
-                                                                                                        "od"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
+                                                                                             "od"));
     // THEN
     then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, "od").create());
   }
@@ -61,8 +61,8 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Yoda";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
-                                                                                                        "OD"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
+                                                                                             "OD"));
     // THEN
     then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, "OD").create());
   }
@@ -72,8 +72,8 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Yoda";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "od",
-                                                                                                        "Yo", "Luke"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "od",
+                                                                                             "Yo", "Luke"));
     // THEN
     then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, array("od", "Yo", "Luke"), set("od", "Yo")).create());
   }
@@ -83,8 +83,8 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Yoda";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "OD",
-                                                                                                        "yo", "Luke"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "OD",
+                                                                                             "yo", "Luke"));
     // THEN
     then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, array("OD", "yo", "Luke"), set("OD", "yo")).create());
   }
@@ -105,8 +105,8 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
-                                                                                                        "Yoda"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
+                                                                                             "Yoda"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -132,7 +132,7 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
   @DefaultLocale("tr-TR")
   void should_fail_with_Turkish_default_locale() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(INFO, "Leia", "EI"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(INFO, "Leia", "EI"));
     // THEN
     then(assertionError).hasMessage(shouldNotContainIgnoringCase("Leia", "EI").create());
   }

@@ -51,7 +51,7 @@ class ByteArrayAssert_asString_Test {
     // GIVEN
     String foo = "foo";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(foo.getBytes()).asString().isEqualTo("bar"));
+    var assertionError = expectAssertionError(() -> assertThat(foo.getBytes()).asString().isEqualTo("bar"));
     // THEN
     assertThat(assertionError).hasMessage(shouldBeEqualMessage("\"foo\"", "\"bar\""))
                               .isExactlyInstanceOf(AssertionFailedError.class);
@@ -77,7 +77,7 @@ class ByteArrayAssert_asString_Test {
           .asString()
           .isEqualTo("bar")
           .isBlank();
-    AssertionError assertionError = expectAssertionError(softly::assertAll);
+    var assertionError = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(assertionError).hasMessageContainingAll("Multiple Failures (2 failures)",
                                                        "-- failure 1 --",

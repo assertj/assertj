@@ -29,7 +29,7 @@ class OptionalAssert_map_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<String> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).map(String::length));
+    var assertionError = expectAssertionError(() -> assertThat(actual).map(String::length));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

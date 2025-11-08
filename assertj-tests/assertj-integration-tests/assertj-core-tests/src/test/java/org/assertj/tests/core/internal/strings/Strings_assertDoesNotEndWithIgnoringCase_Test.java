@@ -38,7 +38,7 @@ class Strings_assertDoesNotEndWithIgnoringCase_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_ends_with_suffix() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotEndWithIgnoringCase(INFO, "Yoda", "oda"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotEndWithIgnoringCase(INFO, "Yoda", "oda"));
     // THEN
     then(assertionError).hasMessage(shouldNotEndWithIgnoringCase("Yoda", "oda", StandardComparisonStrategy.instance()).create());
   }
@@ -52,7 +52,7 @@ class Strings_assertDoesNotEndWithIgnoringCase_Test extends StringsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotEndWithIgnoringCase(INFO, null, "Yoda"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotEndWithIgnoringCase(INFO, null, "Yoda"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -71,7 +71,7 @@ class Strings_assertDoesNotEndWithIgnoringCase_Test extends StringsBaseTest {
     ComparisonStrategy hashCodeComparisonStrategy = new ComparatorBasedComparisonStrategy(new StringHashCodeTestComparator());
     Strings strings = new Strings(hashCodeComparisonStrategy);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotEndWithIgnoringCase(INFO, "Yoda", "A"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotEndWithIgnoringCase(INFO, "Yoda", "A"));
     // THEN
     then(assertionError).hasMessage(shouldNotEndWithIgnoringCase("Yoda", "A", hashCodeComparisonStrategy).create());
   }
@@ -80,7 +80,7 @@ class Strings_assertDoesNotEndWithIgnoringCase_Test extends StringsBaseTest {
   @DefaultLocale("tr-TR")
   void should_fail_with_Turkish_default_locale() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotEndWithIgnoringCase(INFO, "Leia", "IA"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotEndWithIgnoringCase(INFO, "Leia", "IA"));
     // THEN
     then(assertionError).hasMessage(shouldNotEndWithIgnoringCase("Leia", "IA", StandardComparisonStrategy.instance()).create());
   }

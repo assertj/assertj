@@ -132,7 +132,7 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
     // GIVEN
     List<Object> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
+    var assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

@@ -42,7 +42,7 @@ class Shorts_assertIsOdd_Test extends ShortsBaseTest {
   @ValueSource(shorts = { 0, 2, -4, 6 })
   void should_fail_since_actual_is_not_odd(short actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> shorts.assertIsOdd(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> shorts.assertIsOdd(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeOdd(actual).create());
 
@@ -59,8 +59,8 @@ class Shorts_assertIsOdd_Test extends ShortsBaseTest {
   @ValueSource(shorts = { 0, 2, -4, 6 })
   void should_fail_since_actual_is_not_odd_whatever_custom_comparison_strategy_is(short actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
-                                                                                                                actual));
+    var assertionError = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsOdd(someInfo(),
+                                                                                                     actual));
     // THEN
     then(assertionError).hasMessage(shouldBeOdd(actual).create());
   }

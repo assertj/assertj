@@ -31,8 +31,8 @@ import java.time.temporal.Temporal;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
+
 import org.assertj.core.api.AbstractComparableAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactories;

@@ -23,6 +23,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toMap;
 import static org.assertj.core.error.ShouldBeBase64.shouldBeBase64;
+import static org.assertj.core.error.ShouldBeBase64Url.shouldBeBase64Url;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.error.ShouldBeEqualIgnoringCase.shouldBeEqual;
@@ -60,6 +61,8 @@ import static org.assertj.core.error.ShouldNotBeEqualNormalizingWhitespace.shoul
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainCharSequence.shouldNotContainIgnoringCase;
 import static org.assertj.core.error.ShouldNotContainPattern.shouldNotContainPattern;
+import static org.assertj.core.error.ShouldNotContainSequenceOfCharSequence.shouldNotContainSequence;
+import static org.assertj.core.error.ShouldNotContainSubsequenceOfCharSequence.shouldNotContainSubsequence;
 import static org.assertj.core.error.ShouldNotEndWith.shouldNotEndWith;
 import static org.assertj.core.error.ShouldNotEndWithIgnoringCase.shouldNotEndWithIgnoringCase;
 import static org.assertj.core.error.ShouldNotMatchPattern.shouldNotMatch;
@@ -258,10 +261,10 @@ public class Strings {
     return comparisonStrategy.stringContains(actual.toString().toLowerCase(ROOT), sequence.toString().toLowerCase(ROOT));
   }
 
-  public void assertContainsIgnoringNewLines(final AssertionInfo info, final CharSequence actual, final CharSequence... values) {
+  public void assertContainsIgnoringNewlines(final AssertionInfo info, final CharSequence actual, final CharSequence... values) {
     doCommonCheckForCharSequence(info, actual, values);
-    final String actualNoNewLines = removeNewLines(actual);
-    Set<CharSequence> notFound = stream(values).filter(value -> !stringContains(actualNoNewLines, removeNewLines(value)))
+    final String actualNoNewLines = removeNewlines(actual);
+    Set<CharSequence> notFound = stream(values).filter(value -> !stringContains(actualNoNewLines, removeNewlines(value)))
                                                .collect(toCollection(LinkedHashSet::new));
     if (notFound.isEmpty()) return;
     throw failures.failure(info, containsIgnoringNewLines(actual, values, notFound, comparisonStrategy));
@@ -680,20 +683,56 @@ public class Strings {
 
   private String removeUpTo(String string, CharSequence toRemove) {
     // we have already checked that toRemove was not null in doCommonCheckForCharSequence and this point string is not neither
-    int index = indexOf(string, toRemove);
-    // remove the start of string up to toRemove included
+    int index = indexOf(string, toRemove.toString());
+    // remove the start of string up to toRemove included.
+    // index cannot be -1 here since we this method is used from assertContainsSubsequence at a step where we know
+    // that toRemove was found, and we are checking whether it was at the right place/order.
     return string.substring(index + toRemove.length());
   }
 
-  private int indexOf(String string, CharSequence toFind) {
-    if (EMPTY_STRING.equals(string) && EMPTY_STRING.equals(toFind.toString())) return 0;
-    for (int i = 0; i < string.length(); i++) {
-      if (comparisonStrategy.stringStartsWith(string.substring(i), toFind.toString())) return i;
+  private int indexOf(String str, String toFind) {
+    return indexOf(str, toFind, 0);
+  }
+
+  private int indexOf(String str, String toFind, int fromIndex) {
+    if (EMPTY_STRING.equals(str) && EMPTY_STRING.equals(toFind)) return 0;
+    for (int i = fromIndex; i < str.length(); i++) {
+      if (comparisonStrategy.stringStartsWith(str.substring(i), toFind)) return i;
     }
-    // should not arrive here since we this method is used from assertContainsSubsequence at a step where we know that toFind
-    // was found and we are checking whether it was at the right place/order.
-    throw new IllegalStateException("%s should have been found in %s, please raise an assertj-core issue".formatted(toFind,
-                                                                                                                    string));
+
+    return -1;
+  }
+
+  public void assertDoesNotContainSequence(AssertionInfo info, CharSequence actual, CharSequence[] sequence) {
+    doCommonCheckForCharSequence(info, actual, sequence);
+
+    String strActual = actual.toString();
+    String strSequence = String.join(EMPTY_STRING, sequence);
+
+    int index = indexOf(strActual, strSequence);
+    if (index != -1) {
+      throw failures.failure(info, shouldNotContainSequence(actual, sequence, index, comparisonStrategy));
+    }
+  }
+
+  public void assertDoesNotContainSubsequence(AssertionInfo info, CharSequence actual, CharSequence[] subsequence) {
+    doCommonCheckForCharSequence(info, actual, subsequence);
+
+    String strActual = actual.toString();
+    int startIndex = 0;
+    int[] subsequenceIndexes = new int[subsequence.length];
+    for (int i = 0; i < subsequence.length; i++) {
+      String strSubsequenceItem = subsequence[i].toString();
+      int index = indexOf(strActual, strSubsequenceItem, startIndex);
+      if (index != -1) {
+        subsequenceIndexes[i] = index;
+        startIndex = index + strSubsequenceItem.length();
+      } else {
+        return;
+      }
+    }
+
+    throw failures.failure(info, shouldNotContainSubsequence(actual, subsequence, subsequenceIndexes, comparisonStrategy));
   }
 
   public void assertXmlEqualsTo(AssertionInfo info, CharSequence actualXml, CharSequence expectedXml) {
@@ -757,9 +796,9 @@ public class Strings {
     }
   }
 
-  public void assertIsEqualToIgnoringNewLines(AssertionInfo info, CharSequence actual, CharSequence expected) {
-    String actualWithoutNewLines = removeNewLines(actual);
-    String expectedWithoutNewLines = removeNewLines(expected);
+  public void assertIsEqualToIgnoringNewlines(AssertionInfo info, CharSequence actual, CharSequence expected) {
+    String actualWithoutNewLines = removeNewlines(actual);
+    String expectedWithoutNewLines = removeNewlines(expected);
     if (!actualWithoutNewLines.equals(expectedWithoutNewLines))
       throw failures.failure(info, shouldBeEqualIgnoringNewLines(actual, expected), actual, expected);
   }
@@ -796,7 +835,16 @@ public class Strings {
     }
   }
 
-  private static String removeNewLines(CharSequence text) {
+  public void assertIsBase64Url(AssertionInfo info, String actual) {
+    assertNotNull(info, actual);
+    try {
+      Base64.getUrlDecoder().decode(actual);
+    } catch (IllegalArgumentException e) {
+      throw failures.failure(info, shouldBeBase64Url(actual));
+    }
+  }
+
+  private static String removeNewlines(CharSequence text) {
     String normalizedText = normalizeNewlines(text);
     return normalizedText.replace("\n", EMPTY_STRING);
   }

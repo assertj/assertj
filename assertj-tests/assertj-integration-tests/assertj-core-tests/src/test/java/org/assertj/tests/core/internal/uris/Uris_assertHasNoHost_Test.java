@@ -32,7 +32,7 @@ class Uris_assertHasNoHost_Test extends UrisBaseTest {
     // GIVEN
     URI actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoHost(info, actual));
+    var assertionError = expectAssertionError(() -> uris.assertHasNoHost(info, actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -42,7 +42,7 @@ class Uris_assertHasNoHost_Test extends UrisBaseTest {
     // GIVEN
     URI actual = new URI("https://example.com");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasNoHost(info, actual));
+    var assertionError = expectAssertionError(() -> uris.assertHasNoHost(info, actual));
     // THEN
     then(assertionError).hasMessage(shouldHaveNoHost(actual).create());
   }

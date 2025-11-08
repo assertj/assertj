@@ -66,7 +66,7 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     int[][] actual = null;
     int[][] expected = new int[][] { { 1, 2 }, { 3 }, { 4, 5, 6 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -77,7 +77,7 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     int[][] actual = new int[][] { { 1, 2 }, null, { 4, 5, 6 } };
     int[][] expected = new int[][] { { 1, 2 }, { 3 }, { 4, 5, 6 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull("actual[1]").create());
   }
@@ -88,7 +88,7 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     int[][] actual = new int[][] { { 1, 2 }, { 3 } };
     int[][] expected = new int[][] { { 1, 2 }, { 3 }, { 4, 5, 6 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameSizeAs(actual, expected, actual.length, expected.length).create());
   }
@@ -101,7 +101,7 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     int[] actualSubArrayWithDifference = new int[] { 3, 999 };
     int[] expectedSubArrayWithDifference = new int[] { 3 };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
     // THEN
     ErrorMessageFactory subarraysShouldHaveSameSize = subarraysShouldHaveSameSize(actual, expected,
                                                                                   actualSubArrayWithDifference,
@@ -120,7 +120,7 @@ class Int2DArrayAssert_isDeepEqualTo_Test {
     int[][] actual = new int[][] { { 1, 2 }, { actualValue }, { 4, 5, 6 } };
     int[][] expected = new int[][] { { 1, 2 }, { expectedValue }, { 4, 5, 6 } };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isDeepEqualTo(expected));
     // THEN
     ErrorMessageFactory elementShouldBeEqual = elementShouldBeEqual(actualValue, expectedValue, 1, 0);
     then(assertionError).hasMessage(elementShouldBeEqual.create(emptyDescription(), STANDARD_REPRESENTATION));

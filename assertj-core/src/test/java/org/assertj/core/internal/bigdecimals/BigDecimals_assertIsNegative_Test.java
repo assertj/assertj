@@ -45,7 +45,7 @@ class BigDecimals_assertIsNegative_Test extends BigDecimalsBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbers.assertIsNegative(someInfo(), BigDecimal.ZERO));
+    var assertionError = expectAssertionError(() -> numbers.assertIsNegative(someInfo(), BigDecimal.ZERO));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(BigDecimal.ZERO, BigDecimal.ZERO).create());
   }
@@ -53,7 +53,7 @@ class BigDecimals_assertIsNegative_Test extends BigDecimalsBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> numbers.assertIsNegative(someInfo(), BigDecimal.ONE));
+    var assertionError = expectAssertionError(() -> numbers.assertIsNegative(someInfo(), BigDecimal.ONE));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(BigDecimal.ONE, BigDecimal.ZERO).create());
   }

@@ -19,9 +19,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.NavigableSet;
-import java.util.Set;
 
-import org.assertj.core.annotations.Beta;
+import org.assertj.core.annotation.Beta;
 
 /**
  * Base class for all implementations of assertions for {@link Collection}s.
@@ -62,9 +61,9 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual collection is modifiable.
-   * @see Collections#unmodifiableCollection(Collection)
-   * @see Collections#unmodifiableList(List)
-   * @see Collections#unmodifiableSet(Set)
+   * @see Collections#unmodifiableCollection(java.util.Collection)
+   * @see Collections#unmodifiableList(java.util.List)
+   * @see Collections#unmodifiableSet(java.util.Set)
    */
   @Beta
   public SELF isUnmodifiable() {

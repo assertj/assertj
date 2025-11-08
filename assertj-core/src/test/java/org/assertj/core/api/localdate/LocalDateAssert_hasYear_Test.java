@@ -38,7 +38,7 @@ class LocalDateAssert_hasYear_Test {
     LocalDate actual = LocalDate.of(2022, 1, 1);
     int expectedYear = 2021;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasYear(expectedYear));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasYear(expectedYear));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "year", expectedYear).create());
   }
@@ -48,7 +48,7 @@ class LocalDateAssert_hasYear_Test {
     // GIVEN
     LocalDate actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasYear(LocalDate.now().getYear()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasYear(LocalDate.now().getYear()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

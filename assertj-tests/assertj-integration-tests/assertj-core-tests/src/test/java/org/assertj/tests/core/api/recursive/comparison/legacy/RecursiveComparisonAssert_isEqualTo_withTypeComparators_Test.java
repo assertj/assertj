@@ -24,6 +24,8 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.sql.Timestamp;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Map;
@@ -36,6 +38,8 @@ import org.assertj.tests.core.api.recursive.data.Address;
 import org.assertj.tests.core.api.recursive.data.AlwaysEqualPerson;
 import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Person;
+import org.assertj.tests.core.api.recursive.data.TimeOffset;
+import org.assertj.tests.core.api.recursive.data.TimeOffsetDto;
 import org.assertj.tests.core.testkit.AlwaysDifferentComparator;
 import org.assertj.tests.core.testkit.AlwaysEqualComparator;
 import org.assertj.tests.core.testkit.AtPrecisionComparator;
@@ -46,6 +50,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+@SuppressWarnings("unused")
 class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test extends WithLegacyIntrospectionStrategyBaseTest {
 
   @ParameterizedTest(name = "{3}: actual={0} / expected={1} - comparatorsByType: {2}")
@@ -55,12 +60,11 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test extends WithL
                                                                                             Map<Class<?>, Comparator<Object>> comparatorByTypes,
                                                                                             String testDescription) {
     // GIVEN
-    comparatorByTypes.entrySet().stream()
-                     .forEach(entry -> recursiveComparisonConfiguration.registerComparatorForType(entry.getValue(),
-                                                                                                  entry.getKey()));
+    comparatorByTypes.forEach((key, value) -> recursiveComparisonConfiguration.registerComparatorForType(value,
+                                                                                                         key));
     // THEN
-    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .isEqualTo(expected);
   }
 
   @ParameterizedTest(name = "{3}: actual={0} / expected={1} - comparatorsByType: {2}")
@@ -70,12 +74,11 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test extends WithL
                                                                                         Map<Class<?>, Comparator<Object>> comparatorByTypes,
                                                                                         String testDescription) {
     // GIVEN
-    comparatorByTypes.entrySet().stream()
-                     .forEach(entry -> recursiveComparisonConfiguration.registerEqualsForType(asBiPredicate(entry.getValue()),
-                                                                                              entry.getKey()));
+    comparatorByTypes.forEach((key, value) -> recursiveComparisonConfiguration.registerEqualsForType(asBiPredicate(value),
+                                                                                                     key));
     // THEN
-    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .isEqualTo(expected);
   }
 
   private static BiPredicate<Object, Object> asBiPredicate(Comparator<Object> comparator) {
@@ -144,21 +147,15 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test extends WithL
   @Test
   void should_be_able_to_compare_objects_recursively_using_some_precision_for_numerical_types() {
     // GIVEN
-    Giant goliath = new Giant();
-    goliath.name = "Goliath";
-    goliath.height = 3.0;
-
-    Giant goliathTwin = new Giant();
-    goliathTwin.name = "Goliath";
-    goliathTwin.height = 3.1;
-
+    Giant goliath = new Giant("Goliath", 3.0);
+    Giant goliathTwin = new Giant("Goliath", 3.1);
     // THEN
-    assertThat(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
-                       .withComparatorForType(new AtPrecisionComparator<>(0.2), Double.class)
-                       .isEqualTo(goliathTwin);
-    assertThat(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
-                       .withEqualsForType((d1, d2) -> Math.abs(d1 - d2) < 0.2, Double.class)
-                       .isEqualTo(goliathTwin);
+    then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
+                 .withComparatorForType(new AtPrecisionComparator<>(0.2), Double.class)
+                 .isEqualTo(goliathTwin);
+    then(goliath).usingRecursiveComparison(recursiveComparisonConfiguration)
+                 .withEqualsForType((d1, d2) -> Math.abs(d1 - d2) < 0.2, Double.class)
+                 .isEqualTo(goliathTwin);
   }
 
   @Test
@@ -167,12 +164,12 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test extends WithL
     Patient actual = new Patient(null);
     Patient expected = new Patient(new Timestamp(3L));
     // THEN
-    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                      .withComparatorForType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
-                      .isEqualTo(expected);
-    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                      .withEqualsForType((o1, o2) -> true, Timestamp.class)
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .withComparatorForType(ALWAYS_EQUALS_TIMESTAMP, Timestamp.class)
+                .isEqualTo(expected);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .withEqualsForType((o1, o2) -> true, Timestamp.class)
+                .isEqualTo(expected);
   }
 
   @Test
@@ -182,10 +179,9 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test extends WithL
     Patient actual = new Patient(dateOfBirth);
     Patient expected = new Patient(dateOfBirth);
     // THEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withComparatorForType(NEVER_EQUALS,
-                                                                                                        Timestamp.class)
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withComparatorForType(NEVER_EQUALS, Timestamp.class)
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContaining("- java.sql.Timestamp -> org.assertj.tests.core.testkit.NeverEqualComparator");
   }
@@ -197,12 +193,11 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test extends WithL
     Patient actual = new Patient(dateOfBirth);
     Patient expected = new Patient(dateOfBirth);
     // THEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withEqualsForType((o1, o2) -> false,
-                                                                                                    Timestamp.class)
-                                                                                 .isEqualTo(expected));
-    then(assertionError).hasMessageContaining("- java.sql.Timestamp -> ");
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withEqualsForType((o1, o2) -> false, Timestamp.class)
+                                                                      .isEqualTo(expected));
     // THEN
+    then(assertionError).hasMessageContaining("- java.sql.Timestamp -> ");
   }
 
   @Test
@@ -213,12 +208,12 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test extends WithL
     Person expected = new Person(actual.name);
     expected.dateOfBirth = new Date(1000L);
     // THEN
-    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                      .withComparatorForType(SYMMETRIC_DATE_COMPARATOR, Timestamp.class)
-                      .isEqualTo(expected);
-    assertThat(expected).usingRecursiveComparison(recursiveComparisonConfiguration)
-                        .withComparatorForType(SYMMETRIC_DATE_COMPARATOR, Timestamp.class)
-                        .isEqualTo(actual);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .withComparatorForType(SYMMETRIC_DATE_COMPARATOR, Timestamp.class)
+                .isEqualTo(expected);
+    then(expected).usingRecursiveComparison(recursiveComparisonConfiguration)
+                  .withComparatorForType(SYMMETRIC_DATE_COMPARATOR, Timestamp.class)
+                  .isEqualTo(actual);
   }
 
   @Test
@@ -231,14 +226,60 @@ class RecursiveComparisonAssert_isEqualTo_withTypeComparators_Test extends WithL
     expected.neighbour = new AlwaysEqualPerson();
     expected.neighbour.name = "Omar2";
     // THEN
-    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                      .withComparatorForType(ALWAYS_EQUALS, AlwaysEqualPerson.class) // fails if commented
-                      .ignoringOverriddenEqualsForFields("neighbour")
-                      .isEqualTo(expected);
-    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                      .withEqualsForType((o1, o2) -> true, AlwaysEqualPerson.class) // fails if commented
-                      .ignoringOverriddenEqualsForFields("neighbour")
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .withComparatorForType(ALWAYS_EQUALS, AlwaysEqualPerson.class) // fails if commented
+                .ignoringOverriddenEqualsForFields("neighbour")
+                .isEqualTo(expected);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .withEqualsForType((o1, o2) -> true, AlwaysEqualPerson.class) // fails if commented
+                .ignoringOverriddenEqualsForFields("neighbour")
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_pass_using_a_BiPredicate_to_compare_fields_with_different_types_but_same_values() {
+    // GIVEN
+    TimeOffset actual = new TimeOffset();
+    actual.time = LocalTime.now();
+    TimeOffsetDto expected = new TimeOffsetDto();
+    expected.time = actual.time.toString();
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .withEqualsForTypes((t, s) -> LocalTime.parse(s).equals(t), LocalTime.class, String.class)
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_pass_using_two_BiPredicates_that_matches_fields_with_different_types_but_same_values() {
+    // GIVEN
+    TimeOffset actual = new TimeOffset();
+    actual.time = LocalTime.now();
+    actual.offset = ZoneOffset.UTC;
+    TimeOffsetDto expected = new TimeOffsetDto();
+    expected.time = actual.time.toString();
+    expected.offset = actual.offset.getId();
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .withEqualsForTypes((z, s) -> ZoneOffset.of(s).equals(z), ZoneOffset.class, String.class)
+                .withEqualsForTypes((t, s) -> LocalTime.parse(s).equals(t), LocalTime.class, String.class)
+                .isEqualTo(expected);
+  }
+
+  @Test
+  void should_pass_having_two_BiPredicates_with_same_left_type() {
+    // GIVEN
+    LocalTime now = LocalTime.now();
+    TimeOffsetDto actual = new TimeOffsetDto();
+    actual.time = now.toString();
+    actual.offset = "Z";
+    TimeOffset expected = new TimeOffset();
+    expected.time = now;
+    expected.offset = ZoneOffset.UTC;
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .withEqualsForTypes((s, z) -> ZoneOffset.of(s).equals(z), String.class, ZoneOffset.class)
+                .withEqualsForTypes((s, t) -> LocalTime.parse(s).equals(t), String.class, LocalTime.class)
+                .isEqualTo(expected);
   }
 
 }

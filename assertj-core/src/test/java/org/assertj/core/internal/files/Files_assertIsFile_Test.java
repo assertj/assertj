@@ -39,7 +39,7 @@ class Files_assertIsFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> underTest.assertIsFile(INFO, actual));
+    var assertionError = expectAssertionError(() -> underTest.assertIsFile(INFO, actual));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

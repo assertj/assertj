@@ -12,16 +12,12 @@
  */
 package org.assertj.tests.core.api.recursive.comparison.configuration;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.tests.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
 
 import java.util.Comparator;
-import java.util.List;
-import java.util.Map.Entry;
 import java.util.function.BiPredicate;
 
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
@@ -45,8 +41,8 @@ class RecursiveComparisonConfiguration_comparatorByType_Test {
     // WHEN
     TypeComparators typeComparators = recursiveComparisonConfiguration.getTypeComparators();
     // THEN
-    List<Entry<Class<?>, Comparator<?>>> defaultComparators = defaultTypeComparators().comparatorByTypes().collect(toList());
-    assertThat(typeComparators.comparatorByTypes()).containsExactlyElementsOf(defaultComparators);
+    var defaultComparators = defaultTypeComparators().comparatorByTypes().toList();
+    then(typeComparators.comparatorByTypes()).containsExactlyElementsOf(defaultComparators);
   }
 
   @Test
@@ -57,9 +53,9 @@ class RecursiveComparisonConfiguration_comparatorByType_Test {
     recursiveComparisonConfiguration.registerEqualsForType((Tuple t1, Tuple t2) -> false, Tuple.class);
     recursiveComparisonConfiguration.registerComparatorForType(ALWAYS_EQUALS, Double.class);
     // THEN
-    assertThat(recursiveComparisonConfiguration.getComparatorForType(Integer.class)).isSameAs(integerComparator);
-    assertThat(recursiveComparisonConfiguration.getComparatorForType(Tuple.class)).isNotNull();
-    assertThat(recursiveComparisonConfiguration.getComparatorForType(Double.class)).isSameAs(ALWAYS_EQUALS);
+    then(recursiveComparisonConfiguration.getComparatorForDualType(Integer.class)).isSameAs(integerComparator);
+    then(recursiveComparisonConfiguration.getComparatorForDualType(Tuple.class)).isNotNull();
+    then(recursiveComparisonConfiguration.getComparatorForDualType(Double.class)).isSameAs(ALWAYS_EQUALS);
   }
 
   @Test

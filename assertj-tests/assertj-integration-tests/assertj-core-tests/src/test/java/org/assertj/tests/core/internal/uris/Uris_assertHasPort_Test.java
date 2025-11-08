@@ -29,7 +29,7 @@ class Uris_assertHasPort_Test extends UrisBaseTest {
     URI uri = null;
     int expectedPort = 8080;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPort(info, uri, expectedPort));
+    var assertionError = expectAssertionError(() -> uris.assertHasPort(info, uri, expectedPort));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class Uris_assertHasPort_Test extends UrisBaseTest {
     URI uri = URI.create("http://example.com:8080/pages/");
     int expectedPort = 8888;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasPort(info, uri, expectedPort));
+    var assertionError = expectAssertionError(() -> uris.assertHasPort(info, uri, expectedPort));
     // THEN
     then(assertionError).hasMessage(shouldHavePort(uri, expectedPort).create());
   }

@@ -33,7 +33,7 @@ class OptionalIntAssert_hasValue_Test {
     // GIVEN
     OptionalInt nullActual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).hasValue(10));
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).hasValue(10));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

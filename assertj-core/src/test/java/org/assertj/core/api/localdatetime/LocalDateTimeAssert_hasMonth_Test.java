@@ -44,7 +44,7 @@ class LocalDateTimeAssert_hasMonth_Test {
     // GIVEN
     LocalDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(Month.MAY));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(Month.MAY));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -55,7 +55,7 @@ class LocalDateTimeAssert_hasMonth_Test {
     LocalDateTime actual = LocalDateTime.of(2020, Month.FEBRUARY, 2, 3, 4, 5);
     Month month = Month.JUNE;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(month));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasMonth(month));
     // THEN
     then(assertionError).hasMessage(shouldHaveMonth(actual, month).create());
   }

@@ -49,7 +49,7 @@ class OffsetDateTimeAssert_isInTheFuture_Test extends AbstractOffsetDateTimeAsse
   @Test
   void should_fail_if_actual_is_now() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(REFERENCE).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(shouldBeInTheFuture(REFERENCE).create());
   }
@@ -57,7 +57,7 @@ class OffsetDateTimeAssert_isInTheFuture_Test extends AbstractOffsetDateTimeAsse
   @Test
   void should_fail_if_actual_with_different_offset_is_now() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE_WITH_DIFFERENT_OFFSET).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(REFERENCE_WITH_DIFFERENT_OFFSET).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(shouldBeInTheFuture(REFERENCE_WITH_DIFFERENT_OFFSET).create());
   }
@@ -65,7 +65,7 @@ class OffsetDateTimeAssert_isInTheFuture_Test extends AbstractOffsetDateTimeAsse
   @Test
   void should_fail_if_actual_is_in_the_past() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(BEFORE).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(BEFORE).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(shouldBeInTheFuture(BEFORE).create());
   }
@@ -73,7 +73,7 @@ class OffsetDateTimeAssert_isInTheFuture_Test extends AbstractOffsetDateTimeAsse
   @Test
   void should_fail_if_actual_with_different_offset_is_in_the_past() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(BEFORE_WITH_DIFFERENT_OFFSET).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(BEFORE_WITH_DIFFERENT_OFFSET).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(shouldBeInTheFuture(BEFORE_WITH_DIFFERENT_OFFSET).create());
   }
@@ -83,7 +83,7 @@ class OffsetDateTimeAssert_isInTheFuture_Test extends AbstractOffsetDateTimeAsse
     // GIVEN
     OffsetDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

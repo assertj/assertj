@@ -34,6 +34,7 @@ import java.time.Period;
 import java.time.YearMonth;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -42,6 +43,8 @@ import java.util.OptionalLong;
 import java.util.concurrent.CompletableFuture;
 import java.util.regex.Matcher;
 
+import org.assertj.core.annotation.CanIgnoreReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -58,9 +61,8 @@ import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
 import org.assertj.core.util.Files;
 import org.assertj.core.util.Paths;
 import org.assertj.core.util.URLs;
@@ -600,6 +602,10 @@ public class AssertionsForClassTypes {
     return new StringAssert(actual);
   }
 
+  public static <ELEMENT> HashSetAssert<ELEMENT> assertThat(HashSet<? extends ELEMENT> actual) {
+    return new HashSetAssert<>(actual);
+  }
+
   /**
    * Creates a new instance of <code>{@link DateAssert}</code>.
    *
@@ -974,6 +980,7 @@ public class AssertionsForClassTypes {
    * @param failureMessage error message.
    * @throws AssertionError with the given message.
    */
+  @Contract("_ -> fail")
   public static void fail(String failureMessage) {
     Fail.fail(failureMessage);
   }
@@ -984,6 +991,7 @@ public class AssertionsForClassTypes {
    *
    * @throws AssertionError without message.
    */
+  @Contract(" -> fail")
   public static void fail() {
     Fail.fail();
   }
@@ -996,6 +1004,7 @@ public class AssertionsForClassTypes {
    * @param realCause cause of the error.
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
+  @Contract("_, _ -> fail")
   public static void fail(String failureMessage, Throwable realCause) {
     Fail.fail(failureMessage, realCause);
   }
@@ -1007,6 +1016,7 @@ public class AssertionsForClassTypes {
    * @param realCause cause of the error.
    * @throws AssertionError with the {@link Throwable} that caused the failure.
    */
+  @Contract("_ -> fail")
   public static void fail(Throwable realCause) {
     Fail.fail(realCause);
   }
@@ -1021,6 +1031,7 @@ public class AssertionsForClassTypes {
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
+  @Contract("_ -> fail")
   public static void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     Fail.shouldHaveThrown(throwableClass);
   }
@@ -1033,6 +1044,7 @@ public class AssertionsForClassTypes {
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    */
+  @Contract("_ -> fail")
   public static void shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     Fail.shouldHaveThrown(throwableClass);
   }

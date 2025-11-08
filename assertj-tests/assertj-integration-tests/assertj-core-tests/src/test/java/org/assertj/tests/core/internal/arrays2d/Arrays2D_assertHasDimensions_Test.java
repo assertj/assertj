@@ -37,7 +37,7 @@ class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
     // GIVEN
     char[][] actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), failures, actual, 2, 3));
+    var assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), failures, actual, 2, 3));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -47,8 +47,8 @@ class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
     // GIVEN
     int expectedFirstDimensionSize = 10;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), failures, actual,
-                                                                                          expectedFirstDimensionSize, 3));
+    var assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), failures, actual,
+                                                                               expectedFirstDimensionSize, 3));
     // THEN
     then(assertionError).hasMessage(shouldHaveFirstDimension(actual, actual.length, expectedFirstDimensionSize).create());
   }
@@ -58,8 +58,8 @@ class Arrays2D_assertHasDimensions_Test extends Arrays2D_BaseTest {
     // GIVEN
     int expectedSecondDimensionSize = 10;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), failures, actual, 2,
-                                                                                          expectedSecondDimensionSize));
+    var assertionError = expectAssertionError(() -> arrays.assertHasDimensions(someInfo(), failures, actual, 2,
+                                                                               expectedSecondDimensionSize));
     // THEN
     then(assertionError).hasMessage(shouldHaveSize(new char[] { 'a', 'b', 'c' }, 3, expectedSecondDimensionSize, 0).create());
   }

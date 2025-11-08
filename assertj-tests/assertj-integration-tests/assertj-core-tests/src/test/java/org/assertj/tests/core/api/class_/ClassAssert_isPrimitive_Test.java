@@ -32,7 +32,7 @@ class ClassAssert_isPrimitive_Test {
     // GIVEN
     Class<?> actual = Object.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPrimitive());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isPrimitive());
     // THEN
     then(assertionError).hasMessage(shouldBePrimitive(actual).create());
   }
@@ -42,7 +42,7 @@ class ClassAssert_isPrimitive_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPrimitive());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isPrimitive());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

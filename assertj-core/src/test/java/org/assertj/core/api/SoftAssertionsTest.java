@@ -192,8 +192,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                                       + "  {\"54\"=\"55\"}%n"
                                                       + "to contain entries:%n"
                                                       + "  [\"1\"=\"2\"]%n"
-                                                      + "but could not find the following map entries:%n"
-                                                      + "  [\"1\"=\"2\"]"));
+                                                      + "but could not find the following map keys:%n"
+                                                      + "  [\"1\"]"));
     then(errors.get(1)).hasMessageStartingWith("%nExpecting empty but was: {\"54\"=\"55\"}".formatted());
   }
 
@@ -382,8 +382,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                            + "  {\"54\"=\"55\"}%n"
                                            + "to contain entries:%n"
                                            + "  [\"1\"=\"2\"]%n"
-                                           + "but could not find the following map entries:%n"
-                                           + "  [\"1\"=\"2\"]"));
+                                           + "but could not find the following map keys:%n"
+                                           + "  [\"1\"]"));
 
       then(errors.get(40)).contains(shouldBeEqualMessage("12:00", "13:00"));
       then(errors.get(41)).contains(shouldBeEqualMessage("12:00Z", "13:00Z"));
@@ -408,7 +408,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                            + "not to have a port but had:%n"
                                            + "  <80>"));
       then(errors.get(52)).contains(format("%nExpecting Duration:%n"
-                                           + "  10H%n"
+                                           + "  10h%n"
                                            + "to have 5L hours but had 10L"));
       then(errors.get(53)).contains(format("%nExpecting Period:%n  P1D%nto have 2 days but had 1"));
     }
@@ -2713,8 +2713,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     Stream.of("A", "B").forEach(runAssertions);
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly("[checking A] %nExpecting code to raise a throwable.".formatted(),
-                                                   "[checking B] %nExpecting code to raise a throwable.".formatted());
+                                  .containsExactly("[checking A] %nExpecting code to throw a java.lang.Exception, but no throwable was thrown.".formatted(),
+                                                   "[checking B] %nExpecting code to throw a java.lang.Exception, but no throwable was thrown.".formatted());
   }
 
   @ParameterizedTest

@@ -40,7 +40,7 @@ class Doubles_assertIsNotPositive_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_positive() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doubles.assertIsNotPositive(someInfo(), 6d));
+    var assertionError = expectAssertionError(() -> doubles.assertIsNotPositive(someInfo(), 6d));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(6d, 0d).create());
   }
@@ -48,8 +48,8 @@ class Doubles_assertIsNotPositive_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_can_be_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
-                                                                                                                         -1d));
+    var assertionError = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                              -1d));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(-1d, 0d, absValueComparisonStrategy).create());
   }
@@ -57,8 +57,8 @@ class Doubles_assertIsNotPositive_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_positive_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
-                                                                                                                         1d));
+    var assertionError = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNotPositive(someInfo(),
+                                                                                                              1d));
     // THEN
     then(assertionError).hasMessage(shouldBeLessOrEqual(1d, 0d, absValueComparisonStrategy).create());
   }

@@ -34,7 +34,7 @@ class OptionalAssert_flatMap_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<String> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).flatMap(UPPER_CASE_OPTIONAL_STRING));
+    var assertionError = expectAssertionError(() -> assertThat(actual).flatMap(UPPER_CASE_OPTIONAL_STRING));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

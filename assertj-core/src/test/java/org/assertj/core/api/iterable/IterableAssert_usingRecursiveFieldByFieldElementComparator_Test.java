@@ -79,8 +79,8 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends It
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(2)));
 
-    AssertionError assertionError = expectAssertionError(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
-                                                                                .isEqualTo(list2));
+    var assertionError = expectAssertionError(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
+                                                                     .isEqualTo(list2));
 
     then(assertionError).hasMessage(format(shouldBeEqualMessage("[Foo(id=id, bar=Bar(id=1))]", "[Foo(id=id, bar=Bar(id=2))]") +
                                            "%n" +
@@ -92,8 +92,8 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends It
     List<Foo> list1 = singletonList(new Foo("id", new Bar(1)));
     List<Foo> list2 = singletonList(new Foo("id", new Bar(2)));
 
-    AssertionError assertionError = expectAssertionError(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
-                                                                                .isIn(list(list2)));
+    var assertionError = expectAssertionError(() -> assertThat(list1).usingRecursiveFieldByFieldElementComparator()
+                                                                     .isIn(list(list2)));
 
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  [Foo(id=id, bar=Bar(id=1))]%n" +
@@ -129,4 +129,27 @@ class IterableAssert_usingRecursiveFieldByFieldElementComparator_Test extends It
       return "Bar(id=" + id + ")";
     }
   }
+
+  public record Person(String name, boolean hasPhd) {
+  }
+
+  public record Doctor(String name, boolean hasPhd) {
+  }
+
+  @Test
+  public void javadoc_example() {
+    // GIVEN
+    Person drSheldon = new Person("Sheldon Cooper", true);
+    Person sheldon = new Person("Sheldon Cooper", false);
+    Person drLeonard = new Person("Leonard Hofstadter", true);
+    Person leonard = new Person("Leonard Hofstadter", false);
+    Person drRaj = new Person("Raj Koothrappali", true);
+    Person raj = new Person("Raj Koothrappali", false);
+    // WHEN
+    var configuration = RecursiveComparisonConfiguration.builder().withIgnoredFields("hasPhd").build();
+    // THEN
+    then(List.of(drSheldon, drLeonard, drRaj)).usingRecursiveFieldByFieldElementComparator(configuration)
+                                              .containsExactlyElementsOf(List.of(sheldon, leonard, raj));
+  }
+
 }

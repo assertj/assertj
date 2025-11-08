@@ -112,7 +112,7 @@ class AbstractAssert_extracting_with_String_and_AssertFactory_Test implements Na
     // GIVEN
     TestAssert underTest = new TestAssert(null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> underTest.extracting("age", Assertions::assertThat));
+    var assertionError = expectAssertionError(() -> underTest.extracting("age", Assertions::assertThat));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

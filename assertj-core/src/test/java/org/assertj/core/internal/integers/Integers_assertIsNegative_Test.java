@@ -38,7 +38,7 @@ class Integers_assertIsNegative_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> integers.assertIsNegative(someInfo(), 6));
+    var assertionError = expectAssertionError(() -> integers.assertIsNegative(someInfo(), 6));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(6, 0).create());
   }
@@ -46,7 +46,7 @@ class Integers_assertIsNegative_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> integers.assertIsNegative(someInfo(), 0));
+    var assertionError = expectAssertionError(() -> integers.assertIsNegative(someInfo(), 0));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(0, 0).create());
   }

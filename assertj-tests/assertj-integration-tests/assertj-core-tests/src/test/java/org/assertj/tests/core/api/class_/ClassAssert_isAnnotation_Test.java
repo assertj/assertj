@@ -30,7 +30,7 @@ class ClassAssert_isAnnotation_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAnnotation());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isAnnotation());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -40,7 +40,7 @@ class ClassAssert_isAnnotation_Test {
     // GIVEN
     Class<?> actual = Object.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isAnnotation());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isAnnotation());
     // THEN
     then(assertionError).hasMessage(shouldBeAnnotation(actual).create());
   }

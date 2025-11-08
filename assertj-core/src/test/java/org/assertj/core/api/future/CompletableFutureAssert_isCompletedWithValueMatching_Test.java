@@ -37,7 +37,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
     assertThat(assertionError).hasMessage(actualIsNull());
   }
@@ -47,8 +47,8 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo"),
-                                                                                                               "is foo"));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo"),
+                                                                                                    "is foo"));
     // THEN
     assertThat(assertionError).hasMessageContaining("\"done\"")
                               .hasMessageContaining("to match 'is foo' predicate");
@@ -59,7 +59,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo")));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo")));
     // THEN
     assertThat(assertionError).hasMessageContaining("\"done\"")
                               .hasMessageContaining("to match given predicate")
@@ -71,7 +71,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
     assertThat(assertionError).hasMessage(shouldBeCompleted(future).create());
   }
@@ -82,7 +82,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
     assertThat(assertionError).hasMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException".formatted())
                               .hasMessageEndingWith("to be completed.%n%s", WARNING);
@@ -95,7 +95,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(true);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
     assertThat(assertionError).hasMessage(shouldBeCompleted(future).create());
   }

@@ -52,14 +52,18 @@ public class RecursiveComparisonAssert_BaseTest {
     return new ComparisonDifference(dualValue, additionalInformation);
   }
 
-  public static ComparisonDifference javaTypeDiff(String path, Object actual, Object other) {
-    return RecursiveComparisonAssert_BaseTest.diff(path, actual, other,
-                                                   "Compared objects have java types and were thus compared with equals method");
+  public static ComparisonDifference javaTypeDiff(String path, Object actual, Object expected) {
+    String actualTypeCanonicalName = actual.getClass().getCanonicalName();
+    String expectedTypeCanonicalName = expected.getClass().getCanonicalName();
+    return RecursiveComparisonAssert_BaseTest.diff(path, actual, expected, actual.getClass().equals(expected.getClass())
+        ? "Actual and expected value are both java types (%s) and thus were compared to with equals".formatted(actualTypeCanonicalName)
+        : "Actual and expected value are both java types (%s and %s) and thus were compared to with actual equals method".formatted(actualTypeCanonicalName,
+                                                                                                                                    expectedTypeCanonicalName));
   }
 
   public static ComparisonDifference javaTypeDiff(List<String> path, Object actual, Object other) {
     return RecursiveComparisonAssert_BaseTest.diff(path, actual, other,
-                                                   "Compared objects have java types and were thus compared with equals method");
+                                                   "Actual value is a java type and thus was compared to the expected value with its equals method");
   }
 
   public void compareRecursivelyFailsWithDifferences(Object actual, Object expected, ComparisonDifference... differences) {

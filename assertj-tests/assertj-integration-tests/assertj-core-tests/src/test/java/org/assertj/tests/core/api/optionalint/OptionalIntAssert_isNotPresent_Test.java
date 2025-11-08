@@ -36,7 +36,7 @@ class OptionalIntAssert_isNotPresent_Test {
     // GIVEN
     OptionalInt nullActual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).isNotPresent());
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).isNotPresent());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -46,7 +46,7 @@ class OptionalIntAssert_isNotPresent_Test {
     // GIVEN
     OptionalInt actual = OptionalInt.of(10);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isNotPresent());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotPresent());
     // THEN
     then(assertionError).hasMessage(shouldBeEmpty(actual).create());
   }

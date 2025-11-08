@@ -29,7 +29,7 @@ class Assertions_catchNullPointerException_Test {
     // GIVEN
     ThrowingCallable code = () -> catchNullPointerException(raisingException("boom!!"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     assertThat(assertionError).hasMessageContainingAll(Exception.class.getName(), NullPointerException.class.getName());
   }

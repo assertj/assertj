@@ -45,7 +45,7 @@ class OptionalAssert_get_with_InstanceOfAssertFactory_Test implements Navigation
     // GIVEN
     Optional<String> optional = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(optional).get(STRING));
+    var assertionError = expectAssertionError(() -> assertThat(optional).get(STRING));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -55,7 +55,7 @@ class OptionalAssert_get_with_InstanceOfAssertFactory_Test implements Navigation
     // GIVEN
     Optional<String> optional = Optional.empty();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(optional).get(STRING));
+    var assertionError = expectAssertionError(() -> assertThat(optional).get(STRING));
     // THEN
     then(assertionError).hasMessage(shouldBePresent(optional).create());
   }
@@ -80,7 +80,7 @@ class OptionalAssert_get_with_InstanceOfAssertFactory_Test implements Navigation
   @Test
   void should_fail_if_optional_does_not_contain_an_instance_of_the_factory_type() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(optional).get(INTEGER));
+    var assertionError = expectAssertionError(() -> assertThat(optional).get(INTEGER));
     // THEN
     then(assertionError).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }

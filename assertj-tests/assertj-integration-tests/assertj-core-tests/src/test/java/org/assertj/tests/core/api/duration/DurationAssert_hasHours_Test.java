@@ -39,7 +39,7 @@ class DurationAssert_hasHours_Test {
     // GIVEN
     Duration duration = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasHours(5L));
+    var assertionError = expectAssertionError(() -> assertThat(duration).hasHours(5L));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class DurationAssert_hasHours_Test {
     // GIVEN
     Duration duration = Duration.ofHours(10L);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(duration).hasHours(15L));
+    var assertionError = expectAssertionError(() -> assertThat(duration).hasHours(15L));
     // THEN
     then(assertionError).hasMessage(shouldHaveHours(duration, 10L, 15L).create());
   }

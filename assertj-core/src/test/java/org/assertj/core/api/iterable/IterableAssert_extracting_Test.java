@@ -121,7 +121,7 @@ class IterableAssert_extracting_Test {
     // GIVEN
     jedis = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(jedis).extracting(firstNameFunction));
+    var assertionError = expectAssertionError(() -> assertThat(jedis).extracting(firstNameFunction));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -131,8 +131,8 @@ class IterableAssert_extracting_Test {
     // GIVEN
     List<TolkienCharacter> elves = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(elves).extracting(TolkienCharacter::getName,
-                                                                                            TolkienCharacter::getRace));
+    var assertionError = expectAssertionError(() -> assertThat(elves).extracting(TolkienCharacter::getName,
+                                                                                 TolkienCharacter::getRace));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

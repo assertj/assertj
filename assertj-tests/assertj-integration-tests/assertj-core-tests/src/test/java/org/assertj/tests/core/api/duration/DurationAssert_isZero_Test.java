@@ -33,7 +33,7 @@ class DurationAssert_isZero_Test {
     // GIVEN
     Duration actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isZero());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isZero());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -42,7 +42,7 @@ class DurationAssert_isZero_Test {
   @ValueSource(strings = { "PT1S", "PT-1S" })
   void should_fail_if_actual_is_not_zero(Duration actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isZero());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isZero());
     // THEN
     then(assertionError).hasMessage("%nexpected: %s%n but was: %s",
                                     STANDARD_REPRESENTATION.toStringOf(Duration.ZERO),

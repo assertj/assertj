@@ -32,7 +32,7 @@ class LocalDateTimeAssert_isInTheFuture_Test extends LocalDateTimeAssertBaseTest
   @Test
   void should_fail_if_actual_is_now() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(REFERENCE).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(shouldBeInTheFuture(REFERENCE).create());
   }
@@ -40,7 +40,7 @@ class LocalDateTimeAssert_isInTheFuture_Test extends LocalDateTimeAssertBaseTest
   @Test
   void should_fail_if_actual_is_in_the_past() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(BEFORE).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(BEFORE).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(shouldBeInTheFuture(BEFORE).create());
   }
@@ -50,7 +50,7 @@ class LocalDateTimeAssert_isInTheFuture_Test extends LocalDateTimeAssertBaseTest
     // GIVEN
     LocalDate actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isInTheFuture());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isInTheFuture());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

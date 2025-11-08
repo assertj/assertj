@@ -40,7 +40,7 @@ class Urls_assertHasProtocol_Test extends UrlsBaseTest {
     URL url = null;
     String expectedProtocol = "http";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasProtocol(info, url, expectedProtocol));
+    var assertionError = expectAssertionError(() -> urls.assertHasProtocol(info, url, expectedProtocol));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -51,7 +51,7 @@ class Urls_assertHasProtocol_Test extends UrlsBaseTest {
     URL url = new URL("http://example.com/pages/");
     String expectedProtocol = "ftp";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasProtocol(info, url, expectedProtocol));
+    var assertionError = expectAssertionError(() -> urls.assertHasProtocol(info, url, expectedProtocol));
     // THEN
     then(assertionError).hasMessage(shouldHaveProtocol(url, expectedProtocol).create());
   }

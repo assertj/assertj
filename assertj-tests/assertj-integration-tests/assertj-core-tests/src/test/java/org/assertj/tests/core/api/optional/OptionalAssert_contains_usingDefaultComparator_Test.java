@@ -52,7 +52,7 @@ class OptionalAssert_contains_usingDefaultComparator_Test {
     optionalAssert.usingValueComparator(STRING_COMPARATOR).contains(expected);
     // WHEN
     // go back to default strategy
-    AssertionError assertionError = expectAssertionError(() -> optionalAssert.usingDefaultValueComparator().contains(expected));
+    var assertionError = expectAssertionError(() -> optionalAssert.usingDefaultValueComparator().contains(expected));
     // THEN
     then(assertionError).hasMessageContainingAll(actual.toString(), expected);
   }

@@ -12,12 +12,14 @@
  */
 package org.assertj.tests.core.api.recursive.comparison.fields;
 
+import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.entry;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
+import static org.assertj.core.util.DualClass.dualClass;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
@@ -32,6 +34,7 @@ import java.net.InetAddress;
 import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -44,12 +47,15 @@ import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
 import org.assertj.core.util.DoubleComparator;
+import org.assertj.tests.core.api.recursive.data.Address;
 import org.assertj.tests.core.api.recursive.data.AlwaysEqualPerson;
 import org.assertj.tests.core.api.recursive.data.FriendlyPerson;
 import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Human;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.assertj.tests.core.api.recursive.data.Theme;
+import org.assertj.tests.core.api.recursive.data.WithObject;
+import org.assertj.tests.core.api.recursive.data.Worker;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -98,6 +104,49 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
     then(assertionError).hasMessage(expectedAssertionError.getMessage());
   }
 
+  @ParameterizedTest
+  @MethodSource
+  void should_fail_when_actual_value_is_java_type_and_expected_is_not(Object topLevelActual, Object topLevelExpected,
+                                                                      String reason) {
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(topLevelActual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                              .isEqualTo(topLevelExpected));
+    // THEN
+    then(assertionError).hasMessageContaining(reason);
+  }
+
+  private static Stream<Arguments> should_fail_when_actual_value_is_java_type_and_expected_is_not() {
+    return Stream.of(
+                     arguments(LocalDate.of(1970, 1, 1), new Address(), LocalDate.class.getCanonicalName(),
+                               "Actual was compared to expected with equals because it is a java type (java.time.LocalDate)"),
+                     arguments(Map.of("name", "Foo", "age", 27), new Address(), Map.of().getClass().getCanonicalName(),
+                               "Actual was compared to expected with equals because it is a java type (java.util.ImmutableCollections.MapN)"),
+                     arguments(WithObject.of(LocalDate.of(1970, 1, 1)), WithObject.of(new Address()),
+                               LocalDate.class.getCanonicalName(),
+                               "Actual was compared to expected with equals because it is a java type (java.time.LocalDate)"));
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void should_fail_when_expected_value_is_java_type_and_actual_is_not(Object topLevelActual, Object topLevelExpected,
+                                                                      String reason) {
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(topLevelActual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                              .isEqualTo(topLevelExpected));
+    // THEN
+    then(assertionError).hasMessageContaining(reason);
+  }
+
+  private static Stream<Arguments> should_fail_when_expected_value_is_java_type_and_actual_is_not() {
+    return Stream.of(
+                     arguments(new Address(), LocalDate.of(1970, 1, 1),
+                               "Actual was compared to expected with equals because expected is a java type (java.time.LocalDate)"),
+                     arguments(new Address(), Map.of("name", "Foo", "age", 27),
+                               "expected field is a map but actual field is not (org.assertj.tests.core.api.recursive.data.Address)"),
+                     arguments(WithObject.of(new Address()), WithObject.of(LocalDate.of(1970, 1, 1)),
+                               "Actual was compared to expected with equals because expected is a java type (java.time.LocalDate)"));
+  }
+
   @Test
   void should_propagate_comparators_by_type() {
     // GIVEN
@@ -107,7 +156,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
                                           .usingRecursiveComparison(recursiveComparisonConfiguration)
                                           .getRecursiveComparisonConfiguration();
     // THEN
-    then(configuration.getTypeComparators().comparatorByTypes()).contains(entry(String.class, ALWAYS_EQUALS_STRING));
+    then(configuration.comparatorByTypes()).contains(entry(dualClass(String.class, null), ALWAYS_EQUALS_STRING));
+
   }
 
   @Test
@@ -298,17 +348,55 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
   }
 
   @Test
-  void should_report_missing_property() {
+  void should_report_missing_actual_fields() {
     // GIVEN
-    Giant actual = new Giant();
+    Human actual = new Human();
     actual.name = "joe";
-    actual.height = 3.0;
-    Human expected = new Human();
-    expected.name = "joe";
+    Giant expected = new Giant("joe", 3.0);
     // WHEN/THEN
-    ComparisonDifference missingFieldDifference = diff("", actual, expected,
-                                                       "org.assertj.tests.core.api.recursive.data.Giant can't be compared to org.assertj.tests.core.api.recursive.data.Human as Human does not declare all Giant fields, it lacks these: [height]");
-    compareRecursivelyFailsWithDifferences(actual, expected, missingFieldDifference);
+    var difference = diff("", actual, expected,
+                          "actual value had less fields to compare than expected value, it did not have these fields: [height]");
+    compareRecursivelyFailsWithDifferences(actual, expected, difference);
+  }
+
+  @Test
+  void should_report_extra_actual_fields() {
+    // GIVEN
+    Human human = new Human();
+    human.name = "joe";
+    Giant giant = new Giant("joe", 3.0);
+    // WHEN/THEN
+    var difference = diff("", giant, human,
+                          "actual value had more fields to compare than expected value, actual value had more fields to compare than expected value, these actual fields could not be found in expected: [height]");
+    compareRecursivelyFailsWithDifferences(giant, human, difference);
+  }
+
+  @Test
+  void should_report_extra_and_missing_actual_fields() {
+    // GIVEN
+    Worker human = new Worker("joe", "teacher");
+    Giant giant = new Giant("joe", 3.0);
+    // WHEN/THEN
+    var difference = diff("", giant, human,
+                          format("actual value and expected value fields to compare differ:%n" +
+                                 "- actual value had less fields to compare than expected value, it did not have these fields: [job]%n"
+                                 +
+                                 "- actual value had more fields to compare than expected value, these actual fields could not be found in expected: [height]"));
+    compareRecursivelyFailsWithDifferences(giant, human, difference);
+  }
+
+  @Test
+  void should_report_nested_extra_and_missing_actual_fields() {
+    // GIVEN
+    var actual = WithObject.of(new Giant("joe", 3.0));
+    var expected = WithObject.of(new Worker("joe", "teacher"));
+    // WHEN/THEN
+    var difference = diff("value", actual.value, expected.value,
+                          format("actual value and expected value fields to compare differ:%n" +
+                                 "- actual value had less fields to compare than expected value, it did not have these fields: [job]%n"
+                                 +
+                                 "- actual value had more fields to compare than expected value, these actual fields could not be found in expected: [height]"));
+    compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 
   static class LightString {
@@ -404,7 +492,8 @@ class RecursiveComparisonAssert_isEqualTo_Test extends WithComparingFieldsIntros
     ComparisonDifference difference = diff("_children",
                                            mapOf(entry("importantValue", "10"), entry("someNotImportantValue", 1)),
                                            mapOf(entry("bar", "10"), entry("foo", 1)),
-                                           "The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]".formatted());
+                                           ("The following keys were not found in the actual map value:%n  [\"foo\", \"bar\"]%n" +
+                                            "The following keys were present in the actual map value, but not in the expected map value:%n  [\"someNotImportantValue\", \"importantValue\"]").formatted());
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 

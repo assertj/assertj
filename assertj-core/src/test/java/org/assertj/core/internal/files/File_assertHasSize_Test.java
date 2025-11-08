@@ -47,7 +47,7 @@ class File_assertHasSize_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> underTest.assertHasSizeInBytes(INFO, actual, 17));
+    var assertionError = expectAssertionError(() -> underTest.assertHasSizeInBytes(INFO, actual, 17));
     // THEN
     assertThat(assertionError).hasMessage(actualIsNull());
   }

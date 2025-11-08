@@ -51,7 +51,7 @@ class Urls_assertHasAnchor_Test extends UrlsBaseTest {
     URL url = null;
     String expectedAnchor = "http://www.helloworld.org/index.html#print";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+    var assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -62,7 +62,7 @@ class Urls_assertHasAnchor_Test extends UrlsBaseTest {
     URL url = new URL("http://example.com/index.html#print");
     String expectedAnchor = "foo";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+    var assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
     // THEN
     then(assertionError).hasMessage(shouldHaveAnchor(url, expectedAnchor).create());
   }
@@ -73,7 +73,7 @@ class Urls_assertHasAnchor_Test extends UrlsBaseTest {
     URL url = new URL("http://example.com/index.html");
     String expectedAnchor = "print";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+    var assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
     // THEN
     then(assertionError).hasMessage(shouldHaveAnchor(url, expectedAnchor).create());
   }
@@ -84,7 +84,7 @@ class Urls_assertHasAnchor_Test extends UrlsBaseTest {
     URL url = new URL("http://example.com/index.html#print");
     String expectedAnchor = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+    var assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
     // THEN
     then(assertionError).hasMessage(shouldHaveAnchor(url, expectedAnchor).create());
   }
@@ -95,7 +95,7 @@ class Urls_assertHasAnchor_Test extends UrlsBaseTest {
     URL url = new URL("http://www.helloworld.org/index.html");
     String expectedAnchor = "print";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
+    var assertionError = expectAssertionError(() -> urls.assertHasAnchor(info, url, expectedAnchor));
     // THEN
     then(assertionError).hasMessage(shouldHaveAnchor(url, expectedAnchor).create());
   }

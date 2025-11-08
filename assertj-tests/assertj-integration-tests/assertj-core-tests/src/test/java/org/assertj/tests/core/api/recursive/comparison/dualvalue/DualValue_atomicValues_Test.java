@@ -38,323 +38,323 @@ class DualValue_atomicValues_Test {
   // AtomicReference
 
   @Test
-  void isActualFieldAnAtomicReference_should_return_true_when_actual_is_an_AtomicReference() {
+  void isActualAnAtomicReference_should_return_true_when_actual_is_an_AtomicReference() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, new AtomicReference<>("a"), "");
     // WHEN
-    boolean isActualFieldAnAtomicReference = dualValue.isActualFieldAnAtomicReference();
+    boolean isActualAnAtomicReference = dualValue.isActualAnAtomicReference();
     // THEN
-    then(isActualFieldAnAtomicReference).isTrue();
+    then(isActualAnAtomicReference).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isActualFieldAnAtomicReference_should_return_false_when_actual_is_not_an_AtomicReference(String actual) {
+  void isActualAnAtomicReference_should_return_false_when_actual_is_not_an_AtomicReference(String actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
-    boolean isActualFieldAnAtomicReference = dualValue.isActualFieldAnAtomicReference();
+    boolean isActualAnAtomicReference = dualValue.isActualAnAtomicReference();
     // THEN
-    then(isActualFieldAnAtomicReference).isFalse();
+    then(isActualAnAtomicReference).isFalse();
   }
 
   @Test
-  void isExpectedFieldAnAtomicReference_should_return_true_when_expected_is_an_AtomicReference() {
+  void isExpectedAnAtomicReference_should_return_true_when_expected_is_an_AtomicReference() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", new AtomicReference<>("a"));
     // WHEN
-    boolean isExpectedFieldAnAtomicReference = dualValue.isExpectedFieldAnAtomicReference();
+    boolean isExpectedAnAtomicReference = dualValue.isExpectedAnAtomicReference();
     // THEN
-    then(isExpectedFieldAnAtomicReference).isTrue();
+    then(isExpectedAnAtomicReference).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isExpectedFieldAnAtomicReference_should_return_false_when_expected_is_not_an_AtomicReference(String expected) {
+  void isExpectedAnAtomicReference_should_return_false_when_expected_is_not_an_AtomicReference(String expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
-    boolean isExpectedFieldAnAtomicReference = dualValue.isExpectedFieldAnAtomicReference();
+    boolean isExpectedAnAtomicReference = dualValue.isExpectedAnAtomicReference();
     // THEN
-    then(isExpectedFieldAnAtomicReference).isFalse();
+    then(isExpectedAnAtomicReference).isFalse();
   }
 
   // AtomicReferenceArray
 
   @Test
-  void isActualFieldAnAtomicReferenceArray_should_return_true_when_actual_is_an_AtomicReferenceArray() {
+  void isActualAnAtomicReferenceArray_should_return_true_when_actual_is_an_AtomicReferenceArray() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, new AtomicReferenceArray<>(array("a")), "");
     // WHEN
-    boolean isActualFieldAnAtomicReferenceArray = dualValue.isActualFieldAnAtomicReferenceArray();
+    boolean isActualAnAtomicReferenceArray = dualValue.isActualAnAtomicReferenceArray();
     // THEN
-    then(isActualFieldAnAtomicReferenceArray).isTrue();
+    then(isActualAnAtomicReferenceArray).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isActualFieldAnAtomicReferenceArray_should_return_false_when_actual_is_not_an_AtomicReferenceArray(String actual) {
+  void isActualAnAtomicReferenceArray_should_return_false_when_actual_is_not_an_AtomicReferenceArray(String actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
-    boolean isActualFieldAnAtomicReferenceArray = dualValue.isActualFieldAnAtomicReferenceArray();
+    boolean isActualAnAtomicReferenceArray = dualValue.isActualAnAtomicReferenceArray();
     // THEN
-    then(isActualFieldAnAtomicReferenceArray).isFalse();
+    then(isActualAnAtomicReferenceArray).isFalse();
   }
 
   @Test
-  void isExpectedFieldAnAtomicReferenceArray_should_return_true_when_expected_is_an_AtomicReferenceArray() {
+  void isExpectedAnAtomicReferenceArray_should_return_true_when_expected_is_an_AtomicReferenceArray() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", new AtomicReferenceArray<>(array("a")));
     // WHEN
-    boolean isExpectedFieldAnAtomicReferenceArray = dualValue.isExpectedFieldAnAtomicReferenceArray();
+    boolean isExpectedAnAtomicReferenceArray = dualValue.isExpectedAnAtomicReferenceArray();
     // THEN
-    then(isExpectedFieldAnAtomicReferenceArray).isTrue();
+    then(isExpectedAnAtomicReferenceArray).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isExpectedFieldAnAtomicReferenceArray_should_return_false_when_expected_is_not_an_AtomicReferenceArray(String expected) {
+  void isExpectedAnAtomicReferenceArray_should_return_false_when_expected_is_not_an_AtomicReferenceArray(String expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
-    boolean isExpectedFieldAnAtomicReferenceArray = dualValue.isExpectedFieldAnAtomicReferenceArray();
+    boolean isExpectedAnAtomicReferenceArray = dualValue.isExpectedAnAtomicReferenceArray();
     // THEN
-    then(isExpectedFieldAnAtomicReferenceArray).isFalse();
+    then(isExpectedAnAtomicReferenceArray).isFalse();
   }
 
   // AtomicInteger
 
   @Test
-  void isActualFieldAnAtomicInteger_should_return_true_when_actual_is_an_AtomicInteger() {
+  void isActualAnAtomicInteger_should_return_true_when_actual_is_an_AtomicInteger() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, new AtomicInteger(123), "");
     // WHEN
-    boolean isActualFieldAnAtomicInteger = dualValue.isActualFieldAnAtomicInteger();
+    boolean isActualAnAtomicInteger = dualValue.isActualAnAtomicInteger();
     // THEN
-    then(isActualFieldAnAtomicInteger).isTrue();
+    then(isActualAnAtomicInteger).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isActualFieldAnAtomicInteger_should_return_false_when_actual_is_not_an_AtomicInteger(String actual) {
+  void isActualAnAtomicInteger_should_return_false_when_actual_is_not_an_AtomicInteger(String actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
-    boolean isActualFieldAnAtomicInteger = dualValue.isActualFieldAnAtomicInteger();
+    boolean isActualAnAtomicInteger = dualValue.isActualAnAtomicInteger();
     // THEN
-    then(isActualFieldAnAtomicInteger).isFalse();
+    then(isActualAnAtomicInteger).isFalse();
   }
 
   @Test
-  void isExpectedFieldAnAtomicInteger_should_return_true_when_expected_is_an_AtomicInteger() {
+  void isExpectedAnAtomicInteger_should_return_true_when_expected_is_an_AtomicInteger() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", new AtomicInteger(123));
     // WHEN
-    boolean isExpectedFieldAnAtomicInteger = dualValue.isExpectedFieldAnAtomicInteger();
+    boolean isExpectedAnAtomicInteger = dualValue.isExpectedAnAtomicInteger();
     // THEN
-    then(isExpectedFieldAnAtomicInteger).isTrue();
+    then(isExpectedAnAtomicInteger).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isExpectedFieldAnAtomicInteger_should_return_false_when_expected_is_not_an_AtomicInteger(String expected) {
+  void isExpectedAnAtomicInteger_should_return_false_when_expected_is_not_an_AtomicInteger(String expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
-    boolean isExpectedFieldAnAtomicInteger = dualValue.isExpectedFieldAnAtomicInteger();
+    boolean isExpectedAnAtomicInteger = dualValue.isExpectedAnAtomicInteger();
     // THEN
-    then(isExpectedFieldAnAtomicInteger).isFalse();
+    then(isExpectedAnAtomicInteger).isFalse();
   }
 
   // AtomicIntegerArray
 
   @Test
-  void isActualFieldAnAtomicIntegerArray_should_return_true_when_actual_is_an_AtomicIntegerArray() {
+  void isActualAnAtomicIntegerArray_should_return_true_when_actual_is_an_AtomicIntegerArray() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, new AtomicIntegerArray(new int[] { 1, 2, 3 }), "");
     // WHEN
-    boolean isActualFieldAnAtomicIntegerArray = dualValue.isActualFieldAnAtomicIntegerArray();
+    boolean isActualAnAtomicIntegerArray = dualValue.isActualAnAtomicIntegerArray();
     // THEN
-    then(isActualFieldAnAtomicIntegerArray).isTrue();
+    then(isActualAnAtomicIntegerArray).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isActualFieldAnAtomicIntegerArray_should_return_false_when_actual_is_not_an_AtomicIntegerArray(String actual) {
+  void isActualAnAtomicIntegerArray_should_return_false_when_actual_is_not_an_AtomicIntegerArray(String actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
-    boolean isActualFieldAnAtomicIntegerArray = dualValue.isActualFieldAnAtomicIntegerArray();
+    boolean isActualAnAtomicIntegerArray = dualValue.isActualAnAtomicIntegerArray();
     // THEN
-    then(isActualFieldAnAtomicIntegerArray).isFalse();
+    then(isActualAnAtomicIntegerArray).isFalse();
   }
 
   @Test
-  void isExpectedFieldAnAtomicIntegerArray_should_return_true_when_expected_is_an_AtomicIntegerArray() {
+  void isExpectedAnAtomicIntegerArray_should_return_true_when_expected_is_an_AtomicIntegerArray() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", new AtomicIntegerArray(new int[] { 1, 2, 3 }));
     // WHEN
-    boolean isExpectedFieldAnAtomicIntegerArray = dualValue.isExpectedFieldAnAtomicIntegerArray();
+    boolean isExpectedAnAtomicIntegerArray = dualValue.isExpectedAnAtomicIntegerArray();
     // THEN
-    then(isExpectedFieldAnAtomicIntegerArray).isTrue();
+    then(isExpectedAnAtomicIntegerArray).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isExpectedFieldAnAtomicIntegerArray_should_return_false_when_expected_is_not_an_AtomicIntegerArray(String expected) {
+  void isExpectedAnAtomicIntegerArray_should_return_false_when_expected_is_not_an_AtomicIntegerArray(String expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
-    boolean isExpectedFieldAnAtomicIntegerArray = dualValue.isExpectedFieldAnAtomicIntegerArray();
+    boolean isExpectedAnAtomicIntegerArray = dualValue.isExpectedAnAtomicIntegerArray();
     // THEN
-    then(isExpectedFieldAnAtomicIntegerArray).isFalse();
+    then(isExpectedAnAtomicIntegerArray).isFalse();
   }
 
   // AtomicLong
 
   @Test
-  void isActualFieldAnAtomicLong_should_return_true_when_actual_is_an_AtomicLong() {
+  void isActualAnAtomicLong_should_return_true_when_actual_is_an_AtomicLong() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, new AtomicLong(123), "");
     // WHEN
-    boolean isActualFieldAnAtomicLong = dualValue.isActualFieldAnAtomicLong();
+    boolean isActualAnAtomicLong = dualValue.isActualAnAtomicLong();
     // THEN
-    then(isActualFieldAnAtomicLong).isTrue();
+    then(isActualAnAtomicLong).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isActualFieldAnAtomicLong_should_return_false_when_actual_is_not_an_AtomicLong(String actual) {
+  void isActualAnAtomicLong_should_return_false_when_actual_is_not_an_AtomicLong(String actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
-    boolean isActualFieldAnAtomicLong = dualValue.isActualFieldAnAtomicLong();
+    boolean isActualAnAtomicLong = dualValue.isActualAnAtomicLong();
     // THEN
-    then(isActualFieldAnAtomicLong).isFalse();
+    then(isActualAnAtomicLong).isFalse();
   }
 
   @Test
-  void isExpectedFieldAnAtomicLong_should_return_true_when_expected_is_an_AtomicLong() {
+  void isExpectedAnAtomicLong_should_return_true_when_expected_is_an_AtomicLong() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", new AtomicLong(123));
     // WHEN
-    boolean isExpectedFieldAnAtomicLong = dualValue.isExpectedFieldAnAtomicLong();
+    boolean isExpectedAnAtomicLong = dualValue.isExpectedAnAtomicLong();
     // THEN
-    then(isExpectedFieldAnAtomicLong).isTrue();
+    then(isExpectedAnAtomicLong).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isExpectedFieldAnAtomicLong_should_return_false_when_expected_is_not_an_AtomicLong(String expected) {
+  void isExpectedAnAtomicLong_should_return_false_when_expected_is_not_an_AtomicLong(String expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
-    boolean isExpectedFieldAnAtomicLong = dualValue.isExpectedFieldAnAtomicLong();
+    boolean isExpectedAnAtomicLong = dualValue.isExpectedAnAtomicLong();
     // THEN
-    then(isExpectedFieldAnAtomicLong).isFalse();
+    then(isExpectedAnAtomicLong).isFalse();
   }
 
   // AtomicLongArray
 
   @Test
-  void isActualFieldAnAtomicLongArray_should_return_true_when_actual_is_an_AtomicLongArray() {
+  void isActualAnAtomicLongArray_should_return_true_when_actual_is_an_AtomicLongArray() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, new AtomicLongArray(new long[] { 1, 2, 3 }), "");
     // WHEN
-    boolean isActualFieldAnAtomicLongArray = dualValue.isActualFieldAnAtomicLongArray();
+    boolean isActualAnAtomicLongArray = dualValue.isActualAnAtomicLongArray();
     // THEN
-    then(isActualFieldAnAtomicLongArray).isTrue();
+    then(isActualAnAtomicLongArray).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isActualFieldAnAtomicLongArray_should_return_false_when_actual_is_not_an_AtomicLongArray(String actual) {
+  void isActualAnAtomicLongArray_should_return_false_when_actual_is_not_an_AtomicLongArray(String actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
-    boolean isActualFieldAnAtomicLongArray = dualValue.isActualFieldAnAtomicLongArray();
+    boolean isActualAnAtomicLongArray = dualValue.isActualAnAtomicLongArray();
     // THEN
-    then(isActualFieldAnAtomicLongArray).isFalse();
+    then(isActualAnAtomicLongArray).isFalse();
   }
 
   @Test
-  void isExpectedFieldAnAtomicLongArray_should_return_true_when_expected_is_an_AtomicLongArray() {
+  void isExpectedAnAtomicLongArray_should_return_true_when_expected_is_an_AtomicLongArray() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", new AtomicLongArray(new long[] { 1, 2, 3 }));
     // WHEN
-    boolean isExpectedFieldAnAtomicLongArray = dualValue.isExpectedFieldAnAtomicLongArray();
+    boolean isExpectedAnAtomicLongArray = dualValue.isExpectedAnAtomicLongArray();
     // THEN
-    then(isExpectedFieldAnAtomicLongArray).isTrue();
+    then(isExpectedAnAtomicLongArray).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isExpectedFieldAnAtomicLongArray_should_return_false_when_expected_is_not_an_AtomicLongArray(String expected) {
+  void isExpectedAnAtomicLongArray_should_return_false_when_expected_is_not_an_AtomicLongArray(String expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
-    boolean isExpectedFieldAnAtomicLongArray = dualValue.isExpectedFieldAnAtomicLongArray();
+    boolean isExpectedAnAtomicLongArray = dualValue.isExpectedAnAtomicLongArray();
     // THEN
-    then(isExpectedFieldAnAtomicLongArray).isFalse();
+    then(isExpectedAnAtomicLongArray).isFalse();
   }
 
   // AtomicBoolean
 
   @Test
-  void isActualFieldAnAtomicBoolean_should_return_true_when_actual_is_an_AtomicBoolean() {
+  void isActualAnAtomicBoolean_should_return_true_when_actual_is_an_AtomicBoolean() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, new AtomicBoolean(true), "");
     // WHEN
-    boolean isActualFieldAnAtomicBoolean = dualValue.isActualFieldAnAtomicBoolean();
+    boolean isActualAnAtomicBoolean = dualValue.isActualAnAtomicBoolean();
     // THEN
-    then(isActualFieldAnAtomicBoolean).isTrue();
+    then(isActualAnAtomicBoolean).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isActualFieldAnAtomicBoolean_should_return_false_when_actual_is_not_an_AtomicBoolean(String actual) {
+  void isActualAnAtomicBoolean_should_return_false_when_actual_is_not_an_AtomicBoolean(String actual) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, actual, "");
     // WHEN
-    boolean isActualFieldAnAtomicBoolean = dualValue.isActualFieldAnAtomicBoolean();
+    boolean isActualAnAtomicBoolean = dualValue.isActualAnAtomicBoolean();
     // THEN
-    then(isActualFieldAnAtomicBoolean).isFalse();
+    then(isActualAnAtomicBoolean).isFalse();
   }
 
   @Test
-  void isExpectedFieldAnAtomicBoolean_should_return_true_when_expected_is_an_AtomicBoolean() {
+  void isExpectedAnAtomicBoolean_should_return_true_when_expected_is_an_AtomicBoolean() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", new AtomicBoolean(true));
     // WHEN
-    boolean isExpectedFieldAnAtomicBoolean = dualValue.isExpectedFieldAnAtomicBoolean();
+    boolean isExpectedAnAtomicBoolean = dualValue.isExpectedAnAtomicBoolean();
     // THEN
-    then(isExpectedFieldAnAtomicBoolean).isTrue();
+    then(isExpectedAnAtomicBoolean).isTrue();
   }
 
   @ParameterizedTest
   @NullSource
   @ValueSource(strings = { "abc" })
-  void isExpectedFieldAnAtomicBoolean_should_return_false_when_expected_is_not_an_AtomicBoolean(String expected) {
+  void isExpectedAnAtomicBoolean_should_return_false_when_expected_is_not_an_AtomicBoolean(String expected) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", expected);
     // WHEN
-    boolean isExpectedFieldAnAtomicBoolean = dualValue.isExpectedFieldAnAtomicBoolean();
+    boolean isExpectedAnAtomicBoolean = dualValue.isExpectedAnAtomicBoolean();
     // THEN
-    then(isExpectedFieldAnAtomicBoolean).isFalse();
+    then(isExpectedAnAtomicBoolean).isFalse();
   }
 
 }

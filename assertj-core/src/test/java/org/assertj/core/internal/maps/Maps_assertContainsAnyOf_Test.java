@@ -92,7 +92,7 @@ class Maps_assertContainsAnyOf_Test extends MapsBaseTest {
     actual = null;
     MapEntry<String, String>[] expected = array(entry("name", "Yoda"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsAnyOf(someInfo(), actual, expected));
+    var assertionError = expectAssertionError(() -> maps.assertContainsAnyOf(someInfo(), actual, expected));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

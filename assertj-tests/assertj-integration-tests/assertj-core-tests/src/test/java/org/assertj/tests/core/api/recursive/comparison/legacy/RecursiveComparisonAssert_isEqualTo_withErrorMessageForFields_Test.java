@@ -42,9 +42,9 @@ class RecursiveComparisonAssert_isEqualTo_withErrorMessageForFields_Test extends
     String message = "Name must be the same";
     String field = "name";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withErrorMessageForFields(message, field)
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withErrorMessageForFields(message, field)
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll(message, ERROR_MESSAGE_DESCRIPTION_FOR_FIELDS, "- " + field);
   }
@@ -60,12 +60,12 @@ class RecursiveComparisonAssert_isEqualTo_withErrorMessageForFields_Test extends
     String fieldLocation = "name";
     String typeMessage = "Type message has to be ignored";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withErrorMessageForFields(fieldMessage,
-                                                                                                            fieldLocation)
-                                                                                 .withErrorMessageForType(typeMessage,
-                                                                                                          String.class)
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withErrorMessageForFields(fieldMessage,
+                                                                                                 fieldLocation)
+                                                                      .withErrorMessageForType(typeMessage,
+                                                                                               String.class)
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll(fieldMessage,
                                                  ERROR_MESSAGE_DESCRIPTION_FOR_FIELDS,
@@ -80,10 +80,10 @@ class RecursiveComparisonAssert_isEqualTo_withErrorMessageForFields_Test extends
     // GIVEN
     String customMessage = "custom message 1234";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withErrorMessageForType(customMessage,
-                                                                                                          String.class)
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withErrorMessageForType(customMessage,
+                                                                                               String.class)
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll(customMessage, "name");
   }
@@ -102,12 +102,12 @@ class RecursiveComparisonAssert_isEqualTo_withErrorMessageForFields_Test extends
     Person expected = new Person(null);
     BiPredicate<String, String> alwaysFalse = (n1, n2) -> false;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withErrorMessageForType("custom message not used",
-                                                                                                          String.class)
-                                                                                 .withEqualsForFieldsMatchingRegexes(alwaysFalse,
-                                                                                                                     "name")
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withErrorMessageForType("custom message not used",
+                                                                                               String.class)
+                                                                      .withEqualsForFieldsMatchingRegexes(alwaysFalse,
+                                                                                                          "name")
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll("field/property 'name' differ");
   }

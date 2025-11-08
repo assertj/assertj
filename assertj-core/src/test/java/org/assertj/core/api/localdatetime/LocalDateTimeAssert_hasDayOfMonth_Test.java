@@ -29,7 +29,7 @@ class LocalDateTimeAssert_hasDayOfMonth_Test {
     // GIVEN
     LocalDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDayOfMonth(1));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasDayOfMonth(1));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -48,7 +48,7 @@ class LocalDateTimeAssert_hasDayOfMonth_Test {
     LocalDateTime actual = LocalDateTime.of(2022, 1, 1, 0, 0, 0);
     int expectedDay = 2;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasDayOfMonth(expectedDay));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasDayOfMonth(expectedDay));
     // THEN
     then(assertionError).hasMessage(shouldHaveDateField(actual, "day of month", expectedDay).create());
   }

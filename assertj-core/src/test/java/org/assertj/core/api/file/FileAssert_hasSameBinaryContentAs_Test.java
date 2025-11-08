@@ -64,7 +64,7 @@ class FileAssert_hasSameBinaryContentAs_Test extends FileAssertBaseTest {
     File actual = createTempFileWithContent("assertJ");
     File expected = createTempFileWithContent("assertJ++");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasSameBinaryContentAs(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasSameBinaryContentAs(expected));
     // THEN
     then(assertionError).hasMessageContaining("does not have expected binary content at offset");
   }

@@ -30,7 +30,7 @@ class ClassAssert_isPrivate_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPrivate());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isPrivate());
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -40,7 +40,7 @@ class ClassAssert_isPrivate_Test {
     // GIVEN
     Class<?> actual = String.class;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isPrivate());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isPrivate());
     // THEN
     then(assertionError).hasMessage(shouldBePrivate(actual).create());
   }

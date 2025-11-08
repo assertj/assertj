@@ -36,7 +36,7 @@ class OptionalIntAssert_isEmpty_Test {
     // GIVEN
     OptionalInt nullActual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).isEmpty());
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -46,7 +46,7 @@ class OptionalIntAssert_isEmpty_Test {
     // GIVEN
     OptionalInt actual = OptionalInt.of(10);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEmpty());
+    var assertionError = expectAssertionError(() -> assertThat(actual).isEmpty());
     // THEN
     then(assertionError).hasMessage(shouldBeEmpty(actual).create());
   }

@@ -22,6 +22,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -35,6 +36,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -69,8 +71,8 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.annotation.CanIgnoreReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 
 @CheckReturnValue
 public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
@@ -870,6 +872,18 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
   }
 
   /**
+   * Creates a new instance of <code>{@link ThrowableAssert}</code> with a {@link SQLException}.
+   *
+   * @param <T>    the type of the actual SQLException.
+   * @param actual the actual value.
+   * @return the created assertion for SQLException.
+   */
+  @SuppressWarnings("unchecked")
+  default <T extends SQLException> ThrowableAssert<T> assertThat(T actual) {
+    return proxy(ThrowableAssert.class, SQLException.class, actual);
+  }
+
+  /**
    * Allows to capture and then assert on a {@link Throwable} more easily when used with Java 8 lambdas.
    * <p>
    * Java 8 example :
@@ -1408,7 +1422,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link Stream}.
+   * interacts with the {@link List} built from the {@link Stream}. The stream is closed after the list is built.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual {@link Stream} value.
@@ -1427,7 +1441,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link Stream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link Stream}.
+   * interacts with the {@link List} built from the {@link Stream}. The stream is closed after the list is built.
    *
    * @param <ELEMENT> the type of elements.
    * @param actual the actual value.
@@ -1443,7 +1457,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link DoubleStream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link DoubleStream}.
+   * interacts with the {@link List} built from the {@link DoubleStream}. The stream is closed after the list is built.
    *
    * @param actual the actual {@link DoubleStream} value.
    * @return the created assertion object.
@@ -1458,7 +1472,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link LongStream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link LongStream}.
+   * interacts with the {@link List} built from the {@link LongStream}. The stream is closed after the list is built.
    *
    * @param actual the actual {@link LongStream} value.
    * @return the created assertion object.
@@ -1473,7 +1487,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * <p>
    * <b>Be aware that to create the returned {@link ListAssert} the given the {@link IntStream} is consumed so it won't be
    * possible to use it again.</b> Calling multiple methods on the returned {@link ListAssert} is safe as it only
-   * interacts with the {@link List} built from the {@link IntStream}.
+   * interacts with the {@link List} built from the {@link IntStream}. The stream is closed after the list is built.
    *
    * @param actual the actual {@link IntStream} value.
    * @return the created assertion object.
@@ -1516,6 +1530,18 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   default TemporalAssert assertThatTemporal(Temporal actual) {
     return proxy(TemporalAssert.class, Temporal.class, actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link HashSetAssert}</code>.
+   *
+   * @param <ELEMENT> the type of elements.
+   * @param actual the actual value.
+   * @return the created assertion object.
+   * @since 4.0.0
+   */
+  default <ELEMENT> HashSetAssert<ELEMENT> assertThat(HashSet<? extends ELEMENT> actual) {
+    return proxy(HashSetAssert.class, HashSet.class, actual);
   }
 
 }

@@ -37,7 +37,7 @@ class Shorts_assertIsNegative_Test extends ShortsBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> shorts.assertIsNegative(someInfo(), (short) 6));
+    var assertionError = expectAssertionError(() -> shorts.assertIsNegative(someInfo(), (short) 6));
     // THEN
     then(assertionError).hasMessage(shouldBeLess(6, 0).create());
   }
@@ -45,7 +45,7 @@ class Shorts_assertIsNegative_Test extends ShortsBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> shorts.assertIsNegative(someInfo(), (short) 0));
+    var assertionError = expectAssertionError(() -> shorts.assertIsNegative(someInfo(), (short) 0));
     // THEN
     then(assertionError).hasMessage(shouldBeLess((short) 0, (short) 0).create());
   }
