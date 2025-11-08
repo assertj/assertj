@@ -78,7 +78,7 @@ jobs:
       fail-fast: false
       matrix:
         # https://kotlinlang.org/docs/releases.html#release-details
-        kotlin: [1.9.25, 2.0.21, 2.1.21]
+        kotlin: [2.1.21]
     runs-on: ubuntu-latest
 
     steps:

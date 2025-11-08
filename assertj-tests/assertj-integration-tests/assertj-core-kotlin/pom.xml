@@ -54,6 +54,7 @@
       </plugin>
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
+        <!--suppress KotlinMavenPluginPhase -->
         <artifactId>kotlin-maven-plugin</artifactId>
         <version>${kotlin.version}</version>
         <executions>
