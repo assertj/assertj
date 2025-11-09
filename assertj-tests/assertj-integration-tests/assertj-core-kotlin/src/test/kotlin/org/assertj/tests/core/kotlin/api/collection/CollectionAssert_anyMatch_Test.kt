@@ -10,24 +10,22 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.tests.core.kotlin.api
+package org.assertj.tests.core.kotlin.api.collection
 
-import org.assertj.core.api.Assertions.catchThrowableOfType
-import org.assertj.core.api.BDDAssertions.then
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class Assertions_catchThrowableOfType_Test {
+class CollectionAssert_anyMatch_Test {
 
+  // https://youtrack.jetbrains.com/issue/KT-53113
   @Test
-  fun `should compile with lambda expressions`() {
+  fun `should compile with Collection`() {
     // GIVEN
-    val exception = Exception("boom!!")
-    // WHEN
-    val thrown = catchThrowableOfType(Exception::class.java) {
-      throw exception
-    }
-    // THEN
-    then(thrown).isSameAs(exception)
+    data class Person(val name: String, val age: Int)
+    val actual: Collection<Person> = listOf(Person("Donald", 33), Person("Daisy", 30))
+    // WHEN/THEN
+    assertThat(actual).anyMatch { it.age > 30 }
+    assertThat(actual).describedAs("Older than 30").anyMatch { it.age > 30 }
   }
 
 }

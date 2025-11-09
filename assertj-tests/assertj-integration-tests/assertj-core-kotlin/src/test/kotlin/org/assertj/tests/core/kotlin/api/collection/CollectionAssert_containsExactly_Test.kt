@@ -10,24 +10,21 @@
  *
  * Copyright 2012-2025 the original author or authors.
  */
-package org.assertj.tests.core.kotlin.api
+package org.assertj.tests.core.kotlin.api.collection
 
-import org.assertj.core.api.Assertions.catchThrowableOfType
-import org.assertj.core.api.BDDAssertions.then
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
-class Assertions_catchThrowableOfType_Test {
+class CollectionAssert_containsExactly_Test {
 
+  // https://github.com/assertj/assertj/issues/2439
   @Test
-  fun `should compile with lambda expressions`() {
+  fun `should compile with Set`() {
     // GIVEN
-    val exception = Exception("boom!!")
-    // WHEN
-    val thrown = catchThrowableOfType(Exception::class.java) {
-      throw exception
-    }
-    // THEN
-    then(thrown).isSameAs(exception)
+    val actual: Set<String> = setOf("value")
+    // WHEN/THEN
+    assertThat(actual).containsExactly("value")
+    assertThat(actual).describedAs("A description").containsExactly("value")
   }
 
 }
