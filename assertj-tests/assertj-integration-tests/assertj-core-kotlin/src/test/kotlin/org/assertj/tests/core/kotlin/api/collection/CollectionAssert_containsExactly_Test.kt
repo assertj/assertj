@@ -19,12 +19,12 @@ class CollectionAssert_containsExactly_Test {
 
   // https://github.com/assertj/assertj/issues/2439
   @Test
-  fun should_work_with_kotlin_set() {
+  fun `should compile with Set`() {
     // GIVEN
-    val set = setOf("value")
+    val actual: Set<String> = setOf("value")
     // WHEN/THEN
-    assertThat(set).containsExactly("value")
-    assertThat(set).describedAs("A description").containsExactly("value")
+    assertThat(actual).containsExactly("value")
+    assertThat(actual).describedAs("A description").containsExactly("value")
   }
 
 }

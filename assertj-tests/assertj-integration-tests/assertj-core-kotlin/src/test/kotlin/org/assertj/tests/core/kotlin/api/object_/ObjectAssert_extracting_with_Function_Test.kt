@@ -13,53 +13,46 @@
 package org.assertj.tests.core.kotlin.api.object_
 
 import org.assertj.core.api.Assertions.assertThatObject
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 class ObjectAssert_extracting_with_Function_Test {
 
   @Test
-  fun `should support lambda with implicit parameter`() {
+  fun `should compile with lambda with implicit parameter`() {
     // WHEN/THEN
     assertThatObject(" ").extracting { it.trim() }.isEqualTo("")
   }
 
   @Test
-  fun `should support lambda with explicit parameter`() {
+  fun `should compile with lambda with explicit parameter`() {
     // WHEN/THEN
     assertThatObject(" ").extracting { it -> it.trim() }.isEqualTo("")
   }
 
-  @Disabled("Does not compile with Kotlin < 2.x")
   @Test
-  fun `should support lambda with implicit parameter on two chained calls`() {
-/*
+  fun `should compile with lambda with implicit parameter on two chained calls`() {
     // WHEN/THEN
     assertThatObject(" ")
       .extracting { it.trim() }
       .isEqualTo("")
       .extracting { it.isEmpty() }
       .isEqualTo(true)
-*/
   }
 
   @Test
-  fun `should support method reference`() {
+  fun `should compile with method reference`() {
     // WHEN/THEN
     assertThatObject(" ").extracting(String::trim).isEqualTo("")
   }
 
-  @Disabled("Does not compile with Kotlin < 2.x")
   @Test
-  fun `should support method reference on two chained calls`() {
-/*
+  fun `should compile with method reference on two chained calls`() {
     // WHEN/THEN
     assertThatObject(" ")
       .extracting(String::trim)
       .isEqualTo("")
       .extracting(String::isEmpty)
       .isEqualTo(true)
-*/
   }
 
 }

@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test
 class Assertions_catchThrowableOfType_Test {
 
   @Test
-  fun `should work with lambda expressions`() {
+  fun `should compile with lambda expressions`() {
     // GIVEN
     val exception = Exception("boom!!")
     // WHEN

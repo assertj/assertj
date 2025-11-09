@@ -19,13 +19,13 @@ class CollectionAssert_anyMatch_Test {
 
   // https://youtrack.jetbrains.com/issue/KT-53113
   @Test
-  fun should_work_with_kotlin_collection() {
+  fun `should compile with Collection`() {
     // GIVEN
     data class Person(val name: String, val age: Int)
-    val collection: Collection<Person> = listOf(Person("Donald", 33), Person("Daisy", 30))
+    val actual: Collection<Person> = listOf(Person("Donald", 33), Person("Daisy", 30))
     // WHEN/THEN
-    assertThat(collection).anyMatch { it.age > 30 }
-    assertThat(collection).describedAs("Older than 30").anyMatch { it.age > 30 }
+    assertThat(actual).anyMatch { it.age > 30 }
+    assertThat(actual).describedAs("Older than 30").anyMatch { it.age > 30 }
   }
 
 }

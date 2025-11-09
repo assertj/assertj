@@ -18,25 +18,25 @@ import org.junit.jupiter.api.Test
 class Assertions_assertThat_Test {
 
   @Test
-  fun intarray() {
-    val x: IntArray = intArrayOf(1, 2, 3)
-    assertThat(x).contains(1, 2, 3)
+  fun `should compile with IntArray`() {
+    val actual: IntArray = intArrayOf(1, 2, 3)
+    assertThat(actual).contains(1, 2, 3)
   }
 
   @Test
-  fun `immutable list`() {
-    val list = listOf("Viserys", "Rhaenyra", "Daemon")
-    assertThat(list).contains("Viserys", "Rhaenyra", "Daemon")
-    assertThat(list).hasSize(3).anySatisfy {
+  fun `should compile with List`() {
+    val actual: List<String> = listOf("Viserys", "Rhaenyra", "Daemon")
+    assertThat(actual).contains("Viserys", "Rhaenyra", "Daemon")
+    assertThat(actual).hasSize(3).anySatisfy {
       assertThat(it).isNotEqualTo("Corlys")
       assertThat(it).hasSize(6)
     }
   }
 
   @Test
-  fun `mutable list`() {
-    val list = mutableListOf("Viserys", "Rhaenyra", "Daemon")
-    assertThat(list).contains("Viserys", "Rhaenyra", "Daemon")
+  fun `should compile with MutableList`() {
+    val actual: MutableList<String> = mutableListOf("Viserys", "Rhaenyra", "Daemon")
+    assertThat(actual).contains("Viserys", "Rhaenyra", "Daemon")
   }
 
 }
