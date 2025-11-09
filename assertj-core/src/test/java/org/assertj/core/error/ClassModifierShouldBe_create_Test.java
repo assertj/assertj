@@ -66,16 +66,17 @@ class ClassModifierShouldBe_create_Test {
   @Test
   void should_create_error_message_for_shouldBePrivate() {
     // GIVEN
-    Class<?> packagePrivateClass = PackagePrivateClass.class;
+    Class<?> packagePrivateClass = Object.class;
     // WHEN
     String error = shouldBePrivate(packagePrivateClass).create(new TestDescription("TEST"));
     // THEN
     then(error).isEqualTo(format("[TEST] %n" +
                                  "Expecting actual:%n" +
-                                 "  org.assertj.core.error.ClassModifierShouldBe_create_Test.PackagePrivateClass%n" +
-                                 "to be a \"private\" class but was \"package-private\"."));
+                                 "  java.lang.Object%n" +
+                                 "to be a \"private\" class but was \"public\"."));
   }
 
+  @SuppressWarnings("InnerClassMayBeStatic")
   class PackagePrivateClass {
   }
 
