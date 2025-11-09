@@ -114,7 +114,7 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
   }
 
   private static String modifiers(Class<?> actual) {
-    int modifiers = actual.getModifiers();
+    int modifiers = getModifiers(actual);
     boolean isPackagePrivate = !isPublic(modifiers) && !isProtected(modifiers) && !isPrivate(modifiers);
     String modifiersDescription = Modifier.toString(modifiers);
     StringJoiner sj = new StringJoiner(" ");
@@ -127,6 +127,21 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
     }
 
     return sj.toString();
+  }
+
+  /**
+   * Retrieve the class modifiers, filtering out the {@link Modifier#SYNCHRONIZED SYNCHRONIZED},
+   * {@link Modifier#STRICT STRICT}, and {@link Modifier#VOLATILE VOLATILE} bits as
+   * Valhalla's {@link Modifier#toString(int)}} mis-interprets them.
+   *
+   * @param clazz the input class
+   * @return the class modifiers, with {@code SYNCHRONIZED}, {@code STRICT}, and {@code VOLATILE} filtered out
+   *
+   * @see <a href="https://bugs.openjdk.org/browse/JDK-8370935">JDK-8370935</a>
+   * @see <a href="https://github.com/openjdk/valhalla/blob/296fe862f73ad92093d62372141dc848a3e42d72/src/java.base/share/classes/java/lang/Class.java#L326-L328">Class.java#L326-L328</a>
+   */
+  private static int getModifiers(Class<?> clazz) {
+    return clazz.getModifiers() & ~(Modifier.SYNCHRONIZED | Modifier.STRICT | Modifier.VOLATILE);
   }
 
 }
