@@ -34,7 +34,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.Transactional;
 
-@DisplayName("https://github.com/assertj/assertj/issues/3533")
+// https://github.com/assertj/assertj/issues/3533
+@DisplayName("gh-3533")
 @DataJpaTest
 @Transactional(propagation = NOT_SUPPORTED)
 class Issue_3533_Test {

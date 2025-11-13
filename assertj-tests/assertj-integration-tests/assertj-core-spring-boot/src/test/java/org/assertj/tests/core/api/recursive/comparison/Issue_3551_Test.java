@@ -29,7 +29,8 @@ import org.springframework.stereotype.Repository;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
-@DisplayName("https://github.com/assertj/assertj/issues/3551")
+// https://github.com/assertj/assertj/issues/3551
+@DisplayName("gh-3551")
 @DataJpaTest
 class Issue_3551_Test {
 
