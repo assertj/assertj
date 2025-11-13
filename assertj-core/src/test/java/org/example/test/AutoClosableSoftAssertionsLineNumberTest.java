@@ -43,12 +43,12 @@ class AutoClosableSoftAssertionsLineNumberTest {
                                                   + "  1%n"
                                                   + "to be less than:%n"
                                                   + "  0 %n"
-                                                  + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:33)%n"))
+                                                  + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:36)%n"))
                      .hasMessageContaining(format("%n"
                                                   + "Expecting actual:%n"
                                                   + "  1%n"
                                                   + "to be less than:%n"
                                                   + "  1 %n"
-                                                  + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:34)"));
+                                                  + "at AutoClosableSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:37)"));
   }
 }

@@ -33,8 +33,8 @@ class Throwables_addLineNumberToErrorMessages_Test {
     // WHEN
     List<Throwable> errorsWithLineNumber = addLineNumberToErrorMessages(errors);
     // THEN
-    then(errorsWithLineNumber.get(0)).hasMessage("boom 1%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:27)".formatted());
-    then(errorsWithLineNumber.get(1)).hasMessage("boom 2%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:28)".formatted());
+    then(errorsWithLineNumber.get(0)).hasMessage("boom 1%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:30)".formatted());
+    then(errorsWithLineNumber.get(1)).hasMessage("boom 2%nat Throwables_addLineNumberToErrorMessages_Test.should_add_the_line_where_the_error_was_thrown(Throwables_addLineNumberToErrorMessages_Test.java:31)".formatted());
   }
 
 }

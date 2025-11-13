@@ -43,12 +43,12 @@ class BDDSoftAssertionsLineNumberTest {
                                                   + "  1%n"
                                                   + "to be less than:%n"
                                                   + "  0 %n"
-                                                  + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:33)%n"))
+                                                  + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:36)%n"))
                      .hasMessageContaining(format("%n"
                                                   + "Expecting actual:%n"
                                                   + "  1%n"
                                                   + "to be less than:%n"
                                                   + "  1 %n"
-                                                  + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:34)"));
+                                                  + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:37)"));
   }
 }

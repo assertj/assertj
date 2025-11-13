@@ -36,7 +36,7 @@ class Throwables_getFirstStackTraceElementFromTest_Test {
     // WHEN
     StackTraceElement firstStackTraceElementFromTest = getFirstStackTraceElementFromTest(stackTraceElements);
     // THEN
-    then(firstStackTraceElementFromTest).hasToString("org.assertj.tests.core/org.example.test.Throwables_getFirstStackTraceElementFromTest_Test.should_return_first_stack_trace_element_from_test(Throwables_getFirstStackTraceElementFromTest_Test.java:32)");
+    then(firstStackTraceElementFromTest).hasToString("org.assertj.tests.core/org.example.test.Throwables_getFirstStackTraceElementFromTest_Test.should_return_first_stack_trace_element_from_test(Throwables_getFirstStackTraceElementFromTest_Test.java:35)");
   }
 
   @ParameterizedTest

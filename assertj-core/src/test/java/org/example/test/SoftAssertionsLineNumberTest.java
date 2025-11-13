@@ -47,13 +47,13 @@ class SoftAssertionsLineNumberTest {
                                                   + "  1%n"
                                                   + "to be less than:%n"
                                                   + "  0 %n"
-                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:37)%n"))
+                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:40)%n"))
                      .hasMessageContaining(format("%n"
                                                   + "Expecting actual:%n"
                                                   + "  1%n"
                                                   + "to be less than:%n"
                                                   + "  1 %n"
-                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:38)"));
+                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:41)"));
   }
 
   @Test
@@ -72,16 +72,16 @@ class SoftAssertionsLineNumberTest {
                                                   + "Expecting Optional to contain:%n"
                                                   + "  \"Foo\"%n"
                                                   + "but was empty.%n"
-                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:60)%n"))
+                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:63)%n"))
                      .hasMessageContaining(format("%n"
                                                   + "Expecting actual not to be null%n"
-                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:62)%n"))
+                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:65)%n"))
                      .hasMessageContaining(format("%n"
                                                   + "Expecting all elements of:%n"
                                                   + "  [\"a\", \"b\", \"C\"]%n"
                                                   + "to match given predicate but this element did not:%n"
                                                   + "  \"C\"%n"
-                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:64)"));
+                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:67)"));
   }
 
 }

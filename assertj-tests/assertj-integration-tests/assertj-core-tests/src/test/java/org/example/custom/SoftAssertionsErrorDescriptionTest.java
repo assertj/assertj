@@ -35,7 +35,7 @@ public class SoftAssertionsErrorDescriptionTest {
     then(error).hasMessageStartingWith(format("%nMultiple Failures (1 failure)%n"
                                               + "-- failure 1 --"
                                               + "failure%n"
-                                              + "at SoftAssertionsErrorDescriptionTest.should_display_the_error_cause_and_the_cause_first_stack_trace_elements(SoftAssertionsErrorDescriptionTest.java:28)"));
+                                              + "at SoftAssertionsErrorDescriptionTest.should_display_the_error_cause_and_the_cause_first_stack_trace_elements(SoftAssertionsErrorDescriptionTest.java:31)"));
   }
 
   protected static RuntimeException throwRuntimeException() {
