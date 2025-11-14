@@ -49,7 +49,7 @@ class IterableAssert_flatExtracting_Test {
   private CartoonCharacter pebbles;
   private CartoonCharacter fred;
 
-  private static final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception> childrenThrowingExtractor = CartoonCharacter::getChildren;
+  private static final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>> childrenThrowingExtractor = CartoonCharacter::getChildren;
 
   private static final Function<CartoonCharacter, List<CartoonCharacter>> children = CartoonCharacter::getChildren;
 
@@ -61,7 +61,7 @@ class IterableAssert_flatExtracting_Test {
     }
   };
 
-  private final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception> throwingExtractor = new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+  private final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>> throwingExtractor = new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>>() {
     @Override
     public List<CartoonCharacter> extractThrows(CartoonCharacter cartoonCharacter) throws Exception {
       if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
@@ -178,7 +178,7 @@ class IterableAssert_flatExtracting_Test {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer, fred);
     // WHEN/THEN
-    assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+    assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>>() {
       @Override
       public List<CartoonCharacter> extractThrows(CartoonCharacter cartoonCharacter) throws Exception {
         if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");
