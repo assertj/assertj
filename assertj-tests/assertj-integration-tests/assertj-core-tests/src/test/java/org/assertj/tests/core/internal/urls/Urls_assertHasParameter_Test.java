@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.internal.urls;
 
@@ -31,7 +34,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     URL url = new URL("http://assertj.org/news");
     String name = "article";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name).create());
   }
@@ -61,7 +64,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String name = "article";
     String expectedValue = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue).create());
   }
@@ -84,7 +87,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = null;
     List<String> actualValues = newArrayList("11");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
@@ -97,7 +100,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = null;
     List<String> actualValues = newArrayList("11", "12");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
@@ -109,7 +112,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String name = "article";
     String expectedValue = "10";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue).create());
   }
@@ -122,7 +125,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = "10";
     List<String> actualValues = newArrayList((String) null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
@@ -135,7 +138,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = "10";
     List<String> actualValues = newArrayList(null, null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }
@@ -148,7 +151,7 @@ class Urls_assertHasParameter_Test extends UrlsBaseTest {
     String expectedValue = "10";
     List<String> actualValues = newArrayList("11");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
+    var assertionError = expectAssertionError(() -> urls.assertHasParameter(info, url, name, expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldHaveParameter(url, name, expectedValue, actualValues).create());
   }

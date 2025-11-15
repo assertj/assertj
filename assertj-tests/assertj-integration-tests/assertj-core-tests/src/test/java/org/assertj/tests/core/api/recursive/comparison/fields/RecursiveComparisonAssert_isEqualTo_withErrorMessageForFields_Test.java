@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.recursive.comparison.fields;
 
@@ -43,9 +46,9 @@ class RecursiveComparisonAssert_isEqualTo_withErrorMessageForFields_Test
     String message = "Name must be the same";
     String field = "name";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withErrorMessageForFields(message, field)
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withErrorMessageForFields(message, field)
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll(message, ERROR_MESSAGE_DESCRIPTION_FOR_FIELDS, "- " + field);
   }
@@ -61,12 +64,12 @@ class RecursiveComparisonAssert_isEqualTo_withErrorMessageForFields_Test
     String fieldLocation = "name";
     String typeMessage = "Type message has to be ignored";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withErrorMessageForFields(fieldMessage,
-                                                                                                            fieldLocation)
-                                                                                 .withErrorMessageForType(typeMessage,
-                                                                                                          String.class)
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withErrorMessageForFields(fieldMessage,
+                                                                                                 fieldLocation)
+                                                                      .withErrorMessageForType(typeMessage,
+                                                                                               String.class)
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll(fieldMessage,
                                                  ERROR_MESSAGE_DESCRIPTION_FOR_FIELDS,
@@ -81,10 +84,10 @@ class RecursiveComparisonAssert_isEqualTo_withErrorMessageForFields_Test
     // GIVEN
     String customMessage = "custom message 1234";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withErrorMessageForType(customMessage,
-                                                                                                          String.class)
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withErrorMessageForType(customMessage,
+                                                                                               String.class)
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll(customMessage, "name");
   }
@@ -103,12 +106,12 @@ class RecursiveComparisonAssert_isEqualTo_withErrorMessageForFields_Test
     Person expected = new Person(null);
     BiPredicate<String, String> alwaysFalse = (n1, n2) -> false;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .withErrorMessageForType("custom message not used",
-                                                                                                          String.class)
-                                                                                 .withEqualsForFieldsMatchingRegexes(alwaysFalse,
-                                                                                                                     "name")
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .withErrorMessageForType("custom message not used",
+                                                                                               String.class)
+                                                                      .withEqualsForFieldsMatchingRegexes(alwaysFalse,
+                                                                                                          "name")
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContainingAll("field/property 'name' differ");
   }

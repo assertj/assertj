@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.error;
 
@@ -116,7 +119,7 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
   private static String modifiers(Class<?> actual) {
     int modifiers = actual.getModifiers();
     boolean isPackagePrivate = !isPublic(modifiers) && !isProtected(modifiers) && !isPrivate(modifiers);
-    String modifiersDescription = Modifier.toString(modifiers);
+    String modifiersDescription = toString(modifiers);
     StringJoiner sj = new StringJoiner(" ");
 
     if (isPackagePrivate) {
@@ -127,6 +130,24 @@ public class ClassModifierShouldBe extends BasicErrorMessageFactory {
     }
 
     return sj.toString();
+  }
+
+  /**
+   * Return a string describing the access modifier flags in the specified modifiers,
+   * filtering out the {@link Modifier#SYNCHRONIZED SYNCHRONIZED},
+   * {@link Modifier#STRICT STRICT}, and {@link Modifier#VOLATILE VOLATILE} bits as
+   * Valhalla's {@link Modifier#toString(int)}} mis-interprets them.
+   *
+   * @param modifiers a set of modifiers
+   * @return a string representation of the set of modifiers, with {@code SYNCHRONIZED},
+   * {@code STRICT}, and {@code VOLATILE} filtered out
+   *
+   * @see Modifier#toString(int)
+   * @see <a href="https://bugs.openjdk.org/browse/JDK-8370935">JDK-8370935</a>
+   * @see <a href="https://github.com/openjdk/valhalla/blob/296fe862f73ad92093d62372141dc848a3e42d72/src/java.base/share/classes/java/lang/Class.java#L326-L328">Class.java#L326-L328</a>
+   */
+  private static String toString(int modifiers) {
+    return Modifier.toString(modifiers & ~(Modifier.SYNCHRONIZED | Modifier.STRICT | Modifier.VOLATILE));
   }
 
 }

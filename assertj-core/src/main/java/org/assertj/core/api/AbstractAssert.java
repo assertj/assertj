@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -28,7 +31,6 @@ import static org.assertj.core.util.Strings.formatIfArgs;
 import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -43,7 +45,6 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.description.Description;
 import org.assertj.core.error.AssertionErrorCreator;
-import org.assertj.core.error.BasicErrorMessageFactory;
 import org.assertj.core.error.ErrorMessageFactory;
 import org.assertj.core.error.MessageFormatter;
 import org.assertj.core.internal.Conditions;
@@ -99,6 +100,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
+  @SuppressWarnings("unchecked")
   protected AbstractAssert(ACTUAL actual, Class<?> selfType) {
     myself = (SELF) selfType.cast(this);
     this.actual = actual;
@@ -252,7 +254,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Utility method to throw an {@link AssertionError} given a {@link BasicErrorMessageFactory}.
+   * Utility method to throw an {@link AssertionError} given a {@link org.assertj.core.error.BasicErrorMessageFactory}.
    * <p>
    * Instead of writing ...
    *
@@ -262,7 +264,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * <pre><code class='java'> throwAssertionError(info, ShouldBePresent.shouldBePresent());</code></pre>
    *
    * @param errorMessageFactory used to define the error message.
-   * @throws AssertionError with a message corresponding to the given {@link BasicErrorMessageFactory}.
+   * @throws AssertionError with a message corresponding to the given {@code BasicErrorMessageFactory}.
    */
   protected void throwAssertionError(ErrorMessageFactory errorMessageFactory) {
     throw assertionError(errorMessageFactory);
@@ -540,6 +542,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * {@inheritDoc}
    */
+  @SuppressWarnings("unchecked")
   @Override
   public <T> SELF isInstanceOfSatisfying(Class<T> type, Consumer<T> requirements) {
     objects.assertIsInstanceOf(info, actual, type);
@@ -1182,7 +1185,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * Extracts the value of given field/property from the object under test and creates a new assertion object using the
    * given assert factory.
    * <p>
-   * If the object under test is a {@link Map}, the {@code propertyOrField} parameter is used as a key to the map.
+   * If the object under test is a {@link java.util.Map}, the {@code propertyOrField} parameter is used as a key to the map.
    * <p>
    * Nested field/property is supported, specifying "address.street.number" is equivalent to get the value
    * corresponding to actual.getAddress().getStreet().getNumber()
@@ -1207,7 +1210,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     Object value = byName(propertyOrField).apply(actual);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-    return (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
+    @SuppressWarnings("unchecked")
+    ASSERT result = (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
+    return result;
   }
 
   /**
@@ -1231,7 +1236,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
     isNotNull();
     T extractedValue = extractor.apply(actual);
-    return (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
+    @SuppressWarnings("unchecked")
+    ASSERT result = (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
+    return result;
   }
 
   /**

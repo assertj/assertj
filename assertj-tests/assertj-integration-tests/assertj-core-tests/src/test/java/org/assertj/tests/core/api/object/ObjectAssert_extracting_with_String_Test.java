@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.object;
 
@@ -69,7 +72,7 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
   @Test
   void should_use_property_field_name_as_description_when_extracting_single_property() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(luke).extracting("name.first").isNull());
+    var assertionError = expectAssertionError(() -> assertThat(luke).extracting("name.first").isNull());
     // THEN
     then(assertionError).hasMessageContaining("[Extracted: name.first]");
   }
@@ -77,9 +80,9 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
   @Test
   void should_keep_existing_description_if_set_when_extracting_single_property() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(luke).as("check luke first name")
-                                                                               .extracting("name.first")
-                                                                               .isNull());
+    var assertionError = expectAssertionError(() -> assertThat(luke).as("check luke first name")
+                                                                    .extracting("name.first")
+                                                                    .isNull());
     // THEN
     then(assertionError).hasMessageContaining("[check luke first name]");
   }

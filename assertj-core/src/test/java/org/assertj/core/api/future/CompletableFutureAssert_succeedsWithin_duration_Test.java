@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.future;
 
@@ -24,6 +27,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -68,11 +72,11 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     int sleepDuration = 100000;
     CompletableFuture<String> future = completedFutureAfter("ook!", sleepDuration, executorService);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(10)));
+    var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(10)));
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
                                                        "  <CompletableFuture[Incomplete]>%n" +
-                                                       "to be completed within 0.01S.%n"));
+                                                       "to be completed within 0.01s.%n"));
   }
 
   @Test
@@ -81,11 +85,11 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(1)));
+    var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.ofMillis(1)));
     // THEN
     then(assertionError).hasMessageStartingWith(format("%nExpecting%n" +
                                                        "  <CompletableFuture[Cancelled]>%n" +
-                                                       "to be completed within 0.001S.%n" +
+                                                       "to be completed within 0.001s.%n" +
                                                        "%n" +
                                                        "exception caught while trying to get the future result: java.util.concurrent.CancellationException"));
   }
@@ -95,7 +99,7 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.of(1L, MILLIS)));
+    var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.of(1L, MILLIS)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -106,10 +110,10 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     CompletableFuture<String> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException("boom%s%n"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.of(1L, MILLIS)));
+    var assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(Duration.of(1L, MILLIS)));
     // THEN
     then(assertionError).hasMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n".formatted())
-                        .hasMessageContaining("to be completed within 0.001S.");
+                        .hasMessageContaining("to be completed within 0.001s.");
   }
 
 }

@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api;
 
@@ -48,8 +51,8 @@ class Assertions_assertThatThrownBy_Test {
     // GIVEN
     Throwable throwable = new Exception("boom");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(codeThrowing(throwable), "Test %s",
-                                                                                  "code").hasMessage("bam"));
+    var assertionError = expectAssertionError(() -> assertThatThrownBy(codeThrowing(throwable), "Test %s",
+                                                                       "code").hasMessage("bam"));
     // THEN
     then(assertionError).hasMessageContaining("[Test code]");
   }
@@ -57,7 +60,7 @@ class Assertions_assertThatThrownBy_Test {
   @Test
   void should_fail_if_no_throwable_was_thrown() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(() -> {}).hasMessage("boom ?"));
+    var assertionError = expectAssertionError(() -> assertThatThrownBy(() -> {}).hasMessage("boom ?"));
     // THEN
     then(assertionError).hasMessage("Expecting code to raise a Throwable");
   }
@@ -67,7 +70,7 @@ class Assertions_assertThatThrownBy_Test {
     // GIVEN
     Throwable throwable = new Exception("boom");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(codeThrowing(throwable)).hasMessage("bam"));
+    var assertionError = expectAssertionError(() -> assertThatThrownBy(codeThrowing(throwable)).hasMessage("bam"));
     // THEN
     then(assertionError).hasMessage(shouldHaveMessage(throwable, "bam").create());
   }

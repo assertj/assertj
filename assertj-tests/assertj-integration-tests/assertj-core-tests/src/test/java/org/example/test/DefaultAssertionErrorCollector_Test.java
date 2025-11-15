@@ -1,21 +1,24 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.example.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.extractor.Extractors.byName;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.List;
 
@@ -28,31 +31,31 @@ import org.opentest4j.AssertionFailedError;
 @DisplayName("DefaultAssertionErrorCollector assertionErrorsCollected")
 class DefaultAssertionErrorCollector_Test {
 
-  private DefaultAssertionErrorCollector defaultAssertionErrorCollector = new DefaultAssertionErrorCollector();
+  private final DefaultAssertionErrorCollector underTest = new DefaultAssertionErrorCollector();
 
   @Test
   void collected_errors_should_be_decorate_with_line_numbers() {
     // GIVEN
     AssertionError error1 = expectAssertionError(() -> assertThat("foo").isEqualTo("bar"));
     AssertionError error2 = expectAssertionError(() -> assertThat(1).isNegative());
-    defaultAssertionErrorCollector.collectAssertionError(error1);
-    defaultAssertionErrorCollector.collectAssertionError(error2);
+    underTest.collectAssertionError(error1);
+    underTest.collectAssertionError(error2);
     // WHEN
-    List<AssertionError> decoratedErrors = defaultAssertionErrorCollector.assertionErrorsCollected();
+    List<AssertionError> decoratedErrors = underTest.assertionErrorsCollected();
     // THEN
     then(decoratedErrors.get(0)).hasMessageContainingAll("at DefaultAssertionErrorCollector_Test.lambda",
-                                                         "(DefaultAssertionErrorCollector_Test.java:36)");
+                                                         "(DefaultAssertionErrorCollector_Test.java:39)");
     then(decoratedErrors.get(1)).hasMessageContainingAll("at DefaultAssertionErrorCollector_Test.lambda",
-                                                         "(DefaultAssertionErrorCollector_Test.java:37)");
+                                                         "(DefaultAssertionErrorCollector_Test.java:40)");
   }
 
   @Test
   void decorated_AssertionFailedError_should_keep_actual_and_expected_values_when_populated() {
     // GIVEN
     AssertionError error = expectAssertionError(() -> assertThat("foo").isEqualTo("bar"));
-    defaultAssertionErrorCollector.collectAssertionError(error);
+    underTest.collectAssertionError(error);
     // WHEN
-    AssertionError decoratedError = defaultAssertionErrorCollector.assertionErrorsCollected().get(0);
+    AssertionError decoratedError = underTest.assertionErrorsCollected().get(0);
     // THEN
     then(decoratedError).isInstanceOf(AssertionFailedError.class);
     Object actualInOriginalError = byName("actual.value").apply(error);
@@ -67,13 +70,13 @@ class DefaultAssertionErrorCollector_Test {
   void decorated_AssertionFailedError_should_not_have_null_actual_and_expected_values_when_not_populated() {
     // GIVEN
     AssertionError error = new AssertionFailedError("boom");
-    defaultAssertionErrorCollector.collectAssertionError(error);
+    underTest.collectAssertionError(error);
     // WHEN
-    AssertionError decoratedError = defaultAssertionErrorCollector.assertionErrorsCollected().get(0);
+    AssertionError decoratedError = underTest.assertionErrorsCollected().get(0);
     // THEN
     then(decoratedError).isInstanceOf(AssertionFailedError.class)
                         .hasMessageContainingAll(error.getMessage(),
-                                                 "(DefaultAssertionErrorCollector_Test.java:69)");
+                                                 "(DefaultAssertionErrorCollector_Test.java:72)");
     AssertionFailedError decoratedAssertionFailedError = (AssertionFailedError) decoratedError;
     then(decoratedAssertionFailedError.isActualDefined()).isFalse();
     then(decoratedAssertionFailedError.isExpectedDefined()).isFalse();

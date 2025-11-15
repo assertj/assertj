@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.example.test;
 
@@ -33,7 +36,7 @@ class AssertJMultipleFailuresError_getMessage_Test {
     // WHEN
     var error = new AssertJMultipleFailuresError("", list(assertionError));
     // THEN
-    then(error).hasStackTraceContaining("AssertJMultipleFailuresError_getMessage_Test.java:32");
+    then(error).hasStackTraceContaining("AssertJMultipleFailuresError_getMessage_Test.java:35");
   }
 
   // also verifies that we don't add stack trace line numbers twice (in soft assertion
@@ -53,14 +56,14 @@ class AssertJMultipleFailuresError_getMessage_Test {
                .hasMessage(format("%nMultiple Failures (3 failures)%n" +
                                     "-- failure 1 --%n" +
                                     "Expecting empty but was: [\"\"]%n" +
-                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:45)%n" +
+                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:48)%n" +
                                     "-- failure 2 --%n" +
                                     "[isEmpty string] %n" +
                                     "Expecting empty but was: \"abc\"%n" +
-                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:46)%n" +
+                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:49)%n" +
                                     "-- failure 3 --"
                                     + shouldBeEqualMessage("\"abc\"", "\"bcd\"") + "%n" +
-                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:47)"));
+                                    "at AssertJMultipleFailuresError_getMessage_Test.should_include_stack_trace_allowing_to_navigate_to_the_failing_test_assertion_line_in_soft_assertions_context(AssertJMultipleFailuresError_getMessage_Test.java:50)"));
     // @format:on
   }
 
@@ -72,9 +75,9 @@ class AssertJMultipleFailuresError_getMessage_Test {
                                                                  value -> then(value).isEqualTo("bcd")));
     // THEN
     then(error).isInstanceOf(AssertJMultipleFailuresError.class)
-               .hasMessageContainingAll("AssertJMultipleFailuresError_getMessage_Test.java:70)",
-                                        "AssertJMultipleFailuresError_getMessage_Test.java:71)",
-                                        "AssertJMultipleFailuresError_getMessage_Test.java:72)");
+               .hasMessageContainingAll("AssertJMultipleFailuresError_getMessage_Test.java:73)",
+                                        "AssertJMultipleFailuresError_getMessage_Test.java:74)",
+                                        "AssertJMultipleFailuresError_getMessage_Test.java:75)");
   }
 
   @Test

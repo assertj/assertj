@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -62,7 +65,7 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(10, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(10, MILLISECONDS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("Cancelled");
@@ -74,8 +77,8 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(10, MILLISECONDS,
-                                                                                                  as(STRING)));
+    var assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(10, MILLISECONDS,
+                                                                                       as(STRING)));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("Cancelled");
@@ -87,7 +90,7 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(TEN_MILLIS));
+    var assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(TEN_MILLIS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("Cancelled");
@@ -99,8 +102,8 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(TEN_MILLIS,
-                                                                                                  as(STRING)));
+    var assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(TEN_MILLIS,
+                                                                                       as(STRING)));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("Cancelled");
@@ -112,7 +115,7 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     Future<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(10, HOURS));
+    var assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(10, HOURS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("Cancelled");
@@ -124,7 +127,7 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     Future<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(10, HOURS, as(STRING)));
+    var assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(10, HOURS, as(STRING)));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("Cancelled");
@@ -136,7 +139,7 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     Future<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(TEN_MILLIS));
+    var assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(TEN_MILLIS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("Cancelled");
@@ -148,7 +151,7 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     Future<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(TEN_MILLIS, as(STRING)));
+    var assertionError = expectAssertionError(() -> softly.then(future).succeedsWithin(TEN_MILLIS, as(STRING)));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("Cancelled");
@@ -159,7 +162,7 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     // GIVEN
     Future<String> future = completedFuture("done");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).failsWithin(10, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> softly.then(future).failsWithin(10, MILLISECONDS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("to have failed within 10L MILLISECONDS.");
@@ -170,10 +173,10 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     // GIVEN
     Future<String> future = completedFuture("done");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).failsWithin(TEN_MILLIS));
+    var assertionError = expectAssertionError(() -> softly.then(future).failsWithin(TEN_MILLIS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("to have failed within 0.01S.");
+    then(assertionError).hasMessageContaining("to have failed within 0.01s.");
   }
 
   @Test
@@ -181,7 +184,7 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     // GIVEN
     CompletableFuture<String> future = completedFuture("done");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).failsWithin(10, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> softly.then(future).failsWithin(10, MILLISECONDS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
     then(assertionError).hasMessageContaining("to have failed within 10L MILLISECONDS.");
@@ -192,10 +195,10 @@ class BDDSoftAssertions_future_Test extends BaseAssertionsTest {
     // GIVEN
     CompletableFuture<String> future = completedFuture("done");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> softly.then(future).failsWithin(TEN_MILLIS));
+    var assertionError = expectAssertionError(() -> softly.then(future).failsWithin(TEN_MILLIS));
     // THEN
     then(softly.errorsCollected()).isEmpty();
-    then(assertionError).hasMessageContaining("to have failed within 0.01S.");
+    then(assertionError).hasMessageContaining("to have failed within 0.01s.");
   }
 
   @Test

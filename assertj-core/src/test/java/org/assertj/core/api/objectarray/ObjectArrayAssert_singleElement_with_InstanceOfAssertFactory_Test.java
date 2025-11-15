@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.objectarray;
 
@@ -33,7 +36,7 @@ class ObjectArrayAssert_singleElement_with_InstanceOfAssertFactory_Test {
     // GIVEN
     String[] array = new String[0];
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(array).singleElement(STRING));
+    var assertionError = expectAssertionError(() -> assertThat(array).singleElement(STRING));
     // THEN
     then(assertionError).hasMessageContaining("Expected size: 1 but was: 0");
   }
@@ -58,7 +61,7 @@ class ObjectArrayAssert_singleElement_with_InstanceOfAssertFactory_Test {
   @Test
   void should_fail_if_first_element_is_not_an_instance_of_the_factory_type() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(babySimpsons).singleElement(INTEGER));
+    var assertionError = expectAssertionError(() -> assertThat(babySimpsons).singleElement(INTEGER));
     // THEN
     then(assertionError).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }
@@ -66,7 +69,7 @@ class ObjectArrayAssert_singleElement_with_InstanceOfAssertFactory_Test {
   @Test
   void should_fail_if_iterable_has_more_than_one_element() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(simpsons).singleElement(STRING));
+    var assertionError = expectAssertionError(() -> assertThat(simpsons).singleElement(STRING));
     // THEN
     then(assertionError).hasMessageContaining("Expected size: 1 but was: 5");
   }

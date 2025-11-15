@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.presentation;
 
@@ -182,8 +185,8 @@ public class StandardRepresentation implements Representation {
   /**
    * Registers new formatter for the given type. All instances of the given type will be formatted with the provided formatter.
    *
-   * @param <T> the type to register a formatter for
-   * @param type the class of the type to register a formatter for
+   * @param <T>       the type to register a formatter for
+   * @param type      the class of the type to register a formatter for
    * @param formatter the formatter
    */
   public static <T> void registerFormatterForType(Class<T> type, Function<T, String> formatter) {
@@ -221,7 +224,8 @@ public class StandardRepresentation implements Representation {
     if (object instanceof LongAdder adder) return toStringOf(adder);
     // if object was a subtype of any atomic type overriding toString, use it as it's more relevant than our generic
     // representation, if that's not the case (e.g., an AtomicReference subclass not overriding String) we use our representation.
-    if (isInstanceOfNotOverridingToString(object, AtomicReference.class)) return toStringOf((AtomicReference<?>) object);
+    if (isInstanceOfNotOverridingToString(object, AtomicReference.class))
+      return toStringOf((AtomicReference<?>) object);
     if (isInstanceOfNotOverridingToString(object, AtomicMarkableReference.class))
       return toStringOf((AtomicMarkableReference<?>) object);
     if (isInstanceOfNotOverridingToString(object, AtomicStampedReference.class))
@@ -251,7 +255,8 @@ public class StandardRepresentation implements Representation {
     // Only format Iterables that are not collections and have not overridden toString
     // ex: JsonNode is an Iterable that is best formatted with its own String
     // Path is another example, but we can deal with it specifically as it is part of the JDK.
-    if (object instanceof Iterable<?> iterable && !hasOverriddenToString(object.getClass())) return smartFormat(iterable);
+    if (object instanceof Iterable<?> iterable && !hasOverriddenToString(object.getClass()))
+      return smartFormat(iterable);
     if (object instanceof AtomicInteger atomicInteger) return toStringOf(atomicInteger);
     if (object instanceof AtomicBoolean atomicBoolean) return toStringOf(atomicBoolean);
     if (object instanceof AtomicLong atomicLong) return toStringOf(atomicLong);
@@ -303,8 +308,8 @@ public class StandardRepresentation implements Representation {
    * Returns the {@code String} representation of the given object with its type and hexadecimal identity hash code so that
    * it can be differentiated from other objects with the same {@link #toStringOf(Object)} representation.
    *
-   * @param obj                            the object to represent.
-   * @param withPackageName              if the object's representation includes the package or not
+   * @param obj             the object to represent.
+   * @param withPackageName if the object's representation includes the package or not
    * @return the unambiguous {@code toString} representation of the given object.
    */
   @Override
@@ -334,6 +339,7 @@ public class StandardRepresentation implements Representation {
 
   /**
    * Determine whether the given object's type has a representation that is not ambiguous.
+   *
    * @param obj the object to check
    * @return true if the given object's type has a representation that is not ambiguous, false otherwise.
    */
@@ -745,8 +751,12 @@ public class StandardRepresentation implements Representation {
                                                          formatLines(insertDelta.getRevised().getLines()));
   }
 
-  private String toStringOf(Duration duration) {
-    return duration.toString().substring(2);
+  protected String toStringOf(Duration duration) {
+    String durationString = duration.toString();
+    if (durationString.startsWith("PT")) {
+      durationString = durationString.substring(2);
+    }
+    return durationString.toLowerCase();
   }
 
   private String formatLines(List<?> lines) {

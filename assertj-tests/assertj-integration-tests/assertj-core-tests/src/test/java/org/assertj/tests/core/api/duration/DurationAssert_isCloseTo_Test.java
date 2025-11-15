@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.duration;
 
@@ -27,7 +30,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class DurationAssert_isCloseTo_Test {
 
-  @ParameterizedTest(name = "PT2M should close to {0} withMarginOf {1}")
+  @ParameterizedTest(name = "PT2M should be close to {0} withMarginOf {1}")
   @CsvSource({
       "PT1M, PT70S",
       "PT70S, PT1M",
@@ -62,7 +65,7 @@ class DurationAssert_isCloseTo_Test {
     // GIVEN
     Duration actual = Duration.ofMinutes(2);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isCloseTo(expected, allowedDifference));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isCloseTo(expected, allowedDifference));
     // THEN
     then(assertionError).hasMessage(shouldBeCloseTo(actual, expected, allowedDifference, difference).create());
   }
@@ -74,7 +77,7 @@ class DurationAssert_isCloseTo_Test {
     Duration expected = Duration.ofDays(4);
     Duration allowedDifference = Duration.ofDays(5);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isCloseTo(expected, allowedDifference));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isCloseTo(expected, allowedDifference));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

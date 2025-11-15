@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.bytearray;
 
@@ -48,7 +51,7 @@ class ByteArrayAssert_asHexString_Test {
     // GIVEN
     byte[] actual = new byte[] { -1, 0, 1 };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).asHexString().isEqualTo("010203"));
+    var assertionError = expectAssertionError(() -> assertThat(actual).asHexString().isEqualTo("010203"));
     // THEN
     assertThat(assertionError).hasMessage(shouldBeEqualMessage("\"FF0001\"", "\"010203\""))
                               .isExactlyInstanceOf(AssertionFailedError.class);
@@ -82,7 +85,7 @@ class ByteArrayAssert_asHexString_Test {
           .asHexString()
           .isEqualTo("010203")
           .isBlank();
-    AssertionError assertionError = expectAssertionError(softly::assertAll);
+    var assertionError = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(assertionError).hasMessageContainingAll("Multiple Failures (2 failures)",
                                                        "-- failure 1 --",

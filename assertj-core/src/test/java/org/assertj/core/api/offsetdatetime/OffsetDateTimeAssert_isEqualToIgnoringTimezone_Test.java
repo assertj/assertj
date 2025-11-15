@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.offsetdatetime;
 
@@ -44,7 +47,7 @@ class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test {
     // GIVEN
     OffsetDateTime offsetDateTime = OffsetDateTime.of(2000, 1, 5, 12, 1, 0, 0, UTC);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringTimezone(offsetDateTime));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringTimezone(offsetDateTime));
     // THEN
     then(assertionError).hasMessage(format("%nExpecting actual:%n" +
                                            "  2000-01-05T12:00+18:00 (java.time.OffsetDateTime)%n" +
@@ -58,7 +61,7 @@ class OffsetDateTimeAssert_isEqualToIgnoringTimezone_Test {
     // GIVEN
     OffsetDateTime actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringTimezone(OffsetDateTime.now()));
+    var assertionError = expectAssertionError(() -> assertThat(actual).isEqualToIgnoringTimezone(OffsetDateTime.now()));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

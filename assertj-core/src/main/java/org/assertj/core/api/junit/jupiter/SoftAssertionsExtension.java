@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.junit.jupiter;
 
@@ -234,7 +237,7 @@ public class SoftAssertionsExtension
   }
 
   @Override
-  public void beforeEach(ExtensionContext context) throws Exception {
+  public void beforeEach(ExtensionContext context) {
     AssertionErrorCollector collector = getAssertionErrorCollector(context);
 
     if (isPerClassConcurrent(context)) {
@@ -320,8 +323,8 @@ public class SoftAssertionsExtension
   }
 
   private static ThreadLocalErrorCollector getThreadLocalCollector(ExtensionContext context) {
-    return getStore(context).getOrComputeIfAbsent(ThreadLocalErrorCollector.class, unused -> new ThreadLocalErrorCollector(),
-                                                  ThreadLocalErrorCollector.class);
+    return getStore(context).computeIfAbsent(ThreadLocalErrorCollector.class, unused -> new ThreadLocalErrorCollector(),
+                                             ThreadLocalErrorCollector.class);
   }
 
   /**
@@ -343,13 +346,13 @@ public class SoftAssertionsExtension
    */
   @Beta
   public static AssertionErrorCollector getAssertionErrorCollector(ExtensionContext context) {
-    return getStore(context).getOrComputeIfAbsent(AssertionErrorCollector.class, unused -> new DefaultAssertionErrorCollector(),
-                                                  AssertionErrorCollector.class);
+    return getStore(context).computeIfAbsent(AssertionErrorCollector.class, unused -> new DefaultAssertionErrorCollector(),
+                                             AssertionErrorCollector.class);
   }
 
   @SuppressWarnings("unchecked")
   private static Collection<SoftAssertionsProvider> getSoftAssertionsProviders(ExtensionContext context) {
-    return getStore(context).getOrComputeIfAbsent(Collection.class, unused -> new ConcurrentLinkedQueue<>(), Collection.class);
+    return getStore(context).computeIfAbsent(Collection.class, unused -> new ConcurrentLinkedQueue<>(), Collection.class);
   }
 
   private static <T extends SoftAssertionsProvider> T instantiateProvider(ExtensionContext context, Class<T> providerType) {
@@ -405,9 +408,9 @@ public class SoftAssertionsExtension
   @Beta
   public static <T extends SoftAssertionsProvider> T getSoftAssertionsProvider(ExtensionContext context,
                                                                                Class<T> concreteSoftAssertionsProviderType) {
-    return getStore(context).getOrComputeIfAbsent(concreteSoftAssertionsProviderType,
-                                                  unused -> instantiateProvider(context, concreteSoftAssertionsProviderType),
-                                                  concreteSoftAssertionsProviderType);
+    return getStore(context).computeIfAbsent(concreteSoftAssertionsProviderType,
+                                             unused -> instantiateProvider(context, concreteSoftAssertionsProviderType),
+                                             concreteSoftAssertionsProviderType);
   }
 
   private static void setTestInstanceSoftAssertionsField(Object testInstance, Field softAssertionsField,

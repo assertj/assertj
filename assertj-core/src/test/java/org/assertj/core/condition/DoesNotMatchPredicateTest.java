@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.condition;
 
@@ -46,7 +49,7 @@ class DoesNotMatchPredicateTest implements WithAssertions {
   @Test
   void should_fail_if_object_matches_predicate() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).doesNotMatch(x -> x.lightSaberColor.equals("Green")));
+    var assertionError = expectAssertionError(() -> assertThat(yoda).doesNotMatch(x -> x.lightSaberColor.equals("Green")));
     // THEN
     then(assertionError).hasMessage(format("%n" +
                                            "Expecting actual:%n" +
@@ -67,9 +70,9 @@ class DoesNotMatchPredicateTest implements WithAssertions {
 
   @Test
   void should_fail_if_object_matches_predicate_and_use_predicate_description_in_error_message() {
-    AssertionError assertionError = expectAssertionError(() -> assertThat(yoda).as("check light saber")
-                                                                               .doesNotMatch(x -> x.lightSaberColor.equals("Green"),
-                                                                                             "does not have green light saber"));
+    var assertionError = expectAssertionError(() -> assertThat(yoda).as("check light saber")
+                                                                    .doesNotMatch(x -> x.lightSaberColor.equals("Green"),
+                                                                                  "does not have green light saber"));
     // THEN
     then(assertionError).hasMessage(format("[check light saber] %n" +
                                            "Expecting actual:%n" +

@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -185,7 +188,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Create assertion for {@link Predicate}.
    * <p>
-   * Use this over {@link #assertThat(Predicate)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Predicate)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param actual the actual value.
@@ -1715,7 +1718,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * <p>
    * Example:
    * <pre><code class='java'> doSomething(optional.orElseGet(() -> fail(cause)));</code></pre>
-   * 
+   *
    * @param <T> dummy return value type
    * @param realCause cause of the error.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> fail(cause)));}.
@@ -2452,7 +2455,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * @param unit the {@link TemporalUnit} of the offset.
    * @return the created {@code Offset}.
    * @since 3.7.0
-   * @see #within(long, TemporalUnit) 
+   * @see #within(long, TemporalUnit)
    */
   public static TemporalUnitOffset byLessThan(long value, TemporalUnit unit) {
     return new TemporalUnitLessThanOffset(value, unit);
@@ -3218,7 +3221,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link IterableAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Iterable)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
@@ -3256,7 +3259,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link IteratorAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(Iterator)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Iterator)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
@@ -3283,7 +3286,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <E> the type of elements.
@@ -3320,7 +3323,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code>.
    * <p>
-   * Use this over {@link #assertThat(List)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(List)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <ELEMENT> the type of elements.
@@ -3366,7 +3369,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of <code>{@link ListAssert}</code> from the given {@link Stream}.
    * <p>
-   * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Stream)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    * <p>
    * <b>Be aware that the {@code Stream} under test will be converted to a {@code List} when an assertions require to inspect its content.
@@ -3569,7 +3572,7 @@ public class Assertions implements InstanceOfAssertFactories {
   /**
    * Creates a new instance of {@link PathAssert}
    * <p>
-   * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Path)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param actual the path to test
@@ -3611,7 +3614,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Creates a new instance of <code>{@link UniversalComparableAssert}</code> with
    * standard comparison semantics.
    * <p>
-   * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test 
+   * Use this over {@link #assertThat(Comparable)} in case of ambiguous method resolution when the object under test
    * implements several interfaces Assertj provides <code>assertThat</code> for.
    *
    * @param <T> the type of actual.
@@ -3767,7 +3770,7 @@ public class Assertions implements InstanceOfAssertFactories {
   }
 
   /**
-   * Reset the representaion being used to the one from the {@link Configuration} to revert the effect of calling {@link #useRepresentation(Representation)}.
+   * Reset the representation being used to the one from the {@link Configuration} to revert the effect of calling {@link #useRepresentation(Representation)}.
    * <p>
    * Unless a specific {@link Configuration} is in use, this method resets the representation to the {@link StandardRepresentation}.
    *

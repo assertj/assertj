@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.charsequence;
 
@@ -61,7 +64,7 @@ class CharSequenceAssert_containsIgnoringWhitespaces_Test {
     String actual = "Yoda";
     String value = "Luke";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsIgnoringWhitespaces(value));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsIgnoringWhitespaces(value));
     // THEN
     then(assertionError).hasMessage(shouldContainIgnoringWhitespaces("Yoda", "Luke",
                                                                      StandardComparisonStrategy.instance()).create());
@@ -73,7 +76,7 @@ class CharSequenceAssert_containsIgnoringWhitespaces_Test {
     String actual = "Yoda";
     String value = "yo";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsIgnoringWhitespaces(value));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsIgnoringWhitespaces(value));
     // THEN
     then(assertionError).hasMessage(shouldContainIgnoringWhitespaces("Yoda", "yo",
                                                                      StandardComparisonStrategy.instance()).create());
@@ -85,7 +88,7 @@ class CharSequenceAssert_containsIgnoringWhitespaces_Test {
     String actual = "Yoda and Luke";
     String value = "a n dluke";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsIgnoringWhitespaces(value));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsIgnoringWhitespaces(value));
     // THEN
     then(assertionError).hasMessage(shouldContainIgnoringWhitespaces("Yoda and Luke", "a n dluke",
                                                                      StandardComparisonStrategy.instance()).create());
@@ -107,7 +110,7 @@ class CharSequenceAssert_containsIgnoringWhitespaces_Test {
     String actual = null;
     String value = "Yoda";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsIgnoringWhitespaces(value));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsIgnoringWhitespaces(value));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -118,7 +121,7 @@ class CharSequenceAssert_containsIgnoringWhitespaces_Test {
     String actual = "Yoda";
     String[] values = array("Yo", "da", "Han");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsIgnoringWhitespaces(values));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsIgnoringWhitespaces(values));
     // THEN
     then(assertionError).hasMessage(shouldContainIgnoringWhitespaces(actual, values, newLinkedHashSet("Han"),
                                                                      StandardComparisonStrategy.instance()).create());
@@ -151,8 +154,8 @@ class CharSequenceAssert_containsIgnoringWhitespaces_Test {
     String value = "Luke";
     Comparator<String> comparator = CASE_INSENSITIVE_ORDER;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingComparator(comparator)
-                                                                                 .containsIgnoringWhitespaces(value));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingComparator(comparator)
+                                                                      .containsIgnoringWhitespaces(value));
     // THEN
     then(assertionError).hasMessage(shouldContainIgnoringWhitespaces("Yoda", "Luke",
                                                                      new ComparatorBasedComparisonStrategy(comparator)).create());
@@ -165,8 +168,8 @@ class CharSequenceAssert_containsIgnoringWhitespaces_Test {
     String[] values = array("Yo", "da", "Han");
     Comparator<String> comparator = CASE_INSENSITIVE_ORDER;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingComparator(comparator)
-                                                                                 .containsIgnoringWhitespaces(values));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingComparator(comparator)
+                                                                      .containsIgnoringWhitespaces(values));
     // THEN
     then(assertionError).hasMessage(shouldContainIgnoringWhitespaces(actual, values, newLinkedHashSet("Han"),
                                                                      new ComparatorBasedComparisonStrategy(comparator)).create());

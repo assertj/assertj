@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.optional;
 
@@ -34,8 +37,8 @@ class OptionalAssert_contains_usingValueComparator_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<Foo> nullActual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).usingValueComparator(FOO_COMPARATOR)
-                                                                                     .contains(new Foo("something")));
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).usingValueComparator(FOO_COMPARATOR)
+                                                                          .contains(new Foo("something")));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -58,8 +61,8 @@ class OptionalAssert_contains_usingValueComparator_Test {
     Optional<Foo> actual = Optional.of(new Foo("something"));
     Foo expectedValue = new Foo("something else");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR)
-                                                                                 .contains(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR)
+                                                                      .contains(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldContain(actual, expectedValue).create());
   }
@@ -71,8 +74,8 @@ class OptionalAssert_contains_usingValueComparator_Test {
     Foo expectedValue = new Foo("test");
     Optional<Foo> actual = Optional.empty();
     // THEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR)
-                                                                                 .contains(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingValueComparator(FOO_COMPARATOR)
+                                                                      .contains(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldContain(expectedValue).create());
   }

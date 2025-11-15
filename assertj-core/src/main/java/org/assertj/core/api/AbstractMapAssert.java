@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -36,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -71,6 +75,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Maps maps = Maps.instance();
+  private BiPredicate<? super V, ? super V> valueEquals;
 
   protected AbstractMapAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
@@ -529,7 +534,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
-    maps.assertContains(info, actual, entries);
+    maps.assertContains(info, actual, entries, valueEquals);
     return myself;
   }
 
@@ -568,7 +573,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsAnyOfForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
-    maps.assertContainsAnyOf(info, actual, entries);
+    maps.assertContainsAnyOf(info, actual, entries, valueEquals);
     return myself;
   }
 
@@ -602,7 +607,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given entries.
    */
   public SELF containsAllEntriesOf(Map<? extends K, ? extends V> other) {
-    maps.assertContainsAllEntriesOf(info, actual, other);
+    maps.assertContainsAllEntriesOf(info, actual, other, valueEquals);
     return myself;
   }
 
@@ -721,7 +726,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given entries.
    */
   public SELF containsEntry(K key, V value) {
-    maps.assertContains(info, actual, array(entry(key, value)));
+    maps.assertContains(info, actual, array(entry(key, value)), valueEquals);
     return myself;
   }
 
@@ -990,7 +995,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF doesNotContainForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
-    maps.assertDoesNotContain(info, actual, entries);
+    maps.assertDoesNotContain(info, actual, entries, valueEquals);
     return myself;
   }
 
@@ -1019,7 +1024,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map contains any of the given entries.
    */
   public SELF doesNotContainEntry(K key, V value) {
-    maps.assertDoesNotContain(info, actual, array(entry(key, value)));
+    maps.assertDoesNotContain(info, actual, array(entry(key, value)), valueEquals);
     return myself;
   }
 
@@ -1244,7 +1249,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given value.
    */
   public SELF containsValue(V value) {
-    maps.assertContainsValue(info, actual, value);
+    maps.assertContainsValue(info, actual, value, valueEquals);
     return myself;
   }
 
@@ -1279,7 +1284,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsValuesForProxy(V[] values) {
-    maps.assertContainsValues(info, actual, values);
+    maps.assertContainsValues(info, actual, values, valueEquals);
     return myself;
   }
 
@@ -1305,7 +1310,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map contains the given value.
    */
   public SELF doesNotContainValue(V value) {
-    maps.assertDoesNotContainValue(info, actual, value);
+    maps.assertDoesNotContainValue(info, actual, value, valueEquals);
     return myself;
   }
 
@@ -1352,7 +1357,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsOnlyForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
-    maps.assertContainsOnly(info, actual, entries);
+    maps.assertContainsOnly(info, actual, entries, valueEquals);
     return myself;
   }
 
@@ -1396,7 +1401,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsExactlyForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
-    maps.assertContainsExactly(info, actual, entries);
+    maps.assertContainsExactly(info, actual, entries, valueEquals);
     return myself;
   }
 
@@ -1465,6 +1470,30 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     } catch (RuntimeException e) {
       throwAssertionError(shouldBeUnmodifiable(method, e));
     }
+  }
+
+  /**
+   * Registers a custom equals comparison for the map under test values (as a {@link BiPredicate}),
+   * this is used for any assertions that involves comparing values or entries.
+   * <p>
+   * Example:
+   * <pre><code class='java'> var map = Map.of("key", "VALUE");
+   * // assertions succeeds
+   * then(map).usingEqualsForValues(String::equalsIgnoreCase)
+   *          .containsEntry("key", "value")
+   *          .containsValue("value");</code></pre>
+   * <p>
+   * Passing a null {@link BiPredicate} is allowed, and will lead not to use any custom equals
+   * (simply the map underlying comparison strategy), this is useful to reset the
+   *
+   * @param valuesEqualsPredicate the custom equals comparison for the map under test values.
+   * @return {@code this} assertion object.
+   *
+   * @since 4.0.0
+   */
+  public SELF usingEqualsForValues(BiPredicate<? super V, ? super V> valuesEqualsPredicate) {
+    valueEquals = valuesEqualsPredicate;
+    return myself;
   }
 
   /**

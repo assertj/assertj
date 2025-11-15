@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.internal.maps;
 
@@ -25,7 +28,6 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.internal.ErrorMessages.entriesToLookForIsNull;
 import static org.assertj.core.testkit.Maps.mapOf;
-import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -52,7 +54,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.util.MultiValueMapAdapter;
 
 import com.google.common.collect.ImmutableMap;
-
 import jakarta.ws.rs.core.MultivaluedHashMap;
 
 /**
@@ -65,7 +66,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] entries = array(entry("name", "Yoda"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContainsOnly(someInfo(), null, entries));
+    var assertionError = expectAssertionError(() -> maps.assertContainsOnly(INFO, null, entries, null));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -75,7 +76,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] entries = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> maps.assertContainsOnly(someInfo(), actual, entries));
+    Throwable thrown = catchThrowable(() -> maps.assertContainsOnly(INFO, actual, entries, null));
     // THEN
     then(thrown).isInstanceOf(NullPointerException.class).hasMessage(entriesToLookForIsNull());
   }
@@ -85,7 +86,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] entries = emptyEntries();
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(someInfo(), actual, entries));
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(INFO, actual, entries, null));
     // THEN
     then(error).hasMessage(shouldBeEmpty(actual).create());
   }
@@ -96,7 +97,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     Map<String, byte[]> actual = mapOf(entry("key1", new byte[] { 1, 2 }), entry("key2", new byte[] { 3, 4, 5 }));
     Entry<String, byte[]>[] expected = array(entry("key2", new byte[] { 3, 4, 5 }), entry("key1", new byte[] { 1, 2 }));
     // WHEN/THEN
-    assertThatNoException().isThrownBy(() -> maps.assertContainsOnly(info, actual, expected));
+    assertThatNoException().isThrownBy(() -> maps.assertContainsOnly(info, actual, expected, null));
   }
 
   @ParameterizedTest
@@ -110,7 +111,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     int initialSize = actual.size();
     // WHEN/THEN
     assertThatNoException().as(actual.getClass().getName())
-                           .isThrownBy(() -> maps.assertContainsOnly(info, actual, expected));
+                           .isThrownBy(() -> maps.assertContainsOnly(info, actual, expected, null));
 
     then(actual).hasSize(initialSize);
   }
@@ -158,7 +159,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     Entry<String, List<String>>[] expected = array(entry("name", list("Yoda")));
     int initialSize = actual.size();
     // WHEN
-    maps.assertContainsOnly(info, actual, expected);
+    maps.assertContainsOnly(info, actual, expected, null);
     // THEN
     then(actual).hasSize(initialSize);
   }
@@ -170,7 +171,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     Entry<String, List<String>>[] expected = array(entry("name", list("Yoda")));
     int initialSize = actual.size();
     // WHEN
-    maps.assertContainsOnly(info, actual, expected);
+    maps.assertContainsOnly(info, actual, expected, null);
     // THEN
     then(actual).hasSize(initialSize);
   }
@@ -189,7 +190,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     int initialSize = actual.size();
     // WHEN
     assertThatExceptionOfType(AssertionError.class).as(actual.getClass().getName())
-                                                   .isThrownBy(() -> maps.assertContainsOnly(info, actual, expected))
+                                                   .isThrownBy(() -> maps.assertContainsOnly(info, actual, expected, null))
                                                    // THEN
                                                    .withMessage(shouldContainOnly(actual, expected,
                                                                                   notFound, notExpected).create());
@@ -276,7 +277,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     Set<MapEntry<String, List<String>>> notExpected = set(entry("job", list("Jedi")));
     int initialSize = actual.size();
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected, null));
     // THEN
     then(error).hasMessage(shouldContainOnly(actual, expected, notFound, notExpected).create());
     then(actual).hasSize(initialSize);
@@ -292,7 +293,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     Set<MapEntry<String, List<String>>> notExpected = set(entry("job", list("Jedi")));
     int initialSize = actual.size();
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected));
+    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected, null));
     // THEN
     then(error).hasMessage(shouldContainOnly(actual, expected, notFound, notExpected).create());
     then(actual).hasSize(initialSize);

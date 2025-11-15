@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.predicate;
 
@@ -55,7 +58,7 @@ class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
     // GIVEN
     String[] values = { "first", "second" };
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat((Predicate<String>) null).accepts(values));
+    var assertionError = expectAssertionError(() -> assertThat((Predicate<String>) null).accepts(values));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -66,7 +69,7 @@ class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
     String[] values = { "football", "basketball", "curling" };
     Predicate<String> ballSportPredicate = sport -> sport.contains("ball");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(ballSportPredicate).accepts(values));
+    var assertionError = expectAssertionError(() -> assertThat(ballSportPredicate).accepts(values));
     // THEN
     then(assertionError).hasMessage(elementsShouldMatch(values, "curling", PredicateDescription.GIVEN).create());
   }
@@ -85,7 +88,7 @@ class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something else";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(predicate).accepts(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(predicate).accepts(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
   }
@@ -96,7 +99,7 @@ class PredicateAssert_accepts_Test extends PredicateAssertBaseTest {
     Predicate<String> predicate = val -> val.equals("something");
     String expectedValue = "something else";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(predicate).as("test").accepts(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(predicate).as("test").accepts(expectedValue));
     // THEN
     then(assertionError).hasMessage("[test] " + shouldAccept(predicate, expectedValue, PredicateDescription.GIVEN).create());
   }

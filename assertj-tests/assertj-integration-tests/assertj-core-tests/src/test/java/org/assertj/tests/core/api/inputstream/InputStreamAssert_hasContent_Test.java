@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.inputstream;
 
@@ -43,7 +46,7 @@ class InputStreamAssert_hasContent_Test {
     InputStream actual = null;
     String expected = "";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeNull().create());
   }
@@ -103,7 +106,7 @@ class InputStreamAssert_hasContent_Test {
     InputStream actual = new ByteArrayInputStream("12345".getBytes());
     String expected = "67890";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameContent(actual, expected, diff("12345", "67890")).create());
     then(actual).isNotEmpty();
@@ -115,7 +118,7 @@ class InputStreamAssert_hasContent_Test {
     InputStream actual = new UnmarkableByteArrayInputStream("12345".getBytes());
     String expected = "67890";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasContent(expected));
     // THEN
     then(assertionError).hasMessage(shouldHaveSameContent(actual, expected, diff("12345", "67890")).create());
     then(actual).isEmpty();
