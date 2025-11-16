@@ -1125,10 +1125,10 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     try (final AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
       softly.assertThat(numbers)
-            .extracting("one", "two")
+            .extractingByKeys("one", "two")
             .containsExactly("1", "2");
       softly.assertThat(numbers)
-            .extracting("one")
+            .extractingByKey("one")
             .isEqualTo("1");
     }
   }
@@ -2043,7 +2043,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(map)
           .as("extracting(\"a\", \"b\")")
           .overridingErrorMessage("error message")
-          .extracting("a", "b")
+          .extractingByKeys("a", "b")
           .contains("456");
     softly.assertThat(iterableMap)
           .as("flatExtracting(\"name\", \"job\", \"city\", \"rank\")")

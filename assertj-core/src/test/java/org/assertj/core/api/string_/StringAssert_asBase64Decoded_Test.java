@@ -20,7 +20,7 @@ import static org.mockito.Mockito.verify;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractByteArrayAssert;
-import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.NavigationMethodWithComparatorBaseTest;
 import org.assertj.core.api.StringAssert;
 import org.assertj.core.api.StringAssertBaseTest;
 import org.junit.jupiter.api.Test;
@@ -28,7 +28,8 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Stefano Cordio
  */
-class StringAssert_asBase64Decoded_Test extends StringAssertBaseTest implements NavigationMethodBaseTest<StringAssert> {
+class StringAssert_asBase64Decoded_Test extends StringAssertBaseTest
+    implements NavigationMethodWithComparatorBaseTest<StringAssert> {
 
   @Override
   protected StringAssert invoke_api_method() {

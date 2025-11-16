@@ -17,6 +17,9 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
+import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS;
+
+import java.util.UUID;
 
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 import org.junit.jupiter.api.Test;
@@ -26,18 +29,29 @@ import org.junit.jupiter.api.Test;
  *
  * @author Stefano Cordio
  */
-public interface NavigationMethodBaseTest<ASSERT extends AbstractAssert<ASSERT, ?>> {
+public interface NavigationMethodWithComparatorBaseTest<ASSERT extends AbstractAssertWithComparator<ASSERT, ?>> {
 
   ASSERT getAssertion();
 
   AbstractAssert<?, ?> invoke_navigation_method(ASSERT assertion);
 
   @Test
+  default void should_honor_registered_comparator() {
+    // GIVEN
+    ASSERT underTest = getAssertion().usingComparator(ALWAYS_EQUALS);
+    // WHEN
+    AbstractAssert<?, ?> result = invoke_navigation_method(underTest);
+    // THEN
+    result.isEqualTo(UUID.randomUUID()); // random value to avoid false positives
+  }
+
+  @Test
   default void should_keep_existing_assertion_state() {
     // GIVEN
     ASSERT underTest = getAssertion().as("description")
                                      .withFailMessage("error message")
-                                     .withRepresentation(UNICODE_REPRESENTATION);
+                                     .withRepresentation(UNICODE_REPRESENTATION)
+                                     .usingComparator(ALWAYS_EQUALS);
     // WHEN
     AbstractAssert<?, ?> result = invoke_navigation_method(underTest);
     // THEN

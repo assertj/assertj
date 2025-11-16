@@ -26,11 +26,11 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.ByteArrayAssert;
 import org.assertj.core.api.ByteArrayAssertBaseTest;
-import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.NavigationMethodWithComparatorBaseTest;
 import org.junit.jupiter.api.Test;
 
 class ByteArrayAssert_asBase64UrlEncoded_Test extends ByteArrayAssertBaseTest
-    implements NavigationMethodBaseTest<ByteArrayAssert> {
+    implements NavigationMethodWithComparatorBaseTest<ByteArrayAssert> {
 
   @Override
   protected ByteArrayAssert invoke_api_method() {

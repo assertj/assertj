@@ -71,7 +71,7 @@ import org.assertj.core.internal.Maps;
  * @author Filip Hrisafov
  */
 public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACTUAL, K, V>, ACTUAL extends Map<K, V>, K, V>
-    extends AbstractObjectAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
+    extends AbstractAssert<SELF, ACTUAL> implements EnumerableAssert<SELF, Map.Entry<? extends K, ? extends V>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Maps maps = Maps.instance();
@@ -1675,24 +1675,6 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   @Override
   @CheckReturnValue
-  public SELF usingDefaultComparator() {
-    return super.usingDefaultComparator();
-  }
-
-  @Override
-  @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator) {
-    return usingComparator(customComparator, null);
-  }
-
-  @Override
-  @CheckReturnValue
-  public SELF usingComparator(Comparator<? super ACTUAL> customComparator, String customComparatorDescription) {
-    return super.usingComparator(customComparator, customComparatorDescription);
-  }
-
-  @Override
-  @CheckReturnValue
   public SELF withFailMessage(String newErrorMessage, Object... args) {
     return super.withFailMessage(newErrorMessage, args);
   }
@@ -1844,7 +1826,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     V extractedValue = actual.get(key);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-    return newObjectAssert(extractedValue).withAssertionState(myself).as(description);
+    return new ObjectAssert<>(extractedValue).withAssertionState(myself).as(description);
   }
 
   /**

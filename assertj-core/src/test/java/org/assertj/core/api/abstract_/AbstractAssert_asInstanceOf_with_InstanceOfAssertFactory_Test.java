@@ -25,14 +25,14 @@ import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractAssertBaseTest;
 import org.assertj.core.api.AbstractLongAssert;
 import org.assertj.core.api.ConcreteAssert;
-import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.NavigationMethodWithComparatorBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author Stefano Cordio
  */
 class AbstractAssert_asInstanceOf_with_InstanceOfAssertFactory_Test extends AbstractAssertBaseTest
-    implements NavigationMethodBaseTest<ConcreteAssert> {
+    implements NavigationMethodWithComparatorBaseTest<ConcreteAssert> {
 
   @Override
   protected ConcreteAssert invoke_api_method() {
