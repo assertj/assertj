@@ -79,7 +79,7 @@ class Paths_assertHasDigest_with_MessageDigest_and_Byte_array_Test extends Paths
     MessageDigest digest = MessageDigest.getInstance("MD5");
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -91,7 +91,7 @@ class Paths_assertHasDigest_with_MessageDigest_and_Byte_array_Test extends Paths
     MessageDigest digest = MessageDigest.getInstance("MD5");
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -103,7 +103,7 @@ class Paths_assertHasDigest_with_MessageDigest_and_Byte_array_Test extends Paths
     MessageDigest digest = MessageDigest.getInstance("MD5");
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     then(error).hasMessage(shouldBeRegularFile(actual).create());
   }
@@ -117,7 +117,7 @@ class Paths_assertHasDigest_with_MessageDigest_and_Byte_array_Test extends Paths
     MessageDigest digest = MessageDigest.getInstance("MD5");
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -144,7 +144,7 @@ class Paths_assertHasDigest_with_MessageDigest_and_Byte_array_Test extends Paths
     MessageDigest digest = MessageDigest.getInstance("MD5");
     byte[] expected = digest.digest("Another content".getBytes());
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     then(error).hasMessage(shouldHaveDigest(actual, new DigestDiff(toHex(digest.digest(readAllBytes(actual))),
                                                                    toHex(expected),

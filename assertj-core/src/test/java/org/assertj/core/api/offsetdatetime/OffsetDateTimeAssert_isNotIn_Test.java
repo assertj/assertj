@@ -44,7 +44,7 @@ class OffsetDateTimeAssert_isNotIn_Test extends OffsetDateTimeAssertBaseTest {
   @Test
   void should_fail_if_actual_is_in_offsetDateTimes_as_string_array_parameter() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), AFTER.toString()));
+    var error = expectAssertionError(() -> assertThat(REFERENCE).isNotIn(REFERENCE.toString(), AFTER.toString()));
     // THEN
     then(error).hasMessage(shouldNotBeIn(REFERENCE, asList(REFERENCE, AFTER)).create());
   }

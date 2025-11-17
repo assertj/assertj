@@ -38,7 +38,7 @@ class RangeSetAssert_intersectsAnyOf_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).intersectsAnyOf(closed(0, 1)));
+    var error = expectAssertionError(() -> assertThat(actual).intersectsAnyOf(closed(0, 1)));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -74,7 +74,7 @@ class RangeSetAssert_intersectsAnyOf_Test {
     Range<Integer>[] ranges = array(closed(-100, 0),
                                     closed(100, 200));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).intersectsAnyOf(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).intersectsAnyOf(ranges));
     // THEN
     then(error).hasMessage(shouldIntersectAnyOf(actual, ranges).create());
   }

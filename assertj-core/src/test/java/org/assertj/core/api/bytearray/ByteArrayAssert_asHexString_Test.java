@@ -62,7 +62,7 @@ class ByteArrayAssert_asHexString_Test {
     // GIVEN
     byte[] bytes = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(bytes).asHexString());
+    var error = expectAssertionError(() -> assertThat(bytes).asHexString());
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

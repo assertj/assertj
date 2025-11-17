@@ -35,7 +35,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
     // GIVEN
     Path other = createFile(tempDir.resolve("other"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, null, other));
+    var error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, null, other));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -57,7 +57,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = createFile(tempDir.resolve("other"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, actual, other));
+    var error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, other).create());
   }
@@ -78,7 +78,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
     Path file = createFile(other.resolve("file"));
     Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, actual, other));
+    var error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, other).create());
   }
@@ -90,7 +90,7 @@ class Paths_assertStartsWithRaw_Test extends PathsBaseTest {
     Path other = tryToCreateSymbolicLink(tempDir.resolve("other"), directory);
     Path actual = createFile(directory.resolve("actual"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, actual, other));
+    var error = expectAssertionError(() -> underTest.assertStartsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, other).create());
   }

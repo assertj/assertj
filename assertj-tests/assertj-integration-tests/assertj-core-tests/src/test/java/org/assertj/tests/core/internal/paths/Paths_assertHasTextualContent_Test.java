@@ -62,7 +62,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     // GIVEN
     String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, null, expected, CHARSET));
+    var error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, null, expected, CHARSET));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -73,7 +73,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
+    var error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -86,7 +86,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     actual.toFile().setReadable(false);
     String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
+    var error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -107,7 +107,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     String expected = "Another content";
     List<Delta<String>> diffs = diff.diff(actual, expected, CHARSET);
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
+    var error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
     // THEN
     then(error).hasMessage(shouldHaveContent(actual, CHARSET, diffs).create(INFO.description(), INFO.representation()));
   }

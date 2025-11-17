@@ -38,7 +38,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     // GIVEN
     Path other = createFile(tempDir.resolve("other"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertStartsWith(INFO, null, other));
+    var error = expectAssertionError(() -> underTest.assertStartsWith(INFO, null, other));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -88,7 +88,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = createFile(tempDir.resolve("other"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertStartsWith(INFO, actual, other));
+    var error = expectAssertionError(() -> underTest.assertStartsWith(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, other).create());
   }

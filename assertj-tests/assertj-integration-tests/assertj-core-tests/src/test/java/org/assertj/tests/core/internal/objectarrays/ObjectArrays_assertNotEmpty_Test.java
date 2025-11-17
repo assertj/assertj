@@ -33,7 +33,7 @@ class ObjectArrays_assertNotEmpty_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertNotEmpty(INFO, null));
+    var error = expectAssertionError(() -> arrays.assertNotEmpty(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -41,7 +41,7 @@ class ObjectArrays_assertNotEmpty_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_empty() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertNotEmpty(INFO, emptyArray()));
+    var error = expectAssertionError(() -> arrays.assertNotEmpty(INFO, emptyArray()));
     // THEN
     then(error).hasMessage(shouldNotBeEmpty().create());
   }

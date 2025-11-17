@@ -64,7 +64,7 @@ class Maps_assertNoneSatisfy_Test extends MapsBaseTest {
   @Test
   void should_fail_if_one_entry_satisfies_the_given_requirements() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertNoneSatisfy(INFO, greatPlayers, (team, player) -> {
+    var error = expectAssertionError(() -> maps.assertNoneSatisfy(INFO, greatPlayers, (team, player) -> {
       assertThat(team).isIn("Lakers", "Bulls");
       assertThat(player.getPointsPerGame()).as("%s %s ppg", player.getName().first, player.getName().getLast())
                                            .isLessThan(30);

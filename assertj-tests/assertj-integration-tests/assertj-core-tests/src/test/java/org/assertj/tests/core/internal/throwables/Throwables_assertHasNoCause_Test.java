@@ -33,7 +33,7 @@ class Throwables_assertHasNoCause_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> throwables.assertHasNoCause(INFO, null));
+    var error = expectAssertionError(() -> throwables.assertHasNoCause(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

@@ -41,7 +41,7 @@ class Paths_assertHasFileSystem_Test extends PathsBaseTest {
     // GIVEN
     FileSystem expectedFileSystem = mock(FileSystem.class, withSettings().stubOnly());
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasFileSystem(INFO, null, expectedFileSystem));
+    var error = expectAssertionError(() -> underTest.assertHasFileSystem(INFO, null, expectedFileSystem));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -80,7 +80,7 @@ class Paths_assertHasFileSystem_Test extends PathsBaseTest {
     given(actualPath.getFileSystem()).willReturn(actualFileSystem);
     FileSystem expectedFileSystem = mock(FileSystem.class, withSettings().stubOnly());
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasFileSystem(INFO, actualPath, expectedFileSystem));
+    var error = expectAssertionError(() -> underTest.assertHasFileSystem(INFO, actualPath, expectedFileSystem));
     // THEN
     then(error).hasMessage(shouldHaveFileSystem(actualPath, expectedFileSystem).create())
                .isInstanceOf(AssertionFailedError.class)

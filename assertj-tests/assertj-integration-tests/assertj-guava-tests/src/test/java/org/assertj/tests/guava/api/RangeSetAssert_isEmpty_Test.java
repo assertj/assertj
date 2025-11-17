@@ -36,7 +36,7 @@ class RangeSetAssert_isEmpty_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isEmpty());
+    var error = expectAssertionError(() -> assertThat(actual).isEmpty());
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -46,7 +46,7 @@ class RangeSetAssert_isEmpty_Test {
     // GIVEN
     RangeSet<Integer> actual = ImmutableRangeSet.of(Range.closed(1, 10));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isEmpty());
+    var error = expectAssertionError(() -> assertThat(actual).isEmpty());
     // THEN
     then(error).hasMessage(shouldBeEmpty(actual).create());
   }

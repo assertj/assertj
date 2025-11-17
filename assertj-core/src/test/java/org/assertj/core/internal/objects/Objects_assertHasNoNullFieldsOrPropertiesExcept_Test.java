@@ -48,7 +48,7 @@ class Objects_assertHasNoNullFieldsOrPropertiesExcept_Test extends ObjectsBaseTe
     Object actual = null;
     String fieldName = "field1";
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasNoNullFieldsOrPropertiesExcept(INFO, actual, fieldName));
+    var error = expectAssertionError(() -> objects.assertHasNoNullFieldsOrPropertiesExcept(INFO, actual, fieldName));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

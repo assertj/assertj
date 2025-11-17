@@ -48,7 +48,7 @@ class Objects_assertDoesNotHaveToString_Test extends ObjectsBaseTest {
     // GIVEN
     Object actualObject = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertDoesNotHaveToString(someInfo(), actualObject, "bar"));
+    var error = expectAssertionError(() -> objects.assertDoesNotHaveToString(someInfo(), actualObject, "bar"));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

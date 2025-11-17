@@ -41,7 +41,7 @@ class Files_assertIsAbsolute_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsAbsolute(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsAbsolute(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

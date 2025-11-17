@@ -81,7 +81,7 @@ class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
   @Test
   void should_fail_if_no_elements_satisfy_the_assertions_requirements() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertAnySatisfy(someInfo(), actual, s -> {
+    var error = expectAssertionError(() -> iterables.assertAnySatisfy(someInfo(), actual, s -> {
       assertThat(s).hasSize(4);
       assertThat(s).contains("W");
     }));
@@ -128,7 +128,7 @@ class Iterables_assertAnySatisfy_Test extends IterablesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertAnySatisfy(someInfo(), null, $ -> {}));
+    var error = expectAssertionError(() -> iterables.assertAnySatisfy(someInfo(), null, $ -> {}));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

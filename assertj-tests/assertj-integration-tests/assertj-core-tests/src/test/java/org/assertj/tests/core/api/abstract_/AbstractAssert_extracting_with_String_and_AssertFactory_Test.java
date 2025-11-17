@@ -104,8 +104,8 @@ class AbstractAssert_extracting_with_String_and_AssertFactory_Test implements Na
   @Test
   void should_use_property_field_name_as_description_when_extracting_single_property() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.extracting("name.first", Assertions::assertThat)
-                                                               .isNull());
+    var error = expectAssertionError(() -> underTest.extracting("name.first", Assertions::assertThat)
+                                                    .isNull());
     // THEN
     then(error).hasMessageContaining("[Extracted: name.first]");
   }

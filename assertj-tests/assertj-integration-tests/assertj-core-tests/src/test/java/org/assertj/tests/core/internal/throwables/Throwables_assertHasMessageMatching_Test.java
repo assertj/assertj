@@ -56,7 +56,7 @@ class Throwables_assertHasMessageMatching_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> throwables.assertHasMessageMatching(INFO, null, REGEX));
+    var error = expectAssertionError(() -> throwables.assertHasMessageMatching(INFO, null, REGEX));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

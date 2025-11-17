@@ -27,7 +27,7 @@ class Throwables_assertHasRootCauseMessage_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, null, "message"));
+    var error = expectAssertionError(() -> throwables.assertHasRootCauseMessage(INFO, null, "message"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

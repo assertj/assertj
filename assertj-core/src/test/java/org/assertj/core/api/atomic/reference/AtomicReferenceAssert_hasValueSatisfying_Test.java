@@ -44,7 +44,7 @@ class AtomicReferenceAssert_hasValueSatisfying_Test {
     String expectedValue = "bar";
     AtomicReference<String> actual = new AtomicReference<>(initialValue);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(value -> assertThat(value).isEqualToIgnoringCase(expectedValue)));
+    var error = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(value -> assertThat(value).isEqualToIgnoringCase(expectedValue)));
     // THEN
     then(error).hasMessageContainingAll("expected: \"bar\"",
                                         " but was: \"foo\"");

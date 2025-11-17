@@ -73,7 +73,7 @@ class Files_assertIsEmptyFile_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsEmptyFile(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

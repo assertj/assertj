@@ -59,7 +59,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path actual = null;
     String syntaxAndPattern = "glob:**";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -70,7 +70,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path actual = tempDir.resolve("non-existent");
     String syntaxAndPattern = "glob:**";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -81,7 +81,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path actual = createFile(tempDir.resolve("file"));
     String syntaxAndPattern = "glob:**";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(shouldBeDirectory(actual).create());
   }
@@ -121,7 +121,7 @@ class Paths_assertIsDirectoryNotContaining_with_String_Test extends PathsBaseTes
     Path actual = createDirectory(tempDir.resolve("actual"));
     Path file = createFile(actual.resolve("file"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, syntaxAndPattern));
     // THEN
     then(error).hasMessage(directoryShouldNotContain(actual, list(file), "the '" + syntaxAndPattern + "' pattern").create());
   }

@@ -38,7 +38,7 @@ class RangeSetAssert_enclosesAnyOf_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).enclosesAnyOf(closed(0, 1)));
+    var error = expectAssertionError(() -> assertThat(actual).enclosesAnyOf(closed(0, 1)));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -74,7 +74,7 @@ class RangeSetAssert_enclosesAnyOf_Test {
     Range<Integer>[] ranges = array(closed(0, 70),
                                     closed(120, 150));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).enclosesAnyOf(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).enclosesAnyOf(ranges));
     // THEN
     then(error).hasMessage(shouldEncloseAnyOf(actual, ranges).create());
   }

@@ -36,7 +36,7 @@ class ClassAssert_isNotRecord_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isNotRecord());
+    var error = expectAssertionError(() -> assertThat(actual).isNotRecord());
     // THEN
     then(error).hasMessage(shouldNotBeNull().create());
   }

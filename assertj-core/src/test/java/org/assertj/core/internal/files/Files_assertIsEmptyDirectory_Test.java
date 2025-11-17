@@ -66,7 +66,7 @@ class Files_assertIsEmptyDirectory_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsEmptyDirectory(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

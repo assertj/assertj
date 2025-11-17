@@ -43,7 +43,7 @@ class RangeSetAssert_intersectsAll_with_Iterable_Test {
     RangeSet<Integer> actual = null;
     Iterable<Range<Integer>> ranges = List.of(closed(0, 10));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).intersectsAll(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).intersectsAll(ranges));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -78,7 +78,7 @@ class RangeSetAssert_intersectsAll_with_Iterable_Test {
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 100));
     Iterable<Range<Integer>> ranges = List.of(closed(50, 70), closed(120, 150));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).intersectsAll(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).intersectsAll(ranges));
     // THEN
     then(error).hasMessage(shouldIntersect(actual, ranges, List.of(closed(120, 150))).create());
   }

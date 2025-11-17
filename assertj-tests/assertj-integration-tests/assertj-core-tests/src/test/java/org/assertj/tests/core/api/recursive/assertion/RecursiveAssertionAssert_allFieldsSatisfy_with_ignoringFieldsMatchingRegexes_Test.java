@@ -46,9 +46,9 @@ class RecursiveAssertionAssert_allFieldsSatisfy_with_ignoringFieldsMatchingRegex
     sherlock.address.number = 221;
     Predicate<Object> isString = field -> field instanceof String;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(sherlock).usingRecursiveAssertion()
-                                                                          .ignoringFieldsMatchingRegexes(".*ber")
-                                                                          .allFieldsSatisfy(isString));
+    var error = expectAssertionError(() -> assertThat(sherlock).usingRecursiveAssertion()
+                                                               .ignoringFieldsMatchingRegexes(".*ber")
+                                                               .allFieldsSatisfy(isString));
     // THEN
     then(error).hasMessageContaining("[address, age]");
   }

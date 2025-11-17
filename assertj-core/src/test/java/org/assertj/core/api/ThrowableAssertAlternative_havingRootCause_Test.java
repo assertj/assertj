@@ -41,7 +41,7 @@ class ThrowableAssertAlternative_havingRootCause_Test {
     Throwable throwable = new Throwable("top level message");
     ThrowableAssertAlternative<Throwable> taa = new ThrowableAssertAlternative<>(throwable);
     // WHEN
-    AssertionError error = expectAssertionError(taa::havingRootCause);
+    var error = expectAssertionError(taa::havingRootCause);
     // THEN
     assertThat(error).hasMessage(shouldHaveRootCause(throwable).create());
   }
@@ -51,7 +51,7 @@ class ThrowableAssertAlternative_havingRootCause_Test {
     // GIVEN
     ThrowableAssertAlternative<Throwable> taa = new ThrowableAssertAlternative<>(null);
     // WHEN
-    AssertionError error = expectAssertionError(taa::havingRootCause);
+    var error = expectAssertionError(taa::havingRootCause);
     // THEN
     assertThat(error).hasMessage(shouldNotBeNull().create());
   }

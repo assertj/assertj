@@ -41,7 +41,7 @@ class RangeSetAssert_doesNotIntersectAnyRangeFrom_with_Iterable_Test {
     RangeSet<Integer> actual = null;
     Iterable<Range<Integer>> ranges = List.of(closed(0, 10));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotIntersectAnyRangeFrom(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotIntersectAnyRangeFrom(ranges));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -76,7 +76,7 @@ class RangeSetAssert_doesNotIntersectAnyRangeFrom_with_Iterable_Test {
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 100));
     Iterable<Range<Integer>> ranges = List.of(open(-100, 0), open(90, 170));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotIntersectAnyRangeFrom(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotIntersectAnyRangeFrom(ranges));
     // THEN
     then(error).hasMessage(shouldNotIntersect(actual, ranges, singletonList(open(90, 170))).create());
   }

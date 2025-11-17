@@ -49,7 +49,7 @@ class Files_assertHasParent_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasParent(INFO, actual, expectedParent));
+    var error = expectAssertionError(() -> underTest.assertHasParent(INFO, actual, expectedParent));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

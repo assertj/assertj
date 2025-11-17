@@ -41,8 +41,8 @@ class Throwables_assertHasCauseExactlyInstanceOf_Test extends ThrowablesBaseTest
     // GIVEN
     Throwable actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, actual,
-                                                                                                 IllegalArgumentException.class));
+    var error = expectAssertionError(() -> throwables.assertHasCauseExactlyInstanceOf(INFO, actual,
+                                                                                      IllegalArgumentException.class));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

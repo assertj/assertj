@@ -33,7 +33,7 @@ class ClassAssert_hasPermittedSubclasses_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasPermittedSubclasses());
+    var error = expectAssertionError(() -> assertThat(actual).hasPermittedSubclasses());
     // THEN
     then(error).hasMessage(shouldNotBeNull().create());
   }
@@ -50,7 +50,7 @@ class ClassAssert_hasPermittedSubclasses_Test {
   @Test
   void should_fail_if_actual_does_not_have_permitted_subclasses() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(Object.class).hasPermittedSubclasses(String.class));
+    var error = expectAssertionError(() -> assertThat(Object.class).hasPermittedSubclasses(String.class));
     // THEN
     then(error).hasMessage(shouldHavePermittedSubclasses(Object.class, array(String.class), List.of(String.class)).create());
   }

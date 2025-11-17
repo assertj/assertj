@@ -50,7 +50,7 @@ class Assertions_catchException_Test {
   @Test
   void catchException_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> catchException(() -> {}));
+    var error = expectAssertionError(() -> catchException(() -> {}));
     // THEN
     then(error).hasMessage("Expecting code to raise an Exception");
   }

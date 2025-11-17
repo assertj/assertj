@@ -42,7 +42,7 @@ class RangeSetAssert_intersects_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).intersects(closed(0, 1)));
+    var error = expectAssertionError(() -> assertThat(actual).intersects(closed(0, 1)));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -77,7 +77,7 @@ class RangeSetAssert_intersects_Test {
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 100));
     Range<Integer>[] ranges = array(closed(50, 70), closed(120, 150));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).intersects(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).intersects(ranges));
     // THEN
     then(error).hasMessage(shouldIntersect(actual, ranges, iterable(closed(120, 150))).create());
   }

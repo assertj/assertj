@@ -64,7 +64,7 @@ class DateAssert_isEqualTo_Test {
     @MethodSource
     void should_fail(Date actual, Object expected) {
       // WHEN
-      AssertionError error = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
+      var error = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
       // THEN
       then(error).isInstanceOf(AssertionFailedError.class);
     }
@@ -115,7 +115,7 @@ class DateAssert_isEqualTo_Test {
     @MethodSource
     void should_fail(Date actual, String expected) {
       // WHEN
-      AssertionError error = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
+      var error = expectAssertionError(() -> assertThat(actual).isEqualTo(expected));
       // THEN
       then(error).isInstanceOf(AssertionFailedError.class);
     }

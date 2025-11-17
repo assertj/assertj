@@ -36,7 +36,7 @@ class ObjectArrays_assertHasOnlyElementsOfType_Test extends ObjectArraysBaseTest
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfType(INFO, null, String.class));
+    var error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfType(INFO, null, String.class));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class ObjectArrays_assertHasOnlyElementsOfType_Test extends ObjectArraysBaseTest
   @Test
   void should_fail_if_one_element_in_actual_does_not_belong_to_the_expected_type() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfType(INFO, arrayOfNumbers, Long.class));
+    var error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfType(INFO, arrayOfNumbers, Long.class));
     // THEN
     then(error).hasMessage(shouldHaveOnlyElementsOfType(arrayOfNumbers, Long.class, Integer.class).create());
   }
@@ -59,7 +59,7 @@ class ObjectArrays_assertHasOnlyElementsOfType_Test extends ObjectArraysBaseTest
     // GIVEN
     Object[] array = array(null, "notNull");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfType(INFO, array, String.class));
+    var error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfType(INFO, array, String.class));
     // THEN
     then(error).hasMessage(shouldHaveOnlyElementsOfType(array, String.class, null).create());
   }

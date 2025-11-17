@@ -32,7 +32,7 @@ class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArraysBaseT
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSameSizeAs(INFO, null, array("Leia", "Luke")));
+    var error = expectAssertionError(() -> arrays.assertHasSameSizeAs(INFO, null, array("Leia", "Luke")));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -42,7 +42,7 @@ class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArraysBaseT
     // GIVEN
     String[] other = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSameSizeAs(INFO, actual, other));
+    var error = expectAssertionError(() -> arrays.assertHasSameSizeAs(INFO, actual, other));
     // THEN
     then(error).hasMessage("%nExpecting an array but was: null".formatted());
   }
@@ -52,7 +52,7 @@ class ObjectArrays_assertHasSameSizeAs_with_Array_Test extends ObjectArraysBaseT
     // GIVEN
     String[] other = array("Solo", "Leia");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSameSizeAs(INFO, actual, other));
+    var error = expectAssertionError(() -> arrays.assertHasSameSizeAs(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldHaveSameSizeAs(actual, other, actual.length, 2).create());
   }

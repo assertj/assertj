@@ -60,7 +60,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertIsSorted(INFO, null));
+    var error = expectAssertionError(() -> arrays.assertIsSorted(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -70,7 +70,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
     // GIVEN
     var actual = array("Luke", "Yoda", "Leia");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertIsSorted(INFO, actual));
+    var error = expectAssertionError(() -> arrays.assertIsSorted(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeSorted(1, actual).create());
   }
@@ -80,7 +80,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] actual = array(new Object());
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertIsSorted(INFO, actual));
+    var error = expectAssertionError(() -> arrays.assertIsSorted(INFO, actual));
     // THEN
     then(error).hasMessage(shouldHaveMutuallyComparableElements(actual).create());
   }
@@ -90,7 +90,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] actual = array("bar", new Object(), "foo");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertIsSorted(INFO, actual));
+    var error = expectAssertionError(() -> arrays.assertIsSorted(INFO, actual));
     // THEN
     then(error).hasMessage(shouldHaveMutuallyComparableElements(actual).create());
   }
@@ -100,7 +100,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] actual = new Object[] { "bar", 5, "foo" };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertIsSorted(INFO, actual));
+    var error = expectAssertionError(() -> arrays.assertIsSorted(INFO, actual));
     // THEN
     then(error).hasMessage(shouldHaveMutuallyComparableElements(actual).create());
   }
@@ -130,7 +130,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSorted(INFO, null));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSorted(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -140,7 +140,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
     // GIVEN
     var actual = array("LUKE", "Yoda", "Leia");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSorted(INFO, actual));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSorted(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeSortedAccordingToGivenComparator(1, actual, comparatorForCustomComparisonStrategy()).create());
   }
@@ -150,7 +150,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] actual = array(new Object());
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSorted(INFO, actual));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSorted(INFO, actual));
     // THEN
     then(error).hasMessage(shouldHaveComparableElementsAccordingToGivenComparator(actual,
                                                                                   comparatorForCustomComparisonStrategy()).create());
@@ -161,7 +161,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] actual = array("bar", new Object(), "foo");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSorted(INFO, actual));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSorted(INFO, actual));
     // THEN
     then(error).hasMessage(shouldHaveComparableElementsAccordingToGivenComparator(actual,
                                                                                   comparatorForCustomComparisonStrategy()).create());
@@ -172,7 +172,7 @@ class ObjectArrays_assertIsSorted_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] actual = new Object[] { "bar", 5, "foo" };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSorted(INFO, actual));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSorted(INFO, actual));
     // THEN
     then(error).hasMessage(shouldHaveComparableElementsAccordingToGivenComparator(actual,
                                                                                   comparatorForCustomComparisonStrategy()).create());

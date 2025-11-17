@@ -46,7 +46,7 @@ class ObjectArrays_assertHaveExactly_Test extends ObjectArraysWithConditionBaseT
     // GIVEN
     var actual = array("Yoda", "Solo", "Leia");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHaveExactly(INFO, actual, 2, jediPower));
+    var error = expectAssertionError(() -> arrays.assertHaveExactly(INFO, actual, 2, jediPower));
     // THEN
     then(error).hasMessage(elementsShouldHaveExactly(actual, 2, jediPower).create());
   }
@@ -56,7 +56,7 @@ class ObjectArrays_assertHaveExactly_Test extends ObjectArraysWithConditionBaseT
     // GIVEN
     var actual = array("Yoda", "Luke", "Obiwan");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHaveExactly(INFO, actual, 2, jediPower));
+    var error = expectAssertionError(() -> arrays.assertHaveExactly(INFO, actual, 2, jediPower));
     // THEN
     then(error).hasMessage(elementsShouldHaveExactly(actual, 2, jediPower).create());
   }

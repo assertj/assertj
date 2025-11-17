@@ -38,7 +38,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     // GIVEN
     Path expected = tempDir.resolve("expected");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasParent(INFO, null, expected));
+    var error = expectAssertionError(() -> underTest.assertHasParent(INFO, null, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -60,7 +60,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     Path actual = tempDir.getRoot();
     Path expected = tempDir.resolve("expected");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasParent(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasParent(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveParent(actual, expected).create());
   }
@@ -99,7 +99,7 @@ class Paths_assertHasParent_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual")).toRealPath();
     Path expected = createFile(tempDir.resolve("expected")).toRealPath();
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasParent(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasParent(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveParent(actual, actual.getParent(), expected).create());
   }

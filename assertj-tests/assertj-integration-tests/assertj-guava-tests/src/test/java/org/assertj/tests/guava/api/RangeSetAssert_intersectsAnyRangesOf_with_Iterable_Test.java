@@ -44,7 +44,7 @@ class RangeSetAssert_intersectsAnyRangesOf_with_Iterable_Test {
     RangeSet<Integer> actual = null;
     Iterable<Range<Integer>> ranges = emptySet();
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).intersectsAnyRangesOf(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).intersectsAnyRangesOf(ranges));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -80,7 +80,7 @@ class RangeSetAssert_intersectsAnyRangesOf_with_Iterable_Test {
     Iterable<Range<Integer>> ranges = asList(closed(-100, 0),
                                              closed(100, 200));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).intersectsAnyRangesOf(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).intersectsAnyRangesOf(ranges));
     // THEN
     then(error).hasMessage(shouldIntersectAnyOf(actual, ranges).create());
   }

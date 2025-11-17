@@ -36,7 +36,7 @@ class BDDSoftAssertionsLineNumberTest {
           .isLessThan(0)
           .isLessThan(1);
     // WHEN
-    AssertionError error = expectAssertionError(softly::assertAll);
+    var error = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting actual:%n"

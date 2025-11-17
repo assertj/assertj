@@ -35,7 +35,7 @@ class Throwables_assertHasMessage_Test extends ThrowablesBaseTest {
     // GIVEN
     Throwable actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> throwables.assertHasMessage(INFO, actual, "message"));
+    var error = expectAssertionError(() -> throwables.assertHasMessage(INFO, actual, "message"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

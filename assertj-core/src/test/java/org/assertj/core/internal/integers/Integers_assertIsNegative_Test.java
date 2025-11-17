@@ -57,7 +57,7 @@ class Integers_assertIsNegative_Test extends IntegersBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1));
+    var error = expectAssertionError(() -> integersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1));
     // THEN
     then(error).hasMessage(shouldBeLess(-1, 0, absValueComparisonStrategy).create());
   }

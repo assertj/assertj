@@ -61,7 +61,7 @@ class Objects_assertDoesNotHaveSameHashCodeAs_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertDoesNotHaveSameHashCodeAs(someInfo(), actual, "foo"));
+    var error = expectAssertionError(() -> objects.assertDoesNotHaveSameHashCodeAs(someInfo(), actual, "foo"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

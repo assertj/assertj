@@ -57,7 +57,7 @@ class Doubles_assertIsNegative_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 6.0));
+    var error = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 6.0));
     // THEN
     then(error).hasMessage(shouldBeLess(6.0, 0.0, absValueComparisonStrategy).create());
   }
@@ -65,7 +65,7 @@ class Doubles_assertIsNegative_Test extends DoublesBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1.0));
+    var error = expectAssertionError(() -> doublesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1.0));
     // THEN
     then(error).hasMessage(shouldBeLess(-1.0, 0.0, absValueComparisonStrategy).create());
   }

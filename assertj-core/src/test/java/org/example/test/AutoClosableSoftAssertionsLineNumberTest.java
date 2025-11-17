@@ -36,7 +36,7 @@ class AutoClosableSoftAssertionsLineNumberTest {
           .isLessThan(0)
           .isLessThan(1);
     // WHEN
-    AssertionError error = expectAssertionError(softly::close);
+    var error = expectAssertionError(softly::close);
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting actual:%n"

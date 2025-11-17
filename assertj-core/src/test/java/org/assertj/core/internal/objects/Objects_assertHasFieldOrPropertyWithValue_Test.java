@@ -53,7 +53,7 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, "field1", 123));
+    var error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, "field1", 123));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -64,7 +64,7 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
     Object actual = new Data();
     String fieldName = "field1";
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "baz"));
+    var error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "baz"));
     // THEN
     then(error).hasMessage(shouldHavePropertyOrFieldWithValue(actual, fieldName, "baz", "foo").create());
   }
@@ -75,7 +75,7 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
     Object actual = new Data();
     String fieldName = "unknown_field";
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "foo"));
+    var error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "foo"));
     // THEN
     then(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
   }
@@ -86,7 +86,7 @@ class Objects_assertHasFieldOrPropertyWithValue_Test extends ObjectsBaseTest {
     Object actual = new Data();
     String fieldName = "staticField";
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "foo"));
+    var error = expectAssertionError(() -> objects.assertHasFieldOrPropertyWithValue(INFO, actual, fieldName, "foo"));
     // THEN
     then(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
   }

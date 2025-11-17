@@ -48,7 +48,7 @@ class Assertions_assertThat_inBinary_Test {
   @Test
   void should_assert_bytes_in_binary() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(new byte[] { 2, 3 }).inBinary().isEqualTo(new byte[] { 1 }));
+    var error = expectAssertionError(() -> assertThat(new byte[] { 2, 3 }).inBinary().isEqualTo(new byte[] { 1 }));
     // THEN
     then(error).hasMessage(shouldBeEqualMessage("[0b00000010, 0b00000011]", "[0b00000001]"));
   }

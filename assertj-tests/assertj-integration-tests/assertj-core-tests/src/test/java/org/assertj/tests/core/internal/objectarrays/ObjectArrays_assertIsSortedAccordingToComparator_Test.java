@@ -59,7 +59,7 @@ class ObjectArrays_assertIsSortedAccordingToComparator_Test extends ObjectArrays
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertIsSortedAccordingToComparator(INFO, null, comparator));
+    var error = expectAssertionError(() -> arrays.assertIsSortedAccordingToComparator(INFO, null, comparator));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -74,8 +74,8 @@ class ObjectArrays_assertIsSortedAccordingToComparator_Test extends ObjectArrays
     // GIVEN
     var actual = array("Yoda", "Vador", "Leia", "Leia", "Luke");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertIsSortedAccordingToComparator(INFO, actual,
-                                                                                                 byDescendingOrderComparator));
+    var error = expectAssertionError(() -> arrays.assertIsSortedAccordingToComparator(INFO, actual,
+                                                                                      byDescendingOrderComparator));
     // THEN
     then(error).hasMessage(shouldBeSortedAccordingToGivenComparator(3, actual, byDescendingOrderComparator).create());
   }

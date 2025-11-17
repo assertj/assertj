@@ -40,7 +40,7 @@ class Files_assertCanRead_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertCanRead(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertCanRead(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

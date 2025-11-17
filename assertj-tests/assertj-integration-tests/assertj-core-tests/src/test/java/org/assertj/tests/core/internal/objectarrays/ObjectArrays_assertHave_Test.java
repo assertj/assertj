@@ -47,7 +47,7 @@ class ObjectArrays_assertHave_Test extends ObjectArraysWithConditionBaseTest {
     // GIVEN
     var actual = array("Yoda", "Luke", "Leia");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHave(INFO, actual, jediPower));
+    var error = expectAssertionError(() -> arrays.assertHave(INFO, actual, jediPower));
     // THEN
     then(error).hasMessage(elementsShouldHave(actual, newArrayList("Leia"), jediPower).create());
   }

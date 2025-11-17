@@ -47,7 +47,7 @@ class InputStreamAssert_isEmpty_Test {
     // GIVEN
     InputStream actual = new ByteArrayInputStream(new byte[] { '1', '2' });
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isEmpty());
+    var error = expectAssertionError(() -> assertThat(actual).isEmpty());
     // THEN
     then(error).hasMessage(shouldBeEmpty(actual).create());
     then(actual.read()).isEqualTo('1');
@@ -58,7 +58,7 @@ class InputStreamAssert_isEmpty_Test {
     // GIVEN
     InputStream actual = new UnmarkableByteArrayInputStream(new byte[] { '1', '2' });
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isEmpty());
+    var error = expectAssertionError(() -> assertThat(actual).isEmpty());
     // THEN
     then(error).hasMessage(shouldBeEmpty(actual).create());
     then(actual.read()).isEqualTo('2');

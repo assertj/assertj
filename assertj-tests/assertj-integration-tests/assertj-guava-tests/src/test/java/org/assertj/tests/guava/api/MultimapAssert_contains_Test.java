@@ -41,7 +41,7 @@ class MultimapAssert_contains_Test extends MultimapAssertBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).contains(entry("Lakers", "Kobe Bryant")));
+    var error = expectAssertionError(() -> assertThat(actual).contains(entry("Lakers", "Kobe Bryant")));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -71,7 +71,7 @@ class MultimapAssert_contains_Test extends MultimapAssertBaseTest {
     // GIVEN
     MapEntry<String, String>[] entries = array(entry("Lakers", "Kobe Bryant"), entry("Spurs", "Derrick Rose"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).contains(entries));
+    var error = expectAssertionError(() -> assertThat(actual).contains(entries));
     // THEN
     then(error).hasMessage(shouldContain(actual, entries, singleton(entry("Spurs", "Derrick Rose"))).create());
   }

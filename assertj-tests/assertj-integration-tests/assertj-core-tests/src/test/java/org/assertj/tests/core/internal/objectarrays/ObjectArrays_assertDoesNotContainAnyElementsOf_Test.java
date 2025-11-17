@@ -59,7 +59,7 @@ class ObjectArrays_assertDoesNotContainAnyElementsOf_Test extends ObjectArraysBa
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertDoesNotContainAnyElementsOf(INFO, null, list("Yoda")));
+    var error = expectAssertionError(() -> arrays.assertDoesNotContainAnyElementsOf(INFO, null, list("Yoda")));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

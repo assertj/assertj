@@ -46,7 +46,7 @@ class ByteArrayAssert_asString_with_Charset_Test {
     // GIVEN
     byte[] bytes = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(bytes).asString(TURKISH));
+    var error = expectAssertionError(() -> assertThat(bytes).asString(TURKISH));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

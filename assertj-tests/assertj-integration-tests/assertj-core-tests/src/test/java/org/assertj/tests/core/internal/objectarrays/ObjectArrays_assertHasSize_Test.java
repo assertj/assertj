@@ -31,7 +31,7 @@ class ObjectArrays_assertHasSize_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSize(INFO, null, 6));
+    var error = expectAssertionError(() -> arrays.assertHasSize(INFO, null, 6));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -39,7 +39,7 @@ class ObjectArrays_assertHasSize_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_size_of_actual_is_not_equal_to_expected_size() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSize(INFO, actual, 6));
+    var error = expectAssertionError(() -> arrays.assertHasSize(INFO, actual, 6));
     // THEN
     then(error).hasMessage(shouldHaveSize(actual, actual.length, 6).create());
   }

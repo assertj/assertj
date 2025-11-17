@@ -31,7 +31,7 @@ class Paths_assertNotExists_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertDoesNotExist(INFO, null));
+    var error = expectAssertionError(() -> underTest.assertDoesNotExist(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -41,7 +41,7 @@ class Paths_assertNotExists_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertDoesNotExist(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertDoesNotExist(INFO, actual));
     // THEN
     then(error).hasMessage(shouldNotExist(actual).create());
   }
@@ -60,7 +60,7 @@ class Paths_assertNotExists_Test extends PathsBaseTest {
     Path target = tempDir.resolve("non-existent");
     Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), target);
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertDoesNotExist(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertDoesNotExist(INFO, actual));
     // THEN
     then(error).hasMessage(shouldNotExist(actual).create());
   }

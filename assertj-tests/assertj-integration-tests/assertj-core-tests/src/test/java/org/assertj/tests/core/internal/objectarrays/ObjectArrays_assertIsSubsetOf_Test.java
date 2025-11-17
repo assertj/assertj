@@ -76,7 +76,7 @@ class ObjectArrays_assertIsSubsetOf_Test extends ObjectArraysBaseTest {
   @Test
   void should_throw_error_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertIsSubsetOf(INFO, null, list("Yoda")));
+    var error = expectAssertionError(() -> arrays.assertIsSubsetOf(INFO, null, list("Yoda")));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -88,7 +88,7 @@ class ObjectArrays_assertIsSubsetOf_Test extends ObjectArraysBaseTest {
     List<String> values = list("C-3PO", "Leila");
     List<String> extra = list("Yoda");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertIsSubsetOf(INFO, actual, values));
+    var error = expectAssertionError(() -> arrays.assertIsSubsetOf(INFO, actual, values));
     // THEN
     then(error).hasMessage(shouldBeSubsetOf(actual, values, extra).create());
   }
@@ -119,7 +119,7 @@ class ObjectArrays_assertIsSubsetOf_Test extends ObjectArraysBaseTest {
     List<String> values = list("yoda", "C-3PO");
     List<String> extra = list("Luke");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSubsetOf(INFO, actual, values));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertIsSubsetOf(INFO, actual, values));
     // THEN
     then(error).hasMessage(shouldBeSubsetOf(actual, values, extra, caseInsensitiveStringComparisonStrategy).create());
   }

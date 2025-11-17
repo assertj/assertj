@@ -48,7 +48,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = new Data();
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1", "field2", "field3"));
+    var error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1", "field2", "field3"));
     // THEN
     assertThat(error).hasMessage(shouldContainOnly(actual, list("field1", "field2", "field3"), list("field3"), emptyList(),
                                                    FIELDS_GROUP_DESCRIPTION).create());
@@ -59,7 +59,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = new Data();
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1"));
+    var error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1"));
     // THEN
     assertThat(error).hasMessage(shouldContainOnly(actual, list("field1"), emptyList(), list("field2"),
                                                    FIELDS_GROUP_DESCRIPTION).create());
@@ -70,7 +70,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = new Data();
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1", "field3"));
+    var error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1", "field3"));
     // THEN
     assertThat(error).hasMessage(shouldContainOnly(actual, list("field1", "field3"), list("field3"), list("field2"),
                                                    FIELDS_GROUP_DESCRIPTION).create());
@@ -81,7 +81,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual));
+    var error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

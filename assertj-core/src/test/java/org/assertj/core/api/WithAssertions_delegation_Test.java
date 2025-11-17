@@ -960,7 +960,7 @@ class WithAssertions_delegation_Test implements WithAssertions {
     // GIVEN
     String failureMessage = "bat%s";
     // WHEN
-    AssertionError error = expectAssertionError(() -> fail(failureMessage, "man"));
+    var error = expectAssertionError(() -> fail(failureMessage, "man"));
     // THEN
     then(error).hasMessage("batman");
   }

@@ -49,7 +49,7 @@ class OptionalDoubleAssert_hasValueCloseToOffset_Test {
     // GIVEN
     double expectedValue = 10.0;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(OptionalDouble.empty()).hasValueCloseTo(10.0, within(2.0)));
+    var error = expectAssertionError(() -> assertThat(OptionalDouble.empty()).hasValueCloseTo(10.0, within(2.0)));
     // THEN
     then(error).hasMessage(shouldHaveValueCloseToOffset(expectedValue).create());
   }
@@ -61,7 +61,7 @@ class OptionalDoubleAssert_hasValueCloseToOffset_Test {
     Offset<Double> offset = within(1.0);
     OptionalDouble actual = OptionalDouble.of(1.0);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasValueCloseTo(expectedValue, offset));
+    var error = expectAssertionError(() -> assertThat(actual).hasValueCloseTo(expectedValue, offset));
     // THEN
     double difference = abs(expectedValue - actual.getAsDouble());
     then(error).hasMessage(shouldHaveValueCloseToOffset(actual, expectedValue, offset, difference).create());

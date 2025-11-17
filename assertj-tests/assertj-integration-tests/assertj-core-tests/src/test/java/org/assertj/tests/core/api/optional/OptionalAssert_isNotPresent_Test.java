@@ -39,7 +39,7 @@ class OptionalAssert_isNotPresent_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<String> nullActual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(nullActual).isNotPresent());
+    var error = expectAssertionError(() -> assertThat(nullActual).isNotPresent());
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -49,7 +49,7 @@ class OptionalAssert_isNotPresent_Test {
     // GIVEN
     Optional<String> actual = Optional.of("not-empty");
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isNotPresent());
+    var error = expectAssertionError(() -> assertThat(actual).isNotPresent());
     // THEN
     then(error).hasMessage(shouldBeEmpty(actual).create());
   }

@@ -187,7 +187,7 @@ class Iterables_assertContainsExactly_Test extends IterablesBaseTest {
     List<Integer> actual = IntStream.rangeClosed(0, MAX_INDICES_FOR_PRINTING).boxed().collect(toList());
     Object[] expected = IntStream.rangeClosed(0, MAX_INDICES_FOR_PRINTING).boxed().sorted(reverseOrder()).toArray();
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertContainsExactly(INFO, actual, expected));
+    var error = expectAssertionError(() -> iterables.assertContainsExactly(INFO, actual, expected));
     // THEN
     int maxIndex = MAX_INDICES_FOR_PRINTING - 1;
     then(error).hasMessageContaining("index " + maxIndex)

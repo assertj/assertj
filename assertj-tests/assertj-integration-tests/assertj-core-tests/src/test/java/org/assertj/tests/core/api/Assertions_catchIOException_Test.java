@@ -52,7 +52,7 @@ class Assertions_catchIOException_Test {
   @Test
   void catchIOException_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> catchIOException(() -> {}));
+    var error = expectAssertionError(() -> catchIOException(() -> {}));
     // THEN
     then(error).hasMessage("Expecting code to raise an IOException");
   }

@@ -30,7 +30,7 @@ public class SoftAssertionsErrorDescriptionTest {
     SoftAssertions softly = new SoftAssertions();
     softly.fail("failure", throwRuntimeException());
     // WHEN
-    AssertionError error = expectAssertionError(softly::assertAll);
+    var error = expectAssertionError(softly::assertAll);
     // THEN
     then(error).hasMessageStartingWith(format("%nMultiple Failures (1 failure)%n"
                                               + "-- failure 1 --"

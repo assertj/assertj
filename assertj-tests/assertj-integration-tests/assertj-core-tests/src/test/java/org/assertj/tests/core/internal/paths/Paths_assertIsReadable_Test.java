@@ -34,7 +34,7 @@ class Paths_assertIsReadable_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsReadable(INFO, null));
+    var error = expectAssertionError(() -> underTest.assertIsReadable(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -44,7 +44,7 @@ class Paths_assertIsReadable_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsReadable(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsReadable(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -56,7 +56,7 @@ class Paths_assertIsReadable_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     actual.toFile().setReadable(false);
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsReadable(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsReadable(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }

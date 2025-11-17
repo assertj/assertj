@@ -42,7 +42,7 @@ class RangeSetAssert_doesNotContainAll_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainAll(asList(1, 2)));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotContainAll(asList(1, 2)));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -77,7 +77,7 @@ class RangeSetAssert_doesNotContainAll_Test {
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(1, 10));
     Iterable<Integer> values = List.of(0, 2, 3, 4);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainAll(values));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotContainAll(values));
     // THEN
     then(error).hasMessage(shouldNotContain(actual, values, List.of(2, 3, 4)).create());
   }

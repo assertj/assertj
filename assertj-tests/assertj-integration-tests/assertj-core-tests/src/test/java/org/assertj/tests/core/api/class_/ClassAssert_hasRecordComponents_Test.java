@@ -38,7 +38,7 @@ class ClassAssert_hasRecordComponents_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasRecordComponents("component"));
+    var error = expectAssertionError(() -> assertThat(actual).hasRecordComponents("component"));
     // THEN
     then(error).hasMessage(shouldNotBeNull().create());
   }
@@ -51,7 +51,7 @@ class ClassAssert_hasRecordComponents_Test {
   })
   void should_fail_if_actual_is_not_a_record(Class<?> actual) {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasRecordComponents("component"));
+    var error = expectAssertionError(() -> assertThat(actual).hasRecordComponents("component"));
     // THEN
     then(error).hasMessage(shouldBeRecord(actual).create());
   }

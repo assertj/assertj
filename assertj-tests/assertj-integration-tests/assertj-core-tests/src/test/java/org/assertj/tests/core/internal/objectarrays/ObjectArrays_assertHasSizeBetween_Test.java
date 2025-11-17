@@ -28,7 +28,7 @@ class ObjectArrays_assertHasSizeBetween_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSizeBetween(INFO, null, 0, 6));
+    var error = expectAssertionError(() -> arrays.assertHasSizeBetween(INFO, null, 0, 6));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -42,7 +42,7 @@ class ObjectArrays_assertHasSizeBetween_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_size_of_actual_is_not_greater_than_or_equal_to_lower_boundary() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSizeBetween(INFO, actual, 4, 6));
+    var error = expectAssertionError(() -> arrays.assertHasSizeBetween(INFO, actual, 4, 6));
     // THEN
     then(error).hasMessage(shouldHaveSizeBetween(actual, actual.length, 4, 6).create());
   }
@@ -50,7 +50,7 @@ class ObjectArrays_assertHasSizeBetween_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_size_of_actual_is_not_less_than_higher_boundary() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSizeBetween(INFO, actual, 1, 2));
+    var error = expectAssertionError(() -> arrays.assertHasSizeBetween(INFO, actual, 1, 2));
     // THEN
     then(error).hasMessage(shouldHaveSizeBetween(actual, actual.length, 1, 2).create());
   }

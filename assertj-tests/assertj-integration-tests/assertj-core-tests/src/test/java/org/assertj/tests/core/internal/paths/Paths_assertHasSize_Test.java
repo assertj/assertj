@@ -38,7 +38,7 @@ class Paths_assertHasSize_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSize(INFO, null, 0L));
+    var error = expectAssertionError(() -> underTest.assertHasSize(INFO, null, 0L));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -48,7 +48,7 @@ class Paths_assertHasSize_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSize(INFO, actual, 0L));
+    var error = expectAssertionError(() -> underTest.assertHasSize(INFO, actual, 0L));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -58,7 +58,7 @@ class Paths_assertHasSize_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("directory"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSize(INFO, actual, 0L));
+    var error = expectAssertionError(() -> underTest.assertHasSize(INFO, actual, 0L));
     // THEN
     then(error).hasMessage(shouldBeRegularFile(actual).create());
   }
@@ -89,7 +89,7 @@ class Paths_assertHasSize_Test extends PathsBaseTest {
     // GIVEN
     Path actual = Files.write(tempDir.resolve("actual"), "content".getBytes());
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSize(INFO, actual, 6L));
+    var error = expectAssertionError(() -> underTest.assertHasSize(INFO, actual, 6L));
     // THEN
     then(error).hasMessage(shouldHaveSize(actual, 6L).create());
   }

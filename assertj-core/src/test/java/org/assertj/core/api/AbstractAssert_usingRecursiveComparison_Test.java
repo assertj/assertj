@@ -29,9 +29,9 @@ class AbstractAssert_usingRecursiveComparison_Test {
     // GIVEN
     AbstractAssert<?, ?> assertion = assertThat("foo");
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertion.as("test description")
-                                                               .usingRecursiveComparison()
-                                                               .isEqualTo("bar"));
+    var error = expectAssertionError(() -> assertion.as("test description")
+                                                    .usingRecursiveComparison()
+                                                    .isEqualTo("bar"));
     // THEN
     then(error).hasMessageContaining("[test description]");
   }

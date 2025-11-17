@@ -47,7 +47,7 @@ class ObjectArrays_assertHaveNot_Test extends ObjectArraysWithConditionBaseTest 
     // GIVEN
     var actual = array("Solo", "Leia", "Yoda");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertDoNotHave(INFO, actual, jediPower));
+    var error = expectAssertionError(() -> arrays.assertDoNotHave(INFO, actual, jediPower));
     // THEN
     then(error).hasMessage(elementsShouldNotHave(actual, newArrayList("Yoda"), jediPower).create());
   }

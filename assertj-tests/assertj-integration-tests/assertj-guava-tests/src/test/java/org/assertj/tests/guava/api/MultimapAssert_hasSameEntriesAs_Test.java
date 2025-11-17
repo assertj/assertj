@@ -90,7 +90,7 @@ class MultimapAssert_hasSameEntriesAs_Test extends MultimapAssertBaseTest {
     other.putAll("Lakers", List.of("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
     other.putAll("Bulls", List.of("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSameEntriesAs(other));
+    var error = expectAssertionError(() -> assertThat(actual).hasSameEntriesAs(other));
     // THEN
     then(error).hasMessage(shouldContainOnly(actual, other, null,
                                              List.of(entry("Spurs", "Tony Parker"), entry("Spurs", "Tim Duncan"),
@@ -105,7 +105,7 @@ class MultimapAssert_hasSameEntriesAs_Test extends MultimapAssertBaseTest {
     other.putAll("Spurs", List.of("Tony Parker", "Tim Duncan", "Manu Ginobili"));
     other.putAll("Warriors", List.of("Stephen Curry", "Klay Thompson"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSameEntriesAs(other));
+    var error = expectAssertionError(() -> assertThat(actual).hasSameEntriesAs(other));
     // THEN
     then(error).hasMessage(shouldContainOnly(actual, other,
                                              List.of(entry("Warriors", "Stephen Curry"), entry("Warriors", "Klay Thompson")),

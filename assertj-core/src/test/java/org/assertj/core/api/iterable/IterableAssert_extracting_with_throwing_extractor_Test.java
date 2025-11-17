@@ -74,7 +74,7 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
     // GIVEN
     jedis = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(jedis).extracting(throwingFirstNameExtractor));
+    var error = expectAssertionError(() -> assertThat(jedis).extracting(throwingFirstNameExtractor));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

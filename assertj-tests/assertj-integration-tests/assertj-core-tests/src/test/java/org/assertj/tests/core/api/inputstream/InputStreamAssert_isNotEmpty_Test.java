@@ -47,7 +47,7 @@ class InputStreamAssert_isNotEmpty_Test {
     // GIVEN
     InputStream actual = new ByteArrayInputStream(new byte[0]);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isNotEmpty());
+    var error = expectAssertionError(() -> assertThat(actual).isNotEmpty());
     // THEN
     then(error).hasMessage(shouldNotBeEmpty().create());
   }

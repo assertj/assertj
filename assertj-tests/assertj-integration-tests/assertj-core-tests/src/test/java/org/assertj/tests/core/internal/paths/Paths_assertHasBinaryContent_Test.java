@@ -53,7 +53,7 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     // GIVEN
     byte[] expected = "expected".getBytes();
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, null, expected));
+    var error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, null, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -64,7 +64,7 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     byte[] expected = "expected".getBytes();
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -77,7 +77,7 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     actual.toFile().setReadable(false);
     byte[] expected = "expected".getBytes();
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -98,7 +98,7 @@ class Paths_assertHasBinaryContent_Test extends PathsBaseTest {
     byte[] expected = "Another content".getBytes();
     BinaryDiffResult diff = binaryDiff.diff(actual, expected);
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(INFO.description(), INFO.representation()));
   }

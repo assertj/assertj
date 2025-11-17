@@ -45,7 +45,7 @@ class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertContains(INFO, null, "Yoda", someIndex()));
+    var error = expectAssertionError(() -> arrays.assertContains(INFO, null, "Yoda", someIndex()));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -53,7 +53,7 @@ class ObjectArrays_assertContains_at_Index_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_empty() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertContains(INFO, emptyArray(), "Yoda", someIndex()));
+    var error = expectAssertionError(() -> arrays.assertContains(INFO, emptyArray(), "Yoda", someIndex()));
     // THEN
     then(error).hasMessage(actualIsEmpty());
   }

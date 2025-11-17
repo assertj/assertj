@@ -16,6 +16,7 @@
 package org.assertj.tests.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.BIG_DECIMAL;
@@ -27,6 +28,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractBigDecimalAssert;
 import org.assertj.core.api.AbstractLongAssert;
@@ -55,19 +57,18 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test
   @Test
   void should_throw_npe_if_the_given_assert_factory_is_null() {
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("id", null));
+    var nullPointerException = catchNullPointerException(() -> assertThat(luke).extracting("id", null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
+    then(nullPointerException).hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
   }
 
   @Test
   void should_throw_IntrospectionError_if_given_field_name_cannot_be_read() {
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("foo", LONG));
+    Throwable throwable = catchThrowable(() -> assertThat(luke).extracting("foo", LONG));
     // THEN
-    then(thrown).isInstanceOf(IntrospectionError.class)
-                .hasMessageContaining("Can't find any field or property with name 'foo'.");
+    then(throwable).isInstanceOf(IntrospectionError.class)
+                   .hasMessageContaining("Can't find any field or property with name 'foo'.");
   }
 
   @Test
@@ -89,7 +90,7 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test
   @Test
   void should_fail_if_the_extracted_value_is_not_an_instance_of_the_assert_factory_type() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(luke).extracting("name.first", LONG));
+    var error = expectAssertionError(() -> assertThat(luke).extracting("name.first", LONG));
     // THEN
     then(error).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }
@@ -97,8 +98,7 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test
   @Test
   void should_use_property_field_name_as_description_when_extracting_single_property() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(luke).extracting("name.first", STRING)
-                                                                      .isNull());
+    var error = expectAssertionError(() -> assertThat(luke).extracting("name.first", STRING).isNull());
     // THEN
     then(error).hasMessageContaining("[Extracted: name.first]");
   }
@@ -130,7 +130,7 @@ class ObjectAssert_extracting_with_String_and_InstanceOfAssertFactory_Test
     return assertion.extracting("name.first", STRING);
   }
 
-  @SuppressWarnings("unused")
+  @SuppressWarnings({ "unused", "FieldCanBeLocal" })
   private static class Person {
 
     private final String name;

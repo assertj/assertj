@@ -66,7 +66,7 @@ class ObjectArrays_assertContainsSequence_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertContainsSequence(INFO, null, array("Yoda")));
+    var error = expectAssertionError(() -> arrays.assertContainsSequence(INFO, null, array("Yoda")));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

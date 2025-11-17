@@ -67,7 +67,7 @@ class Assertions_assertThat_with_Throwable_Test {
   @Test
   void catchThrowable_returns_null_when_no_exception_thrown() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> catchThrowable(() -> {}));
+    var error = expectAssertionError(() -> catchThrowable(() -> {}));
     // THEN
     then(error).hasMessage("Expecting code to raise a Throwable");
   }
@@ -98,7 +98,7 @@ class Assertions_assertThat_with_Throwable_Test {
   @Test
   void catchThrowableOfType_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> catchThrowableOfType(SQLException.class, () -> {}));
+    var error = expectAssertionError(() -> catchThrowableOfType(SQLException.class, () -> {}));
     // THEN
     then(error).hasMessage("Expecting code to raise a SQLException");
   }

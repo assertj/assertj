@@ -40,7 +40,7 @@ class Throwables_assertHasStackTraceContaining_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> throwables.assertHasStackTraceContaining(INFO, null, "boom"));
+    var error = expectAssertionError(() -> throwables.assertHasStackTraceContaining(INFO, null, "boom"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

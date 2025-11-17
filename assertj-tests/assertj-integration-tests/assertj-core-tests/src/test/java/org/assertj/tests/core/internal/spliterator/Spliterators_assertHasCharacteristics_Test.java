@@ -39,7 +39,7 @@ class Spliterators_assertHasCharacteristics_Test extends SpliteratorsBaseTest {
     // GIVEN
     Spliterator<?> nullActual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> spliterators.assertHasCharacteristics(INFO, nullActual, DISTINCT));
+    var error = expectAssertionError(() -> spliterators.assertHasCharacteristics(INFO, nullActual, DISTINCT));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }
@@ -73,7 +73,7 @@ class Spliterators_assertHasCharacteristics_Test extends SpliteratorsBaseTest {
     // GIVEN
     Spliterator<?> actual = createSpliterator(SORTED);
     // WHEN
-    AssertionError error = expectAssertionError(() -> spliterators.assertHasCharacteristics(INFO, actual, DISTINCT));
+    var error = expectAssertionError(() -> spliterators.assertHasCharacteristics(INFO, actual, DISTINCT));
     // THEN
     assertThat(error).hasMessage(format("%nExpecting spliterator characteristics:%n"
                                         + "  [\"SORTED\"]%n"

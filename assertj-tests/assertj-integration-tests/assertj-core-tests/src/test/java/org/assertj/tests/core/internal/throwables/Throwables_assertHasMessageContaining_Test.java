@@ -37,7 +37,7 @@ class Throwables_assertHasMessageContaining_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> throwables.assertHasMessageContaining(INFO, null, "Throwable"));
+    var error = expectAssertionError(() -> throwables.assertHasMessageContaining(INFO, null, "Throwable"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

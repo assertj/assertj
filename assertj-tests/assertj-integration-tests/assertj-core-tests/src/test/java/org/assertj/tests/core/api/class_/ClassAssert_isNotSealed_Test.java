@@ -34,7 +34,7 @@ class ClassAssert_isNotSealed_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isNotSealed());
+    var error = expectAssertionError(() -> assertThat(actual).isNotSealed());
     // THEN
     then(error).hasMessage(shouldNotBeNull().create());
   }

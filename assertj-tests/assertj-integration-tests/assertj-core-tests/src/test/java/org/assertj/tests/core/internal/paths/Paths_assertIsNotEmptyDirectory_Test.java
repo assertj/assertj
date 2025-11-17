@@ -41,7 +41,7 @@ class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, null));
+    var error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -51,7 +51,7 @@ class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -61,7 +61,7 @@ class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("file"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeDirectory(actual).create());
   }
@@ -80,7 +80,7 @@ class Paths_assertIsNotEmptyDirectory_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createDirectory(tempDir.resolve("actual"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsNotEmptyDirectory(INFO, actual));
     // THEN
     then(error).hasMessage(shouldNotBeEmpty(actual).create());
   }

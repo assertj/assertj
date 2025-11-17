@@ -42,7 +42,7 @@ class Files_assertCanWrite_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertCanWrite(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertCanWrite(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

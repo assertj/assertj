@@ -33,6 +33,7 @@ import static org.mockito.Mockito.verify;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.List;
+
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.internal.Files;
 import org.assertj.core.internal.FilesBaseTest;
@@ -79,8 +80,7 @@ class Files_assertIsDirectoryNotContaining_SyntaxAndPattern_Test extends FilesBa
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual,
-                                                                                               JAVA_SOURCE_PATTERN));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE_PATTERN));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

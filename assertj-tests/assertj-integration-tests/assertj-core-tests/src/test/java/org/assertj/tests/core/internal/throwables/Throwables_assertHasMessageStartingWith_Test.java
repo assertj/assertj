@@ -33,7 +33,7 @@ class Throwables_assertHasMessageStartingWith_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> throwables.assertHasMessageStartingWith(INFO, null, "foo"));
+    var error = expectAssertionError(() -> throwables.assertHasMessageStartingWith(INFO, null, "foo"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

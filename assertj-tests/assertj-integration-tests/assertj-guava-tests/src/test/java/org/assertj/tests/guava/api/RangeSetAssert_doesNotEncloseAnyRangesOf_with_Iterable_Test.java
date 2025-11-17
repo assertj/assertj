@@ -41,7 +41,7 @@ class RangeSetAssert_doesNotEncloseAnyRangesOf_with_Iterable_Test {
     RangeSet<Integer> actual = null;
     Iterable<Range<Integer>> ranges = List.of(closed(0, 10));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotEncloseAnyRangesOf(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotEncloseAnyRangesOf(ranges));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -76,7 +76,7 @@ class RangeSetAssert_doesNotEncloseAnyRangesOf_with_Iterable_Test {
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 100));
     Iterable<Range<Integer>> ranges = List.of(open(10, 50), open(50, 110));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotEncloseAnyRangesOf(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotEncloseAnyRangesOf(ranges));
     // THEN
     then(error).hasMessage(shouldNotEnclose(actual, ranges, singleton(open(10, 50))).create());
   }

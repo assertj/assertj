@@ -44,7 +44,7 @@ class Files_assertHasName_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasName(INFO, actual, expectedName));
+    var error = expectAssertionError(() -> underTest.assertHasName(INFO, actual, expectedName));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

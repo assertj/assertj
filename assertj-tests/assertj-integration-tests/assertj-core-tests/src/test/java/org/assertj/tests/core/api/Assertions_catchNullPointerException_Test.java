@@ -50,7 +50,7 @@ class Assertions_catchNullPointerException_Test {
   @Test
   void catchNullPointerException_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> catchNullPointerException(() -> {}));
+    var error = expectAssertionError(() -> catchNullPointerException(() -> {}));
     // THEN
     then(error).hasMessage("Expecting code to raise a NullPointerException");
   }

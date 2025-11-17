@@ -41,7 +41,7 @@ class Paths_assertHasSameFileSystemAsPath_Test extends PathsBaseTest {
     // GIVEN
     Path expectedPath = mock(Path.class, withSettings().stubOnly());
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSameFileSystemAs(INFO, null, expectedPath));
+    var error = expectAssertionError(() -> underTest.assertHasSameFileSystemAs(INFO, null, expectedPath));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -98,7 +98,7 @@ class Paths_assertHasSameFileSystemAsPath_Test extends PathsBaseTest {
     FileSystem expectedFileSystem = mock(FileSystem.class, withSettings().stubOnly());
     given(expectedPath.getFileSystem()).willReturn(expectedFileSystem);
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSameFileSystemAs(INFO, actualPath, expectedPath));
+    var error = expectAssertionError(() -> underTest.assertHasSameFileSystemAs(INFO, actualPath, expectedPath));
     // THEN
     then(error).hasMessage(shouldHaveSameFileSystemAs(actualPath, expectedPath).create())
                .isInstanceOf(AssertionFailedError.class)
