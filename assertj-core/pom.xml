@@ -159,7 +159,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>6.2.11</version>
+      <version>7.0.0</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
