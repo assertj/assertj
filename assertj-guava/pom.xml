@@ -16,8 +16,6 @@
   <url>${project.organization.url}#${project.artifactId}</url>
 
   <properties>
-    <rootDirectory>${project.basedir}/../</rootDirectory>
-    <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
     <guava.version>33.5.0-jre</guava.version>
   </properties>
