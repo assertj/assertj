@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.presentation;
 
@@ -41,6 +44,7 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
+
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -513,10 +517,34 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     Ambiguous ambiguous1 = new Ambiguous(0, 1);
     Ambiguous ambiguous2 = new Ambiguous(0, 2);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(ambiguous1).isEqualTo(ambiguous2));
+    var error = expectAssertionError(() -> assertThat(ambiguous1).isEqualTo(ambiguous2));
     // THEN
     then(error).hasMessageContaining(unambiguousToStringOf(ambiguous1))
                .hasMessageContaining(unambiguousToStringOf(ambiguous2));
+  }
+
+  @Test
+  void should_get_unambiguous_representation_with_package() {
+    // GIVEN
+    boolean withPackageName = true;
+    // WHEN
+    String unambiguousRepresentation = STANDARD_REPRESENTATION.unambiguousToStringOf(new Person(), withPackageName);
+    // THEN
+    then(unambiguousRepresentation).contains("Person [name=null, age=0, account=0] (org.assertj.tests.core.presentation.Person@");
+  }
+
+  @Test
+  void should_get_unambiguous_representation_without_package() {
+    // GIVEN
+    boolean withPackageName = false;
+    // WHEN
+    String unambiguousRepresentation = STANDARD_REPRESENTATION.unambiguousToStringOf(new Person(), withPackageName);
+    // THEN
+    then(unambiguousRepresentation).contains("Person [name=null, age=0, account=0] (Person@");
+  }
+
+  private static String removeHashCode(String representation) {
+    return representation.replaceAll("(@\\w+)", "");
   }
 
   private static String unambiguousToStringOf(Object o) {

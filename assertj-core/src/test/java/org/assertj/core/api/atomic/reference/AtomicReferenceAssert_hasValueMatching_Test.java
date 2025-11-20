@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.atomic.reference;
 
@@ -42,7 +45,7 @@ class AtomicReferenceAssert_hasValueMatching_Test {
     String expectedValue = "bar";
     AtomicReference<String> actual = new AtomicReference<>(initialValue);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasValueMatching(expectedValue::equalsIgnoreCase));
+    var error = expectAssertionError(() -> assertThat(actual).hasValueMatching(expectedValue::equalsIgnoreCase));
     // THEN
     then(error).hasMessageContainingAll("\"" + initialValue + "\"",
                                         "to match given predicate",
@@ -56,8 +59,8 @@ class AtomicReferenceAssert_hasValueMatching_Test {
     String expectedValue = "bar";
     AtomicReference<String> actual = new AtomicReference<>(initialValue);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasValueMatching(expectedValue::equalsIgnoreCase,
-                                                                                          "is bar"));
+    var error = expectAssertionError(() -> assertThat(actual).hasValueMatching(expectedValue::equalsIgnoreCase,
+                                                                               "is bar"));
     // THEN
     then(error).hasMessageContainingAll("\"" + initialValue + "\"", "to match 'is bar' predicate")
                .hasMessageNotContaining("a better error message");
@@ -81,7 +84,7 @@ class AtomicReferenceAssert_hasValueMatching_Test {
     String expectedValue = "foo";
     AtomicReference<String> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).hasValueMatching(expectedValue::equalsIgnoreCase));
+    var assertionError = expectAssertionError(() -> assertThat(actual).hasValueMatching(expectedValue::equalsIgnoreCase));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

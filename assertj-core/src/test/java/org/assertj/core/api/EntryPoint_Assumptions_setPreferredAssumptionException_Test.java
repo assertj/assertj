@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -18,7 +21,6 @@ import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.AssumptionExceptionFactory.getPreferredAssumptionException;
 import static org.assertj.core.api.Assumptions.assumeThat;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.configuration.PreferredAssumptionException.JUNIT4;
 import static org.assertj.core.configuration.PreferredAssumptionException.JUNIT5;
 import static org.assertj.core.configuration.PreferredAssumptionException.TEST_NG;
 import static org.mockito.Answers.CALLS_REAL_METHODS;
@@ -29,7 +31,6 @@ import java.util.stream.Stream;
 
 import org.assertj.core.configuration.PreferredAssumptionException;
 import org.assertj.core.testkit.MutatesGlobalConfiguration;
-import org.junit.AssumptionViolatedException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -66,17 +67,6 @@ class EntryPoint_Assumptions_setPreferredAssumptionException_Test {
     Throwable thrown = catchThrowable(() -> assumeThat(true).isEqualTo(false));
     // THEN
     then(thrown).isInstanceOf(TestAbortedException.class);
-  }
-
-  @ParameterizedTest
-  @MethodSource("setPreferredAssumptionExceptionFunctions")
-  void should_throw_AssumptionViolatedException_when_assumption_fails_if_preferredAssumptionException_is_set_to_junit4(Consumer<PreferredAssumptionException> setPreferredAssumptionExceptionFunction) {
-    // GIVEN
-    setPreferredAssumptionExceptionFunction.accept(JUNIT4);
-    // WHEN
-    Throwable thrown = catchThrowable(() -> assumeThat(true).isEqualTo(false));
-    // THEN
-    then(thrown).isInstanceOf(AssumptionViolatedException.class);
   }
 
   @ParameterizedTest

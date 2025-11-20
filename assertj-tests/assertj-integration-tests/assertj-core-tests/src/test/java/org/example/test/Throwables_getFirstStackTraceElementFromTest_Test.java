@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.example.test;
 
@@ -33,7 +36,7 @@ class Throwables_getFirstStackTraceElementFromTest_Test {
     // WHEN
     StackTraceElement firstStackTraceElementFromTest = getFirstStackTraceElementFromTest(stackTraceElements);
     // THEN
-    then(firstStackTraceElementFromTest).hasToString("org.assertj.tests.core/org.example.test.Throwables_getFirstStackTraceElementFromTest_Test.should_return_first_stack_trace_element_from_test(Throwables_getFirstStackTraceElementFromTest_Test.java:32)");
+    then(firstStackTraceElementFromTest).hasToString("org.assertj.tests.core/org.example.test.Throwables_getFirstStackTraceElementFromTest_Test.should_return_first_stack_trace_element_from_test(Throwables_getFirstStackTraceElementFromTest_Test.java:35)");
   }
 
   @ParameterizedTest
@@ -65,7 +68,6 @@ class Throwables_getFirstStackTraceElementFromTest_Test {
                                      "javax.",
                                      "org.junit.",
                                      "org.eclipse.jdt.internal.junit.",
-                                     "org.eclipse.jdt.internal.junit4.",
                                      "org.eclipse.jdt.internal.junit5.",
                                      "com.intellij.junit5.",
                                      "com.intellij.rt.execution.junit.",
@@ -74,6 +76,6 @@ class Throwables_getFirstStackTraceElementFromTest_Test {
                                      "org.pitest.",
                                      "org.assertj",
                                      "com.foo.Foo"),
-                               "com.foo.Foo.foo(Foo.java:14)"));
+                               "com.foo.Foo.foo(Foo.java:13)"));
   }
 }

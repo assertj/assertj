@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.map;
 
@@ -67,7 +70,7 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
     // GIVEN
     Map<Object, Object> map = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(STRING)));
+    var error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(STRING)));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -75,7 +78,7 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
   @Test
   void should_fail_if_extracted_value_is_not_an_instance_of_the_assert_factory_type() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(INTEGER)));
+    var error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(INTEGER)));
     // THEN
     then(error).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }
@@ -83,7 +86,7 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
   @Test
   void should_fail_if_key_is_unknown() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey("unknown", as(STRING)));
+    var error = expectAssertionError(() -> assertThat(map).extractingByKey("unknown", as(STRING)));
     // THEN
     then(error).hasMessageContaining(actualIsNull());
   }
@@ -91,7 +94,7 @@ class MapAssert_extractingByKey_with_Key_and_InstanceOfAssertFactory_Test
   @Test
   void should_use_key_name_as_description() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(STRING)).isNull());
+    var error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME, as(STRING)).isNull());
     // THEN
     then(error).hasMessageContaining("[Extracted: name]");
   }

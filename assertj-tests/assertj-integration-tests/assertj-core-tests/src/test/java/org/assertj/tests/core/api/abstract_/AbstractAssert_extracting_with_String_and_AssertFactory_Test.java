@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.abstract_;
 
@@ -101,8 +104,8 @@ class AbstractAssert_extracting_with_String_and_AssertFactory_Test implements Na
   @Test
   void should_use_property_field_name_as_description_when_extracting_single_property() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.extracting("name.first", Assertions::assertThat)
-                                                               .isNull());
+    var error = expectAssertionError(() -> underTest.extracting("name.first", Assertions::assertThat)
+                                                    .isNull());
     // THEN
     then(error).hasMessageContaining("[Extracted: name.first]");
   }
@@ -112,7 +115,7 @@ class AbstractAssert_extracting_with_String_and_AssertFactory_Test implements Na
     // GIVEN
     TestAssert underTest = new TestAssert(null);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> underTest.extracting("age", Assertions::assertThat));
+    var assertionError = expectAssertionError(() -> underTest.extracting("age", Assertions::assertThat));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

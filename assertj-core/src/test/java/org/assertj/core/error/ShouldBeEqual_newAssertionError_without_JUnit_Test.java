@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.error;
 
@@ -20,14 +23,12 @@ import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPR
 import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.TestDescription;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.junit.ComparisonFailure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
@@ -48,27 +49,15 @@ class ShouldBeEqual_newAssertionError_without_JUnit_Test {
   public void setUp() throws NoSuchFieldException, IllegalAccessException {
     Failures.instance().setRemoveAssertJRelatedElementsFromStackTrace(false);
     description = new TestDescription("Jedi");
-    factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", new StandardRepresentation());
+    factory = shouldBeEqual("Luke", "Yoda", new StandardRepresentation());
     constructorInvoker = mock(ConstructorInvoker.class, withSettings().defaultAnswer(CALLS_REAL_METHODS));
     writeField(factory, "constructorInvoker", constructorInvoker, true);
   }
 
   @Test
-  void should_create_AssertionFailedError_if_created_ComparisonFailure_is_null() throws Exception {
-    when(createComparisonFailure()).thenReturn(null);
+  void should_create_AssertionFailedError() throws Exception {
     AssertionError error = factory.toAssertionError(description, new StandardRepresentation());
     check(error);
-  }
-
-  @Test
-  void should_create_AssertionFailedError_if_error_is_thrown_when_creating_ComparisonFailure() throws Exception {
-    when(createComparisonFailure()).thenThrow(new AssertionError("Thrown on purpose"));
-    AssertionError error = factory.toAssertionError(description, new StandardRepresentation());
-    check(error);
-  }
-
-  private Object createComparisonFailure() throws Exception {
-    return createComparisonFailure(constructorInvoker);
   }
 
   private void check(AssertionError error) throws Exception {
@@ -79,8 +68,7 @@ class ShouldBeEqual_newAssertionError_without_JUnit_Test {
                                                   " but was: \"Luke\""),
                                            STANDARD_REPRESENTATION.toStringOf("Yoda"),
                                            STANDARD_REPRESENTATION.toStringOf("Luke"));
-    assertThat(error).isNotInstanceOf(ComparisonFailure.class)
-                     .isInstanceOf(AssertionFailedError.class);
+    assertThat(error).isInstanceOf(AssertionFailedError.class);
     AssertionFailedError assertionFailedError = (AssertionFailedError) error;
     assertThat(assertionFailedError.getActual().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf("Luke"));
     assertThat(assertionFailedError.getExpected().getValue()).isEqualTo(STANDARD_REPRESENTATION.toStringOf("Yoda"));
@@ -89,9 +77,4 @@ class ShouldBeEqual_newAssertionError_without_JUnit_Test {
                                         " but was: \"Luke\""));
   }
 
-  private static Object createComparisonFailure(ConstructorInvoker invoker) throws Exception {
-    return invoker.newInstance(ComparisonFailure.class.getName(),
-                               new Class<?>[] { String.class, String.class, String.class },
-                               "[Jedi]", STANDARD_REPRESENTATION.toStringOf("Yoda"), STANDARD_REPRESENTATION.toStringOf("Luke"));
-  }
 }

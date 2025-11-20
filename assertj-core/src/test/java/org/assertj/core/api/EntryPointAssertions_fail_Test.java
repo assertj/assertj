@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -35,7 +38,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
     // GIVEN
     String message = "boom!";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> failFunction.apply(message));
+    var assertionError = expectAssertionError(() -> failFunction.apply(message));
     // THEN
     then(assertionError).hasMessage(message);
   }
@@ -50,7 +53,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
     // GIVEN
     String message = "%sm!";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> failWithParamFunction.apply(message, array("boo")));
+    var assertionError = expectAssertionError(() -> failWithParamFunction.apply(message, array("boo")));
     // THEN
     then(assertionError).hasMessage("boom!");
   }
@@ -66,7 +69,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
     String message = "boom!";
     Throwable cause = new NullPointerException();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> failWithCauseFunction.apply(message, cause));
+    var assertionError = expectAssertionError(() -> failWithCauseFunction.apply(message, cause));
     // THEN
     then(assertionError).hasMessage("boom!")
                         .hasCause(cause);
@@ -83,7 +86,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
     String message = "boom!";
     Optional<Integer> empty = Optional.empty();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> doSomethingWithInt(empty.orElseGet(() -> failFunction.apply(message))));
+    var assertionError = expectAssertionError(() -> doSomethingWithInt(empty.orElseGet(() -> failFunction.apply(message))));
     // THEN
     then(assertionError).hasMessage("boom!");
   }
@@ -96,7 +99,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
   @MethodSource
   void should_fail_without_message(Supplier<Void> supplier) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> supplier.get());
+    var assertionError = expectAssertionError(() -> supplier.get());
     // THEN
     then(assertionError).hasMessage("");
   }
@@ -112,7 +115,7 @@ class EntryPointAssertions_fail_Test extends EntryPointAssertionsBaseTest {
     String message = "boom!";
     Exception cause = new Exception(message);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> failWithCauseFunction.apply(cause));
+    var assertionError = expectAssertionError(() -> failWithCauseFunction.apply(cause));
     // THEN
     then(assertionError).hasCause(cause);
   }

@@ -1,18 +1,20 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.presentation;
 
-import static java.time.temporal.ChronoUnit.MILLIS;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.assertj.core.api.BDDAssertions.entry;
@@ -20,7 +22,6 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Lists.list;
 import static org.assertj.core.util.Maps.newHashMap;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.io.File;
 import java.io.Serial;
@@ -28,7 +29,6 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
@@ -55,7 +55,7 @@ import java.util.concurrent.atomic.AtomicMarkableReference;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import java.util.concurrent.atomic.AtomicStampedReference;
-import java.util.stream.Stream;
+
 import org.assertj.core.data.MapEntry;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -63,9 +63,6 @@ import org.assertj.tests.core.testkit.OtherStringTestComparator;
 import org.assertj.tests.core.testkit.OtherStringTestComparatorWithAt;
 import org.assertj.tests.core.testkit.StringTestComparator;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationTest {
 
@@ -633,15 +630,6 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
     then(methodRepresentation).isEqualTo(method.toGenericString());
   }
 
-  @ParameterizedTest
-  @MethodSource("durations")
-  void should_return_toString_of_duration(Duration duration, String expectedDurationRepresentation) {
-    // WHEN
-    String durationRepresentation = STANDARD_REPRESENTATION.toStringOf(duration);
-    // THEN
-    then(durationRepresentation).isEqualTo(expectedDurationRepresentation);
-  }
-
   @Test
   void should_fix_1483() {
     // GIVEN
@@ -776,15 +764,6 @@ class StandardRepresentation_toStringOf_Test extends AbstractBaseRepresentationT
     }
 
   }
-
-  //@format:off FIXME the formatter profile shouldn't touch this method
-  private static Stream<Arguments> durations() {
-    return Stream.of(
-      arguments(Duration.of(1L, MILLIS), "0.001S"),
-      arguments(Duration.of(1234L, MILLIS), "1.234S"),
-      arguments(Duration.of(3_661_001L, MILLIS), "1H1M1.001S"));
-  }
-  //@format:on
 
   private static class Person {
     volatile String name;

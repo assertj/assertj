@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.internal;
 
@@ -171,26 +174,27 @@ public class Failures {
    * <p>
    * See example below :
    * <pre><code class='java'> --------------- stack trace not filtered -----------------
-  org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
-  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
-  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
-  at java.lang.reflect.Constructor.newInstance(Constructor.java:501)
-  at org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:34)
-  at org.assertj.core.error.ShouldBeEqual.newComparisonFailure(ShouldBeEqual.java:111)
-  at org.assertj.core.error.ShouldBeEqual.comparisonFailure(ShouldBeEqual.java:103)
-  at org.assertj.core.error.ShouldBeEqual.newAssertionError(ShouldBeEqual.java:81)
-  at org.assertj.core.internal.Failures.failure(Failures.java:76)
-  at org.assertj.core.internal.Objects.assertEqual(Objects.java:116)
-  at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:74)
-  at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:13)
+   org.opentest4j.AssertionFailedError:
+   expected: "messi"
+    but was: "ronaldo"
+  
+   at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+   at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+   at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+   at org.assertj.core/org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:28)
+   at org.assertj.core/org.assertj.core.error.ShouldBeEqual.assertionFailedError(ShouldBeEqual.java:208)
+   at org.assertj.core/org.assertj.core.error.ShouldBeEqual.toAssertionError(ShouldBeEqual.java:113)
+   at org.assertj.core/org.assertj.core.internal.Failures.failure(Failures.java:88)
+   at org.assertj.core/org.assertj.core.internal.Objects.assertEqual(Objects.java:214)
   
   --------------- stack trace filtered -----------------
-  org.junit.ComparisonFailure: expected:&lt;'[Ronaldo]'&gt; but was:&lt;'[Messi]'&gt;
-  at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-  at sun.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:39)
-  at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:27)
-  at examples.StackTraceFilterExample.main(StackTraceFilterExample.java:20)</code></pre>
+   org.opentest4j.AssertionFailedError:
+   expected: "messi"
+    but was: "ronaldo"
+  
+   at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+   at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+   at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)</code></pre>
    *
    * @param assertionError the {@code AssertionError} to filter stack trace if option is set.
    */

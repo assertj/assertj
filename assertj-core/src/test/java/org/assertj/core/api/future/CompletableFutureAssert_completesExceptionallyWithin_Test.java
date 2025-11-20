@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.future;
 
@@ -35,9 +38,9 @@ class CompletableFutureAssert_completesExceptionallyWithin_Test extends Abstract
     // GIVEN
     CompletableFuture<Void> future = futureCompletingAfter(ONE_SECOND, executorService);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(Duration.ofMillis(50)));
+    var assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(Duration.ofMillis(50)));
     // THEN
-    then(assertionError).hasMessageContainingAll("Incomplete", "to have completed exceptionally within 0.05S.");
+    then(assertionError).hasMessageContainingAll("Incomplete", "to have completed exceptionally within 0.05s.");
   }
 
   @Test
@@ -45,7 +48,7 @@ class CompletableFutureAssert_completesExceptionallyWithin_Test extends Abstract
     // GIVEN
     CompletableFuture<Void> future = futureCompletingAfter(ONE_SECOND, executorService);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(50, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(50, MILLISECONDS));
     // THEN
     then(assertionError).hasMessageContainingAll("Incomplete", "to have completed exceptionally within 50L MILLISECONDS.");
   }
@@ -55,8 +58,8 @@ class CompletableFutureAssert_completesExceptionallyWithin_Test extends Abstract
     // GIVEN
     CompletableFuture<Void> future = futureCompletingAfter(Duration.ofMillis(10), executorService);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(500,
-                                                                                                               MILLISECONDS));
+    var assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(500,
+                                                                                                    MILLISECONDS));
     // THEN
     then(assertionError).hasMessageContainingAll("Completed", "to have completed exceptionally within 500L MILLISECONDS.");
   }
@@ -66,9 +69,9 @@ class CompletableFutureAssert_completesExceptionallyWithin_Test extends Abstract
     // GIVEN
     CompletableFuture<Void> future = futureCompletingAfter(Duration.ofMillis(10), executorService);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(Duration.ofMillis(500)));
+    var assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(Duration.ofMillis(500)));
     // THEN
-    then(assertionError).hasMessageContainingAll("Completed", "to have completed exceptionally within 0.5S.");
+    then(assertionError).hasMessageContainingAll("Completed", "to have completed exceptionally within 0.5s.");
   }
 
   @Test
@@ -102,7 +105,7 @@ class CompletableFutureAssert_completesExceptionallyWithin_Test extends Abstract
     CompletableFuture<Void> future = futureCompletingAfter(ONE_SECOND, executorService);
     // WHEN
     Thread.currentThread().interrupt();
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(2, SECONDS));
+    var assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(2, SECONDS));
     // THEN
     then(assertionError).hasMessageContainingAll("Incomplete", "to have completed exceptionally within 2L SECONDS.");
   }
@@ -112,7 +115,7 @@ class CompletableFutureAssert_completesExceptionallyWithin_Test extends Abstract
     // GIVEN
     CompletableFuture<Void> future = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(1, MILLISECONDS));
+    var assertionError = expectAssertionError(() -> assertThat(future).completesExceptionallyWithin(1, MILLISECONDS));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

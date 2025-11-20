@@ -1,24 +1,54 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.util.Strings.escapePercent;
+import static org.assertj.core.util.Throwables.getStackTrace;
+
+/** .
+ * Creates an error message indicating that an assertion
+ * that verifies that a {@link Throwable} have a certain cause
+ * reference
+ *
+ * @author weiyilei
+ */
 public class ShouldHaveCauseReference extends BasicErrorMessageFactory {
 
   public static ErrorMessageFactory shouldHaveCauseReference(Throwable actualCause, Throwable expectedCause) {
-    return new ShouldHaveCauseReference(actualCause, expectedCause);
+    return actualCause == null
+        ? new ShouldHaveCauseReference(expectedCause)
+        : new ShouldHaveCauseReference(actualCause, expectedCause);
+  }
+
+  private ShouldHaveCauseReference(Throwable expectedCause) {
+    super("Expecting actual cause reference to be:%n"
+          + "  %s%n"
+          + "but was:%n"
+          + "  null",
+          expectedCause);
   }
 
   private ShouldHaveCauseReference(Throwable actualCause, Throwable expectedCause) {
-    super("%nExpecting actual cause reference to be:%n  %s%nbut was:%n  %s", expectedCause, actualCause);
+    super("Expecting actual cause reference to be:%n"
+          + "  %s%n"
+          + "but was:%n"
+          + "  %s%n"
+          + "actual cause that failed the check:%n"
+          + "%n"
+          + escapePercent(getStackTrace(actualCause)),
+          expectedCause, actualCause);
   }
 }

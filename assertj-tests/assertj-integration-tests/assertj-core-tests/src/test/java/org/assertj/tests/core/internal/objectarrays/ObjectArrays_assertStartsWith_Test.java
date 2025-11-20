@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.internal.objectarrays;
 
@@ -50,7 +53,7 @@ class ObjectArrays_assertStartsWith_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertStartsWith(INFO, actual, emptyArray()));
+    var error = expectAssertionError(() -> arrays.assertStartsWith(INFO, actual, emptyArray()));
     // THEN
     then(error).hasMessage(actualIsNotEmpty(actual).create());
   }
@@ -58,7 +61,7 @@ class ObjectArrays_assertStartsWith_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertStartsWith(INFO, null, array("Yoda")));
+    var error = expectAssertionError(() -> arrays.assertStartsWith(INFO, null, array("Yoda")));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -68,7 +71,7 @@ class ObjectArrays_assertStartsWith_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Yoda", "Luke", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertStartsWith(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertStartsWith(INFO, actual, sequence));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, sequence).create());
   }
@@ -78,7 +81,7 @@ class ObjectArrays_assertStartsWith_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Han", "C-3PO" };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertStartsWith(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertStartsWith(INFO, actual, sequence));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, sequence).create());
   }
@@ -88,7 +91,7 @@ class ObjectArrays_assertStartsWith_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Leia", "Obi-Wan", "Han" };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertStartsWith(INFO, actual, sequence));
+    var error = expectAssertionError(() -> arrays.assertStartsWith(INFO, actual, sequence));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, sequence).create());
   }
@@ -122,8 +125,8 @@ class ObjectArrays_assertStartsWith_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Yoda", "LUKE", "Leia", "Obi-Wan", "Han", "C-3PO", "R2-D2", "Anakin" };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertStartsWith(INFO, actual,
-                                                                                                          sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertStartsWith(INFO, actual,
+                                                                                               sequence));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, sequence, caseInsensitiveStringComparisonStrategy).create());
   }
@@ -133,8 +136,8 @@ class ObjectArrays_assertStartsWith_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "Han", "C-3PO" };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertStartsWith(INFO, actual,
-                                                                                                          sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertStartsWith(INFO, actual,
+                                                                                               sequence));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, sequence, caseInsensitiveStringComparisonStrategy).create());
   }
@@ -144,8 +147,8 @@ class ObjectArrays_assertStartsWith_Test extends ObjectArraysBaseTest {
     // GIVEN
     Object[] sequence = { "LEia", "Obi-Wan", "Han" };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertStartsWith(INFO, actual,
-                                                                                                          sequence));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertStartsWith(INFO, actual,
+                                                                                               sequence));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, sequence, caseInsensitiveStringComparisonStrategy).create());
   }

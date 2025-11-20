@@ -3,15 +3,22 @@ updates:
   - package-ecosystem: "maven"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     labels:
       - "dependabot: Maven"
-    ignore:
-      - dependency-name: "spring-core"
-        versions: [ "6.x" ]
+#    FIXME not working as intended, waiting for Dependabot bugfix
+#    groups:
+#      production-dependencies:
+#        dependency-type: "production"
+#      development-dependencies:
+#        dependency-type: "development"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     labels:
       - "dependabot: GitHub Actions"
+    groups:
+      github-actions:
+        patterns:
+          - "*"

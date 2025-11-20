@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -19,9 +22,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.NavigableSet;
-import java.util.Set;
 
-import org.assertj.core.annotations.Beta;
+import org.assertj.core.annotation.Beta;
 
 /**
  * Base class for all implementations of assertions for {@link Collection}s.
@@ -62,9 +64,9 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
    *
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual collection is modifiable.
-   * @see Collections#unmodifiableCollection(Collection)
-   * @see Collections#unmodifiableList(List)
-   * @see Collections#unmodifiableSet(Set)
+   * @see Collections#unmodifiableCollection(java.util.Collection)
+   * @see Collections#unmodifiableList(java.util.List)
+   * @see Collections#unmodifiableSet(java.util.Set)
    */
   @Beta
   public SELF isUnmodifiable() {

@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.future;
 
@@ -36,7 +39,7 @@ class CompletableFutureAssert_isCompletedWithValue_Test {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("foo"));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("foo"));
     // THEN
     assertThat(assertionError).hasMessage(actualIsNull());
   }
@@ -46,7 +49,7 @@ class CompletableFutureAssert_isCompletedWithValue_Test {
     // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("foo"));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("foo"));
     // THEN
     assertThat(assertionError).hasMessageContaining("foo")
                               .hasMessageContaining("done");
@@ -57,7 +60,7 @@ class CompletableFutureAssert_isCompletedWithValue_Test {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("done"));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("done"));
     // THEN
     assertThat(assertionError).hasMessage(shouldBeCompleted(future).create());
   }
@@ -68,7 +71,7 @@ class CompletableFutureAssert_isCompletedWithValue_Test {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException());
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("done"));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("done"));
     // THEN
     assertThat(assertionError).hasMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException".formatted())
                               .hasMessageEndingWith("to be completed.%n%s", WARNING);
@@ -81,7 +84,7 @@ class CompletableFutureAssert_isCompletedWithValue_Test {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(true);
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("done"));
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValue("done"));
     // THEN
     assertThat(assertionError).hasMessage(shouldBeCompleted(future).create());
   }

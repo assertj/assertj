@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.recursive.assertion;
 
@@ -20,6 +23,7 @@ import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Predicate;
+
 import org.assertj.core.api.RecursiveAssertionAssert;
 import org.assertj.core.api.recursive.AbstractRecursiveOperationConfiguration;
 
@@ -516,7 +520,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
 
     /**
      * <p>Selects the {@link CollectionAssertionPolicy} to use for recursive application of a {@link Predicate} to an object tree. 
-     * If not set, defaults to {@link CollectionAssertionPolicy#COLLECTION_OBJECT_AND_ELEMENTS}.</p>
+     * If not set, defaults to {@link CollectionAssertionPolicy#ELEMENTS_ONLY}.</p>
      * <p>Note that for the purposes of recursive asserting, an array counts as a collection, so this policy is applied to
      * arrays as well as children of {@link Collection}.
      *
@@ -530,7 +534,7 @@ public class RecursiveAssertionConfiguration extends AbstractRecursiveOperationC
 
     /**
      * <p>Selects the {@link MapAssertionPolicy} to use for recursive application of a {@link Predicate} to an object tree. 
-     * If not set, defaults to {@link MapAssertionPolicy#MAP_OBJECT_AND_ENTRIES}.</p>
+     * If not set, defaults to {@link MapAssertionPolicy#MAP_VALUES_ONLY}.</p>
      *
      * @param policy The policy to use for maps in recursive asserting.
      * @return This builder.

@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.util.introspection;
 
@@ -80,7 +83,7 @@ public class ClassUtils {
   /**
    * Get the interfaces for the specified class.
    *
-   * @param cls the class to look up, may be {@code null}
+   * @param cls             the class to look up, may be {@code null}
    * @param interfacesFound the {@code Set} of interfaces for the class
    */
   static void getAllInterfaces(Class<?> cls, HashSet<Class<?>> interfacesFound) {
@@ -107,7 +110,7 @@ public class ClassUtils {
    *
    * @param type The class to query or null.
    * @return true if the given {@code type} is a primitive or primitive wrapper ({@link Boolean}, {@link Byte},
-   *         {@link Character}, {@link Short}, {@link Integer}, {@link Long}, {@link Double}, {@link Float}, {@link Void}).
+   * {@link Character}, {@link Short}, {@link Integer}, {@link Long}, {@link Double}, {@link Float}, {@link Void}).
    * @since 3.24.0
    */
   public static boolean isPrimitiveOrWrapper(final Class<?> type) {
@@ -125,7 +128,7 @@ public class ClassUtils {
    *
    * @param type The class to query or null.
    * @return true if the given {@code type} is a primitive or primitive wrapper ({@link Optional}, {@link OptionalInt},
-   *              {@link OptionalLong}, {@link OptionalDouble}).
+   * {@link OptionalLong}, {@link OptionalDouble}).
    * @since 3.24.0
    */
   public static boolean isOptionalOrPrimitiveOptional(final Class<?> type) {
@@ -144,5 +147,22 @@ public class ClassUtils {
    */
   public static boolean isInJavaLangPackage(final Class<?> type) {
     return type != null && type.getName().startsWith("java.lang");
+  }
+
+  /**
+   * Returns whether the given objects types have the same name but are located in different packages
+   *
+   * @param object1 first object to compare
+   * @param object2 the object to compare to
+   * @return true if the given {@code object1} types have the same name as {@code object2} but is
+   * in a different package
+   */
+  public static boolean haveSameClassNameInDifferentPackages(Object object1, Object object2) {
+    if (object1 != null && object2 != null) {
+      Class<?> type1 = object1.getClass();
+      Class<?> type2 = object2.getClass();
+      return type1.getSimpleName().equals(type2.getSimpleName()) && !type1.getPackageName().equals(type2.getPackageName());
+    }
+    return false;
   }
 }

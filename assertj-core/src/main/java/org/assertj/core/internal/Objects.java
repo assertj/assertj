@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.internal;
 
@@ -29,6 +32,7 @@ import static org.assertj.core.error.ShouldBeOfClassIn.shouldBeOfClassIn;
 import static org.assertj.core.error.ShouldBeSame.shouldBeSame;
 import static org.assertj.core.error.ShouldContainOnly.shouldContainOnly;
 import static org.assertj.core.error.ShouldHaveAllNullFields.shouldHaveAllNullFields;
+import static org.assertj.core.error.ShouldHaveFields.shouldHaveDeclaredFields;
 import static org.assertj.core.error.ShouldHaveNoNullFields.shouldHaveNoNullFieldsExcept;
 import static org.assertj.core.error.ShouldHavePropertyOrField.shouldHavePropertyOrField;
 import static org.assertj.core.error.ShouldHavePropertyOrFieldWithValue.shouldHavePropertyOrFieldWithValue;
@@ -63,6 +67,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.assertj.core.api.AssertionInfo;
+import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.ComparisonStrategy;
 import org.assertj.core.api.comparisonstrategy.StandardComparisonStrategy;
@@ -331,9 +336,21 @@ public class Objects {
     for (Field field : declaredFieldsIncludingInherited) {
       // ignore private field if user has decided not to use them in comparison
       String fieldName = field.getName();
-      if (ignoredFields.contains(fieldName) || !canReadFieldValue(field, actual)) continue;
+      if (ignoredFields.remove(fieldName)) continue;
+      if (!canReadFieldValue(field, actual)) continue;
       Object actualFieldValue = getPropertyOrFieldValue(actual, fieldName);
       if (actualFieldValue == null) nullFieldNames.add(fieldName);
+    }
+    if (!ignoredFields.isEmpty()) {
+      WritableAssertionInfo amendedInfo = new WritableAssertionInfo(info.representation());
+      String newDescription = info.description() == null ? "" : info.description().value() + " - ";
+      amendedInfo.description(newDescription + "ignored fields existence check");
+      if (info.overridingErrorMessage() != null) {
+        amendedInfo.overridingErrorMessage(info.overridingErrorMessage());
+      }
+      throw failures.failure(amendedInfo,
+                             shouldHaveDeclaredFields(actual.getClass(), newLinkedHashSet(propertiesOrFieldsToIgnore),
+                                                      ignoredFields));
     }
     if (!nullFieldNames.isEmpty())
       throw failures.failure(info, shouldHaveNoNullFieldsExcept(actual, nullFieldNames,

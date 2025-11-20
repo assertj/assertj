@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.object;
 
@@ -19,6 +22,7 @@ import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.math.BigDecimal;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -76,16 +80,15 @@ class ObjectAssert_extracting_with_String_Array_Test implements NavigationMethod
   @Test
   void should_throw_IntrospectionError_if_nested_map_key_does_not_exist() {
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("relations.unknown", "relations.sister"));
+    Throwable throwable = catchThrowable(() -> assertThat(luke).extracting("relations.unknown", "relations.sister"));
     // THEN
-    then(thrown).isInstanceOf(IntrospectionError.class);
+    then(throwable).isInstanceOf(IntrospectionError.class);
   }
 
   @Test
   void should_use_property_field_names_as_description_when_extracting_tuples_list() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(luke).extracting("name.first", "name.last")
-                                                                      .isEmpty());
+    var error = expectAssertionError(() -> assertThat(luke).extracting("name.first", "name.last").isEmpty());
     // THEN
     then(error).hasMessageContaining("[Extracted: name.first, name.last]");
   }
@@ -93,9 +96,9 @@ class ObjectAssert_extracting_with_String_Array_Test implements NavigationMethod
   @Test
   void should_keep_existing_description_if_set_when_extracting_tuples_list() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(luke).as("check luke first and last name")
-                                                                      .extracting("name.first", "name.last")
-                                                                      .isEmpty());
+    var error = expectAssertionError(() -> assertThat(luke).as("check luke first and last name")
+                                                           .extracting("name.first", "name.last")
+                                                           .isEmpty());
     // THEN
     then(error).hasMessageContaining("[check luke first and last name]");
   }
@@ -106,9 +109,9 @@ class ObjectAssert_extracting_with_String_Array_Test implements NavigationMethod
     Person obiwan = new Person("Obi-Wan");
     obiwan.setHeight(new BigDecimal("1.820"));
     // WHEN/THEN
-    assertThat(obiwan).extracting("name", "height")
-                      .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
-                      .containsExactly("Obi-Wan", new BigDecimal("1.82"));
+    then(obiwan).extracting("name", "height")
+                .usingComparatorForType(BIG_DECIMAL_COMPARATOR, BigDecimal.class)
+                .containsExactly("Obi-Wan", new BigDecimal("1.82"));
   }
 
   @Override
@@ -121,7 +124,7 @@ class ObjectAssert_extracting_with_String_Array_Test implements NavigationMethod
     return assertion.extracting("id", "name");
   }
 
-  @SuppressWarnings("unused")
+  @SuppressWarnings({ "unused", "FieldCanBeLocal" })
   private static class Person {
 
     private final String name;

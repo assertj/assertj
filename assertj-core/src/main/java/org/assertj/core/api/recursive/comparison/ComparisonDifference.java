@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.recursive.comparison;
 
@@ -123,8 +126,7 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   public String multiLineDescription(Representation representation) {
     UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual, expected);
     String additionalInfo = additionalInformation.map(ComparisonDifference::formatOnNewline).orElse("");
-    return getTemplate().formatted(
-                                   fieldPathDescription(),
+    return getTemplate().formatted(fieldPathDescription(),
                                    unambiguousRepresentation.getActual(),
                                    unambiguousRepresentation.getExpected(),
                                    additionalInfo);
@@ -133,8 +135,9 @@ public class ComparisonDifference implements Comparable<ComparisonDifference> {
   // returns a user-friendly path description
   protected String fieldPathDescription() {
     if (concatenatedPath.isEmpty()) return TOP_LEVEL_OBJECTS;
-    if (concatenatedPath.matches(TOP_LEVEL_ELEMENT_PATTERN)) return TOP_LEVEL_ELEMENTS.formatted(extractIndex(concatenatedPath));
-    return FIELD.formatted(concatenatedPath);
+    return concatenatedPath.matches(TOP_LEVEL_ELEMENT_PATTERN)
+        ? TOP_LEVEL_ELEMENTS.formatted(extractIndex(concatenatedPath))
+        : FIELD.formatted(concatenatedPath);
   }
 
   private static String extractIndex(String path) {

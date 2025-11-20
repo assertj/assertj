@@ -1,23 +1,24 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.recursive.comparison;
-
-import static java.util.stream.Collectors.toList;
 
 import java.util.Collection;
 import java.util.LinkedList;
 
-// special deque that can ignore DualKey according to RecursiveComparisonConfiguration.
+// special deque that can ignore DualValue according to RecursiveComparisonConfiguration.
 class DualValueDeque extends LinkedList<DualValue> {
   private final RecursiveComparisonConfiguration recursiveComparisonConfiguration;
 
@@ -26,32 +27,32 @@ class DualValueDeque extends LinkedList<DualValue> {
   }
 
   @Override
-  public boolean add(DualValue dualKey) {
-    if (shouldNotEvaluate(dualKey)) return false;
-    return super.add(dualKey);
+  public boolean add(DualValue dualValue) {
+    if (shouldNotEvaluate(dualValue)) return false;
+    return super.add(dualValue);
   }
 
   @Override
-  public void add(int index, DualValue dualKey) {
-    if (shouldNotEvaluate(dualKey)) return;
-    super.add(index, dualKey);
+  public void add(int index, DualValue dualValue) {
+    if (shouldNotEvaluate(dualValue)) return;
+    super.add(index, dualValue);
   }
 
   @Override
   public boolean addAll(int index, Collection<? extends DualValue> collection) {
-    return super.addAll(index, collection.stream().filter(this::shouldAddDualKey).collect(toList()));
+    return super.addAll(index, collection.stream().filter(this::shouldAddDualValue).toList());
   }
 
   @Override
-  public void addFirst(DualValue dualKey) {
-    if (shouldNotEvaluate(dualKey)) return;
-    super.addFirst(dualKey);
+  public void addFirst(DualValue dualValue) {
+    if (shouldNotEvaluate(dualValue)) return;
+    super.addFirst(dualValue);
   }
 
   @Override
-  public void addLast(DualValue dualKey) {
-    if (shouldNotEvaluate(dualKey)) return;
-    super.addLast(dualKey);
+  public void addLast(DualValue dualValue) {
+    if (shouldNotEvaluate(dualValue)) return;
+    super.addLast(dualValue);
   }
 
   /**
@@ -67,8 +68,8 @@ class DualValueDeque extends LinkedList<DualValue> {
     return recursiveComparisonConfiguration.shouldNotEvaluate(dualValue);
   }
 
-  private boolean shouldAddDualKey(DualValue dualKey) {
-    return !shouldNotEvaluate(dualKey);
+  private boolean shouldAddDualValue(DualValue dualValue) {
+    return !shouldNotEvaluate(dualValue);
   }
 
 }

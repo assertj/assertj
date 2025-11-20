@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.internal.paths;
 
@@ -59,7 +62,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     // GIVEN
     String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, null, expected, CHARSET));
+    var error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, null, expected, CHARSET));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -70,7 +73,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
+    var error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -83,7 +86,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     actual.toFile().setReadable(false);
     String expected = "expected";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
+    var error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -104,7 +107,7 @@ class Paths_assertHasTextualContent_Test extends PathsBaseTest {
     String expected = "Another content";
     List<Delta<String>> diffs = diff.diff(actual, expected, CHARSET);
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
+    var error = expectAssertionError(() -> underTest.assertHasTextualContent(INFO, actual, expected, CHARSET));
     // THEN
     then(error).hasMessage(shouldHaveContent(actual, CHARSET, diffs).create(INFO.description(), INFO.representation()));
   }

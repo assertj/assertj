@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.internal;
 
@@ -208,7 +211,13 @@ public class Paths {
   public void assertStartsWith(final AssertionInfo info, final Path actual, final Path other) {
     assertNotNull(info, actual);
     assertExpectedStartPathIsNotNull(other);
-    if (!toRealPath(actual).startsWith(toRealPath(other))) throw failures.failure(info, shouldStartWith(actual, other));
+
+    Path absoluteActual = Files.exists(actual) ? toRealPath(actual) : actual.toAbsolutePath().normalize();
+    Path absoluteOther = Files.exists(other) ? toRealPath(other) : other.toAbsolutePath().normalize();
+
+    if (!absoluteActual.startsWith(absoluteOther)) {
+      throw failures.failure(info, shouldStartWith(actual, other));
+    }
   }
 
   public void assertStartsWithRaw(final AssertionInfo info, final Path actual, final Path other) {
@@ -220,7 +229,8 @@ public class Paths {
   public void assertEndsWith(final AssertionInfo info, final Path actual, final Path other) {
     assertNotNull(info, actual);
     assertExpectedEndPathIsNotNull(other);
-    if (!toRealPath(actual).endsWith(other.normalize())) throw failures.failure(info, shouldEndWith(actual, other));
+    Path path = Files.exists(actual) ? toRealPath(actual) : actual;
+    if (!path.endsWith(other.normalize())) throw failures.failure(info, shouldEndWith(actual, other));
   }
 
   public void assertEndsWithRaw(final AssertionInfo info, final Path actual, final Path end) {

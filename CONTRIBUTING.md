@@ -1,11 +1,10 @@
-Contributing
-============
+# Contributing
 
 Thank you for your interest in contributing to AssertJ!
 
 We appreciate your effort, and to make sure that your pull request is easy to review, we ask you to note the following guidelines, including legal contributor agreement:
 
-* Use JDK 21 or newer to build the project.
+* Use JDK 25 or newer to build the project.
 * Use **[AssertJ code Eclipse formatting preferences](eclipse/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the [Adapter for Eclipse Code Formatter](https://plugins.jetbrains.com/plugin/6546-adapter-for-eclipse-code-formatter) plugin)
 * Write a complete Javadoc for each assertion method with a code example (succeeding and failing assertion(s)).
 * As we use JUnit 5, favor `package-private` visibility for test classes and methods.
@@ -35,7 +34,7 @@ class OptionalAssert_containsInstanceOf_Test extends BaseTest {
     // GIVEN
     Optional<Object> actual = Optional.empty();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(Object.class));
+    var assertionError = expectAssertionError(() -> assertThat(actual).containsInstanceOf(Object.class));
     // THEN
     then(assertionError).hasMessage(shouldBePresent(actual).create());
   }
@@ -55,11 +54,11 @@ It's okay not to follow some of the rules described above if you have a good rea
 
 [assertj-examples](https://github.com/assertj/assertj-examples) shows how to efficiently use AssertJ through fun unit test examples, it is a kind of living documentation.
 
-## Rebase your PR on main (no merge!)
+## Rebase your PR on `main` (no merge!)
 
 We prefer integrating PR by squashing all the commits and rebasing it to `main`; if your PR has diverged and needs to get the newer `main` commits, please rebase on `main` but **do not merge `main` in your PR branch** as it will prevent rebasing later on.
 
-## Naming conventions with some examples:
+## Naming Conventions
 
 Here are some of the `ThrowableAssert` assertions: `hasMessage`, `hasNoCause`, `hasMessageContaining`; for each of them we have a test class, note the naming convention:
 * `ThrowableAssert_hasMessage_Test`
@@ -122,9 +121,10 @@ BAD! (not in the same line)
 
 You can generate the Javadoc and read it in your browser to see what it actually looks like.
 
-## Binary compatibility
+## Binary Compatibility
 
-Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se21/html/jls-13.html) whenever possible. It means that you can safely:
+Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se25/html/jls-13.html) whenever possible.
+It means that you can safely:
 * Rewrite the body of methods, constructors, and initializers (like static blocks).
 * Rewrite code in the above that previously threw exceptions to no longer do so.
 * Add fields, methods, and constructors.
@@ -139,13 +139,7 @@ Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se21
 Other changes could compromise binary compatibility.
 These are not automatically rejected, but we will carefully evaluate each one to weigh its pros and cons.
 
-## Using Gitpod
-
-To avoid setting up your local development environment, you can use [Gitpod](https://www.gitpod.io/) and develop directly in browser-based Visual Studio Code or [JetBrains Client via JetBrains Gateway](https://www.gitpod.io/docs/ides-and-editors/jetbrains-gateway).
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/from-referrer/)
-
-## Legal stuff:
+## Legal Disclaimer
 
 Project license(s): Apache License Version 2.0
 

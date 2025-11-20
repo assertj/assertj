@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.internal;
 
@@ -18,6 +21,7 @@ import java.util.Map.Entry;
 import java.util.stream.Stream;
 
 import org.assertj.core.util.DoubleComparator;
+import org.assertj.core.util.DualClass;
 import org.assertj.core.util.FloatComparator;
 import org.assertj.core.util.PathNaturalOrderComparator;
 
@@ -57,7 +61,27 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @return the most relevant comparator, or {@code null} if no comparator could be found
    */
   public Comparator<?> getComparatorForType(Class<?> clazz) {
-    return super.get(clazz);
+    return getComparatorForDualTypes(clazz, null);
+  }
+
+  /**
+   * This method returns the most relevant comparator for the given class pair. The most relevant comparator is the
+   * comparator which is registered for the class pair that is closest in the inheritance chain of the given {@code clazz} and {@code otherClazz}.
+   * The order of checks is the following:
+   * 1. If there is a registered comparator for {@code clazz} and {@code otherClazz} then this one is used
+   * 2. We check if there is a registered comparator for a superclass of {@code clazz} and {@code otherClazz}
+   * 3. We check if there is a registered comparator for {@code clazz} and a superclass of {@code otherClazz}
+   * 4. We check if there is a registered comparator for a superclass of {@code clazz} and a superclass of {@code otherClazz}
+   * 5. We check if there is a registered comparator for an interface of {@code clazz} and {@code otherClazz}
+   * 6. We check if there is a registered comparator for {@code clazz} and an interface of {@code otherClazz}
+   * 7. We check if there is a registered comparator for an interface of {@code clazz} and an interface of {@code otherClazz}
+   *
+   * @param clazz the class of the left element for which to find a comparator
+   * @param otherClazz the class of the right element for which to find a comparator
+   * @return the most relevant comparator, or {@code null} if no comparator could be found
+   */
+  public Comparator<?> getComparatorForDualTypes(Class<?> clazz, Class<?> otherClazz) {
+    return super.get(clazz, otherClazz);
   }
 
   /**
@@ -67,7 +91,18 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
    * @return is the giving type associated with any custom comparator
    */
   public boolean hasComparatorForType(Class<?> type) {
-    return super.hasEntity(type);
+    return hasComparatorForDualTypes(type, null);
+  }
+
+  /**
+   * Checks, whether an any custom comparator is associated with the giving types.
+   *
+   * @param type the type of the left element for which to check a comparator
+   * @param otherType the type of the right element for which to check a comparator
+   * @return is the giving type associated with any custom comparator
+   */
+  public boolean hasComparatorForDualTypes(Class<?> type, Class<?> otherType) {
+    return super.hasEntity(type, otherType);
   }
 
   /**
@@ -82,11 +117,24 @@ public class TypeComparators extends TypeHolder<Comparator<?>> {
   }
 
   /**
+   * Puts the {@code comparator} for the given {@code clazz} and {@code otherClazz}.
+   *
+   * @param clazz the class of the left element for the comparator
+   * @param otherClazz the class of the right element for the comparator
+   * @param comparator the comparator itself
+   * @param <T> the type of the left objects for the comparator
+   * @param <U> the type of the right objects for the comparator
+   */
+  public <T, U> void registerComparator(Class<T> clazz, Class<U> otherClazz, Comparator<? super T> comparator) {
+    super.put(clazz, otherClazz, comparator);
+  }
+
+  /**
    * Returns a sequence of all type-comparator pairs which the current holder supplies.
    *
    * @return sequence of field-comparator pairs
    */
-  public Stream<Entry<Class<?>, Comparator<?>>> comparatorByTypes() {
+  public Stream<Entry<DualClass<?, ?>, Comparator<?>>> comparatorByTypes() {
     return super.entityByTypes();
   }
 }

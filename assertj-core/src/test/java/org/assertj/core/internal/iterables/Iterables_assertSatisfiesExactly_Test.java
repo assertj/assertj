@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.internal.iterables;
 
@@ -58,7 +61,7 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
                                             name -> assertThat(name).startsWith("Han"),
                                             name -> assertThat(name).endsWith("da"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
+    var error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
     // can't build the exact error message due to internal stack traces
     then(error).hasMessageStartingWith(format("%n" +
@@ -76,7 +79,7 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
                                             name -> assertThat(name).startsWith("Han"),
                                             name -> assertThat(name).startsWith("Io"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
+    var error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
     // can't build the exact error message due to internal stack traces
     then(error).hasMessageStartingWith(format("%n" +
@@ -96,7 +99,7 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
                                             name -> assertThat(name).startsWith("Lei"));
     // WHEN
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
+    var error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
     // can't build the exact error message due to internal stack traces
     then(error).hasMessageStartingWith(format("%n" +
@@ -112,7 +115,7 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
   @Test
   void should_fail_when_actual_and_requirements_have_different_sizes() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
+    var error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
     then(error).hasMessage(shouldHaveSameSizeAs(actual, requirements, actual.size(), requirements.length).create());
   }
@@ -122,7 +125,7 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
     // GIVEN
     Consumer<Object>[] requirements = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
+    var error = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
     then(error).hasMessage("%nExpecting an array but was: null".formatted());
   }
@@ -132,7 +135,7 @@ class Iterables_assertSatisfiesExactly_Test extends IterablesBaseTest {
     // GIVEN
     List<Object> actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
+    var assertionError = expectAssertionError(() -> iterables.assertSatisfiesExactly(info, actual, requirements));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }

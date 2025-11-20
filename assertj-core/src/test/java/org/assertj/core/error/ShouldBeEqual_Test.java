@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.error;
 
@@ -22,6 +25,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.Objects;
+
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.junit.jupiter.api.Disabled;
@@ -71,10 +75,22 @@ class ShouldBeEqual_Test {
     CharSequence actual = "test";
     CharSequence expected = new StringBuilder("test");
     // WHEN
-    AssertionError error = expectAssertionError(() -> then(actual).isEqualTo(expected));
+    var error = expectAssertionError(() -> then(actual).isEqualTo(expected));
     // THEN
     then(error).hasMessageContainingAll("%nexpected: \"\"test\" (StringBuilder".formatted(),
                                         "%n but was: \"\"test\" (String".formatted());
+  }
+
+  @Test
+  void should_display_packages_for_classes_with_the_same_name_when_objects_representation_are_the_same() {
+    // GIVEN
+    Object actual = new org.assertj.core.internal.objects.pkg1.Foo("foo");
+    Object expected = new org.assertj.core.internal.objects.pkg2.Foo("foo");
+    // WHEN
+    var error = expectAssertionError(() -> then(actual).isEqualTo(expected));
+    // THEN
+    then(error).hasMessageContainingAll("expected: \"Foo[name=foo] (org.assertj.core.internal.objects.pkg2.Foo",
+                                        " but was: \"Foo[name=foo] (org.assertj.core.internal.objects.pkg1.Foo");
   }
 
   @Test
@@ -83,7 +99,7 @@ class ShouldBeEqual_Test {
     Xml actual = new Xml("1");
     Xml expected = new Xml("2");
     // WHEN
-    AssertionError error = expectAssertionError(() -> then(actual).isEqualTo(expected));
+    var error = expectAssertionError(() -> then(actual).isEqualTo(expected));
     // THEN
     then(error).hasMessage(format("%nexpected: %n" +
                                   "  <xml>%n" +
@@ -101,7 +117,7 @@ class ShouldBeEqual_Test {
     String actual = "foo";
     Xml expected = new Xml("2");
     // WHEN
-    AssertionError error = expectAssertionError(() -> then(actual).isEqualTo(expected));
+    var error = expectAssertionError(() -> then(actual).isEqualTo(expected));
     // THEN
     then(error).hasMessage(format("%nexpected: %n" +
                                   "  <xml>%n" +
@@ -117,7 +133,7 @@ class ShouldBeEqual_Test {
     Xml actual = null;
     Xml expected = new Xml("2");
     // WHEN
-    AssertionError error = expectAssertionError(() -> then(actual).isEqualTo(expected));
+    var error = expectAssertionError(() -> then(actual).isEqualTo(expected));
     // THEN
     then(error).hasMessage(format("%nexpected: %n" +
                                   "  <xml>%n" +
@@ -133,7 +149,7 @@ class ShouldBeEqual_Test {
     Xml actual = new Xml("1");
     XmlDuplicate expected = new XmlDuplicate("1");
     // WHEN
-    AssertionError error = expectAssertionError(() -> then(actual).isEqualTo(expected));
+    var error = expectAssertionError(() -> then(actual).isEqualTo(expected));
     // THEN
     then(error).hasMessageContainingAll(format("%nexpected: %n" +
                                                "  <xml>%n" +
@@ -151,7 +167,7 @@ class ShouldBeEqual_Test {
     Xml actual = new Xml("1");
     Xml expected = new Xml("2");
     // WHEN
-    AssertionError error = expectAssertionError(() -> then(actual).usingComparator(ALWAY_DIFFERENT).isEqualTo(expected));
+    var error = expectAssertionError(() -> then(actual).usingComparator(ALWAY_DIFFERENT).isEqualTo(expected));
     // THEN
     then(error).hasMessage(format("%nexpected: %n" +
                                   "  <xml>%n" +
@@ -170,7 +186,7 @@ class ShouldBeEqual_Test {
     Xml actual = new Xml("1");
     XmlDuplicate expected = new XmlDuplicate("1");
     // WHEN
-    AssertionError error = expectAssertionError(() -> then(actual).usingComparator(ALWAY_DIFFERENT).isEqualTo(expected));
+    var error = expectAssertionError(() -> then(actual).usingComparator(ALWAY_DIFFERENT).isEqualTo(expected));
     // THEN
     then(error).hasMessageContainingAll(format("%nexpected: %n" +
                                                "  <xml>%n" +
@@ -190,7 +206,7 @@ class ShouldBeEqual_Test {
     String aaa = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
     String bbb = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
     // WHEN
-    AssertionError error = expectAssertionError(() -> then(list(bbb, aaa)).isEqualTo(list(aaa, bbb)));
+    var error = expectAssertionError(() -> then(list(bbb, aaa)).isEqualTo(list(aaa, bbb)));
     // THEN
     then(error).hasMessage(format("%nexpected: %n"
                                   + "  [\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",%n"
@@ -207,7 +223,7 @@ class ShouldBeEqual_Test {
     String aaa = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
     String bbb = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
     // WHEN
-    AssertionError error = expectAssertionError(() -> then(array(bbb, aaa)).isEqualTo(array(aaa, bbb)));
+    var error = expectAssertionError(() -> then(array(bbb, aaa)).isEqualTo(array(aaa, bbb)));
     // THEN
     then(error).hasMessage(format("%nexpected: %n"
                                   + "  [\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",%n"
@@ -224,7 +240,7 @@ class ShouldBeEqual_Test {
     Xml xml1 = new Xml("1");
     Xml xml2 = new Xml("2");
     // WHEN
-    AssertionError error = expectAssertionError(() -> then(list(xml2, xml1)).isEqualTo(list(xml1, xml2)));
+    var error = expectAssertionError(() -> then(list(xml2, xml1)).isEqualTo(list(xml1, xml2)));
     // THEN
     then(error).hasMessage(format("%nexpected: %n" +
                                   "  [<xml>%n" +

@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.internal.paths;
 
@@ -20,7 +23,7 @@ import static org.assertj.core.error.ShouldStartWithPath.shouldStartWith;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -35,7 +38,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     // GIVEN
     Path other = createFile(tempDir.resolve("other"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertStartsWith(INFO, null, other));
+    var error = expectAssertionError(() -> underTest.assertStartsWith(INFO, null, other));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -54,7 +57,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
   @Test
   void should_rethrow_IOException_as_UncheckedIOException_if_actual_cannot_be_resolved() throws IOException {
     // GIVEN
-    Path actual = mock(Path.class);
+    Path actual = spy(createFile(tempDir.resolve("actual")));
     Path other = createFile(tempDir.resolve("other"));
     IOException exception = new IOException("boom!");
     given(actual.toRealPath()).willThrow(exception);
@@ -69,7 +72,7 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
   void should_rethrow_IOException_as_UncheckedIOException_if_other_cannot_be_resolved() throws IOException {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
-    Path other = mock(Path.class);
+    Path other = spy(createFile(tempDir.resolve("other")));
     IOException exception = new IOException("boom!");
     given(other.toRealPath()).willThrow(exception);
     // WHEN
@@ -85,13 +88,13 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = createFile(tempDir.resolve("other"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertStartsWith(INFO, actual, other));
+    var error = expectAssertionError(() -> underTest.assertStartsWith(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldStartWith(actual, other).create());
   }
 
   @Test
-  void should_pass_if_actual_starts_with_other() throws IOException {
+  void should_pass_if_actual_starts_with_existing_other() throws IOException {
     // GIVEN
     Path other = createDirectory(tempDir.resolve("other")).toRealPath();
     Path actual = createFile(other.resolve("actual")).toRealPath();
@@ -115,6 +118,15 @@ class Paths_assertStartsWith_Test extends PathsBaseTest {
     Path directory = createDirectory(tempDir.resolve("directory"));
     Path other = tryToCreateSymbolicLink(tempDir.resolve("other"), directory);
     Path actual = createFile(directory.resolve("actual"));
+    // WHEN/THEN
+    underTest.assertStartsWith(INFO, actual, other);
+  }
+
+  @Test
+  void should_pass_if_actual_does_not_exist() {
+    // GIVEN
+    Path actual = Path.of("foo/bar/baz");
+    Path other = Path.of("foo");
     // WHEN/THEN
     underTest.assertStartsWith(INFO, actual, other);
   }

@@ -1,18 +1,22 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.assumptions;
 
 import static com.google.common.collect.Maps.newHashMap;
+import static java.util.Collections.emptyIterator;
 import static java.util.Collections.emptyList;
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assumptions.assumeThat;
@@ -59,6 +63,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_2D_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FLOAT_ARRAY;
 import static org.assertj.core.api.InstanceOfAssertFactories.FUTURE;
+import static org.assertj.core.api.InstanceOfAssertFactories.HASH_SET;
 import static org.assertj.core.api.InstanceOfAssertFactories.INPUT_STREAM;
 import static org.assertj.core.api.InstanceOfAssertFactories.INSTANT;
 import static org.assertj.core.api.InstanceOfAssertFactories.INTEGER;
@@ -100,9 +105,11 @@ import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URI_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.URL_TYPE;
 import static org.assertj.core.api.InstanceOfAssertFactories.ZONED_DATE_TIME;
+import static org.assertj.core.api.InstanceOfAssertFactories.hashSet;
 import static org.assertj.core.api.InstanceOfAssertFactories.list;
 import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
+import static org.assertj.core.util.Sets.newLinkedHashSet;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -125,6 +132,7 @@ import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -157,12 +165,12 @@ import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
-import org.assertj.core.util.Lists;
+
 import org.junit.jupiter.api.Test;
 
 class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
 
-  private TestData data = new TestData();
+  private final TestData data = new TestData();
 
   @Test
   void should_ignore_test_for_failing_assumption_extracting_and_narrowing_an_array() {
@@ -480,6 +488,17 @@ class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
   @Test
   void should_ignore_test_for_failing_assumption_extracting_and_narrowing_a_list_of_String() {
     expectAssumptionNotMetException(() -> assumeThat(data).extracting(TestData::stringList, as(list(String.class))).isEmpty());
+  }
+
+  @Test
+  void should_ignore_test_for_failing_assumption_extracting_and_narrowing_a_hashSet() {
+    expectAssumptionNotMetException(() -> assumeThat(data).extracting(TestData::hashSet, as(HASH_SET)).isNotEmpty());
+  }
+
+  @Test
+  void should_ignore_test_for_failing_assumption_extracting_and_narrowing_a_hashSet_of_String() {
+    expectAssumptionNotMetException(() -> assumeThat(data).extracting(TestData::stringHashSet, as(hashSet(String.class)))
+                                                          .isEmpty());
   }
 
   @Test
@@ -881,7 +900,7 @@ class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
     }
 
     Iterator<?> iterator() {
-      return emptyList().iterator();
+      return emptyIterator();
     }
 
     List<?> list() {
@@ -889,7 +908,15 @@ class Assumptions_assumeThat_with_extracting_and_narrowing_value_Test {
     }
 
     List<String> stringList() {
-      return Lists.list("foo");
+      return List.of("foo");
+    }
+
+    HashSet<?> hashSet() {
+      return new HashSet<>();
+    }
+
+    HashSet<String> stringHashSet() {
+      return newLinkedHashSet("foo");
     }
 
     LocalDate localDate() {

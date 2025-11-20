@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -38,11 +41,11 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.internal.Dates;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Base class for all implementations of assertions for {@link Date}s.
@@ -70,28 +73,29 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
   private static final String DATE_FORMAT_PATTERN_SHOULD_NOT_BE_NULL = "Given date format pattern should not be null";
   private static final String DATE_FORMAT_SHOULD_NOT_BE_NULL = "Given date format should not be null";
 
+  private static boolean lenientParsing = Configuration.LENIENT_DATE_PARSING;
+
   /**
    * the default DateFormat used to parse any String date representation.
    */
-  private static List<DateFormat> DEFAULT_DATE_FORMATS = defaultDateFormats();
-  private static boolean lenientParsing = Configuration.LENIENT_DATE_PARSING;
+  private static final ThreadLocal<List<DateFormat>> DEFAULT_DATE_FORMATS = ThreadLocal.withInitial(() -> list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(lenientParsing),
+                                                                                                               newIsoDateTimeWithMsFormat(lenientParsing),
+                                                                                                               newTimestampDateFormat(lenientParsing),
+                                                                                                               newIsoDateTimeWithIsoTimeZoneFormat(lenientParsing),
+                                                                                                               newIsoDateTimeFormat(lenientParsing),
+                                                                                                               newIsoDateFormat(lenientParsing)));
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   static List<DateFormat> defaultDateFormats() {
-    if (DEFAULT_DATE_FORMATS == null || defaultDateFormatMustBeRecreated()) {
-      DEFAULT_DATE_FORMATS = list(newIsoDateTimeWithMsAndIsoTimeZoneFormat(lenientParsing),
-                                  newIsoDateTimeWithMsFormat(lenientParsing),
-                                  newTimestampDateFormat(lenientParsing),
-                                  newIsoDateTimeWithIsoTimeZoneFormat(lenientParsing),
-                                  newIsoDateTimeFormat(lenientParsing),
-                                  newIsoDateFormat(lenientParsing));
+    if (defaultDateFormatMustBeRecreated()) {
+      DEFAULT_DATE_FORMATS.remove();
     }
-    return DEFAULT_DATE_FORMATS;
+    return DEFAULT_DATE_FORMATS.get();
   }
 
   private static boolean defaultDateFormatMustBeRecreated() {
     // check default timezone or lenient flag changes, only check one date format since all are configured the same way
-    DateFormat dateFormat = DEFAULT_DATE_FORMATS.get(0);
+    DateFormat dateFormat = DEFAULT_DATE_FORMATS.get().get(0);
     return !dateFormat.getTimeZone().getID().equals(TimeZone.getDefault().getID()) || dateFormat.isLenient() != lenientParsing;
   }
 
@@ -2693,7 +2697,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
                                                                                                        .toStringOf(dateFormatsInOrderOfUsage())));
   }
 
-  private synchronized Date parseDateWithDefaultDateFormats(final String dateAsString) {
+  private Date parseDateWithDefaultDateFormats(final String dateAsString) {
     return parseDateWith(dateAsString, defaultDateFormats());
   }
 

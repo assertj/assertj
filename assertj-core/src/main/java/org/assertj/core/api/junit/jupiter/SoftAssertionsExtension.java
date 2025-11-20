@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.junit.jupiter;
 
@@ -27,7 +30,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.assertj.core.annotations.Beta;
+import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.AbstractSoftAssertions;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.BDDSoftAssertions;
@@ -94,21 +97,20 @@ import org.junit.platform.commons.support.ReflectionSupport;
  * <code class='java'> {@literal @}ExtendWith(SoftAssertionsExtension.class)
  * class ExampleTestCase {
  *
- *    {@literal @}InjectSoftAssertions
- *    BDDSoftAssertions bdd;
- *
  *    {@literal @}Test
- *    void multipleFailures(SoftAssertions softly) {
- *       softly.assertThat(2 * 3).isEqualTo(0);
- *       softly.assertThat(Arrays.asList(1, 2)).containsOnly(1);
- *       softly.assertThat(1 + 1).isEqualTo(2);
+ *    void multipleFailures(SoftAssertions soft) {
+ *       // failure 1
+ *       soft.assertThat(2 * 3).isEqualTo(0);
+ *       // failure 2
+ *       soft.assertThat(Arrays.asList(1, 2)).containsOnly(1);
+ *       // this one is ok
+ *       soft.assertThat(1 + 1).isEqualTo(2);
  *    }
- * }</code>
- * </pre>
+ * }</code></pre>
  *
  * <h3>Example field injection</h3>
- * <pre><code> {@literal @}ExtendWith(SoftlyExtension.class)
- * public class SoftlyExtensionExample {
+ * <pre><code> {@literal @}ExtendWith(SoftAssertionsExtension.class)
+ * class ExampleTestCase {
  *
  *   // initialized by the SoftlyExtension extension
  *   {@literal @}InjectSoftAssertions
@@ -138,31 +140,10 @@ import org.junit.platform.commons.support.ReflectionSupport;
  *   }
  * } </code></pre>
  *
- * <h3>Example using a mix of field and parameter injection</h3>
- *
- * <pre>
- * <code class='java'> {@literal @}ExtendWith(SoftAssertionsExtension.class)
- * class ExampleTestCase {
- *
- *    {@literal @}InjectSoftAssertions
- *    SoftAssertions softly
- *
- *    {@literal @}Test
- *    void multipleFailures(BDDSoftAssertions bdd) {
- *       bdd.then(2 * 3).isEqualTo(0);
- *       softly.assertThat(Arrays.asList(1, 2)).containsOnly(1);
- *       bdd.then(1 + 1).isEqualTo(2);
- *       // When SoftAssertionsExtension calls assertAll(), the three
- *       // above failures above will be reported in-order.
- *    }
- * }</code>
- * </pre>
- *
  * <h3>Example third-party extension using {@code SoftAssertionsExtension}</h3>
  *
  * <pre>
- * <code class='java'>
- * class ExampleTestCase implements BeforeEachCallback {
+ * <code class='java'> class ExampleTestCase implements BeforeEachCallback {
  *
  *    {@literal @}Override
  *    public void beforeEach(ExtensionContext context) {
@@ -256,7 +237,7 @@ public class SoftAssertionsExtension
   }
 
   @Override
-  public void beforeEach(ExtensionContext context) throws Exception {
+  public void beforeEach(ExtensionContext context) {
     AssertionErrorCollector collector = getAssertionErrorCollector(context);
 
     if (isPerClassConcurrent(context)) {
@@ -342,8 +323,8 @@ public class SoftAssertionsExtension
   }
 
   private static ThreadLocalErrorCollector getThreadLocalCollector(ExtensionContext context) {
-    return getStore(context).getOrComputeIfAbsent(ThreadLocalErrorCollector.class, unused -> new ThreadLocalErrorCollector(),
-                                                  ThreadLocalErrorCollector.class);
+    return getStore(context).computeIfAbsent(ThreadLocalErrorCollector.class, unused -> new ThreadLocalErrorCollector(),
+                                             ThreadLocalErrorCollector.class);
   }
 
   /**
@@ -365,13 +346,13 @@ public class SoftAssertionsExtension
    */
   @Beta
   public static AssertionErrorCollector getAssertionErrorCollector(ExtensionContext context) {
-    return getStore(context).getOrComputeIfAbsent(AssertionErrorCollector.class, unused -> new DefaultAssertionErrorCollector(),
-                                                  AssertionErrorCollector.class);
+    return getStore(context).computeIfAbsent(AssertionErrorCollector.class, unused -> new DefaultAssertionErrorCollector(),
+                                             AssertionErrorCollector.class);
   }
 
   @SuppressWarnings("unchecked")
   private static Collection<SoftAssertionsProvider> getSoftAssertionsProviders(ExtensionContext context) {
-    return getStore(context).getOrComputeIfAbsent(Collection.class, unused -> new ConcurrentLinkedQueue<>(), Collection.class);
+    return getStore(context).computeIfAbsent(Collection.class, unused -> new ConcurrentLinkedQueue<>(), Collection.class);
   }
 
   private static <T extends SoftAssertionsProvider> T instantiateProvider(ExtensionContext context, Class<T> providerType) {
@@ -427,9 +408,9 @@ public class SoftAssertionsExtension
   @Beta
   public static <T extends SoftAssertionsProvider> T getSoftAssertionsProvider(ExtensionContext context,
                                                                                Class<T> concreteSoftAssertionsProviderType) {
-    return getStore(context).getOrComputeIfAbsent(concreteSoftAssertionsProviderType,
-                                                  unused -> instantiateProvider(context, concreteSoftAssertionsProviderType),
-                                                  concreteSoftAssertionsProviderType);
+    return getStore(context).computeIfAbsent(concreteSoftAssertionsProviderType,
+                                             unused -> instantiateProvider(context, concreteSoftAssertionsProviderType),
+                                             concreteSoftAssertionsProviderType);
   }
 
   private static void setTestInstanceSoftAssertionsField(Object testInstance, Field softAssertionsField,

@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.internal.uris;
 
@@ -47,7 +50,7 @@ class Uris_assertHasUserInfo_Test extends UrisBaseTest {
     URI uri = null;
     String expectedUserInfo = "http://test:pass@www.helloworld.org/index.html";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -58,7 +61,7 @@ class Uris_assertHasUserInfo_Test extends UrisBaseTest {
     URI uri = URI.create("http://test:pass@assertj.org/news");
     String expectedUserInfo = "test:ok";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(shouldHaveUserInfo(uri, expectedUserInfo).create());
   }
@@ -69,7 +72,7 @@ class Uris_assertHasUserInfo_Test extends UrisBaseTest {
     URI uri = URI.create("http://assertj.org/news");
     String expectedUserInfo = "test:pass";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(shouldHaveUserInfo(uri, expectedUserInfo).create());
   }
@@ -80,7 +83,7 @@ class Uris_assertHasUserInfo_Test extends UrisBaseTest {
     URI uri = URI.create("http://test:pass@assertj.org");
     String expectedUserInfo = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
+    var assertionError = expectAssertionError(() -> uris.assertHasUserInfo(info, uri, expectedUserInfo));
     // THEN
     then(assertionError).hasMessage(shouldHaveUserInfo(uri, expectedUserInfo).create());
   }

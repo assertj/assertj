@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.date;
 
@@ -164,7 +167,7 @@ class DateAssert_with_string_based_date_representation_Test extends DateAssertBa
     registerCustomDateFormat("yyyy/MM/dd'T'HH:mm:ss");
     // registering again has no effect
     registerCustomDateFormat("yyyy/MM/dd'T'HH:mm:ss");
-    AssertionError error = expectAssertionError(() -> assertThat(date).withDateFormat("yyyy/MM/dd").isEqualTo("2003 04 26"));
+    var error = expectAssertionError(() -> assertThat(date).withDateFormat("yyyy/MM/dd").isEqualTo("2003 04 26"));
     assertThat(error).hasMessage(format("Failed to parse 2003 04 26 with any of these date formats:%n"
                                         +
                                         "   [yyyy/MM/dd'T'HH:mm:ss,%n" +
@@ -197,7 +200,7 @@ class DateAssert_with_string_based_date_representation_Test extends DateAssertBa
 
     // WHEN
     // fail : the registered format does not match the given date
-    AssertionError error = expectAssertionError(() -> assertThat(date).isEqualTo("2003/04/26"));
+    var error = expectAssertionError(() -> assertThat(date).isEqualTo("2003/04/26"));
 
     // THEN
     assertThat(error).hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +
@@ -232,7 +235,7 @@ class DateAssert_with_string_based_date_representation_Test extends DateAssertBa
 
     // WHEN
     // date with a custom format : failure since the default formats don't match.
-    AssertionError error = expectAssertionError(() -> assertThat(date).isEqualTo("2003/04/26"));
+    var error = expectAssertionError(() -> assertThat(date).isEqualTo("2003/04/26"));
 
     // THEN
     assertThat(error).hasMessage(format("Failed to parse 2003/04/26 with any of these date formats:%n" +

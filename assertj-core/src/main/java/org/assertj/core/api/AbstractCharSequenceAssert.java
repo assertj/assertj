@@ -1,18 +1,20 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
-import static java.lang.Character.isWhitespace;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toCollection;
 import static org.assertj.core.error.ShouldBeASCII.shouldBeASCII;
@@ -34,28 +36,24 @@ import static org.assertj.core.internal.Strings.doCommonCheckForCharSequence;
 import static org.assertj.core.internal.Strings.removeAllWhitespaces;
 import static org.assertj.core.util.IterableUtil.toArray;
 
-import java.io.LineNumberReader;
-import java.text.Normalizer;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Strings;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Base class for all implementations of assertions for {@code CharSequence}s.
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
+ * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ *                 target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *                 for more details.
  * @param <ACTUAL> the type of the "actual" value.
- *
  * @author Yvonne Wang
  * @author David DIDIER
  * @author Alex Ruiz
@@ -86,7 +84,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * String nullString = null;
    * assertThat(nullString).isNullOrEmpty();</code></pre>
-   *
+   * <p>
    * Whereas these assertions fail:
    * <pre><code class='java'> assertThat(&quot;a&quot;).isNullOrEmpty();
    * assertThat(&quot;   &quot;).isNullOrEmpty();</code></pre>
@@ -107,7 +105,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * This assertion succeeds:
    * <pre><code class='java'> String emptyString = &quot;&quot;
    * assertThat(emptyString).isEmpty();</code></pre>
-   *
+   * <p>
    * Whereas these assertions fail:
    * <pre><code class='java'> String nullString = null;
    * assertThat(nullString).isEmpty();
@@ -128,7 +126,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * This assertion succeeds:
    * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).isNotEmpty();</code></pre>
-   *
+   * <p>
    * Whereas these assertions fail:
    * <pre><code class='java'> String emptyString = &quot;&quot;
    * assertThat(emptyString).isNotEmpty();
@@ -157,7 +155,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * assertThat("    ").isBlank();
    * String nullString = null;
    * assertThat(nullString).isBlank();</code></pre>
-   *
+   * <p>
    * Whereas these assertions fail:
    * <pre><code class='java'> assertThat("a").isBlank();
    * assertThat(" b").isBlank();
@@ -190,7 +188,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> assertThat("a").isNotBlank();
    * assertThat(" b").isNotBlank();
    * assertThat(" c ").isNotBlank();</code></pre>
-   *
+   * <p>
    * Whereas these assertions fail:
    * <pre><code class='java'> assertThat(" ").isNotBlank();
    * assertThat("").isNotBlank();
@@ -219,7 +217,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> assertThat(" ").containsWhitespaces();
    * assertThat("a b").containsWhitespaces();
    * assertThat(" c ").containsWhitespaces();</code></pre>
-   *
+   * <p>
    * Whereas these assertions fail:
    * <pre><code class='java'> assertThat("").containsWhitespaces();
    * assertThat("a").containsWhitespaces();
@@ -246,7 +244,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * These assertions succeed:
    * <pre><code class='java'> assertThat(" ").containsOnlyWhitespaces();
    * assertThat("    ").containsOnlyWhitespaces();</code></pre>
-   *
+   * <p>
    * Whereas these assertions fail:
    * <pre><code class='java'> assertThat("a").containsOnlyWhitespaces();
    * assertThat("").containsOnlyWhitespaces();
@@ -279,7 +277,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * String nullString = null;
    * assertThat(nullString).doesNotContainAnyWhitespaces();</code></pre>
-   *
+   * <p>
    * Whereas these assertions fail:
    * <pre><code class='java'> assertThat(" ").doesNotContainAnyWhitespaces();
    * assertThat(" a").doesNotContainAnyWhitespaces();</code></pre>
@@ -314,7 +312,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * assertThat(" c ").doesNotContainOnlyWhitespaces();
    * String nullString = null;
    * assertThat(nullString).doesNotContainOnlyWhitespaces();</code></pre>
-   *
+   * <p>
    * Whereas these assertions fail:
    * <pre><code class='java'> assertThat(" ").doesNotContainOnlyWhitespaces();
    * assertThat("    ").doesNotContainOnlyWhitespaces();</code></pre>
@@ -338,7 +336,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * This assertion succeeds:
    * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).hasSize(17);</code></pre>
-   *
+   * <p>
    * Whereas this assertion fails:
    * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
    * assertThat(bookName).hasSize(4);</code></pre>
@@ -358,7 +356,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <p>
    * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(4);</code></pre>
-   *
+   * <p>
    * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThan(3);</code></pre>
    *
@@ -378,7 +376,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <p>
    * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(3);</code></pre>
-   *
+   * <p>
    * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeLessThanOrEqualTo(2);</code></pre>
    *
@@ -398,7 +396,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <p>
    * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abcs&quot;).hasSizeGreaterThan(2);</code></pre>
-   *
+   * <p>
    * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThan(3);</code></pre>
    *
@@ -418,7 +416,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <p>
    * This assertion succeeds:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
-   *
+   * <p>
    * Whereas this assertion fails:
    * <pre><code class='java'>assertThat(&quot;abc&quot;).hasSizeGreaterThanOrEqualTo(3);</code></pre>
    *
@@ -441,12 +439,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> String bookName = &quot;A Game of Thrones&quot;
    * assertThat(bookName).hasSizeBetween(5, 25);
    * assertThat(bookName).hasSizeBetween(16, 17);</code></pre>
-   *
+   * <p>
    * Whereas this assertion fails:
    * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;
    * assertThat(bookName).hasSizeBetween(2, 5);</code></pre>
    *
-   * @param lowerBoundary the lower boundary compared to which actual length should be greater than or equal to.
+   * @param lowerBoundary  the lower boundary compared to which actual length should be greater than or equal to.
    * @param higherBoundary the higher boundary compared to which actual length should be less than or equal to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual length is not between the boundaries.
@@ -462,13 +460,13 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * Verifies that the actual {@code CharSequence} has the expected line count.
    * <p>
    * A line is considered to be <i>terminated</i> by any one of a line feed ({@code '\n'}), a carriage return ({@code '\r'}),
-   * or a carriage return followed immediately by a linefeed (see {@link LineNumberReader}).
+   * or a carriage return followed immediately by a linefeed (see {@link java.io.LineNumberReader}).
    * <p>
    * This assertion succeeds:
    * <pre><code class='java'> String multiLine = &quot;First line\n&quot; +
    *                    &quot;Last line&quot;;
    * assertThat(multiLine).hasLineCount(2);</code></pre>
-   *
+   * <p>
    * Whereas this assertion fails:
    * <pre><code class='java'> String bookName = &quot;A Clash of Kings&quot;;
    * assertThat(bookName).hasLineCount(3);</code></pre>
@@ -495,8 +493,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param other the given {@code CharSequence} to be used for size comparison.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the length of the
-   *           given {@code CharSequence}.
+   * @throws AssertionError       if the actual {@code CharSequence} has a length that's different from the length of the
+   *                              given {@code CharSequence}.
    * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
    */
   public SELF hasSameSizeAs(CharSequence other) {
@@ -517,8 +515,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param other the given array to be used for size comparison.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the number of elements
-   *           in the array.
+   * @throws AssertionError       if the actual {@code CharSequence} has a length that's different from the number of elements
+   *                              in the array.
    * @throws NullPointerException if the given array is {@code null}.
    */
   @Override
@@ -540,8 +538,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param other the given {@code Iterable} to be used for size comparison.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} has a length that's different from the number of elements
-   *           in the {@code Iterable}.
+   * @throws AssertionError       if the actual {@code CharSequence} has a length that's different from the number of elements
+   *                              in the {@code Iterable}.
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
    */
   @Override
@@ -600,7 +598,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <p>
    * This assertion succeeds:
    * <pre><code class='java'> assertThat("10").containsOnlyDigits();</code></pre>
-   *
+   * <p>
    * Whereas these assertions fail:
    * <pre><code class='java'> assertThat("10$").containsOnlyDigits();
    * assertThat("").containsOnlyDigits();</code></pre>
@@ -627,7 +625,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} either does not contain the given one at all, or contains
-   *           it more than once.
+   *                        it more than once.
    */
   public SELF containsOnlyOnce(CharSequence sequence) {
     strings.assertContainsOnlyOnce(info, actual, sequence);
@@ -643,10 +641,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the values to look for.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws NullPointerException     if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values.
+   * @throws AssertionError           if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF contains(CharSequence... values) {
     strings.assertContains(info, actual, values);
@@ -665,10 +663,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the values to look for.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws NullPointerException     if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain any of the given values.
+   * @throws AssertionError           if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the actual {@code CharSequence} does not contain any of the given values.
    * @since 3.21.0
    */
   public SELF containsAnyOf(CharSequence... values) {
@@ -685,10 +683,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the values to look for.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws NullPointerException     if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values.
+   * @throws AssertionError           if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF contains(Iterable<? extends CharSequence> values) {
     strings.assertContains(info, actual, toArray(values, CharSequence.class));
@@ -715,10 +713,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the sequence of charSequence to look for, in order.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given sequence of charSequence is {@code null}.
+   * @throws NullPointerException     if the given sequence of charSequence is {@code null}.
    * @throws IllegalArgumentException if the given sequence of charSequence is empty.
-   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the given {@code CharSequence} does not contain the given sequence of values in the given order without any other values between them.
+   * @throws AssertionError           if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the given {@code CharSequence} does not contain the given sequence of values in the given order without any other values between them.
    */
   public SELF containsSequence(CharSequence... values) {
     strings.assertContainsSequence(info, actual, values);
@@ -746,10 +744,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the sequence of charSequence to look for, in order.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given sequence of charSequence is {@code null}.
+   * @throws NullPointerException     if the given sequence of charSequence is {@code null}.
    * @throws IllegalArgumentException if the given sequence of charSequence is empty.
-   * @throws AssertionError if the given {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the given {@code CharSequence} does not contain the given sequence of values in the given order without any other charvalues between them.
+   * @throws AssertionError           if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the given {@code CharSequence} does not contain the given sequence of values in the given order without any other charvalues between them.
    */
   public SELF containsSequence(Iterable<? extends CharSequence> values) {
     strings.assertContainsSequence(info, actual, toArray(values, CharSequence.class));
@@ -775,10 +773,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the Strings to look for, in order.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given values is {@code null}.
+   * @throws NullPointerException     if the given values is {@code null}.
    * @throws IllegalArgumentException if the given values is empty.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values in the given order.
+   * @throws AssertionError           if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values in the given order.
    */
   public SELF containsSubsequence(CharSequence... values) {
     strings.assertContainsSubsequence(info, actual, values);
@@ -804,10 +802,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the Strings to look for, in order.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given values is {@code null}.
+   * @throws NullPointerException     if the given values is {@code null}.
    * @throws IllegalArgumentException if the given values is empty.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values in the given order.
+   * @throws AssertionError           if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values in the given order.
    */
   public SELF containsSubsequence(Iterable<? extends CharSequence> values) {
     strings.assertContainsSubsequence(info, actual, toArray(values, CharSequence.class));
@@ -827,8 +825,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param sequence the sequence to search for.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given sequence is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain the given one.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} does not contain the given one.
    */
   public SELF containsIgnoringCase(CharSequence sequence) {
     strings.assertContainsIgnoringCase(info, actual, sequence);
@@ -850,10 +848,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the values to look for.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws NullPointerException     if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values.
+   * @throws AssertionError           if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF containsIgnoringWhitespaces(CharSequence... values) {
     assertContainsIgnoringWhitespaces(values);
@@ -875,29 +873,29 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} contains all the given values ignoring new line differences.
+   * Verifies that the actual {@code CharSequence} contains all the given values ignoring newline differences.
    * <p>
    * You can use one or several {@code CharSequence}s as in this example:
    *
    * <pre><code class='java'> // assertions succeed:
-   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewLines(&quot;alf&quot;)
-   *                                 .containsIgnoringNewLines(&quot;alf&quot;, &quot;grey&quot;)
-   *                                 .containsIgnoringNewLines(&quot;thegrey&quot;)
-   *                                 .containsIgnoringNewLines(&quot;thegr\ney&quot;)
-   *                                 .containsIgnoringNewLines(&quot;t\nh\ne\ng\nr\ney&quot;);
+   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewlines(&quot;alf&quot;)
+   *                                 .containsIgnoringNewlines(&quot;alf&quot;, &quot;grey&quot;)
+   *                                 .containsIgnoringNewlines(&quot;thegrey&quot;)
+   *                                 .containsIgnoringNewlines(&quot;thegr\ney&quot;)
+   *                                 .containsIgnoringNewlines(&quot;t\nh\ne\ng\nr\ney&quot;);
    * // assertions fail:
-   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewLines(&quot;alF&quot;)
-   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewLines(&quot;t\nh\ne\ng\nr\t\r\ney&quot;)</code></pre>
-   * 
+   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewlines(&quot;alF&quot;)
+   * assertThat(&quot;Gandalf\nthe\ngrey&quot;).containsIgnoringNewlines(&quot;t\nh\ne\ng\nr\t\r\ney&quot;)</code></pre>
+   *
    * @param values the values to look for.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws NullPointerException     if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not contain all the given values.
+   * @throws AssertionError           if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values.
    */
-  public SELF containsIgnoringNewLines(final CharSequence... values) {
-    strings.assertContainsIgnoringNewLines(info, actual, values);
+  public SELF containsIgnoringNewlines(final CharSequence... values) {
+    strings.assertContainsIgnoringNewlines(info, actual, values);
     return myself;
   }
 
@@ -915,10 +913,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the CharSequences to search for.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws NullPointerException     if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} contains any of the given values.
+   * @throws AssertionError           if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the actual {@code CharSequence} contains any of the given values.
    */
   public SELF doesNotContain(CharSequence... values) {
     strings.assertDoesNotContain(info, actual, values);
@@ -938,13 +936,125 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the CharSequences to search for.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given list of values is {@code null}.
+   * @throws NullPointerException     if the given list of values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} contains any of the given values.
+   * @throws AssertionError           if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the actual {@code CharSequence} contains any of the given values.
    */
   public SELF doesNotContain(Iterable<? extends CharSequence> values) {
     strings.assertDoesNotContain(info, actual, toArray(values, CharSequence.class));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not contain the given sequence;
+   * a sequence is defined as a group of values arranged <b>in the given order without any other values
+   * between them</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'>{@literal  String book = "{ 'title':'A Game of Thrones', 'author':'George Martin' }";
+   *
+   * // assertions will pass
+   * assertThat(book).doesNotContainSequence("A Game of ", "Shadows");
+   * assertThat(book).doesNotContainSequence("A Game of ", "George Martin");
+   *
+   * // assertions will fail
+   * assertThat(book).doesNotContainSequence("A Game of ", "Thrones");}</code></pre>
+   *
+   * @param sequence the sequence to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException     if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError           if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the given {@code CharSequence} contains the given values in the given order
+   *                                  without any characters between them.
+   */
+  public SELF doesNotContainSequence(CharSequence... sequence) {
+    strings.assertDoesNotContainSequence(info, actual, sequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not contain the given sequence;
+   * a sequence is defined as a group of values arranged <b>in the given order without any other values
+   * between them</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'>{@literal  String book = "{ 'title':'A Game of Thrones', 'author':'George Martin' }";
+   *
+   * // assertions will pass
+   * assertThat(book).doesNotContainSequence(asList("A Game of ", "Shadows"));
+   * assertThat(book).doesNotContainSequence(asList("A Game of ", "George Martin"));
+   *
+   * // assertions will fail
+   * assertThat(book).doesNotContainSequence(asList("A Game of ", "Thrones"));}</code></pre>
+   *
+   * @param sequence the sequence to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException     if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError           if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the given {@code CharSequence} contains the given values in the given order
+   *                                  without any characters between them.
+   */
+  public SELF doesNotContainSequence(Iterable<? extends CharSequence> sequence) {
+    strings.assertDoesNotContainSequence(info, actual, toArray(sequence, CharSequence.class));
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not contain the given subsequence;
+   * a subsequence is defined as a group of values arranged <b>in the given order, possibly with some values
+   * between them</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'>{@literal  String book = "{ 'title':'A Game of Thrones', 'author':'George Martin' }";
+   *
+   * // assertions will pass
+   * assertThat(book).doesNotContainSubsequence("A Game of ", "Shadows");
+   *
+   * // assertions will fail
+   * assertThat(book).doesNotContainSubsequence("A Game of ", "George Martin");
+   * assertThat(book).doesNotContainSubsequence("A Game of ", "Thrones");}</code></pre>
+   *
+   * @param subsequence the subsequence to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException     if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError           if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the given {@code CharSequence} contains the given values in the given order,
+   *                                  possibly with other characters between them.
+   */
+  public SELF doesNotContainSubsequence(CharSequence... subsequence) {
+    strings.assertDoesNotContainSubsequence(info, actual, subsequence);
+    return myself;
+  }
+
+  /**
+   * Verifies that the actual {@code CharSequence} does not contain the given subsequence;
+   * a subsequence is defined as a group of values arranged <b>in the given order, possibly with some values
+   * between them</b>.
+   * <p>
+   * Example:
+   * <pre><code class='java'>{@literal  String book = "{ 'title':'A Game of Thrones', 'author':'George Martin' }";
+   *
+   * // assertions will pass
+   * assertThat(book).doesNotContainSubsequence(asList("A Game of ", "Shadows"));
+   *
+   * // assertions will fail
+   * assertThat(book).doesNotContainSubsequence(asList("A Game of ", "George Martin"));
+   * assertThat(book).doesNotContainSubsequence(asList("A Game of ", "Thrones"));}</code></pre>
+   *
+   * @param subsequence the subsequence to look for.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException     if the given values is {@code null}.
+   * @throws IllegalArgumentException if the given values is empty.
+   * @throws AssertionError           if the given {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the given {@code CharSequence} contains the given values in the given order,
+   *                                  possibly with other characters between them.
+   */
+  public SELF doesNotContainSubsequence(Iterable<? extends CharSequence> subsequence) {
+    strings.assertDoesNotContainSubsequence(info, actual, toArray(subsequence, CharSequence.class));
     return myself;
   }
 
@@ -962,13 +1072,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param values the CharSequences to search for.
    * @return {@code this} assertion object.
-   *
-   * @throws NullPointerException if the given list of values is {@code null}.
-   * @throws NullPointerException if any one of the given values is {@code null}.
+   * @throws NullPointerException     if the given list of values is {@code null}.
+   * @throws NullPointerException     if any one of the given values is {@code null}.
    * @throws IllegalArgumentException if the list of given values is empty.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} contains any one of the given values, ignoring case considerations.
-   *
+   * @throws AssertionError           if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError           if the actual {@code CharSequence} contains any one of the given values, ignoring case considerations.
    * @since 3.17.0
    */
   public SELF doesNotContainIgnoringCase(CharSequence... values) {
@@ -989,9 +1097,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param pattern the regular expression to find in the actual {@code CharSequence}.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the given regular expression can be found in the actual {@code CharSequence}.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the given regular expression can be found in the actual {@code CharSequence}.
    * @since 2.7.0 / 3.7.0
    */
   public SELF doesNotContainPattern(CharSequence pattern) {
@@ -1012,8 +1119,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param pattern the regular expression to find in the actual {@code CharSequence}.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the given regular expression can be found in the actual {@code CharSequence}.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the given regular expression can be found in the actual {@code CharSequence}.
    * @since 2.7.0 / 3.7.0
    */
   public SELF doesNotContainPattern(Pattern pattern) {
@@ -1036,8 +1143,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param prefix the given prefix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given prefix is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not start with the given prefix.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} does not start with the given prefix.
    */
   public SELF startsWith(CharSequence prefix) {
     strings.assertStartsWith(info, actual, prefix);
@@ -1058,8 +1165,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param prefix the given prefix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given prefix is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not start with the given prefix, ignoring case.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} does not start with the given prefix, ignoring case.
    * @since 3.23.0
    */
   public SELF startsWithIgnoringCase(CharSequence prefix) {
@@ -1082,8 +1189,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param prefix the given prefix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given prefix is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} starts with the given prefix.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} starts with the given prefix.
    */
   public SELF doesNotStartWith(CharSequence prefix) {
     strings.assertDoesNotStartWith(info, actual, prefix);
@@ -1105,8 +1212,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param prefix the given prefix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given prefix is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} starts with the given prefix, ignoring case.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} starts with the given prefix, ignoring case.
    * @since 3.23.0
    */
   public SELF doesNotStartWithIgnoringCase(CharSequence prefix) {
@@ -1127,8 +1234,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param suffix the given suffix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given suffix is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not end with the given suffix.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} does not end with the given suffix.
    */
   public SELF endsWith(CharSequence suffix) {
     strings.assertEndsWith(info, actual, suffix);
@@ -1149,8 +1256,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param suffix the given suffix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given suffix is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not end with the given suffix, ignoring case.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} does not end with the given suffix, ignoring case.
    * @since 3.23.0
    */
   public SELF endsWithIgnoringCase(CharSequence suffix) {
@@ -1172,8 +1279,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param suffix the given suffix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given suffix is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} ends with the given suffix.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} ends with the given suffix.
    */
   public SELF doesNotEndWith(CharSequence suffix) {
     strings.assertDoesNotEndWith(info, actual, suffix);
@@ -1194,8 +1301,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param suffix the given suffix.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given suffix is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} ends with the given suffix, ignoring case.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} ends with the given suffix, ignoring case.
    * @since 3.23.0
    */
   public SELF doesNotEndWithIgnoringCase(CharSequence suffix) {
@@ -1216,9 +1323,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} does not match the given regular expression.
    */
   public SELF matches(CharSequence regex) {
     strings.assertMatches(info, actual, regex);
@@ -1233,12 +1339,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> // assertion succeeds:
    * assertThat(&quot;Frodo&quot;).matchesSatisfying(&quot;..(o.o)&quot;, matcher -&gt; assertThat(matcher.group(1)).isEqualTo(&quot;odo&quot;)); </code></pre>
    *
-   * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
+   * @param regex          the regular expression to which the actual {@code CharSequence} is to be matched.
    * @param matchSatisfies a consumer of the found match to do further verification
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} does not match the given regular expression.
    */
   public SELF matchesSatisfying(CharSequence regex, Consumer<Matcher> matchSatisfies) {
     return internalMatchesSatisfying(Pattern.compile(regex.toString()), matchSatisfies);
@@ -1257,9 +1363,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param regex the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} matches the given regular expression.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} matches the given regular expression.
    */
   public SELF doesNotMatch(CharSequence regex) {
     strings.assertDoesNotMatch(info, actual, regex);
@@ -1279,8 +1384,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} does not match the given regular expression.
    */
   public SELF matches(Pattern pattern) {
     strings.assertMatches(info, actual, pattern);
@@ -1297,12 +1402,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * // assertion succeeds:
    * assertThat(&quot;Frodo&quot;).matchesSatisfying(pattern, matcher -&gt; assertThat(matcher.group(1)).isEqualTo(&quot;odo&quot;)); </code></pre>
    *
-   * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
+   * @param pattern        the regular expression to which the actual {@code CharSequence} is to be matched.
    * @param matchSatisfies a consumer of the found match to do further verification
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the actual {@code CharSequence} does not match the given regular expression.
    */
   public SELF matchesSatisfying(Pattern pattern, Consumer<Matcher> matchSatisfies) {
     return internalMatchesSatisfying(pattern, matchSatisfies);
@@ -1329,7 +1434,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param pattern the regular expression to which the actual {@code CharSequence} is to be matched.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} does not match the given regular expression.
+   * @throws AssertionError       if the actual {@code CharSequence} does not match the given regular expression.
    */
   public SELF doesNotMatch(Pattern pattern) {
     strings.assertDoesNotMatch(info, actual, pattern);
@@ -1339,8 +1444,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Do not use this method.
    *
-   * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    * @throws UnsupportedOperationException if this method is called.
+   * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    */
   @Override
   @Deprecated
@@ -1351,8 +1456,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   /**
    * Do not use this method.
    *
-   * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    * @throws UnsupportedOperationException if this method is called.
+   * @deprecated Custom element Comparator is not supported for CharSequence comparison.
    */
   @Override
   @Deprecated
@@ -1406,7 +1511,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *   &lt;"µµµ"&gt;
    * to contain:
    *   &lt;"μμμ"&gt;</code></pre>
-   *
+   * <p>
    * With Hexadecimal message:
    * <pre><code class='java'> assertThat("µµµ").inUnicode().contains("μμμ");
    *
@@ -1445,7 +1550,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal ignoring whitespace differences to the given
-   *           one.
+   *                        one.
    */
   public SELF isEqualToIgnoringWhitespace(CharSequence expected) {
     strings.assertEqualsIgnoringWhitespace(info, actual, expected);
@@ -1471,7 +1576,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is equal ignoring whitespace differences to the given
-   *           one.
+   *                        one.
    */
   public SELF isNotEqualToIgnoringWhitespace(CharSequence expected) {
     strings.assertNotEqualsIgnoringWhitespace(info, actual, expected);
@@ -1506,7 +1611,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one
-   *           after whitespace has been normalized.
+   *                        after whitespace has been normalized.
    * @since 2.8.0 / 3.8.0
    */
   public SELF isEqualToNormalizingWhitespace(CharSequence expected) {
@@ -1539,7 +1644,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is equal to the given one
-   *           after whitespace has been normalized.
+   *                        after whitespace has been normalized.
    * @since 2.8.0 / 3.8.0
    */
   public SELF isNotEqualToNormalizingWhitespace(CharSequence expected) {
@@ -1576,7 +1681,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one
-   *           after punctuation have been normalized.
+   *                        after punctuation have been normalized.
    * @since 3.16.0
    */
   public SELF isEqualToNormalizingPunctuationAndWhitespace(CharSequence expected) {
@@ -1617,9 +1722,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param regex the regular expression to find in the actual {@code CharSequence}.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the given regular expression cannot be found in the actual {@code CharSequence}.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the given regular expression cannot be found in the actual {@code CharSequence}.
    */
   public SELF containsPattern(CharSequence regex) {
     strings.assertContainsPattern(info, actual, regex);
@@ -1634,13 +1738,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * <pre><code class='java'> // assertion succeeds:
    * assertThat(&quot;Frodo&quot;).containsPatternSatisfying(&quot;.o(.o)&quot;, matcher -&gt; assertThat(matcher.group(1)).isEqualTo(&quot;do&quot;)); </code></pre>
    *
-   * @param regex the regular expression to find in the actual {@code CharSequence}.
+   * @param regex          the regular expression to find in the actual {@code CharSequence}.
    * @param matchSatisfies a consumer for further verifying the Matcher.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws PatternSyntaxException if the regular expression's syntax is invalid.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the given regular expression cannot be found in the actual {@code CharSequence}.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the given regular expression cannot be found in the actual {@code CharSequence}.
    */
   public SELF containsPatternSatisfying(CharSequence regex, Consumer<Matcher> matchSatisfies) {
     return internalContainsPatternSatisfying(Pattern.compile(regex.toString()), matchSatisfies);
@@ -1659,8 +1762,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param pattern the regular expression to find in the actual {@code CharSequence}.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the given regular expression cannot be found in the actual {@code CharSequence}.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the given regular expression cannot be found in the actual {@code CharSequence}.
    */
   public SELF containsPattern(Pattern pattern) {
     strings.assertContainsPattern(info, actual, pattern);
@@ -1677,12 +1780,12 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * // assertion succeeds:
    * assertThat(&quot;Frodo&quot;).containsPatternSatisfying(pattern, matcher -&gt; assertThat(matcher.group(1)).isEqualTo(&quot;do&quot;)); </code></pre>
    *
-   * @param pattern the regular expression to find in the actual {@code CharSequence}.
+   * @param pattern        the regular expression to find in the actual {@code CharSequence}.
    * @param matchSatisfies a consumer for further verifying the Matcher.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given pattern is {@code null}.
-   * @throws AssertionError if the actual {@code CharSequence} is {@code null}.
-   * @throws AssertionError if the given regular expression cannot be found in the actual {@code CharSequence}.
+   * @throws AssertionError       if the actual {@code CharSequence} is {@code null}.
+   * @throws AssertionError       if the given regular expression cannot be found in the actual {@code CharSequence}.
    */
   public SELF containsPatternSatisfying(Pattern pattern, Consumer<Matcher> matchSatisfies) {
     return internalContainsPatternSatisfying(pattern, matchSatisfies);
@@ -1703,7 +1806,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * This assertion succeeds:
    * <pre><code class='java'> String bookName = &quot;Lord of the Rings\r\n&quot;;
    * assertThat(bookName).isEqualToNormalizingNewlines(&quot;Lord of the Rings\n&quot;);</code></pre>
-   *
+   * <p>
    * Whereas this assertion fails:
    * <pre><code class='java'> String singleLine = &quot;\n&quot;;
    * assertThat(singleLine).isEqualToNormalizingNewlines(&quot;&quot;);</code></pre>
@@ -1711,7 +1814,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} and the given {@code CharSequence} are different
-   *         after new lines are normalized.
+   *                        after new lines are normalized.
    * @since 2.7.0 / 3.7.0
    */
   public SELF isEqualToNormalizingNewlines(CharSequence expected) {
@@ -1720,28 +1823,28 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   /**
-   * Verifies that the actual {@code CharSequence} is equal to the given one after both strings new lines (\n, \r\n) have been removed.
+   * Verifies that the actual {@code CharSequence} is equal to the given one after both strings newlines (\n, \r\n) have been removed.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions will pass
-   * assertThat("Some textWith new lines").isEqualToIgnoringNewLines("Some text\nWith new lines")
-   *                                      .isEqualToIgnoringNewLines("Some text\r\nWith new lines")
-   *                                      .isEqualToIgnoringNewLines("Some text\n\nWith new lines");
+   * assertThat("Some textWith new lines").isEqualToIgnoringNewlines("Some text\nWith new lines")
+   *                                      .isEqualToIgnoringNewlines("Some text\r\nWith new lines")
+   *                                      .isEqualToIgnoringNewlines("Some text\n\nWith new lines");
    *
-   * assertThat("Some text\nWith new lines").isEqualToIgnoringNewLines("Some text\nWith new lines")
-   *                                        .isEqualToIgnoringNewLines("Some text\r\nWith new lines")
-   *                                        .isEqualToIgnoringNewLines("Some text\n\nWith new lines");
+   * assertThat("Some text\nWith new lines").isEqualToIgnoringNewlines("Some text\nWith new lines")
+   *                                        .isEqualToIgnoringNewlines("Some text\r\nWith new lines")
+   *                                        .isEqualToIgnoringNewlines("Some text\n\nWith new lines");
    *
    * // assertions will fail
-   * assertThat("Some text\nWith new lines").isEqualToIgnoringNewLines("Some text With new lines");
-   * assertThat("Some text\r\nWith new lines").isEqualToIgnoringNewLines("Some text With new lines");</code></pre>
+   * assertThat("Some text\nWith new lines").isEqualToIgnoringNewlines("Some text With new lines");
+   * assertThat("Some text\r\nWith new lines").isEqualToIgnoringNewlines("Some text With new lines");</code></pre>
    *
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one after new lines have been removed.
    */
-  public SELF isEqualToIgnoringNewLines(CharSequence expected) {
-    strings.assertIsEqualToIgnoringNewLines(info, actual, expected);
+  public SELF isEqualToIgnoringNewlines(CharSequence expected) {
+    strings.assertIsEqualToIgnoringNewlines(info, actual, expected);
     return myself;
   }
 
@@ -1830,7 +1933,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
 
   /**
    * Verifies that the actual {@code CharSequence} is equal to the given one after they have been normalized
-   * according to the {@link Normalizer.Form#NFC} form, which is a canonical decomposition followed by canonical composition.
+   * according to the {@link java.text.Normalizer.Form#NFC} form, which is a canonical decomposition followed by canonical composition.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions succeed:
@@ -1848,8 +1951,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *
    * @param expected the given {@code CharSequence} to compare the actual {@code CharSequence} to.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one
-   *           after both strings have been normalized to according to the {@link Normalizer.Form#NFC} form .
+   * @throws AssertionError       if the actual {@code CharSequence} is not equal to the given one
+   *                              after both strings have been normalized to according to the {@link java.text.Normalizer.Form#NFC} form .
    * @throws NullPointerException if the actual {@code CharSequence} is not null and the given is.
    * @since 3.19.0
    */
@@ -2036,11 +2139,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see Character#isWhitespace(int)
    * @since 3.26.0
    */
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public SELF doesNotStartWithWhitespaces() {
     isNotNull();
-    if (!actual.isEmpty() && isWhitespace(actual.codePoints().findFirst().getAsInt()))
-      throwAssertionError(shouldNotStartWithWhitespaces(actual));
+    actual.codePoints().boxed().findFirst().filter(Character::isWhitespace)
+          .ifPresent(__ -> throwAssertionError(shouldNotStartWithWhitespaces(actual)));
     return myself;
   }
 
@@ -2065,11 +2167,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see Character#isWhitespace(int)
    * @since 3.26.0
    */
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public SELF doesNotEndWithWhitespaces() {
     isNotNull();
-    if (!actual.isEmpty() && Character.isWhitespace(actual.codePoints().reduce((v1, v2) -> v2).getAsInt()))
-      throwAssertionError(shouldNotEndWithWhitespaces(actual));
+    actual.codePoints().boxed().reduce((v1, v2) -> v2).filter(Character::isWhitespace)
+          .ifPresent(__ -> throwAssertionError(shouldNotEndWithWhitespaces(actual)));
     return myself;
   }
 

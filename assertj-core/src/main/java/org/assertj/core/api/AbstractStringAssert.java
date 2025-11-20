@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -26,10 +29,10 @@ import java.nio.charset.Charset;
 import java.util.Base64;
 import java.util.Comparator;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.internal.Comparables;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.CheckReturnValue;
 
 public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> extends AbstractCharSequenceAssert<SELF, String> {
 
@@ -277,6 +280,49 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   public AbstractByteArrayAssert<?> asBase64Decoded() {
     isBase64();
     return new ByteArrayAssert(Base64.getDecoder().decode(actual)).withAssertionState(myself);
+  }
+
+  /**
+   * Verifies that the actual value is a valid Base64 URL encoded string.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(&quot;QXNzZXJ0SiA_&quot;).isBase64Url();
+   *
+   * // assertion fails as it has invalid Base64 URL characters
+   * assertThat(&quot;inv@lid&quot;).isBase64Url();</code></pre>
+   *
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not a valid Base64 URL encoded string.
+   *
+   * @since 4.0.0
+   */
+  public SELF isBase64Url() {
+    strings.assertIsBase64Url(info, actual);
+    return myself;
+  }
+
+  /**
+   * Decodes the actual value as a Base64 URL encoded string (using {@link Base64#getUrlDecoder()}), the decoded bytes becoming the new array under test.
+   * <p>
+   * Examples:
+   * <pre><code class='java'> // assertion succeeds
+   * assertThat(&quot;QXNzZXJ0SiA_&quot;).asBase64UrlDecoded().containsExactly("AssertJ ?".getBytes());
+   *
+   * // assertion fails as it has invalid Base64 URL characters
+   * assertThat(&quot;inv@lid&quot;).asBase64UrlDecoded();</code></pre>
+   *
+   * @return a new {@link ByteArrayAssert} instance whose array under test is the result of the decoding.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not a valid Base64 URL encoded string.
+   *
+   * @since 4.0.0
+   */
+  @CheckReturnValue
+  public AbstractByteArrayAssert<?> asBase64UrlDecoded() {
+    isBase64Url();
+    return new ByteArrayAssert(Base64.getUrlDecoder().decode(actual)).withAssertionState(myself);
   }
 
   /**

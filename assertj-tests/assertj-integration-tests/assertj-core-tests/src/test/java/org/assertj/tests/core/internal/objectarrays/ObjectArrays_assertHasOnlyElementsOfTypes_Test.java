@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.internal.objectarrays;
 
@@ -45,7 +48,7 @@ class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArraysBaseTes
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, null, String.class));
+    var error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, null, String.class));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -55,7 +58,7 @@ class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArraysBaseTes
     // GIVEN
     Class<?>[] types = new Class<?>[0];
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, ARRAY, types));
+    var error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, ARRAY, types));
     // THEN
     then(error).hasMessage(shouldOnlyHaveElementsOfTypes(ARRAY, types, list(ARRAY)).create());
   }
@@ -63,8 +66,8 @@ class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArraysBaseTes
   @Test
   void should_fail_if_one_element_in_actual_does_not_belong_to_the_expected_types() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, ARRAY, Long.class,
-                                                                                          String.class));
+    var error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, ARRAY, Long.class,
+                                                                               String.class));
     // THEN
     then(error).hasMessage(shouldOnlyHaveElementsOfTypes(ARRAY, array(Long.class, String.class), list(6, 7.0)).create());
   }
@@ -74,7 +77,7 @@ class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArraysBaseTes
     // GIVEN
     Object[] array = array(null, "notNull");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, array, Long.class));
+    var error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, array, Long.class));
     // THEN
     then(error).hasMessage(shouldOnlyHaveElementsOfTypes(array, array(Long.class), list(null, "notNull")).create());
   }

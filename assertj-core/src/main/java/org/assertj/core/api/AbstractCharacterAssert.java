@@ -1,22 +1,25 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
 import java.util.Comparator;
 
-import org.assertj.core.internal.Characters;
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
-import org.assertj.core.util.CheckReturnValue;
+import org.assertj.core.internal.Characters;
 
 /**
  * Base class for all implementations of assertions for {@link Character}s.
@@ -160,16 +163,16 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * With standard error message:
    * <pre><code class='java'> assertThat('µ').isEqualTo('μ');
    *
-   * org.junit.ComparisonFailure:
-   * Expected :'μ'
-   * Actual   :'µ'</code></pre>
+   * org.opentest4j.AssertionFailedError:
+   * expected: 'μ'
+   *  but was: 'µ'</code></pre>
    *
    * With unicode based error message:
    * <pre><code class='java'> assertThat('µ').inUnicode().isEqualTo('μ');
    *
-   * org.junit.ComparisonFailure:
-   * Expected :&bsol;u03bc
-   * Actual   :&bsol;u00b5</code></pre>
+   * org.opentest4j.AssertionFailedError:
+   * expected: &bsol;u03bc
+   *  but was: &bsol;u00b5</code></pre>
    *
    * @return {@code this} assertion object.
    */

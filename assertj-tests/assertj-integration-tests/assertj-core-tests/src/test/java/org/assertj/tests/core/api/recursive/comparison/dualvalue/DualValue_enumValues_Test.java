@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
@@ -31,9 +34,9 @@ class DualValue_enumValues_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", BLUE);
     // WHEN
-    boolean expectedFieldIsEnum = dualValue.isExpectedAnEnum();
+    boolean isExpectedAnEnum = dualValue.isExpectedAnEnum();
     // THEN
-    then(expectedFieldIsEnum).isTrue();
+    then(isExpectedAnEnum).isTrue();
   }
 
   @Test
@@ -41,9 +44,9 @@ class DualValue_enumValues_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, RED, "");
     // WHEN
-    boolean expectedFieldIsEnum = dualValue.isExpectedAnEnum();
+    boolean isExpectedAnEnum = dualValue.isExpectedAnEnum();
     // THEN
-    then(expectedFieldIsEnum).isFalse();
+    then(isExpectedAnEnum).isFalse();
   }
 
   @Test
@@ -51,9 +54,9 @@ class DualValue_enumValues_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, RED, null);
     // WHEN
-    boolean expectedFieldIsEnum = dualValue.isExpectedAnEnum();
+    boolean isExpectedAnEnum = dualValue.isExpectedAnEnum();
     // THEN
-    then(expectedFieldIsEnum).isFalse();
+    then(isExpectedAnEnum).isFalse();
   }
 
   @Test
@@ -61,9 +64,9 @@ class DualValue_enumValues_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, BLUE, "");
     // WHEN
-    boolean actualFieldIsEnum = dualValue.isActualAnEnum();
+    boolean isActualAnEnum = dualValue.isActualAnEnum();
     // THEN
-    then(actualFieldIsEnum).isTrue();
+    then(isActualAnEnum).isTrue();
   }
 
   @Test
@@ -71,9 +74,9 @@ class DualValue_enumValues_Test {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "", RED);
     // WHEN
-    boolean actualFieldIsEnum = dualValue.isActualAnEnum();
+    boolean isActualAnEnum = dualValue.isActualAnEnum();
     // THEN
-    then(actualFieldIsEnum).isFalse();
+    then(isActualAnEnum).isFalse();
   }
 
   @Test

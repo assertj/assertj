@@ -1,21 +1,24 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.internal.maps;
 
 import static java.util.Collections.emptyMap;
 import static java.util.Collections.emptySet;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldContainEntries.shouldContainEntries;
@@ -27,40 +30,31 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.core.util.Sets.set;
 import static org.mockito.Mockito.verify;
 
-import java.util.Map;
 import java.util.Map.Entry;
 
-import org.assertj.core.api.AssertionInfo;
-import org.assertj.core.internal.Maps;
 import org.assertj.core.internal.MapsBaseTest;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Maps#assertContains(AssertionInfo, Map, Map.Entry[])}</code>.
- *
- * @author Alex Ruiz
- * @author Joel Costigliola
- */
 class Maps_assertContains_Test extends MapsBaseTest {
 
   @Test
   void should_pass_if_actual_contains_given_entries() {
-    maps.assertContains(info, actual, array(entry("name", "Yoda")));
+    maps.assertContains(info, actual, array(entry("name", "Yoda")), null);
   }
 
   @Test
   void should_pass_if_actual_contains_given_entries_in_different_order() {
-    maps.assertContains(info, actual, array(entry("color", "green"), entry("name", "Yoda")));
+    maps.assertContains(info, actual, array(entry("color", "green"), entry("name", "Yoda")), null);
   }
 
   @Test
   void should_pass_if_actual_contains_all_given_entries() {
-    maps.assertContains(info, actual, array(entry("name", "Yoda"), entry("color", "green")));
+    maps.assertContains(info, actual, array(entry("name", "Yoda"), entry("color", "green")), null);
   }
 
   @Test
   void should_pass_if_actual_and_given_entries_are_empty() {
-    maps.assertContains(info, emptyMap(), emptyEntries());
+    maps.assertContains(info, emptyMap(), emptyEntries(), null);
   }
 
   @Test
@@ -68,7 +62,7 @@ class Maps_assertContains_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expected = emptyEntries();
     // WHEN
-    expectAssertionError(() -> maps.assertContains(info, actual, expected));
+    expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
     // THEN
     verify(failures).failure(info, shouldBeEmpty(actual));
   }
@@ -78,8 +72,8 @@ class Maps_assertContains_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] entries = null;
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> maps.assertContains(info, actual, entries))
-                                    .withMessage(entriesToLookForIsNull());
+    thenNullPointerException().isThrownBy(() -> maps.assertContains(info, actual, entries, null))
+                              .withMessage(entriesToLookForIsNull());
   }
 
   @Test
@@ -88,8 +82,8 @@ class Maps_assertContains_Test extends MapsBaseTest {
     Entry<String, String> nullEntry = null;
     Entry<String, String>[] entries = array(nullEntry);
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> maps.assertContains(info, actual, entries))
-                                    .withMessage(entryToLookForIsNull());
+    thenNullPointerException().isThrownBy(() -> maps.assertContains(info, actual, entries, null))
+                              .withMessage(entryToLookForIsNull());
   }
 
   @Test
@@ -98,7 +92,7 @@ class Maps_assertContains_Test extends MapsBaseTest {
     actual = null;
     Entry<String, String>[] expected = array(entry("name", "Yoda"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> maps.assertContains(info, actual, expected));
+    var assertionError = expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -108,7 +102,7 @@ class Maps_assertContains_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expected = array(entry("a", "1"));
     // WHEN
-    expectAssertionError(() -> maps.assertContains(info, emptyMap(), expected));
+    expectAssertionError(() -> maps.assertContains(info, emptyMap(), expected, null));
     // THEN
     verify(failures).failure(info,
                              shouldContainEntries(emptyMap(), expected, emptySet(), set(entry("a", "1")), info.representation()));
@@ -119,7 +113,7 @@ class Maps_assertContains_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expected = array(entry("name", "Yoda"), entry("job", "Jedi"));
     // WHEN
-    expectAssertionError(() -> maps.assertContains(info, actual, expected));
+    expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
     // THEN
     verify(failures).failure(info, shouldContainEntries(actual, expected, emptySet(), set(entry("job", "Jedi")),
                                                         info.representation()));
@@ -130,7 +124,7 @@ class Maps_assertContains_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "red"));
     // WHEN
-    expectAssertionError(() -> maps.assertContains(info, actual, expected));
+    expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
     // THEN
     verify(failures).failure(info, shouldContainEntries(actual, expected, set(entry("color", "red")), emptySet(),
                                                         info.representation()));
@@ -141,7 +135,7 @@ class Maps_assertContains_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] expected = array(entry("name", "Yoda"), entry("color", "red"), entry("job", "Jedi"));
     // WHEN
-    expectAssertionError(() -> maps.assertContains(info, actual, expected));
+    expectAssertionError(() -> maps.assertContains(info, actual, expected, null));
     // THEN
     verify(failures).failure(info, shouldContainEntries(actual, expected, set(entry("color", "red")), set(entry("job", "Jedi")),
                                                         info.representation()));

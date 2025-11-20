@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.optional;
 
@@ -19,10 +22,12 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
+import java.io.IOException;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.api.ThrowingConsumer;
 import org.junit.jupiter.api.Test;
 
 class OptionalAssert_hasValueSatisfying_Test {
@@ -35,7 +40,7 @@ class OptionalAssert_hasValueSatisfying_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<String> nullActual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(nullActual).hasValueSatisfying(NO_OP));
+    var error = expectAssertionError(() -> assertThat(nullActual).hasValueSatisfying(NO_OP));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -45,7 +50,7 @@ class OptionalAssert_hasValueSatisfying_Test {
     // GIVEN
     Optional<String> actual = Optional.empty();
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(NO_OP));
+    var error = expectAssertionError(() -> assertThat(actual).hasValueSatisfying(NO_OP));
     // THEN
     then(error).hasMessage(shouldBePresent(Optional.empty()).create());
   }
@@ -59,11 +64,24 @@ class OptionalAssert_hasValueSatisfying_Test {
   }
 
   @Test
+  void should_pass_when_throwing_consumer_passes() {
+    // GIVEN
+    Optional<String> optional = Optional.of("something");
+    ThrowingConsumer<String> throwingConsumer = value -> {
+      if (!value.equals("something")) {
+        throw new IOException("Value does not match");
+      }
+    };
+    // WHEN/THEN
+    then(optional).hasValueSatisfying(throwingConsumer);
+  }
+
+  @Test
   void should_fail_from_consumer() {
     // GIVEN
     ThrowingCallable code = () -> assertThat(Optional.of("something else")).hasValueSatisfying(s -> assertThat(s).isEqualTo("something"));
     // WHEN
-    AssertionError assertionError = expectAssertionError(code);
+    var assertionError = expectAssertionError(code);
     // THEN
     then(assertionError).hasMessage(shouldBeEqualMessage("\"something else\"", "\"something\""));
   }

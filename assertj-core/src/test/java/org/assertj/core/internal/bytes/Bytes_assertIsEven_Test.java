@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.internal.bytes;
 
@@ -43,7 +46,7 @@ class Bytes_assertIsEven_Test extends BytesBaseTest {
   @ValueSource(bytes = { 1, 3, -1, 0x05, -0x05 })
   void should_fail_since_actual_is_not_even(byte actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytes.assertIsEven(someInfo(), actual));
+    var assertionError = expectAssertionError(() -> bytes.assertIsEven(someInfo(), actual));
     // THEN
     then(assertionError).hasMessage(shouldBeEven(actual).create());
   }
@@ -59,8 +62,8 @@ class Bytes_assertIsEven_Test extends BytesBaseTest {
   @ValueSource(bytes = { 1, 3, -1, 0x05, -0x05 })
   void should_fail_since_actual_is_not_even_whatever_custom_comparison_strategy_is(byte actual) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
-                                                                                                                actual));
+    var assertionError = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsEven(someInfo(),
+                                                                                                     actual));
     // THEN
     then(assertionError).hasMessage(shouldBeEven(actual).create());
   }

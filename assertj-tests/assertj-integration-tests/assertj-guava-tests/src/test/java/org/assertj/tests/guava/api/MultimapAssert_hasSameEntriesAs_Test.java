@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.guava.api;
 
@@ -87,7 +90,7 @@ class MultimapAssert_hasSameEntriesAs_Test extends MultimapAssertBaseTest {
     other.putAll("Lakers", List.of("Kobe Bryant", "Magic Johnson", "Kareem Abdul Jabbar"));
     other.putAll("Bulls", List.of("Michael Jordan", "Scottie Pippen", "Derrick Rose"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSameEntriesAs(other));
+    var error = expectAssertionError(() -> assertThat(actual).hasSameEntriesAs(other));
     // THEN
     then(error).hasMessage(shouldContainOnly(actual, other, null,
                                              List.of(entry("Spurs", "Tony Parker"), entry("Spurs", "Tim Duncan"),
@@ -102,7 +105,7 @@ class MultimapAssert_hasSameEntriesAs_Test extends MultimapAssertBaseTest {
     other.putAll("Spurs", List.of("Tony Parker", "Tim Duncan", "Manu Ginobili"));
     other.putAll("Warriors", List.of("Stephen Curry", "Klay Thompson"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSameEntriesAs(other));
+    var error = expectAssertionError(() -> assertThat(actual).hasSameEntriesAs(other));
     // THEN
     then(error).hasMessage(shouldContainOnly(actual, other,
                                              List.of(entry("Warriors", "Stephen Curry"), entry("Warriors", "Klay Thompson")),

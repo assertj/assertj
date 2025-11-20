@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.assumptions;
 
@@ -28,6 +31,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -645,6 +649,21 @@ class BDDAssumptionsTest {
   @Nested
   class BDDAssumptions_given_Throwable_Test {
     private final Throwable actual = new Exception("Yoda time");
+
+    @Test
+    void should_run_test_when_assumption_passes() {
+      thenCode(() -> given(actual).hasMessage("Yoda time")).doesNotThrowAnyException();
+    }
+
+    @Test
+    void should_ignore_test_when_assumption_fails() {
+      expectAssumptionNotMetException(() -> given(actual).hasMessage(""));
+    }
+  }
+
+  @Nested
+  class BDDAssumptions_given_SQLException_Test {
+    private final SQLException actual = new SQLException("Yoda time");
 
     @Test
     void should_run_test_when_assumption_passes() {

@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.abstract_;
 
@@ -62,7 +65,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
     Path asciiFile = resourcePath("ascii.txt");
     ThrowingConsumer<Path> emptyConsumer = path -> assertThat(readAllLines(path)).isEmpty();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer));
+    var assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer));
     // THEN
     then(assertionError).hasMessageContaining("Expecting empty but was: [\"abc\"]");
   }
@@ -74,7 +77,7 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
     ThrowingConsumer<Path> emptyConsumer = path -> assertThat(readAllLines(path)).as("empty check").isEmpty();
     ThrowingConsumer<Path> directoryConsumer = path -> assertThat(path).as("directory check").isDirectory();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer, directoryConsumer));
+    var assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(emptyConsumer, directoryConsumer));
     // THEN
     then(assertionError).hasMessageContainingAll("empty check", "directory check");
   }
@@ -86,8 +89,8 @@ class AbstractAssert_satisfies_with_ThrowingConsumers_Test {
     ThrowingConsumer<Path> notEmptyConsumer = path -> assertThat(readAllLines(path)).as("not empty check").isNotEmpty();
     ThrowingConsumer<Path> directoryConsumer = path -> assertThat(path).as("directory check").isDirectory();
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(directoryConsumer,
-                                                                                               notEmptyConsumer));
+    var assertionError = expectAssertionError(() -> assertThat(asciiFile).satisfies(directoryConsumer,
+                                                                                    notEmptyConsumer));
     // THEN
     then(assertionError).hasMessageContaining("directory check")
                         .hasMessageNotContaining("not empty check");

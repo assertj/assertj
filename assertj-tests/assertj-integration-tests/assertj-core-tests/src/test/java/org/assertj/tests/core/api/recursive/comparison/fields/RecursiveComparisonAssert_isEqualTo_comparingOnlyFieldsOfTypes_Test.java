@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.recursive.comparison.fields;
 
@@ -23,8 +26,10 @@ import java.util.OptionalLong;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
+import org.assertj.tests.core.api.recursive.data.Giant;
 import org.assertj.tests.core.api.recursive.data.Home;
 import org.assertj.tests.core.api.recursive.data.Person;
+import org.assertj.tests.core.api.recursive.data.WithObject;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -236,6 +241,17 @@ class RecursiveComparisonAssert_isEqualTo_comparingOnlyFieldsOfTypes_Test
     recursiveComparisonConfiguration.compareOnlyFieldsOfTypes(Home.class);
     // WHEN/THEN
     compareRecursivelyFailsWithDifferences(sherlock, moriarty, javaTypeDiff("home.address.number", 221, 222));
+  }
+
+  @Test
+  void should_pass_when_actual_compared_fields_are_specified_and_expected_has_extra_fields() {
+    // GIVEN
+    var actual = WithObject.of(new Person("joe"));
+    var expected = WithObject.of(new Giant("joe", 3.0));
+    // WHEN/THEN
+    then(actual).usingRecursiveComparison()
+                .comparingOnlyFieldsOfTypes(String.class)
+                .isEqualTo(expected);
   }
 
   @Test

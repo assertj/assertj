@@ -1,30 +1,29 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.error;
 
 import static java.lang.String.format;
-import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldBeEqual.shouldBeEqual;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
 import java.util.stream.Stream;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.opentest4j.AssertionFailedError;
@@ -37,31 +36,19 @@ import org.opentest4j.AssertionFailedError;
  */
 class ShouldBeEqual_newAssertionError_Test {
 
-  private Description description;
-  private ShouldBeEqual factory;
-  private DescriptionFormatter formatter;
-
-  @BeforeEach
-  public void setUp() throws IllegalAccessException {
-    description = new TestDescription("Jedi");
-    factory = (ShouldBeEqual) shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
-    DescriptionFormatter descriptionFormatterMock = mock(DescriptionFormatter.class);
-    writeField(factory, "descriptionFormatter", descriptionFormatterMock, true);
-    formatter = descriptionFormatterMock;
-  }
-
   @ParameterizedTest
   @MethodSource("parameters")
   void should_create_AssertionFailedError_if_JUnit5_is_present_and_trim_spaces_in_formatted_description(String formattedDescription) {
     // GIVEN
-    given(formatter.format(description)).willReturn(formattedDescription);
+    Description description = new TestDescription("Jedi");
+    var shouldBeEqual = shouldBeEqual("Luke", "Yoda", STANDARD_REPRESENTATION);
     // WHEN
-    AssertionError error = factory.toAssertionError(description, STANDARD_REPRESENTATION);
+    var assertionError = shouldBeEqual.toAssertionError(description, STANDARD_REPRESENTATION);
     // THEN
-    then(error).isInstanceOf(AssertionFailedError.class)
-               .hasMessage(format("[Jedi] %n" +
-                                  "expected: \"Yoda\"%n" +
-                                  " but was: \"Luke\""));
+    then(assertionError).isInstanceOf(AssertionFailedError.class)
+                        .hasMessage(format("[Jedi] %n" +
+                                           "expected: \"Yoda\"%n" +
+                                           " but was: \"Luke\""));
   }
 
   public static Stream<String> parameters() {

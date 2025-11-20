@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.recursive.comparison.legacy;
 
@@ -76,9 +79,9 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
   @MethodSource
   void should_fail_when_using_overridden_equals(Object actual, Object expected, String testDescription) {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .usingOverriddenEquals()
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .usingOverriddenEquals()
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContaining("- equals methods were used in the comparison");
   }
@@ -159,7 +162,7 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
     // WHEN/THEN
     then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
                 .usingOverriddenEquals()
-                .comparingOnlyFields("group.name", "group.neverEquals.name")
+                .comparingOnlyFields("value.name", "value.neverEquals.name")
                 .isEqualTo(expected);
   }
 
@@ -169,11 +172,11 @@ public class RecursiveComparisonAssert_isEqualTo_usingOverriddenEquals_Test
     WithObject actual = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
     WithObject expected = new WithObject(new A("abc", new NeverEquals("never"), new AlwaysEquals("always")));
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                                                                                 .usingOverriddenEquals()
-                                                                                 .comparingOnlyFields("group.name",
-                                                                                                      "group.neverEquals")
-                                                                                 .isEqualTo(expected));
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .usingOverriddenEquals()
+                                                                      .comparingOnlyFields("value.name",
+                                                                                           "value.neverEquals")
+                                                                      .isEqualTo(expected));
     // THEN
     then(assertionError).hasMessageContaining("- equals methods were used in the comparison");
   }

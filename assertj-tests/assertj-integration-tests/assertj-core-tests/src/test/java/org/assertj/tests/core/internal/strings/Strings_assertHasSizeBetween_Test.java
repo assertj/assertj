@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.internal.strings;
 
@@ -35,7 +38,7 @@ class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(4, 7));
+    var error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(4, 7));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }
@@ -45,7 +48,7 @@ class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Han";
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(4, 7));
+    var error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(4, 7));
     // THEN
     String errorMessage = shouldHaveSizeBetween(actual, actual.length(), 4, 7).create();
     assertThat(error).hasMessage(errorMessage);
@@ -56,7 +59,7 @@ class Strings_assertHasSizeBetween_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Han";
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(1, 2));
+    var error = expectAssertionError(() -> assertThat(actual).hasSizeBetween(1, 2));
     // THEN
     String errorMessage = shouldHaveSizeBetween(actual, actual.length(), 1, 2).create();
     assertThat(error).hasMessage(errorMessage);

@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.string_;
 
@@ -86,7 +89,7 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
   @Test
   void should_throw_assertion_error_for_null_input() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(assertThat((String) null)::bytes);
+    var assertionError = expectAssertionError(assertThat((String) null)::bytes);
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -113,7 +116,7 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).bytes(StandardCharsets.US_ASCII));
+    var assertionError = expectAssertionError(() -> assertThat(actual).bytes(StandardCharsets.US_ASCII));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -145,7 +148,7 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).bytes("UTF-8"));
+    var assertionError = expectAssertionError(() -> assertThat(actual).bytes("UTF-8"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -159,7 +162,7 @@ class StringAssert_bytes_Test extends StringAssertBaseTest {
   @Test
   void should_throw_AssertionError_for_invalid_charset_name() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat("abc").bytes("UNSUPPORTED_CHARSET"));
+    var assertionError = expectAssertionError(() -> assertThat("abc").bytes("UNSUPPORTED_CHARSET"));
     // THEN
     then(assertionError).hasMessage("UNSUPPORTED_CHARSET is not a supported Charset");
   }

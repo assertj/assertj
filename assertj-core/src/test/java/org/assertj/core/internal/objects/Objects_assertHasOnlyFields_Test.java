@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.internal.objects;
 
@@ -45,7 +48,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = new Data();
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1", "field2", "field3"));
+    var error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1", "field2", "field3"));
     // THEN
     assertThat(error).hasMessage(shouldContainOnly(actual, list("field1", "field2", "field3"), list("field3"), emptyList(),
                                                    FIELDS_GROUP_DESCRIPTION).create());
@@ -56,7 +59,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = new Data();
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1"));
+    var error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1"));
     // THEN
     assertThat(error).hasMessage(shouldContainOnly(actual, list("field1"), emptyList(), list("field2"),
                                                    FIELDS_GROUP_DESCRIPTION).create());
@@ -67,7 +70,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = new Data();
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1", "field3"));
+    var error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual, "field1", "field3"));
     // THEN
     assertThat(error).hasMessage(shouldContainOnly(actual, list("field1", "field3"), list("field3"), list("field2"),
                                                    FIELDS_GROUP_DESCRIPTION).create());
@@ -78,7 +81,7 @@ class Objects_assertHasOnlyFields_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual));
+    var error = expectAssertionError(() -> objects.assertHasOnlyFields(INFO, actual));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

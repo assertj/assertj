@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.internal.strings;
 
@@ -50,8 +53,8 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Yoda";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
-                                                                                                        "od"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
+                                                                                             "od"));
     // THEN
     then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, "od").create());
   }
@@ -61,8 +64,8 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Yoda";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
-                                                                                                        "OD"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
+                                                                                             "OD"));
     // THEN
     then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, "OD").create());
   }
@@ -72,8 +75,8 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Yoda";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "od",
-                                                                                                        "Yo", "Luke"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "od",
+                                                                                             "Yo", "Luke"));
     // THEN
     then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, array("od", "Yo", "Luke"), set("od", "Yo")).create());
   }
@@ -83,8 +86,8 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     String actual = "Yoda";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "OD",
-                                                                                                        "yo", "Luke"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual, "OD",
+                                                                                             "yo", "Luke"));
     // THEN
     then(assertionError).hasMessage(shouldNotContainIgnoringCase(actual, array("OD", "yo", "Luke"), set("OD", "yo")).create());
   }
@@ -105,8 +108,8 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
     // GIVEN
     String actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
-                                                                                                        "Yoda"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(someInfo(), actual,
+                                                                                             "Yoda"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -132,7 +135,7 @@ class Strings_assertDoesNotContainIgnoringCase_Test extends StringsBaseTest {
   @DefaultLocale("tr-TR")
   void should_fail_with_Turkish_default_locale() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(INFO, "Leia", "EI"));
+    var assertionError = expectAssertionError(() -> strings.assertDoesNotContainIgnoringCase(INFO, "Leia", "EI"));
     // THEN
     then(assertionError).hasMessage(shouldNotContainIgnoringCase("Leia", "EI").create());
   }

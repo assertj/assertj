@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -36,7 +39,12 @@ import org.opentest4j.MultipleFailuresError;
  *
  * <p>
  * After running the test, JUnit provides us with the following exception message:
- * <pre><code class='java'> org.junit.ComparisonFailure: [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;</code></pre>
+ * <pre>
+ * org.opentest4j.AssertionFailedError:
+ * [Living Guests]
+ * expected: 7
+ *  but was: 6
+ * </pre>
  *
  * <p>
  * Oh no! A guest has been murdered! But where, how, and by whom?
@@ -68,11 +76,26 @@ import org.opentest4j.MultipleFailuresError;
  *
  * <p>
  * Now upon running the test our JUnit exception message is far more detailed:
- * <pre><code class='java'> org.assertj.core.api.SoftAssertionError: The following 4 assertions failed:
- * 1) [Living Guests] expected:&lt;[7]&gt; but was:&lt;[6]&gt;
- * 2) [Library] expected:&lt;'[clean]'&gt; but was:&lt;'[messy]'&gt;
- * 3) [Candlestick] expected:&lt;'[pristine]'&gt; but was:&lt;'[bent]'&gt;
- * 4) [Professor] expected:&lt;'[well kempt]'&gt; but was:&lt;'[bloodied and disheveled]'&gt;</code></pre>
+ * <pre>
+ * org.assertj.core.error.AssertJMultipleFailuresError:
+ * Multiple Failures (4 failure)
+ * -- failure 1 --
+ * [Living Guests]
+ * expected: 7
+ *  but was: 6
+ * -- failure 2 --
+ * [Library]
+ * expected: clean
+ *  but was: messy
+ * -- failure 3 --
+ * [Candlestick]
+ * expected: pristine
+ *  but was: bent
+ * -- failure 4 --
+ * [Professor]
+ * expected: well kempt
+ *  but was: bloodied and disheveled
+ * </pre>
  *
  * <p>
  * Aha! It appears that perhaps the Professor used the candlestick to perform the nefarious deed in the library. We
@@ -88,10 +111,9 @@ import org.opentest4j.MultipleFailuresError;
  *
  * <p>
  * Note that because BDDSoftAssertions is stateful you should use a new instance of BDDSoftAssertions per test method.
- * Also, if you forget to call assertAll() at the end of your test, the test <strong>will pass</strong> even if any
- * assertion objects threw exceptions (because they're proxied, remember?). So don't forget. You might use
- * {@link JUnitBDDSoftAssertions} or {@link AutoCloseableBDDSoftAssertions} to get assertAll() to be called
- * automatically.
+ * Also, if you forget to call {@code assertAll()} at the end of your test, the test <strong>will pass</strong> even if any
+ * assertion objects threw exceptions (because they're proxied, remember?). So don't forget. You can use
+ * {@link AutoCloseableBDDSoftAssertions} to make sure {@code assertAll()} is called automatically.
  * </p>
  *
  * <p>

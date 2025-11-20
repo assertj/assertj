@@ -1,18 +1,21 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.recursive.comparison.dualvalue;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
 
 import java.util.List;
@@ -33,108 +36,108 @@ class DualValue_optionalValues_Test {
   private static final List<String> PATH = list("foo", "bar");
 
   @Test
-  void isActualFieldAnOptional_should_return_true_when_actual_is_an_optional() {
+  void isActualAnOptional_should_return_true_when_actual_is_an_optional() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Optional.empty(), "abc");
     // WHEN
-    boolean actualFieldIsOptional = dualValue.isActualFieldAnOptional();
+    boolean actualIsAnOptional = dualValue.isActualAnOptional();
     // THEN
-    assertThat(actualFieldIsOptional).isTrue();
+    then(actualIsAnOptional).isTrue();
   }
 
   @ParameterizedTest
   @MethodSource("nonOptional")
-  void isActualFieldAnOptional_should_return_false_when_actual_is_not_an_optional(Object actualField) {
+  void isActualAnOptional_should_return_false_when_actual_is_not_an_optional(Object actualField) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
     // WHEN
-    boolean actualFieldIsOptional = dualValue.isActualFieldAnOptional();
+    boolean actualIsAnOptional = dualValue.isActualAnOptional();
     // THEN
-    assertThat(actualFieldIsOptional).isFalse();
+    then(actualIsAnOptional).isFalse();
   }
 
   @Test
-  void isActualFieldAnOptionalInt_should_return_true_when_actual_is_an_optionalInt() {
+  void isActualAnOptionalInt_should_return_true_when_actual_is_an_optionalInt() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, OptionalInt.empty(), "abc");
     // WHEN
-    boolean actualFieldIsOptionalInt = dualValue.isActualFieldAnOptionalInt();
+    boolean actualIsAnOptionalInt = dualValue.isActualAnOptionalInt();
     // THEN
-    assertThat(actualFieldIsOptionalInt).isTrue();
+    then(actualIsAnOptionalInt).isTrue();
   }
 
   @ParameterizedTest
   @MethodSource("nonOptional")
-  void isActualFieldAnOptionalInt_should_return_false_when_actual_is_not_an_optionalInt(Object actualField) {
+  void isActualAnOptionalInt_should_return_false_when_actual_is_not_an_optionalInt(Object actualField) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
     // WHEN
-    boolean actualFieldIsOptionalInt = dualValue.isActualFieldAnOptionalInt();
+    boolean actualIsAnOptionalInt = dualValue.isActualAnOptionalInt();
     // THEN
-    assertThat(actualFieldIsOptionalInt).isFalse();
+    then(actualIsAnOptionalInt).isFalse();
   }
 
   @Test
-  void isActualFieldAnOptionalLong_should_return_true_when_actual_is_an_optionalLong() {
+  void isActualAnOptionalLong_should_return_true_when_actual_is_an_optionalLong() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, OptionalLong.empty(), "abc");
     // WHEN
-    boolean actualFieldIsOptionalLong = dualValue.isActualFieldAnOptionalLong();
+    boolean actualIsAnOptionalLong = dualValue.isActualAnOptionalLong();
     // THEN
-    assertThat(actualFieldIsOptionalLong).isTrue();
+    then(actualIsAnOptionalLong).isTrue();
   }
 
   @ParameterizedTest
   @MethodSource("nonOptional")
-  void isActualFieldAnOptionalLong_should_return_false_when_actual_is_not_an_optionalLong(Object actualField) {
+  void isActualAnOptionalLong_should_return_false_when_actual_is_not_an_optionalLong(Object actualField) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
     // WHEN
-    boolean actualFieldIsOptionalLong = dualValue.isActualFieldAnOptionalLong();
+    boolean actualIsAnOptionalLong = dualValue.isActualAnOptionalLong();
     // THEN
-    assertThat(actualFieldIsOptionalLong).isFalse();
+    then(actualIsAnOptionalLong).isFalse();
   }
 
   @Test
-  void isActualFieldAnOptionalDouble_should_return_true_when_actual_is_an_optionalDouble() {
+  void isActualAnOptionalDouble_should_return_true_when_actual_is_an_optionalDouble() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, OptionalDouble.empty(), "abc");
     // WHEN
-    boolean actualFieldIsOptionalDouble = dualValue.isActualFieldAnOptionalDouble();
+    boolean actualIsAnOptionalDouble = dualValue.isActualAnOptionalDouble();
     // THEN
-    assertThat(actualFieldIsOptionalDouble).isTrue();
+    then(actualIsAnOptionalDouble).isTrue();
   }
 
   @ParameterizedTest
   @MethodSource("nonOptional")
-  void isActualFieldAnOptionalDouble_should_return_false_when_actual_is_not_an_optionalDouble(Object actualField) {
+  void isActualAnOptionalDouble_should_return_false_when_actual_is_not_an_optionalDouble(Object actualField) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), actualField);
     // WHEN
-    boolean actualFieldIsOptionalDouble = dualValue.isActualFieldAnOptionalDouble();
+    boolean actualIsAnOptionalDouble = dualValue.isActualAnOptionalDouble();
     // THEN
-    assertThat(actualFieldIsOptionalDouble).isFalse();
+    then(actualIsAnOptionalDouble).isFalse();
   }
 
   @Test
-  void isExpectedFieldAnOptional_should_return_true_when_expected_is_an_optional() {
+  void isExpectedAnOptional_should_return_true_when_expected_is_an_optional() {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, "abc", Optional.of(""));
     // WHEN
-    boolean expectedFieldIsOptional = dualValue.isExpectedFieldAnOptional();
+    boolean expectedIsOptional = dualValue.isExpectedAnOptional();
     // THEN
-    assertThat(expectedFieldIsOptional).isTrue();
+    then(expectedIsOptional).isTrue();
   }
 
   @ParameterizedTest
   @MethodSource("nonOptional")
-  void isExpectedFieldAnOptional_should_return_false_when_expected_is_not_an_optional(Object expectedField) {
+  void isExpectedAnOptional_should_return_false_when_expected_is_not_an_optional(Object expectedField) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, Pair.of(1, "a"), expectedField);
     // WHEN
-    boolean expectedFieldIsOptional = dualValue.isExpectedFieldAnOptional();
+    boolean expectedIsAnOptional = dualValue.isExpectedAnOptional();
     // THEN
-    assertThat(expectedFieldIsOptional).isFalse();
+    then(expectedIsAnOptional).isFalse();
   }
 
   private static Stream<Object> nonOptional() {
@@ -143,24 +146,24 @@ class DualValue_optionalValues_Test {
 
   @ParameterizedTest
   @MethodSource("emptyOptionals")
-  void isActualFieldAnEmptyOptionalOfAnyType_should_return_true_when_actual_is_an_empty_optional(Object optional) {
+  void isActualAnEmptyOptionalOfAnyType_should_return_true_when_actual_is_an_empty_optional(Object optional) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, optional, "abc");
     // WHEN
-    boolean actualFieldIsOptional = dualValue.isActualFieldAnEmptyOptionalOfAnyType();
+    boolean actualIsAnOptional = dualValue.isActualAnEmptyOptionalOfAnyType();
     // THEN
-    assertThat(actualFieldIsOptional).isTrue();
+    then(actualIsAnOptional).isTrue();
   }
 
   @ParameterizedTest
   @MethodSource("populatedOptionals")
-  void isActualFieldAnEmptyOptionalOfAnyType_should_return_false_when_actual_is_a_populated_optional(Object optional) {
+  void isActualAnEmptyOptionalOfAnyType_should_return_false_when_actual_is_a_populated_optional(Object optional) {
     // GIVEN
     DualValue dualValue = new DualValue(PATH, optional, "abc");
     // WHEN
-    boolean actualFieldIsOptional = dualValue.isActualFieldAnEmptyOptionalOfAnyType();
+    boolean actualIsAnOptional = dualValue.isActualAnEmptyOptionalOfAnyType();
     // THEN
-    assertThat(actualFieldIsOptional).isFalse();
+    then(actualIsAnOptional).isFalse();
   }
 
   private static Stream<Object> populatedOptionals() {

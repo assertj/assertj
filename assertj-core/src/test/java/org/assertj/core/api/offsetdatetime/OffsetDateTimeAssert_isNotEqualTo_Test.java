@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.offsetdatetime;
 
@@ -58,7 +61,7 @@ class OffsetDateTimeAssert_isNotEqualTo_Test extends AbstractOffsetDateTimeAsser
   @Test
   void should_fail_if_actual_is_at_same_instant_as_offsetDateTime_with_different_offset() {
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(REFERENCE).isNotEqualTo(REFERENCE_WITH_DIFFERENT_OFFSET));
+    var assertionError = expectAssertionError(() -> assertThat(REFERENCE).isNotEqualTo(REFERENCE_WITH_DIFFERENT_OFFSET));
     // THEN
     String errorMesssage = shouldNotBeEqual(REFERENCE, REFERENCE_WITH_DIFFERENT_OFFSET, COMPARISON_STRATEGY).create();
     assertThat(assertionError).hasMessage(errorMesssage);
@@ -70,7 +73,7 @@ class OffsetDateTimeAssert_isNotEqualTo_Test extends AbstractOffsetDateTimeAsser
     OffsetDateTime nullActual = null;
     OffsetDateTime nullExpected = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).isNotEqualTo(nullExpected));
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).isNotEqualTo(nullExpected));
     // THEN
     then(assertionError).hasMessage(shouldNotBeEqual(nullActual, nullExpected).create());
   }

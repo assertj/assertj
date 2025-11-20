@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.abstract_;
 
@@ -44,13 +47,13 @@ import org.mockito.ArgumentCaptor;
 
 class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
 
-  private TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
-  private TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
-  private TolkienCharacter smaug = TolkienCharacter.of("Smaug", 171, DRAGON);
-  private Consumer<TolkienCharacter> isHobbit = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
-  private Consumer<TolkienCharacter> isElf = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(ELF);
-  private Consumer<TolkienCharacter> isDwarf = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(DWARF);
-  private Consumer<TolkienCharacter> isDragon = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(DRAGON);
+  private final TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
+  private final TolkienCharacter legolas = TolkienCharacter.of("Legolas", 1000, ELF);
+  private final TolkienCharacter smaug = TolkienCharacter.of("Smaug", 171, DRAGON);
+  private final Consumer<TolkienCharacter> isHobbit = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(HOBBIT);
+  private final Consumer<TolkienCharacter> isElf = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(ELF);
+  private final Consumer<TolkienCharacter> isDwarf = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(DWARF);
+  private final Consumer<TolkienCharacter> isDragon = tolkienCharacter -> assertThat(tolkienCharacter.getRace()).isEqualTo(DRAGON);
 
   @Override
   protected ConcreteAssert invoke_api_method() {
@@ -65,7 +68,8 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     // checks that the code invoked in invoke_api_method called multipleAssertionsError with the correct parameters
     @SuppressWarnings("unchecked")
     ArgumentCaptor<List<AssertionError>> errors = ArgumentCaptor.forClass(List.class);
-    verify(assertionErrorCreator).multipleAssertionsError(eq(new TextDescription("description")), errors.capture());
+    verify(assertionErrorCreator).multipleAssertionsError(eq(new TextDescription("description")), eq(assertions.actual()),
+                                                          errors.capture());
     assertThat(errors.getValue()).hasSize(2);
     assertThat(errors.getValue().get(0)).hasMessageContaining("null");
     assertThat(errors.getValue().get(1)).hasMessageContaining("to be an instance of");
@@ -90,7 +94,7 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     // GIVEN
     Consumer<TolkienCharacter> namesStartsWithF = tolkienCharacter -> assertThat(tolkienCharacter.getName()).startsWith("F");
     // THEN
-    assertThat(frodo).satisfiesAnyOf(isHobbit, namesStartsWithF, isHobbit);
+    then(frodo).satisfiesAnyOf(isHobbit, namesStartsWithF, isHobbit);
   }
 
   @Test
@@ -132,9 +136,9 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
     ThrowingCallable failingAssertionCode = () -> assertThat("abc").as("String checks").satisfiesAnyOf(isEmpty, endsWithZ);
     // WHEN
-    AssertionError assertionError = expectAssertionError(failingAssertionCode);
+    var assertionError = expectAssertionError(failingAssertionCode);
     // THEN
-    assertThat(assertionError).hasMessageContaining("String checks");
+    then(assertionError).hasMessageContaining("String checks");
   }
 
   @Test
@@ -144,7 +148,7 @@ class AbstractAssert_satisfiesAnyOf_Test extends AbstractAssertBaseTest {
     Consumer<String> endsWithZ = string -> assertThat(string).endsWith("Z");
     ThrowingCallable failingAssertionCode = () -> assertThat("abc").satisfiesAnyOf(isEmpty, endsWithZ);
     // THEN
-    AssertionError assertionError = expectAssertionError(failingAssertionCode);
+    var assertionError = expectAssertionError(failingAssertionCode);
     // THEN
     assertThat(assertionError).hasMessageContaining("fail empty");
   }

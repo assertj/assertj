@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.guava.api;
 
@@ -36,7 +39,7 @@ class RangeSetAssert_containsAnyOf_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).containsAnyOf(1));
+    var error = expectAssertionError(() -> assertThat(actual).containsAnyOf(1));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -71,7 +74,7 @@ class RangeSetAssert_containsAnyOf_Test {
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 3));
     Integer[] values = array(4, 5);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).containsAnyOf(values));
+    var error = expectAssertionError(() -> assertThat(actual).containsAnyOf(values));
     // THEN
     then(error).hasMessage(shouldContainAnyOf(actual, values).create());
   }

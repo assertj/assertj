@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -22,6 +25,7 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -37,6 +41,7 @@ import java.time.temporal.Temporal;
 import java.time.temporal.TemporalUnit;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -73,6 +78,8 @@ import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
+import org.assertj.core.annotation.CanIgnoreReturnValue;
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
@@ -92,13 +99,12 @@ import org.assertj.core.data.TemporalUnitOffset;
 import org.assertj.core.description.Description;
 import org.assertj.core.groups.Properties;
 import org.assertj.core.groups.Tuple;
+import org.assertj.core.internal.annotation.Contract;
 import org.assertj.core.presentation.BinaryRepresentation;
 import org.assertj.core.presentation.HexadecimalRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.presentation.UnicodeRepresentation;
-import org.assertj.core.util.CanIgnoreReturnValue;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * A unified entry point to all non-deprecated assertions from both the new Java 8 core API and the pre-Java 8 core API.
@@ -169,6 +175,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @throws AssertionError with the given message.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   default <T> T fail(final String failureMessage) {
     return Assertions.fail(failureMessage);
   }
@@ -183,6 +190,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.26.0
    */
   @CanIgnoreReturnValue
+  @Contract(" -> fail")
   default <T> T fail() {
     return Assertions.fail();
   }
@@ -198,6 +206,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   default <T> T fail(String failureMessage, Object... args) {
     return Assertions.fail(failureMessage, args);
   }
@@ -212,7 +221,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
-  default <T> T fail(final String failureMessage, final Throwable realCause) {
+  @Contract("_, _ -> fail")
+  default <T> T fail(String failureMessage, Throwable realCause) {
     return Assertions.fail(failureMessage, realCause);
   }
 
@@ -225,7 +235,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @throws AssertionError with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
-  default <T> T fail(final Throwable realCause) {
+  @Contract("_ -> fail")
+  default <T> T fail(Throwable realCause) {
     return fail(null, realCause);
   }
 
@@ -465,6 +476,21 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @return the created {@link ThrowableAssert}.
    */
   default <T extends Throwable> AbstractThrowableAssert<?, T> assertThat(final T actual) {
+    return Assertions.assertThat(actual);
+  }
+
+  /**
+   * Creates a new instance of <code>{@link ThrowableAssert}</code>.
+   * <p>
+   * This overload's purpose is to disambiguate the call for <code>{@link SQLException}</code>.
+   * Indeed, this class implements <code>{@link Iterable}</code> and is considered ambiguous.
+   *
+   * @param <T> the type of the actual SQL exception.
+   * @param actual the actual value.
+   * @return the created {@link ThrowableAssert}.
+   * @since 4.0.0
+   */
+  default <T extends SQLException> AbstractThrowableAssert<?, T> assertThat(final T actual) {
     return Assertions.assertThat(actual);
   }
 
@@ -2080,6 +2106,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *           not been.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   default <T> T failBecauseExceptionWasNotThrown(final Class<? extends Throwable> throwableClass) {
     return Assertions.failBecauseExceptionWasNotThrown(throwableClass);
   }
@@ -2095,6 +2122,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * @since 3.9.0
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   default <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     return Assertions.shouldHaveThrown(throwableClass);
   }
@@ -3261,6 +3289,10 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <T> T assertThat(final AssertProvider<T> component) {
     return Assertions.assertThat(component);
+  }
+
+  default <ELEMENT> HashSetAssert<ELEMENT> assertThat(HashSet<? extends ELEMENT> actual) {
+    return Assertions.assertThat(actual);
   }
 
   // --------------------------------------------------------------------------------------------------

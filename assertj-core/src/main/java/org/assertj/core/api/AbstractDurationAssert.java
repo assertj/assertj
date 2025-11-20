@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -22,13 +25,16 @@ import static org.assertj.core.error.ShouldHaveDuration.shouldHaveSeconds;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.time.Duration;
+import java.util.function.Function;
 
 import org.assertj.core.internal.Failures;
 import org.assertj.core.internal.Objects;
+import org.assertj.core.presentation.StandardRepresentation;
 
 /**
  * Assertions for {@link Duration} type.
  * @author Filip Hrisafov
+ * @author Eric Rizzo
  * @since 3.15.0
  */
 public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert<SELF>>
@@ -294,6 +300,47 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
       throw Failures.instance().failure(info, shouldBeCloseTo(actual, expected, allowedDifference, absDiff(actual, expected)));
     }
     return myself;
+  }
+
+  /**
+   * Overrides AssertJ default formatting for <code>Duration</code> objects in failure messages.
+   * <p>
+   * The formatting function is only called if the assertion fails.
+   * <p>
+   * You must set the formatter <b>before</b> calling the assertion, otherwise it is ignored as the failing assertion breaks
+   * the call chain by throwing an {@link AssertionError}.
+   * <p>
+   * Calling this method will override any previous calls to {@link #withRepresentation(org.assertj.core.presentation.Representation)
+   * withRepresentation(Representation)} because this method uses a custom <code>Representation</code> to do the formatting. Similarly,
+   * a <code>Representation</code> specified via {@link #withRepresentation(org.assertj.core.presentation.Representation)
+   * withRepresentation(Representation)} <b>after</b> this method will take precedence over a formatter provided here.
+   * <p>
+   * Example using a lambda:
+   * <pre><code class='java'>Duration timeSpent = Duration.ofDays(3);
+   * Function&lt;Duration, String&gt; formatter = d -> "%s days or %s hours".formatted(d.toDays(), d.toHours());
+   *
+   * // this assertion fails with a message representing timeSpent as: 3 days or 72 hours
+   * assertThat(timeSpent)
+   *     .withFormatter(formatter);
+   *     .isNull();</code></pre>
+   * <p>
+   * Example using <a href="https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/time/DurationFormatUtils.html#formatDuration(long,java.lang.String)">org.apache.commons.lang3.time.DurationFormatUtils.formatDuration(long, String)</a>
+   * <pre><code class='java'>// this assertion succeeds:
+   * assertThat(timeSpent)
+   *     .withFormatter(d -> DurationFormatUtils.formatDuration(d.toMillis(), "HH:mm:ss"));
+   *     .hasDays(.);</code></pre>
+   *
+   * @param formatter the function to format all Duration objects that are included in error messages.
+   * @return this assertion object.
+   */
+  public SELF withFormatter(Function<Duration, String> formatter) {
+    checkArgument(formatter != null, "formatter should not be null");
+    return withRepresentation(new StandardRepresentation() {
+      @Override
+      public String toStringOf(Duration duration) {
+        return formatter.apply(duration);
+      }
+    });
   }
 
   private static Duration absDiff(Duration actual, Duration expected) {

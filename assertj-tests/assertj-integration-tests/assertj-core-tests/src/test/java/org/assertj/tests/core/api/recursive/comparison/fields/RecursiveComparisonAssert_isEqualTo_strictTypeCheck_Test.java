@@ -1,22 +1,27 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.recursive.comparison.fields;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.api.recursive.data.Color.GREEN;
+import static org.assertj.tests.core.api.recursive.data.Color.RED;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 import java.util.Date;
+import java.util.stream.Stream;
 
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
 import org.assertj.tests.core.api.recursive.data.ColorDto;
@@ -26,10 +31,11 @@ import org.assertj.tests.core.api.recursive.data.LightDto;
 import org.assertj.tests.core.api.recursive.data.Person;
 import org.assertj.tests.core.api.recursive.data.PersonDto;
 import org.assertj.tests.core.api.recursive.data.PersonDtoWithPersonNeighbour;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
-@DisplayName("RecursiveComparisonAssert isEqualTo in strictTypeChecking mode")
 class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
     extends WithComparingFieldsIntrospectionStrategyBaseTest {
 
@@ -53,51 +59,39 @@ class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
     expected.neighbour.neighbour.home.address.number = 124;
 
     // THEN
-    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                      .isEqualTo(expected);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .isEqualTo(expected);
   }
 
   @Test
-  void should_pass_in_strict_type_check_mode_when_objects_data_are_equals_and_expected_type_is_compatible_with_actual_type() {
+  void should_pass_in_strict_type_checking_mode_when_actual_and_expected_have_the_same_data_and_types() {
     // GIVEN
-    Person actual = new Person("John");
+    Giant actual = new Giant("John");
     actual.home.address.number = 1;
     actual.dateOfBirth = new Date(123);
-    actual.neighbour = new Person("Jack");
+    actual.neighbour = new Giant("Jack");
     actual.neighbour.home.address.number = 123;
     actual.neighbour.neighbour = new Person("James");
     actual.neighbour.neighbour.home.address.number = 124;
 
-    Giant expected = new Giant();
-    expected.name = "John";
+    Giant expected = new Giant("John");
     expected.home.address.number = 1;
     expected.dateOfBirth = new Date(123);
-    expected.neighbour = new Giant();
-    expected.neighbour.name = "Jack";
+    expected.neighbour = new Giant("Jack");
     expected.neighbour.home.address.number = 123;
     expected.neighbour.neighbour = new Person("James");
     expected.neighbour.neighbour.home.address.number = 124;
-
-    Person expected2 = new Person("John");
-    expected2.home.address.number = 1;
-    expected2.dateOfBirth = new Date(123);
-    expected2.neighbour = new Person("Jack");
-    expected2.neighbour.home.address.number = 123;
-    expected2.neighbour.neighbour = new Person("James");
-    expected2.neighbour.neighbour.home.address.number = 124;
 
     // WHEN
     recursiveComparisonConfiguration.strictTypeChecking(true);
 
     // THEN
-    assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
-                      .withStrictTypeChecking()
-                      .isEqualTo(expected)
-                      .isEqualTo(expected2);
+    then(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                .isEqualTo(expected);
   }
 
   @Test
-  void should_fail_in_strict_type_checking_mode_when_actual_and_expected_have_the_same_data_but_incompatible_types() {
+  void should_fail_in_strict_type_checking_mode_when_actual_and_expected_have_the_same_data_but_different_types() {
     // GIVEN
     Person actual = new Person("John");
     actual.home.address.number = 1;
@@ -115,7 +109,8 @@ class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
 
     // WHEN/THEN
     ComparisonDifference difference = diff("", actual, expected,
-                                           "actual and expected are considered different since the comparison enforces strict type check and expected type org.assertj.tests.core.api.recursive.data.PersonDtoWithPersonNeighbour is not a subtype of actual type org.assertj.tests.core.api.recursive.data.Person");
+                                           "the compared values are considered different since the recursive comparison enforces strict type checking and the actual value type org.assertj.tests.core.api.recursive.data.Person is not equal to the expected value type org.assertj.tests.core.api.recursive.data.PersonDtoWithPersonNeighbour");
+
     compareRecursivelyFailsWithDifferences(actual, expected, difference);
   }
 
@@ -124,14 +119,50 @@ class RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test
     // GIVEN
     Something withA = new Something(new A(10));
     Something withB = new Something(new B(10));
-
     recursiveComparisonConfiguration.strictTypeChecking(true);
 
     // WHEN/THEN
     // inner comparison fails as the fields have different types
     ComparisonDifference valueDifference = diff("inner", withA.inner, withB.inner,
-                                                "the fields are considered different since the comparison enforces strict type check and org.assertj.tests.core.api.recursive.comparison.fields.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test$B is not a subtype of org.assertj.tests.core.api.recursive.comparison.fields.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test$A");
+                                                "the compared values are considered different since the recursive comparison enforces strict type checking and the actual value type org.assertj.tests.core.api.recursive.comparison.fields.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test.A is not equal to the expected value type org.assertj.tests.core.api.recursive.comparison.fields.RecursiveComparisonAssert_isEqualTo_strictTypeCheck_Test.B");
     compareRecursivelyFailsWithDifferences(withA, withB, valueDifference);
+  }
+
+  @ParameterizedTest
+  @MethodSource
+  void should_fail_in_strict_type_checking_mode_when_actual_and_expected_have_the_same_type_but_different_data(Object actual,
+                                                                                                               Object expected,
+                                                                                                               ComparisonDifference difference) {
+    // GIVEN
+    recursiveComparisonConfiguration.strictTypeChecking(true);
+    // WHEN/THEN
+    compareRecursivelyFailsWithDifferences(actual, expected, difference);
+  }
+
+  public static Stream<Arguments> should_fail_in_strict_type_checking_mode_when_actual_and_expected_have_the_same_type_but_different_data() {
+    Person actual1 = new Person("John");
+    actual1.neighbour = new Person("Jack");
+    Person expected1 = new Person("John");
+    expected1.neighbour = new Person("Jim");
+
+    Person actual2 = new Person("John");
+    actual2.neighbour = new Person("Jack");
+    Person expected2 = new Person("John");
+    expected2.neighbour = null;
+
+    Person actual3 = new Person("John");
+    actual3.neighbour = null;
+    Person expected3 = new Person("John");
+    expected3.neighbour = new Person("Jim");
+
+    Light actual4 = new Light(GREEN);
+    Light expected4 = new Light(RED);
+    return Stream.of(arguments(actual1, expected1,
+                               javaTypeDiff("neighbour.name", actual1.neighbour.name, expected1.neighbour.name)),
+                     arguments(actual2, expected2, diff("neighbour", actual2.neighbour, expected2.neighbour)),
+                     arguments(actual3, expected3, diff("neighbour", actual3.neighbour, expected3.neighbour)),
+                     arguments(actual4, expected4, diff("color", actual4.color, expected4.color)));
+
   }
 
   @Test

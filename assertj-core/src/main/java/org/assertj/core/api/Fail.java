@@ -1,19 +1,23 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
+import org.assertj.core.annotation.CanIgnoreReturnValue;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.util.CanIgnoreReturnValue;
+import org.assertj.core.internal.annotation.Contract;
 
 /**
  * Common failures.
@@ -42,6 +46,7 @@ public final class Fail {
    * @throws AssertionError with the given message.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(String failureMessage) {
     throw Failures.instance().failure(failureMessage);
   }
@@ -56,6 +61,7 @@ public final class Fail {
    * @since 3.26.0
    */
   @CanIgnoreReturnValue
+  @Contract(" -> fail")
   public static <T> T fail() {
     // pass an empty string because passing null results in a "null" error message.
     return fail("");
@@ -71,6 +77,7 @@ public final class Fail {
    * @throws AssertionError with the given built message.
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Object... args) {
     return fail(failureMessage.formatted(args));
   }
@@ -85,6 +92,7 @@ public final class Fail {
    * @throws AssertionError with the given message and with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
+  @Contract("_, _ -> fail")
   public static <T> T fail(String failureMessage, Throwable realCause) {
     AssertionError error = Failures.instance().failure(failureMessage);
     error.initCause(realCause);
@@ -100,6 +108,7 @@ public final class Fail {
    * @throws AssertionError with the {@link Throwable} that caused the failure.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T fail(Throwable realCause) {
     return fail(null, realCause);
   }
@@ -114,9 +123,10 @@ public final class Fail {
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
    *           not been.
    *
-   * {@link Fail#shouldHaveThrown(Class)} can be used as a replacement.
+   * @see #shouldHaveThrown(Class)
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
     return shouldHaveThrown(throwableClass);
   }
@@ -132,6 +142,7 @@ public final class Fail {
    *           not been.
    */
   @CanIgnoreReturnValue
+  @Contract("_ -> fail")
   public static <T> T shouldHaveThrown(Class<? extends Throwable> throwableClass) {
     throw Failures.instance().expectedThrowableNotThrown(throwableClass);
   }

@@ -1,20 +1,24 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.object;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
@@ -33,7 +37,7 @@ class ObjectAssert_returns_Test {
     // GIVEN
     Jedi actual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).returns("Yoda", from(Jedi::getName)));
+    var assertionError = expectAssertionError(() -> assertThat(actual).returns("Yoda", from(Jedi::getName)));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -43,10 +47,9 @@ class ObjectAssert_returns_Test {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(actual).returns("Yoda", null));
+    var nullPointerException = catchNullPointerException(() -> assertThat(actual).returns("Yoda", null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage("The given getter method/Function must not be null");
+    then(nullPointerException).hasMessage("The given getter method/Function must not be null");
   }
 
   @Test
@@ -56,6 +59,29 @@ class ObjectAssert_returns_Test {
     // WHEN/THEN
     then(yoda).returns("Yoda", from(Jedi::getName))
               .returns("Yoda", Jedi::getName);
+  }
+
+  @Test
+  void should_fail_if_returned_value_is_not_the_expected_value() {
+    // GIVEN
+    Jedi yoda = new Jedi("Yoda", "Green");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(yoda).returns("Yoyo", from(Jedi::getName)));
+    // THEN
+    then(assertionError).hasMessage(format("%nexpected: \"Yoyo\"%n" +
+                                           " but was: \"Yoda\""));
+  }
+
+  @Test
+  void should_fail_with_description() {
+    // GIVEN
+    Jedi yoda = new Jedi("Yoda", "Green");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(yoda).returns("Yoyo", from(Jedi::getName), "test"));
+    // THEN
+    then(assertionError).hasMessage(format("[test] %n" +
+                                           "expected: \"Yoyo\"%n" +
+                                           " but was: \"Yoda\""));
   }
 
   @Test

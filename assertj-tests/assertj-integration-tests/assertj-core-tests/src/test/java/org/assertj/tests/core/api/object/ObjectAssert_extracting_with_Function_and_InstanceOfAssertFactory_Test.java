@@ -1,18 +1,22 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.tests.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.CHAR_SEQUENCE;
@@ -22,6 +26,7 @@ import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.function.Function;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractIntegerAssert;
@@ -53,18 +58,17 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test
     // GIVEN
     Function<Employee, String> extractor = null;
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting(extractor, STRING));
+    var nullPointerException = catchNullPointerException(() -> assertThat(luke).extracting(extractor, STRING));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class);
+    then(nullPointerException).hasMessage(shouldNotBeNull("extractor").create());
   }
 
   @Test
   void should_throw_npe_if_the_given_assert_factory_is_null() {
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting(Employee::getName, null));
+    var nullPointerException = catchNullPointerException(() -> assertThat(luke).extracting(Employee::getName, null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
+    then(nullPointerException).hasMessage(shouldNotBeNull("instanceOfAssertFactory").create());
   }
 
   @Test
@@ -104,7 +108,7 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test
   @Test
   void should_fail_if_the_extracted_value_is_not_an_instance_of_the_assert_factory_type() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(luke).extracting(Employee::getAge, STRING));
+    var error = expectAssertionError(() -> assertThat(luke).extracting(Employee::getAge, STRING));
     // THEN
     then(error).hasMessageContainingAll("Expecting actual:", "to be an instance of:", "but was instance of:");
   }
@@ -113,13 +117,13 @@ class ObjectAssert_extracting_with_Function_and_InstanceOfAssertFactory_Test
   void should_rethrow_any_extractor_function_exception() {
     // GIVEN
     RuntimeException explosion = new RuntimeException("boom!");
-    Function<Employee, String> bomb = employee -> {
+    Function<Employee, String> bomb = _ -> {
       throw explosion;
     };
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(luke).extracting(bomb, STRING));
+    Throwable throwable = catchThrowable(() -> assertThat(luke).extracting(bomb, STRING));
     // THEN
-    then(error).isSameAs(explosion);
+    then(throwable).isSameAs(explosion);
   }
 
   @Override

@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.error;
 
@@ -17,6 +20,7 @@ import static java.util.Objects.deepEquals;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Objects.HASH_CODE_PRIME;
 import static org.assertj.core.util.Objects.hashCodeFor;
+import static org.assertj.core.util.introspection.ClassUtils.haveSameClassNameInDifferentPackages;
 
 import java.util.Objects;
 
@@ -43,16 +47,15 @@ public class ShouldBeEqual {
 
   private static final String EXPECTED_BUT_WAS_MESSAGE = "%nexpected: %s%n but was: %s";
   private static final String EXPECTED_BUT_WAS_MESSAGE_USING_COMPARATOR = EXPECTED_BUT_WAS_MESSAGE + "%n%s";
-  private static final Class<?>[] MSG_ARG_TYPES = array(String.class, String.class, String.class);
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class,
                                                                                    Object.class);
   protected final Object actual;
   protected final Object expected;
+  protected final boolean haveSameClassNameInDifferentPackages;
   protected final MessageFormatter messageFormatter = MessageFormatter.instance();
   protected final ComparisonStrategy comparisonStrategy;
   private final Representation representation;
   private final ConstructorInvoker constructorInvoker = new ConstructorInvoker();
-  private final DescriptionFormatter descriptionFormatter = DescriptionFormatter.instance();
 
   /**
    * Creates a new <code>{@link ShouldBeEqual}</code>.
@@ -86,6 +89,7 @@ public class ShouldBeEqual {
     this.expected = expected;
     this.comparisonStrategy = comparisonStrategy;
     this.representation = representation;
+    this.haveSameClassNameInDifferentPackages = haveSameClassNameInDifferentPackages(actual, expected);
   }
 
   /**
@@ -94,12 +98,9 @@ public class ShouldBeEqual {
    * The <code>{@link AssertionError}</code> message is built so that it differentiates {@link #actual} and
    * {@link #expected} description in case their string representations are the same (as float 42 and double 42).
    * <p>
-   * If JUnit 4 is in the classpath and the description is standard (no comparator was used and {@link #actual} and
+   * If opentest4j is on the classpath and the description is standard (no comparator was used and {@link #actual} and
    * {@link #expected} string representation is different), this method will instead create a
-   * org.junit.ComparisonFailure that highlights the difference(s) between the expected and actual objects.
-   * </p>
-   * <p>
-   * If opentest4j is on the classpath then {@code org.opentest4j.AssertionFailedError} would be used.
+   * {@code org.opentest4j.AssertionFailedError} that highlights the difference(s) between the expected and actual objects.
    * </p>
    * {@link AssertionError} stack trace won't show AssertJ related elements if {@link Failures} is configured to filter
    * them (see {@link Failures#setRemoveAssertJRelatedElementsFromStackTrace(boolean)}).
@@ -117,13 +118,9 @@ public class ShouldBeEqual {
       AssertionError assertionFailedError = assertionFailedError(message, representation);
       // assertionFailedError != null means that JUnit 5 and opentest4j are in the classpath
       if (assertionFailedError != null) return assertionFailedError;
-      // Junit5 was not used, try to build a JUnit 4 ComparisonFailure that is nicely displayed in IDEs
-      AssertionError error = comparisonFailure(description);
-      // error != null means that JUnit 4 was in the classpath and we build a ComparisonFailure.
-      if (error != null) return error;
     }
     AssertionError assertionFailedError = assertionFailedError(message, representation);
-    // assertionFailedError != null means that JUnit 5 and opentest4j was in the classpath
+    // assertionFailedError != null means that JUnit 5 and opentest4j are in the classpath
     if (assertionFailedError != null) return assertionFailedError;
     // No JUnit in the classpath => fall back to the default error message
     return Failures.instance().failure(message);
@@ -228,31 +225,12 @@ public class ShouldBeEqual {
     }
   }
 
-  private AssertionError comparisonFailure(Description description) {
-    try {
-      AssertionError comparisonFailure = newComparisonFailure(descriptionFormatter.format(description).trim());
-      Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(comparisonFailure);
-      return comparisonFailure;
-    } catch (Throwable e) {
-      return null;
-    }
-  }
-
-  private AssertionError newComparisonFailure(String description) throws Exception {
-    Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure",
-                                              MSG_ARG_TYPES,
-                                              description,
-                                              representation.toStringOf(expected),
-                                              representation.toStringOf(actual));
-    return o instanceof AssertionError assertionError ? assertionError : null;
-  }
-
   protected String detailedActual() {
-    return representation.unambiguousToStringOf(actual);
+    return representation.unambiguousToStringOf(actual, haveSameClassNameInDifferentPackages);
   }
 
   protected String detailedExpected() {
-    return representation.unambiguousToStringOf(expected);
+    return representation.unambiguousToStringOf(expected, haveSameClassNameInDifferentPackages);
   }
 
   @Override

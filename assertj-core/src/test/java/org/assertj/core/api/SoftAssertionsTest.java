@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -192,8 +195,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                                       + "  {\"54\"=\"55\"}%n"
                                                       + "to contain entries:%n"
                                                       + "  [\"1\"=\"2\"]%n"
-                                                      + "but could not find the following map entries:%n"
-                                                      + "  [\"1\"=\"2\"]"));
+                                                      + "but could not find the following map keys:%n"
+                                                      + "  [\"1\"]"));
     then(errors.get(1)).hasMessageStartingWith("%nExpecting empty but was: {\"54\"=\"55\"}".formatted());
   }
 
@@ -382,8 +385,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                            + "  {\"54\"=\"55\"}%n"
                                            + "to contain entries:%n"
                                            + "  [\"1\"=\"2\"]%n"
-                                           + "but could not find the following map entries:%n"
-                                           + "  [\"1\"=\"2\"]"));
+                                           + "but could not find the following map keys:%n"
+                                           + "  [\"1\"]"));
 
       then(errors.get(40)).contains(shouldBeEqualMessage("12:00", "13:00"));
       then(errors.get(41)).contains(shouldBeEqualMessage("12:00Z", "13:00Z"));
@@ -408,7 +411,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                            + "not to have a port but had:%n"
                                            + "  <80>"));
       then(errors.get(52)).contains(format("%nExpecting Duration:%n"
-                                           + "  10H%n"
+                                           + "  10h%n"
                                            + "to have 5L hours but had 10L"));
       then(errors.get(53)).contains(format("%nExpecting Period:%n  P1D%nto have 2 days but had 1"));
     }
@@ -1122,10 +1125,10 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     try (final AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
       softly.assertThat(numbers)
-            .extracting("one", "two")
+            .extractingByKeys("one", "two")
             .containsExactly("1", "2");
       softly.assertThat(numbers)
-            .extracting("one")
+            .extractingByKey("one")
             .isEqualTo("1");
     }
   }
@@ -2040,7 +2043,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(map)
           .as("extracting(\"a\", \"b\")")
           .overridingErrorMessage("error message")
-          .extracting("a", "b")
+          .extractingByKeys("a", "b")
           .contains("456");
     softly.assertThat(iterableMap)
           .as("flatExtracting(\"name\", \"job\", \"city\", \"rank\")")
@@ -2713,8 +2716,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     Stream.of("A", "B").forEach(runAssertions);
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly("[checking A] %nExpecting code to raise a throwable.".formatted(),
-                                                   "[checking B] %nExpecting code to raise a throwable.".formatted());
+                                  .containsExactly("[checking A] %nExpecting code to throw a java.lang.Exception, but no throwable was thrown.".formatted(),
+                                                   "[checking B] %nExpecting code to throw a java.lang.Exception, but no throwable was thrown.".formatted());
   }
 
   @ParameterizedTest

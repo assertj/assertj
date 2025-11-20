@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.map;
 
@@ -44,7 +47,7 @@ class MapAssert_extractingByKey_with_Key_Test implements NavigationMethodBaseTes
     // GIVEN
     Map<Object, Object> map = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME));
+    var error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -68,7 +71,7 @@ class MapAssert_extractingByKey_with_Key_Test implements NavigationMethodBaseTes
   @Test
   void should_use_key_name_as_description() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME).isNull());
+    var error = expectAssertionError(() -> assertThat(map).extractingByKey(NAME).isNull());
     // THEN
     then(error).hasMessageContaining("[Extracted: name]");
   }
@@ -76,8 +79,7 @@ class MapAssert_extractingByKey_with_Key_Test implements NavigationMethodBaseTes
   @Test
   void should_keep_existing_description_if_set_when_extracting_value_object() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).as("check name")
-                                                                     .extractingByKey(NAME).isNull());
+    var error = expectAssertionError(() -> assertThat(map).as("check name").extractingByKey(NAME).isNull());
     // THEN
     then(error).hasMessageContaining("[check name]");
   }

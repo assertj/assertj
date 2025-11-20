@@ -5,7 +5,7 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-tests</artifactId>
-    <version>4.0.0-M2-SNAPSHOT</version>
+    <version>4.0.0-SNAPSHOT</version>
   </parent>
 
   <artifactId>assertj-integration-tests</artifactId>
@@ -14,9 +14,7 @@
   <name>AssertJ Integration Tests</name>
 
   <modules>
-    <module>assertj-core-junit4-with-opentest4j</module>
     <module>assertj-core-spring-boot</module>
-    <module>assertj-core-testng-with-junit4</module>
     <module>assertj-core-tests</module>
     <module>assertj-guava-tests</module>
   </modules>
@@ -25,11 +23,19 @@
     <profile>
       <id>java-ea-incompatible</id>
       <activation>
-        <jdk>(,24)</jdk>
+        <jdk>(,26)</jdk>
       </activation>
       <modules>
         <module>assertj-core-groovy</module>
         <module>assertj-core-kotlin</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>java-24-incompatible</id>
+      <activation>
+        <jdk>(,24)</jdk>
+      </activation>
+      <modules>
         <module>assertj-core-osgi</module> <!-- https://github.com/bndtools/bnd/issues/6370 -->
       </modules>
     </profile>

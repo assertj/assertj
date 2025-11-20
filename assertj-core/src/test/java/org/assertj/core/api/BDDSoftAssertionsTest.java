@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -180,8 +183,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                           + "  {\"54\"=\"55\"}%n"
                                                           + "to contain entries:%n"
                                                           + "  [\"1\"=\"2\"]%n"
-                                                          + "but could not find the following map entries:%n"
-                                                          + "  [\"1\"=\"2\"]"));
+                                                          + "but could not find the following map keys:%n"
+                                                          + "  [\"1\"]"));
     assertThat(errors.get(1)).hasMessageContaining("Expecting empty but was: {\"54\"=\"55\"}");
   }
 
@@ -337,8 +340,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + "  {\"54\"=\"55\"}%n"
                                                + "to contain entries:%n"
                                                + "  [\"1\"=\"2\"]%n"
-                                               + "but could not find the following map entries:%n"
-                                               + "  [\"1\"=\"2\"]"));
+                                               + "but could not find the following map keys:%n"
+                                               + "  [\"1\"]"));
     assertThat(errors.get(40)).contains(shouldBeEqualMessage("12:00", "13:00"));
     assertThat(errors.get(41)).contains(shouldBeEqualMessage("12:00Z", "13:00Z"));
     assertThat(errors.get(42)).contains(shouldBeEqualMessage("Optional[not empty]", "\"empty\""));
@@ -934,10 +937,10 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     try (final AutoCloseableBDDSoftAssertions softly = new AutoCloseableBDDSoftAssertions()) {
       softly.then(numbers)
-            .extracting("one", "two")
+            .extractingByKeys("one", "two")
             .containsExactly("1", "2");
       softly.then(numbers)
-            .extracting("one")
+            .extractingByKey("one")
             .isEqualTo("1");
     }
   }
@@ -1677,7 +1680,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(map).containsValues("V1", "V2");
     softly.then(map).doesNotContain(entry("a", "1"), entry("abc", "ABC"));
     softly.then(map).doesNotContainKeys("a", "b");
-    softly.then(map).extracting("a", "b").contains("456");
+    softly.then(map).extractingByKeys("a", "b").contains("456");
     softly.then(iterableMap)
           .flatExtracting("name", "job", "city", "rank")
           .contains("Unexpected", "Builder", "Dover", "Boston", "Paris", 1, 2, 3);

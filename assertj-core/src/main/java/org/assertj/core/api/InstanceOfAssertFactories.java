@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api;
 
@@ -20,6 +23,7 @@ import java.math.BigInteger;
 import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -33,6 +37,7 @@ import java.time.ZonedDateTime;
 import java.time.temporal.Temporal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -788,6 +793,26 @@ public interface InstanceOfAssertFactories {
   }
 
   /**
+   * {@link InstanceOfAssertFactory} for a {@link SQLException}.
+   */
+  InstanceOfAssertFactory<SQLException, AbstractThrowableAssert<?, SQLException>> SQL_EXCEPTION = new InstanceOfAssertFactory<>(SQLException.class,
+                                                                                                                                Assertions::assertThat);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link SQLException}.
+   *
+   * @param <T>  the {@code SQLException} type.
+   * @param type the element type instance.
+   * @return the factory instance.
+   *
+   * @see #SQL_EXCEPTION
+   * @since 4.0.0
+   */
+  static <T extends SQLException> InstanceOfAssertFactory<T, AbstractThrowableAssert<?, T>> sqlException(Class<T> type) {
+    return new InstanceOfAssertFactory<>(type, Assertions::assertThat);
+  }
+
+  /**
    * {@link InstanceOfAssertFactory} for a {@link CharSequence}.
    */
   InstanceOfAssertFactory<CharSequence, AbstractCharSequenceAssert<?, ? extends CharSequence>> CHAR_SEQUENCE = new InstanceOfAssertFactory<>(CharSequence.class,
@@ -923,6 +948,30 @@ public interface InstanceOfAssertFactories {
   @SuppressWarnings("rawtypes")
   static <E> InstanceOfAssertFactory<Set, AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>>> set(Class<E> elementType) {
     return new InstanceOfAssertFactory<>(Set.class, new Class[] { elementType }, Assertions::<E> assertThat);
+  }
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link HashSet}, assuming {@code Object} as element type.
+   *
+   * @see #hashSet(Class)
+   * @since 4.0.0
+   */
+  @SuppressWarnings("rawtypes")
+  InstanceOfAssertFactory<HashSet, HashSetAssert<Object>> HASH_SET = hashSet(Object.class);
+
+  /**
+   * {@link InstanceOfAssertFactory} for a {@link HashSet}.
+   *
+   * @param <E>   the {@code HashSet} element type.
+   * @param elementType the element type instance.
+   * @return the factory instance.
+   *
+   * @see #HASH_SET
+   * @since 3.26.0
+   */
+  @SuppressWarnings("rawtypes")
+  static <E> InstanceOfAssertFactory<HashSet, HashSetAssert<E>> hashSet(Class<E> elementType) {
+    return new InstanceOfAssertFactory<>(HashSet.class, new Class[] { elementType }, Assertions::<E> assertThat);
   }
 
   /**

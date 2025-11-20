@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.error;
 
@@ -21,7 +24,6 @@ import java.util.Optional;
 import org.assertj.core.api.SoftAssertionError;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
-import org.assertj.core.internal.UnambiguousRepresentation;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
@@ -29,9 +31,11 @@ public class AssertionErrorCreator {
 
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class, Object.class);
 
-  private static final Class<?>[] MSG_ARG_TYPES_FOR_COMPARISON_FAILURE = array(String.class, String.class, String.class);
-
   private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
+
+  private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES_WITH_ACTUAL_ROOT_INSTANCE = array(String.class,
+                                                                                                           Object.class,
+                                                                                                           List.class);
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ConstructorInvoker constructorInvoker;
@@ -47,39 +51,18 @@ public class AssertionErrorCreator {
   // single assertion error
 
   public AssertionError assertionError(String message, Object actual, Object expected, Representation representation) {
-    // @format:off
-    return assertionFailedError(message, actual,expected)
-                    .orElse(comparisonFailure(message, actual, expected, representation)
-                    .orElse(assertionError(message)));
-    // @format:on
+    return assertionFailedError(message, actual, expected).orElse(assertionError(message));
   }
 
   private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected) {
     try {
+      // TODO use UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual,
+      // expected);
       Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
                                                 MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
                                                 message,
                                                 expected,
                                                 actual);
-
-      if (o instanceof AssertionError error) return Optional.of(error);
-
-    } catch (@SuppressWarnings("unused") Throwable ignored) {}
-    return Optional.empty();
-  }
-
-  private Optional<AssertionError> comparisonFailure(String message,
-                                                     Object actual,
-                                                     Object expected,
-                                                     Representation representation) {
-    try {
-      UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual, expected);
-
-      Object o = constructorInvoker.newInstance("org.junit.ComparisonFailure",
-                                                MSG_ARG_TYPES_FOR_COMPARISON_FAILURE,
-                                                message,
-                                                unambiguousRepresentation.getExpected(),
-                                                unambiguousRepresentation.getActual());
 
       if (o instanceof AssertionError error) return Optional.of(error);
 
@@ -98,10 +81,11 @@ public class AssertionErrorCreator {
     return multipleFailuresError.orElse(new SoftAssertionError(describeErrors(errors)));
   }
 
-  public AssertionError multipleAssertionsError(Description description, List<? extends AssertionError> errors) {
+  public AssertionError multipleAssertionsError(Description description, Object objectUnderTest,
+                                                List<? extends AssertionError> errors) {
     String heading = headingFrom(description);
-    Optional<AssertionError> multipleFailuresError = tryBuildingMultipleFailuresError(heading, errors);
-    return multipleFailuresError.orElse(new MultipleAssertionsError(description, errors));
+    Optional<AssertionError> multipleFailuresError = tryBuildingMultipleFailuresError(heading, objectUnderTest, errors);
+    return multipleFailuresError.orElse(new MultipleAssertionsError(description, objectUnderTest, errors));
   }
 
   public void tryThrowingMultipleFailuresError(List<? extends Throwable> errorsCollected) {
@@ -118,10 +102,11 @@ public class AssertionErrorCreator {
   }
 
   private Optional<AssertionError> tryBuildingMultipleFailuresError(List<? extends Throwable> errorsCollected) {
-    return tryBuildingMultipleFailuresError(null, errorsCollected);
+    return tryBuildingMultipleFailuresError(null, null, errorsCollected);
   }
 
   private Optional<AssertionError> tryBuildingMultipleFailuresError(String heading,
+                                                                    Object objectUnderTest,
                                                                     List<? extends Throwable> errorsCollected) {
     if (errorsCollected.isEmpty()) return Optional.empty();
     try {
@@ -133,9 +118,13 @@ public class AssertionErrorCreator {
         List<Throwable> failures = extractFailuresOf(multipleFailuresError);
         // we switch to AssertJMultipleFailuresError in order to control the formatting of the error message.
         // we use reflection to avoid making opentest4j a required dependency
-        AssertionError assertionError = (AssertionError) constructorInvoker.newInstance("org.assertj.core.error.AssertJMultipleFailuresError",
-                                                                                        MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES,
-                                                                                        array(heading, failures));
+        AssertionError assertionError = objectUnderTest != null
+            ? (AssertionError) constructorInvoker.newInstance("org.assertj.core.error.AssertJMultipleFailuresError",
+                                                              MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES_WITH_ACTUAL_ROOT_INSTANCE,
+                                                              array(heading, objectUnderTest, failures))
+            : (AssertionError) constructorInvoker.newInstance("org.assertj.core.error.AssertJMultipleFailuresError",
+                                                              MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES,
+                                                              array(heading, failures));
         Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
         return Optional.of(assertionError);
       }

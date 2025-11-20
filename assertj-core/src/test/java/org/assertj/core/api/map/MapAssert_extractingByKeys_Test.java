@@ -1,14 +1,17 @@
 /*
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- *
  * Copyright 2012-2025 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.assertj.core.api.map;
 
@@ -46,7 +49,7 @@ class MapAssert_extractingByKeys_Test implements NavigationMethodBaseTest<MapAss
     // GIVEN
     Map<Object, Object> map = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKeys(NAME, "age"));
+    var error = expectAssertionError(() -> assertThat(map).extractingByKeys(NAME, "age"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -78,7 +81,7 @@ class MapAssert_extractingByKeys_Test implements NavigationMethodBaseTest<MapAss
   @Test
   void should_use_key_name_as_description() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKeys(NAME, "age").isEmpty());
+    var error = expectAssertionError(() -> assertThat(map).extractingByKeys(NAME, "age").isEmpty());
     // THEN
     then(error).hasMessageContaining("[Extracted: name, age]");
   }
