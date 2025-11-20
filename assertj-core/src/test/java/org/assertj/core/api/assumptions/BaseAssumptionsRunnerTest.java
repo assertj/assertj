@@ -21,7 +21,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetExcepti
 import java.util.function.Function;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.iterable.ThrowingExtractor;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.CartoonCharacter;
 import org.assertj.core.testkit.TolkienCharacter;
 import org.assertj.core.testkit.TolkienCharacter.Race;

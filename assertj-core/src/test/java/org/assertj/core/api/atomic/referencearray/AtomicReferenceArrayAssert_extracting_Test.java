@@ -23,7 +23,7 @@ import static org.assertj.core.util.Arrays.array;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Function;
 
-import org.assertj.core.api.iterable.ThrowingExtractor;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.IntrospectionError;

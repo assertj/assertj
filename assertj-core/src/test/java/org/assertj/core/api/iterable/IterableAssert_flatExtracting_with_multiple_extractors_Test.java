@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractListAssert;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.core.testkit.TolkienCharacter;
 import org.junit.jupiter.api.BeforeEach;

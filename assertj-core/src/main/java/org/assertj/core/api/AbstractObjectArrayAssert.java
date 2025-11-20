@@ -54,12 +54,12 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.api.comparisonstrategy.ObjectArrayElementComparisonStrategy;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
-import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;

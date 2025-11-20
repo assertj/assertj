@@ -30,6 +30,7 @@ import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.AlwaysEqualComparator;
 import org.assertj.core.testkit.CartoonCharacter;
 import org.junit.jupiter.api.BeforeEach;

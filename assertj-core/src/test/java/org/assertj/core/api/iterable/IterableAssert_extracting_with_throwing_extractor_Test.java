@@ -31,6 +31,7 @@ import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;

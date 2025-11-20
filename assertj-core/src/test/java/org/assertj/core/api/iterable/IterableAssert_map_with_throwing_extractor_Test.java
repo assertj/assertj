@@ -25,6 +25,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.TolkienCharacter;
 import org.assertj.core.testkit.TolkienCharacter.Race;
 import org.junit.jupiter.api.BeforeEach;

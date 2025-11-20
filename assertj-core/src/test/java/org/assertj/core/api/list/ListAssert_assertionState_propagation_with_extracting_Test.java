@@ -21,7 +21,7 @@ import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.firstNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.lastNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.throwingFirstNameExtractor;
-import static org.assertj.core.extractor.ThrowingExtractors.byName;
+import static org.assertj.core.function.ThrowingExtractor.byName;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;

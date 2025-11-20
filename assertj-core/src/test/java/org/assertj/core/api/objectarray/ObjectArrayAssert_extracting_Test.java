@@ -38,7 +38,7 @@ import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.api.iterable.ThrowingExtractor;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
