@@ -89,7 +89,6 @@ class SoftAssertionsExtension_PER_CLASS_Concurrency_Test {
       flags[2].countDown();
       waitForFlag(3);
       softly.assertThat(5).isEqualTo(6);
-      map.put(context.getTestMethod().get().getName(), SoftAssertionsExtension.getAssertionErrorCollector(context));
     }
 
     @Test
