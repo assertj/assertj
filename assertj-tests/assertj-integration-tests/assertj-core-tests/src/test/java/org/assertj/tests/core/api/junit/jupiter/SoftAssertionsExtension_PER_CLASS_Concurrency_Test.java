@@ -18,10 +18,9 @@ package org.assertj.tests.core.api.junit.jupiter;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
 import org.assertj.core.api.AssertionErrorCollector;
@@ -56,7 +55,7 @@ class SoftAssertionsExtension_PER_CLASS_Concurrency_Test {
     SoftAssertions softly;
 
     static CountDownLatch[] flags = new CountDownLatch[6];
-    static Map<String, AssertionErrorCollector> map = Collections.synchronizedMap(new HashMap<>());
+    static Map<String, AssertionErrorCollector> map = new ConcurrentHashMap<>();
 
     @BeforeAll
     static void beforeAll() {
