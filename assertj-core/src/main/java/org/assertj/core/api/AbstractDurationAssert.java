@@ -325,7 +325,7 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * <pre><code class='java'>// this assertion succeeds:
    * assertThat(timeSpent)
    *     .withFormatter(d -> DurationFormatUtils.formatDuration(d.toMillis(), "HH:mm:ss"));
-   *     .hasDays(.);</code></pre>
+   *     .hasDays(3);</code></pre>
    *
    * @param formatter the function to format all Duration objects that are included in error messages.
    * @return this assertion object.
