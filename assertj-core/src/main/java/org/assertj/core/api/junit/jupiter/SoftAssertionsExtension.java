@@ -237,7 +237,7 @@ public class SoftAssertionsExtension
   }
 
   @Override
-  public void beforeEach(ExtensionContext context) {
+  public void beforeEach(ExtensionContext context) throws Exception {
     AssertionErrorCollector collector = getAssertionErrorCollector(context);
 
     if (isPerClassConcurrent(context)) {
@@ -323,8 +323,8 @@ public class SoftAssertionsExtension
   }
 
   private static ThreadLocalErrorCollector getThreadLocalCollector(ExtensionContext context) {
-    return getStore(context).computeIfAbsent(ThreadLocalErrorCollector.class, unused -> new ThreadLocalErrorCollector(),
-                                             ThreadLocalErrorCollector.class);
+    return getStore(context).getOrComputeIfAbsent(ThreadLocalErrorCollector.class, unused -> new ThreadLocalErrorCollector(),
+                                                  ThreadLocalErrorCollector.class);
   }
 
   /**
@@ -346,13 +346,13 @@ public class SoftAssertionsExtension
    */
   @Beta
   public static AssertionErrorCollector getAssertionErrorCollector(ExtensionContext context) {
-    return getStore(context).computeIfAbsent(AssertionErrorCollector.class, unused -> new DefaultAssertionErrorCollector(),
-                                             AssertionErrorCollector.class);
+    return getStore(context).getOrComputeIfAbsent(AssertionErrorCollector.class, unused -> new DefaultAssertionErrorCollector(),
+                                                  AssertionErrorCollector.class);
   }
 
   @SuppressWarnings("unchecked")
   private static Collection<SoftAssertionsProvider> getSoftAssertionsProviders(ExtensionContext context) {
-    return getStore(context).computeIfAbsent(Collection.class, unused -> new ConcurrentLinkedQueue<>(), Collection.class);
+    return getStore(context).getOrComputeIfAbsent(Collection.class, unused -> new ConcurrentLinkedQueue<>(), Collection.class);
   }
 
   private static <T extends SoftAssertionsProvider> T instantiateProvider(ExtensionContext context, Class<T> providerType) {
@@ -408,9 +408,9 @@ public class SoftAssertionsExtension
   @Beta
   public static <T extends SoftAssertionsProvider> T getSoftAssertionsProvider(ExtensionContext context,
                                                                                Class<T> concreteSoftAssertionsProviderType) {
-    return getStore(context).computeIfAbsent(concreteSoftAssertionsProviderType,
-                                             unused -> instantiateProvider(context, concreteSoftAssertionsProviderType),
-                                             concreteSoftAssertionsProviderType);
+    return getStore(context).getOrComputeIfAbsent(concreteSoftAssertionsProviderType,
+                                                  unused -> instantiateProvider(context, concreteSoftAssertionsProviderType),
+                                                  concreteSoftAssertionsProviderType);
   }
 
   private static void setTestInstanceSoftAssertionsField(Object testInstance, Field softAssertionsField,
