@@ -12,12 +12,15 @@
  */
 package org.assertj.core.api;
 
+import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.OptionalShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
+import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Comparator;
@@ -220,6 +223,28 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    */
   public SELF hasValue(VALUE expectedValue) {
     return contains(expectedValue);
+  }
+
+  /**
+   * Verifies that the actual {@link java.util.Optional} does not contain the given value.
+   * <p>
+   * Assertion will pass:
+   * <pre><code class='java'> assertThat(Optional.of("something")).doesNotHaveValue("something else");</code></pre>
+   *
+   * Assertion will fail:
+   * <pre><code class='java'> assertThat(Optional.of("something")).doesNotHaveValue("something");</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link java.util.Optional}.
+   * @throws NullPointerException if the given value is {@code null}; use {@link #isNotPresent()} or {@link #isNotEmpty()} instead.
+   * @return this assertion object.
+   */
+  public SELF doesNotHaveValue(VALUE expectedValue) {
+    isNotNull();
+    requireNonNull(expectedValue, shouldNotBeNull("value")::create);
+    if (optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue)) {
+      throw Failures.instance().failure(info, shouldNotContainValue(actual.get(), expectedValue));
+    }
+    return myself;
   }
 
   /**
