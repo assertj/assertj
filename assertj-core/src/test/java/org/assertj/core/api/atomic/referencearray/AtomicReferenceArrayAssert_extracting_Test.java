@@ -23,7 +23,7 @@ import static org.assertj.core.util.Arrays.array;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.function.Function;
 
-import org.assertj.core.api.iterable.ThrowingExtractor;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -179,7 +179,7 @@ class AtomicReferenceArrayAssert_extracting_Test {
 
   @Test
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
-    assertThat(employees).extracting(new ThrowingExtractor<Employee, Object, Exception>() {
+    assertThat(employees).extracting(new ThrowingExtractor<Employee, Object>() {
       @Override
       public Object extractThrows(Employee employee) throws Exception {
         if (employee.getAge() < 20) throw new Exception("age < 20");
