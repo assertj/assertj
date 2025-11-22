@@ -25,3 +25,5 @@ dependency-reduced-pom.xml
 .mvn/wrapper/maven-wrapper.jar
 # macOS specific files
 .DS_Store
+# Mutation testing history (managed via CI cache)
+pitHistory.data
