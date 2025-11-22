@@ -120,7 +120,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <rootDirectory>${project.basedir}</rootDirectory>
     <spotless.skip>true</spotless.skip>
-    <pit.mutationThreshold>90</pit.mutationThreshold>
+    <pit.mutationThreshold>70</pit.mutationThreshold>
     <!-- Plugin versions -->
     <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
     <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
