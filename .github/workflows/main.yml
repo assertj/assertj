@@ -143,6 +143,44 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
+  mutation-testing:
+
+    name: Mutation Testing
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'assertj' && github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Setup Java
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          distribution: 'zulu'
+          java-version: '25'
+          cache: 'maven'
+      - name: Restore mutation testing history
+        uses: actions/cache/restore@v4
+        with:
+          path: assertj-core/pitHistory.data
+          key: pitest-history-${{ github.ref_name }}-${{ github.sha }}
+          restore-keys: |
+            pitest-history-${{ github.ref_name }}-
+            pitest-history-
+      - name: Run mutation testing
+        run: ./mvnw $MAVEN_ARGS -pl assertj-core -am -Ppitest test
+      - name: Save mutation testing history
+        uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: assertj-core/pitHistory.data
+          key: pitest-history-${{ github.ref_name }}-${{ github.sha }}
+      - name: Upload mutation testing report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mutation-testing-report
+          path: assertj-core/target/pit-reports/
+          retention-days: 14
+
   publish-snapshot:
 
     name: Publish Snapshot
