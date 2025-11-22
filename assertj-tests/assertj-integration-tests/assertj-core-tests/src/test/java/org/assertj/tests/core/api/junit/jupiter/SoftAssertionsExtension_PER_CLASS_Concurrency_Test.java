@@ -42,7 +42,7 @@ import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.platform.testkit.engine.EngineTestKit;
 
-@Disabled("gh-1996")
+@Disabled("see: https://github.com/junit-team/junit-framework/issues/5171")
 @DisplayName("SoftAssertionsExtension PER_CLASS concurrent injection test")
 class SoftAssertionsExtension_PER_CLASS_Concurrency_Test {
   // Use CountDownLatches to synchronize between the two parallel running tests to make sure that they overlap in time.
