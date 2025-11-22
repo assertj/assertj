@@ -329,6 +329,7 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    *
    * @param formatter the function to format all Duration objects that are included in error messages.
    * @return this assertion object.
+   * @since 3.28.0
    */
   public SELF withFormatter(Function<Duration, String> formatter) {
     checkArgument(formatter != null, "formatter should not be null");
