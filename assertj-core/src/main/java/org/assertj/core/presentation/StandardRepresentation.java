@@ -744,7 +744,7 @@ public class StandardRepresentation implements Representation {
                          formatLines(insertDelta.getRevised().getLines()));
   }
 
-  private String toStringOf(Duration duration) {
+  protected String toStringOf(Duration duration) {
     return duration.toString().substring(2);
   }
 
