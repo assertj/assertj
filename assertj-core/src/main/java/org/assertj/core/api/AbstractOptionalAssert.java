@@ -18,6 +18,7 @@ import static org.assertj.core.error.OptionalShouldBePresent.shouldBePresent;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
 import static org.assertj.core.error.OptionalShouldContain.shouldContainSame;
 import static org.assertj.core.error.OptionalShouldContainInstanceOf.shouldContainInstanceOf;
+import static org.assertj.core.error.ShouldNotContainValue.shouldNotContainValue;
 import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.util.Comparator;
@@ -46,7 +47,7 @@ import org.assertj.core.internal.StandardComparisonStrategy;
  * @author Grzegorz Piwowarek
  */
 // Deprecation is raised by JDK-17. IntelliJ thinks this is redundant when it is not.
-@SuppressWarnings({ "deprecation", "RedundantSuppression" })
+@SuppressWarnings({ "deprecation", "RedundantSuppression", "OptionalGetWithoutIsPresent" })
 public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert<SELF, VALUE>, VALUE> extends
     AbstractAssert<SELF, Optional<VALUE>> {
 
@@ -60,10 +61,10 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   /**
    * Verifies that there is a value present in the actual {@link java.util.Optional}.
    * <p>
-   * Assertion will pass :
+   * Assertion succeeds:
    * <pre><code class='java'> assertThat(Optional.of("something")).isPresent();</code></pre>
    *
-   * Assertion will fail :
+   * Assertion fails:
    * <pre><code class='java'> assertThat(Optional.empty()).isPresent();</code></pre>
    *
    * @return this assertion object.
@@ -76,10 +77,10 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   /**
    * Verifies that there is a value present in the actual {@link java.util.Optional}, it's an alias of {@link #isPresent()}.
    * <p>
-   * Assertion will pass :
+   * Assertion succeeds:
    * <pre><code class='java'> assertThat(Optional.of("something")).isNotEmpty();</code></pre>
    *
-   * Assertion will fail :
+   * Assertion fails:
    * <pre><code class='java'> assertThat(Optional.empty()).isNotEmpty();</code></pre>
    *
    * @return this assertion object.
@@ -91,10 +92,10 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   /**
    * Verifies that the actual {@link java.util.Optional} is empty.
    * <p>
-   * Assertion will pass :
+   * Assertion succeeds:
    * <pre><code class='java'> assertThat(Optional.empty()).isEmpty();</code></pre>
    *
-   * Assertion will fail :
+   * Assertion fails:
    * <pre><code class='java'> assertThat(Optional.of("something")).isEmpty();</code></pre>
    *
    * @return this assertion object.
@@ -108,10 +109,10 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   /**
    * Verifies that the actual {@link java.util.Optional} is empty (alias of {@link #isEmpty()}).
    * <p>
-   * Assertion will pass :
+   * Assertion succeeds:
    * <pre><code class='java'> assertThat(Optional.empty()).isNotPresent();</code></pre>
    *
-   * Assertion will fail :
+   * Assertion fails:
    * <pre><code class='java'> assertThat(Optional.of("something")).isNotPresent();</code></pre>
    *
    * @return this assertion object.
@@ -123,11 +124,11 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   /**
    * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #hasValue(Object)}).
    * <p>
-   * Assertion will pass :
+   * Assertion succeeds:
    * <pre><code class='java'> assertThat(Optional.of("something")).contains("something");
    * assertThat(Optional.of(10)).contains(10);</code></pre>
    *
-   * Assertion will fail :
+   * Assertion fails:
    * <pre><code class='java'> assertThat(Optional.of("something")).contains("something else");
    * assertThat(Optional.of(20)).contains(10);</code></pre>
    *
@@ -148,7 +149,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * {@link java.util.function.Consumer} for further assertions. Should be used as a way of deeper asserting on the
    * containing object, as further requirement(s) for the value.
    * <p>
-   * Assertions will pass :
+   * Assertions succeeds:
    * <pre><code class='java'> // one requirement
    * assertThat(Optional.of(10)).hasValueSatisfying(i -&gt; { assertThat(i).isGreaterThan(9); });
    *
@@ -207,11 +208,11 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   /**
    * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #contains(Object)}).
    * <p>
-   * Assertion will pass :
+   * Assertion succeeds:
    * <pre><code class='java'> assertThat(Optional.of("something")).hasValue("something");
    * assertThat(Optional.of(10)).contains(10);</code></pre>
    *
-   * Assertion will fail :
+   * Assertion fails:
    * <pre><code class='java'> assertThat(Optional.of("something")).hasValue("something else");
    * assertThat(Optional.of(20)).contains(10);</code></pre>
    *
@@ -223,16 +224,37 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   }
 
   /**
+   * Verifies that the actual {@link java.util.Optional} does not contain the given value.
+   * <p>
+   * Assertion succeeds:
+   * <pre><code class='java'> assertThat(Optional.of("something")).doesNotHaveValue("something else");</code></pre>
+   *
+   * Assertion fails:
+   * <pre><code class='java'> assertThat(Optional.of("something")).doesNotHaveValue("something");</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link java.util.Optional}.
+   * @throws NullPointerException if the given value is {@code null}; use {@link #isNotPresent()} or {@link #isNotEmpty()} instead.
+   * @return this assertion object.
+   */
+  public SELF doesNotHaveValue(VALUE expectedValue) {
+    isNotNull();
+    if (actual.isPresent() && optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue)) {
+      throw Failures.instance().failure(info, shouldNotContainValue(actual.get(), expectedValue));
+    }
+    return myself;
+  }
+
+  /**
    * Verifies that the actual {@link Optional} contains a value that is an instance of the argument.
    * <p>
-   * Assertions will pass:
+   * Assertions succeeds:
    *
    * <pre><code class='java'> assertThat(Optional.of("something")).containsInstanceOf(String.class)
    *                                     .containsInstanceOf(Object.class);
    *
    * assertThat(Optional.of(10)).containsInstanceOf(Integer.class);</code></pre>
    *
-   * Assertion will fail:
+   * Assertion fails:
    *
    * <pre><code class='java'> assertThat(Optional.of("something")).containsInstanceOf(Integer.class);</code></pre>
    *
@@ -332,7 +354,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * Verifies that the actual {@link java.util.Optional} contains the instance given as an argument (i.e. it must be the
    * same instance).
    * <p>
-   * Assertion will pass :
+   * Assertion succeeds:
    *
    * <pre><code class='java'> String someString = "something";
    * assertThat(Optional.of(someString)).containsSame(someString);
@@ -340,7 +362,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * // Java will create the same 'Integer' instance when boxing small ints
    * assertThat(Optional.of(10)).containsSame(10);</code></pre>
    *
-   * Assertion will fail :
+   * Assertion fails:
    *
    * <pre><code class='java'> // not even equal:
    * assertThat(Optional.of("something")).containsSame("something else");
