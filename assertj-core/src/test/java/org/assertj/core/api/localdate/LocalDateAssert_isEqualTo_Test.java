@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.time.LocalDate;
 
@@ -56,6 +57,20 @@ class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
     // THEN
     assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the LocalDate to compare actual with should not be null");
+  }
+
+  @Test
+  void should_fail_with_assertion_error_instead_of_parsing_error_when_comparing_to_invalid_string() {
+    // GIVEN
+    LocalDate today = LocalDate.now();
+    String invalidDateString = "today"; // String inválida que causa o erro atual
+
+    // WHEN / THEN
+    // Esperamos um AssertionError (o teste falhou porque são diferentes).
+    // Atualmente, isso lança DateTimeParseException (o que é um bug).
+    assertThatExceptionOfType(AssertionError.class)
+                                                   .as("Should throw AssertionError for invalid date string, not ParseException")
+                                                   .isThrownBy(() -> assertThat(today).isEqualTo(invalidDateString));
   }
 
 }
