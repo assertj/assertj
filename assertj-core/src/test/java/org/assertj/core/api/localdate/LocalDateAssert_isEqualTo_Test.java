@@ -17,10 +17,10 @@ package org.assertj.core.api.localdate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.time.LocalDate;
 
@@ -60,17 +60,18 @@ class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
   }
 
   @Test
-  void should_fail_with_assertion_error_instead_of_parsing_error_when_comparing_to_invalid_string() {
+  void should_fail_with_assertion_error_when_comparing_to_invalid_string() {
     // GIVEN
     LocalDate today = LocalDate.now();
-    String invalidDateString = "today"; // String inválida que causa o erro atual
+    String invalidDateString = "today"; // Invalid string that cannot be parsed as LocalDate
 
     // WHEN / THEN
-    // Esperamos um AssertionError (o teste falhou porque são diferentes).
-    // Atualmente, isso lança DateTimeParseException (o que é um bug).
+    // FIX: With the fallback mechanism, parsing failures now result in AssertionError
+    // because the invalid string is compared as a plain Object (not a LocalDate)
     assertThatExceptionOfType(AssertionError.class)
-                                                   .as("Should throw AssertionError for invalid date string, not ParseException")
-                                                   .isThrownBy(() -> assertThat(today).isEqualTo(invalidDateString));
+                                                   .isThrownBy(() -> assertThat(today).isEqualTo(invalidDateString))
+                                                   .withMessageContaining(today.toString())
+                                                   .withMessageContaining("today");
   }
 
 }
