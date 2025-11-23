@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.future;
+package org.assertj.tests.core.api.future;
+
+import static java.util.logging.Level.INFO;
 
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.time.Duration;
@@ -23,10 +25,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-
-import static java.util.logging.Level.INFO;
 
 abstract class AbstractFutureTest {
   protected ExecutorService executorService;

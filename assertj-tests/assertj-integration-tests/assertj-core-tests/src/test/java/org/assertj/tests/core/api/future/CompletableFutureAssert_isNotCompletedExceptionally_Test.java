@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.future;
+package org.assertj.tests.core.api.future;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.Warning.WARNING;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.concurrent.CompletableFuture;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+
 import org.junit.jupiter.api.Test;
 
 class CompletableFutureAssert_isNotCompletedExceptionally_Test {
@@ -32,7 +33,7 @@ class CompletableFutureAssert_isNotCompletedExceptionally_Test {
     // GIVEN
     CompletableFuture<String> completedFuture = completedFuture("done");
     // THEN
-    assertThat(completedFuture).isNotCompletedExceptionally();
+    then(completedFuture).isNotCompletedExceptionally();
   }
 
   @Test
@@ -40,9 +41,9 @@ class CompletableFutureAssert_isNotCompletedExceptionally_Test {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(future).isNotCompletedExceptionally();
+    var assertionError = expectAssertionError(() -> assertThat(future).isNotCompletedExceptionally());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessageStartingWith(actualIsNull());
+    then(assertionError).hasMessageStartingWith(actualIsNull());
   }
 
   @Test
@@ -51,9 +52,9 @@ class CompletableFutureAssert_isNotCompletedExceptionally_Test {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException());
     // WHEN
-    ThrowingCallable code = () -> assertThat(future).isNotCompletedExceptionally();
+    var assertionError = expectAssertionError(() -> assertThat(future).isNotCompletedExceptionally());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException".formatted())
-                                            .withMessageEndingWith("to not be completed exceptionally.%n%s", WARNING);
+    then(assertionError).hasMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException".formatted())
+                        .hasMessageEndingWith("to not be completed exceptionally.%n%s", WARNING);
   }
 }

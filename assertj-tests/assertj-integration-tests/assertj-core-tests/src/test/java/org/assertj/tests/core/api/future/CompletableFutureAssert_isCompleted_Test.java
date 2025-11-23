@@ -13,17 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.future;
+package org.assertj.tests.core.api.future;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
-import static org.assertj.core.error.future.Warning.WARNING;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.concurrent.CompletableFuture;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+
 import org.junit.jupiter.api.Test;
 
 class CompletableFutureAssert_isCompleted_Test {
@@ -33,7 +33,7 @@ class CompletableFutureAssert_isCompleted_Test {
     // GIVEN
     CompletableFuture<String> future = completedFuture("done");
     // THEN
-    assertThat(future).isCompleted();
+    then(future).isCompleted();
   }
 
   @Test
@@ -41,9 +41,9 @@ class CompletableFutureAssert_isCompleted_Test {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(future).isCompleted();
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompleted());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
@@ -51,9 +51,9 @@ class CompletableFutureAssert_isCompleted_Test {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // WHEN
-    ThrowingCallable code = () -> assertThat(future).isCompleted();
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompleted());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeCompleted(future).create());
+    then(assertionError).hasMessage(shouldBeCompleted(future).create());
   }
 
   @Test
@@ -62,10 +62,9 @@ class CompletableFutureAssert_isCompleted_Test {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.completeExceptionally(new RuntimeException("boom!"));
     // WHEN
-    ThrowingCallable code = () -> assertThat(future).isCompleted();
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompleted());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom!".formatted())
-                                            .withMessageEndingWith("to be completed.%n%s", WARNING);
+    then(assertionError).hasMessage(shouldBeCompleted(future).create());
   }
 
   @Test
@@ -74,8 +73,8 @@ class CompletableFutureAssert_isCompleted_Test {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(true);
     // WHEN
-    ThrowingCallable code = () -> assertThat(future).isCompleted();
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompleted());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeCompleted(future).create());
+    then(assertionError).hasMessage(shouldBeCompleted(future).create());
   }
 }

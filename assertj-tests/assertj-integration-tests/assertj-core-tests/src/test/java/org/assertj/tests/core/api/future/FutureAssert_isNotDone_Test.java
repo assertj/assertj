@@ -13,38 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.future;
+package org.assertj.tests.core.api.future;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.concurrent.Future;
 
-import org.assertj.core.api.FutureAssert;
-import org.assertj.core.api.FutureAssertBaseTest;
 import org.junit.jupiter.api.Test;
 
-class FutureAssert_isNotCancelled_Test extends FutureAssertBaseTest {
+class FutureAssert_isNotDone_Test {
 
-  @Override
-  protected FutureAssert<String> invoke_api_method() {
-    return assertions.isNotCancelled();
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    verify(futures).assertIsNotCancelled(getInfo(assertions), getActual(assertions));
+  @Test
+  void should_pass_if_actual_is_not_done() {
+    // GIVEN
+    Future<?> actual = mock(Future.class);
+    // WHEN
+    when(actual.isDone()).thenReturn(false);
+    // THEN
+    then(actual).isNotDone();
   }
 
   @Test
-  void should_fail_if_actual_is_cancelled() {
+  void should_fail_if_actual_is_done() {
+    // GIVEN
     Future<?> actual = mock(Future.class);
-    when(actual.isCancelled()).thenReturn(true);
-
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> assertThat(actual).isNotCancelled())
-                                                   .withMessageContaining("not to be cancelled");
+    when(actual.isDone()).thenReturn(true);
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).isNotDone());
+    // THEN
+    then(assertionError).hasMessageContaining("not to be done");
   }
 }

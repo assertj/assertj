@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.future;
+package org.assertj.tests.core.api.future;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.ShouldBeCompleted.shouldBeCompleted;
-import static org.assertj.core.error.future.Warning.WARNING;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.concurrent.CompletableFuture;
+
 import org.junit.jupiter.api.Test;
 
 class CompletableFutureAssert_isCompletedWithValueMatching_Test {
@@ -32,7 +33,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // GIVEN
     CompletableFuture<String> future = completedFuture("done");
     // THEN
-    assertThat(future).isCompletedWithValueMatching(result -> result.equals("done"));
+    then(future).isCompletedWithValueMatching(result -> result.equals("done"));
   }
 
   @Test
@@ -42,7 +43,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
-    assertThat(assertionError).hasMessage(actualIsNull());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
@@ -53,8 +54,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo"),
                                                                                                     "is foo"));
     // THEN
-    assertThat(assertionError).hasMessageContaining("\"done\"")
-                              .hasMessageContaining("to match 'is foo' predicate");
+    then(assertionError).hasMessageContainingAll("done", "to match 'is foo' predicate");
   }
 
   @Test
@@ -64,9 +64,9 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("foo")));
     // THEN
-    assertThat(assertionError).hasMessageContaining("\"done\"")
-                              .hasMessageContaining("to match given predicate")
-                              .hasMessageContaining("a better error message");
+    then(assertionError).hasMessageContaining("\"done\"")
+                        .hasMessageContaining("to match given predicate")
+                        .hasMessageContaining("a better error message");
   }
 
   @Test
@@ -76,7 +76,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
-    assertThat(assertionError).hasMessage(shouldBeCompleted(future).create());
+    then(assertionError).hasMessage(shouldBeCompleted(future).create());
   }
 
   @Test
@@ -87,9 +87,7 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
-    assertThat(assertionError).hasMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException".formatted())
-                              .hasMessageEndingWith("to be completed.%n%s", WARNING);
-
+    then(assertionError).hasMessage(shouldBeCompleted(future).create());
   }
 
   @Test
@@ -100,6 +98,6 @@ class CompletableFutureAssert_isCompletedWithValueMatching_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatching(result -> result.equals("done")));
     // THEN
-    assertThat(assertionError).hasMessage(shouldBeCompleted(future).create());
+    then(assertionError).hasMessage(shouldBeCompleted(future).create());
   }
 }

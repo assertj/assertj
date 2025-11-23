@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.future;
+package org.assertj.tests.core.api.future;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.future.ShouldNotBeCompleted.shouldNotBeCompleted;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.concurrent.CompletableFuture;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 class CompletableFutureAssert_isNotCompleted_Test {
@@ -32,7 +32,7 @@ class CompletableFutureAssert_isNotCompleted_Test {
     // GIVEN
     CompletableFuture<String> future = new CompletableFuture<>();
     // THEN
-    assertThat(future).isNotCompleted();
+    then(future).isNotCompleted();
   }
 
   @Test
@@ -42,7 +42,7 @@ class CompletableFutureAssert_isNotCompleted_Test {
     // WHEN
     future.completeExceptionally(new RuntimeException());
     // THEN
-    assertThat(future).isNotCompleted();
+    then(future).isNotCompleted();
   }
 
   @Test
@@ -52,7 +52,7 @@ class CompletableFutureAssert_isNotCompleted_Test {
     // WHEN
     future.cancel(true);
     // THEN
-    assertThat(future).isNotCompleted();
+    then(future).isNotCompleted();
   }
 
   @Test
@@ -60,9 +60,9 @@ class CompletableFutureAssert_isNotCompleted_Test {
     // GIVEN
     CompletableFuture<String> future = null;
     // WHEN
-    ThrowingCallable code = () -> assertThat(future).isNotCompleted();
+    var assertionError = expectAssertionError(() -> assertThat(future).isNotCompleted());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(actualIsNull());
+    then(assertionError).hasMessage(actualIsNull());
   }
 
   @Test
@@ -70,8 +70,8 @@ class CompletableFutureAssert_isNotCompleted_Test {
     // GIVEN
     CompletableFuture<String> future = CompletableFuture.completedFuture("done");
     // WHEN
-    ThrowingCallable code = () -> assertThat(future).isNotCompleted();
+    var assertionError = expectAssertionError(() -> assertThat(future).isNotCompleted());
     // THEN
-    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldNotBeCompleted(future).create());
+    then(assertionError).hasMessage(shouldNotBeCompleted(future).create());
   }
 }
