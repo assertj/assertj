@@ -379,7 +379,14 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
     if (actual == null || other == null) {
       super.isEqualTo(other);
     } else {
-      comparables.assertEqual(info, actual, other);
+      // Check if the object is actually an OffsetDateTime before using the specific comparator.
+      // This prevents ClassCastException when comparing with incompatible types (e.g., String from catch block).
+      if (!(other instanceof OffsetDateTime)) {
+        objects.assertEqual(info, actual, other);
+      } else {
+        // Use the configured comparator (default is timeLineOrder) for valid OffsetDateTime objects
+        comparables.assertEqual(info, actual, other);
+      }
     }
     return myself;
   }
@@ -453,25 +460,29 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * // both assertions succeed, the second one because the comparison based on the instant they are referring to
    * // 2000-01-01T01:00:00+01:00 = 2000-01-01T00:00:00 in UTC
    * assertThat(firstOfJanuary2000InUTC).isEqualTo("2000-01-01T00:00:00Z")
-   *                                    .isEqualTo("2000-01-01T01:00:00+01:00");
+   * .isEqualTo("2000-01-01T01:00:00+01:00");
    *
    * // assertions fail
    * assertThat(firstOfJanuary2000InUTC).isEqualTo("1999-01-01T01:00:00Z");
    * // fails as the comparator compares the offsets
    * assertThat(firstOfJanuary2000InUTC).usingComparator(OffsetDateTime::compareTo)
-   *                                    .isEqualTo("2000-01-01T01:00:00+01:00");</code></pre>
+   * .isEqualTo("2000-01-01T01:00:00+01:00");</code></pre>
    *
    * @param dateTimeAsString String representing a {@link java.time.OffsetDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetDateTime} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a
-   *           {@link java.time.OffsetDateTime}.
+   * @throws IllegalArgumentException if given String is null.
    * @throws AssertionError if the actual {@code OffsetDateTime} is not equal to the {@link java.time.OffsetDateTime}
-   *           built from given String.
+   * built from given String.
    */
   public SELF isEqualTo(String dateTimeAsString) {
     assertOffsetDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isEqualTo(parse(dateTimeAsString));
+    try {
+      return isEqualTo(parse(dateTimeAsString));
+    } catch (DateTimeParseException e) {
+      // Fallback to object comparison if parsing fails (Fixes #4021)
+      return isEqualTo((Object) dateTimeAsString);
+    }
   }
 
   /**

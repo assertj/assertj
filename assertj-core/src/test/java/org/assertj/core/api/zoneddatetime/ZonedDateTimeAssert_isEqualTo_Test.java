@@ -17,6 +17,7 @@ package org.assertj.core.api.zoneddatetime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.mockito.Mockito.verify;
@@ -57,7 +58,8 @@ class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAssertBase
     verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), NOW);
     verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), YESTERDAY);
     verify(objects).assertEqual(getInfo(assertions), getActual(assertions), null);
-    verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), otherType);
+    // FIX: otherType is not a ZonedDateTime, so it now uses objects.assertEqual instead
+    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), otherType);
   }
 
   @Test
@@ -82,7 +84,14 @@ class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAssertBase
 
   @Test
   void should_fail_if_given_string_parameter_cant_be_parsed() {
-    assertThatThrownBy(() -> assertions.isEqualTo("not a ZonedDateTime")).isInstanceOf(DateTimeParseException.class);
+    // GIVEN
+    String invalidString = "not a ZonedDateTime";
+    ZonedDateTime actual = ZonedDateTime.now();
+
+    // WHEN/THEN
+    assertThatExceptionOfType(AssertionError.class)
+                                                   .isThrownBy(() -> assertThat(actual).isEqualTo(invalidString))
+                                                   .withMessageContaining("not a ZonedDateTime");
   }
 
   @Test

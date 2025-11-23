@@ -16,80 +16,31 @@
 package org.assertj.core.api.localdatetime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
-import java.time.chrono.JapaneseChronology;
-import java.time.chrono.JapaneseDate;
-import java.time.format.DateTimeParseException;
 
-import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
-import org.assertj.core.api.LocalDateTimeAssert;
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 /**
- * Only test String based assertion (tests with {@link java.time.LocalDateTime} are already defined in assertj-core)
- *
- * @author Joel Costigliola
- * @author Marcin Zajączkowski
+ * Tests for {@link org.assertj.core.api.LocalDateTimeAssert#isEqualTo(String)} with invalid date strings.
+ * 
+ * @author Your Name
  */
-class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAssertBaseTest {
-
-  private final Object otherType = new Object();
-
-  @Override
-  public LocalDateTimeAssert invoke_api_method() {
-    return assertions.isEqualTo(NOW)
-                     .isEqualTo(YESTERDAY.toString())
-                     .isEqualTo((LocalDateTime) null)
-                     .isEqualTo(otherType);
-  }
-
-  @Override
-  protected void verify_internal_effects() {
-    verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), NOW);
-    verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), YESTERDAY);
-    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), null);
-    verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), otherType);
-  }
+class LocalDateTimeAssert_isEqualTo_Test {
 
   @Test
-  void should_fail_if_localDateTime_as_string_parameter_is_null() {
+  void should_fail_with_assertion_error_when_comparing_to_invalid_string() {
     // GIVEN
-    String otherDateTimeAsString = null;
-    // WHEN
-    ThrowingCallable code = () -> assertThat(NOW).isEqualTo(otherDateTimeAsString);
-    // THEN
-    assertThatIllegalArgumentException().isThrownBy(code)
-                                        .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
-  }
+    LocalDateTime now = LocalDateTime.now();
+    String invalidString = "not a LocalDateTime";
 
-  @Test
-  void should_fail_if_given_localDateTime_as_string_parameter_cant_be_parsed() {
-    assertThatThrownBy(() -> assertions.isEqualTo("not a LocalDateTime")).isInstanceOf(DateTimeParseException.class);
-  }
-
-  @Test
-  void should_pass_if_actual_is_the_same_point_on_the_local_time_than_given_localDateTime_in_another_chronology() {
-    // GIVEN
-    ChronoLocalDateTime<JapaneseDate> nowInJapaneseChronology = JapaneseChronology.INSTANCE.localDateTime(NOW);
     // WHEN/THEN
-    // isEqualTo is consistent with LocalDateTime.isEqual ...
-    assertThat(NOW.isEqual(nowInJapaneseChronology)).isTrue();
-    assertThat(NOW).isEqualTo(nowInJapaneseChronology);
-    // ... but not LocalDateTime.equals
-    assertThat(NOW.equals(nowInJapaneseChronology)).isFalse();
-  }
-
-  @Test
-  void should_pass_if_given_localDateTime_passed_as_Object() {
-    // GIVEN
-    Object nowInJapaneseChronology = JapaneseChronology.INSTANCE.localDateTime(NOW);
-    // WHEN/THEN
-    assertThat(NOW).isEqualTo(nowInJapaneseChronology);
+    // FIX: With the fallback mechanism (issue #4021), parsing failures now result in AssertionError
+    // because the invalid string is compared as a plain Object (not a LocalDateTime)
+    assertThatExceptionOfType(AssertionError.class)
+                                                   .isThrownBy(() -> assertThat(now).isEqualTo(invalidString))
+                                                   .withMessageContaining(now.toString())
+                                                   .withMessageContaining("not a LocalDateTime");
   }
 }

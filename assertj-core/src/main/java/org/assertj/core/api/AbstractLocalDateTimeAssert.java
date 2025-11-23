@@ -269,7 +269,14 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
     if (actual == null || other == null) {
       super.isEqualTo(other);
     } else {
-      comparables.assertEqual(info, actual, other);
+      // Check if the object is actually a ChronoLocalDateTime before using the specific comparator.
+      // This prevents ClassCastException when comparing with incompatible types (e.g., String from catch block).
+      if (!(other instanceof java.time.chrono.ChronoLocalDateTime)) {
+        objects.assertEqual(info, actual, other);
+      } else {
+        // Use the configured comparator for valid ChronoLocalDateTime objects
+        comparables.assertEqual(info, actual, other);
+      }
     }
     return myself;
   }
@@ -287,13 +294,18 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @param dateTimeAsString String representing a {@link LocalDateTime}.
    * @return this assertion object.
    * @throws AssertionError           if the actual {@code LocalDateTime} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link LocalDateTime}.
+   * @throws IllegalArgumentException if given String is null.
    * @throws AssertionError           if the actual {@code LocalDateTime} is not equal to the {@link LocalDateTime} built from
-   *                                  given String.
+   * given String.
    */
   public SELF isEqualTo(String dateTimeAsString) {
     assertLocalDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isEqualTo(parse(dateTimeAsString));
+    try {
+      return isEqualTo(parse(dateTimeAsString));
+    } catch (DateTimeParseException e) {
+      // Fallback to object comparison if parsing fails (Fixes #4021)
+      return isEqualTo((Object) dateTimeAsString);
+    }
   }
 
   /**
