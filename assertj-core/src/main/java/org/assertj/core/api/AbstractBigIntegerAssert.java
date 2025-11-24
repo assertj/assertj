@@ -19,10 +19,10 @@ import java.math.BigInteger;
 import java.util.Comparator;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigIntegers;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 
 /**
  * Base class for all implementations of assertions for {@link BigInteger}s.
@@ -387,6 +387,25 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
    */
   public SELF isEqualTo(String expected) {
     return isEqualTo(new BigInteger(expected));
+  }
+
+  /**
+   * Same as {@link AbstractAssert#isNotEqualTo(Object) isNotEqualTo(BigInteger)} but takes care of converting given String to
+   * {@link BigInteger} for you.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion succeeds:
+   * assertThat(new BigInteger(&quot;8&quot;)).isNotEqualTo(&quot;2&quot;);
+   *
+   * // assertion fails:
+   * assertThat(new BigInteger(&quot;8&quot;)).isNotEqualTo(&quot;8&quot;);</code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @since 3.28
+   */
+  public SELF isNotEqualTo(String expected) {
+    return isNotEqualTo(new BigInteger(expected));
   }
 
   /**
