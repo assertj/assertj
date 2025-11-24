@@ -390,6 +390,25 @@ public class AbstractBigIntegerAssert<SELF extends AbstractBigIntegerAssert<SELF
   }
 
   /**
+   * Same as {@link AbstractAssert#isNotEqualTo(Object) isNotEqualTo(BigInteger)} but takes care of converting given String to
+   * {@link BigInteger} for you.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new BigInteger(&quot;8&quot;)).isNotEqualTo(&quot;2&quot;);
+   *
+   * // assertion will fail
+   * assertThat(new BigInteger(&quot;8&quot;)).isNotEqualTo(&quot;8&quot;);</code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @since 3.27.7
+   */
+  public SELF isNotEqualTo(String expected) {
+    return isNotEqualTo(new BigInteger(expected));
+  }
+
+  /**
    * Same as {@link AbstractAssert#isEqualTo(Object) isEqualTo(BigInteger)} but takes care of converting given int to
    * {@link BigInteger} for you.
    * <p>
