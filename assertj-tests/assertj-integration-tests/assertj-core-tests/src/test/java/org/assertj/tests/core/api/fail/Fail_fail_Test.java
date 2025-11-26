@@ -13,16 +13,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.fail;
+package org.assertj.tests.core.api.fail;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.Fail.fail;
-import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
+
+import java.util.Optional;
 
 import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.Test;
 
-class Fail_fail_withoutMessage_Test {
+class Fail_fail_Test {
+
+  @Test
+  void should_throw_AssertionError_with_message() {
+    // WHEN
+    var assertionError = expectAssertionError(() -> fail("Failed :("));
+    // THEN
+    then(assertionError).hasMessage("Failed :(");
+  }
+
+  @Test
+  void should_throw_AssertionError_with_message_from_lambda() {
+    // WHEN
+    var assertionError = expectAssertionError(() -> Optional.empty().orElseGet(() -> fail("Failed :(")));
+    // THEN
+    then(assertionError).hasMessage("Failed :(");
+  }
+
+  @Test
+  void should_throw_AssertionError_with_message_formatted_with_parameters() {
+    // WHEN
+    var assertionError = expectAssertionError(() -> fail("Failed %s", ":("));
+    // THEN
+    then(assertionError).hasMessage("Failed :(");
+  }
+
+  @Test
+  void should_throw_AssertionError_with_cause() {
+    // GIVEN
+    Throwable cause = new Throwable();
+    // WHEN
+    var assertionError = expectAssertionError(() -> fail("Failed :(", cause));
+    // THEN
+    then(assertionError).hasMessage("Failed :(")
+                        .hasCause(cause);
+  }
 
   @Test
   void should_throw_AssertionError_without_message() {

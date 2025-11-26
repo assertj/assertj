@@ -13,30 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.fail;
+package org.assertj.tests.core.api.fail;
 
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.Fail.failBecauseExceptionWasNotThrown;
+import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.Fail;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for <code>{@link Fail#shouldHaveThrown(Class)} (Class)}</code>.
- * 
- * @author Joel Costigliola
- */
-class Fail_fail_because_exception_was_not_thrown_Test {
+class Fail_failBecauseExceptionWasNotThrown_Test {
 
   @Test
   void should_include_message_built_with_given_exception_name() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> failBecauseExceptionWasNotThrown(NullPointerException.class))
-                                                   .withMessage("NullPointerException should have been thrown");
+    // WHEN
+    var assertionError = expectAssertionError(() -> failBecauseExceptionWasNotThrown(NullPointerException.class));
+    // THEN
+    then(assertionError).hasMessage("NullPointerException should have been thrown");
   }
 
   @Test
   void should_include_message_built_with_given_throwable_name() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> failBecauseExceptionWasNotThrown(OutOfMemoryError.class))
-                                                   .withMessage("OutOfMemoryError should have been thrown");
+    // WHEN
+    var assertionError = expectAssertionError(() -> failBecauseExceptionWasNotThrown(OutOfMemoryError.class));
+    // THEN
+    then(assertionError).hasMessage("OutOfMemoryError should have been thrown");
   }
 }
