@@ -28,15 +28,7 @@
       <modules>
         <module>assertj-core-groovy</module>
         <module>assertj-core-kotlin</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>java-24-incompatible</id>
-      <activation>
-        <jdk>(,24)</jdk>
-      </activation>
-      <modules>
-        <module>assertj-core-osgi</module> <!-- https://github.com/bndtools/bnd/issues/6370 -->
+        <module>assertj-core-osgi</module>
       </modules>
     </profile>
     <profile>
