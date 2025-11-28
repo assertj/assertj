@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.extractor;
+package org.assertj.tests.core.function;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
-import org.assertj.core.testkit.Employee;
-import org.assertj.core.testkit.Name;
+import org.assertj.core.function.ThrowingExtractor;
+import org.assertj.tests.core.testkit.Employee;
+import org.assertj.tests.core.testkit.Name;
 import org.junit.jupiter.api.Test;
 
-class ToStringExtractorTest {
+class ThrowingExtractor_toStringMethod_Test {
 
-  private final ToStringExtractor underTest = new ToStringExtractor();
+  private final ThrowingExtractor<Object, String> underTest = ThrowingExtractor.toStringMethod();
 
   @Test
   void should_extract_toString() {

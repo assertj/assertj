@@ -95,9 +95,9 @@ import java.util.stream.Stream;
 import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
 import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
 import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
-import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.Animal;
 import org.assertj.core.testkit.CartoonCharacter;
 import org.assertj.core.testkit.Name;
@@ -120,8 +120,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
   private Map<String, Object> iterableMap;
 
-  private ThrowingExtractor<Name, String, Exception> throwingFirstNameExtractor;
-  private ThrowingExtractor<Name, String, Exception> throwingLastNameExtractor;
+  private ThrowingExtractor<Name, String> throwingFirstNameExtractor;
+  private ThrowingExtractor<Name, String> throwingLastNameExtractor;
   private Function<Name, String> firstNameFunction;
   private Function<Name, String> lastNameFunction;
 
@@ -1118,7 +1118,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .contains(tuple("John", "Doe"))
           .contains(tuple("Bilbo", "Baggins"));
     softly.then(names)
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameExtractor)
           .contains("John")
           .contains("sam");
     softly.then(names)
@@ -1130,7 +1130,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .hasSize(123);
     softly.then(names)
           .filteredOn(name -> name.first.startsWith("Jo"))
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameExtractor)
           .contains("Sauron");
     softly.then(names)
           .flatExtracting(firstNameFunction, lastNameFunction)
@@ -1323,7 +1323,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .contains(tuple("John", "Doe"))
           .contains(tuple("Bilbo", "Baggins"));
     softly.then(names)
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameExtractor)
           .contains("John")
           .contains("sam");
     softly.then(names)
@@ -1335,7 +1335,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
           .hasSize(123);
     softly.then(names)
           .filteredOn(name -> name.first.startsWith("Jo"))
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameExtractor)
           .contains("Sauron");
     softly.then(names)
           .flatExtracting(firstNameFunction, lastNameFunction)

@@ -24,7 +24,6 @@ module org.assertj.core {
   exports org.assertj.core.api.comparisonstrategy;
   exports org.assertj.core.api.exception;
   exports org.assertj.core.api.filter;
-  exports org.assertj.core.api.iterable;
   exports org.assertj.core.api.junit.jupiter;
   exports org.assertj.core.api.recursive;
   exports org.assertj.core.api.recursive.assertion;
@@ -38,6 +37,7 @@ module org.assertj.core {
   exports org.assertj.core.error.future;
   exports org.assertj.core.error.uri;
   exports org.assertj.core.extractor;
+  exports org.assertj.core.function;
   exports org.assertj.core.groups;
   exports org.assertj.core.matcher;
   exports org.assertj.core.presentation;

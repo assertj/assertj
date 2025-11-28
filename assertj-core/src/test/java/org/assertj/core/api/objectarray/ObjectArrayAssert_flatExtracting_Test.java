@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.api.iterable.ThrowingExtractor;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.AlwaysEqualComparator;
 import org.assertj.core.testkit.CartoonCharacter;
 import org.junit.jupiter.api.BeforeEach;
@@ -42,7 +42,7 @@ class ObjectArrayAssert_flatExtracting_Test {
   private CartoonCharacter pebbles;
   private CartoonCharacter fred;
 
-  private static final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception> childrenThrowingExtractor = CartoonCharacter::getChildren;
+  private static final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>> childrenThrowingExtractor = CartoonCharacter::getChildren;
 
   private static final Function<CartoonCharacter, List<CartoonCharacter>> children = CartoonCharacter::getChildren;
 
@@ -143,7 +143,7 @@ class ObjectArrayAssert_flatExtracting_Test {
   @Test
   void should_allow_assertions_on_joined_lists_when_extracting_children_with_anonymous_class_throwing_extractor() {
     CartoonCharacter[] cartoonCharacters = array(homer, fred);
-    assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+    assertThat(cartoonCharacters).flatExtracting(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>>() {
       @Override
       public List<CartoonCharacter> extractThrows(CartoonCharacter cartoonCharacter) throws Exception {
         if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");

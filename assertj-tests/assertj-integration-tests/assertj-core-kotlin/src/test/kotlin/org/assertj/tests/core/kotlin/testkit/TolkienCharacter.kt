@@ -13,23 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.extractor;
+package org.assertj.tests.core.kotlin.testkit
 
-import java.util.function.Function;
+data class TolkienCharacter(
+  val name: String,
+  val age: Int,
+  val race: Race) {
 
-import org.assertj.core.util.introspection.PropertyOrFieldSupport;
-
-class ByNameSingleExtractor implements Function<Object, Object> {
-
-  private final String propertyOrFieldName;
-
-  ByNameSingleExtractor(String propertyOrFieldName) {
-    this.propertyOrFieldName = propertyOrFieldName;
+  enum class Race {
+    HOBBIT, MAIA, ELF, DWARF, MAN, DRAGON
   }
-
-  @Override
-  public Object apply(Object input) {
-    return PropertyOrFieldSupport.EXTRACTION.getValueOf(propertyOrFieldName, input);
-  }
-
 }
