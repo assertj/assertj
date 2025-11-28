@@ -139,7 +139,7 @@
     <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
     <maven-surefire-report-plugin.version>3.5.4</maven-surefire-report-plugin.version>
     <sonar-maven-plugin.version>5.3.0.6276</sonar-maven-plugin.version>
-    <spotless-maven-plugin.version>3.0.0</spotless-maven-plugin.version>
+    <spotless-maven-plugin.version>3.1.0</spotless-maven-plugin.version>
   </properties>
 
   <build>
