@@ -368,6 +368,20 @@ limitations under the License.
     </plugins>
   </build>
 
+  <!-- FIXME delete -->
+  <repositories>
+    <repository>
+      <id>bndtools-jfrog-io</id>
+      <url>https://bndtools.jfrog.io/artifactory/libs-release/</url>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>bndtools-jfrog-io</id>
+      <url>https://bndtools.jfrog.io/artifactory/libs-release/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <profiles>
     <profile>
       <id>publish</id>
