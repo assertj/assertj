@@ -12,11 +12,6 @@
 
   <name>AssertJ Guava Integration Tests</name>
 
-  <properties>
-    <rootDirectory>${project.basedir}/../../../</rootDirectory>
-    <spotless.skip>false</spotless.skip>
-  </properties>
-
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
