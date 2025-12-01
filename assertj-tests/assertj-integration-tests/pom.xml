@@ -14,6 +14,7 @@
   <name>AssertJ Integration Tests</name>
 
   <modules>
+    <module>assertj-core-osgi</module>
     <module>assertj-core-spring-boot</module>
     <module>assertj-core-tests</module>
     <module>assertj-guava-tests</module>
@@ -28,7 +29,6 @@
       <modules>
         <module>assertj-core-groovy</module>
         <module>assertj-core-kotlin</module>
-        <module>assertj-core-osgi</module>
       </modules>
     </profile>
     <profile>
