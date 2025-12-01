@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 
 class ByNameMultipleExtractor implements Function<Object, Tuple> {
@@ -45,7 +46,7 @@ class ByNameMultipleExtractor implements Function<Object, Tuple> {
   }
 
   private List<Function<Object, Object>> buildExtractors() {
-    return Arrays.stream(fieldsOrProperties).map(ByNameSingleExtractor::new).collect(toList());
+    return Arrays.stream(fieldsOrProperties).map(ThrowingExtractor::byName).collect(toList());
   }
 
   private List<Object> extractValues(Object input, List<Function<Object, Object>> singleExtractors) {

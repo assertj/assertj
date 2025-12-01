@@ -25,6 +25,7 @@ import static org.assertj.core.util.FailureMessages.actualIsNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.TolkienCharacter;
 import org.assertj.core.testkit.TolkienCharacter.Race;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,8 +34,8 @@ import org.junit.jupiter.api.Test;
 class IterableAssert_map_with_throwing_extractor_Test {
 
   private final List<TolkienCharacter> hobbits = new ArrayList<>();
-  private final ThrowingExtractor<TolkienCharacter, String, Exception> nameThrowingExtractor = TolkienCharacter::getName;
-  private final ThrowingExtractor<TolkienCharacter, Race, Exception> raceThrowingExtractor = TolkienCharacter::getRace;
+  private final ThrowingExtractor<TolkienCharacter, String> nameThrowingExtractor = TolkienCharacter::getName;
+  private final ThrowingExtractor<TolkienCharacter, Race> raceThrowingExtractor = TolkienCharacter::getRace;
 
   @BeforeEach
   void setUp() {

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.CartoonCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ class IterableAssert_flatMap_Test {
   private CartoonCharacter pebbles;
   private CartoonCharacter fred;
 
-  private static final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception> childrenThrowingExtractor = CartoonCharacter::getChildren;
+  private static final ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>> childrenThrowingExtractor = CartoonCharacter::getChildren;
 
   private static final Function<CartoonCharacter, List<CartoonCharacter>> children = CartoonCharacter::getChildren;
 
@@ -137,7 +138,7 @@ class IterableAssert_flatMap_Test {
     // GIVEN
     List<CartoonCharacter> cartoonCharacters = list(homer, fred);
     // WHEN/THEN
-    assertThat(cartoonCharacters).flatMap(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>, Exception>() {
+    assertThat(cartoonCharacters).flatMap(new ThrowingExtractor<CartoonCharacter, List<CartoonCharacter>>() {
       @Override
       public List<CartoonCharacter> extractThrows(CartoonCharacter cartoonCharacter) throws Exception {
         if (cartoonCharacter.getChildren().isEmpty()) throw new Exception("no children");

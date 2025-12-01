@@ -21,7 +21,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetExcepti
 import java.util.function.Function;
 
 import org.assertj.core.api.Assertions;
-import org.assertj.core.api.iterable.ThrowingExtractor;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.CartoonCharacter;
 import org.assertj.core.testkit.TolkienCharacter;
 import org.assertj.core.testkit.TolkienCharacter.Race;
@@ -45,8 +45,8 @@ public abstract class BaseAssumptionsRunnerTest {
   protected static CartoonCharacter lisa;
   protected static CartoonCharacter maggie;
   protected static CartoonCharacter bart;
-  protected static ThrowingExtractor<? super TolkienCharacter, String, Exception> throwingNameExtractor;
-  protected static ThrowingExtractor<? super TolkienCharacter, Integer, Exception> throwingAgeExtractor;
+  protected static ThrowingExtractor<? super TolkienCharacter, String> throwingNameExtractor;
+  protected static ThrowingExtractor<? super TolkienCharacter, Integer> throwingAgeExtractor;
   protected static Function<? super TolkienCharacter, String> nameExtractor;
   protected static Function<? super TolkienCharacter, Integer> ageExtractor;
   protected static Function<TolkienCharacter, String> nameExtractorFunction;
