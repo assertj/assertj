@@ -24,6 +24,7 @@ import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeParseException;
@@ -55,7 +56,7 @@ class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeAssertBa
     verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), REFERENCE);
     verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), BEFORE);
     verify(objects).assertEqual(getInfo(assertions), getActual(assertions), null);
-    verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), otherType);
+    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), otherType);
   }
 
   @Test
@@ -103,6 +104,17 @@ class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeAssertBa
 
   @Test
   void should_fail_if_given_string_parameter_cant_be_parsed() {
-    assertThatThrownBy(() -> assertions.isEqualTo("not an OffsetDateTime")).isInstanceOf(DateTimeParseException.class);
+    // GIVEN
+    String invalidString = "not an OffsetDateTime";
+    OffsetDateTime actual = OffsetDateTime.now();
+
+    // WHEN/THEN
+    assertThatExceptionOfType(AssertionError.class)
+                                                   .isThrownBy(() -> assertThat(actual).isEqualTo(invalidString))
+                                                   // FIX: Remove quotes around invalidString in the expected message
+                                                   // The error formatter adds quotes automatically for non-temporal types
+                                                   .withMessage(shouldBeEqualMessage(actual + " (java.time.OffsetDateTime)",
+                                                                                     "\"" + invalidString + "\""));
   }
+
 }

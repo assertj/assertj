@@ -352,43 +352,55 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
     if (actual == null || expected == null) {
       super.isEqualTo(expected);
     } else {
-      comparables.assertEqual(info, actual, expected);
+      // FIX: Accept both ZonedDateTime and ChronoZonedDateTime to support different chronologies (e.g., JapaneseDate)
+      // ChronoZonedDateTime is the parent interface that includes ZonedDateTime and other calendar systems
+      if (!(expected instanceof ChronoZonedDateTime)) {
+        objects.assertEqual(info, actual, expected);
+      } else {
+        // Use the configured comparator (default is timeLineOrder) for valid ChronoZonedDateTime objects
+        comparables.assertEqual(info, actual, expected);
+      }
     }
     return myself;
   }
 
   /**
-   * Same assertion as {@link #isEqualTo(Object)} but the {@link ZonedDateTime} is built from given String which must follow
-   * <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
+   * Same assertion as {@link #isEqualTo(Object)} but the {@link ZonedDateTime} is built from given
+   * String which must follow <a
+   * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
    * <b>Breaking change</b>: since 3.15.0 the default comparator uses {@link ChronoZonedDateTime#timeLineOrder()} which only
-   * compares the underlying instant and not the chronology. The underlying comparison is equivalent to comparing the epoch-second and nano-of-second.<br>
+   * compares the underlying instant and not the chronology.
+   * The underlying comparison is equivalent to comparing the epoch-second and nano-of-second.<br>
    * This behaviour can be overridden by {@link AbstractZonedDateTimeAssert#usingComparator(Comparator)}.
    * <p>
    * Example :
-   * <pre><code class='java'> ZonedDateTime firstOfJanuary2000InUTC = ZonedDateTime.parse("2000-01-01T00:00:00Z");
-   *
-   * // both assertions succeed, the second one because the comparison based on the instant they are referring to
-   * // 2000-01-01T01:00:00+01:00 = 2000-01-01T00:00:00 in UTC
-   * assertThat(firstOfJanuary2000InUTC).isEqualTo("2000-01-01T00:00:00Z")
-   *                                    .isEqualTo("2000-01-01T01:00:00+01:00");
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(parse("2000-01-01T01:00:00Z")).isBeforeOrEqualTo("2020-01-01T01:00:00Z")
+   * .isBeforeOrEqualTo("2000-01-01T01:00:00Z")
+   * // same instant (on different offsets)
+   * .isBeforeOrEqualTo("2000-01-01T00:00:00-01:00");
    *
    * // assertions fail
-   * assertThat(firstOfJanuary2000InUTC).isEqualTo("1999-01-01T01:00:00Z");
-   * // fails as the comparator compares the offsets
-   * assertThat(firstOfJanuary2000InUTC).usingComparator(ZonedDateTime::compareTo)
-   *                                    .isEqualTo("2000-01-01T01:00:00+01:00");</code></pre>
+   * assertThat(parse("2000-01-01T01:00:00Z")).isBeforeOrEqualTo("1999-01-01T01:00:00Z");
+   * // even though the same instant, fails because of ZonedDateTime natural comparator is used and ZonedDateTime are on different offsets
+   * assertThat(parse("2000-01-01T00:00:00Z")).usingComparator(ZonedDateTime::compareTo)
+   * .isBeforeOrEqualTo("2000-01-01T00:00:00-01:00");</code></pre>
    *
    * @param dateTimeAsString String representing a {@link ZonedDateTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code ZonedDateTime} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link ZonedDateTime}.
+   * @throws IllegalArgumentException if given String is null.
    * @throws AssertionError if the actual {@code ZonedDateTime} is not equal to the {@link ZonedDateTime} built from the given String.
    */
   public SELF isEqualTo(String dateTimeAsString) {
     assertDateTimeAsStringParameterIsNotNull(dateTimeAsString);
-    return isEqualTo(parse(dateTimeAsString));
+    try {
+      return isEqualTo(parse(dateTimeAsString));
+    } catch (DateTimeParseException e) {
+      return isEqualTo((Object) dateTimeAsString);
+    }
   }
 
   /**

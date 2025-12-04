@@ -247,13 +247,17 @@ public abstract class AbstractOffsetTimeAssert<SELF extends AbstractOffsetTimeAs
    * @param offsetTimeAsString String representing a {@link java.time.OffsetTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code OffsetTime} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link java.time.OffsetTime}.
+   * @throws IllegalArgumentException if given String is null.
    * @throws AssertionError if the actual {@code OffsetTime} is not equal to the {@link java.time.OffsetTime} built from
-   *           given String.
+   * given String.
    */
   public SELF isEqualTo(String offsetTimeAsString) {
     assertOffsetTimeAsStringParameterIsNotNull(offsetTimeAsString);
-    return isEqualTo(parse(offsetTimeAsString));
+    try {
+      return isEqualTo(parse(offsetTimeAsString));
+    } catch (DateTimeParseException e) {
+      return isEqualTo((Object) offsetTimeAsString);
+    }
   }
 
   /**
