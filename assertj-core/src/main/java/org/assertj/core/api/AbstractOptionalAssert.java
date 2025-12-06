@@ -235,6 +235,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @param expectedValue the expected value inside the {@link java.util.Optional}.
    * @throws NullPointerException if the given value is {@code null}; use {@link #isNotPresent()} or {@link #isNotEmpty()} instead.
    * @return this assertion object.
+   * @since 3.28.0
    */
   public SELF doesNotHaveValue(VALUE expectedValue) {
     isNotNull();
