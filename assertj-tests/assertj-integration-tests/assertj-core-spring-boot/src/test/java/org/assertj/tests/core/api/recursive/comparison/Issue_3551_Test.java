@@ -20,7 +20,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -35,12 +35,12 @@ import jakarta.persistence.Id;
 class Issue_3551_Test {
 
   @Autowired
-  private PersonRepo personRepo;
+  private PersonRepository repository;
 
   @Test
   @Disabled
   void test() {
-    Person alice = personRepo.getPerson();
+    Person alice = repository.getPerson();
     Person bob = new PersonImpl("bob");
     alice.getName();
     // FIXME Recursive comparison fails but incorrectly as it does not gather the right fields
@@ -76,7 +76,7 @@ class Issue_3551_Test {
   }
 
   @Repository
-  interface PersonRepo extends JpaRepository<PersonEntity, String> {
+  interface PersonRepository extends JpaRepository<PersonEntity, String> {
 
     @Query(value = "SELECT 'alice' as name")
     Person getPerson();
