@@ -29,21 +29,21 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@fe4161a26a8629af62121b670040955b330f9af2 # v4.31.6
+      uses: github/codeql-action/init@cf1bb45a277cb3c205638b2cd5c984db1c46a412 # v4.31.7
       with:
         languages: ${{ matrix.language }}
         build-mode: ${{ matrix.build-mode }}
     # https://github.com/github/codeql-action/issues/2074
     - name: Set up Java
       if: matrix.language == 'java-kotlin'
-      uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5.0.0
+      uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
       with:
         distribution: 'zulu'
         java-version: '25'
         cache: 'maven'
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@fe4161a26a8629af62121b670040955b330f9af2 # v4.31.6
+      uses: github/codeql-action/analyze@cf1bb45a277cb3c205638b2cd5c984db1c46a412 # v4.31.7
       with:
         category: "/language:${{matrix.language}}"
