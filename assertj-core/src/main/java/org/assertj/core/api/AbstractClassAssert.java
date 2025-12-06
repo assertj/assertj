@@ -64,7 +64,8 @@ import org.assertj.core.internal.Classes;
  * @author Mikhail Mazursky
  */
 public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>>
-    extends AbstractAssert<SELF, Class<?>> {
+    extends AbstractAssert<SELF, Class<?>>
+    implements AnnotatedElementAssert<SELF, Class<?>> {
 
   Classes classes = Classes.instance();
 
@@ -632,36 +633,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     if (Modifier.isStatic(actual.getModifiers())) throw assertionError(shouldNotBeStatic(actual));
   }
 
-  /**
-   * Verifies that the actual {@code Class} has the given {@code Annotation}s.
-   * <p>
-   * Example:
-   * <pre><code class='java'> &#64;Target(ElementType.TYPE)
-   * &#64;Retention(RetentionPolicy.RUNTIME)
-   * private static @interface Force { }
-   *
-   * &#64;Target(ElementType.TYPE)
-   * &#64;Retention(RetentionPolicy.RUNTIME)
-   * private static @interface Hero { }
-   *
-   * &#64;Target(ElementType.TYPE)
-   * &#64;Retention(RetentionPolicy.RUNTIME)
-   * private static @interface DarkSide { }
-   *
-   * &#64;Hero &#64;Force
-   * class Jedi implements Jedi {}
-   *
-   * // this assertion succeeds:
-   * assertThat(Jedi.class).containsAnnotations(Force.class, Hero.class);
-   *
-   * // this assertion fails:
-   * assertThat(Jedi.class).containsAnnotations(Force.class, DarkSide.class);</code></pre>
-   *
-   * @param annotations annotations who must be attached to the class
-   * @return {@code this} assertions object
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
-   */
+  /** {@inheritDoc} */
+  @Override
   @SafeVarargs
   public final SELF hasAnnotations(Class<? extends Annotation>... annotations) {
     return hasAnnotationsForProxy(annotations);
@@ -675,27 +648,8 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
     return myself;
   }
 
-  /**
-   * Verifies that the actual {@code Class} has the given {@code Annotation}.
-   * <p>
-   * Example:
-   * <pre><code class='java'> &#64;Target(ElementType.TYPE)
-   * &#64;Retention(RetentionPolicy.RUNTIME)
-   * private static @interface Force { }
-   * &#64;Force
-   * class Jedi implements Jedi {}
-   *
-   * // this assertion succeeds:
-   * assertThat(Jedi.class).containsAnnotation(Force.class);
-   *
-   * // this assertion fails:
-   * assertThat(Jedi.class).containsAnnotation(DarkSide.class);</code></pre>
-   *
-   * @param annotation annotations who must be attached to the class
-   * @return {@code this} assertions object
-   * @throws AssertionError if {@code actual} is {@code null}.
-   * @throws AssertionError if the actual {@code Class} doesn't contains all of these annotations.
-   */
+  /** {@inheritDoc} */
+  @Override
   public SELF hasAnnotation(Class<? extends Annotation> annotation) {
     classes.assertContainsAnnotations(info, actual, array(annotation));
     return myself;
