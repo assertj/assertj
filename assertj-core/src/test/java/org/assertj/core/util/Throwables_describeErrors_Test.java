@@ -50,7 +50,6 @@ class Throwables_describeErrors_Test {
     then(descriptions).hasSize(1);
     String description = descriptions.get(0);
     then(description).contains("cause first 10 stack trace elements:");
-    System.out.println(description);
     long stackTraceElementCount = description.lines()
                                              .filter(line -> line.trim().startsWith("at "))
                                              .count();
