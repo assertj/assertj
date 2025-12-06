@@ -11,12 +11,12 @@ jobs:
       pull-requests: write
       checks: write
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
         with:
           ref: ${{ github.event.pull_request.head.sha }}  # to check out the actual pull request commit, not the merge commit
           fetch-depth: 0  # a full history is required for pull request analysis
       - name: 'Qodana Scan'
-        uses: JetBrains/qodana-action@e5d20b1260e99a93210d46ec8882c83978a09036 #v2025.2.2
+        uses: JetBrains/qodana-action@8d427a3995aede61f5d65005f6ab24cab989d81e #v2025.2.3
         with:
           # https://youtrack.jetbrains.com/issue/QD-6342 – no option to disable emojis
           post-pr-comment: false
