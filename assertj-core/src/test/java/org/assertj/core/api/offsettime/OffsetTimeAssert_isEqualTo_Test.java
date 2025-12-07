@@ -15,30 +15,54 @@
  */
 package org.assertj.core.api.offsettime;
 
+import static java.time.ZoneOffset.UTC;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.OffsetTime;
 
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link org.assertj.core.api.OffsetTimeAssert#isEqualTo(String)} with invalid time strings.
- */
-class OffsetTimeAssert_isEqualTo_Test {
+class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
+
+  @Test
+  void test_isEqualTo_assertion() {
+    // WHEN
+    assertThat(REFERENCE).isEqualTo(REFERENCE);
+    assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
+    // THEN
+    expectAssertionError(() -> assertThat(REFERENCE).isEqualTo(REFERENCE.plusHours(1).toString()));
+  }
+
+  @Test
+  void test_isEqualTo_assertion_error_message() {
+    // GIVEN
+    OffsetTime time = OffsetTime.of(3, 0, 5, 0, UTC);
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(time).isEqualTo("03:03:03Z"));
+    // THEN
+    then(assertionError).hasMessage(shouldBeEqualMessage("03:00:05Z", "03:03:03Z"));
+  }
+
+  @Test
+  void should_fail_if_offsetTime_as_string_parameter_is_null() {
+    assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isEqualTo((String) null))
+                                        .withMessage("The String representing the OffsetTime to compare actual with should not be null");
+  }
 
   @Test
   void should_fail_with_assertion_error_when_comparing_to_invalid_string() {
     // GIVEN
     OffsetTime now = OffsetTime.now();
     String invalidString = "not an OffsetTime";
-
-    // WHEN/THEN
-    // FIX: With the fallback mechanism (issue #4021), parsing failures now result in AssertionError
-    // because the invalid string is compared as a plain Object (not an OffsetTime)
-    assertThatExceptionOfType(AssertionError.class)
-                                                   .isThrownBy(() -> assertThat(now).isEqualTo(invalidString))
-                                                   .withMessageContaining(now.toString())
-                                                   .withMessageContaining("not an OffsetTime");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(now).isEqualTo(invalidString));
+    // THEN
+    then(assertionError).hasMessageContaining(now.toString())
+                        .hasMessageContaining(invalidString);
   }
+
 }

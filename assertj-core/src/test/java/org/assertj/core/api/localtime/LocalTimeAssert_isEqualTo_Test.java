@@ -16,29 +16,55 @@
 package org.assertj.core.api.localtime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
+import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.LocalTime;
 
+import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/**
- * Tests for {@link org.assertj.core.api.LocalTimeAssert#isEqualTo(String)} with invalid time strings.
- */
-class LocalTimeAssert_isEqualTo_Test {
+@DisplayName("LocalTimeAssert isEqualTo")
+class LocalTimeAssert_isEqualTo_Test extends LocalTimeAssertBaseTest {
+
+  @Test
+  void should_pass_if_actual_is_equal_to_localTime_as_string_parameter() {
+    assertThat(REFERENCE).isEqualTo(REFERENCE.toString());
+  }
+
+  @Test
+  void should_fail_if_actual_is_not_equal_to_date_as_string_parameter() {
+    // WHEN
+    ThrowingCallable code = () -> assertThat(AFTER).isEqualTo(REFERENCE.toString());
+    // THEN
+    assertThatAssertionErrorIsThrownBy(code).withMessage(shouldBeEqualMessage(AFTER.toString(), REFERENCE.toString()));
+  }
+
+  @Test
+  void should_fail_if_localTime_as_string_parameter_is_null() {
+    // GIVEN
+    String otherLocalTimeAsString = null;
+    // WHEN
+    ThrowingCallable code = () -> assertThat(LocalTime.now()).isEqualTo(otherLocalTimeAsString);
+    // THEN
+    assertThatIllegalArgumentException().isThrownBy(code)
+                                        .withMessage("The String representing the LocalTime to compare actual with should not be null");
+  }
 
   @Test
   void should_fail_with_assertion_error_when_comparing_to_invalid_string() {
     // GIVEN
     LocalTime now = LocalTime.now();
     String invalidString = "not a LocalTime";
-
-    // WHEN/THEN
-    // FIX: With the fallback mechanism (issue #4021), parsing failures now result in AssertionError
-    // because the invalid string is compared as a plain Object (not a LocalTime)
-    assertThatExceptionOfType(AssertionError.class)
-                                                   .isThrownBy(() -> assertThat(now).isEqualTo(invalidString))
-                                                   .withMessageContaining(now.toString())
-                                                   .withMessageContaining("not a LocalTime");
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(now).isEqualTo(invalidString));
+    // THEN
+    then(assertionError).hasMessageContaining(now.toString())
+                        .hasMessageContaining(invalidString);
   }
+
 }

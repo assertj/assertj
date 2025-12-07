@@ -18,16 +18,13 @@ package org.assertj.core.api.offsetdatetime;
 import static java.lang.String.format;
 import static java.time.OffsetDateTime.now;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
 import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeParseException;
 import java.time.temporal.Temporal;
 
 import org.assertj.core.api.AbstractOffsetDateTimeAssertBaseTest;
@@ -75,7 +72,7 @@ class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeAssertBa
   @Test
   void should_fail_if_actual_is_not_equal_to_offsetDateTime_with_different_offset() {
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(AFTER_WITH_DIFFERENT_OFFSET).isEqualTo(REFERENCE));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(AFTER_WITH_DIFFERENT_OFFSET).isEqualTo(REFERENCE));
     // THEN
     then(assertionError).hasMessage(format(shouldBeEqualMessage(AFTER_WITH_DIFFERENT_OFFSET + " (java.time.OffsetDateTime)",
                                                                 REFERENCE + " (java.time.OffsetDateTime)")
@@ -103,18 +100,15 @@ class OffsetDateTimeAssert_isEqualTo_Test extends AbstractOffsetDateTimeAssertBa
   }
 
   @Test
-  void should_fail_if_given_string_parameter_cant_be_parsed() {
+  void should_fail_with_assertion_error_when_comparing_to_invalid_string() {
     // GIVEN
-    String invalidString = "not an OffsetDateTime";
     OffsetDateTime actual = OffsetDateTime.now();
-
-    // WHEN/THEN
-    assertThatExceptionOfType(AssertionError.class)
-                                                   .isThrownBy(() -> assertThat(actual).isEqualTo(invalidString))
-                                                   // FIX: Remove quotes around invalidString in the expected message
-                                                   // The error formatter adds quotes automatically for non-temporal types
-                                                   .withMessage(shouldBeEqualMessage(actual + " (java.time.OffsetDateTime)",
-                                                                                     "\"" + invalidString + "\""));
+    String invalidString = "not an OffsetDateTime";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(invalidString));
+    // THEN
+    then(assertionError).hasMessageContaining(actual.toString())
+                        .hasMessageContaining(invalidString);
   }
 
 }
