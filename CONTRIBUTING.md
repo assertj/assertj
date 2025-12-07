@@ -5,7 +5,7 @@ Thank you for your interest in contributing to AssertJ!
 
 We appreciate your effort, and to make sure that your pull request is easy to review, we ask you to note the following guidelines, including legal contributor agreement:
 
-* Use JDK 21 or newer to build the project.
+* Use JDK 25 or newer to build the project.
 * Use **[AssertJ code Eclipse formatting preferences](eclipse/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the [Adapter for Eclipse Code Formatter](https://plugins.jetbrains.com/plugin/6546-adapter-for-eclipse-code-formatter) plugin)
 * Write a complete Javadoc for each assertion method with a code example (succeeding and failing assertion(s)).
 * As we use JUnit 5, favor `package-private` visibility for test classes and methods.
@@ -124,7 +124,8 @@ You can generate the Javadoc and read it in your browser to see what it actually
 
 ## Binary compatibility
 
-Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se21/html/jls-13.html) whenever possible. It means that you can safely:
+Try to keep [binary compatibility](https://docs.oracle.com/javase/specs/jls/se25/html/jls-13.html) whenever possible.
+It means that you can safely:
 * Rewrite the body of methods, constructors, and initializers (like static blocks).
 * Rewrite code in the above that previously threw exceptions to no longer do so.
 * Add fields, methods, and constructors.
