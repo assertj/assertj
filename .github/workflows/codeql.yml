@@ -41,7 +41,7 @@ jobs:
       uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e # v5.1.0
       with:
         distribution: 'zulu'
-        java-version: '21'
+        java-version: '25'
         cache: 'maven'
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@cf1bb45a277cb3c205638b2cd5c984db1c46a412 # v4.31.7
