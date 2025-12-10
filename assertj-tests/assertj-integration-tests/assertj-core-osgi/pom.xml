@@ -14,8 +14,6 @@
 
   <properties>
     <osgi.bundle>${project.build.directory}/${project.build.finalName}-tests.jar</osgi.bundle>
-    <rootDirectory>${project.basedir}/../../../</rootDirectory>
-    <spotless.skip>false</spotless.skip>
   </properties>
 
   <dependencyManagement>
