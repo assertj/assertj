@@ -34,6 +34,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -54,15 +55,18 @@ public final class Throwables {
     Throwable cause = throwable.getCause();
     if (cause == null) return throwable.getMessage();
     // error has a cause, display the cause message and the first stack trace elements.
-    String stackTraceDescription = stream(cause.getStackTrace()).limit(5)
+    int maxStackTraceElements = StandardRepresentation.getMaxStackTraceElementsDisplayed();
+    String stackTraceDescription = stream(cause.getStackTrace()).limit(maxStackTraceElements)
                                                                 .map(stackTraceElement -> "\tat %s%n".formatted(stackTraceElement))
                                                                 .collect(joining());
     return format("%s%n" +
                   "cause message: %s%n" +
-                  "cause first five stack trace elements:%n" +
+                  "cause first %d stack trace %s:%n" +
                   "%s",
                   throwable.getMessage(),
                   cause.getMessage(),
+                  maxStackTraceElements,
+                  maxStackTraceElements == 1 ? "element" : "elements",
                   stackTraceDescription);
   };
 
