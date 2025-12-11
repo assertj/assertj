@@ -19,7 +19,7 @@
     <spotless.skip>true</spotless.skip>
     <!-- Dependency versions -->
     <junit-jupiter.version>5.14.1</junit-jupiter.version>
-    <mockito.version>5.16.1</mockito.version>
+    <mockito.version>5.21.0</mockito.version>
     <opentest4j.version>1.3.0</opentest4j.version>
     <hamcrest.version>3.0</hamcrest.version>
     <jackson.version>2.20.1</jackson.version>
