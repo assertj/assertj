@@ -101,9 +101,9 @@ import java.util.stream.Stream;
 import org.assertj.core.api.ClassAssertBaseTest.AnnotatedClass;
 import org.assertj.core.api.ClassAssertBaseTest.AnotherAnnotation;
 import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
-import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.Animal;
 import org.assertj.core.testkit.CartoonCharacter;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
@@ -138,8 +138,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
   private Map<String, Object> iterableMap;
 
-  private static final ThrowingExtractor<Name, String, Exception> throwingFirstNameFunction = Name::getFirst;
-  private static final ThrowingExtractor<Name, String, Exception> throwingLastNameFunction = Name::getLast;
+  private static final ThrowingExtractor<Name, String> throwingFirstNameFunction = Name::getFirst;
+  private static final ThrowingExtractor<Name, String> throwingLastNameFunction = Name::getLast;
   private static final Function<Name, String> firstNameFunction = Name::getFirst;
   private static final Function<Name, String> lastNameFunction = Name::getLast;
 
@@ -1387,7 +1387,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(names)
           .overridingErrorMessage("error message")
           .as("extracting(firstNameFunction)")
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameFunction)
           .contains("John")
           .contains("sam");
     softly.assertThat(names)
@@ -1405,7 +1405,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .as("name.first.startsWith(\"Jo\")")
           .overridingErrorMessage("error message")
           .filteredOn(name -> name.first.startsWith("Jo"))
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameFunction)
           .contains("Sauron");
     softly.assertThat(names)
           .overridingErrorMessage("error message")
@@ -1627,7 +1627,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(names)
           .as("extracting(firstNameFunction)")
           .overridingErrorMessage("error message")
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameFunction)
           .contains("John")
           .contains("sam");
     softly.assertThat(names)
@@ -1645,7 +1645,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .as("name.first.startsWith(\"Jo\")")
           .overridingErrorMessage("error message")
           .filteredOn(name -> name.first.startsWith("Jo"))
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameFunction)
           .contains("Sauron");
     softly.assertThat(names)
           .overridingErrorMessage("error message")
@@ -2288,17 +2288,17 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     Iterable<Name> names = list(name("Manu", "Ginobili"), name("Magic", "Johnson"));
     // WHEN
     softly.assertThat(names)
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameFunction)
           .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOn(string -> string.startsWith("Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameFunction)
           .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOn(new Condition<>(string -> string.startsWith("Ma"), "starts with Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameFunction)
           .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOnAssertions(string -> assertThat(string).startsWith("Ma"))
           .containsExactly("MANU", "MAGIC");
@@ -2325,17 +2325,17 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     List<Name> names = list(name("Manu", "Ginobili"), name("Magic", "Johnson"));
     // WHEN
     softly.assertThat(names)
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameFunction)
           .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOn(string -> string.startsWith("Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameFunction)
           .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOn(new Condition<>(string -> string.startsWith("Ma"), "starts with Ma"))
           .containsExactly("MANU", "MAGIC");
     softly.assertThat(names)
-          .extracting(firstNameFunction)
+          .extracting(throwingFirstNameFunction)
           .usingElementComparator(CaseInsensitiveStringComparator.INSTANCE)
           .filteredOnAssertions(string -> assertThat(string).startsWith("Ma"))
           .containsExactly("MANU", "MAGIC");
