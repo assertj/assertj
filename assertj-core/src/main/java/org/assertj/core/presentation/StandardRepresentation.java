@@ -26,6 +26,7 @@ import static org.assertj.core.util.DateUtil.formatAsDatetimeWithMs;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Strings.concat;
 import static org.assertj.core.util.Strings.quote;
+import static org.assertj.core.util.Throwables.describeErrors;
 import static org.assertj.core.util.Throwables.getStackTrace;
 
 import java.io.File;
@@ -70,6 +71,8 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.error.DescriptionFormatter;
+import org.assertj.core.error.MultipleAssertionsError;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Closeables;
 import org.assertj.core.util.diff.ChangeDelta;
@@ -85,6 +88,7 @@ import org.assertj.core.util.diff.InsertDelta;
 public class StandardRepresentation implements Representation {
 
   private static final String NULL = "null";
+  private static final String LINE_SEPARATOR = System.lineSeparator();
 
   // can share this as StandardRepresentation has no state
   public static final StandardRepresentation STANDARD_REPRESENTATION = new StandardRepresentation();
@@ -261,6 +265,7 @@ public class StandardRepresentation implements Representation {
     if (object instanceof AtomicBoolean atomicBoolean) return toStringOf(atomicBoolean);
     if (object instanceof AtomicLong atomicLong) return toStringOf(atomicLong);
     if (object instanceof Number number) return toStringOf(number);
+    if (object instanceof MultipleAssertionsError multipleAssertionsError) return toStringOf(multipleAssertionsError);
     if (object instanceof Throwable throwable) return toStringOf(throwable);
     return fallbackToStringOf(object);
   }
@@ -537,6 +542,36 @@ public class StandardRepresentation implements Representation {
       if (!entriesIterator.hasNext()) return builder.append("}").toString();
       builder.append(", ");
     }
+  }
+
+  protected String toStringOf(MultipleAssertionsError multipleAssertionsError) {
+    List<? extends AssertionError> assertionErrors = multipleAssertionsError.getErrors();
+    int errorsCount = assertionErrors.size();
+
+    if (errorsCount == 0) return multipleAssertionsError.getMessage();
+
+    String formattedDescription = DescriptionFormatter.instance().format(multipleAssertionsError.getDescription());
+    formattedDescription = formattedDescription.isEmpty() ? "" : "%s%n".formatted(formattedDescription);
+
+    Object objectUnderTest = multipleAssertionsError.getObjectUnderTest();
+    String objectUnderTestDescription = objectUnderTest != null ? " for: %s".formatted(objectUnderTest) : ":";
+    var builder = new StringBuilder(formattedDescription).append(errorsCount)
+                                                         .append(" assertion error")
+                                                         .append(errorsCount == 1 ? "" : "s")
+                                                         .append(objectUnderTestDescription)
+                                                         .append(LINE_SEPARATOR);
+    List<String> errorDescriptions = describeErrors(assertionErrors);
+    String errorSeparator = LINE_SEPARATOR + "-- error %d --";
+
+    for (int i = 0; i < errorsCount; i++) {
+      builder.append(errorSeparator.formatted(i + 1));
+      String message = errorDescriptions.get(i);
+      // add a line before for readability unless the message has already one
+      if (!message.startsWith(LINE_SEPARATOR)) builder.append(LINE_SEPARATOR);
+      builder.append(message);
+    }
+
+    return builder.toString();
   }
 
   protected String toStringOf(Throwable throwable) {

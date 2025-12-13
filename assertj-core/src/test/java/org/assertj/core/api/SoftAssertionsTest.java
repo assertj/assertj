@@ -20,7 +20,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.time.temporal.ChronoUnit.HOURS;
 import static java.time.temporal.ChronoUnit.SECONDS;
 import static java.util.Collections.emptyList;
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -104,6 +103,7 @@ import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.error.MultipleAssertionsError;
 import org.assertj.core.testkit.Animal;
 import org.assertj.core.testkit.CartoonCharacter;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
@@ -118,7 +118,6 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.opentest4j.MultipleFailuresError;
 
 /**
  * Tests for <code>{@link SoftAssertions}</code>.
@@ -310,8 +309,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
       softly.assertAll();
       fail("Should not reach here");
-    } catch (MultipleFailuresError e) {
-      List<String> errors = e.getFailures().stream().map(Object::toString).collect(toList());
+    } catch (MultipleAssertionsError e) {
+      List<String> errors = e.getErrors().stream().map(Object::toString).toList();
       then(errors).hasSize(54);
       then(errors.get(0)).contains(shouldBeEqualMessage("0", "1"));
       then(errors.get(1)).contains("%nExpecting value to be true but was false".formatted());

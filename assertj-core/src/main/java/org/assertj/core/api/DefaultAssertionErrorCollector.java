@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.assertj.core.util.Throwables;
-
 public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
 
   // Marking this field as volatile doesn't ensure complete thread safety
@@ -158,7 +156,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    * @return decorated list
   */
   protected <T extends Throwable> List<T> decorateErrorsCollected(List<? extends T> errors) {
-    return Throwables.addLineNumberToErrorMessages(errors);
+    return (List<T>) errors;
   }
 
 }

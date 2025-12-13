@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.example.custom;
+package org.example.test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.stream.Stream;
+
 import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.error.BasicErrorMessageFactory;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.internal.Failures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -51,61 +51,55 @@ class CustomAsserts_filter_stacktrace_Test {
 
   @Test
   void should_filter_when_custom_assert_fails_with_message() {
-    try {
-      new CustomAssert("").fail();
-    } catch (AssertionError e) {
-      assertThat(e.getStackTrace()).areNot(elementOf(CustomAssert.class));
-    }
+    // WHEN
+    var assertionError = expectAssertionError(() -> new CustomAssert("").fail());
+    // THEN
+    then(assertionError.getStackTrace()).areNot(elementOfCustomAssert());
   }
 
   @Test
   void should_filter_when_custom_assert_fails_with_overridden_message() {
-    try {
-      new CustomAssert("").overridingErrorMessage("overridden message").fail();
-    } catch (AssertionError e) {
-      assertThat(e.getStackTrace()).areNot(elementOf(CustomAssert.class));
-    }
+    // WHEN
+    var assertionError = expectAssertionError(() -> new CustomAssert("").overridingErrorMessage("overridden message").fail());
+    // THEN
+    then(assertionError.getStackTrace()).areNot(elementOfCustomAssert());
   }
 
   @Test
   void should_filter_when_custom_assert_throws_assertion_error() {
-    try {
-      new CustomAssert("").throwAnAssertionError();
-    } catch (AssertionError e) {
-      assertThat(e.getStackTrace()).areNot(elementOf(CustomAssert.class));
-    }
+    // WHEN
+    var assertionError = expectAssertionError(() -> new CustomAssert("").throwAnAssertionError());
+    // THEN
+    then(assertionError.getStackTrace()).areNot(elementOfCustomAssert());
   }
 
   @Test
   void should_filter_when_abstract_custom_assert_fails() {
-    try {
-      new CustomAssert("").failInAbstractAssert();
-    } catch (AssertionError e) {
-      assertThat(e.getStackTrace()).areNot(elementOf(CustomAbstractAssert.class));
-    }
+    // WHEN
+    var assertionError = expectAssertionError(() -> new CustomAssert("").failInAbstractAssert());
+    // THEN
+    then(assertionError.getStackTrace()).areNot(elementOfCustomAssert());
   }
 
   @Test
   void should_not_filter_when_global_remove_option_is_disabled() {
+    boolean initialValue = Failures.instance().isRemoveAssertJRelatedElementsFromStackTrace();
     Assertions.setRemoveAssertJRelatedElementsFromStackTrace(false);
     try {
-      new CustomAssert("").fail();
-    } catch (AssertionError e) {
-      assertThat(e.getStackTrace()).areAtLeastOne(elementOf(CustomAssert.class));
+      // WHEN
+      var assertionError = expectAssertionError(() -> new CustomAssert("").fail());
+      // THEN
+      then(assertionError.getStackTrace()).areAtLeastOne(elementOfCustomAssert());
+    } finally {
+      Assertions.setRemoveAssertJRelatedElementsFromStackTrace(initialValue);
     }
   }
 
-  @BeforeEach
-  @AfterEach
-  void enableStackTraceFiltering() {
-    Assertions.setRemoveAssertJRelatedElementsFromStackTrace(true);
-  }
-
-  private static Condition<StackTraceElement> elementOf(final Class<?> clazz) {
-    return new Condition<StackTraceElement>("StackTraceElement of " + clazz) {
+  private static Condition<StackTraceElement> elementOfCustomAssert() {
+    return new Condition<>("StackTraceElement of " + CustomAssert.class) {
       @Override
       public boolean matches(StackTraceElement value) {
-        return value.getClassName().equals(clazz.getName());
+        return value.getClassName().equals(CustomAssert.class.getName());
       }
     };
   }

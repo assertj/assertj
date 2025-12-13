@@ -21,11 +21,11 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.ThrowingConsumer;
+import org.assertj.core.error.MultipleAssertionsError;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.opentest4j.MultipleFailuresError;
 
 class Assertions_anyOf_with_ThrowingConsumer_Test {
 
@@ -48,7 +48,7 @@ class Assertions_anyOf_with_ThrowingConsumer_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> underTest.accept(null));
     // THEN
-    then(assertionError).isInstanceOf(MultipleFailuresError.class);
+    then(assertionError).isInstanceOf(MultipleAssertionsError.class);
   }
 
 }

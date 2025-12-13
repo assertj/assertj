@@ -17,9 +17,11 @@ package org.assertj.tests.core.testkit;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;
+
 import org.assertj.core.configuration.ConfigurationProvider;
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
+import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.api.parallel.Isolated;
@@ -37,7 +39,12 @@ import org.junit.jupiter.api.parallel.Isolated;
 @Target(ElementType.TYPE)
 public @interface MutatesGlobalConfiguration {
 
-  final class AssumptionMutatingExtension implements AfterEachCallback, AfterAllCallback {
+  final class AssumptionMutatingExtension implements BeforeEachCallback, AfterEachCallback, AfterAllCallback {
+
+    @Override
+    public void beforeEach(ExtensionContext context) {
+      resetAll();
+    }
 
     @Override
     public void afterEach(ExtensionContext context) {

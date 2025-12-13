@@ -15,7 +15,7 @@
  */
 package org.example.test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ class CustomSoftAssertionsLineNumberTest {
     var error = expectAssertionError(softly::assertAll);
     // THEN
     // does not check the exact line number because it can vary (for example when Jacoco injects fields to check code coverage)
-    assertThat(error).hasStackTraceContaining("CustomSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:3");
+    then(error).hasStackTraceContaining("should_print_line_numbers_of_failed_assertions_even_if_custom_assertion_in_non_assertj_package(CustomSoftAssertionsLineNumberTest.java:3");
   }
 
 }

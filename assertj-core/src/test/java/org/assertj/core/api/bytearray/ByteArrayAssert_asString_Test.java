@@ -24,7 +24,6 @@ import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetExcepti
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.error.AssertJMultipleFailuresError;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
@@ -82,12 +81,11 @@ class ByteArrayAssert_asString_Test {
           .isBlank();
     var assertionError = expectAssertionError(softly::assertAll);
     // THEN
-    assertThat(assertionError).hasMessageContainingAll("Multiple Failures (2 failures)",
-                                                       "-- failure 1 --",
+    assertThat(assertionError).hasMessageContainingAll("2 assertion errors",
+                                                       "-- error 1 --",
                                                        shouldBeEqualMessage("\"foo\"", "\"bar\""),
-                                                       "-- failure 2 --",
-                                                       "Expecting blank but was: \"foo\"")
-                              .isExactlyInstanceOf(AssertJMultipleFailuresError.class);
+                                                       "-- error 2 --",
+                                                       "Expecting blank but was: \"foo\"");
   }
 
   @Test

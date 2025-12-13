@@ -18,29 +18,22 @@ package org.assertj.core.api.bytearray;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.AssertionsUtil.expectAssumptionNotMetException;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.error.AssertJMultipleFailuresError;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
-/**
- * Tests for <code>{@link org.assertj.core.api.ByteArrayAssert#asHexString()}</code>.
- */
-@DisplayName("ByteArrayAssert asHexString")
 class ByteArrayAssert_asHexString_Test {
 
   private static final byte[] BYTES = new byte[] { -1, 0, 1 };
 
   @Test
   void should_pass() {
-    // GIVEN
-    // WHEN / THEN
     assertThat(BYTES).asHexString()
                      .startsWith("FF")
                      .isEqualTo("FF0001");
@@ -53,8 +46,8 @@ class ByteArrayAssert_asHexString_Test {
     // WHEN
     var assertionError = expectAssertionError(() -> assertThat(actual).asHexString().isEqualTo("010203"));
     // THEN
-    assertThat(assertionError).hasMessage(shouldBeEqualMessage("\"FF0001\"", "\"010203\""))
-                              .isExactlyInstanceOf(AssertionFailedError.class);
+    then(assertionError).hasMessage(shouldBeEqualMessage("\"FF0001\"", "\"010203\""))
+                        .isExactlyInstanceOf(AssertionFailedError.class);
   }
 
   @Test
@@ -64,7 +57,7 @@ class ByteArrayAssert_asHexString_Test {
     // WHEN
     var error = expectAssertionError(() -> assertThat(bytes).asHexString());
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -87,12 +80,11 @@ class ByteArrayAssert_asHexString_Test {
           .isBlank();
     var assertionError = expectAssertionError(softly::assertAll);
     // THEN
-    assertThat(assertionError).hasMessageContainingAll("Multiple Failures (2 failures)",
-                                                       "-- failure 1 --",
-                                                       shouldBeEqualMessage("\"FF0001\"", "\"010203\""),
-                                                       "-- failure 2 --",
-                                                       "Expecting blank but was: \"FF0001\"")
-                              .isExactlyInstanceOf(AssertJMultipleFailuresError.class);
+    then(assertionError).hasMessageStartingWith("2 assertion errors:")
+                        .hasMessageContainingAll("-- error 1 --",
+                                                 shouldBeEqualMessage("\"FF0001\"", "\"010203\""),
+                                                 "-- error 2 --",
+                                                 "Expecting blank but was: \"FF0001\"");
   }
 
   @Test

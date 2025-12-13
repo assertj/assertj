@@ -23,7 +23,7 @@ import static org.junit.platform.testkit.engine.TestExecutionResultConditions.in
 import static org.junit.platform.testkit.engine.TestExecutionResultConditions.message;
 
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
-import org.assertj.core.error.AssertJMultipleFailuresError;
+import org.assertj.core.error.MultipleAssertionsError;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.testkit.engine.EngineTestKit;
 
@@ -75,12 +75,12 @@ abstract class AbstractSoftAssertionsExtensionIntegrationTests {
                  // @format:off
                  .assertThatEvents().haveExactly(nested ? 2 : 1,
                                                  event(test("multipleFailures"),
-                                                       finishedWithFailure(instanceOf(AssertJMultipleFailuresError.class),
-                                                                           message(msg -> msg.contains("Multiple Failures (2 failures)")))))
+                                                       finishedWithFailure(instanceOf(MultipleAssertionsError.class),
+                                                                           message(msg -> msg.contains("2 assertion errors")))))
                                     .haveExactly(nested ? 2 : 1,
                                                  event(test("parameterizedTest"),
-                                                       finishedWithFailure(instanceOf(AssertJMultipleFailuresError.class),
-                                                                           message(msg -> msg.contains("Multiple Failures (1 failure)")))));
+                                                       finishedWithFailure(instanceOf(MultipleAssertionsError.class),
+                                                                           message(msg -> msg.contains("1 assertion error")))));
                  // @format:on
   }
 

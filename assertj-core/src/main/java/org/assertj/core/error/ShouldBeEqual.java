@@ -55,7 +55,7 @@ public class ShouldBeEqual {
   protected final MessageFormatter messageFormatter = MessageFormatter.instance();
   protected final ComparisonStrategy comparisonStrategy;
   private final Representation representation;
-  private final ConstructorInvoker constructorInvoker = new ConstructorInvoker();
+  private ConstructorInvoker constructorInvoker = new ConstructorInvoker();
 
   /**
    * Creates a new <code>{@link ShouldBeEqual}</code>.

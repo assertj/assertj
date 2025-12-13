@@ -15,17 +15,15 @@
  */
 package org.example.test;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.BDDSoftAssertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * This test has to be in a package other than org.assertj because otherwise the
- * line number information will be removed by the assertj filtering of internal lines.
- * {@link org.assertj.core.util.Throwables#removeAssertJRelatedElementsFromStackTrace}
+ * The assertions classes have to be in a package other than org.assertj to test
+ * the behavior of line numbers for assertions defined outside the assertj package
  */
 class BDDSoftAssertionsLineNumberTest {
 
@@ -38,17 +36,23 @@ class BDDSoftAssertionsLineNumberTest {
     // WHEN
     var error = expectAssertionError(softly::assertAll);
     // THEN
-    assertThat(error).hasMessageContaining(format("%n"
-                                                  + "Expecting actual:%n"
-                                                  + "  1%n"
-                                                  + "to be less than:%n"
-                                                  + "  0 %n"
-                                                  + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:36)%n"))
-                     .hasMessageContaining(format("%n"
-                                                  + "Expecting actual:%n"
-                                                  + "  1%n"
-                                                  + "to be less than:%n"
-                                                  + "  1 %n"
-                                                  + "at BDDSoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:37)"));
+    //@format:off
+    then(error).hasMessageContainingAll("""
+                                        Expecting actual:
+                                          1
+                                        to be less than:
+                                          0\s
+                                        first 3 stack trace elements:
+                                        """,
+                                        "should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:34)",
+                                        """
+                                        Expecting actual:
+                                          1
+                                        to be less than:
+                                          1\s
+                                        first 3 stack trace elements:
+                                        """,
+                                        "should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:35)");
+    //@format:on
   }
 }

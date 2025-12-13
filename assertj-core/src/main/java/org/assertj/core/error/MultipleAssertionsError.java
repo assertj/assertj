@@ -15,29 +15,38 @@
  */
 package org.assertj.core.error;
 
-import static java.util.stream.Collectors.toList;
-import static org.assertj.core.error.AssertionErrorMessagesAggregator.aggregateErrorMessages;
-
 import java.io.Serial;
 import java.util.List;
 
 import org.assertj.core.description.Description;
+import org.assertj.core.presentation.StandardRepresentation;
 
 public class MultipleAssertionsError extends AssertionError {
 
   @Serial
   private static final long serialVersionUID = -5547434453993413952L;
 
-  private final List<? extends AssertionError> errors;
+  private final Description description;
+  private final Object objectUnderTest;
+  private final List<AssertionError> errors;
 
-  public MultipleAssertionsError(Description description, Object objectUnderTest, List<? extends AssertionError> errors) {
-    super(formatDescription(description) + "%n".formatted() + describesObjectUnderTest(objectUnderTest) + ","
-          + createMessage(errors));
+  public MultipleAssertionsError(Description description, Object objectUnderTest, List<AssertionError> errors) {
+    this.description = description;
+    this.objectUnderTest = objectUnderTest;
     this.errors = errors;
   }
 
-  private static String describesObjectUnderTest(Object objectUnderTest) {
-    return "For %s".formatted(objectUnderTest);
+  @Override
+  public String getMessage() {
+    return StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(this);
+  }
+
+  public Object getObjectUnderTest() {
+    return objectUnderTest;
+  }
+
+  public Description getDescription() {
+    return description;
   }
 
   /**
@@ -45,19 +54,7 @@ public class MultipleAssertionsError extends AssertionError {
    *
    * @return the list of errors
    */
-  public List<? extends AssertionError> getErrors() {
+  public List<AssertionError> getErrors() {
     return errors;
   }
-
-  private static String formatDescription(Description description) {
-    return DescriptionFormatter.instance().format(description);
-  }
-
-  private static String createMessage(List<? extends AssertionError> errors) {
-    List<String> errorsMessage = errors.stream()
-                                       .map(AssertionError::getMessage)
-                                       .collect(toList());
-    return aggregateErrorMessages(errorsMessage);
-  }
-
 }

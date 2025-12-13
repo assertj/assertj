@@ -15,8 +15,7 @@
  */
 package org.example.test;
 
-import static java.lang.String.format;
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.Optional;
@@ -26,9 +25,8 @@ import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.Test;
 
 /**
- * This test has to be in a package other than org.assertj because otherwise the
- * line number information will be removed by the assertj filtering of internal lines.
- * {@link org.assertj.core.util.Throwables#removeAssertJRelatedElementsFromStackTrace}
+ * The assertions classes have to be in a package other than org.assertj to test
+ * the behavior of line numbers for assertions defined outside the assertj package
  */
 class SoftAssertionsLineNumberTest {
 
@@ -42,18 +40,24 @@ class SoftAssertionsLineNumberTest {
     // WHEN
     var error = expectAssertionError(softly::assertAll);
     // THEN
-    assertThat(error).hasMessageContaining(format("%n"
-                                                  + "Expecting actual:%n"
-                                                  + "  1%n"
-                                                  + "to be less than:%n"
-                                                  + "  0 %n"
-                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:40)%n"))
-                     .hasMessageContaining(format("%n"
-                                                  + "Expecting actual:%n"
-                                                  + "  1%n"
-                                                  + "to be less than:%n"
-                                                  + "  1 %n"
-                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:41)"));
+    //@format:off
+    then(error).hasMessageContainingAll("""
+                                        Expecting actual:
+                                          1
+                                        to be less than:
+                                          0\s
+                                        first 3 stack trace elements:
+                                        """,
+                                        "should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:38)",
+                                        """
+                                        Expecting actual:
+                                          1
+                                        to be less than:
+                                          1\s
+                                        first 3 stack trace elements:
+                                        """,
+                                        "should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:39)");
+    //@format:on
   }
 
   @Test
@@ -68,20 +72,34 @@ class SoftAssertionsLineNumberTest {
     // WHEN
     var error = expectAssertionError(softly::assertAll);
     // THEN
-    assertThat(error).hasMessageContaining(format("%n"
-                                                  + "Expecting Optional to contain:%n"
-                                                  + "  \"Foo\"%n"
-                                                  + "but was empty.%n"
-                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:63)%n"))
-                     .hasMessageContaining(format("%n"
-                                                  + "Expecting actual not to be null%n"
-                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:65)%n"))
-                     .hasMessageContaining(format("%n"
-                                                  + "Expecting all elements of:%n"
-                                                  + "  [\"a\", \"b\", \"C\"]%n"
-                                                  + "to match given predicate but this element did not:%n"
-                                                  + "  \"C\"%n"
-                                                  + "at SoftAssertionsLineNumberTest.should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:67)"));
+    //@format:off
+    then(error).hasMessageContainingAll("""
+                                        3 assertion errors:
+
+                                        -- error 1 --
+                                        Expecting Optional to contain:
+                                          "Foo"
+                                        but was empty.
+                                        first 3 stack trace elements:
+                                        """,
+                                        "should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:67)",
+                                        """
+                                        
+                                        -- error 2 --
+                                        Expecting actual not to be null
+                                        first 3 stack trace elements:
+                                        """,
+                                        "should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:69)",
+                                        """
+                                        
+                                        -- error 3 --
+                                        Expecting all elements of:
+                                          ["a", "b", "C"]
+                                        to match given predicate but this element did not:
+                                          "C"
+                                        """,
+                                        "should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:71)");
+    //@format:on
   }
 
 }

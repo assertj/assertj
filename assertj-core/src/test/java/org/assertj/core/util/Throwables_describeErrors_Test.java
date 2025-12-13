@@ -41,7 +41,7 @@ class Throwables_describeErrors_Test {
   }
 
   @Test
-  void should_honor_maxStackTraceElementsDisplayed_setting() {
+  void should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_a_cause() {
     // GIVEN
     StandardRepresentation.setMaxStackTraceElementsDisplayed(10);
     var cause = new RuntimeException("cause message");
@@ -51,19 +51,30 @@ class Throwables_describeErrors_Test {
     // THEN
     then(descriptions).singleElement(STRING)
                       .contains("cause first 10 stack trace elements:");
-    long stackTraceElementCount = descriptions.get(0).lines()
-                                              .filter(line -> line.trim().startsWith("at "))
-                                              .count();
-    then(stackTraceElementCount).isEqualTo(StandardRepresentation.getMaxStackTraceElementsDisplayed());
+    then(countStackTraceElements(descriptions.get(0))).isEqualTo(StandardRepresentation.getMaxStackTraceElementsDisplayed());
   }
 
   @Test
-  void should_return_message_when_error_has_no_cause() {
+  void should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_no_cause() {
     // GIVEN
     var error = new RuntimeException("error message without cause");
     // WHEN
     List<String> descriptions = describeErrors(List.of(error));
     // THEN
-    then(descriptions).containsExactly("error message without cause");
+    then(descriptions).singleElement(STRING)
+                      .startsWith(
+                                  """
+                                      error message without cause
+                                      first 3 stack trace elements:
+                                      """)
+                      .contains("should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_no_cause(Throwables_describeErrors_Test.java:60)");
+    then(countStackTraceElements(descriptions.get(0))).isEqualTo(StandardRepresentation.getMaxStackTraceElementsDisplayed());
   }
+
+  private static long countStackTraceElements(String description) {
+    return description.lines()
+                      .filter(line -> line.trim().startsWith("at "))
+                      .count();
+  }
+
 }

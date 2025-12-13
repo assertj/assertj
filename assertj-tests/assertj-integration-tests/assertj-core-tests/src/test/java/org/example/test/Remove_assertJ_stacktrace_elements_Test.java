@@ -74,10 +74,6 @@ class Remove_assertJ_stacktrace_elements_Test {
   static Stream<ThrowingCallable> stacktrace_should_not_include_assertj_elements_nor_elements_coming_from_assertj() {
     return Stream.of(() -> assertThat(0).isEqualTo(1),
                      () -> assertThat(0).satisfies(x -> assertThat(x).isEqualTo(1)),
-                     () -> assertThat(0).satisfies(x -> {
-                       assertThat(0).satisfies(y -> {
-                         assertThat(2).isEqualTo(1);
-                       });
-                     }));
+                     () -> assertThat(0).satisfies(_ -> assertThat(0).satisfies(_ -> assertThat(2).isEqualTo(1))));
   }
 }
