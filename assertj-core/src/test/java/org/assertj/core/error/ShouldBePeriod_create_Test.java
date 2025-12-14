@@ -27,7 +27,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Hayden Meloche
  */
-class ShouldBePeriod_create_test {
+class ShouldBePeriod_create_Test {
 
   @Test
   void should_create_error_message_for_positive() {

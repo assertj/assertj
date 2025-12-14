@@ -24,13 +24,9 @@ import org.assertj.core.internal.TestDescription;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for
- * <code>{@link org.assertj.core.error.ShouldBeEqualNormalizingPunctuationAndWhitespace#create(org.assertj.core.description.Description, org.assertj.core.presentation.Representation)}</code>
- * .
- *
  * @author Harisha Talanki
  */
-class ShouldBeEqualNormalizingPunctuationAndWhitespace_create_test {
+class ShouldBeEqualNormalizingPunctuationAndWhitespace_create_Test {
 
   @Test
   void should_create_error_message() {
