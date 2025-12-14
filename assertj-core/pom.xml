@@ -205,7 +205,7 @@
               <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit-jupiter.version}</version>
+                <version>${junit-framework.version}</version>
               </dependency>
               <dependency>
                 <groupId>org.opentest4j</groupId>
