@@ -28,7 +28,7 @@
     <spotless.skip>false</spotless.skip>
     <jacoco.skip>true</jacoco.skip> <!-- https://github.com/assertj/assertj/issues/3580 -->
     <!-- Dependency versions -->
-    <byte-buddy.version>1.17.7</byte-buddy.version>
+    <byte-buddy.version>1.18.2</byte-buddy.version>
     <hamcrest.version>3.0</hamcrest.version>
     <!-- Plugin versions -->
     <cdg.pitest.version>1.1.4</cdg.pitest.version>
@@ -112,7 +112,7 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version>33.4.0-jre</version>
+      <version>33.5.0-jre</version>
       <scope>test</scope>
     </dependency>
     <dependency>
