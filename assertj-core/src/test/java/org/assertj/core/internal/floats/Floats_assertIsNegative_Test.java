@@ -57,7 +57,7 @@ class Floats_assertIsNegative_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 6.0f));
+    var error = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), 6.0f));
     // THEN
     then(error).hasMessage(shouldBeLess(6.0f, 0.0f, absValueComparisonStrategy).create());
   }
@@ -65,7 +65,7 @@ class Floats_assertIsNegative_Test extends FloatsBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1.0f));
+    var error = expectAssertionError(() -> floatsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), -1.0f));
     // THEN
     then(error).hasMessage(shouldBeLess(-1.0f, 0.0f, absValueComparisonStrategy).create());
   }

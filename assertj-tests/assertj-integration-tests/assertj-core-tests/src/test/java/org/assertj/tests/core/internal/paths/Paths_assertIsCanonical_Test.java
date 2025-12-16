@@ -35,7 +35,7 @@ class Paths_assertIsCanonical_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsCanonical(INFO, null));
+    var error = expectAssertionError(() -> underTest.assertIsCanonical(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -59,7 +59,7 @@ class Paths_assertIsCanonical_Test extends PathsBaseTest {
     Path file = createFile(tempDir.resolve("file"));
     Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), file);
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsCanonical(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsCanonical(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeCanonicalPath(actual).create());
   }

@@ -80,7 +80,7 @@ class Files_assertIsDirectoryNotContaining_Predicate_Test extends FilesBaseTest 
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryNotContaining(INFO, actual, JAVA_SOURCE));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

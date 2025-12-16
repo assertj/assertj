@@ -32,7 +32,7 @@ class Paths_assertIsSymbolicLink_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsSymbolicLink(INFO, null));
+    var error = expectAssertionError(() -> underTest.assertIsSymbolicLink(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -42,7 +42,7 @@ class Paths_assertIsSymbolicLink_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsSymbolicLink(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsSymbolicLink(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExistNoFollowLinks(actual).create());
   }
@@ -52,7 +52,7 @@ class Paths_assertIsSymbolicLink_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsSymbolicLink(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsSymbolicLink(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeSymbolicLink(actual).create());
   }

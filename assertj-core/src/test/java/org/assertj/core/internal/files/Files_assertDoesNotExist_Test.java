@@ -40,7 +40,7 @@ class Files_assertDoesNotExist_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertDoesNotExist(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertDoesNotExist(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

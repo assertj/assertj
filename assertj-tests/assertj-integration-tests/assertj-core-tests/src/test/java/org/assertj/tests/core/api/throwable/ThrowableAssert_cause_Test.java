@@ -43,7 +43,7 @@ class ThrowableAssert_cause_Test implements NavigationMethodBaseTest<ThrowableAs
     // GIVEN
     Throwable actual = new Throwable();
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).cause());
+    var error = expectAssertionError(() -> assertThat(actual).cause());
     // THEN
     assertThat(error).hasMessage(shouldHaveCause(actual).create());
   }
@@ -53,7 +53,7 @@ class ThrowableAssert_cause_Test implements NavigationMethodBaseTest<ThrowableAs
     // GIVEN
     Throwable actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).cause());
+    var error = expectAssertionError(() -> assertThat(actual).cause());
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

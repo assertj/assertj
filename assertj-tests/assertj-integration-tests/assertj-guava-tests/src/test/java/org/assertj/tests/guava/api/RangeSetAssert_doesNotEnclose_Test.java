@@ -39,7 +39,7 @@ class RangeSetAssert_doesNotEnclose_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotEnclose(closed(0, 1)));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotEnclose(closed(0, 1)));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -74,7 +74,7 @@ class RangeSetAssert_doesNotEnclose_Test {
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 100));
     Range<Integer>[] ranges = array(open(10, 50), open(50, 110));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotEnclose(ranges));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotEnclose(ranges));
     // THEN
     then(error).hasMessage(shouldNotEnclose(actual, ranges, singleton(open(10, 50))).create());
   }

@@ -31,7 +31,7 @@ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertExistsNoFollowLinks(INFO, null));
+    var error = expectAssertionError(() -> underTest.assertExistsNoFollowLinks(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -41,7 +41,7 @@ class Paths_assertExistsNoFollowLinks_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertExistsNoFollowLinks(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertExistsNoFollowLinks(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExistNoFollowLinks(actual).create());
   }

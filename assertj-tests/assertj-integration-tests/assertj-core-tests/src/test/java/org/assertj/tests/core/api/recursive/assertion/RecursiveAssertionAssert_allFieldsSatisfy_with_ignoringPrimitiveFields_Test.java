@@ -42,8 +42,8 @@ class RecursiveAssertionAssert_allFieldsSatisfy_with_ignoringPrimitiveFields_Tes
     Person sherlock = new Person("Sherlock", 60, 1.80);
     Predicate<Object> isString = field -> field instanceof String;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(sherlock).usingRecursiveAssertion()
-                                                                          .allFieldsSatisfy(isString));
+    var error = expectAssertionError(() -> assertThat(sherlock).usingRecursiveAssertion()
+                                                               .allFieldsSatisfy(isString));
     // THEN
     then(error).hasMessageContaining("[age, height]");
   }

@@ -37,7 +37,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
     // GIVEN
     Path other = tempDir.resolve("other");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertEndsWith(INFO, null, other));
+    var error = expectAssertionError(() -> underTest.assertEndsWith(INFO, null, other));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -73,7 +73,7 @@ class Paths_assertEndsWith_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = tempDir.resolve("other");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertEndsWith(INFO, actual, other));
+    var error = expectAssertionError(() -> underTest.assertEndsWith(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldEndWith(actual, other).create());
   }

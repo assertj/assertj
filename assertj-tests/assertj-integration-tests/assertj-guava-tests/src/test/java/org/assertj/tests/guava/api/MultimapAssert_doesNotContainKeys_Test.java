@@ -33,7 +33,7 @@ class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("Nets", "Bulls", "Knicks"));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("Nets", "Bulls", "Knicks"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -57,7 +57,7 @@ class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTest {
     actual.put(null, "apples");
     String key = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKey(key));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotContainKey(key));
     // THEN
     then(error).hasMessage(shouldNotContainKeys(actual, set(key)).create());
   }
@@ -69,7 +69,7 @@ class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTest {
     actual.put(null, "apples");
     String key = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("cheese", key));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("cheese", key));
     // THEN
     then(error).hasMessage(shouldNotContainKeys(actual, set(key)).create());
   }
@@ -88,7 +88,7 @@ class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTest {
   @Test
   void should_fail_if_single_key_is_present() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKey("Bulls"));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotContainKey("Bulls"));
     // THEN
     then(error).hasMessage(shouldNotContainKeys(actual, set("Bulls")).create());
   }
@@ -96,7 +96,7 @@ class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTest {
   @Test
   void should_fail_if_one_key_is_present() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("Bulls", "Knicks"));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("Bulls", "Knicks"));
     // THEN
     then(error).hasMessage(shouldNotContainKeys(actual, set("Bulls")).create());
   }
@@ -104,7 +104,7 @@ class MultimapAssert_doesNotContainKeys_Test extends MultimapAssertBaseTest {
   @Test
   void should_fail_if_multiple_keys_are_present() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("Bulls", "Knicks", "Spurs"));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotContainKeys("Bulls", "Knicks", "Spurs"));
     // THEN
     then(error).hasMessage(shouldNotContainKeys(actual, set("Bulls", "Spurs")).create());
   }

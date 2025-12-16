@@ -59,7 +59,7 @@ class Iterators_assertIsExhausted_Test extends IteratorsBaseTest {
     // GIVEN
     Iterator<String> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterators.assertIsExhausted(INFO, actual));
+    var error = expectAssertionError(() -> iterators.assertIsExhausted(INFO, actual));
     // THEN
     then(error).hasMessage(shouldNotBeNull().create());
   }

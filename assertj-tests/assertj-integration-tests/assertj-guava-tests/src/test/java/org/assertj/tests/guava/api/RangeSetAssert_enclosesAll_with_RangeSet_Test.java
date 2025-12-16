@@ -38,7 +38,7 @@ class RangeSetAssert_enclosesAll_with_RangeSet_Test {
     RangeSet<Integer> actual = null;
     RangeSet<Integer> rangeSet = ImmutableRangeSet.of(closed(0, 1));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).enclosesAll(rangeSet));
+    var error = expectAssertionError(() -> assertThat(actual).enclosesAll(rangeSet));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -76,7 +76,7 @@ class RangeSetAssert_enclosesAll_with_RangeSet_Test {
                                                   .add(closed(120, 150))
                                                   .build();
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).enclosesAll(expected));
+    var error = expectAssertionError(() -> assertThat(actual).enclosesAll(expected));
     // THEN
     then(error).hasMessage(shouldEnclose(actual, expected, List.of(closed(120, 150))).create());
   }

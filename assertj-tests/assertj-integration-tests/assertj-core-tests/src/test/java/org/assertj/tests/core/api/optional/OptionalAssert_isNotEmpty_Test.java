@@ -38,7 +38,7 @@ class OptionalAssert_isNotEmpty_Test {
     // GIVEN
     Optional<String> nullActual = Optional.empty();
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(nullActual).isNotEmpty());
+    var error = expectAssertionError(() -> assertThat(nullActual).isNotEmpty());
     // THEN
     then(error).hasMessage(shouldBePresent(Optional.empty()).create());
   }
@@ -49,7 +49,7 @@ class OptionalAssert_isNotEmpty_Test {
     // GIVEN
     Optional<String> nullActual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(nullActual).isNotEmpty());
+    var error = expectAssertionError(() -> assertThat(nullActual).isNotEmpty());
     // THEN
     then(error).hasMessage(actualIsNull());
   }

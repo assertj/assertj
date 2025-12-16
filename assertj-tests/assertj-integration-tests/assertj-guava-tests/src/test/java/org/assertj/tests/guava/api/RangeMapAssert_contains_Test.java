@@ -41,7 +41,7 @@ class RangeMapAssert_contains_Test extends RangeMapAssertBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).contains(entry(400, "violet")));
+    var error = expectAssertionError(() -> assertThat(actual).contains(entry(400, "violet")));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -73,7 +73,7 @@ class RangeMapAssert_contains_Test extends RangeMapAssertBaseTest {
     // GIVEN
     MapEntry<Integer, String>[] entries = array(entry(400, "violet"), entry(100, "violet"), entry(500, "pink"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).contains(entries));
+    var error = expectAssertionError(() -> assertThat(actual).contains(entries));
     // THEN
     then(error).hasMessage(shouldContain(actual, entries, asList(entry(100, "violet"), entry(500, "pink"))).create());
   }

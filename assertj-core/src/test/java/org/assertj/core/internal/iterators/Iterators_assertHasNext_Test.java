@@ -60,7 +60,7 @@ class Iterators_assertHasNext_Test extends IteratorsBaseTest {
     // GIVEN
     Iterator<String> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterators.assertHasNext(INFO, actual));
+    var error = expectAssertionError(() -> iterators.assertHasNext(INFO, actual));
     // THEN
     then(error).hasMessage(shouldNotBeNull().create());
   }

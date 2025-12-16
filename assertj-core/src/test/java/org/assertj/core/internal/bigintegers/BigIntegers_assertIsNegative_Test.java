@@ -45,8 +45,8 @@ class BigIntegers_assertIsNegative_Test extends BigIntegersBaseTest {
   @Test
   void should_fail_since_actual_is_zero() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
-                                                                                                             BigInteger.ZERO));
+    var error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
+                                                                                                  BigInteger.ZERO));
     // THEN
     then(error).hasMessage(shouldBeLess(BigInteger.ZERO, BigInteger.ZERO, absValueComparisonStrategy).create());
   }
@@ -62,8 +62,8 @@ class BigIntegers_assertIsNegative_Test extends BigIntegersBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
-                                                                                                             BigInteger.valueOf(-1)));
+    var error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
+                                                                                                  BigInteger.valueOf(-1)));
     // THEN
     then(error).hasMessage(shouldBeLess(BigInteger.valueOf(-1), BigInteger.ZERO, absValueComparisonStrategy).create());
   }

@@ -36,7 +36,7 @@ class Files_assertHasNoExtension_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -46,7 +46,7 @@ class Files_assertHasNoExtension_Test extends FilesBaseTest {
     // GIVEN
     File actual = new File("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeFile(actual).create());
   }
@@ -56,7 +56,7 @@ class Files_assertHasNoExtension_Test extends FilesBaseTest {
     // GIVEN
     File actual = tempDir;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeFile(actual).create());
   }
@@ -66,7 +66,7 @@ class Files_assertHasNoExtension_Test extends FilesBaseTest {
     // GIVEN
     File actual = newFile(tempDir.getAbsolutePath() + "/text.txt");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertHasNoExtension(INFO, actual));
     // THEN
     then(error).hasMessage(shouldHaveNoExtension(actual, "txt").create());
   }

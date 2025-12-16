@@ -50,7 +50,7 @@ class Throwables_assertHasSuppressedException_Test extends ThrowablesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, null, new Throwable()));
+    var error = expectAssertionError(() -> throwables.assertHasSuppressedException(INFO, null, new Throwable()));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

@@ -56,8 +56,8 @@ class Shorts_assertIsNegative_Test extends ShortsBaseTest {
   @Test
   void should_fail_since_actual_can_not_be_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
-                                                                                                            (short) 6));
+    var error = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
+                                                                                                 (short) 6));
     // THEN
     then(error).hasMessage(shouldBeLess(6, 0, absValueComparisonStrategy).create());
   }
@@ -65,8 +65,8 @@ class Shorts_assertIsNegative_Test extends ShortsBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
-                                                                                                            (short) -1));
+    var error = expectAssertionError(() -> shortsWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
+                                                                                                 (short) -1));
     // THEN
     then(error).hasMessage(shouldBeLess(-1, 0, absValueComparisonStrategy).create());
   }

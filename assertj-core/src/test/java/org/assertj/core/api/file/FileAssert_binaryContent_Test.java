@@ -21,14 +21,15 @@ import static org.assertj.core.testkit.ClasspathResources.resourceFile;
 import static org.mockito.Mockito.verify;
 
 import java.io.File;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractByteArrayAssert;
 import org.assertj.core.api.FileAssert;
 import org.assertj.core.api.FileAssertBaseTest;
-import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.NavigationMethodWithComparatorBaseTest;
 import org.junit.jupiter.api.Test;
 
-class FileAssert_binaryContent_Test extends FileAssertBaseTest implements NavigationMethodBaseTest<FileAssert> {
+class FileAssert_binaryContent_Test extends FileAssertBaseTest implements NavigationMethodWithComparatorBaseTest<FileAssert> {
 
   @Override
   protected FileAssert invoke_api_method() {

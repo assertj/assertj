@@ -39,7 +39,7 @@ class AbstractAssert_failWithMessage_Test {
   @Test
   void should_fail_with_simple_message() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertion.failWithMessage("fail"));
+    var error = expectAssertionError(() -> assertion.failWithMessage("fail"));
     // THEN
     then(error).hasMessage("fail");
   }
@@ -47,7 +47,7 @@ class AbstractAssert_failWithMessage_Test {
   @Test
   void should_fail_with_message_having_args() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertion.failWithMessage("fail %d %s", 5, "times"));
+    var error = expectAssertionError(() -> assertion.failWithMessage("fail %d %s", 5, "times"));
     // THEN
     then(error).hasMessage("fail 5 times");
   }
@@ -55,7 +55,7 @@ class AbstractAssert_failWithMessage_Test {
   @Test
   void should_keep_description_set_by_user() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertion.as("user description").failWithMessage("fail %d %s", 5, "times"));
+    var error = expectAssertionError(() -> assertion.as("user description").failWithMessage("fail %d %s", 5, "times"));
     // THEN
     then(error).hasMessage("[user description] fail 5 times");
   }
@@ -63,9 +63,9 @@ class AbstractAssert_failWithMessage_Test {
   @Test
   void should_keep_specific_error_message_and_description_set_by_user() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertion.as("test context")
-                                                               .overridingErrorMessage("my %d errors %s %%s", 5, "!")
-                                                               .failWithMessage("%d %s", 5, "time"));
+    var error = expectAssertionError(() -> assertion.as("test context")
+                                                    .overridingErrorMessage("my %d errors %s %%s", 5, "!")
+                                                    .failWithMessage("%d %s", 5, "time"));
     // THEN
     then(error).hasMessage("[test context] my 5 errors ! %s");
   }

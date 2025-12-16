@@ -59,7 +59,7 @@ class ObjectArrays_assertContainsAll_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertContainsAll(INFO, null, list("Yoda")));
+    var error = expectAssertionError(() -> arrays.assertContainsAll(INFO, null, list("Yoda")));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

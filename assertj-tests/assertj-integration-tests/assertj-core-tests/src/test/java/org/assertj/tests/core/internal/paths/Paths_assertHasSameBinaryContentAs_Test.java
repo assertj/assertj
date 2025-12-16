@@ -82,7 +82,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     // GIVEN
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, null, expected));
+    var error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, null, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -93,7 +93,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -106,7 +106,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     actual.toFile().setReadable(false);
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -141,7 +141,7 @@ class Paths_assertHasSameBinaryContentAs_Test extends PathsBaseTest {
     Path expected = Files.write(tempDir.resolve("expected"), expectedContent.getBytes(expectedCharset));
     BinaryDiffResult diff = binaryDiff.diff(actual, expectedContent.getBytes(expectedCharset));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasSameBinaryContentAs(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveBinaryContent(actual, diff).create(INFO.description(), INFO.representation()));
   }

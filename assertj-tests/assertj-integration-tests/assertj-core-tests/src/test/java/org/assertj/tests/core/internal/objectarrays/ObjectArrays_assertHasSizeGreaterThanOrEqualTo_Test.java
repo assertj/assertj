@@ -27,7 +27,7 @@ class ObjectArrays_assertHasSizeGreaterThanOrEqualTo_Test extends ObjectArraysBa
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSizeGreaterThanOrEqualTo(INFO, null, 6));
+    var error = expectAssertionError(() -> arrays.assertHasSizeGreaterThanOrEqualTo(INFO, null, 6));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -35,7 +35,7 @@ class ObjectArrays_assertHasSizeGreaterThanOrEqualTo_Test extends ObjectArraysBa
   @Test
   void should_fail_if_size_of_actual_is_not_greater_than_or_equal_to_boundary() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSizeGreaterThanOrEqualTo(INFO, actual, 6));
+    var error = expectAssertionError(() -> arrays.assertHasSizeGreaterThanOrEqualTo(INFO, actual, 6));
     // THEN
     then(error).hasMessage(shouldHaveSizeGreaterThanOrEqualTo(actual, actual.length, 6).create());
   }

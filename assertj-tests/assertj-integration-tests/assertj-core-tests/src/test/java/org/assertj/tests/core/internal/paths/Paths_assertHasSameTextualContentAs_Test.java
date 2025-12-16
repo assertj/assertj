@@ -86,8 +86,8 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     // GIVEN
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, null, CHARSET, expected,
-                                                                                              CHARSET));
+    var error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, null, CHARSET, expected,
+                                                                                   CHARSET));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -98,8 +98,8 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, actual, CHARSET, expected,
-                                                                                              CHARSET));
+    var error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, actual, CHARSET, expected,
+                                                                                   CHARSET));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -112,8 +112,8 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     actual.toFile().setReadable(false);
     Path expected = createFile(tempDir.resolve("expected"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, actual, CHARSET, expected,
-                                                                                              CHARSET));
+    var error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, actual, CHARSET, expected,
+                                                                                   CHARSET));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -148,8 +148,8 @@ class Paths_assertHasSameTextualContentAs_Test extends PathsBaseTest {
     Path expected = Files.write(tempDir.resolve("expected"), expectedContent.getBytes(expectedCharset));
     List<Delta<String>> diffs = diff.diff(actual, actualCharset, expected, expectedCharset);
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, actual, actualCharset,
-                                                                                              expected, expectedCharset));
+    var error = expectAssertionError(() -> underTest.assertHasSameTextualContentAs(INFO, actual, actualCharset,
+                                                                                   expected, expectedCharset));
     // THEN
     then(error).hasMessage(shouldHaveSameContent(actual, expected, diffs).create(INFO.description(), INFO.representation()));
   }

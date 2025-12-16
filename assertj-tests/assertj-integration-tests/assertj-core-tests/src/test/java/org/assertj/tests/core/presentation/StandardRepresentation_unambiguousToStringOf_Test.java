@@ -517,7 +517,7 @@ class StandardRepresentation_unambiguousToStringOf_Test extends AbstractBaseRepr
     Ambiguous ambiguous1 = new Ambiguous(0, 1);
     Ambiguous ambiguous2 = new Ambiguous(0, 2);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(ambiguous1).isEqualTo(ambiguous2));
+    var error = expectAssertionError(() -> assertThat(ambiguous1).isEqualTo(ambiguous2));
     // THEN
     then(error).hasMessageContaining(unambiguousToStringOf(ambiguous1))
                .hasMessageContaining(unambiguousToStringOf(ambiguous2));

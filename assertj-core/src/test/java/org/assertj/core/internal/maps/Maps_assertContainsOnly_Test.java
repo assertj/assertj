@@ -86,7 +86,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     // GIVEN
     Entry<String, String>[] entries = emptyEntries();
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(INFO, actual, entries, null));
+    var error = expectAssertionError(() -> maps.assertContainsOnly(INFO, actual, entries, null));
     // THEN
     then(error).hasMessage(shouldBeEmpty(actual).create());
   }
@@ -277,7 +277,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     Set<MapEntry<String, List<String>>> notExpected = set(entry("job", list("Jedi")));
     int initialSize = actual.size();
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected, null));
+    var error = expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected, null));
     // THEN
     then(error).hasMessage(shouldContainOnly(actual, expected, notFound, notExpected).create());
     then(actual).hasSize(initialSize);
@@ -293,7 +293,7 @@ class Maps_assertContainsOnly_Test extends MapsBaseTest {
     Set<MapEntry<String, List<String>>> notExpected = set(entry("job", list("Jedi")));
     int initialSize = actual.size();
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected, null));
+    var error = expectAssertionError(() -> maps.assertContainsOnly(info, actual, expected, null));
     // THEN
     then(error).hasMessage(shouldContainOnly(actual, expected, notFound, notExpected).create());
     then(actual).hasSize(initialSize);

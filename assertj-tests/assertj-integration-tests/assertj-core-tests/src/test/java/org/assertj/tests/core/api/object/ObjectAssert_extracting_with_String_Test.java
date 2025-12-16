@@ -16,7 +16,7 @@
 package org.assertj.tests.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.BigDecimalComparator.BIG_DECIMAL_COMPARATOR;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
@@ -24,6 +24,7 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.Optional;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.util.introspection.IntrospectionError;
@@ -36,13 +37,12 @@ import org.junit.jupiter.api.Test;
 class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTest<ObjectAssert<Employee>> {
 
   private Employee luke;
-  private Employee leia;
 
   @BeforeEach
   void setup() {
     luke = new Employee(2L, new Name("Luke", "Skywalker"), 26);
     luke.setAttribute("side", "light");
-    leia = new Employee(2L, new Name("Leia", "Skywalker"), 26);
+    Employee leia = new Employee(2L, new Name("Leia", "Skywalker"), 26);
     luke.setRelation("brother", null);
     luke.setRelation("sister", leia);
     leia.setRelation("brother", luke);
@@ -50,13 +50,11 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
 
   @Test
   void should_allow_assertions_on_property_extracted_from_given_object_by_name() {
-    // WHEN/THEN
     assertThat(luke).extracting("id").isNotNull();
   }
 
   @Test
   void should_allow_assertions_on_nested_property_extracted_from_given_object_by_name() {
-    // WHEN/THEN
     assertThat(luke).extracting("name.first").isEqualTo("Luke");
   }
 
@@ -66,7 +64,7 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
     Person chewbacca = new Person("Chewbacca");
     chewbacca.setNickname(Optional.of("Chewie"));
     // WHEN/THEN
-    assertThat(chewbacca).extracting("nickname.value").isEqualTo("Chewie");
+    then(chewbacca).extracting("nickname.value").isEqualTo("Chewie");
   }
 
   @Test
@@ -97,18 +95,17 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
       throw new IllegalStateException("only supported for BigDecimal");
     };
     // WHEN/THEN
-    assertThat(obiwan).extracting("height")
-                      .usingComparator(heightComparator)
-                      .isEqualTo(new BigDecimal("1.82"));
+    then(obiwan).extracting("height")
+                .usingComparator(heightComparator)
+                .isEqualTo(new BigDecimal("1.82"));
   }
 
   @Test
   void should_throw_IntrospectionError_if_given_field_name_cannot_be_read() {
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(luke).extracting("foo"));
+    var introspectionError = catchThrowableOfType(IntrospectionError.class, () -> assertThat(luke).extracting("foo"));
     // THEN
-    then(thrown).isInstanceOf(IntrospectionError.class)
-                .hasMessageContaining("Can't find any field or property with name 'foo'.");
+    then(introspectionError).hasMessageContaining("Can't find any field or property with name 'foo'.");
   }
 
   // https://github.com/assertj/assertj/issues/3539
@@ -119,7 +116,7 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
     }
     Record actual = new Record("value", true);
     // WHEN/THEN
-    assertThat(actual).extracting("field").isEqualTo("value");
+    then(actual).extracting("field").isEqualTo("value");
   }
 
   @Override
@@ -132,7 +129,7 @@ class ObjectAssert_extracting_with_String_Test implements NavigationMethodBaseTe
     return assertion.extracting("name.first");
   }
 
-  @SuppressWarnings("unused")
+  @SuppressWarnings({ "unused", "FieldCanBeLocal", "OptionalUsedAsFieldOrParameterType" })
   private static class Person {
 
     private final String name;

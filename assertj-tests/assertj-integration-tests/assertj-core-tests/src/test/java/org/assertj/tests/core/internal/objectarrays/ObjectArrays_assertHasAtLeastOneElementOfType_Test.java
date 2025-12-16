@@ -37,7 +37,7 @@ class ObjectArrays_assertHasAtLeastOneElementOfType_Test extends ObjectArraysBas
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasAtLeastOneElementOfType(INFO, null, Integer.class));
+    var error = expectAssertionError(() -> arrays.assertHasAtLeastOneElementOfType(INFO, null, Integer.class));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -50,7 +50,7 @@ class ObjectArrays_assertHasAtLeastOneElementOfType_Test extends ObjectArraysBas
   @Test
   void should_fail_if_no_elements_in_actual_belongs_to_the_expected_type() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasAtLeastOneElementOfType(INFO, array, Float.class));
+    var error = expectAssertionError(() -> arrays.assertHasAtLeastOneElementOfType(INFO, array, Float.class));
     // THEN
     then(error).hasMessage(shouldHaveAtLeastOneElementOfType(array, Float.class).create());
   }

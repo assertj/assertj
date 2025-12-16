@@ -52,7 +52,7 @@ class DefaultAssertionErrorCollector_Test {
   @Test
   void decorated_AssertionFailedError_should_keep_actual_and_expected_values_when_populated() {
     // GIVEN
-    AssertionError error = expectAssertionError(() -> assertThat("foo").isEqualTo("bar"));
+    var error = expectAssertionError(() -> assertThat("foo").isEqualTo("bar"));
     underTest.collectAssertionError(error);
     // WHEN
     AssertionError decoratedError = underTest.assertionErrorsCollected().get(0);

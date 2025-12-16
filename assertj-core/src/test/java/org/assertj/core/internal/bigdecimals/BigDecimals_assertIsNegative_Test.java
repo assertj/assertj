@@ -64,8 +64,8 @@ class BigDecimals_assertIsNegative_Test extends BigDecimalsBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
-                                                                                                             new BigDecimal(-1)));
+    var error = expectAssertionError(() -> numbersWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
+                                                                                                  new BigDecimal(-1)));
     // THEN
     then(error).hasMessage(shouldBeLess(new BigDecimal(-1), BigDecimal.ZERO, absValueComparisonStrategy).create());
   }

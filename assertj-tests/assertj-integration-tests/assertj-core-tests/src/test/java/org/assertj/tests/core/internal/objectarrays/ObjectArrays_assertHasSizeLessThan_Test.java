@@ -27,7 +27,7 @@ class ObjectArrays_assertHasSizeLessThan_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSizeLessThan(INFO, null, 6));
+    var error = expectAssertionError(() -> arrays.assertHasSizeLessThan(INFO, null, 6));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -35,7 +35,7 @@ class ObjectArrays_assertHasSizeLessThan_Test extends ObjectArraysBaseTest {
   @Test
   void should_fail_if_size_of_actual_is_not_less_than_boundary() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSizeLessThan(INFO, actual, 1));
+    var error = expectAssertionError(() -> arrays.assertHasSizeLessThan(INFO, actual, 1));
     // THEN
     then(error).hasMessage(shouldHaveSizeLessThan(actual, actual.length, 1).create());
   }

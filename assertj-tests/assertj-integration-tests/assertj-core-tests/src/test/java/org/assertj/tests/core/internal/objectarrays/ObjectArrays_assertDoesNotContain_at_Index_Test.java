@@ -43,7 +43,7 @@ class ObjectArrays_assertDoesNotContain_at_Index_Test extends ObjectArraysBaseTe
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertDoesNotContain(INFO, null, "Yoda", someIndex()));
+    var error = expectAssertionError(() -> arrays.assertDoesNotContain(INFO, null, "Yoda", someIndex()));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

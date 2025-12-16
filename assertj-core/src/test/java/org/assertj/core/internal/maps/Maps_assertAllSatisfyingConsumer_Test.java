@@ -61,7 +61,7 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   @Test
   void should_fail_if_one_entry_does_not_satisfy_the_given_requirements() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertAllSatisfy(INFO, greatPlayers, (team, player) -> {
+    var error = expectAssertionError(() -> maps.assertAllSatisfy(INFO, greatPlayers, (team, player) -> {
       assertThat(team).isIn("Lakers", "Bulls", "Spurs");
       assertThat(player.getPointsPerGame()).as("%s %s ppg", player.getName().first, player.getName().getLast())
                                            .isLessThan(30);
@@ -80,7 +80,7 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   @Test
   void should_report_all_the_entries_not_satisfying_the_given_requirements() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertAllSatisfy(INFO, greatPlayers, (team, player) -> {
+    var error = expectAssertionError(() -> maps.assertAllSatisfy(INFO, greatPlayers, (team, player) -> {
       assertThat(team).isIn("Lakers", "Bulls", "Spurs");
       assertThat(player.getPointsPerGame()).as("%s %s ppg", player.getName().first, player.getName().getLast())
                                            .isGreaterThanOrEqualTo(30);
@@ -100,7 +100,7 @@ class Maps_assertAllSatisfyingConsumer_Test extends MapsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertAllSatisfy(INFO, null, (team, player) -> {}));
+    var error = expectAssertionError(() -> maps.assertAllSatisfy(INFO, null, (team, player) -> {}));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

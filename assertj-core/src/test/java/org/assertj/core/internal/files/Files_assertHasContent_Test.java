@@ -76,7 +76,7 @@ class Files_assertHasContent_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasContent(INFO, actual, expected, charset));
+    var error = expectAssertionError(() -> underTest.assertHasContent(INFO, actual, expected, charset));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

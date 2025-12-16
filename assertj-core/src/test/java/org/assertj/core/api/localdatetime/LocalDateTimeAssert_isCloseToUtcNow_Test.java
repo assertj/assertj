@@ -46,7 +46,7 @@ class LocalDateTimeAssert_isCloseToUtcNow_Test extends LocalDateTimeAssertBaseTe
     // GIVEN
     LocalDateTime now = now(systemUTC()).minusSeconds(2);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(now).isCloseToUtcNow(within(1, SECONDS)));
+    var error = expectAssertionError(() -> assertThat(now).isCloseToUtcNow(within(1, SECONDS)));
     // THEN
     assertThat(error).hasMessageContaining("within 1 Seconds but difference was 2 Seconds");
   }
@@ -56,7 +56,7 @@ class LocalDateTimeAssert_isCloseToUtcNow_Test extends LocalDateTimeAssertBaseTe
     // GIVEN
     LocalDateTime actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isCloseToUtcNow(within(1, SECONDS)));
+    var error = expectAssertionError(() -> assertThat(actual).isCloseToUtcNow(within(1, SECONDS)));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

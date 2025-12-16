@@ -60,7 +60,7 @@ class Paths_assertIsDirectoryContaining_with_Predicate_Test extends PathsBaseTes
     Path actual = null;
     Predicate<Path> filter = path -> true;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, filter));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, filter));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -71,7 +71,7 @@ class Paths_assertIsDirectoryContaining_with_Predicate_Test extends PathsBaseTes
     Path actual = tempDir.resolve("non-existent");
     Predicate<Path> filter = path -> true;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, filter));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, filter));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -82,7 +82,7 @@ class Paths_assertIsDirectoryContaining_with_Predicate_Test extends PathsBaseTes
     Path actual = createFile(tempDir.resolve("file"));
     Predicate<Path> filter = path -> true;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, filter));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, filter));
     // THEN
     then(error).hasMessage(shouldBeDirectory(actual).create());
   }
@@ -107,7 +107,7 @@ class Paths_assertIsDirectoryContaining_with_Predicate_Test extends PathsBaseTes
     Path actual = createDirectory(tempDir.resolve("actual"));
     Predicate<Path> filter = path -> true;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, filter));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, filter));
     // THEN
     then(error).hasMessage(directoryShouldContain(actual, emptyList(), "the given filter").create());
   }
@@ -129,7 +129,7 @@ class Paths_assertIsDirectoryContaining_with_Predicate_Test extends PathsBaseTes
     Path directory = createDirectory(actual.resolve("directory"));
     Predicate<Path> filter = Files::isRegularFile;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, filter));
+    var error = expectAssertionError(() -> underTest.assertIsDirectoryContaining(INFO, actual, filter));
     // THEN
     then(error).hasMessage(directoryShouldContain(actual, list(directory), "the given filter").create());
   }

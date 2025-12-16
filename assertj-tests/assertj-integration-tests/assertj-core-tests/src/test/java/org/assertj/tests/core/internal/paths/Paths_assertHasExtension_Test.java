@@ -40,7 +40,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = null;
     String expected = "txt";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -51,7 +51,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("non-existent");
     String expected = "txt";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -62,7 +62,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = createDirectory(tempDir.resolve("directory"));
     String expected = "txt";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldBeRegularFile(actual).create());
   }
@@ -86,7 +86,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve(filename));
     String expected = "log";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveExtension(actual, expected).create());
   }
@@ -97,7 +97,7 @@ class Paths_assertHasExtension_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("file.txt"));
     String expected = "log";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveExtension(actual, "txt", expected).create());
   }

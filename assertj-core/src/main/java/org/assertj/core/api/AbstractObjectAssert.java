@@ -638,7 +638,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * The assertion supports custom comparators, configurable with {@link #usingComparatorForType(Comparator, Class)}.
    * <p>
    * Example:
-   * <pre><code class="java"> // from is not mandatory but it makes the assertions more readable
+   * <pre><code class="java">  import static org.assertj.core.api.Assertions.from;
+   * // from is not mandatory but it makes the assertions more readable
    * assertThat(frodo).returns("Frodo", from(TolkienCharacter::getName))
    *                  .returns("Frodo", TolkienCharacter::getName) // no from :(
    *                  .returns(HOBBIT, from(TolkienCharacter::getRace));</code></pre>
@@ -657,6 +658,29 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     Objects objects = getComparatorBasedObjectAssertions(expected);
     objects.assertEqual(info, from.apply(actual), expected);
     return myself;
+  }
+
+  /**
+   * This is an overload of {@link #returns(Object, Function)} with a description that will show up in the error
+   * message if the assertion fails (like calling {@link #as(String, Object...) as(String)} before the assertion).
+   * <p>
+   * Example:
+   * <pre><code class="java"> import static org.assertj.core.api.Assertions.from;
+   * // from is not mandatory but it makes the assertions more readable
+   * assertThat(frodo).returns("Frodo", from(TolkienCharacter::getName), "name check");
+   * // the previous assertion is equivalent to:
+   * assertThat(frodo).as("name check").returns("Frodo", from(TolkienCharacter::getName));</code></pre>
+   *
+   * @param expected    the value the object under test method's call should return.
+   * @param from        {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T>         the expected value type the given {@code method} returns.
+   * @param description the description that you hope to show in return.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if given {@code from} function is null
+   */
+  public <T> SELF returns(T expected, Function<ACTUAL, T> from, String description) {
+    as(description);
+    return returns(expected, from);
   }
 
   /**

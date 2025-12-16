@@ -37,7 +37,7 @@ class Assertions_catchThrowable_Test {
   @Test
   void catchThrowable_should_fail_when_no_exception_is_thrown() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> catchThrowable(() -> {}));
+    var error = expectAssertionError(() -> catchThrowable(() -> {}));
     // THEN
     then(error).hasMessage("Expecting code to raise a Throwable");
   }

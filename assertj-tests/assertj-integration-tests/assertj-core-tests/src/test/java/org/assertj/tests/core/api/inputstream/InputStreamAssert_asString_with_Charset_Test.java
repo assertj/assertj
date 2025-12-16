@@ -43,7 +43,7 @@ class InputStreamAssert_asString_with_Charset_Test {
     // GIVEN
     InputStream actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).asString(UTF_8));
+    var error = expectAssertionError(() -> assertThat(actual).asString(UTF_8));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

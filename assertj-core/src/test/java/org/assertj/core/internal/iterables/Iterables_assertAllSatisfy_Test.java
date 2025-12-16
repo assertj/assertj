@@ -55,7 +55,7 @@ class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
       assertThat(s).startsWith("L");
     };
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertAllSatisfy(someInfo(), actual, restrictions));
+    var error = expectAssertionError(() -> iterables.assertAllSatisfy(someInfo(), actual, restrictions));
     // THEN
     // can't build the exact error message due to internal stack traces
     then(error).hasMessageContaining(format("%n" +
@@ -74,7 +74,7 @@ class Iterables_assertAllSatisfy_Test extends IterablesBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> {
+    var error = expectAssertionError(() -> {
       actual = null;
       assertThat(actual).allSatisfy(null);
     });

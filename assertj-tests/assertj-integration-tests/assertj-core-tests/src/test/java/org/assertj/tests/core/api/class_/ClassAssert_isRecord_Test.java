@@ -36,7 +36,7 @@ class ClassAssert_isRecord_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isRecord());
+    var error = expectAssertionError(() -> assertThat(actual).isRecord());
     // THEN
     then(error).hasMessage(shouldNotBeNull().create());
   }
@@ -49,7 +49,7 @@ class ClassAssert_isRecord_Test {
   })
   void should_fail_if_actual_is_not_a_record(Class<?> actual) {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isRecord());
+    var error = expectAssertionError(() -> assertThat(actual).isRecord());
     // THEN
     then(error).hasMessage(shouldBeRecord(actual).create());
   }

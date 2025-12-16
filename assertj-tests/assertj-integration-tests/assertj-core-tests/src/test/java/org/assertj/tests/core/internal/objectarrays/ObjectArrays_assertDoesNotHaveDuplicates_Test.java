@@ -44,7 +44,7 @@ class ObjectArrays_assertDoesNotHaveDuplicates_Test extends ObjectArraysBaseTest
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertDoesNotHaveDuplicates(INFO, null));
+    var error = expectAssertionError(() -> arrays.assertDoesNotHaveDuplicates(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -72,7 +72,7 @@ class ObjectArrays_assertDoesNotHaveDuplicates_Test extends ObjectArraysBaseTest
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(INFO, null));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotHaveDuplicates(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

@@ -56,7 +56,7 @@ class IteratorAssert_hasNext_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Object> iterator = emptyIterator();
     // WHEN
-    AssertionError error = expectAssertionError(assertThat(iterator)::hasNext);
+    var error = expectAssertionError(assertThat(iterator)::hasNext);
     // THEN
     then(error).hasMessage(shouldHaveNext().create());
   }
@@ -66,7 +66,7 @@ class IteratorAssert_hasNext_Test extends IteratorAssertBaseTest {
     // GIVEN
     Iterator<Object> iterator = null;
     // WHEN
-    AssertionError error = expectAssertionError(assertThat(iterator)::hasNext);
+    var error = expectAssertionError(assertThat(iterator)::hasNext);
     // THEN
     then(error).hasMessage(actualIsNull());
   }

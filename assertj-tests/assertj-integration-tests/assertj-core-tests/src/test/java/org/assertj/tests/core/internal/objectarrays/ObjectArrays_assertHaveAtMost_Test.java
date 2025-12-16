@@ -51,7 +51,7 @@ class ObjectArrays_assertHaveAtMost_Test extends ObjectArraysWithConditionBaseTe
     // GIVEN
     var actual = array("Yoda", "Luke", "Obiwan");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHaveAtMost(INFO, actual, 2, jediPower));
+    var error = expectAssertionError(() -> arrays.assertHaveAtMost(INFO, actual, 2, jediPower));
     // THEN
     then(error).hasMessage(elementsShouldHaveAtMost(actual, 2, jediPower).create());
   }

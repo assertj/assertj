@@ -39,7 +39,7 @@ class RangeSetAssert_doesNotContain_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContain(1));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotContain(1));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -74,7 +74,7 @@ class RangeSetAssert_doesNotContain_Test {
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(1, 10));
     Integer[] values = array(0, 2, 3, 4);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotContain(values));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotContain(values));
     // THEN
     then(error).hasMessage(shouldNotContain(actual, values, array(2, 3, 4)).create());
   }

@@ -33,7 +33,7 @@ class ObjectArrays_assertNullOrEmpty_Test extends ObjectArraysBaseTest {
     // GIVEN
     Integer[] actual = new Integer[] { 5, 8 };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertNullOrEmpty(INFO, actual));
+    var error = expectAssertionError(() -> arrays.assertNullOrEmpty(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeNullOrEmpty(actual).create());
   }

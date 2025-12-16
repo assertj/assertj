@@ -44,8 +44,8 @@ class RecursiveAssertionAssert_allFieldsSatisfy_with_ignoringAllNullFields_Test 
     sherlock.address = new Address(221, null);
     Predicate<Object> isString = field -> field instanceof String;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(sherlock).usingRecursiveAssertion()
-                                                                          .allFieldsSatisfy(isString));
+    var error = expectAssertionError(() -> assertThat(sherlock).usingRecursiveAssertion()
+                                                               .allFieldsSatisfy(isString));
     // THEN
     then(error).hasMessageContaining("[address, address.number, address.street]");
   }

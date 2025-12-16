@@ -41,7 +41,7 @@ class Files_assertIsExecutable_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsExecutable(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsExecutable(INFO, actual));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

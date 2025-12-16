@@ -27,7 +27,7 @@
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <byte-buddy.version>1.17.8</byte-buddy.version>
+    <byte-buddy.version>1.18.2</byte-buddy.version>
   </properties>
 
   <dependencyManagement>
@@ -107,7 +107,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>4.2</version>
+      <version>4.2.5</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -119,19 +119,19 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.19.0</version>
+      <version>3.20.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-text</artifactId>
-      <version>1.14.0</version>
+      <version>1.15.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>7.1.6.Final</version>
+      <version>7.2.0.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -159,7 +159,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>6.2.11</version>
+      <version>7.0.2</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -205,7 +205,7 @@
               <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>${junit-jupiter.version}</version>
+                <version>${junit-framework.version}</version>
               </dependency>
               <dependency>
                 <groupId>org.opentest4j</groupId>

@@ -79,8 +79,8 @@ class Iterables_assertZipSatisfy_Test extends IterablesBaseTest {
     // GIVEN
     other.add("Vader");
     // WHEN
-    AssertionError error = expectAssertionError(() -> iterables.assertZipSatisfy(someInfo(), actual, other,
-                                                                                 (s1, s2) -> assertThat(s1).startsWith(s2)));
+    var error = expectAssertionError(() -> iterables.assertZipSatisfy(someInfo(), actual, other,
+                                                                      (s1, s2) -> assertThat(s1).startsWith(s2)));
     // THEN
     then(error).hasMessageContaining(shouldHaveSameSizeAs(actual, other, actual.size(), other.size()).create());
   }

@@ -52,7 +52,7 @@ class Objects_assertHasToString_Test extends ObjectsBaseTest {
     // GIVEN
     Object object = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasToString(someInfo(), object, "foo"));
+    var error = expectAssertionError(() -> objects.assertHasToString(someInfo(), object, "foo"));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

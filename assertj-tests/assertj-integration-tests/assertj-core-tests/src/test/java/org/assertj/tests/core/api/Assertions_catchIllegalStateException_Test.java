@@ -50,7 +50,7 @@ class Assertions_catchIllegalStateException_Test {
   @Test
   void catchIllegalStateException_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> catchIllegalStateException(() -> {}));
+    var error = expectAssertionError(() -> catchIllegalStateException(() -> {}));
     // THEN
     then(error).hasMessage("Expecting code to raise an IllegalStateException");
   }

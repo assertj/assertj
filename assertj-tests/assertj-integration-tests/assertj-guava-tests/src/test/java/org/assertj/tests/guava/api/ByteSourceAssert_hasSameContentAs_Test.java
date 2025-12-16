@@ -45,7 +45,7 @@ class ByteSourceAssert_hasSameContentAs_Test {
     ByteSource actual = null;
     ByteSource other = ByteSource.wrap(new byte[1]);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSameContentAs(other));
+    var error = expectAssertionError(() -> assertThat(actual).hasSameContentAs(other));
     // THEN
     then(error).isInstanceOf(AssertionError.class)
                .hasMessage(actualIsNull());
@@ -57,7 +57,7 @@ class ByteSourceAssert_hasSameContentAs_Test {
     ByteSource actual = ByteSource.wrap(new byte[1]);
     ByteSource other = ByteSource.wrap(new byte[] { (byte) 1 });
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSameContentAs(other));
+    var error = expectAssertionError(() -> assertThat(actual).hasSameContentAs(other));
     // THEN
     then(error).hasMessage(shouldHaveSameContent(actual, other).create());
   }

@@ -34,7 +34,7 @@ class Paths_assertIsExecutable_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsExecutable(INFO, null));
+    var error = expectAssertionError(() -> underTest.assertIsExecutable(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -44,7 +44,7 @@ class Paths_assertIsExecutable_Test extends PathsBaseTest {
     // GIVEN
     Path actual = tempDir.resolve("non-existent");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsExecutable(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsExecutable(INFO, actual));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -55,7 +55,7 @@ class Paths_assertIsExecutable_Test extends PathsBaseTest {
     // GIVEN
     Path actual = createFile(tempDir.resolve("actual"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsExecutable(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsExecutable(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeExecutable(actual).create());
   }

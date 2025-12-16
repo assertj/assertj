@@ -45,7 +45,7 @@ class Assertions_catchThrowableOfType_Test {
     Exception exception = new Exception("boom !");
     ThrowingCallable code = () -> catchThrowableOfType(RuntimeException.class, codeThrowing(exception));
     // WHEN
-    AssertionError error = expectAssertionError(code);
+    var error = expectAssertionError(code);
     // THEN
     then(error).hasMessage("[Checking code thrown Throwable] " + shouldBeInstance(exception, RuntimeException.class).create());
   }
@@ -63,7 +63,7 @@ class Assertions_catchThrowableOfType_Test {
   @Test
   void catchThrowableOfType_should_fail_if_no_exception_is_thrown() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> catchThrowableOfType(IOException.class, () -> {}));
+    var error = expectAssertionError(() -> catchThrowableOfType(IOException.class, () -> {}));
     // THEN
     then(error).hasMessage("Expecting code to raise an IOException");
   }

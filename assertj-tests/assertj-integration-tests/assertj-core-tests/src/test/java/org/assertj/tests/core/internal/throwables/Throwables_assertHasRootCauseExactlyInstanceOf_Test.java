@@ -43,8 +43,8 @@ class Throwables_assertHasRootCauseExactlyInstanceOf_Test extends ThrowablesBase
     // GIVEN
     Throwable actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> throwables.assertHasRootCauseExactlyInstanceOf(INFO, actual,
-                                                                                                     IOException.class));
+    var error = expectAssertionError(() -> throwables.assertHasRootCauseExactlyInstanceOf(INFO, actual,
+                                                                                          IOException.class));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

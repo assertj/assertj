@@ -62,7 +62,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     // GIVEN
     String[] keys = { "name" };
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(INFO, null, keys));
+    var error = expectAssertionError(() -> maps.assertContainsOnlyKeys(INFO, null, keys));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -259,7 +259,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     Set<String> notExpected = set("job");
     int initialSize = actual.size();
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(info, actual, expected));
+    var error = expectAssertionError(() -> maps.assertContainsOnlyKeys(info, actual, expected));
     // THEN
     then(error).hasMessage(shouldContainOnlyKeys(actual, expected, notFound, notExpected).create());
     then(actual).hasSize(initialSize);
@@ -275,7 +275,7 @@ class Maps_assertContainsOnlyKeys_Test extends MapsBaseTest {
     Set<String> notExpected = set("job");
     int initialSize = actual.size();
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertContainsOnlyKeys(info, actual, expected));
+    var error = expectAssertionError(() -> maps.assertContainsOnlyKeys(info, actual, expected));
     // THEN
     then(error).hasMessage(shouldContainOnlyKeys(actual, expected, notFound, notExpected).create());
     then(actual).hasSize(initialSize);

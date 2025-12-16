@@ -73,7 +73,7 @@ class OptionalDoubleAssert_hasValue_Test {
     // GIVEN
     double expectedValue = 10.0;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(OptionalDouble.empty()).hasValue(expectedValue));
+    var error = expectAssertionError(() -> assertThat(OptionalDouble.empty()).hasValue(expectedValue));
     // THEN
     then(error).hasMessage(shouldContain(expectedValue).create());
   }

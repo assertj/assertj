@@ -34,7 +34,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
     // GIVEN
     Path other = tempDir.resolve("other");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, null, other));
+    var error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, null, other));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -56,7 +56,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = tempDir.resolve("other");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));
+    var error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldEndWith(actual, other).create());
   }
@@ -77,7 +77,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
     Path actual = tryToCreateSymbolicLink(tempDir.resolve("actual"), file);
     Path other = Path.of("file");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));
+    var error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldEndWith(actual, other).create());
   }
@@ -88,7 +88,7 @@ class Paths_assertEndsWithRaw_Test extends PathsBaseTest {
     Path actual = createFile(tempDir.resolve("actual"));
     Path other = Path.of("actual", "..", "actual", ".");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));
+    var error = expectAssertionError(() -> underTest.assertEndsWithRaw(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldEndWith(actual, other).create());
   }

@@ -57,7 +57,7 @@ class Spliterators_assertHasOnlyCharacteristics_Test extends SpliteratorsBaseTes
     // GIVEN
     Spliterator<?> nullActual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, nullActual, DISTINCT));
+    var error = expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, nullActual, DISTINCT));
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }
@@ -67,7 +67,7 @@ class Spliterators_assertHasOnlyCharacteristics_Test extends SpliteratorsBaseTes
     // GIVEN
     Spliterator<?> actual = createSpliterator(Spliterator.SORTED | DISTINCT);
     // WHEN
-    AssertionError error = expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, DISTINCT));
+    var error = expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, DISTINCT));
     // THEN
     assertThat(error).hasMessage(format("%nExpecting spliterator characteristics:%n"
                                         + "  [\"DISTINCT\", \"SORTED\"]%n"
@@ -82,7 +82,7 @@ class Spliterators_assertHasOnlyCharacteristics_Test extends SpliteratorsBaseTes
     // GIVEN
     Spliterator<?> actual = createSpliterator(SORTED | ORDERED);
     // WHEN
-    AssertionError error = expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, DISTINCT, SORTED));
+    var error = expectAssertionError(() -> spliterators.assertHasOnlyCharacteristics(INFO, actual, DISTINCT, SORTED));
     // THEN
     assertThat(error).hasMessage(format("%nExpecting spliterator characteristics:%n"
                                         + "  [\"ORDERED\", \"SORTED\"]%n"

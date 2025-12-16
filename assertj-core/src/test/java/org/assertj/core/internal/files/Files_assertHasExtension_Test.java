@@ -47,7 +47,7 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
     // GIVEN
     String expected = "txt";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, null, expected));
+    var error = expectAssertionError(() -> underTest.assertHasExtension(INFO, null, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -90,7 +90,7 @@ class Files_assertHasExtension_Test extends FilesBaseTest {
     File actual = newFile(tempDir.getAbsolutePath() + "/" + filename);
     String expected = "log";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasExtension(INFO, actual, expected));
     // THEN
     then(error).hasMessage(shouldHaveExtension(actual, expected).create());
   }

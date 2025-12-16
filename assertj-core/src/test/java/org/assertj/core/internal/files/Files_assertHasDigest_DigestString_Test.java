@@ -63,7 +63,7 @@ class Files_assertHasDigest_DigestString_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, digest, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

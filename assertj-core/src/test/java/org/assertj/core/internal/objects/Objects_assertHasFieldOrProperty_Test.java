@@ -52,7 +52,7 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
     // GIVEN
     Object actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrProperty(INFO, actual, "field1"));
+    var error = expectAssertionError(() -> objects.assertHasFieldOrProperty(INFO, actual, "field1"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -63,7 +63,7 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
     Object actual = new Data();
     String fieldName = "unknown_field";
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrProperty(INFO, actual, fieldName));
+    var error = expectAssertionError(() -> objects.assertHasFieldOrProperty(INFO, actual, fieldName));
     // THEN
     then(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
   }
@@ -74,7 +74,7 @@ class Objects_assertHasFieldOrProperty_Test extends ObjectsBaseTest {
     Object actual = new Data();
     String fieldName = "staticField";
     // WHEN
-    AssertionError error = expectAssertionError(() -> objects.assertHasFieldOrProperty(INFO, actual, fieldName));
+    var error = expectAssertionError(() -> objects.assertHasFieldOrProperty(INFO, actual, fieldName));
     // THEN
     then(error).hasMessage(shouldHavePropertyOrField(actual, fieldName).create());
   }

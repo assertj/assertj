@@ -19,12 +19,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.testkit.ClasspathResources.resourcePath;
 import static org.mockito.Mockito.verify;
 
-import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractByteArrayAssert;
-import org.assertj.core.api.NavigationMethodBaseTest;
+import org.assertj.core.api.NavigationMethodWithComparatorBaseTest;
 import org.assertj.core.api.PathAssert;
 import org.assertj.core.api.PathAssertBaseTest;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 /**
  * @author Ashley Scopes
  */
-class PathAssert_binaryContent_Test extends PathAssertBaseTest implements NavigationMethodBaseTest<PathAssert> {
+class PathAssert_binaryContent_Test extends PathAssertBaseTest implements NavigationMethodWithComparatorBaseTest<PathAssert> {
 
   @Override
   protected PathAssert invoke_api_method() {

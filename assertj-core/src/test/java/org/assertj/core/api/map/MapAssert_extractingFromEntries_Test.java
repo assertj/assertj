@@ -16,8 +16,8 @@
 package org.assertj.core.api.map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.data.MapEntry.entry;
 import static org.assertj.core.testkit.Maps.mapOf;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
@@ -46,8 +46,7 @@ class MapAssert_extractingFromEntries_Test {
   @Test
   void should_pass_assertions_on_values_extracted_from_given_extractors() {
     assertThat(map).extractingFromEntries(e -> e.getKey().toString().toUpperCase(), Map.Entry::getValue)
-                   .contains(tuple("NAME", "bepson"),
-                             tuple("AGE", 10));
+                   .contains(tuple("NAME", "bepson"), tuple("AGE", 10));
   }
 
   @Test
@@ -59,22 +58,21 @@ class MapAssert_extractingFromEntries_Test {
   @Test
   void should_keep_existing_description_when_extracting_multiple_values() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).as("check name and age")
-                                                                     .extractingFromEntries(Map.Entry::getKey,
-                                                                                            Map.Entry::getValue)
-                                                                     .isEmpty());
+    var error = expectAssertionError(() -> assertThat(map).as("check name and age")
+                                                          .extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue)
+                                                          .isEmpty());
     // THEN
-    assertThat(error).hasMessageContaining("[check name and age]");
+    then(error).hasMessageContaining("[check name and age]");
   }
 
   @Test
   void should_keep_existing_description_when_extracting_one_value() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).as("check name")
-                                                                     .extractingFromEntries(Map.Entry::getKey)
-                                                                     .isEmpty());
+    var error = expectAssertionError(() -> assertThat(map).as("check name")
+                                                          .extractingFromEntries(Map.Entry::getKey)
+                                                          .isEmpty());
     // THEN
-    assertThat(error).hasMessageContaining("[check name]");
+    then(error).hasMessageContaining("[check name]");
   }
 
   @Test
@@ -82,9 +80,9 @@ class MapAssert_extractingFromEntries_Test {
     // GIVEN
     map = null;
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(map).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue));
+    var error = expectAssertionError(() -> assertThat(map).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -92,8 +90,8 @@ class MapAssert_extractingFromEntries_Test {
     // GIVEN
     map = null;
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(map).extractingFromEntries(Map.Entry::getKey));
+    var error = expectAssertionError(() -> assertThat(map).extractingFromEntries(Map.Entry::getKey));
     // THEN
-    assertThat(error).hasMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 }

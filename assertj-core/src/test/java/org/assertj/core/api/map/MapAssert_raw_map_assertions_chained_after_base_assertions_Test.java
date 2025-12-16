@@ -70,7 +70,6 @@ class MapAssert_raw_map_assertions_chained_after_base_assertions_Test {
                     .overridingErrorMessage("")
                     .withFailMessage("")
                     .withThreadDumpOnError()
-                    .usingDefaultComparator()
                     .containsOnlyKeys("Key1", "Key2");
   }
 

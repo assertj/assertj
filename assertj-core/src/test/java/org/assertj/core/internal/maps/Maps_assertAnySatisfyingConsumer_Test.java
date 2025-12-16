@@ -83,8 +83,7 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
     // GIVEN
     actual.clear();
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(INFO, actual,
-                                                                            ($1, $2) -> assertThat(true).isTrue()));
+    var error = expectAssertionError(() -> maps.assertAnySatisfy(INFO, actual, ($1, $2) -> assertThat(true).isTrue()));
     // THEN
     then(error).hasMessage(elementsShouldSatisfyAny(actual, emptyList(), INFO).create());
   }
@@ -93,7 +92,7 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   void should_fail_if_no_entry_satisfies_the_given_requirements() {
     // WHEN
     BiConsumer<String, String> requirements = ($1, $2) -> assertThat(true).isFalse();
-    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(INFO, actual, requirements));
+    var error = expectAssertionError(() -> maps.assertAnySatisfy(INFO, actual, requirements));
     // THEN
     // can't build the exact error message due to internal stack traces
     then(error).hasMessageStartingWith(format("%n" +
@@ -106,7 +105,7 @@ class Maps_assertAnySatisfyingConsumer_Test extends MapsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> maps.assertAnySatisfy(INFO, null, (team, player) -> {}));
+    var error = expectAssertionError(() -> maps.assertAnySatisfy(INFO, null, (team, player) -> {}));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

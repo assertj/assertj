@@ -37,7 +37,7 @@ class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectArraysBa
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSameSizeAs(INFO, null, list("Solo", "Leia")));
+    var error = expectAssertionError(() -> arrays.assertHasSameSizeAs(INFO, null, list("Solo", "Leia")));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -58,7 +58,7 @@ class ObjectArrays_assertHasSameSizeAs_with_Iterable_Test extends ObjectArraysBa
     // GIVEN
     List<String> other = list("Solo", "Leia");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSameSizeAs(INFO, actual, other));
+    var error = expectAssertionError(() -> arrays.assertHasSameSizeAs(INFO, actual, other));
     // THEN
     then(error).hasMessage(shouldHaveSameSizeAs(actual, other, actual.length, other.size()).create());
   }

@@ -49,7 +49,7 @@ class MapAssert_extractingByKeys_Test implements NavigationMethodBaseTest<MapAss
     // GIVEN
     Map<Object, Object> map = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKeys(NAME, "age"));
+    var error = expectAssertionError(() -> assertThat(map).extractingByKeys(NAME, "age"));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -81,7 +81,7 @@ class MapAssert_extractingByKeys_Test implements NavigationMethodBaseTest<MapAss
   @Test
   void should_use_key_name_as_description() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(map).extractingByKeys(NAME, "age").isEmpty());
+    var error = expectAssertionError(() -> assertThat(map).extractingByKeys(NAME, "age").isEmpty());
     // THEN
     then(error).hasMessageContaining("[Extracted: name, age]");
   }

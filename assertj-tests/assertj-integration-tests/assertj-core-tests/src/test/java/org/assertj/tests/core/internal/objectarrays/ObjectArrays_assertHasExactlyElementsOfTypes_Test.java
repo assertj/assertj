@@ -38,7 +38,7 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasExactlyElementsOfTypes(INFO, null, String.class));
+    var error = expectAssertionError(() -> arrays.assertHasExactlyElementsOfTypes(INFO, null, String.class));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -48,7 +48,7 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
     // GIVEN
     Class<?>[] expected = { String.class, LinkedList.class, Double.class };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasExactlyElementsOfTypes(INFO, ACTUAL, expected));
+    var error = expectAssertionError(() -> arrays.assertHasExactlyElementsOfTypes(INFO, ACTUAL, expected));
     // THEN
     then(error).hasMessage(shouldHaveTypes(ACTUAL, list(expected), list(Double.class), list(Long.class)).create());
   }
@@ -58,7 +58,7 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
     // GIVEN
     Class<?>[] expected = { LinkedList.class, String.class, Long.class };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasExactlyElementsOfTypes(INFO, ACTUAL, expected));
+    var error = expectAssertionError(() -> arrays.assertHasExactlyElementsOfTypes(INFO, ACTUAL, expected));
     // THEN
     then(error).hasMessage(elementsTypesDifferAtIndex(ACTUAL[0], LinkedList.class, 0).create());
   }
@@ -68,7 +68,7 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
     // GIVEN
     Class<?>[] expected = { String.class };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasExactlyElementsOfTypes(INFO, ACTUAL, expected));
+    var error = expectAssertionError(() -> arrays.assertHasExactlyElementsOfTypes(INFO, ACTUAL, expected));
     // THEN
     then(error).hasMessage(shouldHaveTypes(ACTUAL, list(expected), list(), list(LinkedList.class, Long.class)).create());
   }
@@ -78,7 +78,7 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
     // GIVEN
     Class<?>[] expected = { String.class, LinkedList.class, Long.class, Long.class };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasExactlyElementsOfTypes(INFO, ACTUAL, expected));
+    var error = expectAssertionError(() -> arrays.assertHasExactlyElementsOfTypes(INFO, ACTUAL, expected));
     // THEN
     then(error).hasMessage(shouldHaveTypes(ACTUAL, list(expected), list(Long.class), list()).create());
   }
@@ -97,9 +97,9 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
     // GIVEN
     Class<?>[] expected = { String.class, LinkedList.class, Double.class };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertHasExactlyElementsOfTypes(INFO,
-                                                                                                                         ACTUAL,
-                                                                                                                         expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertHasExactlyElementsOfTypes(INFO,
+                                                                                                              ACTUAL,
+                                                                                                              expected));
     // THEN
     then(error).hasMessage(shouldHaveTypes(ACTUAL, list(expected), list(Double.class), list(Long.class)).create());
   }
@@ -109,9 +109,9 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
     // GIVEN
     Class<?>[] expected = { LinkedList.class, String.class, Long.class };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertHasExactlyElementsOfTypes(INFO,
-                                                                                                                         ACTUAL,
-                                                                                                                         expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertHasExactlyElementsOfTypes(INFO,
+                                                                                                              ACTUAL,
+                                                                                                              expected));
     // THEN
     then(error).hasMessage(elementsTypesDifferAtIndex(ACTUAL[0], LinkedList.class, 0).create());
   }
@@ -121,9 +121,9 @@ class ObjectArrays_assertHasExactlyElementsOfTypes_Test extends ObjectArraysBase
     // GIVEN
     Class<?>[] expected = { String.class, LinkedList.class, Long.class, Long.class };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertHasExactlyElementsOfTypes(INFO,
-                                                                                                                         ACTUAL,
-                                                                                                                         expected));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertHasExactlyElementsOfTypes(INFO,
+                                                                                                              ACTUAL,
+                                                                                                              expected));
     // THEN
     then(error).hasMessage(shouldHaveTypes(ACTUAL, list(expected), list(Long.class), list()).create());
   }

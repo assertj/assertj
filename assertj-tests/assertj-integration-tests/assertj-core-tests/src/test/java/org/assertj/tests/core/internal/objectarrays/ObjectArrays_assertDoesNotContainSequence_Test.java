@@ -78,7 +78,7 @@ class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArraysBaseTes
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertDoesNotContainSequence(INFO, null, array("Yoda")));
+    var error = expectAssertionError(() -> arrays.assertDoesNotContainSequence(INFO, null, array("Yoda")));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -113,8 +113,8 @@ class ObjectArrays_assertDoesNotContainSequence_Test extends ObjectArraysBaseTes
   @Test
   void should_fail_if_actual_is_null_whatever_custom_comparison_strategy_is() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(INFO, null,
-                                                                                                                      array("YOda")));
+    var error = expectAssertionError(() -> arraysWithCustomComparisonStrategy.assertDoesNotContainSequence(INFO, null,
+                                                                                                           array("YOda")));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

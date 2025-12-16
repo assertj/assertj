@@ -32,7 +32,7 @@ class Paths_assertIsAbsolute_Test extends PathsBaseTest {
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsAbsolute(INFO, null));
+    var error = expectAssertionError(() -> underTest.assertIsAbsolute(INFO, null));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -43,7 +43,7 @@ class Paths_assertIsAbsolute_Test extends PathsBaseTest {
     // GIVEN
     Path actual = Path.of("relative");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertIsAbsolute(INFO, actual));
+    var error = expectAssertionError(() -> underTest.assertIsAbsolute(INFO, actual));
     // THEN
     then(error).hasMessage(shouldBeAbsolutePath(actual).create());
   }

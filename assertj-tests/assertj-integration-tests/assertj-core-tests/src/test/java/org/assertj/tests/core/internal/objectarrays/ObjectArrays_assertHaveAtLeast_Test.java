@@ -50,7 +50,7 @@ class ObjectArrays_assertHaveAtLeast_Test extends ObjectArraysWithConditionBaseT
     // GIVEN
     var actual = array("Yoda", "Solo", "Leia");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHaveAtLeast(INFO, actual, 2, jediPower));
+    var error = expectAssertionError(() -> arrays.assertHaveAtLeast(INFO, actual, 2, jediPower));
     // THEN
     then(error).hasMessage(elementsShouldHaveAtLeast(actual, 2, jediPower).create());
   }

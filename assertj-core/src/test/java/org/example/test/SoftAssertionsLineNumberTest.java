@@ -40,7 +40,7 @@ class SoftAssertionsLineNumberTest {
           .isLessThan(0)
           .isLessThan(1);
     // WHEN
-    AssertionError error = expectAssertionError(softly::assertAll);
+    var error = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting actual:%n"
@@ -66,7 +66,7 @@ class SoftAssertionsLineNumberTest {
     Predicate<String> lowercasePredicate = s -> s.equals(s.toLowerCase());
     softly.assertThat(lowercasePredicate).accepts("a", "b", "C");
     // WHEN
-    AssertionError error = expectAssertionError(softly::assertAll);
+    var error = expectAssertionError(softly::assertAll);
     // THEN
     assertThat(error).hasMessageContaining(format("%n"
                                                   + "Expecting Optional to contain:%n"

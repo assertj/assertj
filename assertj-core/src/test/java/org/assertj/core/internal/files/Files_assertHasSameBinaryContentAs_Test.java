@@ -80,7 +80,7 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertSameBinaryContentAs(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertSameBinaryContentAs(INFO, actual, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -90,7 +90,7 @@ class Files_assertHasSameBinaryContentAs_Test extends FilesBaseTest {
     // GIVEN
     File notAFile = new File("xyz");
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertSameBinaryContentAs(INFO, notAFile, expected));
+    var error = expectAssertionError(() -> underTest.assertSameBinaryContentAs(INFO, notAFile, expected));
     // THEN
     then(error).hasMessage(shouldBeFile(notAFile).create());
   }

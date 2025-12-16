@@ -39,7 +39,7 @@ class RangeSetAssert_containsAnyOf_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).containsAnyOf(1));
+    var error = expectAssertionError(() -> assertThat(actual).containsAnyOf(1));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -74,7 +74,7 @@ class RangeSetAssert_containsAnyOf_Test {
     RangeSet<Integer> actual = ImmutableRangeSet.of(closed(0, 3));
     Integer[] values = array(4, 5);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).containsAnyOf(values));
+    var error = expectAssertionError(() -> assertThat(actual).containsAnyOf(values));
     // THEN
     then(error).hasMessage(shouldContainAnyOf(actual, values).create());
   }

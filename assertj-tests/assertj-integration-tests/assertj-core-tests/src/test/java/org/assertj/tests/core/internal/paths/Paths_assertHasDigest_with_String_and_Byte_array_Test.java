@@ -93,7 +93,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = "MD5";
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -105,7 +105,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = "MD5";
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(error).hasMessage(shouldExist(actual).create());
   }
@@ -117,7 +117,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = "MD5";
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(error).hasMessage(shouldBeRegularFile(actual).create());
   }
@@ -131,7 +131,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     String algorithm = "MD5";
     byte[] expected = {};
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(error).hasMessage(shouldBeReadable(actual).create());
   }
@@ -159,7 +159,7 @@ class Paths_assertHasDigest_with_String_and_Byte_array_Test extends PathsBaseTes
     MessageDigest digest = MessageDigest.getInstance(algorithm);
     byte[] expected = digest.digest("Another content".getBytes());
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
+    var error = expectAssertionError(() -> underTest.assertHasDigest(INFO, actual, algorithm, expected));
     // THEN
     then(error).hasMessage(shouldHaveDigest(actual, new DigestDiff(toHex(digest.digest(readAllBytes(actual))),
                                                                    toHex(expected),

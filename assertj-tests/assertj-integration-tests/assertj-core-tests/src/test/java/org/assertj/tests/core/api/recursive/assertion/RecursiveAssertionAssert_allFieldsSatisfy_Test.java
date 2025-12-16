@@ -85,8 +85,8 @@ class RecursiveAssertionAssert_allFieldsSatisfy_Test {
     // GIVEN
     Object testObject = objectGraphWithNullValue();
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(testObject).usingRecursiveAssertion()
-                                                                            .allFieldsSatisfy(Objects::nonNull));
+    var error = expectAssertionError(() -> assertThat(testObject).usingRecursiveAssertion()
+                                                                 .allFieldsSatisfy(Objects::nonNull));
     // THEN
     then(error).hasMessageContaining("books.[0].authors.[1].books.[1].authors.[1].email");
   }

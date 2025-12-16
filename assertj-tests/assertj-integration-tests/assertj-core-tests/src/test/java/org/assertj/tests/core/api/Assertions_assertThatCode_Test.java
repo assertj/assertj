@@ -44,7 +44,7 @@ class Assertions_assertThatCode_Test {
     Exception exception = new Exception("boom");
     ThrowingCallable boom = raisingException(exception);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThatCode(boom).doesNotThrowAnyException());
+    var error = expectAssertionError(() -> assertThatCode(boom).doesNotThrowAnyException());
     // THEN
     then(error).hasMessage(shouldNotHaveThrown(exception).create());
   }
@@ -55,7 +55,7 @@ class Assertions_assertThatCode_Test {
     Exception exception = new Exception("boom");
     ThrowingCallable boom = raisingException(exception);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThatCode(boom).doesNotThrowAnyExceptionExcept());
+    var error = expectAssertionError(() -> assertThatCode(boom).doesNotThrowAnyExceptionExcept());
     // THEN
     then(error).hasMessage(shouldNotHaveThrownExcept(exception).create());
   }
@@ -66,8 +66,8 @@ class Assertions_assertThatCode_Test {
     Exception exception = new IllegalArgumentException("boom");
     ThrowingCallable boom = raisingException(exception);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThatCode(boom).doesNotThrowAnyExceptionExcept(IllegalStateException.class,
-                                                                                                          IOException.class));
+    var error = expectAssertionError(() -> assertThatCode(boom).doesNotThrowAnyExceptionExcept(IllegalStateException.class,
+                                                                                               IOException.class));
     // THEN
     then(error).hasMessage(shouldNotHaveThrownExcept(exception, IllegalStateException.class, IOException.class).create());
   }
@@ -77,7 +77,7 @@ class Assertions_assertThatCode_Test {
     // GIVEN
     ThrowingCallable boom = raisingException("boom");
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThatCode(boom).as("Test").doesNotThrowAnyException());
+    var error = expectAssertionError(() -> assertThatCode(boom).as("Test").doesNotThrowAnyException());
     // THEN
     then(error).hasMessageStartingWith("[Test]");
   }
@@ -88,7 +88,7 @@ class Assertions_assertThatCode_Test {
     Exception exception = new Exception("boom");
     ThrowingCallable boom = raisingException(exception);
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThatCode(boom).doesNotThrowAnyException());
+    var error = expectAssertionError(() -> assertThatCode(boom).doesNotThrowAnyException());
     // THEN
     then(error).hasMessageContainingAll("java.lang.Exception: boom",
                                         "at org.assertj.tests.core/org.assertj.tests.core.api.Assertions_assertThatCode_Test.error_message_contains_stacktrace");

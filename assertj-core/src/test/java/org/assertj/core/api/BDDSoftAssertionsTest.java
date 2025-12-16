@@ -937,10 +937,10 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     try (final AutoCloseableBDDSoftAssertions softly = new AutoCloseableBDDSoftAssertions()) {
       softly.then(numbers)
-            .extracting("one", "two")
+            .extractingByKeys("one", "two")
             .containsExactly("1", "2");
       softly.then(numbers)
-            .extracting("one")
+            .extractingByKey("one")
             .isEqualTo("1");
     }
   }
@@ -1680,7 +1680,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(map).containsValues("V1", "V2");
     softly.then(map).doesNotContain(entry("a", "1"), entry("abc", "ABC"));
     softly.then(map).doesNotContainKeys("a", "b");
-    softly.then(map).extracting("a", "b").contains("456");
+    softly.then(map).extractingByKeys("a", "b").contains("456");
     softly.then(iterableMap)
           .flatExtracting("name", "job", "city", "rank")
           .contains("Unexpected", "Builder", "Dover", "Boston", "Paris", 1, 2, 3);

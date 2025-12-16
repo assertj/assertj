@@ -38,7 +38,7 @@ class RangeSetAssert_doesNotEncloseAnyRangesOf_with_RangeSet_Test {
     RangeSet<Integer> actual = null;
     RangeSet<Integer> rangeSet = ImmutableRangeSet.of(closed(0, 1));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotEncloseAnyRangesOf(rangeSet));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotEncloseAnyRangesOf(rangeSet));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -76,7 +76,7 @@ class RangeSetAssert_doesNotEncloseAnyRangesOf_with_RangeSet_Test {
                                                   .add(open(50, 110))
                                                   .build();
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).doesNotEncloseAnyRangesOf(rangeSet));
+    var error = expectAssertionError(() -> assertThat(actual).doesNotEncloseAnyRangesOf(rangeSet));
     // THEN
     then(error).hasMessage(shouldNotEnclose(actual, rangeSet, singleton(open(10, 50))).create());
   }

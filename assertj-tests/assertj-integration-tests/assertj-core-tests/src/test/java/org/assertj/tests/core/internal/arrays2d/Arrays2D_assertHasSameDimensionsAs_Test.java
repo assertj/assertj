@@ -44,7 +44,7 @@ class Arrays2D_assertHasSameDimensionsAs_Test extends Arrays2D_BaseTest {
     // WHEN
     ThrowingCallable assertion = () -> arrays.assertHasSameDimensionsAs(someInfo(), actual,
                                                                         new String[][] { { "a", "b", "c" }, { "d", "e", "f" } });
-    AssertionError error = expectAssertionError(assertion);
+    var error = expectAssertionError(assertion);
     // THEN
     then(error).hasMessage(shouldNotBeNull().create());
   }
@@ -55,7 +55,7 @@ class Arrays2D_assertHasSameDimensionsAs_Test extends Arrays2D_BaseTest {
     // GIVEN
     AssertionInfo info = someInfo();
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasSameDimensionsAs(info, actual, other));
+    var error = expectAssertionError(() -> arrays.assertHasSameDimensionsAs(info, actual, other));
     // THEN
     then(error).hasMessage(shouldHaveSameDimensionsAs(actual, other, actual.length, other.length).create(info.description(),
                                                                                                          info.representation()));

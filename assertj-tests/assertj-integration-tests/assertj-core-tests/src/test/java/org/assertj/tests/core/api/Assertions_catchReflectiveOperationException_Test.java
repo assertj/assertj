@@ -50,7 +50,7 @@ class Assertions_catchReflectiveOperationException_Test {
   @Test
   void catchReflectiveOperationException_should_succeed_and_return_null_if_no_exception_thrown() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> catchReflectiveOperationException(() -> {}));
+    var error = expectAssertionError(() -> catchReflectiveOperationException(() -> {}));
     // THEN
     then(error).hasMessage("Expecting code to raise a ReflectiveOperationException");
   }

@@ -48,7 +48,7 @@ class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArraysBaseTes
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, null, String.class));
+    var error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, null, String.class));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -58,7 +58,7 @@ class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArraysBaseTes
     // GIVEN
     Class<?>[] types = new Class<?>[0];
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, ARRAY, types));
+    var error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, ARRAY, types));
     // THEN
     then(error).hasMessage(shouldOnlyHaveElementsOfTypes(ARRAY, types, list(ARRAY)).create());
   }
@@ -66,8 +66,8 @@ class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArraysBaseTes
   @Test
   void should_fail_if_one_element_in_actual_does_not_belong_to_the_expected_types() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, ARRAY, Long.class,
-                                                                                          String.class));
+    var error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, ARRAY, Long.class,
+                                                                               String.class));
     // THEN
     then(error).hasMessage(shouldOnlyHaveElementsOfTypes(ARRAY, array(Long.class, String.class), list(6, 7.0)).create());
   }
@@ -77,7 +77,7 @@ class ObjectArrays_assertHasOnlyElementsOfTypes_Test extends ObjectArraysBaseTes
     // GIVEN
     Object[] array = array(null, "notNull");
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, array, Long.class));
+    var error = expectAssertionError(() -> arrays.assertHasOnlyElementsOfTypes(INFO, array, Long.class));
     // THEN
     then(error).hasMessage(shouldOnlyHaveElementsOfTypes(array, array(Long.class), list(null, "notNull")).create());
   }

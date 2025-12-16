@@ -35,7 +35,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
     Path actual = null;
     String filename = "actual";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasFileName(INFO, actual, filename));
+    var error = expectAssertionError(() -> underTest.assertHasFileName(INFO, actual, filename));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -58,7 +58,7 @@ class Paths_assertHasFileName_Test extends PathsBaseTest {
     Path actual = tempDir.resolve("actual");
     String filename = "filename";
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasFileName(INFO, null, filename));
+    var error = expectAssertionError(() -> underTest.assertHasFileName(INFO, null, filename));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

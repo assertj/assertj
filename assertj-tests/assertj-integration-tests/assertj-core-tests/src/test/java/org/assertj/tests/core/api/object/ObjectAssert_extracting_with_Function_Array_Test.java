@@ -16,6 +16,7 @@
 package org.assertj.tests.core.api.object;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
@@ -83,13 +84,13 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
   void should_rethrow_any_extractor_function_exception() {
     // GIVEN
     RuntimeException explosion = new RuntimeException("boom!");
-    Function<Employee, Object> bomb = employee -> {
+    Function<Employee, Object> bomb = _ -> {
       throw explosion;
     };
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(luke).extracting(FIRST_NAME, bomb));
+    Throwable throwable = catchThrowable(() -> assertThat(luke).extracting(FIRST_NAME, bomb));
     // THEN
-    then(error).isSameAs(explosion);
+    then(throwable).isSameAs(explosion);
   }
 
   @Test
@@ -97,10 +98,9 @@ class ObjectAssert_extracting_with_Function_Array_Test implements NavigationMeth
     // GIVEN
     Function<? super Employee, ?>[] extractors = null;
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(luke).extracting(extractors));
+    var nullPointerException = catchNullPointerException(() -> assertThat(luke).extracting(extractors));
     // THEN
-    then(error).isInstanceOf(NullPointerException.class)
-               .hasMessage(shouldNotBeNull("extractors").create());
+    then(nullPointerException).hasMessage(shouldNotBeNull("extractors").create());
   }
 
   @Test

@@ -41,7 +41,7 @@ class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends ObjectArrays
   @Test
   void should_fail_if_actual_is_null() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(INFO, null, Integer.class));
+    var error = expectAssertionError(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(INFO, null, Integer.class));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -53,7 +53,7 @@ class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends ObjectArrays
     nonMatchingElementsByType.put(Long.class, newArrayList(8L));
     Class<?>[] unexpectedTypes = { Long.class };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(INFO, array, Long.class));
+    var error = expectAssertionError(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(INFO, array, Long.class));
     // THEN
     then(error).hasMessage(shouldNotHaveAnyElementsOfTypes(array, unexpectedTypes, nonMatchingElementsByType).create());
   }
@@ -65,7 +65,7 @@ class ObjectArrays_assertDoesNotHaveAnyElementsOfTypes_Test extends ObjectArrays
     nonMatchingElementsByType.put(Number.class, newArrayList(6, 7.0, 8L));
     Class<?>[] unexpectedTypes = { Number.class };
     // WHEN
-    AssertionError error = expectAssertionError(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(INFO, array, Number.class));
+    var error = expectAssertionError(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(INFO, array, Number.class));
     // THEN
     then(error).hasMessage(shouldNotHaveAnyElementsOfTypes(array, unexpectedTypes, nonMatchingElementsByType).create());
   }

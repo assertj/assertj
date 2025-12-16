@@ -321,17 +321,18 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    *
    * // this assertion fails with a message representing timeSpent as: 3 days or 72 hours
    * assertThat(timeSpent)
-   *     .withFormatter(formatter);
+   *     .withFormatter(formatter)
    *     .isNull();</code></pre>
    * <p>
    * Example using <a href="https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/time/DurationFormatUtils.html#formatDuration(long,java.lang.String)">org.apache.commons.lang3.time.DurationFormatUtils.formatDuration(long, String)</a>
    * <pre><code class='java'>// this assertion succeeds:
    * assertThat(timeSpent)
    *     .withFormatter(d -> DurationFormatUtils.formatDuration(d.toMillis(), "HH:mm:ss"));
-   *     .hasDays(.);</code></pre>
+   *     .hasDays(3);</code></pre>
    *
    * @param formatter the function to format all Duration objects that are included in error messages.
    * @return this assertion object.
+   * @since 3.28.0
    */
   public SELF withFormatter(Function<Duration, String> formatter) {
     checkArgument(formatter != null, "formatter should not be null");

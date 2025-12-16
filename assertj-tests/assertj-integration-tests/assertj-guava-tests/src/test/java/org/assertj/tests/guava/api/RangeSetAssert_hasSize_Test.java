@@ -33,7 +33,7 @@ class RangeSetAssert_hasSize_Test {
     // GIVEN
     RangeSet<Integer> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSize(5));
+    var error = expectAssertionError(() -> assertThat(actual).hasSize(5));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -47,7 +47,7 @@ class RangeSetAssert_hasSize_Test {
                                                 .add(closed(40, 45))
                                                 .build();
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).hasSize(5));
+    var error = expectAssertionError(() -> assertThat(actual).hasSize(5));
     // THEN
     then(error).isInstanceOf(AssertionError.class)
                .hasMessage(shouldHaveSize(actual, actual.asRanges().size(), 5).create());

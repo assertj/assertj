@@ -34,7 +34,7 @@ class ClassAssert_isSealed_Test {
     // GIVEN
     Class<?> actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isSealed());
+    var error = expectAssertionError(() -> assertThat(actual).isSealed());
     // THEN
     then(error).hasMessage(shouldNotBeNull().create());
   }
@@ -43,7 +43,7 @@ class ClassAssert_isSealed_Test {
   @MethodSource("nonSealed")
   void should_fail_if_actual_is_not_sealed(Class<?> actual) {
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isSealed());
+    var error = expectAssertionError(() -> assertThat(actual).isSealed());
     // THEN
     then(error).hasMessage(shouldBeSealed(actual).create());
   }

@@ -302,7 +302,7 @@ class AbstractTemporalAssert_isCloseTo_Test {
   @MethodSource("parameters")
   void should_fail_when_temporal_passed_as_string_is_outside_offset(ArgumentsAccessor args) {
     // WHEN
-    AssertionError error = expectAssertionError(() -> temporalAssert(args).isCloseTo(farTemporalAsString(args), offset(args)));
+    var error = expectAssertionError(() -> temporalAssert(args).isCloseTo(farTemporalAsString(args), offset(args)));
     // THEN
     then(error).hasMessage(differenceMessage(args));
   }
@@ -335,7 +335,7 @@ class AbstractTemporalAssert_isCloseTo_Test {
     LocalTime other = _07_12;
     TemporalUnitOffset offset = within(Duration.ofMinutes(1));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isCloseTo(other, offset));
+    var error = expectAssertionError(() -> assertThat(actual).isCloseTo(other, offset));
     // THEN
     then(error).hasMessage(shouldBeCloseTo(actual, other, offset.getBeyondOffsetDifferenceDescription(actual, other)).create());
   }
@@ -357,7 +357,7 @@ class AbstractTemporalAssert_isCloseTo_Test {
     LocalTime other = _07_12;
     TemporalUnitOffset offset = byLessThan(Duration.ofMinutes(2));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).isCloseTo(other, offset));
+    var error = expectAssertionError(() -> assertThat(actual).isCloseTo(other, offset));
     // THEN
     then(error).hasMessage(shouldBeCloseTo(actual, other, offset.getBeyondOffsetDifferenceDescription(actual, other)).create());
   }

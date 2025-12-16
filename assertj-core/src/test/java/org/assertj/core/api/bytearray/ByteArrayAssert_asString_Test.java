@@ -44,7 +44,7 @@ class ByteArrayAssert_asString_Test {
     // GIVEN
     byte[] bytes = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(bytes).asString());
+    var error = expectAssertionError(() -> assertThat(bytes).asString());
     // THEN
     assertThat(error).hasMessage(actualIsNull());
   }

@@ -72,7 +72,7 @@ class Files_assertHasBinaryContent_Test extends FilesBaseTest {
     // GIVEN
     File actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
+    var error = expectAssertionError(() -> underTest.assertHasBinaryContent(INFO, actual, expected));
     // THEN
     then(error).hasMessage(actualIsNull());
   }

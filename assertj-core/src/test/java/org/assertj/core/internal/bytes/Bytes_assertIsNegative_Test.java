@@ -60,8 +60,7 @@ class Bytes_assertIsNegative_Test extends BytesBaseTest {
   @Test
   void should_fail_since_actual_is_not_negative_according_to_custom_comparison_strategy() {
     // WHEN
-    AssertionError error = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(),
-                                                                                                           (byte) -1));
+    var error = expectAssertionError(() -> bytesWithAbsValueComparisonStrategy.assertIsNegative(someInfo(), (byte) -1));
     // THEN
     then(error).hasMessage(shouldBeLess((byte) -1, (byte) 0, absValueComparisonStrategy).create());
   }

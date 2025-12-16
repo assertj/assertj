@@ -17,7 +17,7 @@ package org.assertj.tests.core.api.object;
 
 import static java.lang.String.CASE_INSENSITIVE_ORDER;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.Assertions.catchNullPointerException;
 import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotBeEqual.shouldNotBeEqual;
@@ -45,10 +45,9 @@ class ObjectAssert_doesNotReturn_Test {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     // WHEN
-    Throwable thrown = catchThrowable(() -> assertThat(actual).doesNotReturn("Yoda", null));
+    var nullPointerException = catchNullPointerException(() -> assertThat(actual).doesNotReturn("Yoda", null));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class)
-                .hasMessage("The given getter method/Function must not be null");
+    then(nullPointerException).hasMessage("The given getter method/Function must not be null");
   }
 
   @Test
@@ -56,8 +55,8 @@ class ObjectAssert_doesNotReturn_Test {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     // WHEN/THEN
-    assertThat(actual).doesNotReturn("Luke", from(Jedi::getName))
-                      .doesNotReturn("Luke", Jedi::getName);
+    then(actual).doesNotReturn("Luke", from(Jedi::getName))
+                .doesNotReturn("Luke", Jedi::getName);
   }
 
   @Test
@@ -65,7 +64,7 @@ class ObjectAssert_doesNotReturn_Test {
     // GIVEN
     Jedi actual = new Jedi("Yoda", "Green");
     // WHEN/THEN
-    assertThat(actual).doesNotReturn(null, from(Jedi::getName));
+    then(actual).doesNotReturn(null, from(Jedi::getName));
   }
 
   @Test

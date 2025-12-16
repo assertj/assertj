@@ -77,7 +77,7 @@ class RangeAssert_contains_Test {
     // GIVEN
     final Range<Integer> actual = Range.closedOpen(1, 10);
     // when
-    AssertionError error = expectAssertionError(() -> assertThat(actual).contains(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
+    var error = expectAssertionError(() -> assertThat(actual).contains(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
     // THEN
     then(error).hasMessage(format("%nExpecting Range:%n" +
                                   "  [1..10)%n" +

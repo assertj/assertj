@@ -77,7 +77,7 @@ class MultimapAssert_containsAllEntriesOf_Test extends MultimapAssertBaseTest {
     // GIVEN
     actual = null;
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).containsAllEntriesOf(other));
+    var error = expectAssertionError(() -> assertThat(actual).containsAllEntriesOf(other));
     // THEN
     then(error).hasMessage(actualIsNull());
   }
@@ -101,7 +101,7 @@ class MultimapAssert_containsAllEntriesOf_Test extends MultimapAssertBaseTest {
     other.putAll("Spurs", List.of("Tony Parker", "Tim Duncan", "Manu Ginobili"));
     other.putAll("Warriors", List.of("Stephen Curry", "Klay Thompson"));
     // WHEN
-    AssertionError error = expectAssertionError(() -> assertThat(actual).containsAllEntriesOf(other));
+    var error = expectAssertionError(() -> assertThat(actual).containsAllEntriesOf(other));
     // THEN
     then(error).hasMessage(shouldContain(actual, other,
                                          List.of(entry("Warriors", "Stephen Curry"), entry("Warriors", "Klay Thompson")))
