@@ -152,8 +152,13 @@
         <configuration>
           <links>
             <link>https://javadoc.io/static/com.google.guava/guava/${guava.version}</link>
-            <link>https://javadoc.io/static/org.assertj/assertj-core/${project.version}</link>
           </links>
+          <offlineLinks>
+            <offlineLink>
+              <url>https://javadoc.io/static/org.assertj/assertj-core/${project.version}</url>
+              <location>${project.basedir}/../assertj-core/target/site/apidocs</location>
+            </offlineLink>
+          </offlineLinks>
         </configuration>
       </plugin>
       <plugin>
