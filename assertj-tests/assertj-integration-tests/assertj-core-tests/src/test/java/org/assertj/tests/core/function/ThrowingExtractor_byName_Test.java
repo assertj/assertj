@@ -13,34 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.extractor;
+package org.assertj.tests.core.function;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.configuration.ConfigurationProvider.loadRegisteredConfiguration;
 import static org.assertj.core.data.MapEntry.entry;
-import static org.assertj.core.testkit.Maps.mapOf;
+import static org.assertj.core.function.ThrowingExtractor.byName;
 import static org.assertj.core.util.introspection.Introspection.setExtractBareNamePropertyMethods;
+import static org.assertj.tests.core.testkit.Maps.mapOf;
 
 import java.util.Map;
 import java.util.OptionalInt;
 
-import org.assertj.core.testkit.Employee;
-import org.assertj.core.testkit.Name;
-import org.assertj.core.util.introspection.Introspection;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.util.introspection.IntrospectionError;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
+import org.assertj.tests.core.testkit.Employee;
+import org.assertj.tests.core.testkit.Name;
 import org.junit.jupiter.api.Test;
 
-class ByNameSingleExtractorTest {
+class ThrowingExtractor_byName_Test {
 
   private static final Employee YODA = new Employee(1L, new Name("Yoda"), 800);
 
   @Test
   void should_extract_field_values_even_if_property_does_not_exist() {
     // GIVEN
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("id");
+    ThrowingExtractor<Object, Object> underTest = byName("id");
     // WHEN
     Object result = underTest.apply(YODA);
     // THEN
@@ -50,7 +48,7 @@ class ByNameSingleExtractorTest {
   @Test
   void should_extract_property_values_when_no_public_field_match_given_name() {
     // GIVEN
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("age");
+    ThrowingExtractor<Object, Object> underTest = byName("age");
     // WHEN
     Object result = underTest.apply(YODA);
     // THEN
@@ -60,7 +58,7 @@ class ByNameSingleExtractorTest {
   @Test
   void should_extract_pure_property_values() {
     // GIVEN
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("adult");
+    ThrowingExtractor<Object, Object> underTest = byName("adult");
     // WHEN
     Object result = underTest.apply(YODA);
     // THEN
@@ -70,7 +68,7 @@ class ByNameSingleExtractorTest {
   @Test
   void should_throw_error_when_no_property_nor_public_field_match_given_name() {
     // GIVEN
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("unknown");
+    ThrowingExtractor<Object, Object> underTest = byName("unknown");
     // WHEN
     Throwable thrown = catchThrowable(() -> underTest.apply(YODA));
     // THEN
@@ -80,7 +78,7 @@ class ByNameSingleExtractorTest {
   @Test
   void should_throw_exception_when_given_name_is_null() {
     // GIVEN
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor(null);
+    ThrowingExtractor<Object, Object> underTest = byName(null);
     // WHEN
     Throwable thrown = catchThrowable(() -> underTest.apply(YODA));
     // THEN
@@ -91,7 +89,7 @@ class ByNameSingleExtractorTest {
   @Test
   void should_throw_exception_when_given_name_is_empty() {
     // GIVEN
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("");
+    ThrowingExtractor<Object, Object> underTest = byName("");
     // WHEN
     Throwable thrown = catchThrowable(() -> underTest.apply(YODA));
     // THEN
@@ -108,7 +106,7 @@ class ByNameSingleExtractorTest {
         throw new RuntimeException();
       }
     };
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("name");
+    ThrowingExtractor<Object, Object> underTest = byName("name");
     // WHEN
     Object result = underTest.apply(employee);
     // THEN
@@ -124,7 +122,7 @@ class ByNameSingleExtractorTest {
         return new Name("Overridden Name");
       }
     };
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("name");
+    ThrowingExtractor<Object, Object> underTest = byName("name");
     // WHEN
     Object result = underTest.apply(employee);
     // THEN
@@ -140,7 +138,7 @@ class ByNameSingleExtractorTest {
         throw new RuntimeException();
       }
     };
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("adult");
+    ThrowingExtractor<Object, Object> underTest = byName("adult");
     // WHEN
     Throwable thrown = catchThrowable(() -> underTest.apply(employee));
     // THEN
@@ -150,7 +148,7 @@ class ByNameSingleExtractorTest {
   @Test
   void should_throw_exception_if_no_object_is_given() {
     // GIVEN
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("id");
+    ThrowingExtractor<Object, Object> underTest = byName("id");
     // WHEN
     Throwable thrown = catchThrowable(() -> underTest.apply(null));
     // THEN
@@ -161,7 +159,7 @@ class ByNameSingleExtractorTest {
   void should_extract_single_value_from_map_by_key() {
     // GIVEN
     Map<String, Employee> map = mapOf(entry("key", YODA));
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("key");
+    ThrowingExtractor<Object, Object> underTest = byName("key");
     // WHEN
     Object result = underTest.apply(map);
     // THEN
@@ -172,7 +170,7 @@ class ByNameSingleExtractorTest {
   void should_throw_error_from_map_by_non_existing_key() {
     // GIVEN
     Map<String, Employee> map = mapOf(entry("key", YODA));
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("non-existing");
+    ThrowingExtractor<Object, Object> underTest = byName("non-existing");
     // WHEN
     Throwable thrown = catchThrowable(() -> underTest.apply(map));
     // THEN
@@ -183,7 +181,7 @@ class ByNameSingleExtractorTest {
   void should_extract_null_from_map_by_key_with_null_value() {
     // GIVEN
     Map<String, Employee> map = mapOf(entry("key", null));
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("key");
+    ThrowingExtractor<Object, Object> underTest = byName("key");
     // WHEN
     Object result = underTest.apply(map);
     // THEN
@@ -198,7 +196,7 @@ class ByNameSingleExtractorTest {
     darth.field = luke;
     luke.field = darth;
     luke.surname = new Name("Young", "Padawan");
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("me.field.me.field.me.field.surname.name");
+    ThrowingExtractor<Object, Object> underTest = byName("me.field.me.field.me.field.surname.name");
     // WHEN
     Object result = underTest.apply(darth);
     // THEN
@@ -210,7 +208,7 @@ class ByNameSingleExtractorTest {
     // GIVEN
     setExtractBareNamePropertyMethods(true);
     BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("value");
+    ThrowingExtractor<Object, Object> underTest = byName("value");
     // WHEN
     Object result = underTest.apply(holder);
     // THEN
@@ -222,7 +220,7 @@ class ByNameSingleExtractorTest {
     // GIVEN
     setExtractBareNamePropertyMethods(false);
     BareOptionalIntHolder holder = new BareOptionalIntHolder(42);
-    ByNameSingleExtractor underTest = new ByNameSingleExtractor("value");
+    ThrowingExtractor<Object, Object> underTest = byName("value");
     // WHEN
     Object result = underTest.apply(holder);
     // THEN

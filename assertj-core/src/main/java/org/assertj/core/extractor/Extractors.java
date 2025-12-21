@@ -17,6 +17,8 @@ package org.assertj.core.extractor;
 
 import java.util.function.Function;
 import java.util.stream.Stream;
+
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.util.Strings;
 
@@ -37,7 +39,7 @@ public class Extractors {
    * @return the built {@link Function}
    */
   public static Function<Object, String> toStringMethod() {
-    return new ToStringExtractor();
+    return ThrowingExtractor.toStringMethod();
   }
 
   /**
@@ -46,7 +48,7 @@ public class Extractors {
    * @return the built {@link Function}
    */
   public static Function<Object, Object> byName(String fieldOrProperty) {
-    return new ByNameSingleExtractor(fieldOrProperty);
+    return ThrowingExtractor.byName(fieldOrProperty);
   }
 
   /**

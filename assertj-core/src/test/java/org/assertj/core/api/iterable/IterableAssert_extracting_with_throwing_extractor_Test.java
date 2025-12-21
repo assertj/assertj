@@ -31,6 +31,7 @@ import static org.assertj.core.util.Lists.list;
 
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
@@ -41,7 +42,7 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
   private Iterable<Employee> jedis = list(new Employee(1L, new Name("Yoda"), 800),
                                           new Employee(2L, new Name("Luke", "Skywalker"), 26));
 
-  private static final ThrowingExtractor<Employee, Object, Exception> throwingExtractor = employee -> {
+  private static final ThrowingExtractor<Employee, Object> throwingExtractor = employee -> {
     if (employee.getAge() < 20) throw new Exception("age < 20");
     return employee.getName().getFirst();
   };
@@ -61,7 +62,7 @@ class IterableAssert_extracting_with_throwing_extractor_Test {
   @Test
   void should_allow_extracting_with_anonymous_class_throwing_extractor() {
     // GIVEN
-    ThrowingExtractor<Employee, Object, Exception> nameThrowingExtractor = employee -> {
+    ThrowingExtractor<Employee, Object> nameThrowingExtractor = employee -> {
       if (employee.getAge() < 20) throw new Exception("age < 20");
       return employee.getName().getFirst();
     };

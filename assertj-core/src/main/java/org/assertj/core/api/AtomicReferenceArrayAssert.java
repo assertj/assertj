@@ -49,11 +49,11 @@ import org.assertj.core.api.comparisonstrategy.AtomicReferenceArrayElementCompar
 import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.api.filter.FilterOperator;
 import org.assertj.core.api.filter.Filters;
-import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.condition.Not;
 import org.assertj.core.data.Index;
 import org.assertj.core.description.Description;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.groups.FieldsOrPropertiesExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.internal.CommonErrors;
@@ -2273,13 +2273,12 @@ public class AtomicReferenceArrayAssert<T>
    * order.
    *
    * @param <U> the extracted values type
-   * @param <EXCEPTION> the exception type
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.7.0
    */
   @CheckReturnValue
-  public <U, EXCEPTION extends Exception> ObjectArrayAssert<U> extracting(ThrowingExtractor<? super T, U, EXCEPTION> extractor) {
+  public <U> ObjectArrayAssert<U> extracting(ThrowingExtractor<? super T, U> extractor) {
     U[] extracted = FieldsOrPropertiesExtractor.extract(array, extractor);
 
     return new ObjectArrayAssert<>(extracted);
@@ -2360,13 +2359,12 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param <U> the type of elements to extract.
    * @param <C> the type of collection to flat/extract.
-   * @param <EXCEPTION> the exception type
    * @param extractor the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.7.0
    */
   @CheckReturnValue
-  public <U, C extends Collection<U>, EXCEPTION extends Exception> ObjectArrayAssert<U> flatExtracting(ThrowingExtractor<? super T, C, EXCEPTION> extractor) {
+  public <U, C extends Collection<U>> ObjectArrayAssert<U> flatExtracting(ThrowingExtractor<? super T, C> extractor) {
     return doFlatExtracting(extractor);
   }
 

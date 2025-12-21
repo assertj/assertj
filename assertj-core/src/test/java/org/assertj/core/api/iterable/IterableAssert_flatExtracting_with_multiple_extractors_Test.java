@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.assertj.core.api.AbstractListAssert;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.testkit.CaseInsensitiveStringComparator;
 import org.assertj.core.testkit.TolkienCharacter;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,8 +46,8 @@ class IterableAssert_flatExtracting_with_multiple_extractors_Test {
   @SuppressWarnings("deprecation")
   private static final Function<TolkienCharacter, String> name = TolkienCharacter::getName;
   private static final Function<TolkienCharacter, Integer> age = TolkienCharacter::getAge;
-  private static final ThrowingExtractor<TolkienCharacter, String, Exception> nameThrowingExtractor = TolkienCharacter::getName;
-  private static final ThrowingExtractor<TolkienCharacter, Integer, Exception> ageThrowingExtractor = TolkienCharacter::getAge;
+  private static final ThrowingExtractor<TolkienCharacter, String> nameThrowingExtractor = TolkienCharacter::getName;
+  private static final ThrowingExtractor<TolkienCharacter, Integer> ageThrowingExtractor = TolkienCharacter::getAge;
 
   @BeforeEach
   void setUp() {

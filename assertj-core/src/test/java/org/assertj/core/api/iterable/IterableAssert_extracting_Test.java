@@ -23,7 +23,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.GroupAssertTestHelper.comparatorsByTypeOf;
 import static org.assertj.core.api.GroupAssertTestHelper.firstNameFunction;
 import static org.assertj.core.api.GroupAssertTestHelper.lastNameFunction;
-import static org.assertj.core.extractor.Extractors.byName;
+import static org.assertj.core.function.ThrowingExtractor.byName;
 import static org.assertj.core.presentation.UnicodeRepresentation.UNICODE_REPRESENTATION;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_STRING;
 import static org.assertj.core.testkit.AlwaysEqualComparator.ALWAYS_EQUALS_TUPLE;
@@ -42,7 +42,7 @@ import java.util.function.Function;
 
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.extractor.Extractors;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.groups.Tuple;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.testkit.Name;
@@ -66,9 +66,9 @@ class IterableAssert_extracting_Test {
   private final List<TolkienCharacter> fellowshipOfTheRing = new ArrayList<>();
 
   @SuppressWarnings("deprecation")
-  private static final Function<Employee, String> firstName = input -> input.getName().getFirst();
+  private static final ThrowingExtractor<Employee, String> firstName = input -> input.getName().getFirst();
 
-  private static final Function<Employee, Integer> age = Employee::getAge;
+  private static final ThrowingExtractor<Employee, Integer> age = Employee::getAge;
 
   @BeforeEach
   void setUp() {
@@ -221,7 +221,7 @@ class IterableAssert_extracting_Test {
 
   @Test
   void should_allow_extracting_by_toString_method() {
-    assertThat(jedis).extracting(Extractors.toStringMethod())
+    assertThat(jedis).extracting(ThrowingExtractor.toStringMethod())
                      .containsOnly("Employee[id=1, name=Name[first='Yoda', last='null'], age=800]",
                                    "Employee[id=2, name=Name[first='Luke', last='Skywalker'], age=26]");
   }

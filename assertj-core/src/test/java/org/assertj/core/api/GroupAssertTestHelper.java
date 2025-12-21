@@ -17,7 +17,7 @@ package org.assertj.core.api;
 
 import java.util.function.Function;
 
-import org.assertj.core.api.iterable.ThrowingExtractor;
+import org.assertj.core.function.ThrowingExtractor;
 import org.assertj.core.internal.TypeComparators;
 import org.assertj.core.testkit.Employee;
 import org.assertj.core.util.introspection.PropertyOrFieldSupport;
@@ -34,7 +34,7 @@ public class GroupAssertTestHelper {
 
   public static final Function<Employee, String> lastNameFunction = employee -> employee.name.getLast();
   public static final Function<Employee, String> firstNameFunction = employee -> employee.name.first;
-  public static final ThrowingExtractor<Employee, String, Exception> throwingFirstNameExtractor = employee -> employee.name.first;
-  public static final ThrowingExtractor<Employee, String, Exception> throwingLastNameExtractor = employee -> employee.name.getLast();
+  public static final ThrowingExtractor<Employee, String> throwingFirstNameExtractor = employee -> employee.name.first;
+  public static final ThrowingExtractor<Employee, String> throwingLastNameExtractor = employee -> employee.name.getLast();
 
 }
