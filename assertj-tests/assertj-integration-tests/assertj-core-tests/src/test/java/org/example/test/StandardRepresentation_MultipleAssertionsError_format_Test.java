@@ -74,7 +74,7 @@ class StandardRepresentation_MultipleAssertionsError_format_Test {
                              
                              -- error 2 --
                              expected: "bar"
-                              but was: "baz\"""");
+                              but was: "baz\"""".replaceAll("\\n", System.lineSeparator()));
     //@format:on
   }
 
@@ -106,7 +106,7 @@ class StandardRepresentation_MultipleAssertionsError_format_Test {
                             expected: "bar"
                              but was: "baz"
                             first 2 stack trace elements:
-                            """);
+                            """.replaceAll("\\n", System.lineSeparator()));
     //@format:on
   }
 
@@ -131,7 +131,7 @@ class StandardRepresentation_MultipleAssertionsError_format_Test {
                                 "bar"
                               
                               first 100 stack trace elements:
-                              """)
+                              """.replaceAll("\\n", System.lineSeparator()))
                   .doesNotContain("remaining lines not displayed");
     //@format:on
   }
@@ -165,7 +165,7 @@ class StandardRepresentation_MultipleAssertionsError_format_Test {
                                            "foo"
                                          to start with:
                                            "bar"
-                                         """);
+                                         """.replaceAll("\\n", System.lineSeparator()));
     //@format:on
   }
 }

@@ -69,7 +69,7 @@ class MultipleAssertionsError_getMessage_Test {
         -- error 1 --
         boom
         first 3 stack trace elements:
-        """);
+        """.replaceAll("\\n", System.lineSeparator()));
   }
 
   @Test
@@ -86,7 +86,7 @@ class MultipleAssertionsError_getMessage_Test {
         -- error 1 --
         boom
         first 3 stack trace elements:
-        """);
+        """.replaceAll("\\n", System.lineSeparator()));
   }
 
   @Test
@@ -111,7 +111,7 @@ class MultipleAssertionsError_getMessage_Test {
                                         -- error 1 --
                                         Expecting empty but was: [""]
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:96)",
                                         """
 
@@ -119,14 +119,14 @@ class MultipleAssertionsError_getMessage_Test {
                                         [isEmpty list]\s
                                         Expecting empty but was: ["a", "b", "c"]
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:97)",
                                         """
 
                                         -- error 3 --
                                         Expecting empty but was: "abc"
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:98)",
                                         """
 
@@ -134,7 +134,7 @@ class MultipleAssertionsError_getMessage_Test {
                                         [isEmpty string]\s
                                         Expecting empty but was: "abc"
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:99)",
                                         """
 
@@ -142,7 +142,7 @@ class MultipleAssertionsError_getMessage_Test {
                                         expected: "bcd"
                                          but was: "abc"
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:100)",
                                         """
 
@@ -151,7 +151,7 @@ class MultipleAssertionsError_getMessage_Test {
                                         expected: "bcd"
                                          but was: "abc"
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:101)",
                                         """
 
@@ -165,7 +165,7 @@ class MultipleAssertionsError_getMessage_Test {
                                           ["e"]
 
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:102)",
                                         """
 
@@ -179,7 +179,7 @@ class MultipleAssertionsError_getMessage_Test {
                                           ["a"]
 
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:102)",
                                         """
 
@@ -192,7 +192,7 @@ class MultipleAssertionsError_getMessage_Test {
                                           ["e"]
 
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:103)",
                                         """
 
@@ -205,7 +205,7 @@ class MultipleAssertionsError_getMessage_Test {
                                           ["a"]
 
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:103)");
     //@format:on
   }
@@ -236,7 +236,7 @@ class MultipleAssertionsError_getMessage_Test {
         -- error 1 --
         boom
         first 3 stack trace elements:
-        """);
+        """.replaceAll("\\n", System.lineSeparator()));
   }
 
   @Test

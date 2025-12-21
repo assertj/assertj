@@ -44,7 +44,7 @@ class AutoClosableSoftAssertionsLineNumberTest {
                                         to be less than:
                                           0\s
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:35)",
                                         """
                                         Expecting actual:
@@ -52,7 +52,7 @@ class AutoClosableSoftAssertionsLineNumberTest {
                                         to be less than:
                                           1\s
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_print_line_numbers_of_failed_assertions(AutoClosableSoftAssertionsLineNumberTest.java:36)");
     //@format:on
   }

@@ -47,7 +47,7 @@ class SoftAssertionsLineNumberTest {
                                         to be less than:
                                           0\s
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:38)",
                                         """
                                         Expecting actual:
@@ -55,7 +55,7 @@ class SoftAssertionsLineNumberTest {
                                         to be less than:
                                           1\s
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_print_line_numbers_of_failed_assertions(SoftAssertionsLineNumberTest.java:39)");
     //@format:on
   }
@@ -81,14 +81,14 @@ class SoftAssertionsLineNumberTest {
                                           "Foo"
                                         but was empty.
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:67)",
                                         """
                                         
                                         -- error 2 --
                                         Expecting actual not to be null
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:69)",
                                         """
                                         
@@ -97,7 +97,7 @@ class SoftAssertionsLineNumberTest {
                                           ["a", "b", "C"]
                                         to match given predicate but this element did not:
                                           "C"
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_print_line_numbers_of_failed_assertions_even_if_it_came_from_nested_calls(SoftAssertionsLineNumberTest.java:71)");
     //@format:on
   }

@@ -62,12 +62,9 @@ class Throwables_describeErrors_Test {
     List<String> descriptions = describeErrors(List.of(error));
     // THEN
     then(descriptions).singleElement(STRING)
-                      .startsWith(
-                                  """
-                                      error message without cause
-                                      first 3 stack trace elements:
-                                      """)
-                      .contains("should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_no_cause(Throwables_describeErrors_Test.java:60)");
+                      .startsWith("error message without cause")
+                      .containsSubsequence("first 3 stack trace elements:",
+                                           "should_honor_maxStackTraceElementsDisplayed_setting_when_exception_has_no_cause(Throwables_describeErrors_Test.java:60)");
     then(countStackTraceElements(descriptions.get(0))).isEqualTo(StandardRepresentation.getMaxStackTraceElementsDisplayed());
   }
 

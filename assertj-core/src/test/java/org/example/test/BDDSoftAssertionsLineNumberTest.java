@@ -43,7 +43,7 @@ class BDDSoftAssertionsLineNumberTest {
                                         to be less than:
                                           0\s
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:34)",
                                         """
                                         Expecting actual:
@@ -51,7 +51,7 @@ class BDDSoftAssertionsLineNumberTest {
                                         to be less than:
                                           1\s
                                         first 3 stack trace elements:
-                                        """,
+                                        """.replaceAll("\\n", System.lineSeparator()),
                                         "should_print_line_numbers_of_failed_assertions(BDDSoftAssertionsLineNumberTest.java:35)");
     //@format:on
   }
