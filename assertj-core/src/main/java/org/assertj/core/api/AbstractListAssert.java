@@ -46,7 +46,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                          ACTUAL extends List<? extends ELEMENT>,
                                          ELEMENT,
-                                         ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+                                         ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>
        implements IndexedObjectEnumerableAssert<SELF, ELEMENT> {
 // @format:on

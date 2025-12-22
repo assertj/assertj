@@ -25,10 +25,10 @@ package org.assertj.core.api;
 public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNavigableIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
                                                  ACTUAL extends Iterable<? extends ELEMENT>, 
                                                  ELEMENT, 
-                                                 ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+                                                 ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
 
-  private AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
+  private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
 
 
   /**
@@ -66,6 +66,11 @@ public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNaviga
                                              AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     super(actual, selfType);
     this.assertFactory = assertFactory;
+  }
+
+  @Override
+  public final <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractIterableAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
+    return new FactoryBasedNavigableIterableAssert<>(actual, FactoryBasedNavigableIterableAssert.class, assertFactory);
   }
 
   @Override
