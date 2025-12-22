@@ -26,10 +26,10 @@ import java.util.List;
 public class FactoryBasedNavigableListAssert<SELF extends FactoryBasedNavigableListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
                                              ACTUAL extends List<? extends ELEMENT>, 
                                              ELEMENT, 
-                                             ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+                                             ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
          
-  private AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
+  private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
 
   /**
    * @deprecated
@@ -66,6 +66,11 @@ public class FactoryBasedNavigableListAssert<SELF extends FactoryBasedNavigableL
                                          AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     super(actual, selfType);
     this.assertFactory = assertFactory;
+  }
+
+  @Override
+  public final <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractListAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
+    return new FactoryBasedNavigableListAssert<>(actual, FactoryBasedNavigableListAssert.class, assertFactory);
   }
 
   @Override

@@ -106,7 +106,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                              ACTUAL extends Iterable<? extends ELEMENT>,
                                              ELEMENT,
-                                             ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+                                             ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractAssert<SELF, ACTUAL>
        implements ObjectEnumerableAssert<SELF, ELEMENT> {
 //@format:on
@@ -123,10 +123,25 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     super(actual, selfType);
 
     if (actual instanceof SortedSet) {
+      @SuppressWarnings("unchecked")
       SortedSet<ELEMENT> sortedSet = (SortedSet<ELEMENT>) actual;
       Comparator<? super ELEMENT> comparator = sortedSet.comparator();
       if (comparator != null) usingElementComparator(sortedSet.comparator());
     }
+  }
+
+  /**
+   *
+   *
+   * @param assertFactory
+   * @return
+   * @param <ASSERT>
+   * @since 3.28.0
+   */
+  public <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractIterableAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
+    throw new UnsupportedOperationException(String.format("The assertion object does not override the `withElementAssert(AssertFactory)` method. "
+                                                          + "Please report this issue the maintainers of %s.",
+                                                          getClass().getName()));
   }
 
   /**
@@ -2616,7 +2631,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * <p>The recursive algorithm employs cycle detection, so object graphs with cyclic references can safely be asserted over without causing looping.</p>
    *
-   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the   
+   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
@@ -3255,7 +3270,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Filters the iterable under test keeping only elements matching the given assertions specified with a {@link ThrowingConsumer}.
    * <p>
    * This is the same assertion as {@link #filteredOnAssertions(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example: check young hobbits whose age &lt; 34:
    *
@@ -3518,8 +3533,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Allow to perform assertions on the elements corresponding to the given indices 
-   * (the iterable {@link Iterable} under test is changed to an iterable with the selected elements).  
+   * Allow to perform assertions on the elements corresponding to the given indices
+   * (the iterable {@link Iterable} under test is changed to an iterable with the selected elements).
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
@@ -3699,7 +3714,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions on that element, 
+   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions on that element,
    * the assertions are strongly typed according to the given {@link AssertFactory} parameter.
    * <p>
    * This is a shorthand for <code>hasSize(1).first(assertFactory)</code>.
