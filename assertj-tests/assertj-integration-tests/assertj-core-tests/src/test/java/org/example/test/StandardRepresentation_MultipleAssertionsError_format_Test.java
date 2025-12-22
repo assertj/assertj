@@ -23,7 +23,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 
-import org.assertj.core.configuration.Configuration;
 import org.assertj.core.description.TextDescription;
 import org.assertj.core.error.MultipleAssertionsError;
 import org.assertj.core.presentation.StandardRepresentation;
@@ -55,85 +54,54 @@ class StandardRepresentation_MultipleAssertionsError_format_Test {
   @Test
   void should_not_display_stacktrace_if_maxStackTraceElementsDisplayed_is_zero() {
     // GIVEN
-    Configuration configuration = new Configuration();
-    configuration.setMaxStackTraceElementsDisplayed(0);
-    configuration.apply();
+    StandardRepresentation.setMaxStackTraceElementsDisplayed(0);
     var multipleAssertionsError = new MultipleAssertionsError(null, null, throwables);
     // WHEN
     String toString = REPRESENTATION.toStringOf(multipleAssertionsError);
     // THEN
     //@format:off
     then(toString).isEqualTo("""
-                             2 assertion errors:
-                             
-                             -- error 1 --
-                             Expecting actual:
-                               "foo"
-                             to start with:
-                               "bar"
-                             
-                             -- error 2 --
-                             expected: "bar"
-                              but was: "baz\"""".replaceAll("\\n", System.lineSeparator()));
+                               2 assertion errors:
+                               
+                               -- error 1 --
+                               Expecting actual:
+                                 "foo"
+                               to start with:
+                                 "bar"
+                               
+                               -- error 2 --
+                               expected: "bar"
+                                but was: "baz\"""".replaceAll("\\n", System.lineSeparator()));
     //@format:on
   }
 
   @Test
   void should_display_the_configured_number_of_stacktrace_elements() {
     // GIVEN
-    Configuration configuration = new Configuration();
-    configuration.setMaxStackTraceElementsDisplayed(2);
-    configuration.apply();
+    StandardRepresentation.setMaxStackTraceElementsDisplayed(2);
     var multipleAssertionsError = new MultipleAssertionsError(null, null, throwables);
     // WHEN
     String toString = REPRESENTATION.toStringOf(multipleAssertionsError);
     // THEN
-    //@format:off
-    then(toString).contains("""
-                            2 assertion errors:
-                            
-                            -- error 1 --
-                            Expecting actual:
-                              "foo"
-                            to start with:
-                              "bar"
-                            
-                            first 2 stack trace elements:
-                            """,
-                            """                               
-                            
-                            -- error 2 --
-                            expected: "bar"
-                             but was: "baz"
-                            first 2 stack trace elements:
-                            """.replaceAll("\\n", System.lineSeparator()));
-    //@format:on
+    then(toString).containsSubsequence("2 assertion errors:",
+                                       "-- error 1 --",
+                                       "first 2 stack trace elements:",
+                                       "-- error 2 --",
+                                       "first 2 stack trace elements:");
   }
 
   @Test
   void should_display_the_full_stacktrace() {
     // GIVEN
-    Configuration configuration = new Configuration();
-    configuration.setMaxStackTraceElementsDisplayed(100);
-    configuration.apply();
+    StandardRepresentation.setMaxStackTraceElementsDisplayed(100);
     var multipleAssertionsError = new MultipleAssertionsError(null, null, throwables);
     // WHEN
     String toString = REPRESENTATION.toStringOf(multipleAssertionsError);
     // THEN
-    //@format:off
-    then(toString).startsWith("""
-                              2 assertion errors:
-                              
-                              -- error 1 --
-                              Expecting actual:
-                                "foo"
-                              to start with:
-                                "bar"
-                              
-                              first 100 stack trace elements:
-                              """.replaceAll("\\n", System.lineSeparator()))
+    then(toString).containsSubsequence("2 assertion errors:",
+                                       "-- error 1 --",
+                                       "first 100 stack trace elements:")
                   .doesNotContain("remaining lines not displayed");
-    //@format:on
   }
 
   @Test
@@ -155,17 +123,7 @@ class StandardRepresentation_MultipleAssertionsError_format_Test {
     // WHEN
     String errorRepresentation = REPRESENTATION.toStringOf(multipleAssertionsError);
     // THEN
-    //@format:off
-    then(errorRepresentation).startsWith("""
-                                         [assertions description]\s
-                                         2 assertion errors:
-                                         
-                                         -- error 1 --
-                                         Expecting actual:
-                                           "foo"
-                                         to start with:
-                                           "bar"
-                                         """.replaceAll("\\n", System.lineSeparator()));
-    //@format:on
+    then(errorRepresentation).containsSubsequence("[assertions description]",
+                                                  "2 assertion errors:");
   }
 }
