@@ -245,6 +245,7 @@
               <bnd><![CDATA[
                 Import-Package:\
                   net.bytebuddy.*,\
+                  org.opentest4j;resolution:="optional",\
                   !org.assertj.core.*,\
                   *;resolution:="optional"
                 Multi-Release: true
