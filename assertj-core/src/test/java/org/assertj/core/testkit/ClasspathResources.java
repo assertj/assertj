@@ -15,7 +15,7 @@
  */
 package org.assertj.core.testkit;
 
-import static org.junit.platform.commons.support.ReflectionSupport.findAllResourcesInPackage;
+import static org.junit.platform.commons.support.ResourceSupport.findAllResourcesInPackage;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -23,7 +23,9 @@ import java.net.URI;
 import java.net.URL;
 import java.nio.file.Path;
 import java.util.List;
-import org.junit.platform.commons.support.Resource;
+
+import org.junit.platform.commons.io.Resource;
+import org.junit.platform.commons.io.ResourceFilter;
 
 public class ClasspathResources {
 
@@ -44,7 +46,8 @@ public class ClasspathResources {
   }
 
   public static URI resourceURI(String resourceName) {
-    List<Resource> resources = findAllResourcesInPackage("", resource -> resource.getName().equals(resourceName));
+    ResourceFilter filter = ResourceFilter.of(resource -> resource.getName().equals(resourceName));
+    List<Resource> resources = findAllResourcesInPackage("", filter);
     if (resources.size() != 1) throw new IllegalStateException("Unique resource not found: " + resources);
     return resources.get(0).getUri();
   }
