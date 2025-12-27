@@ -49,6 +49,11 @@
       <artifactId>junit-jupiter</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.opentest4j</groupId>
+      <artifactId>opentest4j</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
