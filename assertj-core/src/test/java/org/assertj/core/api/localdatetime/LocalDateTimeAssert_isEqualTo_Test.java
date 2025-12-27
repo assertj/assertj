@@ -17,14 +17,14 @@ package org.assertj.core.api.localdatetime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import java.time.LocalDateTime;
 import java.time.chrono.ChronoLocalDateTime;
 import java.time.chrono.JapaneseChronology;
 import java.time.chrono.JapaneseDate;
-import java.time.format.DateTimeParseException;
 
 import org.assertj.core.api.AbstractLocalDateTimeAssertBaseTest;
 import org.assertj.core.api.LocalDateTimeAssert;
@@ -54,7 +54,7 @@ class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAssertBase
     verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), NOW);
     verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), YESTERDAY);
     verify(objects).assertEqual(getInfo(assertions), getActual(assertions), null);
-    verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), otherType);
+    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), otherType);
   }
 
   @Test
@@ -66,11 +66,6 @@ class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAssertBase
     // THEN
     assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the LocalDateTime to compare actual with should not be null");
-  }
-
-  @Test
-  void should_fail_if_given_localDateTime_as_string_parameter_cant_be_parsed() {
-    assertThatThrownBy(() -> assertions.isEqualTo("not a LocalDateTime")).isInstanceOf(DateTimeParseException.class);
   }
 
   @Test
@@ -91,5 +86,16 @@ class LocalDateTimeAssert_isEqualTo_Test extends AbstractLocalDateTimeAssertBase
     Object nowInJapaneseChronology = JapaneseChronology.INSTANCE.localDateTime(NOW);
     // WHEN/THEN
     assertThat(NOW).isEqualTo(nowInJapaneseChronology);
+  }
+
+  @Test
+  void should_fail_with_assertion_error_if_string_parameter_cannot_be_parsed() {
+    // GIVEN
+    String invalidDateString = "not a LocalDateTime";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(NOW).isEqualTo(invalidDateString));
+    // THEN
+    then(assertionError).hasMessageContaining(NOW.toString())
+                        .hasMessageContaining(invalidDateString);
   }
 }
