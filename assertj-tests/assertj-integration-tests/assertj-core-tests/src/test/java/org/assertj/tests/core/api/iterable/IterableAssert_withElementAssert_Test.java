@@ -29,8 +29,8 @@ class IterableAssert_withElementAssert_Test {
   void should_allow_chaining_element_specific_assertions_with_factory_returning_concrete_assertion() {
     // GIVEN
     Iterable<String> actual = List.of("Homer", "Marge");
-    AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
     AssertFactory<String, StringAssert> assertFactory = StringAssert::new;
+    AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
     // WHEN
     AbstractIterableAssert<?, Iterable<? extends String>, String, StringAssert> result = underTest.withElementAssert(assertFactory);
     // THEN
