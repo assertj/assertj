@@ -50,6 +50,16 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
     super(actual, selfType);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * @param <ASSERT> the type of the assertion to be created when a navigation method is invoked
+   * @param assertFactory the factory responsible for creating an {@link ASSERT} instance from an {@link ELEMENT};
+   *                      must not be {@code null}.
+   * @return an {@link AbstractCollectionAssert} whose element assertions are created using the given {@code assertFactory};
+   *         the returned instance allows fluent type-specific assertions when navigating to a specific element.
+   * @since 3.28.0
+   */
   @Override
   public <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractCollectionAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
     return new FactoryBasedCollectionAssert<>(actual, assertFactory);
