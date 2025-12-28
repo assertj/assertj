@@ -71,11 +71,6 @@ public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNaviga
     this.assertFactory = assertFactory;
   }
 
-  @Override
-  public final <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractIterableAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
-    return new FactoryBasedNavigableIterableAssert<>(actual, FactoryBasedNavigableIterableAssert.class, assertFactory);
-  }
-
   @SuppressWarnings("unchecked")
   @Override
   public ELEMENT_ASSERT toAssert(ELEMENT value, String description) {

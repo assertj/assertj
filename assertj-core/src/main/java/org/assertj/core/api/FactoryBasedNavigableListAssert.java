@@ -76,11 +76,6 @@ public class FactoryBasedNavigableListAssert<SELF extends FactoryBasedNavigableL
   }
 
   @Override
-  public final <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractListAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
-    return new FactoryBasedNavigableListAssert<>(actual, FactoryBasedNavigableListAssert.class, assertFactory);
-  }
-
-  @Override
   public ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
     return assertFactory.createAssert(value).as(description);
   }

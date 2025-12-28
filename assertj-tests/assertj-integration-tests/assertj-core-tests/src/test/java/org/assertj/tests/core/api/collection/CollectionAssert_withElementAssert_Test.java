@@ -18,7 +18,9 @@ import java.util.Collection;
 import java.util.List;
 
 import org.assertj.core.api.AbstractCharSequenceAssert;
+import org.assertj.core.api.AbstractCollectionAssert;
 import org.assertj.core.api.AssertFactory;
+import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.StringAssert;
 import org.junit.jupiter.api.Test;
 
@@ -28,24 +30,28 @@ class CollectionAssert_withElementAssert_Test {
   void should_allow_chaining_element_specific_assertions_with_factory_returning_concrete_assertion() {
     // GIVEN
     Collection<String> actual = List.of("Homer", "Marge");
+    AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
     AssertFactory<String, StringAssert> assertFactory = StringAssert::new;
-    // WHEN/THEN
-    assertThat(actual).withElementAssert(assertFactory)
-                      .hasSize(2)
-                      .first()
-                      .startsWith("Hom");
+    // WHEN
+    AbstractCollectionAssert<?, Collection<? extends String>, String, StringAssert> result = underTest.withElementAssert(assertFactory);
+    // THEN
+    result.hasSize(2)
+          .first()
+          .startsWith("Hom");
   }
 
   @Test
   void should_allow_chaining_element_specific_assertions_with_factory_returning_assertion_superclass() {
     // GIVEN
     Collection<String> actual = List.of("Homer", "Marge");
+    AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
     AssertFactory<String, AbstractCharSequenceAssert<?, String>> assertFactory = StringAssert::new;
-    // WHEN/THEN
-    assertThat(actual).withElementAssert(assertFactory)
-                      .hasSize(2)
-                      .first()
-                      .startsWith("Hom");
+    // WHEN
+    AbstractCollectionAssert<?, Collection<? extends String>, String, AbstractCharSequenceAssert<?, String>> result = underTest.withElementAssert(assertFactory);
+    // THEN
+    result.hasSize(2)
+          .first()
+          .startsWith("Hom");
   }
 
 }

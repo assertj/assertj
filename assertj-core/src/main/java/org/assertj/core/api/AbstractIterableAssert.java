@@ -142,9 +142,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.28.0
    */
   public <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractIterableAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
-    throw new UnsupportedOperationException(String.format("The assertion object does not override the `withElementAssert(AssertFactory)` method. "
-                                                          + "Please report this issue to the maintainers of %s.",
-                                                          getClass().getName()));
+    return new FactoryBasedNavigableIterableAssert<>(actual, FactoryBasedNavigableIterableAssert.class, assertFactory);
   }
 
   /**

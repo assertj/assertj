@@ -58,6 +58,11 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
     super(actual, selfType);
   }
 
+  @Override
+  public <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractListAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
+    return new FactoryBasedNavigableListAssert<>(actual, FactoryBasedNavigableListAssert.class, assertFactory);
+  }
+
   /** {@inheritDoc} */
   @Override
   public SELF contains(ELEMENT value, Index index) {
