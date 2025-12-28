@@ -43,7 +43,7 @@ import org.assertj.core.util.VisibleForTesting;
 public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                          ACTUAL extends List<? extends ELEMENT>,
                                          ELEMENT,
-                                         ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+                                         ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>
        implements IndexedObjectEnumerableAssert<SELF, ELEMENT> {
 // @format:on
@@ -53,6 +53,21 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
 
   protected AbstractListAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @param <ASSERT> the type of the assertion to be created when a navigation method is invoked
+   * @param assertFactory the factory responsible for creating an {@link ASSERT} instance from an {@link ELEMENT};
+   *                      must not be {@code null}.
+   * @return an {@link AbstractListAssert} whose element assertions are created using the given {@code assertFactory};
+   *         the returned instance allows fluent type-specific assertions when navigating to a specific element.
+   * @since 3.28.0
+   */
+  @Override
+  public <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractListAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
+    return new FactoryBasedNavigableListAssert<>(actual, FactoryBasedNavigableListAssert.class, assertFactory);
   }
 
   /** {@inheritDoc} */

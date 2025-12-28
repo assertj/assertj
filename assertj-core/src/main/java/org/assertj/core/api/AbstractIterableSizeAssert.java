@@ -16,7 +16,7 @@ package org.assertj.core.api;
 public abstract class AbstractIterableSizeAssert<SELF extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
                                                  ACTUAL extends Iterable<? extends ELEMENT>, 
                                                  ELEMENT, 
-                                                 ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+                                                 ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractIntegerAssert<AbstractIterableSizeAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>> {
 //@format:on
 
