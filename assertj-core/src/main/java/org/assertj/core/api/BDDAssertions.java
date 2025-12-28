@@ -787,7 +787,7 @@ public class BDDAssertions extends Assertions {
    * The preferred way is to use navigation method overload that expects an {@link InstanceOfAssertFactory} parameter.
    * For example, one of them is
    * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}:
-   * <pre><code class='java'>assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   * <pre><code class='java'>then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
    *                    .startsWith("fro")
    *                    .endsWith("do");</code></pre>
    *
@@ -796,7 +796,7 @@ public class BDDAssertions extends Assertions {
    * <p>
    * Otherwise, the element assertion factory can be configured on the assertion object via
    * {@link AbstractIterableAssert#withElementAssert(AssertFactory) withElementAssert}:
-   * <pre><code class='java'>assertThat(hobbits).withElementAssert(StringAssert::new)
+   * <pre><code class='java'>then(hobbits).withElementAssert(StringAssert::new)
    *                   .first()
    *                   .startsWith("fro")
    *                   .endsWith("do");</code></pre>
