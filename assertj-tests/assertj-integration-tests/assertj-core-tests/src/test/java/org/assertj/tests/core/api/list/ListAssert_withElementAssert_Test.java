@@ -29,8 +29,8 @@ class ListAssert_withElementAssert_Test {
   void should_allow_chaining_element_specific_assertions_with_factory_returning_concrete_assertion() {
     // GIVEN
     List<String> actual = List.of("Homer", "Marge");
-    AbstractListAssert<?, List<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
     AssertFactory<String, StringAssert> assertFactory = StringAssert::new;
+    AbstractListAssert<?, List<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
     // WHEN
     AbstractListAssert<?, List<? extends String>, String, StringAssert> result = underTest.withElementAssert(assertFactory);
     // THEN
@@ -43,8 +43,8 @@ class ListAssert_withElementAssert_Test {
   void should_allow_chaining_element_specific_assertions_with_factory_returning_assertion_superclass() {
     // GIVEN
     List<String> actual = List.of("Homer", "Marge");
-    AbstractListAssert<?, List<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
     AssertFactory<String, AbstractCharSequenceAssert<?, String>> assertFactory = StringAssert::new;
+    AbstractListAssert<?, List<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
     // WHEN
     AbstractListAssert<?, List<? extends String>, String, AbstractCharSequenceAssert<?, String>> result = underTest.withElementAssert(assertFactory);
     // THEN

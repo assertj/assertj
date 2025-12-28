@@ -30,8 +30,8 @@ class CollectionAssert_withElementAssert_Test {
   void should_allow_chaining_element_specific_assertions_with_factory_returning_concrete_assertion() {
     // GIVEN
     Collection<String> actual = List.of("Homer", "Marge");
-    AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
     AssertFactory<String, StringAssert> assertFactory = StringAssert::new;
+    AbstractCollectionAssert<?, Collection<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
     // WHEN
     AbstractCollectionAssert<?, Collection<? extends String>, String, StringAssert> result = underTest.withElementAssert(assertFactory);
     // THEN
