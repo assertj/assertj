@@ -1308,7 +1308,7 @@ public final class BDDAssumptions extends Assumptions {
    *}</code></pre>
    *
    * @param <T> the type of elements of the actual objects' array.
-   * @param actual the actual objects' array to be validated..
+   * @param actual the actual objects' array to be validated.
    * @return the {@link AbstractObjectArrayAssert} assertion object to be used for assumptions.
    * @since 3.14.0
    */
@@ -1338,7 +1338,7 @@ public final class BDDAssumptions extends Assumptions {
    *}</code></pre>
    *
    * @param <T> the type of elements of the actual objects' two-dimensional array.
-   * @param actual the actual objects' two-dimensional array to be validated..
+   * @param actual the actual objects' two-dimensional array to be validated.
    * @return the {@link Object2DArrayAssert} assertion object to be used for assumptions.
    * @since 3.17.0
    */

@@ -18,8 +18,8 @@ package org.assertj.core.error;
 import java.util.Set;
 
 /**
- * Creates an error message indicating that an assertion that verifies a map contains a key..
- * 
+ * Creates an error message indicating that an assertion that verifies a map contains a key.
+ *
  * @author Nicolas François
  * @author Joel Costigliola
  */
@@ -27,7 +27,7 @@ public class ShouldContainKeys extends BasicErrorMessageFactory {
 
   /**
    * Creates a new <code>{@link ShouldContainKeys}</code>.
-   * 
+   *
    * @param <K> key type
    * @param actual the actual value in the failed assertion.
    * @param keys the expected keys
