@@ -232,19 +232,24 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * >ISO LocalTime format</a> to allow calling {@link LocalTime#parse(CharSequence)} method.
    * <p>
    * Example :
-   * <pre><code class='java'> // you can express expected LocalTime as String (AssertJ taking care of the conversion)
+   * <pre><code class='java'> // use String in comparison to avoid writing the code to perform the conversion
    * assertThat(parse("13:00:00")).isEqualTo("13:00:00");</code></pre>
    *
    * @param localTimeAsString String representing a {@link LocalTime}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalTime} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link LocalTime}.
+   * @throws IllegalArgumentException if given String is null.
    * @throws AssertionError if the actual {@code LocalTime} is not equal to the {@link LocalTime} built from
-   *           given String.
+   * given String.
    */
   public SELF isEqualTo(String localTimeAsString) {
     assertLocalTimeAsStringParameterIsNotNull(localTimeAsString);
-    return isEqualTo(parse(localTimeAsString));
+    try {
+      return isEqualTo(parse(localTimeAsString));
+    } catch (DateTimeParseException e) {
+      // Fallback to object comparison if parsing fails (Fixes #4021)
+      return isEqualTo((Object) localTimeAsString);
+    }
   }
 
   /**
