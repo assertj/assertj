@@ -18,7 +18,7 @@ package org.assertj.core.error;
 import org.assertj.core.api.Condition;
 
 /**
- * Creates an error message indicating that an assertion that verifies a map contains a key..
+ * Creates an error message indicating that an assertion that verifies a map contains a key.
  */
 public class ShouldContainKey extends BasicErrorMessageFactory {
 

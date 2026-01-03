@@ -20,7 +20,7 @@ import java.util.Map;
 import org.assertj.core.api.Condition;
 
 /**
- * Creates an error message indicating that an assertion that verifies a map contains an entry..
+ * Creates an error message indicating that an assertion that verifies a map contains an entry.
  */
 public class ShouldContainEntry extends BasicErrorMessageFactory {
 
