@@ -29,39 +29,25 @@ import java.util.Collection;
  *
  * @since 3.21.0
  */
-public class CollectionAssert<SELF extends CollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-                              ACTUAL extends Collection<? extends ELEMENT>,
-                              ELEMENT,
-                              ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
-  extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
+public class CollectionAssert<ELEMENT> extends
+    AbstractCollectionAssert<CollectionAssert<ELEMENT>, Collection<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
-  private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
-
-  public static <ELEMENT> AbstractCollectionAssert<?, Collection<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThatCollection(Collection<? extends ELEMENT> actual) {
+  public static <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThatCollection(Collection<? extends E> actual) {
     return new CollectionAssert<>(actual);
   }
 
-  @SuppressWarnings("unchecked")
-  public CollectionAssert(ACTUAL actual) {
+  public CollectionAssert(Collection<? extends ELEMENT> actual) {
     super(actual, CollectionAssert.class);
-    this.assertFactory = value -> (ELEMENT_ASSERT) new ObjectAssert<>(value);
   }
 
-  CollectionAssert(ACTUAL actual, AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
-    super(actual, CollectionAssert.class);
-    this.assertFactory = assertFactory;
-  }
-
-  @SuppressWarnings("unchecked")
   @Override
-  protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
-    return assertFactory.createAssert(value).as(description);
+  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
+    return new ObjectAssert<>(value).as(description);
   }
 
-  @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
-  protected SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
-    return (SELF) new CollectionAssert(newArrayList(iterable));
+  protected CollectionAssert<ELEMENT> newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
+    return new CollectionAssert<>(newArrayList(iterable));
   }
 
 }

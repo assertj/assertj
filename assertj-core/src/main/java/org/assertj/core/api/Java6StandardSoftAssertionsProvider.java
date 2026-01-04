@@ -213,13 +213,13 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
   /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    *
-   * @param <E> the actual element's type.
+   * @param <T> the actual element's type.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.21.0
    */
   @SuppressWarnings("unchecked")
-  default <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThat(Collection<? extends E> actual) {
+  default <T> CollectionAssert<T> assertThat(Collection<? extends T> actual) {
     return proxy(CollectionAssert.class, Collection.class, actual);
   }
 
@@ -229,12 +229,12 @@ public interface Java6StandardSoftAssertionsProvider extends SoftAssertionsProvi
    * Use this over {@link #assertThat(Collection)} in case of ambiguous method resolution when the object under test 
    * implements several interfaces Assertj provides <code>assertThat</code> for. 
    *
-   * @param <E> the type of elements.
+   * @param <T> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.23.0
    */
-  default <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> assertThatCollection(Collection<? extends E> actual) {
+  default <T> CollectionAssert<T> assertThatCollection(Collection<? extends T> actual) {
     return assertThat(actual);
   }
 
