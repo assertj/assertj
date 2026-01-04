@@ -44,7 +44,7 @@ public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListA
    * <p>
    * The preferred way is to use navigation method overload that expects an {@link InstanceOfAssertFactory} parameter.
    * For example, one of them is
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}:
+   * {@link AbstractListAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}:
    * <pre><code class='java'>assertThat(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
    *                    .startsWith("fro")
    *                    .endsWith("do");</code></pre>
@@ -53,7 +53,7 @@ public class ClassBasedNavigableListAssert<SELF extends ClassBasedNavigableListA
    * preferred way to create type-specific assertions in AssertJ API.
    * <p>
    * Otherwise, the element assertion factory can be configured on the assertion object via
-   * {@link AbstractIterableAssert#withElementAssert(AssertFactory) withElementAssert}:
+   * {@link AbstractListAssert#withElementAssert(AssertFactory) withElementAssert}:
    * <pre><code class='java'>assertThat(hobbits).withElementAssert(StringAssert::new)
    *                   .first()
    *                   .startsWith("fro")
