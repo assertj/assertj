@@ -62,7 +62,7 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
    */
   @Override
   public <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractCollectionAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
-    return new FactoryBasedCollectionAssert<>(actual, assertFactory);
+    return new FactoryBasedAssert<>(actual, assertFactory);
   }
 
   /**
@@ -150,21 +150,26 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
     return Collections.emptyList();
   }
 
+  /**
+   * This class exists to maintain binary compatibility in version 3 and will be merged into {@link CollectionAssert}
+   * in version 4.
+   */
   // @format:off
-  private static class FactoryBasedCollectionAssert<SELF extends FactoryBasedCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
-                                     ACTUAL extends Collection<? extends ELEMENT>,
-                                     ELEMENT,
-                                     ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
+  private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
+                                          ACTUAL extends Collection<? extends ELEMENT>,
+                                          ELEMENT,
+                                          ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
   // @format:on
 
     private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
 
-    private FactoryBasedCollectionAssert(ACTUAL actual, AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
-      super(actual, FactoryBasedCollectionAssert.class);
+    private FactoryBasedAssert(ACTUAL actual, AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+      super(actual, FactoryBasedAssert.class);
       this.assertFactory = assertFactory;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
       return assertFactory.createAssert(value).as(description);
@@ -173,7 +178,7 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
     @SuppressWarnings("unchecked")
     @Override
     protected SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
-      return (SELF) new FactoryBasedCollectionAssert<>(newArrayList(iterable), assertFactory);
+      return (SELF) new FactoryBasedAssert<>(newArrayList(iterable), assertFactory);
     }
 
   }

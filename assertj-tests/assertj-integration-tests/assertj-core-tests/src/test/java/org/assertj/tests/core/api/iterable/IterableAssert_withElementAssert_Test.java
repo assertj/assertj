@@ -14,6 +14,7 @@ package org.assertj.tests.core.api.iterable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.assertj.core.api.AbstractCharSequenceAssert;
@@ -21,36 +22,75 @@ import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AssertFactory;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.StringAssert;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class IterableAssert_withElementAssert_Test {
 
-  @Test
-  void should_allow_chaining_element_specific_assertions_with_factory_returning_concrete_assertion() {
-    // GIVEN
-    Iterable<String> actual = List.of("Homer", "Marge");
-    AssertFactory<String, StringAssert> assertFactory = StringAssert::new;
-    AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
-    // WHEN
-    AbstractIterableAssert<?, Iterable<? extends String>, String, StringAssert> result = underTest.withElementAssert(assertFactory);
-    // THEN
-    result.hasSize(2)
-          .first()
-          .startsWith("Hom");
+  @Nested
+  class With_List {
+
+    @Test
+    void should_allow_chaining_element_specific_assertions_with_factory_returning_concrete_assertion() {
+      // GIVEN
+      Iterable<String> actual = List.of("Homer", "Marge");
+      AssertFactory<String, StringAssert> assertFactory = StringAssert::new;
+      AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
+      // WHEN
+      AbstractIterableAssert<?, Iterable<? extends String>, String, StringAssert> result = underTest.withElementAssert(assertFactory);
+      // THEN
+      result.hasSize(2)
+            .first()
+            .startsWith("Hom");
+    }
+
+    @Test
+    void should_allow_chaining_element_specific_assertions_with_factory_returning_assertion_superclass() {
+      // GIVEN
+      Iterable<String> actual = List.of("Homer", "Marge");
+      AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
+      AssertFactory<String, AbstractCharSequenceAssert<?, String>> assertFactory = StringAssert::new;
+      // WHEN
+      AbstractIterableAssert<?, Iterable<? extends String>, String, AbstractCharSequenceAssert<?, String>> result = underTest.withElementAssert(assertFactory);
+      // THEN
+      result.hasSize(2)
+            .first()
+            .startsWith("Hom");
+    }
+
   }
 
-  @Test
-  void should_allow_chaining_element_specific_assertions_with_factory_returning_assertion_superclass() {
-    // GIVEN
-    Iterable<String> actual = List.of("Homer", "Marge");
-    AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
-    AssertFactory<String, AbstractCharSequenceAssert<?, String>> assertFactory = StringAssert::new;
-    // WHEN
-    AbstractIterableAssert<?, Iterable<? extends String>, String, AbstractCharSequenceAssert<?, String>> result = underTest.withElementAssert(assertFactory);
-    // THEN
-    result.hasSize(2)
-          .first()
-          .startsWith("Hom");
+  @Nested
+  class With_Set {
+
+    @Test
+    void should_allow_chaining_element_specific_assertions_with_factory_returning_concrete_assertion() {
+      // GIVEN
+      Iterable<String> actual = new LinkedHashSet<>(List.of("Homer", "Marge"));
+      AssertFactory<String, StringAssert> assertFactory = StringAssert::new;
+      AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
+      // WHEN
+      AbstractIterableAssert<?, Iterable<? extends String>, String, StringAssert> result = underTest.withElementAssert(assertFactory);
+      // THEN
+      result.hasSize(2)
+            .first()
+            .startsWith("Hom");
+    }
+
+    @Test
+    void should_allow_chaining_element_specific_assertions_with_factory_returning_assertion_superclass() {
+      // GIVEN
+      Iterable<String> actual = new LinkedHashSet<>(List.of("Homer", "Marge"));
+      AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
+      AssertFactory<String, AbstractCharSequenceAssert<?, String>> assertFactory = StringAssert::new;
+      // WHEN
+      AbstractIterableAssert<?, Iterable<? extends String>, String, AbstractCharSequenceAssert<?, String>> result = underTest.withElementAssert(assertFactory);
+      // THEN
+      result.hasSize(2)
+            .first()
+            .startsWith("Hom");
+    }
+
   }
 
 }

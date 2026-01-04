@@ -70,7 +70,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    */
   @Override
   public <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractListAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
-    return new FactoryBasedNavigableListAssert<>(actual, FactoryBasedNavigableListAssert.class, assertFactory);
+    return new FactoryBasedAssert<>(actual, assertFactory);
   }
 
   /** {@inheritDoc} */
@@ -413,6 +413,39 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   @CheckReturnValue
   public SELF withThreadDumpOnError() {
     return super.withThreadDumpOnError();
+  }
+
+  /**
+   * This class exists to maintain binary compatibility in version 3 and will be merged into {@link ListAssert}
+   * in version 4.
+   */
+  // @format:off
+  private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
+                                          ACTUAL extends List<? extends ELEMENT>,
+                                          ELEMENT,
+                                          ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
+    extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
+    // @format:on
+
+    private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
+
+    private FactoryBasedAssert(ACTUAL actual, AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+      super(actual, FactoryBasedAssert.class);
+      this.assertFactory = assertFactory;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
+      return assertFactory.createAssert(value).as(description);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
+      return (SELF) new FactoryBasedAssert<>((List<? extends ELEMENT>) iterable, assertFactory);
+    }
+
   }
 
 }

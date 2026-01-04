@@ -159,7 +159,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @since 3.28.0
    */
   public <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractIterableAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
-    return new FactoryBasedNavigableIterableAssert<>(actual, FactoryBasedNavigableIterableAssert.class, assertFactory);
+    return new FactoryBasedAssert<>(actual, assertFactory);
   }
 
   /**
@@ -4327,4 +4327,38 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<? extends ELEMENT> filteredIterable = stream(actual.spliterator(), false).filter(predicate).collect(toList());
     return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
   }
+
+  /**
+   * This class exists to maintain binary compatibility in version 3 and will be merged into {@link IterableAssert}
+   * in version 4.
+   */
+  // @format:off
+  private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
+                                          ACTUAL extends Iterable<? extends ELEMENT>,
+                                          ELEMENT,
+                                          ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
+    extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
+    // @format:on
+
+    private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
+
+    private FactoryBasedAssert(ACTUAL actual, AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+      super(actual, FactoryBasedAssert.class);
+      this.assertFactory = assertFactory;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
+      return assertFactory.createAssert(value).as(description);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
+      return (SELF) new FactoryBasedAssert<>(iterable, assertFactory);
+    }
+
+  }
+
 }
