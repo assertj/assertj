@@ -217,13 +217,13 @@ public interface Java6BDDSoftAssertionsProvider extends SoftAssertionsProvider {
   /**
    * Creates a new instance of <code>{@link CollectionAssert}</code>.
    *
-   * @param <T> the type of elements.
+   * @param <E> the type of elements.
    * @param actual the actual value.
    * @return the created assertion object.
    * @since 3.21.0
    */
   @SuppressWarnings("unchecked")
-  default <T> CollectionAssert<T> then(Collection<? extends T> actual) {
+  default <E> AbstractCollectionAssert<?, Collection<? extends E>, E, ObjectAssert<E>> then(Collection<? extends E> actual) {
     return proxy(CollectionAssert.class, Collection.class, actual);
   }
 
