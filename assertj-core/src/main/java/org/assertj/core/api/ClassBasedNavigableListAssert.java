@@ -24,7 +24,7 @@ import java.util.List;
  * Build the Assert instance by reflection.
  * 
  * @since 2.5.0 / 3.5.0
- * @deprecated Use {@link FactoryBasedNavigableListAssert} instead.
+ * @deprecated Use {@link AbstractListAssert#withElementAssert(AssertFactory)} instead.
  */
 // @format:off
 @Deprecated
