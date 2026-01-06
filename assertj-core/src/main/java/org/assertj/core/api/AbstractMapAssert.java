@@ -2160,6 +2160,28 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   }
 
   /**
+   * <p>Returns an {@link AbstractCollectionAssert} to make assertions on the keys of the map</p>
+   *
+   * <p><strong>Example</strong></p>
+   * <pre><code class='java'> TolkienCharacter pippin = new TolkienCharacter("Pippin", 28, HOBBIT);
+   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
+   * TolkienCharacter merry = new TolkienCharacter("Merry", 36, HOBBIT);
+   *
+   * Map&lt;String, TolkienCharacter&gt; characters = mapOf(entry("Pippin", pippin),
+   *                                                  entry("Frodo", frodo),
+   *                                                  entry("Merry", merry));
+   * assertThat(characters).keys()
+   *                       .containsAnyOf("Pippin", "Merry")
+   *                       .hasSize(3); </code></pre>
+   * @return An {@link AbstractCollectionAssert} to make collections assertion only on map keys.
+   * @throws NullPointerException if the map under test is null
+   */
+  public AbstractCollectionAssert<?, Collection<? extends K>, K, ObjectAssert<K>> keys() {
+    requireNonNull(actual, "Can not extract keys from a null map.");
+    return assertThat(actual.keySet());
+  }
+
+  /**
    * <p>Returns an {@link AbstractCollectionAssert} to make assertions on the values of the map</p>
    *
    * <p><strong>Example</strong></p>
