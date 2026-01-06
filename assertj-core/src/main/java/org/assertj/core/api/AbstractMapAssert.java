@@ -2175,6 +2175,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    *                       .hasSize(3); </code></pre>
    * @return An {@link AbstractCollectionAssert} to make collections assertion only on map keys.
    * @throws NullPointerException if the map under test is null
+   * @since 3.28.0
    */
   public AbstractCollectionAssert<?, Collection<? extends K>, K, ObjectAssert<K>> keys() {
     requireNonNull(actual, "Can not extract keys from a null map.");

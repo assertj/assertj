@@ -15,9 +15,9 @@
  */
 package org.assertj.core.api.map;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.from;
+import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
 
 import java.util.Map;
 
@@ -30,7 +30,7 @@ class MapAssert_keys_Test {
     // GIVEN
     Map<String, Integer> map = Map.of("first", 1, "second", 2);
     // WHEN/THEN
-    assertThat(map).keys().contains("first", "second");
+    then(map).keys().contains("first", "second");
   }
 
   @Test
@@ -38,9 +38,9 @@ class MapAssert_keys_Test {
     // GIVEN
     Map<String, Integer> map = Map.of("first", 1, "second", 2, "third", 3);
     // WHEN/THEN
-    assertThat(map).keys()
-                   .containsAnyOf("first", "fourth")
-                   .hasSize(3);
+    then(map).keys()
+             .containsAnyOf("first", "fourth")
+             .hasSize(3);
   }
 
   @Test
@@ -48,9 +48,9 @@ class MapAssert_keys_Test {
     // GIVEN
     Map<String, String> map = Map.of("first", "one");
     // WHEN/THEN
-    assertThat(map).keys()
-                   .singleElement()
-                   .returns('f', from(s -> s.charAt(0)));
+    then(map).keys()
+             .singleElement()
+             .returns('f', from(s -> s.charAt(0)));
   }
 
   @Test
@@ -58,7 +58,7 @@ class MapAssert_keys_Test {
     // GIVEN
     Map<String, String> nullMap = null;
     // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> assertThat(nullMap).keys().contains("nothing"))
-                                    .withMessage("Can not extract keys from a null map.");
+    thenNullPointerException().isThrownBy(() -> then(nullMap).keys().contains("nothing"))
+                              .withMessage("Can not extract keys from a null map.");
   }
 }
