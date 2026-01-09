@@ -18,7 +18,6 @@ package org.assertj.core.error;
 import static org.assertj.core.util.Arrays.array;
 import static org.assertj.core.util.Throwables.describeErrors;
 
-import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +36,6 @@ public class AssertionErrorCreator {
   private static final Class<?>[] MSG_ARG_TYPES_FOR_COMPARISON_FAILURE = array(String.class, String.class, String.class);
 
   private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
-  private Method valueWrapperCreateMethod;
 
   @VisibleForTesting
   ConstructorInvoker constructorInvoker;
@@ -48,46 +46,30 @@ public class AssertionErrorCreator {
 
   public AssertionErrorCreator(ConstructorInvoker constructorInvoker) {
     this.constructorInvoker = constructorInvoker;
-    try {
-      Class<?> valueWrapperClass = Class.forName("org.opentest4j.ValueWrapper");
-      valueWrapperCreateMethod = valueWrapperClass.getMethod("create", Object.class, String.class);
-    } catch (Exception e) {
-      valueWrapperCreateMethod = null;
-    }
   }
 
   // single assertion error
 
   public AssertionError assertionError(String message, Object actual, Object expected, Representation representation) {
     // @format:off
-    return assertionFailedError(message, actual, expected, representation)
-                .orElse(comparisonFailure(message, actual, expected, representation)
-                .orElse(assertionError(message)));
+    return assertionFailedError(message, actual,expected)
+                    .orElse(comparisonFailure(message, actual, expected, representation)
+                    .orElse(assertionError(message)));
     // @format:on
   }
 
-  private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected,
-                                                        Representation representation) {
+  private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected) {
     try {
       Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
                                                 MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
                                                 message,
-                                                valueWrapper(expected, representation),
-                                                valueWrapper(actual, representation));
+                                                expected,
+                                                actual);
 
       if (o instanceof AssertionError) return Optional.of((AssertionError) o);
 
     } catch (@SuppressWarnings("unused") Throwable ignored) {}
     return Optional.empty();
-  }
-
-  private Object valueWrapper(Object value, Representation representation) {
-    if (valueWrapperCreateMethod == null) return value;
-    try {
-      return valueWrapperCreateMethod.invoke(null, value, representation.toStringOf(value));
-    } catch (Exception e) {
-      return value; // best effort
-    }
   }
 
   private Optional<AssertionError> comparisonFailure(String message,
