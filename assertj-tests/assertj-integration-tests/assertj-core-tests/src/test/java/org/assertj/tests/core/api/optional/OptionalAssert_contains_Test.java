@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
@@ -36,7 +37,7 @@ class OptionalAssert_contains_Test {
     @SuppressWarnings("OptionalAssignedToNull")
     Optional<String> nullActual = null;
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(nullActual).contains("something"));
+    var assertionError = expectAssertionError(() -> assertThat(nullActual).contains("something"));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
   }
@@ -58,12 +59,11 @@ class OptionalAssert_contains_Test {
     Optional<String> actual = Optional.of("not-expected");
     String expectedValue = "something";
     // WHEN
-    AssertionFailedError error = catchThrowableOfType(AssertionFailedError.class,
-                                                      () -> assertThat(actual).contains(expectedValue));
+    var error = catchThrowableOfType(AssertionFailedError.class, () -> assertThat(actual).contains(expectedValue));
     // THEN
     then(error).hasMessage(shouldContain(actual, expectedValue).create());
-    then(error.getActual().getStringRepresentation()).isEqualTo(actual.get());
-    then(error.getExpected().getStringRepresentation()).isEqualTo(expectedValue);
+    then(error.getActual().getStringRepresentation()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(actual.get()));
+    then(error.getExpected().getStringRepresentation()).isEqualTo(STANDARD_REPRESENTATION.toStringOf(expectedValue));
   }
 
   @Test
@@ -71,7 +71,7 @@ class OptionalAssert_contains_Test {
     // GIVEN
     String expectedValue = "something";
     // WHEN
-    AssertionError assertionError = expectAssertionError(() -> assertThat(Optional.empty()).contains(expectedValue));
+    var assertionError = expectAssertionError(() -> assertThat(Optional.empty()).contains(expectedValue));
     // THEN
     then(assertionError).hasMessage(shouldContain(expectedValue).create());
   }
