@@ -78,7 +78,7 @@ import org.assertj.core.util.introspection.FieldSupport;
  * if that occurred <code>assertThat(List)</code> would also be a possible choice - thus confusing java 8.
  * <p>
  * This why {@link Assertions} have been split in {@link AssertionsForClassTypes} and {@link AssertionsForInterfaceTypes}
- * (see http://stackoverflow.com/questions/29499847/ambiguous-method-in-java-8-why).
+ * (see <a href="http://stackoverflow.com/questions/29499847/ambiguous-method-in-java-8-why">Ambiguous method in Java 8, why?</a>).
  */
 @CheckReturnValue
 public class AssertionsForClassTypes {
