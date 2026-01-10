@@ -136,9 +136,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Configures the {@link AssertFactory} used to create assertions whenever a navigation method is invoked.
    * <p>
-   * This is generally more convenient for domain-specific assertions, so that users of the domain assertions
-   * do not have to provide an explicit {@link InstanceOfAssertFactory} on each navigation method invocation
-   * like {@link #first()}, {@link #last()}, {@link #element(int)}, and {@link #singleElement()}.
+   * This is generally more convenient for custom assertions, so that users of such assertions do not have
+   * to provide an explicit {@link InstanceOfAssertFactory} on each navigation method invocation like
+   * {@link #first()}, {@link #last()}, {@link #element(int)}, and {@link #singleElement()}.
    * <p>
    * For example, given a {@code Iterable<Person>} and a corresponding {@code PersonAssert}, you can write:
    * </p>
