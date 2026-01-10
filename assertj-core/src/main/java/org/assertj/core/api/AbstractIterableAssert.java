@@ -136,12 +136,19 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   /**
    * Configures the {@link AssertFactory} used to create assertions whenever a navigation method is invoked.
    * <p>
-   * This is generally more convenient for custom assertions, so that users of such assertions do not have
-   * to provide an explicit {@link InstanceOfAssertFactory} on each navigation method invocation like
-   * {@link #first()}, {@link #last()}, {@link #element(int)}, and {@link #singleElement()}.
-   * <p>
-   * For example, given a {@code Iterable<Person>} and a corresponding {@code PersonAssert}, you can write:
-   * </p>
+   * For example, given an {@code Iterable<String>}, {@link Assertions#assertThat(String)} can be configured
+   * as the {@code AssertFactory} to be used for navigation methods like
+   * {@link #first()}, {@link #last()}, {@link #element(int)}, and {@link #singleElement()}:
+   * <pre><code class="java">
+   * Iterable&lt;String&gt; people = List.of("Luke", "Leia");
+   *
+   * assertThat(people).withElementAssert(Assertions::assertThat)
+   *                   .first()
+   *                   .startsWith("Lu");
+   * </code></pre>
+   * This is also helpful for custom assertions, where users of such assertions can already benefit from
+   * type-specific assertions when invoking a navigation method, without additional effort. For example,
+   * given a {@code Iterable<Person>} and a {@code PersonAssert} custom assertion, you can write:
    * <pre><code class="java">
    * Iterable&lt;Person&gt; people = getPeople();
    *
