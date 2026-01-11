@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
  */
 package org.assertj.guava.api;
 
+import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.AbstractIntegerAssert;
-import org.assertj.core.util.CheckReturnValue;
 
 /**
  * Assertion methods for {@link Integer}s with the possibility of returning to the {@link TableAssert}.
@@ -34,4 +34,5 @@ public class TableIntegerAssert<R, C, V> extends AbstractIntegerAssert<TableInte
   public TableAssert<R, C, V> returnToTable() {
     return source;
   }
+
 }

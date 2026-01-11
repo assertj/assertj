@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,6 @@ import static java.util.Collections.unmodifiableList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import org.assertj.core.util.Throwables;
 
 public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
 
@@ -158,7 +156,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    * @return decorated list
   */
   protected <T extends Throwable> List<T> decorateErrorsCollected(List<? extends T> errors) {
-    return Throwables.addLineNumberToErrorMessages(errors);
+    return (List<T>) errors;
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -94,19 +94,19 @@ package org.assertj.core.api;
  * <pre>
  * org.assertj.core.error.AssertJMultipleFailuresError:
  * Multiple Failures (4 failure)
- * -- failure 1 --
+ * -- error 1 --
  * [Living Guests]
  * expected: 7
  *  but was: 6
- * -- failure 2 --
+ * -- error 2 --
  * [Library]
  * expected: clean
  *  but was: messy
- * -- failure 3 --
+ * -- error 3 --
  * [Candlestick]
  * expected: pristine
  *  but was: bent
- * -- failure 4 --
+ * -- error 4 --
  * [Professor]
  * expected: well kempt
  *  but was: bloodied and disheveled

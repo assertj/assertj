@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package org.assertj.tests.core.api;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 import static org.assertj.core.api.Assertions.assertWith;
@@ -64,9 +63,7 @@ class Assertions_assertWith_Test {
                                                                jedi -> assertThat(jedi.lightSaberColor).isEqualTo("Red"),
                                                                jedi -> assertThat(jedi.getName()).isEqualTo("Luke")));
     // THEN
-    then(assertionError).hasMessageStartingWith(format("%n" +
-                                                       "For Yoda the Jedi,%n" +
-                                                       "Multiple Failures"));
+    then(assertionError).hasMessageStartingWith("2 assertion errors for: Yoda the Jedi");
   }
 
 }

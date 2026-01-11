@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,6 @@ import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssumptionNotMetException;
 
 import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.error.AssertJMultipleFailuresError;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
@@ -88,12 +87,11 @@ class ByteArrayAssert_asString_with_Charset_Test {
           .isBlank();
     var assertionError = expectAssertionError(softly::assertAll);
     // THEN
-    assertThat(assertionError).hasMessageContainingAll("Multiple Failures (2 failures)",
-                                                       "-- failure 1 --",
+    assertThat(assertionError).hasMessageContainingAll("2 assertion errors:",
+                                                       "-- error 1 --",
                                                        shouldBeEqualMessage("\"Gerçek\"", "\"bar\""),
-                                                       "-- failure 2 --",
-                                                       "Expecting blank but was: \"Gerçek\"")
-                              .isExactlyInstanceOf(AssertJMultipleFailuresError.class);
+                                                       "-- error 2 --",
+                                                       "Expecting blank but was: \"Gerçek\"");
   }
 
   @Test

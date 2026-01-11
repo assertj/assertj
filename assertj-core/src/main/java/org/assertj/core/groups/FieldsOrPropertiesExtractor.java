@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
  */
 package org.assertj.core.groups;
 
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.util.IterableUtil.toArray;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Streams.stream;
@@ -64,7 +63,7 @@ public class FieldsOrPropertiesExtractor {
    */
   public static <F, T> List<T> extract(Iterable<? extends F> objects, Function<? super F, T> extractor) {
     checkObjectToExtractFromIsNotNull(objects);
-    return stream(objects).map(extractor).collect(toList());
+    return stream(objects).map(extractor).toList();
   }
 
   private static void checkObjectToExtractFromIsNotNull(Object object) {

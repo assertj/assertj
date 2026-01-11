@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,83 +15,33 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.Lists.list;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
 
 import java.util.List;
 
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.TestDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
-import org.opentest4j.MultipleFailuresError;
 
 class AssertionErrorCreator_multipleAssertionsError_Test {
-
-  record Bar(int id) {
-  }
-
-  public record Foo(String id, Bar bar) {
-  }
 
   private final AssertionErrorCreator assertionErrorCreator = new AssertionErrorCreator();
 
   @Test
-  void should_create_MultipleFailuresError_using_reflection() {
+  void should_create_MultipleAssertionsError() {
     // GIVEN
     Description description = new TestDescription("description");
-    List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
+    AssertionError error1 = new AssertionError("error1");
+    AssertionError error2 = new AssertionError("error2");
+    List<AssertionError> errors = list(error1, error2);
     // WHEN
-    AssertionError assertionError = assertionErrorCreator.multipleAssertionsError(description, null, errors);
+    var assertionError = assertionErrorCreator.multipleAssertionsError(description, null, errors);
     // THEN
-    then(assertionError).isInstanceOf(MultipleFailuresError.class)
-                        .hasMessageContainingAll("[description]",
-                                                 "(2 failures)",
-                                                 "error1",
-                                                 "error2");
-    then(((MultipleFailuresError) assertionError).getFailures()).containsExactlyElementsOf(errors);
+    then(assertionError).isInstanceOf(MultipleAssertionsError.class)
+                        .hasMessage(StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(assertionError));
+    then(((MultipleAssertionsError) assertionError).getErrors()).containsExactly(error1, error2);
   }
 
-  @Test
-  void should_create_MultipleAssertionsError_when_MultipleFailuresError_could_not_be_created_and_actual_root_instance_is_not_null() throws Exception {
-    // GIVEN
-    Object actualRootInstance = new Foo("1", new Bar(1));
-    Description description = new TestDescription("description");
-    List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
-    ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
-    given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(Exception.class);
-    assertionErrorCreator.constructorInvoker = constructorInvoker;
-    // WHEN
-    AssertionError assertionError = assertionErrorCreator.multipleAssertionsError(description, actualRootInstance, errors);
-    // THEN
-    then(assertionError).isNotInstanceOf(MultipleFailuresError.class)
-                        .hasMessage(format("[description] %n" +
-                                           "For Foo[id=1, bar=Bar[id=1]],%n" +
-                                           "The following 2 assertions failed:%n" +
-                                           "1) error1%n" +
-                                           "2) error2%n"));
-  }
-
-  @Test
-  void should_create_MultipleAssertionsError_when_MultipleFailuresError_could_not_be_created_and_actual_root_instance_is_null() throws Exception {
-    // GIVEN
-    Description description = new TestDescription("description");
-    List<? extends AssertionError> errors = list(new AssertionError("error1"), new AssertionError("error2"));
-    ConstructorInvoker constructorInvoker = mock(ConstructorInvoker.class);
-    given(constructorInvoker.newInstance(anyString(), any(Class[].class), any(Object[].class))).willThrow(Exception.class);
-    assertionErrorCreator.constructorInvoker = constructorInvoker;
-    // WHEN
-    AssertionError assertionError = assertionErrorCreator.multipleAssertionsError(description, null, errors);
-    // THEN
-    then(assertionError).isNotInstanceOf(MultipleFailuresError.class)
-                        .hasMessage(format("[description] %n" +
-                                           "For null,%n" +
-                                           "The following 2 assertions failed:%n" +
-                                           "1) error1%n" +
-                                           "2) error2%n"));
-  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -55,7 +55,7 @@ public class ShouldBeEqual {
   protected final MessageFormatter messageFormatter = MessageFormatter.instance();
   protected final ComparisonStrategy comparisonStrategy;
   private final Representation representation;
-  private final ConstructorInvoker constructorInvoker = new ConstructorInvoker();
+  private ConstructorInvoker constructorInvoker = new ConstructorInvoker();
 
   /**
    * Creates a new <code>{@link ShouldBeEqual}</code>.

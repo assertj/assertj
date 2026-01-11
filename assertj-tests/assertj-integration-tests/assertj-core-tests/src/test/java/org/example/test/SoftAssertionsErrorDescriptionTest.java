@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.example.custom;
+package org.example.test;
 
-import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
 import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.presentation.StandardRepresentation;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class SoftAssertionsErrorDescriptionTest {
+
+  private int initialMaxStackTraceElementsDisplayedValue;
+
+  @BeforeEach
+  public void beforeTest() {
+    initialMaxStackTraceElementsDisplayedValue = StandardRepresentation.getMaxStackTraceElementsDisplayed();
+  }
+
+  @AfterEach
+  public void afterTest() {
+    StandardRepresentation.setMaxStackTraceElementsDisplayed(initialMaxStackTraceElementsDisplayedValue);
+  }
 
   @Test
   public void should_display_the_error_cause_and_the_cause_first_stack_trace_elements() {
@@ -32,10 +46,9 @@ public class SoftAssertionsErrorDescriptionTest {
     // WHEN
     var error = expectAssertionError(softly::assertAll);
     // THEN
-    then(error).hasMessageStartingWith(format("%nMultiple Failures (1 failure)%n"
-                                              + "-- failure 1 --"
-                                              + "failure%n"
-                                              + "at SoftAssertionsErrorDescriptionTest.should_display_the_error_cause_and_the_cause_first_stack_trace_elements(SoftAssertionsErrorDescriptionTest.java:31)"));
+    then(error).hasMessageContainingAll("cause message: abc",
+                                        "cause first 3 stack trace elements:",
+                                        "SoftAssertionsErrorDescriptionTest.throwRuntimeException(SoftAssertionsErrorDescriptionTest.java:55)");
   }
 
   protected static RuntimeException throwRuntimeException() {

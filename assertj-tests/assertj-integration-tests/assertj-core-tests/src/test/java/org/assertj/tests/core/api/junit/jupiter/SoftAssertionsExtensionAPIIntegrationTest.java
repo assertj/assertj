@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ import org.assertj.core.api.BDDSoftAssertions;
 import org.assertj.core.api.DefaultAssertionErrorCollector;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
-import org.assertj.core.error.AssertJMultipleFailuresError;
+import org.assertj.core.error.MultipleAssertionsError;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -116,12 +116,12 @@ class SoftAssertionsExtensionAPIIntegrationTest {
                  // @format:off
                  .assertThatEvents().haveExactly(1,
                                                  event(test("multipleFailuresCustom"),
-                                                       finishedWithFailure(instanceOf(AssertJMultipleFailuresError.class),
-                                                                           message(msg -> msg.contains("Multiple Failures (4 failures)")))))
+                                                       finishedWithFailure(instanceOf(MultipleAssertionsError.class),
+                                                                           message(msg -> msg.contains("4 assertion errors")))))
                                     .haveExactly(1,
                                                  event(test("multipleFailuresBDD"),
-                                                       finishedWithFailure(instanceOf(AssertJMultipleFailuresError.class),
-                                                                           message(msg -> msg.contains("Multiple Failures (3 failures)")))));
+                                                       finishedWithFailure(instanceOf(MultipleAssertionsError.class),
+                                                                           message(msg -> msg.contains("3 assertion errors")))));
                  // @format:on
     try (AutoCloseableSoftAssertions softly = new AutoCloseableSoftAssertions()) {
       List<AssertionError> collected = APITest.map.get("multipleFailuresCustom").assertionErrorsCollected();

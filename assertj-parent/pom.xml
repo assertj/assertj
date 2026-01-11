@@ -24,9 +24,9 @@
     <hamcrest.version>3.0</hamcrest.version>
     <jackson.version>2.20.1</jackson.version>
     <!-- Plugin versions -->
-    <bnd.version>7.1.0</bnd.version>
+    <bnd.version>7.2.0</bnd.version>
     <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
-    <japicmp-maven-plugin.version>0.25.0</japicmp-maven-plugin.version>
+    <japicmp-maven-plugin.version>0.25.2</japicmp-maven-plugin.version>
     <maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
     <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
     <spotbugs-maven-plugin.version>4.9.8.2</spotbugs-maven-plugin.version>

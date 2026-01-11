@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,6 @@ import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Collections.emptyList;
 import static java.util.Spliterators.emptySpliterator;
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -98,6 +97,7 @@ import org.assertj.core.api.ClassAssertBaseTest.MyAnnotation;
 import org.assertj.core.api.iterable.ThrowingExtractor;
 import org.assertj.core.api.test.ComparableExample;
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.error.MultipleAssertionsError;
 import org.assertj.core.testkit.Animal;
 import org.assertj.core.testkit.CartoonCharacter;
 import org.assertj.core.testkit.Name;
@@ -106,7 +106,6 @@ import org.assertj.core.testkit.TolkienCharacter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.opentest4j.MultipleFailuresError;
 
 class BDDSoftAssertionsTest extends BaseAssertionsTest {
 
@@ -281,9 +280,9 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
     softly.then(emptySpliterator()).withFailMessage("Spliterator check").hasCharacteristics(123);
     softly.then(new LongAdder()).withFailMessage("LongAdder check").hasValue(123L);
     // WHEN
-    MultipleFailuresError error = catchThrowableOfType(MultipleFailuresError.class, () -> softly.assertAll());
+    var error = catchThrowableOfType(MultipleAssertionsError.class, () -> softly.assertAll());
     // THEN
-    List<String> errors = error.getFailures().stream().map(Object::toString).collect(toList());
+    List<String> errors = error.getErrors().stream().map(Object::toString).toList();
     assertThat(errors).hasSize(61);
     assertThat(errors.get(0)).contains(shouldBeEqualMessage("0", "1"));
     assertThat(errors.get(1)).contains("%nExpecting value to be true but was false".formatted());
@@ -361,8 +360,8 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
                                                + "  <http://assertj.org:80>%n"
                                                + "not to have a port but had:%n"
                                                + "  <80>"));
-    assertThat(errors.get(52)).contains(format("does-not-exist"));
-    assertThat(errors.get(53)).contains(format("2000"));
+    assertThat(errors.get(52)).contains("does-not-exist");
+    assertThat(errors.get(53)).contains("2000");
     assertThat(errors.get(54)).contains("duration check");
     assertThat(errors.get(55)).contains("instant check");
     assertThat(errors.get(56)).contains("ZonedDateTime check");

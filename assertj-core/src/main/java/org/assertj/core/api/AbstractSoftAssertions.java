@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import org.assertj.core.internal.annotation.Contract;
 public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollector
     implements SoftAssertionsProvider, InstanceOfAssertFactories {
 
+  private static final AssertionErrorCreator ASSERTION_ERROR_CREATOR = new AssertionErrorCreator();
   final SoftProxies proxies;
 
   protected AbstractSoftAssertions() {
@@ -32,11 +33,9 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
     proxies = new SoftProxies(this);
   }
 
-  private static final AssertionErrorCreator ASSERTION_ERROR_CREATOR = new AssertionErrorCreator();
-
   public static void assertAll(AssertionErrorCollector collector) {
     List<AssertionError> errors = collector.assertionErrorsCollected();
-    if (!errors.isEmpty()) throw ASSERTION_ERROR_CREATOR.multipleSoftAssertionsError(errors);
+    if (!errors.isEmpty()) throw ASSERTION_ERROR_CREATOR.multipleAssertionsError(errors);
   }
 
   @Override
@@ -53,7 +52,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   /**
    * Fails with the given message.
    *
-   * @param <T> dummy return value type
+   * @param <T>            dummy return value type
    * @param failureMessage error message.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail("boom")));}.
    * @since 2.6.0 / 3.6.0
@@ -84,9 +83,9 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   /**
    * Fails with the given message built like {@link String#format(String, Object...)}.
    *
-   * @param <T> dummy return value type
+   * @param <T>            dummy return value type
    * @param failureMessage error message.
-   * @param args Arguments referenced by the format specifiers in the format string.
+   * @param args           Arguments referenced by the format specifiers in the format string.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
@@ -99,9 +98,9 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   /**
    * Fails with the given message and with the {@link Throwable} that caused the failure.
    *
-   * @param <T> dummy return value type
+   * @param <T>            dummy return value type
    * @param failureMessage error message.
-   * @param realCause cause of the error.
+   * @param realCause      cause of the error.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail("boom")));}.
    * @since 2.6.0 / 3.6.0
    */
@@ -120,7 +119,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    * Example:
    * <pre><code class='java'> doSomething(optional.orElseGet(() -> softly.fail(cause)));</code></pre>
    *
-   * @param <T> dummy return value type
+   * @param <T>       dummy return value type
    * @param realCause cause of the error.
    * @return nothing, it's just to be used in {@code doSomething(optional.orElseGet(() -> softly.fail(cause)));}.
    * @since 3.26.0
@@ -139,10 +138,9 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    *
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
-   *           not been.
-   * @since 2.6.0 / 3.6.0
-   *
+   *                        not been.
    * @see #shouldHaveThrown(Class)
+   * @since 2.6.0 / 3.6.0
    */
   @Contract("_ -> fail")
   public void failBecauseExceptionWasNotThrown(Class<? extends Throwable> throwableClass) {
@@ -155,7 +153,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
    *
    * @param throwableClass the Throwable class that was expected to be thrown.
    * @throws AssertionError with a message explaining that a {@link Throwable} of given class was expected to be thrown but had
-   *           not been.
+   *                        not been.
    * @since 2.6.0 / 3.6.0
    */
   @Contract("_ -> fail")
@@ -166,6 +164,7 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
 
   /**
    * Returns a copy of list of soft assertions collected errors.
+   *
    * @return a copy of list of soft assertions collected errors.
    */
   public List<Throwable> errorsCollected() {

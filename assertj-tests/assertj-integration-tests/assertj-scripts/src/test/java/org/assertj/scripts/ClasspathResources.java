@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,19 @@
  */
 package org.assertj.scripts;
 
-import static org.junit.platform.commons.support.ReflectionSupport.findAllResourcesInPackage;
+import static org.junit.platform.commons.support.ResourceSupport.findAllResourcesInPackage;
 
 import java.nio.file.Path;
 import java.util.List;
 
-import org.junit.platform.commons.support.Resource;
+import org.junit.platform.commons.io.Resource;
+import org.junit.platform.commons.io.ResourceFilter;
 
 class ClasspathResources {
 
   static Path resourcePath(String resourceName) {
-    List<Resource> resources = findAllResourcesInPackage("", resource -> resource.getName().equals(resourceName));
+    ResourceFilter filter = ResourceFilter.of(resource -> resource.getName().equals(resourceName));
+    List<Resource> resources = findAllResourcesInPackage("", filter);
     if (resources.size() != 1) throw new IllegalStateException("Unique resource not found: " + resources);
     return Path.of(resources.getFirst().getUri());
   }

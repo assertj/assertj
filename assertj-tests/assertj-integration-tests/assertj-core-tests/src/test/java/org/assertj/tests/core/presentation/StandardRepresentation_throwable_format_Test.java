@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +24,23 @@ import static org.mockito.Mockito.when;
 import org.assertj.core.configuration.Configuration;
 import org.assertj.core.presentation.Representation;
 import org.assertj.core.presentation.StandardRepresentation;
-import org.assertj.tests.core.testkit.MutatesGlobalConfiguration;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-@MutatesGlobalConfiguration
 class StandardRepresentation_throwable_format_Test {
+
+  private int initialMaxStackTraceElementsDisplayedValue;
+
+  @BeforeEach
+  public void beforeTest() {
+    initialMaxStackTraceElementsDisplayedValue = StandardRepresentation.getMaxStackTraceElementsDisplayed();
+  }
+
+  @AfterEach
+  public void afterTest() {
+    StandardRepresentation.setMaxStackTraceElementsDisplayed(initialMaxStackTraceElementsDisplayedValue);
+  }
 
   private static final Representation REPRESENTATION = new StandardRepresentation();
 

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 package org.assertj.core.api;
 
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
@@ -36,11 +35,12 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+
 import org.assertj.core.data.MapEntry;
+import org.assertj.core.error.MultipleAssertionsError;
 import org.assertj.core.internal.OffsetDateTimeByInstantComparator;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
-import org.opentest4j.MultipleFailuresError;
 
 class AutoCloseableBDDSoftAssertionsTest {
 
@@ -146,8 +146,8 @@ class AutoCloseableBDDSoftAssertionsTest {
       softly.then(OffsetTime.of(12, 0, 0, 0, ZoneOffset.UTC)).isEqualTo(OffsetTime.of(13, 0, 0, 0, ZoneOffset.UTC));
       softly.then(OffsetDateTime.MIN).isEqualTo(OffsetDateTime.MAX);
 
-    } catch (MultipleFailuresError e) {
-      List<String> errors = e.getFailures().stream().map(Object::toString).collect(toList());
+    } catch (MultipleAssertionsError e) {
+      List<String> errors = e.getErrors().stream().map(Object::toString).toList();
       assertThat(errors).hasSize(45);
 
       assertThat(errors.get(0)).contains(shouldBeEqualMessage("0", "1"));

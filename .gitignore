@@ -2,6 +2,8 @@
 target
 #IntelliJ project files
 .idea/*
+!/.idea/inspectionProfiles
+!/.idea/inspectionProfiles/Project_Default.xml
 !/.idea/icon.svg
 *.iml
 out

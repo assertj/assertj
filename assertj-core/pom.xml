@@ -27,7 +27,7 @@
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <byte-buddy.version>1.18.2</byte-buddy.version>
+    <byte-buddy.version>1.18.3</byte-buddy.version>
   </properties>
 
   <dependencyManagement>
@@ -107,7 +107,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>4.2.5</version>
+      <version>4.3</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -251,7 +251,6 @@
                 -exportcontents: \
                   !org.assertj.core.internal.*,\
                   org.assertj.core.*
-                -noclassforname: true
                 -noextraheaders: true
                 -snapshot: SNAPSHOT
                 -removeheaders: Private-Package

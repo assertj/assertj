@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,12 +15,12 @@
  */
 package org.example.test;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.util.Throwables.removeAssertJRelatedElementsFromStackTrace;
 import static org.assertj.tests.core.testkit.StackTraceUtils.checkNoAssertjStackTraceElementIn;
 import static org.assertj.tests.core.testkit.StackTraceUtils.hasAssertJStackTraceElement;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -32,7 +32,7 @@ class Throwables_removeAssertJElementFromStackTrace_Test {
   void should_add_stack_trace_of_current_thread() {
     // GIVEN
     Throwable throwable = catchThrowable(this::throwAssertJThrowable);
-    Assertions.assertThat(hasAssertJStackTraceElement(throwable)).isTrue();
+    assertThat(hasAssertJStackTraceElement(throwable)).isTrue();
     // WHEN
     removeAssertJRelatedElementsFromStackTrace(throwable);
     // THEN

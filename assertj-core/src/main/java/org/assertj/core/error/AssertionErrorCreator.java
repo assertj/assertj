@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,26 +16,19 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.util.Arrays.array;
-import static org.assertj.core.util.Throwables.describeErrors;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Optional;
 
-import org.assertj.core.api.SoftAssertionError;
 import org.assertj.core.description.Description;
 import org.assertj.core.internal.Failures;
 import org.assertj.core.presentation.Representation;
-import org.assertj.core.util.introspection.PropertyOrFieldSupport;
 
 public class AssertionErrorCreator {
 
   private static final Class<?>[] MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR = array(String.class, Object.class, Object.class);
-
-  private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES = array(String.class, List.class);
-
-  private static final Class<?>[] MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES_WITH_ACTUAL_ROOT_INSTANCE = array(String.class,
-                                                                                                           Object.class,
-                                                                                                           List.class);
+  private Method valueWrapperCreateMethod;
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   ConstructorInvoker constructorInvoker;
@@ -46,28 +39,42 @@ public class AssertionErrorCreator {
 
   public AssertionErrorCreator(ConstructorInvoker constructorInvoker) {
     this.constructorInvoker = constructorInvoker;
+    try {
+      Class<?> valueWrapperClass = Class.forName("org.opentest4j.ValueWrapper");
+      valueWrapperCreateMethod = valueWrapperClass.getMethod("create", Object.class, String.class);
+    } catch (Exception e) {
+      valueWrapperCreateMethod = null;
+    }
   }
 
   // single assertion error
 
   public AssertionError assertionError(String message, Object actual, Object expected, Representation representation) {
-    return assertionFailedError(message, actual, expected).orElse(assertionError(message));
+    return assertionFailedError(message, actual, expected, representation).orElse(assertionError(message));
   }
 
-  private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected) {
+  private Optional<AssertionError> assertionFailedError(String message, Object actual, Object expected,
+                                                        Representation representation) {
     try {
-      // TODO use UnambiguousRepresentation unambiguousRepresentation = new UnambiguousRepresentation(representation, actual,
-      // expected);
       Object o = constructorInvoker.newInstance("org.opentest4j.AssertionFailedError",
                                                 MSG_ARG_TYPES_FOR_ASSERTION_FAILED_ERROR,
                                                 message,
-                                                expected,
-                                                actual);
+                                                valueWrapper(expected, representation),
+                                                valueWrapper(actual, representation));
 
       if (o instanceof AssertionError error) return Optional.of(error);
 
     } catch (@SuppressWarnings("unused") Throwable ignored) {}
     return Optional.empty();
+  }
+
+  private Object valueWrapper(Object value, Representation representation) {
+    if (valueWrapperCreateMethod == null) return value;
+    try {
+      return valueWrapperCreateMethod.invoke(null, value, representation.toStringOf(value));
+    } catch (Exception e) {
+      return value; // best effort
+    }
   }
 
   public AssertionError assertionError(String message) {
@@ -76,67 +83,13 @@ public class AssertionErrorCreator {
 
   // multiple assertions error
 
-  public AssertionError multipleSoftAssertionsError(List<? extends Throwable> errors) {
-    Optional<AssertionError> multipleFailuresError = tryBuildingMultipleFailuresError(errors);
-    return multipleFailuresError.orElse(new SoftAssertionError(describeErrors(errors)));
+  public AssertionError multipleAssertionsError(List<AssertionError> errors) {
+    return multipleAssertionsError(null, null, errors);
   }
 
-  public AssertionError multipleAssertionsError(Description description, Object objectUnderTest,
-                                                List<? extends AssertionError> errors) {
-    String heading = headingFrom(description);
-    Optional<AssertionError> multipleFailuresError = tryBuildingMultipleFailuresError(heading, objectUnderTest, errors);
-    return multipleFailuresError.orElse(new MultipleAssertionsError(description, objectUnderTest, errors));
+  public AssertionError multipleAssertionsError(Description description, Object objectUnderTest, List<AssertionError> errors) {
+    MultipleAssertionsError multipleAssertionsError = new MultipleAssertionsError(description, objectUnderTest, errors);
+    Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(multipleAssertionsError);
+    return multipleAssertionsError;
   }
-
-  public void tryThrowingMultipleFailuresError(List<? extends Throwable> errorsCollected) {
-    tryBuildingMultipleFailuresError(errorsCollected).ifPresent(AssertionErrorCreator::throwError);
-  }
-
-  // syntactic sugar
-  private static void throwError(AssertionError error) {
-    throw error;
-  }
-
-  private static String headingFrom(Description description) {
-    return description == null ? null : DescriptionFormatter.instance().format(description);
-  }
-
-  private Optional<AssertionError> tryBuildingMultipleFailuresError(List<? extends Throwable> errorsCollected) {
-    return tryBuildingMultipleFailuresError(null, null, errorsCollected);
-  }
-
-  private Optional<AssertionError> tryBuildingMultipleFailuresError(String heading,
-                                                                    Object objectUnderTest,
-                                                                    List<? extends Throwable> errorsCollected) {
-    if (errorsCollected.isEmpty()) return Optional.empty();
-    try {
-      Object[] constructorArguments = array(heading, errorsCollected);
-      Object multipleFailuresError = constructorInvoker.newInstance("org.opentest4j.MultipleFailuresError",
-                                                                    MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES,
-                                                                    constructorArguments);
-      if (multipleFailuresError instanceof AssertionError) { // means that we were able to build a MultipleFailuresError
-        List<Throwable> failures = extractFailuresOf(multipleFailuresError);
-        // we switch to AssertJMultipleFailuresError in order to control the formatting of the error message.
-        // we use reflection to avoid making opentest4j a required dependency
-        AssertionError assertionError = objectUnderTest != null
-            ? (AssertionError) constructorInvoker.newInstance("org.assertj.core.error.AssertJMultipleFailuresError",
-                                                              MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES_WITH_ACTUAL_ROOT_INSTANCE,
-                                                              array(heading, objectUnderTest, failures))
-            : (AssertionError) constructorInvoker.newInstance("org.assertj.core.error.AssertJMultipleFailuresError",
-                                                              MULTIPLE_FAILURES_ERROR_ARGUMENT_TYPES,
-                                                              array(heading, failures));
-        Failures.instance().removeAssertJRelatedElementsFromStackTraceIfNeeded(assertionError);
-        return Optional.of(assertionError);
-      }
-    } catch (@SuppressWarnings("unused") Exception e) {
-      // do nothing, MultipleFailuresError was not in the classpath
-    }
-    return Optional.empty();
-  }
-
-  @SuppressWarnings("unchecked")
-  private static List<Throwable> extractFailuresOf(Object multipleFailuresError) {
-    return (List<Throwable>) PropertyOrFieldSupport.EXTRACTION.getValueOf("failures", multipleFailuresError);
-  }
-
 }

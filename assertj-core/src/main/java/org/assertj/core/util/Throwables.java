@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,6 +34,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import org.assertj.core.api.ThrowableAssert;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.assertj.core.util.introspection.IntrospectionError;
 
 /**
@@ -51,20 +52,52 @@ public final class Throwables {
   private Throwables() {}
 
   private static final Function<Throwable, String> ERROR_DESCRIPTION_EXTRACTOR = throwable -> {
+    int maxStackTraceElements = StandardRepresentation.getMaxStackTraceElementsDisplayed();
     Throwable cause = throwable.getCause();
-    if (cause == null) return throwable.getMessage();
+    if (cause == null) {
+      if (maxStackTraceElements == 0) return throwable.getMessage();
+      StackTraceElement[] stackTrace = throwable.getStackTrace();
+      String info = "";
+      if (maxStackTraceElements < stackTrace.length) {
+        info = (stackTrace.length - maxStackTraceElements)
+               + " remaining lines not displayed - this can be changed with Assertions.setMaxStackTraceElementsDisplayed)";
+      }
+
+      return format("%s%n" +
+                    "first %d stack trace %s:%n" +
+                    "%s%s%n",
+                    throwable.getMessage(),
+                    maxStackTraceElements,
+                    maxStackTraceElements == 1 ? "element" : "elements",
+                    getStackTraceDescription(stackTrace, maxStackTraceElements),
+                    info);
+    }
     // error has a cause, display the cause message and the first stack trace elements.
-    String stackTraceDescription = stream(cause.getStackTrace()).limit(5)
-                                                                .map(stackTraceElement -> "\tat %s%n".formatted(stackTraceElement))
-                                                                .collect(joining());
+    if (maxStackTraceElements == 0)
+      return format("%s%ncause message: %s%n", throwable.getMessage(), cause.getMessage());
+
     return format("%s%n" +
                   "cause message: %s%n" +
-                  "cause first five stack trace elements:%n" +
+                  "cause first %d stack trace %s:%n" +
                   "%s",
                   throwable.getMessage(),
                   cause.getMessage(),
-                  stackTraceDescription);
+                  maxStackTraceElements,
+                  maxStackTraceElements == 1 ? "element" : "elements",
+                  getStackTraceDescription(cause.getStackTrace(), maxStackTraceElements));
   };
+
+  private static String getStackTraceDescription(StackTraceElement[] causeStackTrace, int maxStackTraceElements) {
+    return stream(causeStackTrace).skip(getFirstStackTraceElementFromTestIndex(causeStackTrace))
+                                  .limit(maxStackTraceElements)
+                                  .map("\tat %s%n"::formatted)
+                                  .collect(joining());
+  }
+
+  private static int getFirstStackTraceElementFromTestIndex(StackTraceElement[] stackTrace) {
+    var firstStackTraceElementFromTest = getFirstStackTraceElementFromTest(stackTrace);
+    return firstStackTraceElementFromTest == null ? 0 : List.of(stackTrace).indexOf(firstStackTraceElementFromTest);
+  }
 
   public static List<String> describeErrors(List<? extends Throwable> errors) {
     return extract(errors, ERROR_DESCRIPTION_EXTRACTOR);
@@ -88,7 +121,7 @@ public final class Throwables {
   /**
    * Appends the stack trace of the current thread to the one in the given <code>{@link Throwable}</code>.
    *
-   * @param t the given {@code Throwable}.
+   * @param t                 the given {@code Throwable}.
    * @param methodToStartFrom the name of the method used as the starting point of the current thread's stack trace.
    */
   public static void appendStackTraceInCurrentThreadToThrowable(Throwable t, String methodToStartFrom) {
@@ -121,28 +154,28 @@ public final class Throwables {
    * <p>
    * Therefore, instead of seeing this:
    * <pre><code class='java'> --------------- stack trace not filtered -----------------
-   org.opentest4j.AssertionFailedError:
-   expected: "messi"
-   but was: "ronaldo"
-  
-   at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
-   at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
-   at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
-   at org.assertj.core/org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:28)
-   at org.assertj.core/org.assertj.core.error.ShouldBeEqual.assertionFailedError(ShouldBeEqual.java:208)
-   at org.assertj.core/org.assertj.core.error.ShouldBeEqual.toAssertionError(ShouldBeEqual.java:113)
-   at org.assertj.core/org.assertj.core.internal.Failures.failure(Failures.java:88)
-   at org.assertj.core/org.assertj.core.internal.Objects.assertEqual(Objects.java:214)
-  
-   --------------- stack trace filtered -----------------
-   org.opentest4j.AssertionFailedError:
-   expected: "messi"
-   but was: "ronaldo"
-  
-   at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-   at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
-   at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)</code></pre>
-  
+   * org.opentest4j.AssertionFailedError:
+   * expected: "messi"
+   * but was: "ronaldo"
+   *
+   * at java.base/jdk.internal.reflect.DirectConstructorHandleAccessor.newInstance(DirectConstructorHandleAccessor.java:62)
+   * at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:502)
+   * at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:486)
+   * at org.assertj.core/org.assertj.core.error.ConstructorInvoker.newInstance(ConstructorInvoker.java:28)
+   * at org.assertj.core/org.assertj.core.error.ShouldBeEqual.assertionFailedError(ShouldBeEqual.java:208)
+   * at org.assertj.core/org.assertj.core.error.ShouldBeEqual.toAssertionError(ShouldBeEqual.java:113)
+   * at org.assertj.core/org.assertj.core.internal.Failures.failure(Failures.java:88)
+   * at org.assertj.core/org.assertj.core.internal.Objects.assertEqual(Objects.java:214)
+   *
+   * --------------- stack trace filtered -----------------
+   * org.opentest4j.AssertionFailedError:
+   * expected: "messi"
+   * but was: "ronaldo"
+   *
+   * at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+   * at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+   * at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)</code></pre>
+   *
    * @param throwable the {@code Throwable} to filter stack trace.
    */
   public static void removeAssertJRelatedElementsFromStackTrace(Throwable throwable) {
@@ -253,7 +286,8 @@ public final class Throwables {
   }
 
   private static <T extends Throwable> T addLineNumberToErrorMessage(T error) {
-    StackTraceElement testStackTraceElement = Throwables.getFirstStackTraceElementFromTest(error.getStackTrace());
+    StackTraceElement[] stackTrace = error.getStackTrace();
+    StackTraceElement testStackTraceElement = Throwables.getFirstStackTraceElementFromTest(stackTrace);
     if (testStackTraceElement != null) {
       try {
         return createNewInstanceWithLineNumberInErrorMessage(error, testStackTraceElement);
@@ -272,14 +306,10 @@ public final class Throwables {
     return errorWithLineNumber;
   }
 
-  private static <T extends Throwable> boolean isOpentest4jAssertionFailedError(T error) {
-    return isInstanceOf(error, "org.opentest4j.AssertionFailedError");
-  }
-
-  private static boolean isInstanceOf(Object object, String className) {
+  private static boolean isOpentest4jAssertionFailedError(Throwable error) {
     try {
-      Class<?> type = Class.forName(className);
-      return type.isInstance(object);
+      Class<?> type = Class.forName("org.opentest4j.AssertionFailedError");
+      return type.isInstance(error);
     } catch (ClassNotFoundException e) {
       return false;
     }
