@@ -593,32 +593,36 @@ public class BDDAssertions extends Assertions {
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * This was added to help create type-specific assertions for the elements of an {@link Iterable} instance.
+   * However, there are better ways to reach the same goal.
    * <p>
-   * Deprecated way:
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
-   * then(hobbits, StringAssert::new).first()
-   *                                 .startsWith("fro")
-   *                                 .endsWith("do");</code></pre>
+   * The preferred way is to use navigation method overload that expects an {@link InstanceOfAssertFactory} parameter.
+   * For example, one of them is
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}:
+   * <pre><code class='java'>then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
    *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *              .startsWith("fro")
-   *              .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * Its main advantage is easier discoverability and the use of {@code InstanceOfAssertFactory}, which is the
    * preferred way to create type-specific assertions in AssertJ API.
+   * <p>
+   * Otherwise, the element assertion factory can be configured on the assertion object via
+   * {@link AbstractIterableAssert#withElementAssert(AssertFactory) withElementAssert}:
+   * <pre><code class='java'>then(hobbits).withElementAssert(Assertions::assertThat)
+   *                   .first()
+   *                   .startsWith("fro")
+   *                   .endsWith("do");</code></pre>
+   *
+   * This ensures that all navigation methods return element-specific assertions without needing additional parameters.
    */
   @Deprecated
-//@format:off
+  // @format:off
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(Iterable<? extends ELEMENT> actual,
                                                                                  AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     return assertThat(actual, assertFactory);
   }
+  // @format:on
 
   /**
    * Creates a new instance of <code>{@link ClassBasedNavigableIterableAssert}</code> allowing to navigate to any {@code Iterable} element
@@ -649,31 +653,36 @@ public class BDDAssertions extends Assertions {
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * This was added to help create type-specific assertions for the elements of an {@link Iterable} instance.
+   * However, there are better ways to reach the same goal.
    * <p>
-   * Deprecated way:
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = Set.of("frodo", "sam", "Pippin");
-   * then(hobbits, StringAssert.class).first()
-   *                                  .startsWith("fro")
-   *                                  .endsWith("do");</code></pre>
+   * The preferred way is to use navigation method overload that expects an {@link InstanceOfAssertFactory} parameter.
+   * For example, one of them is
+   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}:
+   * <pre><code class='java'>then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
    *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *              .startsWith("fro")
-   *              .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * Its main advantage is easier discoverability and the use of {@code InstanceOfAssertFactory}, which is the
    * preferred way to create type-specific assertions in AssertJ API.
+   * <p>
+   * Otherwise, the element assertion factory can be configured on the assertion object via
+   * {@link AbstractIterableAssert#withElementAssert(AssertFactory) withElementAssert}:
+   * <pre><code class='java'>then(hobbits).withElementAssert(Assertions::assertThat)
+   *                   .first()
+   *                   .startsWith("fro")
+   *                   .endsWith("do");</code></pre>
+   *
+   * This ensures that all navigation methods return element-specific assertions without needing additional parameters.
    */
+  // @format:off
   @Deprecated
   public static <ACTUAL extends Iterable<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableIterableAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(ACTUAL actual,
                                                                                     Class<ELEMENT_ASSERT> assertClass) {
     return assertThat(actual, assertClass);
   }
+  // @format:on
 
   /**
    * Creates a new instance of <code>{@link FactoryBasedNavigableListAssert}</code> allowing to navigate to any {@code List} element
@@ -712,31 +721,36 @@ public class BDDAssertions extends Assertions {
    * @param assertFactory the factory used to create the elements assert instance.
    * @return the created assertion object.
    * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link List} instance.
+   * This was added to help create type-specific assertions for the elements of a {@link List} instance.
+   * However, there are better ways to reach the same goal.
    * <p>
-   * Deprecated way:
-   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
-   * then(hobbits, StringAssert::new).first()
-   *                                 .startsWith("fro")
-   *                                 .endsWith("do");</code></pre>
+   * The preferred way is to use navigation method overload that expects an {@link InstanceOfAssertFactory} parameter.
+   * For example, one of them is
+   * {@link AbstractListAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}:
+   * <pre><code class='java'>then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
    *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *              .startsWith("fro")
-   *              .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * Its main advantage is easier discoverability and the use of {@code InstanceOfAssertFactory}, which is the
    * preferred way to create type-specific assertions in AssertJ API.
+   * <p>
+   * Otherwise, the element assertion factory can be configured on the assertion object via
+   * {@link AbstractListAssert#withElementAssert(AssertFactory) withElementAssert}:
+   * <pre><code class='java'>then(hobbits).withElementAssert(Assertions::assertThat)
+   *                   .first()
+   *                   .startsWith("fro")
+   *                   .endsWith("do");</code></pre>
+   *
+   * This ensures that all navigation methods return element-specific assertions without needing additional parameters.
    */
+  // @format:off
   @Deprecated
   public static <ACTUAL extends List<? extends ELEMENT>, ELEMENT, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          FactoryBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                                         AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
     return assertThat(actual, assertFactory);
   }
+  // @format:on
 
   /**
    * Creates a new instance of <code>{@link ClassBasedNavigableListAssert}</code> allowing to navigate to any {@code List} element
@@ -767,33 +781,36 @@ public class BDDAssertions extends Assertions {
    * @param assertClass the class used to create the elements assert instance.
    * @return the created assertion object.
    * @deprecated
-   * This was added to help creating type-specific assertions for the elements of an {@link Iterable} instance.
+   * This was added to help create type-specific assertions for the elements of a {@link List} instance.
+   * However, there are better ways to reach the same goal.
    * <p>
-   * Deprecated way:
-   * <pre><code class='java'> List&lt;String&gt; hobbits = List.of("frodo", "sam", "Pippin");
-   * then(hobbits, StringAssert.class).first()
-   *                                  .startsWith("fro")
-   *                                  .endsWith("do");</code></pre>
+   * The preferred way is to use navigation method overload that expects an {@link InstanceOfAssertFactory} parameter.
+   * For example, one of them is
+   * {@link AbstractListAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}:
+   * <pre><code class='java'>then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
+   *                    .startsWith("fro")
+   *                    .endsWith("do");</code></pre>
    *
-   * However, there is a better way with {@link InstanceOfAssertFactory} and the corresponding
-   * {@link AbstractIterableAssert#first(InstanceOfAssertFactory) first(InstanceOfAssertFactory)}.
-   * <p>
-   * New way:
-   * <pre><code class='java'> then(hobbits).first(STRING) // static import of InstanceOfAssertFactories.STRING
-   *              .startsWith("fro")
-   *              .endsWith("do");</code></pre>
-   *
-   * The main advantage of the latter is easier discoverability and the use of InstanceOfAssertFactory which is the
+   * Its main advantage is easier discoverability and the use of {@code InstanceOfAssertFactory}, which is the
    * preferred way to create type-specific assertions in AssertJ API.
+   * <p>
+   * Otherwise, the element assertion factory can be configured on the assertion object via
+   * {@link AbstractListAssert#withElementAssert(AssertFactory) withElementAssert}:
+   * <pre><code class='java'>then(hobbits).withElementAssert(Assertions::assertThat)
+   *                   .first()
+   *                   .startsWith("fro")
+   *                   .endsWith("do");</code></pre>
+   *
+   * This ensures that all navigation methods return element-specific assertions without needing additional parameters.
    */
+  // @format:off
   @Deprecated
   public static <ELEMENT, ACTUAL extends List<? extends ELEMENT>, ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
          ClassBasedNavigableListAssert<?, ACTUAL, ELEMENT, ELEMENT_ASSERT> then(List<? extends ELEMENT> actual,
                                                                                 Class<ELEMENT_ASSERT> assertClass) {
     return assertThat(actual, assertClass);
   }
-
-//@format:on
+  // @format:on
 
   /**
    * Creates a new instance of <code>{@link org.assertj.core.api.DoubleAssert}</code>.
