@@ -24,8 +24,8 @@ import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractIterableAssert;
 import org.assertj.core.api.AbstractStringAssert;
 import org.assertj.core.api.AssertFactory;
+import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ObjectAssert;
-import org.assertj.core.api.StringAssert;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -38,7 +38,7 @@ class IterableAssert_withElementAssert_Test {
     void should_allow_chaining_element_specific_assertions_with_factory_returning_concrete_assertion() {
       // GIVEN
       Iterable<String> actual = List.of("Homer", "Marge");
-      AssertFactory<String, AbstractStringAssert<?>> assertFactory = StringAssert::new;
+      AssertFactory<String, AbstractStringAssert<?>> assertFactory = Assertions::assertThat;
       AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
       // WHEN
       AbstractIterableAssert<?, Iterable<? extends String>, String, AbstractStringAssert<?>> result = underTest.withElementAssert(assertFactory);
@@ -52,7 +52,7 @@ class IterableAssert_withElementAssert_Test {
     void should_allow_chaining_element_specific_assertions_with_factory_returning_assertion_superclass() {
       // GIVEN
       Iterable<String> actual = List.of("Homer", "Marge");
-      AssertFactory<String, AbstractCharSequenceAssert<?, String>> assertFactory = StringAssert::new;
+      AssertFactory<String, AbstractCharSequenceAssert<?, String>> assertFactory = Assertions::assertThat;
       AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
       // WHEN
       AbstractIterableAssert<?, Iterable<? extends String>, String, AbstractCharSequenceAssert<?, String>> result = underTest.withElementAssert(assertFactory);
@@ -71,7 +71,7 @@ class IterableAssert_withElementAssert_Test {
     void should_allow_chaining_element_specific_assertions_with_factory_returning_concrete_assertion() {
       // GIVEN
       Iterable<String> actual = new LinkedHashSet<>(List.of("Homer", "Marge"));
-      AssertFactory<String, AbstractStringAssert<?>> assertFactory = StringAssert::new;
+      AssertFactory<String, AbstractStringAssert<?>> assertFactory = Assertions::assertThat;
       AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
       // WHEN
       AbstractIterableAssert<?, Iterable<? extends String>, String, AbstractStringAssert<?>> result = underTest.withElementAssert(assertFactory);
@@ -85,7 +85,7 @@ class IterableAssert_withElementAssert_Test {
     void should_allow_chaining_element_specific_assertions_with_factory_returning_assertion_superclass() {
       // GIVEN
       Iterable<String> actual = new LinkedHashSet<>(List.of("Homer", "Marge"));
-      AssertFactory<String, AbstractCharSequenceAssert<?, String>> assertFactory = StringAssert::new;
+      AssertFactory<String, AbstractCharSequenceAssert<?, String>> assertFactory = Assertions::assertThat;
       AbstractIterableAssert<?, Iterable<? extends String>, String, ObjectAssert<String>> underTest = assertThat(actual);
       // WHEN
       AbstractIterableAssert<?, Iterable<? extends String>, String, AbstractCharSequenceAssert<?, String>> result = underTest.withElementAssert(assertFactory);

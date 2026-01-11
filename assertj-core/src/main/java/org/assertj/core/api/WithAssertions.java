@@ -867,7 +867,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * <p>
    * Otherwise, the element assertion factory can be configured on the assertion object via
    * {@link AbstractIterableAssert#withElementAssert(AssertFactory) withElementAssert}:
-   * <pre><code class='java'>assertThat(hobbits).withElementAssert(StringAssert::new)
+   * <pre><code class='java'>assertThat(hobbits).withElementAssert(Assertions::assertThat)
    *                   .first()
    *                   .startsWith("fro")
    *                   .endsWith("do");</code></pre>
@@ -962,7 +962,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * <p>
    * Otherwise, the element assertion factory can be configured on the assertion object via
    * {@link AbstractIterableAssert#withElementAssert(AssertFactory) withElementAssert}:
-   * <pre><code class='java'>assertThat(hobbits).withElementAssert(StringAssert::new)
+   * <pre><code class='java'>assertThat(hobbits).withElementAssert(Assertions::assertThat)
    *                   .first()
    *                   .startsWith("fro")
    *                   .endsWith("do");</code></pre>
@@ -1313,7 +1313,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * <p>
    * Otherwise, the element assertion factory can be configured on the assertion object via
    * {@link AbstractListAssert#withElementAssert(AssertFactory) withElementAssert}:
-   * <pre><code class='java'>assertThat(hobbits).withElementAssert(StringAssert::new)
+   * <pre><code class='java'>assertThat(hobbits).withElementAssert(Assertions::assertThat)
    *                   .first()
    *                   .startsWith("fro")
    *                   .endsWith("do");</code></pre>
@@ -1378,7 +1378,7 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    * <p>
    * Otherwise, the element assertion factory can be configured on the assertion object via
    * {@link AbstractListAssert#withElementAssert(AssertFactory) withElementAssert}:
-   * <pre><code class='java'>assertThat(hobbits).withElementAssert(StringAssert::new)
+   * <pre><code class='java'>assertThat(hobbits).withElementAssert(Assertions::assertThat)
    *                   .first()
    *                   .startsWith("fro")
    *                   .endsWith("do");</code></pre>
