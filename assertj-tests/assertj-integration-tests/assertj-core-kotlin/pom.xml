@@ -13,7 +13,7 @@
   <name>AssertJ Core Integration Tests (Kotlin)</name>
 
   <properties>
-    <kotlin.version>2.1.0</kotlin.version>
+    <kotlin.version>2.2.21</kotlin.version>
   </properties>
 
   <dependencies>
@@ -38,7 +38,6 @@
 
   <build>
     <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
-
     <plugins>
       <plugin>
         <groupId>com.mycila</groupId>
@@ -55,6 +54,7 @@
       </plugin>
       <plugin>
         <groupId>org.jetbrains.kotlin</groupId>
+        <!--suppress KotlinMavenPluginPhase -->
         <artifactId>kotlin-maven-plugin</artifactId>
         <version>${kotlin.version}</version>
         <executions>
