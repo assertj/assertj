@@ -58,4 +58,16 @@ class LocalDateAssert_isEqualTo_Test extends LocalDateAssertBaseTest {
                                         .withMessage("The String representing the LocalDate to compare actual with should not be null");
   }
 
+  @Test
+  void should_fail_with_assertion_error_when_comparing_to_invalid_string() {
+    // GIVEN
+    LocalDate today = LocalDate.now();
+    String invalidDateString = "today"; // Invalid string that cannot be parsed as LocalDate
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(today).isEqualTo(invalidDateString));
+    // THEN
+    then(assertionError).hasMessageContaining(today.toString())
+                        .hasMessageContaining(invalidDateString);
+  }
+
 }

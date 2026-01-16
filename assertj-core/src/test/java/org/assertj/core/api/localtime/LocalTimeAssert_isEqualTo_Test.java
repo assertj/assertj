@@ -17,8 +17,10 @@ package org.assertj.core.api.localtime;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.testkit.ErrorMessagesForTest.shouldBeEqualMessage;
 import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.time.LocalTime;
 
@@ -51,6 +53,18 @@ class LocalTimeAssert_isEqualTo_Test extends LocalTimeAssertBaseTest {
     // THEN
     assertThatIllegalArgumentException().isThrownBy(code)
                                         .withMessage("The String representing the LocalTime to compare actual with should not be null");
+  }
+
+  @Test
+  void should_fail_with_assertion_error_when_comparing_to_invalid_string() {
+    // GIVEN
+    LocalTime now = LocalTime.now();
+    String invalidString = "not a LocalTime";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(now).isEqualTo(invalidString));
+    // THEN
+    then(assertionError).hasMessageContaining(now.toString())
+                        .hasMessageContaining(invalidString);
   }
 
 }
