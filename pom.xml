@@ -120,6 +120,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <rootDirectory>${project.basedir}</rootDirectory>
     <spotless.skip>true</spotless.skip>
+    <pit.mutationThreshold>70</pit.mutationThreshold>
     <!-- Plugin versions -->
     <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
     <flatten-maven-plugin.version>1.7.3</flatten-maven-plugin.version>
@@ -247,7 +248,7 @@ limitations under the License.
           <version>${maven-enforcer-plugin.version}</version>
           <configuration>
             <rules>
-              <dependencyConvergence />
+              <dependencyConvergence/>
             </rules>
           </configuration>
         </plugin>
@@ -395,6 +396,53 @@ limitations under the License.
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>pitest</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>1.22.0</version>
+            <dependencies>
+              <dependency>
+                <groupId>com.arcmutate</groupId>
+                <artifactId>base</artifactId>
+                <version>1.7.0</version>
+              </dependency>
+              <dependency>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-junit5-plugin</artifactId>
+                <version>1.2.3</version>
+              </dependency>
+            </dependencies>
+            <configuration>
+              <threads>4</threads>
+              <timestampedReports>false</timestampedReports>
+              <excludedTestClasses>org.assertj.core.error.ShouldHaveDuration*</excludedTestClasses>
+              <historyInputFile>${project.build.directory}/pit-history.data</historyInputFile>
+              <historyOutputFile>${project.build.directory}/pit-history.data</historyOutputFile>
+              <outputFormats>
+                <param>XML</param>
+                <param>HTML</param>
+              </outputFormats>
+              <mutationThreshold>${pit.mutationThreshold}</mutationThreshold>
+              <features>
+                <feature>+arcmutate_history(run_tests[false])</feature>
+              </features>
+            </configuration>
+            <executions>
+              <execution>
+                <id>pitest</id>
+                <phase>test</phase>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
-
 </project>
