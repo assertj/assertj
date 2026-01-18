@@ -50,6 +50,32 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(&quot;abc&quot;).isEqualTo(&quot;123&quot;);
    * assertThat(new ArrayList&lt;String&gt;()).isEqualTo(1);</code></pre>
    *
+   * <b>Note on testing {@code equals()} / {@code hashCode()} contracts</b>
+   * <p>
+   * {@code isEqualTo} is <b>not</b> designed to validate the correctness of an object's {@code equals()}
+   * and {@code hashCode()} implementations. While it delegates to the object's {@code equals()} method,
+   * it only verifies the <i>outcome</i> of a single equality check. It does not validate the full
+   * {@link Object#equals(Object) equals()} contract (reflexivity, symmetry, transitivity, consistency,
+   * and null-handling).
+   * <p>
+   * If your {@code equals()} implementation has a bug that causes it to return an incorrect result,
+   * {@code isEqualTo} will simply accept that result without detecting the bug. Additionally, AssertJ
+   * may short-circuit equality checks by returning {@code true} for reference equality via {@code ==}
+   * before delegating to {@code equals()}, which can cause tests to pass even when the {@code equals()}
+   * method itself is broken.
+   * <p>
+   * For comprehensive testing of the {@code equals()} and {@code hashCode()} contracts, consider using
+   * dedicated libraries:
+   *
+   * <ul>
+   *   <li><a href="https://jqno.nl/equalsverifier/">EqualsVerifier</a></li>
+   *   <li><a href="https://javadoc.io/doc/com.google.guava/guava-testlib/latest/com/google/common/testing/EqualsTester.html">
+   *     Guava's EqualsTester</a></li>
+   * </ul>
+   *
+   * If you want to verify that two objects have the same field values without relying on {@code equals()},
+   * use the {@link AbstractObjectAssert#usingRecursiveComparison() recursive comparison}.
+   *
    * @param expected the given value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not equal to the given one.
