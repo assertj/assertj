@@ -48,4 +48,23 @@ class ShouldBeEqualIgnoringWhitespace_create_Test {
                                    "  \" myfoo bar \"%n" +
                                    "when ignoring whitespace differences"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_values() {
+    // GIVEN
+    ErrorMessageFactory factory = shouldBeEqualIgnoringWhitespace("foo\nbar\nbaz", "moreFoo\nbar\nbaz");
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"foo%n" +
+                                   "  bar%n" +
+                                   "  baz\"%n" +
+                                   "to be equal to:%n" +
+                                   "  \"moreFoo%n" +
+                                   "  bar%n" +
+                                   "  baz\"%n" +
+                                   "when ignoring whitespace differences"));
+  }
 }
