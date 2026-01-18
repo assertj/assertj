@@ -15,7 +15,6 @@
  */
 package org.assertj.core.error;
 
-import static java.lang.System.lineSeparator;
 import static java.util.Objects.deepEquals;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.configuration.ConfigurationProvider.CONFIGURATION_PROVIDER;
@@ -89,60 +88,6 @@ public class BasicErrorMessageFactory implements ErrorMessageFactory {
       UnquotedString other = (UnquotedString) obj;
       return Objects.equals(string, other.string);
     }
-  }
-
-  /**
-   * Wrapper class for values that should have all lines indented in error messages.
-   * <p>
-   * When a value is wrapped with {@link #indented(Object)}, each line of its string representation
-   * will be indented with 2 spaces. This is useful for multi-line values where only the first line
-   * would otherwise be indented.
-   *
-   * @see #indented(Object)
-   */
-  static class IndentedValue {
-
-    private final Object value;
-
-    private IndentedValue(Object value) {
-      this.value = value;
-    }
-
-    Object getValue() {
-      return value;
-    }
-
-    static String indentAllLines(String representation) {
-      if (representation == null) return null;
-      return representation.replace(lineSeparator(), lineSeparator() + "  ");
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hashCode(value);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (this == obj) return true;
-      if (obj == null) return false;
-      if (getClass() != obj.getClass()) return false;
-      IndentedValue other = (IndentedValue) obj;
-      return Objects.equals(value, other.value);
-    }
-  }
-
-  /**
-   * Wraps a value so that all lines of its string representation will be indented in the error message.
-   * <p>
-   * This is useful for multi-line values in error messages. Without this wrapper, only the first line
-   * would be indented according to the format string, while subsequent lines would have no indentation.
-   *
-   * @param value the value to wrap for indentation
-   * @return an {@link IndentedValue} wrapper
-   */
-  protected static IndentedValue indented(Object value) {
-    return new IndentedValue(value);
   }
 
   /**
