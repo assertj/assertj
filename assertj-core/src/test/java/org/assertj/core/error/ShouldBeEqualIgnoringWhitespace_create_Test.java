@@ -50,7 +50,7 @@ class ShouldBeEqualIgnoringWhitespace_create_Test {
   }
 
   @Test
-  void should_create_error_message_with_multiline_values() {
+  void should_create_error_message_with_multiline_values_correctly_indented() {
     // GIVEN
     ErrorMessageFactory factory = shouldBeEqualIgnoringWhitespace("foo\nbar\nbaz", "moreFoo\nbar\nbaz");
     // WHEN
