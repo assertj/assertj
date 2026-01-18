@@ -76,6 +76,10 @@ public class MessageFormatter {
     if (o instanceof AbstractComparisonStrategy strategy) {
       return strategy.asText();
     }
+    if (o instanceof BasicErrorMessageFactory.IndentedValue indented) {
+      String text = p.toStringOf(indented.getValue());
+      return BasicErrorMessageFactory.IndentedValue.indentAllLines(text);
+    }
     return p.toStringOf(o);
   }
 }

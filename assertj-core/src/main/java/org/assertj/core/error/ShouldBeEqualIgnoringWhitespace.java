@@ -34,6 +34,7 @@ public class ShouldBeEqualIgnoringWhitespace extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualIgnoringWhitespace(CharSequence actual, CharSequence expected) {
-    super("%nExpecting actual:%n  %s%nto be equal to:%n  %s%nwhen ignoring whitespace differences", actual, expected);
+    super("%nExpecting actual:%n  %s%nto be equal to:%n  %s%nwhen ignoring whitespace differences",
+          indented(actual), indented(expected));
   }
 }
