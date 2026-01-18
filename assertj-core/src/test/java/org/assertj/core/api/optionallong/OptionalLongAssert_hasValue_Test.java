@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
 package org.assertj.core.api.optionallong;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.OptionalShouldContain.shouldContain;
-import static org.assertj.core.util.AssertionsUtil.assertThatAssertionErrorIsThrownBy;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.util.OptionalLong;
@@ -33,8 +33,10 @@ class OptionalLongAssert_hasValue_Test {
   void should_fail_when_OptionalLong_is_null() {
     // GIVEN
     OptionalLong nullActual = null;
+    // WHEN
+    var error = expectAssertionError(() -> assertThat(nullActual).hasValue(10L));
     // THEN
-    assertThatAssertionErrorIsThrownBy(() -> assertThat(nullActual).hasValue(10L)).withMessage(actualIsNull());
+    then(error).hasMessage(actualIsNull());
   }
 
   @Test
@@ -48,12 +50,11 @@ class OptionalLongAssert_hasValue_Test {
     OptionalLong actual = OptionalLong.of(5L);
     long expectedValue = 10L;
     // WHEN
-    AssertionFailedError error = catchThrowableOfType(AssertionFailedError.class,
-                                                      () -> assertThat(actual).hasValue(expectedValue));
+    var error = catchThrowableOfType(AssertionFailedError.class, () -> assertThat(actual).hasValue(expectedValue));
     // THEN
-    assertThat(error).hasMessage(shouldContain(actual, expectedValue).create());
-    assertThat(error.getActual().getStringRepresentation()).isEqualTo(String.valueOf(actual.getAsLong()));
-    assertThat(error.getExpected().getStringRepresentation()).isEqualTo(String.valueOf(expectedValue));
+    then(error).hasMessage(shouldContain(actual, expectedValue).create());
+    then(error.getActual().getValue()).isEqualTo(actual.getAsLong());
+    then(error.getExpected().getValue()).isEqualTo(expectedValue);
   }
 
   @Test
@@ -61,8 +62,8 @@ class OptionalLongAssert_hasValue_Test {
     // GIVEN
     long expectedValue = 10L;
     // WHEN
-    Throwable error = catchThrowable(() -> assertThat(OptionalLong.empty()).hasValue(expectedValue));
+    var error = expectAssertionError(() -> assertThat(OptionalLong.empty()).hasValue(expectedValue));
     // THEN
-    assertThat(error).hasMessage(shouldContain(expectedValue).create());
+    then(error).hasMessage(shouldContain(expectedValue).create());
   }
 }

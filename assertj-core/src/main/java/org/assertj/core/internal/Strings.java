@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -82,7 +82,6 @@ import static org.assertj.core.internal.CommonValidations.checkSameSizes;
 import static org.assertj.core.internal.CommonValidations.checkSizeBetween;
 import static org.assertj.core.internal.CommonValidations.checkSizes;
 import static org.assertj.core.internal.CommonValidations.hasSameSizeAsCheck;
-import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
 
 import java.io.IOException;
 import java.io.LineNumberReader;
@@ -736,19 +735,6 @@ public class Strings {
     }
 
     throw failures.failure(info, shouldNotContainSubsequence(actual, subsequence, subsequenceIndexes, comparisonStrategy));
-  }
-
-  public void assertXmlEqualsTo(AssertionInfo info, CharSequence actualXml, CharSequence expectedXml) {
-    // check that actual and expected XML CharSequence are not null.
-    // we consider that null values don't make much sense when you want to compare XML document as String/CharSequence.
-    checkCharSequenceIsNotNull(expectedXml);
-    assertNotNull(info, actualXml);
-    // we only use default comparison strategy, it does not make sense to use a specific comparison strategy
-    final String formattedActualXml = xmlPrettyFormat(actualXml.toString());
-    final String formattedExpectedXml = xmlPrettyFormat(expectedXml.toString());
-    if (!comparisonStrategy.areEqual(formattedActualXml, formattedExpectedXml))
-      throw failures.failure(info, shouldBeEqual(formattedActualXml, formattedExpectedXml, comparisonStrategy,
-                                                 info.representation()));
   }
 
   public void assertIsSubstringOf(AssertionInfo info, CharSequence actual, CharSequence sequence) {

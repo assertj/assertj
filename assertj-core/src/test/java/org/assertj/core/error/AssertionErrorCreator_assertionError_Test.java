@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2025 the original author or authors.
+ * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,16 @@
 package org.assertj.core.error;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
+import java.util.List;
+
 import org.assertj.core.presentation.Representation;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 import org.opentest4j.AssertionFailedError;
 
@@ -59,5 +63,48 @@ class AssertionErrorCreator_assertionError_Test {
     // THEN
     then(assertionError).isNotInstanceOf(AssertionFailedError.class)
                         .hasMessage(message);
+  }
+
+  @Test
+  public void should_honor_representation_in_AssertionFailedError_actual_and_expected_values() {
+    // WHEN
+    var assertionError = assertionErrorCreator.assertionError("boom", List.of("actual"), List.of("expected"),
+                                                              STANDARD_REPRESENTATION);
+    // THEN
+    then(assertionError).isInstanceOf(AssertionFailedError.class);
+    var assertionFailedError = (AssertionFailedError) assertionError;
+    then(assertionFailedError.getActual().toString()).contains("[\"actual\"]");
+    then(assertionFailedError.getExpected().toString()).contains("[\"expected\"]");
+  }
+
+  @Test
+  public void should_honor_custom_representation_in_AssertionFailedError_actual_and_expected_values() {
+    // GIVEN
+    Representation representation = new ItemRepresentation();
+    // WHEN
+    var assertionError = assertionErrorCreator.assertionError("boom", new Item("actual"), new Item("expected"), representation);
+    // THEN
+    then(assertionError).isInstanceOf(AssertionFailedError.class);
+    AssertionFailedError assertionFailedError = (AssertionFailedError) assertionError;
+    then(assertionFailedError.getActual().toString()).contains("actual");
+    then(assertionFailedError.getExpected().toString()).contains("expected");
+  }
+
+  record Item(String name) {
+
+    @Override
+    public String toString() {
+      return "useless toString";
+    }
+  }
+
+  private static class ItemRepresentation extends StandardRepresentation {
+    @Override
+    protected String fallbackToStringOf(final Object object) {
+      if (object instanceof Item) {
+        return ((Item) object).name;
+      }
+      return super.fallbackToStringOf(object);
+    }
   }
 }
