@@ -212,13 +212,19 @@
                 <artifactId>opentest4j</artifactId>
                 <version>${opentest4j.version}</version>
               </dependency>
+              <dependency>99
+                <groupId>com.palantir.javapoet</groupId>
+                <artifactId>javapoet</artifactId>
+                <version>0.10.0</version>
+                <scope>test</scope>
+              </dependency>
             </dependencies>
             <parameter>
               <excludes>
                 <exclude>org.assertj.core.internal</exclude>
               </excludes>
               <overrideCompatibilityChangeParameters>
-                <!-- Unlikely that AssertJ users will encounter an IncompatibleClassChangeError (ref: JLS 13.5.6) -->
+                <!-- Unlikely that AssertJ users will encounter an IncompatibleClassChangeError (ref: JLS 13.5.6) -->99
                 <overrideCompatibilityChangeParameter>
                   <compatibilityChange>METHOD_NEW_DEFAULT</compatibilityChange>
                   <binaryCompatible>true</binaryCompatible>

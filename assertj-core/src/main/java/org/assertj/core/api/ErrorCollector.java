@@ -74,11 +74,11 @@ public class ErrorCollector {
     return assertion;
   }
 
-  private void addError(AssertionError error) {
+  void addError(AssertionError error) {
     assertionErrorCollector.collectAssertionError(error);
   }
 
-  private void succeeded() {
+  void succeeded() {
     assertionErrorCollector.succeeded();
   }
 
