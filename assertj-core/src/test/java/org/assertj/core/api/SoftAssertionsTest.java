@@ -191,11 +191,11 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     List<Throwable> errors = softly.errorsCollected();
     then(errors).hasSize(2);
     then(errors.get(0)).hasMessageStartingWith(format("%nExpecting map:%n"
-                                                      + "  {\"54\"=\"55\"}%n"
-                                                      + "to contain entries:%n"
-                                                      + "  [\"1\"=\"2\"]%n"
-                                                      + "but could not find the following map keys:%n"
-                                                      + "  [\"1\"]"));
+                                                        + "  {\"54\"=\"55\"}%n"
+                                                        + "to contain entries:%n"
+                                                        + "  [\"1\"=\"2\"]%n"
+                                                        + "but could not find the following map keys:%n"
+                                                        + "  [\"1\"]"));
     then(errors.get(1)).hasMessageStartingWith("%nExpecting empty but was: {\"54\"=\"55\"}".formatted());
   }
 
@@ -207,15 +207,15 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
       softly.assertThat(Boolean.FALSE).isTrue();
       softly.assertThat(false).isTrue();
-      softly.assertThat(new boolean[] { false }).isEqualTo(new boolean[] { true });
+      softly.assertThat(new boolean[]{ false }).isEqualTo(new boolean[]{ true });
 
       softly.assertThat(Byte.valueOf((byte) 0)).isEqualTo((byte) 1);
       softly.assertThat((byte) 2).inHexadecimal().isEqualTo((byte) 3);
-      softly.assertThat(new byte[] { 4 }).isEqualTo(new byte[] { 5 });
+      softly.assertThat(new byte[]{ 4 }).isEqualTo(new byte[]{ 5 });
 
       softly.assertThat(Character.valueOf((char) 65)).isEqualTo(Character.valueOf((char) 66));
       softly.assertThat((char) 67).isEqualTo((char) 68);
-      softly.assertThat(new char[] { 69 }).isEqualTo(new char[] { 70 });
+      softly.assertThat(new char[]{ 69 }).isEqualTo(new char[]{ 70 });
 
       softly.assertThat(new StringBuilder("a")).isEqualTo(new StringBuilder("b"));
 
@@ -225,7 +225,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
       softly.assertThat(Double.valueOf(6.0d)).isEqualTo(Double.valueOf(7.0d));
       softly.assertThat(8.0d).isEqualTo(9.0d);
-      softly.assertThat(new double[] { 10.0d }).isEqualTo(new double[] { 11.0d });
+      softly.assertThat(new double[]{ 10.0d }).isEqualTo(new double[]{ 11.0d });
 
       softly.assertThat(new File("a"))
             .overridingErrorMessage(shouldBeEqualMessage("File(a)", "File(b)"))
@@ -233,14 +233,14 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
       softly.assertThat(Float.valueOf(12f)).isEqualTo(Float.valueOf(13f));
       softly.assertThat(14f).isEqualTo(15f);
-      softly.assertThat(new float[] { 16f }).isEqualTo(new float[] { 17f });
+      softly.assertThat(new float[]{ 16f }).isEqualTo(new float[]{ 17f });
 
-      softly.assertThat(new ByteArrayInputStream(new byte[] { (byte) 65 }))
-            .hasSameContentAs(new ByteArrayInputStream(new byte[] { (byte) 66 }));
+      softly.assertThat(new ByteArrayInputStream(new byte[]{ (byte) 65 }))
+            .hasSameContentAs(new ByteArrayInputStream(new byte[]{ (byte) 66 }));
 
       softly.assertThat(Integer.valueOf(20)).isEqualTo(Integer.valueOf(21));
       softly.assertThat(22).isEqualTo(23);
-      softly.assertThat(new int[] { 24 }).isEqualTo(new int[] { 25 });
+      softly.assertThat(new int[]{ 24 }).isEqualTo(new int[]{ 25 });
 
       softly.assertThat((Iterable<String>) Lists.newArrayList("26")).isEqualTo(Lists.newArrayList("27"));
       softly.assertThat(list("28").iterator()).isExhausted();
@@ -248,13 +248,13 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
       softly.assertThat(Long.valueOf(32L)).isEqualTo(Long.valueOf(33L));
       softly.assertThat(34L).isEqualTo(35L);
-      softly.assertThat(new long[] { 36L }).isEqualTo(new long[] { 37L });
+      softly.assertThat(new long[]{ 36L }).isEqualTo(new long[]{ 37L });
 
       softly.assertThat(mapOf(MapEntry.entry("38", "39"))).isEqualTo(mapOf(MapEntry.entry("40", "41")));
 
       softly.assertThat(Short.valueOf((short) 42)).isEqualTo(Short.valueOf((short) 43));
       softly.assertThat((short) 44).isEqualTo((short) 45);
-      softly.assertThat(new short[] { (short) 46 }).isEqualTo(new short[] { (short) 47 });
+      softly.assertThat(new short[]{ (short) 46 }).isEqualTo(new short[]{ (short) 47 });
 
       softly.assertThat("48").isEqualTo("49");
 
@@ -270,12 +270,12 @@ class SoftAssertionsTest extends BaseAssertionsTest {
         }
       });
 
-      softly.assertThat(new Object[] { new Object() {
+      softly.assertThat(new Object[]{ new Object() {
         @Override
         public String toString() {
           return "52";
         }
-      } }).isEqualTo(new Object[] { new Object() {
+      } }).isEqualTo(new Object[]{ new Object() {
         @Override
         public String toString() {
           return "53";
@@ -343,11 +343,11 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       then(errors.get(19)).contains(shouldBeEqualMessage("[16.0f]", "[17.0f]"));
 
       then(errors.get(20)).contains(format("%nInputStreams do not have same content:%n%n"
-                                           + "Changed content at line 1:%n"
-                                           + "expecting:%n"
-                                           + "  [\"B\"]%n"
-                                           + "but was:%n"
-                                           + "  [\"A\"]%n"));
+                                             + "Changed content at line 1:%n"
+                                             + "expecting:%n"
+                                             + "  [\"B\"]%n"
+                                             + "but was:%n"
+                                             + "  [\"A\"]%n"));
 
       then(errors.get(21)).contains(shouldBeEqualMessage("20", "21"));
       then(errors.get(22)).contains(shouldBeEqualMessage("22", "23"));
@@ -373,19 +373,19 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       then(errors.get(35)).contains(shouldBeEqualMessage("50", "51"));
       then(errors.get(36)).contains(shouldBeEqualMessage("[52]", "[53]"));
       then(errors.get(37)).contains(format("%nExpecting message to be:%n"
-                                           + "  \"NullPointerException message\"%n"
-                                           + "but was:%n"
-                                           + "  \"IllegalArgumentException message\""));
+                                             + "  \"NullPointerException message\"%n"
+                                             + "but was:%n"
+                                             + "  \"IllegalArgumentException message\""));
       then(errors.get(38)).contains(format("%nExpecting message to be:%n"
-                                           + "  \"something was good\"%n"
-                                           + "but was:%n"
-                                           + "  \"something was wrong\""));
+                                             + "  \"something was good\"%n"
+                                             + "but was:%n"
+                                             + "  \"something was wrong\""));
       then(errors.get(39)).contains(format("%nExpecting map:%n"
-                                           + "  {\"54\"=\"55\"}%n"
-                                           + "to contain entries:%n"
-                                           + "  [\"1\"=\"2\"]%n"
-                                           + "but could not find the following map keys:%n"
-                                           + "  [\"1\"]"));
+                                             + "  {\"54\"=\"55\"}%n"
+                                             + "to contain entries:%n"
+                                             + "  [\"1\"=\"2\"]%n"
+                                             + "but could not find the following map keys:%n"
+                                             + "  [\"1\"]"));
 
       then(errors.get(40)).contains(shouldBeEqualMessage("12:00", "13:00"));
       then(errors.get(41)).contains(shouldBeEqualMessage("12:00Z", "13:00Z"));
@@ -396,22 +396,22 @@ class SoftAssertionsTest extends BaseAssertionsTest {
       then(errors.get(45)).contains(shouldBeEqualMessage("OptionalLong[0]", "1L"));
       then(errors.get(46)).contains("Expecting port of");
       then(errors.get(47)).contains(format("%nExpecting actual:%n  given predicate%n"
-                                           + "to accept \"something else\" but it did not."));
+                                             + "to accept \"something else\" but it did not."));
 
       then(errors.get(48)).contains(format("%nExpecting actual:%n  given predicate%n"
-                                           + "to accept 2 but it did not."));
+                                             + "to accept 2 but it did not."));
 
       then(errors.get(49)).contains(format("%nExpecting actual:%n  given predicate%n"
-                                           + "to accept 2L but it did not."));
+                                             + "to accept 2L but it did not."));
       then(errors.get(50)).contains(format("%nExpecting actual:%n  given predicate%n"
-                                           + "to accept 2.0 but it did not."));
+                                             + "to accept 2.0 but it did not."));
       then(errors.get(51)).contains(format("%nExpecting actual:%n"
-                                           + "  <http://assertj.org:80>%n"
-                                           + "not to have a port but had:%n"
-                                           + "  <80>"));
+                                             + "  <http://assertj.org:80>%n"
+                                             + "not to have a port but had:%n"
+                                             + "  <80>"));
       then(errors.get(52)).contains(format("%nExpecting Duration:%n"
-                                           + "  10h%n"
-                                           + "to have 5L hours but had 10L"));
+                                             + "  10h%n"
+                                             + "to have 5L hours but had 10L"));
       then(errors.get(53)).contains(format("%nExpecting Period:%n  P1D%nto have 2 days but had 1"));
     }
   }
@@ -1100,8 +1100,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     softly.assertThat(new AtomicLong(1L)).hasValueGreaterThan(0L).hasNegativeValue();
     softly.assertThat(new AtomicReference<>("abc")).hasValue("abc").hasValue("def");
     // atomic array value
-    softly.assertThat(new AtomicIntegerArray(new int[] { 1, 2, 3 })).containsExactly(1, 2, 3).isEmpty();
-    softly.assertThat(new AtomicLongArray(new long[] { 1L, 2L, 3L })).containsExactly(1L, 2L, 3L).contains(0);
+    softly.assertThat(new AtomicIntegerArray(new int[]{ 1, 2, 3 })).containsExactly(1, 2, 3).isEmpty();
+    softly.assertThat(new AtomicLongArray(new long[]{ 1L, 2L, 3L })).containsExactly(1L, 2L, 3L).contains(0);
     softly.assertThat(new AtomicReferenceArray<>(array("a", "b", "c"))).containsExactly("a", "b", "c").contains("123");
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
@@ -2729,10 +2729,25 @@ class SoftAssertionsTest extends BaseAssertionsTest {
                                   .hasMessageContaining("within 1 Seconds");
   }
 
+  @Test
+  public void should_work_with_typed_navigation() {
+    // WHEN
+    softly.assertThat(Optional.of("Foo"))
+          .get(STRING)
+          .isEqualTo("Bar")
+          .isEqualTo("Baz");
+    // THEN
+    List<Throwable> errorsCollected = softly.errorsCollected().stream().toList();
+    then(errorsCollected).hasSize(2);
+    then(errorsCollected.get(0)).hasMessageContaining("Bar");
+    then(errorsCollected.get(1)).hasMessageContaining("Baz");
+  }
+
   public static Stream<Temporal> should_work_with_temporal_type_assertions() {
     return Stream.of(Instant.now(), ZonedDateTime.now(), OffsetDateTime.now());
   }
 
-  private void checkSomething() {}
+  private void checkSomething() {
+  }
 
 }
