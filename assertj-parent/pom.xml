@@ -30,7 +30,7 @@
     <maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
     <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
     <spotbugs-maven-plugin.version>4.9.8.2</spotbugs-maven-plugin.version>
-    <versions-maven-plugin.version>2.20.1</versions-maven-plugin.version>
+    <versions-maven-plugin.version>2.21.0</versions-maven-plugin.version>
   </properties>
 
   <dependencyManagement>
