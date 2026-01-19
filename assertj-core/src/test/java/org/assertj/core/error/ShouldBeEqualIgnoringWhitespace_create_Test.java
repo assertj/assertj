@@ -52,7 +52,9 @@ class ShouldBeEqualIgnoringWhitespace_create_Test {
   @Test
   void should_create_error_message_with_multiline_values_correctly_indented() {
     // GIVEN
-    ErrorMessageFactory factory = shouldBeEqualIgnoringWhitespace("foo\nbar\nbaz", "moreFoo\nbar\nbaz");
+    String actual = "foo%nbar%nbaz".formatted();
+    String expected = "moreFoo%nbar%nbaz".formatted();
+    ErrorMessageFactory factory = shouldBeEqualIgnoringWhitespace(actual, expected);
     // WHEN
     String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
