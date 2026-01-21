@@ -43,4 +43,26 @@ class ShouldBeEqualNormalizingPunctuationAndWhitespace_create_Test {
                                    "after punctuation and whitespace differences are normalized.%n" +
                                    "Punctuation is any of the following character !\"#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "foo%nbar%nbaz".formatted();
+    String expected = "moreFoo%nbar%nbaz".formatted();
+    ErrorMessageFactory factory = shouldBeEqualNormalizingPunctuationAndWhitespace(actual, expected);
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"foo%n" +
+                                   "  bar%n" +
+                                   "  baz\"%n" +
+                                   "to be equal to:%n" +
+                                   "  \"moreFoo%n" +
+                                   "  bar%n" +
+                                   "  baz\"%n" +
+                                   "after punctuation and whitespace differences are normalized.%n" +
+                                   "Punctuation is any of the following character !\"#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~"));
+  }
 }

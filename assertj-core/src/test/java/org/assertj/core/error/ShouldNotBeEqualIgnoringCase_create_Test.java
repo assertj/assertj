@@ -45,4 +45,25 @@ class ShouldNotBeEqualIgnoringCase_create_Test {
                                    "  \"Luke\"%n" +
                                    "ignoring case considerations"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "foo%nbar%nbaz".formatted();
+    String expected = "moreFoo%nbar%nbaz".formatted();
+    ErrorMessageFactory factory = shouldNotBeEqualIgnoringCase(actual, expected);
+    // WHEN
+    String message = factory.create(new TestDescription("Test"));
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"foo%n" +
+                                   "  bar%n" +
+                                   "  baz\"%n" +
+                                   "not to be equal to:%n" +
+                                   "  \"moreFoo%n" +
+                                   "  bar%n" +
+                                   "  baz\"%n" +
+                                   "ignoring case considerations"));
+  }
 }

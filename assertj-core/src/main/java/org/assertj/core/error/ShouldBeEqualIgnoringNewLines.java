@@ -28,7 +28,7 @@ public class ShouldBeEqualIgnoringNewLines extends BasicErrorMessageFactory {
           "to be equal to:%n" +
           "  %s%n" +
           "when ignoring newlines (\\n, \\r\\n).",
-          actual, expected);
+          IndentWrapper.of(actual), IndentWrapper.of(expected));
   }
 
 }

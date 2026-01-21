@@ -48,4 +48,32 @@ class ShouldBeEqualNormalizingUnicode_create_Test {
                                    "Normalized actual  : \"Ä\"%n" +
                                    "Normalized expected: \"A\""));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "foo%nbar%nbaz".formatted();
+    String expected = "moreFoo%nbar%nbaz".formatted();
+    ErrorMessageFactory factory = shouldBeEqualNormalizingUnicode(actual, expected, actual, expected);
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"foo%n" +
+                                   "  bar%n" +
+                                   "  baz\"%n" +
+                                   "to be equal to:%n" +
+                                   "  \"moreFoo%n" +
+                                   "  bar%n" +
+                                   "  baz\"%n" +
+                                   "after they have been normalized according to the Normalizer.Form.NFC form.%n" +
+                                   "The normalized strings should be equal.%n" +
+                                   "Normalized actual  : \"foo%n" +
+                                   "bar%n" +
+                                   "baz\"%n" +
+                                   "Normalized expected: \"moreFoo%n" +
+                                   "bar%n" +
+                                   "baz\""));
+  }
 }
