@@ -6,10 +6,10 @@
 
 AssertJ provides a rich and intuitive set of strongly-typed assertions to use for unit testing (with JUnit, TestNG or any other test framework).
 
-* [AssertJ's goals](#goals)
+* [AssertJ's Goals](#assertjs-goals)
 * [Quick start](https://assertj.github.io/doc/#assertj-core-quick-start)
 * [Documentation](https://assertj.github.io/doc/#assertj-core)
-* [Contributing](#contributing)
+* [Want to Contribute?](#want-to-contribute)
 
 You can ask questions in [**stackoverflow (assertj tag)**](https://stackoverflow.com/questions/tagged/assertj?mixed=1) and make suggestions by simply creating an issue.
 
