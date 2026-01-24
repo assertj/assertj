@@ -41,7 +41,12 @@ import org.xml.sax.InputSource;
  * Very much inspired by http://stackoverflow.com/questions/139076/how-to-pretty-print-xml-from-java and
  * http://pastebin.com/XL7932aC
  * </p>
+ * @deprecated this is an internal utility for
+ * {@link org.assertj.core.api.AbstractCharSequenceAssert#isXmlEqualTo(CharSequence) isXmlEqualTo(CharSequence)}
+ * rather than a feature for AssertJ users, therefore its usage is discouraged and
+ * no replacement is provided.
  */
+@Deprecated
 public class XmlStringPrettyFormatter {
 
   private static final String FORMAT_ERROR = "Unable to format XML string";

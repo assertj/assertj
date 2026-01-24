@@ -18,14 +18,11 @@ package org.assertj.tests.core.util.xml;
 import static org.assertj.core.api.Assertions.catchException;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.xml.XmlStringPrettyFormatter.xmlPrettyFormat;
-import static org.junit.jupiter.params.provider.Arguments.argumentSet;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.FieldSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.junitpioneer.jupiter.DefaultLocale;
 import org.xml.sax.SAXParseException;
