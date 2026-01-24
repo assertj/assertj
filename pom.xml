@@ -4,7 +4,7 @@
 
   <groupId>org.assertj</groupId>
   <artifactId>assertj-build</artifactId>
-  <version>3.27.7-SNAPSHOT</version>
+  <version>3.27.8-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>AssertJ Build</name>
