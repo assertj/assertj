@@ -42,7 +42,7 @@ class ShouldContainCharSequenceOnlyOnce_create_Test {
     // WHEN
     String message = factoryWithSeveralOccurrences.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"motif\"%nto appear only once in:%n  \"aaamotifmotifaabbbmotifaaa\"%nbut it appeared 3 times ".formatted());
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"aaamotifmotifaabbbmotifaaa\"%nto contain:%n  \"motif\"%nonly once but it appeared 3 times ".formatted());
   }
 
   @Test
@@ -50,7 +50,7 @@ class ShouldContainCharSequenceOnlyOnce_create_Test {
     // WHEN
     String message = factoryWithNoOccurrence.create(new TestDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"motif\"%nto appear only once in:%n  \"aaamodifmoifaabbbmotfaaa\"%nbut it did not appear ".formatted());
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"aaamodifmoifaabbbmotfaaa\"%nto contain:%n  \"motif\"%nonly once but it did not appear ".formatted());
   }
 
   @Test
@@ -61,7 +61,7 @@ class ShouldContainCharSequenceOnlyOnce_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"MOtif\"%nto appear only once in:%n  \"aaamoDifmoifaabbbmotfaaa\"%nbut it did not appear when comparing values using CaseInsensitiveStringComparator".formatted());
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"aaamoDifmoifaabbbmotfaaa\"%nto contain:%n  \"MOtif\"%nonly once but it did not appear when comparing values using CaseInsensitiveStringComparator".formatted());
   }
 
   @Test
@@ -72,7 +72,7 @@ class ShouldContainCharSequenceOnlyOnce_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"MOtif\"%nto appear only once in:%n  \"aaamotIFmoTifaabbbmotifaaa\"%nbut it appeared 3 times when comparing values using CaseInsensitiveStringComparator".formatted());
+    then(message).isEqualTo("[Test] %nExpecting actual:%n  \"aaamotIFmoTifaabbbmotifaaa\"%nto contain:%n  \"MOtif\"%nonly once but it appeared 3 times when comparing values using CaseInsensitiveStringComparator".formatted());
   }
 
 }
