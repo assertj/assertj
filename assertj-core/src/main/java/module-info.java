@@ -45,7 +45,6 @@ module org.assertj.core {
   exports org.assertj.core.util.diff;
   exports org.assertj.core.util.diff.myers;
   exports org.assertj.core.util.introspection;
-  exports org.assertj.core.util.xml;
 
   // FIXME refactor tests and remove
   exports org.assertj.core.internal to org.assertj.tests.core;
