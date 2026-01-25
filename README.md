@@ -6,16 +6,16 @@
 
 AssertJ provides a rich and intuitive set of strongly-typed assertions to use for unit testing (with JUnit, TestNG or any other test framework).
 
-* [AssertJ's goals](#goals)
+* [AssertJ's Goals](#assertjs-goals)
 * [Quick start](https://assertj.github.io/doc/#assertj-core-quick-start)
 * [Documentation](https://assertj.github.io/doc/#assertj-core)
-* [Contributing](#contributing)
+* [Want to Contribute?](#want-to-contribute)
 
 You can ask questions in [**stackoverflow (assertj tag)**](https://stackoverflow.com/questions/tagged/assertj?mixed=1) and make suggestions by simply creating an issue.
 
 ## Sponsors
 
-<a href="https://www.lambdatest.com" target="_blank"><img src="https://www.lambdatest.com/blue-logo.png" style="vertical-align: middle;" height="45" alt="Browser testing via LambdaTest" /></a>
+<a href="https://www.testmu.ai" target="_blank"><img width="202" height="100" style="vertical-align: middle;" alt="TestMu AI" src="https://github.com/user-attachments/assets/6437eddd-da98-4246-b2af-ebe573f3735d" />
 
 ## AssertJ's Goals
 
