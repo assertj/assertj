@@ -34,6 +34,7 @@ public class ShouldBeEqualNormalizingWhitespace extends BasicErrorMessageFactory
   }
 
   private ShouldBeEqualNormalizingWhitespace(CharSequence actual, CharSequence expected) {
-    super("%nExpecting actual:%n  %s%nto be equal to:%n  %s%nafter whitespace differences are normalized", actual, expected);
+    super("%nExpecting actual:%n  %s%nto be equal to:%n  %s%nafter whitespace differences are normalized",
+          IndentWrapper.of(actual), IndentWrapper.of(expected));
   }
 }

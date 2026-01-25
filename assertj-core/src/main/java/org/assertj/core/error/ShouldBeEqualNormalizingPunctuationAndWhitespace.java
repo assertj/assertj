@@ -41,6 +41,6 @@ public class ShouldBeEqualNormalizingPunctuationAndWhitespace extends BasicError
           "  %s%n" +
           "after punctuation and whitespace differences are normalized.%n" +
           "Punctuation is any of the following character !\"#$%%&'()*+,-./:;<=>?@[\\]^_`{|}~",
-          actual, expected);
+          IndentWrapper.of(actual), IndentWrapper.of(expected));
   }
 }

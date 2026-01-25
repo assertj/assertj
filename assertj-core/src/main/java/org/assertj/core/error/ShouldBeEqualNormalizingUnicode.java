@@ -44,6 +44,6 @@ public class ShouldBeEqualNormalizingUnicode extends BasicErrorMessageFactory {
           "The normalized strings should be equal.%n" +
           "Normalized actual  : %s%n" +
           "Normalized expected: %s",
-          actual, expected, normalizedActual, normalizedExpected);
+          IndentWrapper.of(actual), IndentWrapper.of(expected), normalizedActual, normalizedExpected);
   }
 }
