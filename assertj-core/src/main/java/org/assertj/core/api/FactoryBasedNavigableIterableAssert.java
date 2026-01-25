@@ -20,17 +20,18 @@ package org.assertj.core.api;
  * through deeply nested models more easily.
  * 
  * @since 2.5.0 / 3.5.0
+ * @deprecated Use {@link AbstractIterableAssert#withElementAssert(AssertFactory)} instead.
  */
 //@format:off
-public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNavigableIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
+@Deprecated
+public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNavigableIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                                  ACTUAL extends Iterable<? extends ELEMENT>, 
                                                  ELEMENT, 
-                                                 ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+                                                 ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
+// @format:on
 
   private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
-
-// @format:on
 
   public FactoryBasedNavigableIterableAssert(ACTUAL actual, Class<?> selfType,
                                              AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
@@ -38,6 +39,7 @@ public class FactoryBasedNavigableIterableAssert<SELF extends FactoryBasedNaviga
     this.assertFactory = assertFactory;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
     return assertFactory.createAssert(value).as(description);

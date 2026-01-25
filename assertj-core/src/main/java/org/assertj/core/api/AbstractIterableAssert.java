@@ -105,7 +105,7 @@ import org.assertj.core.util.introspection.IntrospectionError;
 public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                              ACTUAL extends Iterable<? extends ELEMENT>,
                                              ELEMENT,
-                                             ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+                                             ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractAssertWithComparator<SELF, ACTUAL>
        implements ObjectEnumerableAssert<SELF, ELEMENT> {
 //@format:on
@@ -122,10 +122,47 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     super(actual, selfType);
 
     if (actual instanceof SortedSet) {
+      @SuppressWarnings("unchecked")
       SortedSet<ELEMENT> sortedSet = (SortedSet<ELEMENT>) actual;
       Comparator<? super ELEMENT> comparator = sortedSet.comparator();
       if (comparator != null) usingElementComparator(sortedSet.comparator());
     }
+  }
+
+  /**
+   * Configures the {@link AssertFactory} used to create assertions whenever a navigation method is invoked.
+   * <p>
+   * For example, given an {@code Iterable<String>}, {@link Assertions#assertThat(String)} can be configured
+   * as the {@code AssertFactory} to be used for navigation methods like
+   * {@link #first()}, {@link #last()}, {@link #element(int)}, and {@link #singleElement()}:
+   * <pre><code class="java">
+   * Iterable&lt;String&gt; people = List.of("Luke", "Leia");
+   *
+   * assertThat(people).withElementAssert(Assertions::assertThat)
+   *                   .first()
+   *                   .startsWith("Lu");
+   * </code></pre>
+   * This is also helpful for custom assertions, where users of such assertions can already benefit from
+   * type-specific assertions when invoking a navigation method, without additional effort. For example,
+   * given a {@code Iterable<Person>} and a {@code PersonAssert} custom assertion, you can write:
+   * <pre><code class="java">
+   * Iterable&lt;Person&gt; people = getPeople();
+   *
+   * assertThat(people).withElementAssert(PersonAssert::new)
+   *                   .first()
+   *                   .hasName("Luke")
+   *                   .hasLightSaber();
+   * </code></pre>
+   *
+   * @param <ASSERT> the type of the assertion to be created when a navigation method is invoked
+   * @param assertFactory the factory responsible for creating an {@link ASSERT} instance from an {@link ELEMENT};
+   *                      must not be {@code null}.
+   * @return an {@link AbstractIterableAssert} whose element assertions are created using the given {@code assertFactory};
+   *         the returned instance allows fluent type-specific assertions when navigating to a specific element.
+   * @since 3.28.0
+   */
+  public <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractIterableAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
+    return new FactoryBasedAssert<>(actual, assertFactory);
   }
 
   /**
@@ -2256,7 +2293,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    *
    * <p>The recursive algorithm employs cycle detection, so object graphs with cyclic references can safely be asserted over without causing looping.</p>
    *
-   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the   
+   * <p>This method enables recursive asserting using default configuration, which means all fields of all objects have the
    * {@link java.util.function.Predicate} applied to them (including primitive fields), no fields are excluded, but:
    * <ul>
    *   <li>The recursion does not enter into Java Class Library types (java.*, javax.*)</li>
@@ -2848,7 +2885,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Filters the iterable under test keeping only elements matching the given assertions specified with a {@link ThrowingConsumer}.
    * <p>
    * This is the same assertion as {@link #filteredOnAssertions(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example: check young hobbits whose age &lt; 34:
    *
@@ -3053,8 +3090,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Allow to perform assertions on the elements corresponding to the given indices 
-   * (the iterable {@link Iterable} under test is changed to an iterable with the selected elements).  
+   * Allow to perform assertions on the elements corresponding to the given indices
+   * (the iterable {@link Iterable} under test is changed to an iterable with the selected elements).
    * <p>
    * Example:
    * <pre><code class='java'> Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
@@ -3204,7 +3241,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   /**
-   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions on that element, 
+   * Verifies that the {@link Iterable} under test contains a single element and allows to perform assertions on that element,
    * the assertions are strongly typed according to the given {@link AssertFactory} parameter.
    * <p>
    * This is a shorthand for <code>hasSize(1).first(assertFactory)</code>.
@@ -3797,4 +3834,38 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<? extends ELEMENT> filteredIterable = stream(actual.spliterator(), false).filter(predicate).collect(toList());
     return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
   }
+
+  /**
+   * This class exists to maintain binary compatibility in version 3 and will be merged into {@link IterableAssert}
+   * in version 4.
+   */
+  // @format:off
+  private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
+                                          ACTUAL extends Iterable<? extends ELEMENT>,
+                                          ELEMENT,
+                                          ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
+    extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
+    // @format:on
+
+    private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
+
+    private FactoryBasedAssert(ACTUAL actual, AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+      super(actual, FactoryBasedAssert.class);
+      this.assertFactory = assertFactory;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
+      return assertFactory.createAssert(value).as(description);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
+      return (SELF) new FactoryBasedAssert<>(iterable, assertFactory);
+    }
+
+  }
+
 }

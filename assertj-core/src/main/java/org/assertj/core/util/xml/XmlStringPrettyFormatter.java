@@ -20,9 +20,13 @@ import static org.assertj.core.util.Preconditions.checkArgument;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.bootstrap.DOMImplementationRegistry;
@@ -37,10 +41,26 @@ import org.xml.sax.InputSource;
  * Very much inspired by http://stackoverflow.com/questions/139076/how-to-pretty-print-xml-from-java and
  * http://pastebin.com/XL7932aC
  * </p>
+ * @deprecated this is an internal utility for
+ * {@link org.assertj.core.api.AbstractCharSequenceAssert#isXmlEqualTo(CharSequence) isXmlEqualTo(CharSequence)}
+ * rather than a feature for AssertJ users, therefore its usage is discouraged and
+ * no replacement is provided.
  */
+@Deprecated
 public class XmlStringPrettyFormatter {
 
   private static final String FORMAT_ERROR = "Unable to format XML string";
+
+  // https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html
+  private static final Map<String, Boolean> SECURE_FEATURES = new HashMap<>();
+
+  static {
+    SECURE_FEATURES.put(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+    SECURE_FEATURES.put("http://apache.org/xml/features/disallow-doctype-decl", true);
+    SECURE_FEATURES.put("http://xml.org/sax/features/external-general-entities", false);
+    SECURE_FEATURES.put("http://xml.org/sax/features/external-parameter-entities", false);
+    SECURE_FEATURES.put("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+  }
 
   public static String xmlPrettyFormat(String xmlStringToFormat) {
     checkArgument(xmlStringToFormat != null, "Expecting XML String not to be null");
@@ -70,11 +90,21 @@ public class XmlStringPrettyFormatter {
   private static Document toXmlDocument(String xmlString) {
     try {
       InputSource xmlInputSource = new InputSource(new StringReader(xmlString));
-      DocumentBuilder xmlDocumentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+      DocumentBuilder xmlDocumentBuilder = documentBuilderFactory().newDocumentBuilder();
       return xmlDocumentBuilder.parse(xmlInputSource);
     } catch (Exception e) {
       throw new RuntimeException(FORMAT_ERROR, e);
     }
+  }
+
+  private static DocumentBuilderFactory documentBuilderFactory() {
+    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    SECURE_FEATURES.forEach((name, value) -> {
+      try {
+        factory.setFeature(name, value);
+      } catch (ParserConfigurationException ignore) {}
+    });
+    return factory;
   }
 
   private XmlStringPrettyFormatter() {
