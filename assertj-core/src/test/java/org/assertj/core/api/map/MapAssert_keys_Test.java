@@ -15,9 +15,9 @@
  */
 package org.assertj.core.api.map;
 
-import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenNullPointerException;
+import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 
 import java.util.Map;
 
@@ -49,8 +49,8 @@ class MapAssert_keys_Test {
     Map<String, String> map = Map.of("first", "one");
     // WHEN/THEN
     then(map).keys()
-             .singleElement()
-             .returns('f', from(s -> s.charAt(0)));
+             .singleElement(STRING)
+             .startsWith("f");
   }
 
   @Test
