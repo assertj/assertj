@@ -1,0 +1,4 @@
+[[common-assertions]]
+= Common assertions
+
+This section describes the assertions common to all types, the Javadoc for common assertions methods is available https://www.javadoc.io/static/org.assertj/assertj-core/{page-component-version}/org/assertj/core/api/AbstractAssert.html#method.summary[here].
