@@ -58,4 +58,24 @@ class ShouldEndWithIgnoringCase_create_Test {
                                           "  \"gandalf\"%n"
                                           + "when comparing values using other String comparator"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "Gandalf%nthe%ngrey".formatted();
+    String expected = "Gandalf%nthe%nwhite".formatted();
+    ErrorMessageFactory factory = shouldEndWithIgnoringCase(actual, expected, StandardComparisonStrategy.instance());
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Gandalf%n" +
+                                   "  the%n" +
+                                   "  grey\"%n" +
+                                   "to end with (ignoring case):%n" +
+                                   "  \"Gandalf%n" +
+                                   "  the%n" +
+                                   "  white\"%n"));
+  }
 }

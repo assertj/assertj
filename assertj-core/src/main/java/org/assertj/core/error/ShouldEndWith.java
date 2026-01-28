@@ -49,6 +49,7 @@ public class ShouldEndWith extends BasicErrorMessageFactory {
   }
 
   private ShouldEndWith(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nto end with:%n  %s%n%s", actual, expected, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto end with:%n  %s%n%s",
+          IndentWrapper.of(actual), IndentWrapper.of(expected), comparisonStrategy);
   }
 }

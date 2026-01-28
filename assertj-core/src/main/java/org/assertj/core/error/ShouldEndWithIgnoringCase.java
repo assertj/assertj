@@ -37,6 +37,7 @@ public class ShouldEndWithIgnoringCase extends BasicErrorMessageFactory {
   }
 
   private ShouldEndWithIgnoringCase(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nto end with (ignoring case):%n  %s%n%s", actual, expected, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto end with (ignoring case):%n  %s%n%s",
+          IndentWrapper.of(actual), IndentWrapper.of(expected), comparisonStrategy);
   }
 }

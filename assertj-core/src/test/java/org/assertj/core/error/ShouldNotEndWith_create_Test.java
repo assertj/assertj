@@ -64,4 +64,24 @@ class ShouldNotEndWith_create_Test {
                                    "  [\"Han\", \"Leia\"]%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "Yoda%nthe%nmaster".formatted();
+    String expected = "Yoda%nthe%nMASTER".formatted();
+    ErrorMessageFactory factory = shouldNotEndWith(actual, expected);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda%n" +
+                                   "  the%n" +
+                                   "  master\"%n" +
+                                   "not to end with:%n" +
+                                   "  \"Yoda%n" +
+                                   "  the%n" +
+                                   "  MASTER\"%n"));
+  }
 }
