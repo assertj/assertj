@@ -29,16 +29,18 @@ public class MultipleAssertionsError extends AssertionError {
   private final Description description;
   private final Object objectUnderTest;
   private final List<AssertionError> errors;
+  private final String message;
 
   public MultipleAssertionsError(Description description, Object objectUnderTest, List<AssertionError> errors) {
     this.description = description;
     this.objectUnderTest = objectUnderTest;
     this.errors = errors;
+    message = StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(this);
   }
 
   @Override
   public String getMessage() {
-    return StandardRepresentation.STANDARD_REPRESENTATION.toStringOf(this);
+    return message;
   }
 
   public Object getObjectUnderTest() {

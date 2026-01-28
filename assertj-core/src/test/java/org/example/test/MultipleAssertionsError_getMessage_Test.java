@@ -107,105 +107,105 @@ class MultipleAssertionsError_getMessage_Test {
     //@format:off
     then(error).hasMessageContainingAll("10 assertion errors",
                                         """
-
-                                        -- error 1 --
-                                        Expecting empty but was: [""]
-                                        first 3 stack trace elements:
-                                        """.replaceAll("\\n", System.lineSeparator()),
+                                          
+                                          -- error 1 --
+                                          Expecting empty but was: [""]
+                                          first 3 stack trace elements:
+                                          """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:96)",
                                         """
-
-                                        -- error 2 --
-                                        [isEmpty list]\s
-                                        Expecting empty but was: ["a", "b", "c"]
-                                        first 3 stack trace elements:
-                                        """.replaceAll("\\n", System.lineSeparator()),
+                                          
+                                          -- error 2 --
+                                          [isEmpty list]\s
+                                          Expecting empty but was: ["a", "b", "c"]
+                                          first 3 stack trace elements:
+                                          """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:97)",
                                         """
-
-                                        -- error 3 --
-                                        Expecting empty but was: "abc"
-                                        first 3 stack trace elements:
-                                        """.replaceAll("\\n", System.lineSeparator()),
+                                          
+                                          -- error 3 --
+                                          Expecting empty but was: "abc"
+                                          first 3 stack trace elements:
+                                          """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:98)",
                                         """
-
-                                        -- error 4 --
-                                        [isEmpty string]\s
-                                        Expecting empty but was: "abc"
-                                        first 3 stack trace elements:
-                                        """.replaceAll("\\n", System.lineSeparator()),
+                                          
+                                          -- error 4 --
+                                          [isEmpty string]\s
+                                          Expecting empty but was: "abc"
+                                          first 3 stack trace elements:
+                                          """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:99)",
                                         """
-
-                                        -- error 5 --
-                                        expected: "bcd"
-                                         but was: "abc"
-                                        first 3 stack trace elements:
-                                        """.replaceAll("\\n", System.lineSeparator()),
+                                          
+                                          -- error 5 --
+                                          expected: "bcd"
+                                           but was: "abc"
+                                          first 3 stack trace elements:
+                                          """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:100)",
                                         """
-
-                                        -- error 6 --
-                                        [isEqualTo]\s
-                                        expected: "bcd"
-                                         but was: "abc"
-                                        first 3 stack trace elements:
-                                        """.replaceAll("\\n", System.lineSeparator()),
+                                          
+                                          -- error 6 --
+                                          [isEqualTo]\s
+                                          expected: "bcd"
+                                           but was: "abc"
+                                          first 3 stack trace elements:
+                                          """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:101)",
                                         """
-
-                                        -- error 7 --
-                                        [contains]\s
-                                        Expecting ArrayList:
-                                          ["a", "b", "c"]
-                                        to contain:
-                                          ["e"]
-                                        but could not find the following element(s):
-                                          ["e"]
-
-                                        first 3 stack trace elements:
-                                        """.replaceAll("\\n", System.lineSeparator()),
+                                          
+                                          -- error 7 --
+                                          [contains]\s
+                                          Expecting ArrayList:
+                                            ["a", "b", "c"]
+                                          to contain:
+                                            ["e"]
+                                          but could not find the following element(s):
+                                            ["e"]
+                                          
+                                          first 3 stack trace elements:
+                                          """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:102)",
                                         """
-
-                                        -- error 8 --
-                                        [contains]\s
-                                        Expecting
-                                          ["a", "b", "c"]
-                                        not to contain
-                                          ["a"]
-                                        but found
-                                          ["a"]
-
-                                        first 3 stack trace elements:
-                                        """.replaceAll("\\n", System.lineSeparator()),
+                                          
+                                          -- error 8 --
+                                          [contains]\s
+                                          Expecting
+                                            ["a", "b", "c"]
+                                          not to contain
+                                            ["a"]
+                                          but found
+                                            ["a"]
+                                          
+                                          first 3 stack trace elements:
+                                          """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:102)",
                                         """
-
-                                        -- error 9 --
-                                        Expecting ArrayList:
-                                          ["a", "b", "c"]
-                                        to contain:
-                                          ["e"]
-                                        but could not find the following element(s):
-                                          ["e"]
-
-                                        first 3 stack trace elements:
-                                        """.replaceAll("\\n", System.lineSeparator()),
+                                          
+                                          -- error 9 --
+                                          Expecting ArrayList:
+                                            ["a", "b", "c"]
+                                          to contain:
+                                            ["e"]
+                                          but could not find the following element(s):
+                                            ["e"]
+                                          
+                                          first 3 stack trace elements:
+                                          """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:103)",
                                         """
-
-                                        -- error 10 --
-                                        Expecting
-                                          ["a", "b", "c"]
-                                        not to contain
-                                          ["a"]
-                                        but found
-                                          ["a"]
-
-                                        first 3 stack trace elements:
-                                        """.replaceAll("\\n", System.lineSeparator()),
+                                          
+                                          -- error 10 --
+                                          Expecting
+                                            ["a", "b", "c"]
+                                          not to contain
+                                            ["a"]
+                                          but found
+                                            ["a"]
+                                          
+                                          first 3 stack trace elements:
+                                          """.replaceAll("\\n", System.lineSeparator()),
                                         "should_include_errors_count_and_allow_to_navigate_to_the_failing_soft_assertion_line(MultipleAssertionsError_getMessage_Test.java:103)");
     //@format:on
   }
@@ -247,6 +247,19 @@ class MultipleAssertionsError_getMessage_Test {
     // THEN
     then(error).isInstanceOf(MultipleAssertionsError.class)
                .hasMessageContainingAll("2 assertion errors for: abc", "[isEmpty string]");
+  }
+
+  @Test
+  public void softAssertions_fail_method_should_show_cause_honoring_maxStackTraceElementsDisplayed_setting() {
+    // GIVEN
+    SoftAssertions softly = new SoftAssertions();
+    StandardRepresentation.setMaxStackTraceElementsDisplayed(10);
+    softly.fail("def", new RuntimeException("abc"));
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> softly.assertAll());
+    // THEN
+    then(assertionError).isInstanceOf(MultipleAssertionsError.class)
+                        .hasMessageContainingAll("cause message: abc", "cause first 10 stack trace elements:");
   }
 
 }
