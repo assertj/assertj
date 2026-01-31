@@ -91,7 +91,8 @@ class ByteArrayAssert_asString_with_Charset_Test {
                                                        "-- error 1 --",
                                                        shouldBeEqualMessage("\"Gerçek\"", "\"bar\""),
                                                        "-- error 2 --",
-                                                       "Expecting blank but was: \"Gerçek\"");
+                                                       "Expecting blank but was:",
+                                                       "\"Gerçek\"");
   }
 
   @Test

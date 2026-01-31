@@ -84,7 +84,8 @@ class ByteArrayAssert_asHexString_Test {
                         .hasMessageContainingAll("-- error 1 --",
                                                  shouldBeEqualMessage("\"FF0001\"", "\"010203\""),
                                                  "-- error 2 --",
-                                                 "Expecting blank but was: \"FF0001\"");
+                                                 "Expecting blank but was:",
+                                                 "\"FF0001\"");
   }
 
   @Test

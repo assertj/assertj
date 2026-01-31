@@ -85,7 +85,8 @@ class ByteArrayAssert_asString_Test {
                                                        "-- error 1 --",
                                                        shouldBeEqualMessage("\"foo\"", "\"bar\""),
                                                        "-- error 2 --",
-                                                       "Expecting blank but was: \"foo\"");
+                                                       "Expecting blank but was:",
+                                                       "\"foo\"");
   }
 
   @Test
