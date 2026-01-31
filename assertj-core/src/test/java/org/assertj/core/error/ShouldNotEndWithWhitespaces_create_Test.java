@@ -38,4 +38,18 @@ class ShouldNotEndWithWhitespaces_create_Test {
                                           "  \"abc %%d\""));
   }
 
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "abc%ndef%nghi ".formatted();
+    ErrorMessageFactory factory = shouldNotEndWithWhitespaces(actual);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"));
+    // THEN
+    then(message).isEqualTo(String.format("[Test] %n" +
+                                          "Expecting string not to end with whitespaces but found one, string was:%n" +
+                                          "  \"abc%n" +
+                                          "  def%n" +
+                                          "  ghi \""));
+  }
 }

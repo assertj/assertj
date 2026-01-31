@@ -34,4 +34,18 @@ class ShouldNotContainAnyWhitespaces_create_Test {
     then(message).isEqualTo("[Test] %nExpecting string not to contain any whitespaces but found some, string was:%n  \"Star Wars\"".formatted());
   }
 
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "ab cd%nef gh%nij kl".formatted();
+    ErrorMessageFactory factory = shouldNotContainAnyWhitespaces(actual);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(("[Test] %n" +
+                             "Expecting string not to contain any whitespaces but found some, string was:%n" +
+                             "  \"ab cd%n" +
+                             "  ef gh%n" +
+                             "  ij kl\"").formatted());
+  }
 }

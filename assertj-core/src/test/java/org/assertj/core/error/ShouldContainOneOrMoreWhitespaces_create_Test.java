@@ -33,4 +33,19 @@ class ShouldContainOneOrMoreWhitespaces_create_Test {
     // THEN
     then(message).isEqualTo("[Test] %nExpecting string to contain one or more whitespaces but did not, string was:%n  \"Luke\"".formatted());
   }
+
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "abc%ndef%nghi".formatted();
+    ErrorMessageFactory factory = shouldContainOneOrMoreWhitespaces(actual);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(("[Test] %n" +
+                             "Expecting string to contain one or more whitespaces but did not, string was:%n" +
+                             "  \"abc%n" +
+                             "  def%n" +
+                             "  ghi\"").formatted());
+  }
 }

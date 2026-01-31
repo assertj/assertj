@@ -33,6 +33,6 @@ public class ShouldNotEndWithWhitespaces extends BasicErrorMessageFactory {
   private ShouldNotEndWithWhitespaces(Object actual) {
     super("%n" +
           "Expecting string not to end with whitespaces but found one, string was:%n" +
-          "  %s", actual);
+          "  %s", IndentWrapper.of(actual));
   }
 }

@@ -33,6 +33,6 @@ public class ShouldNotContainAnyWhitespaces extends BasicErrorMessageFactory {
   private ShouldNotContainAnyWhitespaces(Object actual) {
     super("%n" +
           "Expecting string not to contain any whitespaces but found some, string was:%n" +
-          "  %s", actual);
+          "  %s", IndentWrapper.of(actual));
   }
 }
