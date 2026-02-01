@@ -34,6 +34,6 @@ public class ShouldNotMatchPattern extends BasicErrorMessageFactory {
   }
 
   private ShouldNotMatchPattern(CharSequence actual, CharSequence pattern) {
-    super("%nExpecting actual:%n  %s%nnot to match pattern:%n  %s", actual, pattern);
+    super("%nExpecting actual:%n  %s%nnot to match pattern:%n  %s", IndentWrapper.of(actual), pattern);
   }
 }

@@ -55,4 +55,36 @@ class ShouldContainOnlyDigits_create_Test {
                                    "to contain only digits%n" +
                                    "but could not found any digits at all"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_actual_correctly_indented() {
+    // GIVEN
+    String actual = "10%n20$".formatted();
+    ErrorMessageFactory factory = shouldContainOnlyDigits(actual, '$', 5);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"10%n" +
+                                   "  20$\"%n" +
+                                   "to contain only digits%n" +
+                                   "but found non-digit character '$' at index <5>"));
+  }
+
+  @Test
+  void should_create_error_message_for_no_digits_with_multiline_actual_correctly_indented() {
+    // GIVEN
+    String actual = "abc%ndef".formatted();
+    ErrorMessageFactory factory = shouldContainOnlyDigits(actual);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"abc%n" +
+                                   "  def\"%n" +
+                                   "to contain only digits%n" +
+                                   "but could not found any digits at all"));
+  }
 }
