@@ -15,6 +15,7 @@
  */
 package org.assertj.core.api.bytearray;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
@@ -84,8 +85,8 @@ class ByteArrayAssert_asHexString_Test {
                         .hasMessageContainingAll("-- error 1 --",
                                                  shouldBeEqualMessage("\"FF0001\"", "\"010203\""),
                                                  "-- error 2 --",
-                                                 "Expecting blank but was:",
-                                                 "\"FF0001\"");
+                                                 format("Expecting blank but was:%n" +
+                                                        "  \"FF0001\""));
   }
 
   @Test

@@ -15,6 +15,7 @@
  */
 package org.assertj.core.api.bytearray;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assumptions.assumeThat;
@@ -85,8 +86,8 @@ class ByteArrayAssert_asString_Test {
                                                        "-- error 1 --",
                                                        shouldBeEqualMessage("\"foo\"", "\"bar\""),
                                                        "-- error 2 --",
-                                                       "Expecting blank but was:",
-                                                       "\"foo\"");
+                                                       format("Expecting blank but was:%n" +
+                                                              "  \"foo\""));
   }
 
   @Test
