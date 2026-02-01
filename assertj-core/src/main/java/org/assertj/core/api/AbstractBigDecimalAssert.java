@@ -40,6 +40,7 @@ import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy
  * @author Alex Ruiz
  * @author Joel Costigliola
  * @author Mikhail Mazursky
+ * @author chanwon lee
  */
 public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAssert<SELF>> extends
     AbstractComparableAssert<SELF, BigDecimal> implements NumberAssert<SELF, BigDecimal> {
@@ -229,6 +230,26 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   public SELF isEqualTo(String expected) {
     return isEqualTo(new BigDecimal(expected));
+  }
+
+  /**
+   * Same as {@link AbstractAssert#isNotEqualTo(Object) isNotEqualTo(BigDecimal)} but takes care of converting given String
+   to
+   * {@link BigDecimal} for you.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions will pass
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotEqualTo(&quot;2.0&quot;);
+   *
+   * // assertion will fail
+   * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotEqualTo(&quot;8.0&quot;);</code></pre>
+   *
+   * @param expected the given number to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @since 4.0.0
+   */
+  public SELF isNotEqualTo(String expected) {
+    return isNotEqualTo(new BigDecimal(expected));
   }
 
   /**
