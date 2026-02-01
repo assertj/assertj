@@ -15,6 +15,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotEndWithWhitespaces.shouldNotEndWithWhitespaces;
 
@@ -33,9 +34,9 @@ class ShouldNotEndWithWhitespaces_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
-    then(message).isEqualTo(String.format("[Test] %n" +
-                                          "Expecting string not to end with whitespaces but found one, string was:%n" +
-                                          "  \"abc %%d\""));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting string not to end with whitespaces but found one, string was:%n" +
+                                   "  \"abc %%d\""));
   }
 
   @Test
@@ -46,10 +47,10 @@ class ShouldNotEndWithWhitespaces_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"));
     // THEN
-    then(message).isEqualTo(String.format("[Test] %n" +
-                                          "Expecting string not to end with whitespaces but found one, string was:%n" +
-                                          "  \"abc%n" +
-                                          "  def%n" +
-                                          "  ghi \""));
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting string not to end with whitespaces but found one, string was:%n" +
+                                   "  \"abc%n" +
+                                   "  def%n" +
+                                   "  ghi \""));
   }
 }

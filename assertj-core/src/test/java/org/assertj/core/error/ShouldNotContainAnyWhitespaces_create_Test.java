@@ -15,6 +15,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldNotContainAnyWhitespaces.shouldNotContainAnyWhitespaces;
 
@@ -31,7 +32,7 @@ class ShouldNotContainAnyWhitespaces_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo("[Test] %nExpecting string not to contain any whitespaces but found some, string was:%n  \"Star Wars\"".formatted());
+    then(message).isEqualTo(format("[Test] %nExpecting string not to contain any whitespaces but found some, string was:%n  \"Star Wars\""));
   }
 
   @Test
@@ -42,10 +43,10 @@ class ShouldNotContainAnyWhitespaces_create_Test {
     // WHEN
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
-    then(message).isEqualTo(("[Test] %n" +
-                             "Expecting string not to contain any whitespaces but found some, string was:%n" +
-                             "  \"ab cd%n" +
-                             "  ef gh%n" +
-                             "  ij kl\"").formatted());
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting string not to contain any whitespaces but found some, string was:%n" +
+                                   "  \"ab cd%n" +
+                                   "  ef gh%n" +
+                                   "  ij kl\""));
   }
 }
