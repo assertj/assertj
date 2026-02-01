@@ -52,8 +52,8 @@ public class ShouldNotContainSequenceOfCharSequence extends BasicErrorMessageFac
 
   private ShouldNotContainSequenceOfCharSequence(CharSequence actual, CharSequence[] sequence, int index,
                                                  ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nto not contain sequence:%n  %s%nbut was found at index %s%n%s", actual, sequence, index,
-          comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto not contain sequence:%n  %s%nbut was found at index %s%n%s",
+          IndentWrapper.of(actual), IndentWrapper.of(sequence), index, comparisonStrategy);
   }
 
 }

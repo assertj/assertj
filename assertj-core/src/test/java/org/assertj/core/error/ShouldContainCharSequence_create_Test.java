@@ -173,10 +173,27 @@ class ShouldContainCharSequence_create_Test {
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
                                    "Expecting actual:%n" +
-                                   "  \"Yoda%nLuke\"%n" +
+                                   "  \"Yoda%n" +
+                                   "  Luke\"%n" +
                                    "to contain (ignoring new lines):%n" +
                                    "  [\"Vador\", \"Luke\", \"Solo\"]%n" +
                                    "but could not find:%n" +
                                    "  [\"Vador\", \"Solo\"]%n "));
+  }
+
+  @Test
+  void should_create_error_message_with_multiline_actual_correctly_indented() {
+    // GIVEN
+    String actual = "Yo%nda".formatted();
+    ErrorMessageFactory factory = shouldContain(actual, "Luke");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yo%n" +
+                                   "  da\"%n" +
+                                   "to contain:%n" +
+                                   "  \"Luke\" "));
   }
 }

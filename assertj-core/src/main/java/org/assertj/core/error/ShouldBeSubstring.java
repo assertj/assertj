@@ -32,6 +32,7 @@ public class ShouldBeSubstring extends BasicErrorMessageFactory {
   }
 
   private ShouldBeSubstring(CharSequence actual, CharSequence expected, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nto be a substring of:%n  %s%n%s", actual, expected, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto be a substring of:%n  %s%n%s",
+          IndentWrapper.of(actual), IndentWrapper.of(expected), comparisonStrategy);
   }
 }

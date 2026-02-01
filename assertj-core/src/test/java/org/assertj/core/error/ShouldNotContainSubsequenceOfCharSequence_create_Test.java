@@ -66,4 +66,22 @@ class ShouldNotContainSubsequenceOfCharSequence_create_Test {
                                    "  [0, 2]%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_actual_correctly_indented() {
+    // GIVEN
+    String actual = "Yo%nda".formatted();
+    var factory = shouldNotContainSubsequence(actual, array("Yo", "da"), new int[] { 0, 3 });
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yo%n" +
+                                   "  da\"%n" +
+                                   "to not contain subsequence:%n" +
+                                   "  [\"Yo\", \"da\"]%n" +
+                                   "but was found with indexes:%n" +
+                                   "  [0, 3]%n"));
+  }
 }

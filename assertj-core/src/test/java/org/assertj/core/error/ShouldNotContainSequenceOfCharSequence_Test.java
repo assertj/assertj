@@ -64,4 +64,21 @@ class ShouldNotContainSequenceOfCharSequence_Test {
                                    "but was found at index 0%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_actual_correctly_indented() {
+    // GIVEN
+    String actual = "Yo%nda".formatted();
+    var factory = shouldNotContainSequence(actual, array("Yo", "da"), 0);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yo%n" +
+                                   "  da\"%n" +
+                                   "to not contain sequence:%n" +
+                                   "  [\"Yo\", \"da\"]%n" +
+                                   "but was found at index 0%n"));
+  }
 }
