@@ -212,7 +212,7 @@ public final class SoftObjectAssert<ACTUAL> {
     return objectAssert.getWritableAssertionInfo();
   }
 
-  public SoftObjectAssert<ACTUAL> has(Condition<? super ACTUAL> condition) {
+  public SoftObjectAssert<ACTUAL> has(Condition condition) {
     try {
       objectAssert.has(condition);
       errorCollector.succeeded();
