@@ -205,8 +205,8 @@ public final class SoftOptionalAssert<VALUE> {
     return optionalAssert.equals(obj);
   }
 
-  public <U> AbstractOptionalAssert<?, U> flatMap(Function<? super VALUE, Optional<U>> mapper) {
-    return optionalAssert.flatMap(mapper);
+  public <U> SoftOptionalAssert<U> flatMap(Function<? super VALUE, Optional<U>> mapper) {
+    return new SoftOptionalAssert<>(optionalAssert.flatMap(mapper).actual(), errorCollector);
   }
 
   public SoftObjectAssert<VALUE> get() {
@@ -222,7 +222,7 @@ public final class SoftOptionalAssert<VALUE> {
     return optionalAssert.getWritableAssertionInfo();
   }
 
-  public SoftOptionalAssert<VALUE> has(Condition condition) {
+  public SoftOptionalAssert<VALUE> has(Condition<? super Optional<VALUE>> condition) {
     try {
       optionalAssert.has(condition);
       errorCollector.succeeded();
