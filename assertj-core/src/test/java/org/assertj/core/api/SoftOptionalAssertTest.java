@@ -51,7 +51,7 @@ public final class SoftOptionalAssertTest {
   }
 
   @Test
-  void should_support_navigation_methods() {
+  void should_support_get_navigation_methods() {
     // GIVEN
     Optional<String> actual = Optional.of("foo");
     softly.assertThat(actual).get().isEqualTo("bar");
@@ -61,6 +61,19 @@ public final class SoftOptionalAssertTest {
     List<AssertionError> errors = multipleAssertionsError.getErrors();
     then(errors).hasSize(1);
     then(errors.get(0)).hasMessageContaining("bar");
+  }
+
+  @Test
+  void should_support_flatMap_navigation_methods() {
+    // GIVEN
+    Optional<String> actual = Optional.of("foo");
+    softly.assertThat(actual).flatMap(s -> Optional.of(s.length())).contains(5);
+    // WHEN
+    var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
+    // THEN
+    List<AssertionError> errors = multipleAssertionsError.getErrors();
+    then(errors).hasSize(1);
+    then(errors.get(0)).hasMessageContainingAll("Optional[3]", "5");
   }
 
   private static @NonNull MultipleAssertionsError expectMultipleAssertionsError(ThrowingCallable callable) {
