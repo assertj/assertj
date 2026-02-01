@@ -12,7 +12,6 @@ import java.util.function.Supplier;
 
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
-import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.AbstractOptionalAssert;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Condition;
@@ -210,8 +209,8 @@ public final class SoftOptionalAssert<VALUE> {
     return optionalAssert.flatMap(mapper);
   }
 
-  public AbstractObjectAssert<?, VALUE> get() {
-    return optionalAssert.get();
+  public SoftObjectAssert<VALUE> get() {
+    return new SoftObjectAssert<>(optionalAssert.get().actual(), errorCollector);
   }
 
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT get(
@@ -223,7 +222,7 @@ public final class SoftOptionalAssert<VALUE> {
     return optionalAssert.getWritableAssertionInfo();
   }
 
-  public SoftOptionalAssert<VALUE> has(Condition<? super Optional<VALUE>> condition) {
+  public SoftOptionalAssert<VALUE> has(Condition condition) {
     try {
       optionalAssert.has(condition);
       errorCollector.succeeded();
