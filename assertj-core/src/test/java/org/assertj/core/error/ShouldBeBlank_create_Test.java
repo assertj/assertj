@@ -17,39 +17,37 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldNotStartWithWhitespaces.shouldNotStartWithWhitespaces;
+import static org.assertj.core.error.ShouldBeBlank.shouldBeBlank;
 
 import org.assertj.core.description.TextDescription;
+import org.assertj.core.presentation.StandardRepresentation;
 import org.junit.jupiter.api.Test;
 
-/**
- * author: Lim Wonjae
- */
-class ShouldNotStartWithWhitespaces_create_Test {
+class ShouldBeBlank_create_Test {
 
   @Test
   void should_create_error_message() {
     // GIVEN
-    ErrorMessageFactory factory = shouldNotStartWithWhitespaces("abc %s");
+    ErrorMessageFactory factory = shouldBeBlank("abc");
     // WHEN
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting string not to start with whitespaces but found one, string was:%n" +
-                                   "  \"abc %%s\""));
+                                   "Expecting blank but was:%n" +
+                                   "  \"abc\""));
   }
 
   @Test
   void should_create_error_message_with_multiline_values_correctly_indented() {
     // GIVEN
-    String actual = " abc%ndef%nghi".formatted();
-    ErrorMessageFactory factory = shouldNotStartWithWhitespaces(actual);
+    String actual = "abc%ndef%nghi".formatted();
+    ErrorMessageFactory factory = shouldBeBlank(actual);
     // WHEN
-    String message = factory.create(new TextDescription("Test"));
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo(format("[Test] %n" +
-                                   "Expecting string not to start with whitespaces but found one, string was:%n" +
-                                   "  \" abc%n" +
+                                   "Expecting blank but was:%n" +
+                                   "  \"abc%n" +
                                    "  def%n" +
                                    "  ghi\""));
   }

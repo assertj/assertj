@@ -36,4 +36,19 @@ class ShouldContainOnlyWhitespaces_create_Test {
                                    "Expecting string to contain only whitespaces but was:%n" +
                                    "  \"abc\""));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "abc%ndef%nghi".formatted();
+    ErrorMessageFactory factory = shouldContainOnlyWhitespaces(actual);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting string to contain only whitespaces but was:%n" +
+                                   "  \"abc%n" +
+                                   "  def%n" +
+                                   "  ghi\""));
+  }
 }
