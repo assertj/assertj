@@ -26,6 +26,7 @@ import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.OptionalAssert;
+import org.assertj.core.api.soft.SoftObjectAssert;
 import org.jspecify.annotations.NonNull;
 import org.springframework.javapoet.ArrayTypeName;
 import org.springframework.javapoet.ClassName;
@@ -68,8 +69,6 @@ public class SoftAssertionsGenerator {
                                                                  "flatExtracting",
                                                                  "flatMap",
                                                                  "get",
-                                                                 "getCause", // deprecated
-                                                                 "getRootCause", // deprecated
                                                                  "map",
                                                                  "message",
                                                                  "newAbstractIterableAssert",
@@ -110,10 +109,10 @@ public class SoftAssertionsGenerator {
 
   public static void main(String[] args) {
 
-    // TODO: navigation method returning a different soft assertion type
-    // TODO: generate assertions with no parameterized type
+    // TODO: navigation method: hardcode them since the number is low enough and the generics are too complex to handle
     // TODO: generate assertions with several parameterized types: map assertions
     // TODO: generate GeneratedSoftAssertions ?
+    // TODO: methods to ignore ?
     // TODO: format code
     Stream.of(ObjectAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
     Stream.of(OptionalAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
@@ -205,11 +204,9 @@ public class SoftAssertionsGenerator {
   }
 
   private static @NonNull MethodSpec generateAssertionMethod(Method assertionMethod, ParameterizedTypeName softAssertType, FieldSpec assertField, Type actualType) {
-    List<TypeVariableName> typeVariables = stream(assertionMethod.getTypeParameters())
-      .map(tp -> TypeVariableName.get(tp.getName(), tp.getBounds())).toList();
     var softAssertionMethodBuilder = MethodSpec.methodBuilder(assertionMethod.getName())
                                                .addModifiers(Modifier.PUBLIC)
-                                               .addTypeVariables(typeVariables)
+                                               .addTypeVariables(getMethodTypeVariables(assertionMethod))
                                                .returns(softAssertType)
                                                .beginControlFlow("try")
                                                .addStatement("$N." + assertionMethod.getName() + methodArguments(assertionMethod),
@@ -227,20 +224,35 @@ public class SoftAssertionsGenerator {
   }
 
   private static @NonNull MethodSpec generateNavigationMethod(Method navigationMethod, FieldSpec assertField) {
-    List<TypeVariableName> typeVariables = stream(navigationMethod.getTypeParameters())
-      .map(tp -> TypeVariableName.get(tp.getName(), tp.getBounds())).toList();
-    Type navigationAssertType = navigationMethod.getGenericReturnType();
+    if (navigationMethod.toString().contains("get()")) {
+      var softAssertType = ParameterizedTypeName.get(ClassName.get("", SoftObjectAssert.class.getSimpleName()), TypeVariableName.get("VALUE"));
+      var softAssertionMethodBuilder = MethodSpec.methodBuilder(navigationMethod.getName())
+                                                 .addModifiers(Modifier.PUBLIC)
+                                                 .returns(softAssertType)
+                                                 .addStatement("return new SoftObjectAssert<>(optionalAssert.get().actual(), errorCollector)");
+      return softAssertionMethodBuilder.build();
+      //    public SoftObjectAssert<VALUE> get() {
+//      return new SoftObjectAssert(optionalAssert.get(), errorCollector);
+//    }
+    }
+    Type genericReturnType = navigationMethod.getGenericReturnType();
     var softAssertionMethodBuilder = MethodSpec.methodBuilder(navigationMethod.getName())
                                                .addModifiers(Modifier.PUBLIC)
-                                               .addTypeVariables(typeVariables)
-                                               .returns(navigationAssertType)
+                                               .addTypeVariables(getMethodTypeVariables(navigationMethod))
+                                               .returns(genericReturnType)
                                                .addStatement("return $N." + navigationMethod.getName()
-                                                               + methodArguments(navigationMethod), assertField);
+                                                               + methodArguments(navigationMethod),
+                                                             assertField);
 
     for (Parameter parameter : navigationMethod.getParameters()) {
       softAssertionMethodBuilder.addParameter(parameter.getParameterizedType(), parameter.getName());
     }
     return softAssertionMethodBuilder.build();
+  }
+
+  private static @NonNull List<TypeVariableName> getMethodTypeVariables(Method navigationMethod) {
+    return stream(navigationMethod.getTypeParameters())
+      .map(tp -> TypeVariableName.get(tp.getName(), tp.getBounds())).toList();
   }
 
   private static @NonNull MethodSpec generateDelegateMethod(Method objectMethod, FieldSpec assertField) {
