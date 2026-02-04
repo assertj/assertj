@@ -114,4 +114,20 @@ class ShouldNotContainCharSequence_create_Test {
                                    "  [\"OD\", \"da\"]%n"));
   }
 
+  @Test
+  void should_create_error_message_with_multiline_actual_correctly_indented() {
+    // GIVEN
+    String actual = "Yo%nda".formatted();
+    ErrorMessageFactory factory = shouldNotContain(actual, "od", StandardComparisonStrategy.instance());
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yo%n" +
+                                   "  da\"%n" +
+                                   "not to contain:%n" +
+                                   "  \"od\"%n"));
+  }
+
 }

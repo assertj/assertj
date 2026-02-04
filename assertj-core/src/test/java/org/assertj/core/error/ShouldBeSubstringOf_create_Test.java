@@ -58,4 +58,21 @@ class ShouldBeSubstringOf_create_Test {
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
 
+  @Test
+  void should_create_error_message_with_multiline_actual_correctly_indented() {
+    // GIVEN
+    String actual = "bcd%nefg%nhij".formatted();
+    ErrorMessageFactory factory = shouldBeSubstring(actual, "abcdef", StandardComparisonStrategy.instance());
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"bcd%n" +
+                                   "  efg%n" +
+                                   "  hij\"%n" +
+                                   "to be a substring of:%n" +
+                                   "  \"abcdef\"%n"));
+  }
+
 }

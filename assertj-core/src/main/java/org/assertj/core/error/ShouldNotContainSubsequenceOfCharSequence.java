@@ -54,7 +54,7 @@ public class ShouldNotContainSubsequenceOfCharSequence extends BasicErrorMessage
 
   private ShouldNotContainSubsequenceOfCharSequence(CharSequence actual, CharSequence[] subsequence, int[] subsequenceIndexes,
                                                     ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nto not contain subsequence:%n  %s%nbut was found with indexes:%n  %s%n%s", actual,
-          subsequence, subsequenceIndexes, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto not contain subsequence:%n  %s%nbut was found with indexes:%n  %s%n%s",
+          IndentWrapper.of(actual), IndentWrapper.of(subsequence), subsequenceIndexes, comparisonStrategy);
   }
 }

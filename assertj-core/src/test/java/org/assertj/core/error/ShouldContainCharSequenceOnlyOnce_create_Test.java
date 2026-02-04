@@ -15,6 +15,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContainCharSequenceOnlyOnce.shouldContainOnlyOnce;
 
@@ -73,6 +74,42 @@ class ShouldContainCharSequenceOnlyOnce_create_Test {
     String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
     // THEN
     then(message).isEqualTo("[Test] %nExpecting actual:%n  \"aaamotIFmoTifaabbbmotifaaa\"%nto contain:%n  \"MOtif\"%nonly once but it appeared 3 times when comparing values using CaseInsensitiveStringComparator".formatted());
+  }
+
+  @Test
+  void should_create_error_message_with_multiline_actual_when_string_does_not_appear() {
+    // GIVEN
+    String actual = "aaa%nbbb%nccc".formatted();
+    ErrorMessageFactory factory = shouldContainOnlyOnce(actual, "motif", 0);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"aaa%n" +
+                                   "  bbb%n" +
+                                   "  ccc\"%n" +
+                                   "to contain:%n" +
+                                   "  \"motif\"%n" +
+                                   "only once but it did not appear "));
+  }
+
+  @Test
+  void should_create_error_message_with_multiline_actual_when_string_appears_several_times() {
+    // GIVEN
+    String actual = "aaamotifaaa%nbbbmotifbbb%ncccmotifccc".formatted();
+    ErrorMessageFactory factory = shouldContainOnlyOnce(actual, "motif", 3);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"aaamotifaaa%n" +
+                                   "  bbbmotifbbb%n" +
+                                   "  cccmotifccc\"%n" +
+                                   "to contain:%n" +
+                                   "  \"motif\"%n" +
+                                   "only once but it appeared 3 times "));
   }
 
 }

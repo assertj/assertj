@@ -35,13 +35,13 @@ public class ShouldNotContainCharSequence extends BasicErrorMessageFactory {
 
   private ShouldNotContainCharSequence(String format, CharSequence actual, CharSequence sequence,
                                        ComparisonStrategy comparisonStrategy) {
-    super(format, actual, sequence, comparisonStrategy);
+    super(format, IndentWrapper.of(actual), IndentWrapper.of(sequence), comparisonStrategy);
   }
 
   private ShouldNotContainCharSequence(String format, CharSequence actual, CharSequence[] values,
                                        Set<? extends CharSequence> found,
                                        ComparisonStrategy comparisonStrategy) {
-    super(format, actual, values, found, comparisonStrategy);
+    super(format, IndentWrapper.of(actual), IndentWrapper.of(values), found, comparisonStrategy);
   }
 
   /**

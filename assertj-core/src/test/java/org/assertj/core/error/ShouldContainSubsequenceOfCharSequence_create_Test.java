@@ -148,4 +148,23 @@ class ShouldContainSubsequenceOfCharSequence_create_Test {
                                    "- the 2nd occurrence of \"George\" was not found%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_actual_correctly_indented() {
+    // GIVEN
+    String[] sequenceValues = { "{", "author", "title", "}" };
+    String actual = "{ 'title':'A Game of Thrones',%n'author':'George Martin'}".formatted();
+    ErrorMessageFactory factory = shouldContainSubsequence(actual, sequenceValues, 1);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"{ 'title':'A Game of Thrones',%n" +
+                                   "  'author':'George Martin'}\"%n" +
+                                   "to contain the following CharSequences in this order (possibly with other values between them):%n"
+                                   +
+                                   "  [\"{\", \"author\", \"title\", \"}\"]%n" +
+                                   "but \"title\" was found before \"author\"%n"));
+  }
 }
