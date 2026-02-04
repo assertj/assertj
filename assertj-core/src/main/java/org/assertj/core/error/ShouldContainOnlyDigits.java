@@ -44,10 +44,10 @@ public class ShouldContainOnlyDigits extends BasicErrorMessageFactory {
 
   private ShouldContainOnlyDigits(CharSequence actual, char character, int index) {
     super("%nExpecting actual:%n  %s%nto contain only digits%nbut found non-digit character %s at index <%s>",
-          actual, character, index);
+          IndentWrapper.of(actual), character, index);
   }
 
   private ShouldContainOnlyDigits(CharSequence actual) {
-    super("%nExpecting actual:%n  %s%nto contain only digits%nbut could not found any digits at all", actual);
+    super("%nExpecting actual:%n  %s%nto contain only digits%nbut could not found any digits at all", IndentWrapper.of(actual));
   }
 }
