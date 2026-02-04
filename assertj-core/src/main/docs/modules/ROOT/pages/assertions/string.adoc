@@ -1,0 +1,6 @@
+[[assertj-string-object-assertions]]
+= String/CharSequence assertions
+
+This section describes all the available assertions for `CharSequence` (including `String`, `StringBuilder`, `StringBuffer`, ...):
+
+The Javadoc for `CharSequence` assertions is available https://www.javadoc.io/static/org.assertj/assertj-core/{page-component-version}/org/assertj/core/api/AbstractCharSequenceAssert.html#method.summary[here].
