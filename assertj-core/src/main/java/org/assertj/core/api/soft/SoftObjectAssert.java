@@ -30,7 +30,7 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 
-public final class SoftObjectAssert<ACTUAL> {
+public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
   private final AssertionErrorCollector errorCollector;
 
   private final ObjectAssert<ACTUAL> objectAssert;
@@ -40,14 +40,8 @@ public final class SoftObjectAssert<ACTUAL> {
     this.objectAssert = assertThat(actual);
   }
 
-  public SoftObjectAssert<ACTUAL> actual() {
-    try {
-      objectAssert.actual();
-      errorCollector.succeeded();
-    } catch (AssertionError assertionError) {
-      errorCollector.collectAssertionError(assertionError);
-    }
-    return this;
+  public ACTUAL actual() {
+    return objectAssert.actual();
   }
 
   public SoftObjectAssert<ACTUAL> as(String description, Object[] args) {
