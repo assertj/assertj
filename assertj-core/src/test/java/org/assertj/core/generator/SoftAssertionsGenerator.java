@@ -21,11 +21,14 @@ import java.util.stream.Stream;
 import javax.lang.model.element.Modifier;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assert;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Assertions;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.OptionalAssert;
+import org.assertj.core.api.soft.DefaultSoftAssertFactory;
+import org.assertj.core.api.soft.SoftAssert;
 import org.assertj.core.api.soft.SoftObjectAssert;
 import org.assertj.core.api.soft.SoftOptionalAssert;
 import org.jspecify.annotations.NonNull;
@@ -131,6 +134,7 @@ public class SoftAssertionsGenerator {
 
     String softAssertClassName = getSoftAssertClassName(assertClass);
     TypeSpec.Builder softAssertTypeBuilder = TypeSpec.classBuilder(softAssertClassName)
+                                                     .addSuperinterface(SoftAssert.class)
                                                      .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
                                                      .addField(generateErrorCollectorField())
                                                      .addField(assertField)
@@ -140,8 +144,11 @@ public class SoftAssertionsGenerator {
 
     var softAssertType = ParameterizedTypeName.get(ClassName.get("", softAssertClassName), assertClassTypeVariables);
 
+
     for (Method method : methods) {
-      if (isMethodToDelegateTo(method)) {
+      if (method.getName().equals("actual") && method.getDeclaringClass().equals(AbstractAssert.class)) {
+        generateActualMethod(method, realActualType, assertField, softAssertTypeBuilder);
+      } else if (isMethodToDelegateTo(method)) {
         softAssertTypeBuilder.addMethod(generateDelegateMethod(method, assertField));
       } else if (isNonAssertionMethod(method)) {
         softAssertTypeBuilder.addMethod(generateDelegateMethodReturningThis(method, softAssertType, assertField, realActualType));
@@ -160,6 +167,14 @@ public class SoftAssertionsGenerator {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  private static void generateActualMethod(Method method, Type realActualType, FieldSpec assertField, TypeSpec.Builder softAssertTypeBuilder) {
+    var softAssertionObjectMethodBuilder = MethodSpec.methodBuilder(method.getName())
+                                                     .addModifiers(Modifier.PUBLIC)
+                                                     .returns(realActualType)
+                                                     .addStatement("return $N.actual()", assertField);
+    softAssertTypeBuilder.addMethod(softAssertionObjectMethodBuilder.build());
   }
 
   private static @NonNull String getSoftAssertClassName(Class<? extends Assert> assertClass) {
@@ -228,8 +243,9 @@ public class SoftAssertionsGenerator {
   private static @NonNull MethodSpec generateNavigationMethod(Method navigationMethod, FieldSpec assertField, Class<? extends Assert> assertClass) {
     if (isOptionalGet(navigationMethod, assertClass)) {
       return generateOptionalGetNavigationMethod(navigationMethod, assertField);
-    }
-    if (isOptionalFlatMap(navigationMethod, assertClass)) {
+    } else if (isStronglyTypedOptionalGet(navigationMethod, assertClass)) {
+      return generateStronglyTypedOptionalGetNavigationMethod(navigationMethod, assertField);
+    } else if (isOptionalFlatMap(navigationMethod, assertClass)) {
       return generateOptionalFlatMapNavigationMethod(navigationMethod, assertField);
     }
     Type genericReturnType = navigationMethod.getGenericReturnType();
@@ -257,6 +273,7 @@ public class SoftAssertionsGenerator {
   }
 
   private static @NonNull MethodSpec generateOptionalFlatMapNavigationMethod(Method navigationMethod, FieldSpec assertField) {
+    // <U> SoftOptionalAssert<U>
     var softOptionalAssertType = ParameterizedTypeName.get(ClassName.get("", SoftOptionalAssert.class.getSimpleName()), TypeVariableName.get("U"));
     var softAssertionMethodBuilder = MethodSpec.methodBuilder(navigationMethod.getName())
                                                .addModifiers(Modifier.PUBLIC)
@@ -269,12 +286,32 @@ public class SoftAssertionsGenerator {
     return softAssertionMethodBuilder.build();
   }
 
+  private static @NonNull MethodSpec generateStronglyTypedOptionalGetNavigationMethod(Method navigationMethod, FieldSpec assertField) {
+    // <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT
+    var softAssertType = TypeVariableName.get("SOFT_ASSERT", TypeName.get(SoftAssert.class));
+    var softAssertionMethodBuilder = MethodSpec.methodBuilder(navigationMethod.getName())
+                                               .addModifiers(Modifier.PUBLIC)
+                                               .addTypeVariables(List.of(softAssertType))
+                                               .returns(softAssertType)
+                                               .addStatement("return softAssertFactory.createSoftAssert(actual().get(), errorCollector)");
+    // DefaultSoftAssertFactory<?, SOFT_ASSERT>
+    var parameterizedType = ParameterizedTypeName.get(ClassName.get("", DefaultSoftAssertFactory.class.getSimpleName()), TypeVariableName.get("?"), TypeVariableName.get("SOFT_ASSERT"));
+    softAssertionMethodBuilder.addParameter(parameterizedType, "softAssertFactory");
+    return softAssertionMethodBuilder.build();
+  }
+
   private static boolean isOptionalGet(Method navigationMethod, Class<? extends Assert> assertClass) {
-    return navigationMethod.toString().contains("get()") && assertClass.equals(OptionalAssert.class);
+    return assertClass.equals(OptionalAssert.class) && navigationMethod.toString().contains("get()");
+  }
+
+  private static boolean isStronglyTypedOptionalGet(Method navigationMethod, Class<? extends Assert> assertClass) {
+    return assertClass.equals(OptionalAssert.class)
+      && navigationMethod.toString().contains("get(")
+      && navigationMethod.getParameterCount() == 1;
   }
 
   private static boolean isOptionalFlatMap(Method navigationMethod, Class<? extends Assert> assertClass) {
-    return navigationMethod.toString().contains("flatMap") && assertClass.equals(OptionalAssert.class);
+    return assertClass.equals(OptionalAssert.class) && navigationMethod.toString().contains("flatMap");
   }
 
   private static @NonNull List<TypeVariableName> getMethodTypeVariables(Method navigationMethod) {
@@ -285,7 +322,7 @@ public class SoftAssertionsGenerator {
   private static @NonNull MethodSpec generateDelegateMethod(Method objectMethod, FieldSpec assertField) {
     var softAssertionObjectMethodBuilder = MethodSpec.methodBuilder(objectMethod.getName())
                                                      .addModifiers(Modifier.PUBLIC)
-                                                     .returns(objectMethod.getReturnType())
+                                                     .returns(objectMethod.getGenericReturnType())
                                                      .addStatement("return $N." + objectMethod.getName()
                                                                      + methodArguments(objectMethod), assertField);
     for (Parameter parameter : objectMethod.getParameters()) {

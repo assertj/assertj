@@ -25,7 +25,7 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 
-public final class SoftOptionalAssert<VALUE> {
+public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   private final AssertionErrorCollector errorCollector;
 
   private final OptionalAssert<VALUE> optionalAssert;
@@ -35,14 +35,8 @@ public final class SoftOptionalAssert<VALUE> {
     this.optionalAssert = assertThat(actual);
   }
 
-  public SoftOptionalAssert<VALUE> actual() {
-    try {
-      optionalAssert.actual();
-      errorCollector.succeeded();
-    } catch (AssertionError assertionError) {
-      errorCollector.collectAssertionError(assertionError);
-    }
-    return this;
+  public Optional<VALUE> actual() {
+    return optionalAssert.actual();
   }
 
   public SoftOptionalAssert<VALUE> as(String description, Object[] args) {
@@ -213,9 +207,9 @@ public final class SoftOptionalAssert<VALUE> {
     return new SoftObjectAssert<>(optionalAssert.get().actual(), errorCollector);
   }
 
-  public <ASSERT extends AbstractAssert<?, ?>> ASSERT get(
-      InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return optionalAssert.get(assertFactory);
+  public <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT get(
+      DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
+    return softAssertFactory.createSoftAssert(actual().get(), errorCollector);
   }
 
   public WritableAssertionInfo getWritableAssertionInfo() {
