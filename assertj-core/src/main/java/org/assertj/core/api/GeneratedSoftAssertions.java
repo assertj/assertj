@@ -36,7 +36,7 @@ public class GeneratedSoftAssertions {
    * @return the created assertion object.
    */
   @CheckReturnValue
-  <VALUE> SoftOptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
+  public <VALUE> SoftOptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
     return new SoftOptionalAssert<>(actual, assertionErrorCollector);
   }
 
@@ -48,5 +48,9 @@ public class GeneratedSoftAssertions {
     List<AssertionError> errors = errorsCollected();
     if (!errors.isEmpty()) throw ASSERTION_ERROR_CREATOR.multipleAssertionsError(errors);
 
+  }
+
+  public AssertionErrorCollector getAssertionErrorCollector() {
+    return assertionErrorCollector;
   }
 }

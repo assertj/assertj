@@ -1,6 +1,8 @@
 package org.assertj.core.api;
 
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.api.soft.SoftAssertFactories.STRING;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 
 import java.util.List;
@@ -61,6 +63,19 @@ public final class SoftOptionalAssertTest {
     List<AssertionError> errors = multipleAssertionsError.getErrors();
     then(errors).hasSize(1);
     then(errors.get(0)).hasMessageContaining("bar");
+  }
+
+  @Test
+  void should_support_strongly_typed_get_navigation_methods() {
+    // GIVEN
+    Optional<String> actual = Optional.of("foo");
+    softly.assertThat(actual).get(STRING).isEmpty();
+    // WHEN
+    var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
+    // THEN
+    List<AssertionError> errors = multipleAssertionsError.getErrors();
+    then(errors).hasSize(1);
+    then(errors.get(0)).hasMessage(shouldBeEmpty("foo").create());
   }
 
   @Test
