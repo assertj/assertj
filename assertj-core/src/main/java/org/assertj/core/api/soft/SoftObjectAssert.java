@@ -56,9 +56,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(
-      InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
-    return objectAssert.asInstanceOf(instanceOfAssertFactory);
+  public <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT asInstanceOf(
+      DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
+    return softAssertFactory.createSoftAssert(actual(), errorCollector);
   }
 
   public SoftObjectAssert<ACTUAL> as(Description description) {

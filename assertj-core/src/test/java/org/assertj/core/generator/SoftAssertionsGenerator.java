@@ -113,6 +113,11 @@ public class SoftAssertionsGenerator {
                                                                             "withThreadDumpOnError",
                                                                             "withTypeComparators");
 
+  // <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT
+  private static final TypeVariableName BOUNDED_SOFT_ASSERT = TypeVariableName.get("SOFT_ASSERT", TypeName.get(SoftAssert.class));
+  // DefaultSoftAssertFactory<?, SOFT_ASSERT>
+  private static final ParameterizedTypeName DEFAULT_SOFT_ASSERT_FACTORY_PARAMETERIZED_TYPE = ParameterizedTypeName.get(ClassName.get("", DefaultSoftAssertFactory.class.getSimpleName()), TypeVariableName.get("?"), TypeVariableName.get("SOFT_ASSERT"));
+
   public static void main(String[] args) {
 
     // TODO: generate assertions with several parameterized types: map assertions
@@ -248,7 +253,9 @@ public class SoftAssertionsGenerator {
     if (isOptionalGet(navigationMethod, assertClass)) {
       return generateOptionalGetNavigationMethod(navigationMethod, assertField);
     } else if (isStronglyTypedOptionalGet(navigationMethod, assertClass)) {
-      return generateStronglyTypedOptionalGetNavigationMethod(navigationMethod, assertField);
+      return generateStronglyTypedOptionalGetNavigationMethod(navigationMethod);
+    } else if (isAsInstanceOf(navigationMethod)) {
+      return generateAsInstanceOfNavigationMethod(navigationMethod);
     } else if (isOptionalFlatMap(navigationMethod, assertClass)) {
       return generateOptionalFlatMapNavigationMethod(navigationMethod, assertField);
     }
@@ -290,18 +297,21 @@ public class SoftAssertionsGenerator {
     return softAssertionMethodBuilder.build();
   }
 
-  private static @NonNull MethodSpec generateStronglyTypedOptionalGetNavigationMethod(Method navigationMethod, FieldSpec assertField) {
-    // <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT
-    var softAssertType = TypeVariableName.get("SOFT_ASSERT", TypeName.get(SoftAssert.class));
-    var softAssertionMethodBuilder = MethodSpec.methodBuilder(navigationMethod.getName())
-                                               .addModifiers(Modifier.PUBLIC)
-                                               .addTypeVariables(List.of(softAssertType))
-                                               .returns(softAssertType)
-                                               .addStatement("return softAssertFactory.createSoftAssert(actual().get(), errorCollector)");
-    // DefaultSoftAssertFactory<?, SOFT_ASSERT>
-    var parameterizedType = ParameterizedTypeName.get(ClassName.get("", DefaultSoftAssertFactory.class.getSimpleName()), TypeVariableName.get("?"), TypeVariableName.get("SOFT_ASSERT"));
-    softAssertionMethodBuilder.addParameter(parameterizedType, "softAssertFactory");
-    return softAssertionMethodBuilder.build();
+  private static @NonNull MethodSpec generateStronglyTypedOptionalGetNavigationMethod(Method navigationMethod) {
+    return generateStronglyTypedNavigationMethod(navigationMethod, "return softAssertFactory.createSoftAssert(actual().get(), errorCollector)");
+  }
+
+  private static @NonNull MethodSpec generateAsInstanceOfNavigationMethod(Method navigationMethod) {
+    return generateStronglyTypedNavigationMethod(navigationMethod, "return softAssertFactory.createSoftAssert(actual(), errorCollector)");
+  }
+
+  private static @NonNull MethodSpec generateStronglyTypedNavigationMethod(Method navigationMethod, String returnStatement) {
+    return MethodSpec.methodBuilder(navigationMethod.getName())
+                     .addModifiers(Modifier.PUBLIC)
+                     .addTypeVariables(List.of(BOUNDED_SOFT_ASSERT))
+                     .returns(BOUNDED_SOFT_ASSERT)
+                     .addStatement(returnStatement)
+                     .addParameter(DEFAULT_SOFT_ASSERT_FACTORY_PARAMETERIZED_TYPE, "softAssertFactory").build();
   }
 
   private static boolean isOptionalGet(Method navigationMethod, Class<? extends Assert> assertClass) {
@@ -312,6 +322,10 @@ public class SoftAssertionsGenerator {
     return assertClass.equals(OptionalAssert.class)
       && navigationMethod.toString().contains("get(")
       && navigationMethod.getParameterCount() == 1;
+  }
+
+  private static boolean isAsInstanceOf(Method navigationMethod) {
+    return navigationMethod.getDeclaringClass().equals(AbstractAssert.class) && navigationMethod.getName().contains("asInstanceOf");
   }
 
   private static boolean isOptionalFlatMap(Method navigationMethod, Class<? extends Assert> assertClass) {

@@ -11,12 +11,10 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.assertj.core.annotation.Beta;
-import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractOptionalAssert;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Condition;
-import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.OptionalAssert;
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.ThrowingConsumer;
@@ -51,9 +49,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public <ASSERT extends AbstractAssert<?, ?>> ASSERT asInstanceOf(
-      InstanceOfAssertFactory<?, ASSERT> instanceOfAssertFactory) {
-    return optionalAssert.asInstanceOf(instanceOfAssertFactory);
+  public <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT asInstanceOf(
+      DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
+    return softAssertFactory.createSoftAssert(actual(), errorCollector);
   }
 
   public SoftOptionalAssert<VALUE> as(Description description) {
