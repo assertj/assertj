@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 import javax.lang.model.element.Modifier;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.Assert;
 import org.assertj.core.api.AssertionErrorCollector;
@@ -114,11 +115,11 @@ public class SoftAssertionsGenerator {
 
   public static void main(String[] args) {
 
-    // TODO: navigation method: hardcode them since the number is low enough and the generics are too complex to handle
     // TODO: generate assertions with several parameterized types: map assertions
     // TODO: generate GeneratedSoftAssertions ?
     // TODO: methods to ignore ?
     // TODO: format code
+    // TODO: soft assert factories
     Stream.of(ObjectAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
     Stream.of(OptionalAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
   }
@@ -139,7 +140,8 @@ public class SoftAssertionsGenerator {
                                                      .addField(generateErrorCollectorField())
                                                      .addField(assertField)
                                                      .addMethod(generateConstructor(actualParameter, assertField))
-                                                     .addTypeVariables(List.of(assertClassTypeVariables));
+                                                     .addTypeVariables(List.of(assertClassTypeVariables))
+                                                     .addAnnotation(Beta.class);
 
 
     var softAssertType = ParameterizedTypeName.get(ClassName.get("", softAssertClassName), assertClassTypeVariables);
