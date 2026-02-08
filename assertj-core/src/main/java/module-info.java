@@ -29,6 +29,7 @@ module org.assertj.core {
   exports org.assertj.core.api.recursive;
   exports org.assertj.core.api.recursive.assertion;
   exports org.assertj.core.api.recursive.comparison;
+  exports org.assertj.core.api.soft;
   exports org.assertj.core.condition;
   exports org.assertj.core.configuration;
   exports org.assertj.core.data;

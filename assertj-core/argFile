@@ -87,6 +87,7 @@
 --add-opens org.assertj.core/org.assertj.core.api.short_=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.shortarray=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.spliterator=org.junit.platform.commons
+--add-opens org.assertj.core/org.assertj.core.api.soft=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.string_=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.test=org.junit.platform.commons
 --add-opens org.assertj.core/org.assertj.core.api.throwable=org.junit.platform.commons

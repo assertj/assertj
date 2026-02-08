@@ -116,10 +116,12 @@ public class SoftAssertionsGenerator {
   public static void main(String[] args) {
 
     // TODO: generate assertions with several parameterized types: map assertions
-    // TODO: generate GeneratedSoftAssertions ?
     // TODO: methods to ignore ?
     // TODO: format code
-    // TODO: soft assert factories
+    // TODO: soft assert factories for generic type like Optional<String>
+    // TODO: generate GeneratedSoftAssertions ?
+    // TODO: module export
+    // TODO: move generator to a different place
     Stream.of(ObjectAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
     Stream.of(OptionalAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
   }

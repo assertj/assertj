@@ -1,4 +1,4 @@
-package org.assertj.core.api;
+package org.assertj.core.api.soft;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.soft.SoftAssertFactories.STRING;
@@ -8,6 +8,7 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import java.util.List;
 import java.util.Optional;
 
+import org.assertj.core.api.GeneratedSoftAssertions;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.error.MultipleAssertionsError;
 import org.jspecify.annotations.NonNull;
