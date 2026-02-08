@@ -27,6 +27,8 @@ import java.nio.charset.Charset;
 
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.assertj.core.api.ThrowableAssertAlternative;
+import org.assertj.core.error.MultipleAssertionsError;
+import org.jspecify.annotations.NonNull;
 import org.opentest4j.TestAbortedException;
 
 public class AssertionsUtil {
@@ -38,6 +40,12 @@ public class AssertionsUtil {
     assertThat(error).as("The code under test should have raised an AssertionError").isNotNull();
     return error;
   }
+
+  public static @NonNull MultipleAssertionsError expectMultipleAssertionsError(ThrowingCallable callable) {
+    return (MultipleAssertionsError) expectAssertionError(callable);
+  }
+
+
 
   public static ThrowableAssertAlternative<AssertionError> assertThatAssertionErrorIsThrownBy(ThrowingCallable shouldRaiseAssertionError) {
     return assertThatExceptionOfType(AssertionError.class).isThrownBy(shouldRaiseAssertionError);
