@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractListAssert;
@@ -30,6 +31,7 @@ import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguratio
 import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 
+@Beta
 public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
   private final AssertionErrorCollector errorCollector;
 
