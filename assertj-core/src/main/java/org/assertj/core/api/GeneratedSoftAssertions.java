@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.assertj.core.api.soft.SoftObjectAssert;
 import org.assertj.core.api.soft.SoftOptionalAssert;
 import org.assertj.core.error.AssertionErrorCreator;
 
@@ -38,6 +39,18 @@ public class GeneratedSoftAssertions {
   @CheckReturnValue
   public <VALUE> SoftOptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
     return new SoftOptionalAssert<>(actual, assertionErrorCollector);
+  }
+
+  /**
+   * Create assertion for {@link Optional}.
+   *
+   * @param actual  the actual value.
+   * @param <ACTUAL> the type of the value contained in the {@link Optional}.
+   * @return the created assertion object.
+   */
+  @CheckReturnValue
+  public <ACTUAL> SoftObjectAssert<ACTUAL> assertThat(ACTUAL actual) {
+    return new SoftObjectAssert<>(actual, assertionErrorCollector);
   }
 
   public List<AssertionError> errorsCollected() {
