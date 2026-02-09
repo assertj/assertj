@@ -87,7 +87,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   SELF isEqualTo(Object expected);
 
   /**
-   * Verifies that the actual value is not equal to the given one.
+   * Verifies that the actual value is not equal to the expected one.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions succeed
@@ -98,7 +98,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(&quot;abc&quot;).isNotEqualTo(&quot;abc&quot;);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotEqualTo(new HashMap&lt;String, Integer&gt;());</code></pre>
    *
-   * @param other the given value to compare the actual value to.
+   * @param other the expected value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is equal to the given one.
    */
