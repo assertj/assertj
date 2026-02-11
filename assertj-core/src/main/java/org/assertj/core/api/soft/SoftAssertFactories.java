@@ -15,7 +15,7 @@
  */
 package org.assertj.core.api.soft;
 
-import org.assertj.core.api.AssertionErrorCollector;
+import java.util.Optional;
 
 /**
  * {@link DefaultSoftAssertFactory} instances for Java types.
@@ -23,32 +23,12 @@ import org.assertj.core.api.AssertionErrorCollector;
 public interface SoftAssertFactories {
 
 
-//  /**
-//   * {@link InstanceOfSoftAssertFactory} for an {@link Optional}, assuming {@code Object} as value type.
-//   *
-//   * @see #optional(Class)
-//   */
-//  @SuppressWarnings("rawtypes")
-//  InstanceOfSoftAssertFactory<Optional, SoftOptionalAssert<Object>> OPTIONAL = optional(Object.class);
-
-
-  DefaultSoftAssertFactory<Object, SoftObjectAssert<?>> OBJECT = new DefaultSoftAssertFactory<>(Object.class,
-                                                                                                (Object actual, AssertionErrorCollector assertionErrorCollector) -> new SoftObjectAssert(actual, assertionErrorCollector));
+  DefaultSoftAssertFactory<Object, SoftObjectAssert<?>> OBJECT = new DefaultSoftAssertFactory<>(Object.class, SoftObjectAssert::new);
   DefaultSoftAssertFactory<String, SoftStringAssert> STRING = new DefaultSoftAssertFactory<>(String.class, SoftStringAssert::new);
 
+  DefaultSoftAssertFactory<Optional, SoftOptionalAssert<Object>> OPTIONAL = optional(Object.class);
 
-//  /**
-//   * {@link InstanceOfSoftAssertFactory} for an {@link Optional}.
-//   *
-//   * @param <VALUE>    the {@code Optional} value type.
-//   * @param resultType the value type instance.
-//   * @return the factory instance.
-//   *
-//   * @see #OPTIONAL
-//   */
-//  @SuppressWarnings("rawtypes")
-//  static <VALUE> InstanceOfSoftAssertFactory<Optional, SoftOptionalAssert<VALUE>> optional(Class<VALUE> resultType) {
-//    return new InstanceOfSoftAssertFactory<>(Optional.class, new Class[] { resultType }, actual -> GeneratedSoftAssertionsassertThat);
-//  }
-//
+  static <VALUE> DefaultSoftAssertFactory<Optional, SoftOptionalAssert<VALUE>> optional(Class<VALUE> resultType) {
+    return new DefaultSoftAssertFactory<>(SoftOptionalAssert<VALUE>::new, Optional.class, resultType);
+  }
 }

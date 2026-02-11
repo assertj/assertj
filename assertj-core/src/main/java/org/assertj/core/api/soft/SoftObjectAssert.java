@@ -46,7 +46,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return objectAssert.actual();
   }
 
-  public SoftObjectAssert<ACTUAL> as(String description, Object[] args) {
+  public SoftObjectAssert<ACTUAL> as(String description, Object... args) {
     objectAssert.as(description,args);
     return this;
   }
@@ -70,7 +70,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return objectAssert.asString();
   }
 
-  public SoftObjectAssert<ACTUAL> describedAs(String description, Object[] args) {
+  public SoftObjectAssert<ACTUAL> describedAs(String description, Object... args) {
     objectAssert.describedAs(description,args);
     return this;
   }
@@ -565,7 +565,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> overridingErrorMessage(String newErrorMessage, Object[] args) {
+  public SoftObjectAssert<ACTUAL> overridingErrorMessage(String newErrorMessage, Object... args) {
     objectAssert.overridingErrorMessage(newErrorMessage,args);
     return this;
   }
@@ -715,7 +715,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return objectAssert.usingRecursiveComparison(recursiveComparisonConfiguration);
   }
 
-  public SoftObjectAssert<ACTUAL> withFailMessage(String newErrorMessage, Object[] args) {
+  public SoftObjectAssert<ACTUAL> withFailMessage(String newErrorMessage, Object... args) {
     objectAssert.withFailMessage(newErrorMessage,args);
     return this;
   }

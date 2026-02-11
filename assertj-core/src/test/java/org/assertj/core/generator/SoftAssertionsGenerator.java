@@ -356,8 +356,12 @@ public class SoftAssertionsGenerator {
                                           .addStatement("$N." + methodToCall.getName() + methodArguments(methodToCall),
                                                         assertField)
                                           .addStatement("return this");
-    for (Parameter parameter : methodToCall.getParameters()) {
+    Parameter[] methodToCallParameters = methodToCall.getParameters();
+    for (Parameter parameter : methodToCallParameters) {
       addParameter(realActualType, parameter, delegateMethodBuilder);
+    }
+    if (methodToCallParameters.length > 0 && methodToCallParameters[methodToCallParameters.length - 1].getType().isArray()) {
+      delegateMethodBuilder.varargs(true);
     }
     return delegateMethodBuilder.build();
   }
