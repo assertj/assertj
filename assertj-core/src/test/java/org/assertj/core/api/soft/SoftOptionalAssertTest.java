@@ -22,14 +22,14 @@ public final class SoftOptionalAssertTest {
     softly.assertThat(actual)
           .isPresent()
           .containsSame("bar")
-          .containsSame("baz");
+          .contains("baz");
     // WHEN
     var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
     // THEN
     List<AssertionError> errors = multipleAssertionsError.getErrors();
     then(errors).hasSize(2);
     then(errors.get(0)).hasMessageContainingAll("to contain the instance", "bar");
-    then(errors.get(1)).hasMessageContainingAll("to contain the instance", "baz");
+    then(errors.get(1)).hasMessageContainingAll("to contain", "baz");
   }
 
   @Test

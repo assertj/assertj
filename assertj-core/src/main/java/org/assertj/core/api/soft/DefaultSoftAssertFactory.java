@@ -59,7 +59,7 @@ public class DefaultSoftAssertFactory<T, SOFT_ASSERT extends SoftAssert> impleme
    * @param delegate      the {@link SoftAssertFactory} to decorate
    * @since 4.0.0
    */
-  public DefaultSoftAssertFactory(Class<T> rawClass, Type[] typeArguments, SoftAssertFactory<T, SOFT_ASSERT> delegate) {
+  public DefaultSoftAssertFactory(SoftAssertFactory<T, SOFT_ASSERT> delegate, Class<T> rawClass, Type... typeArguments) {
     this(new SyntheticParameterizedType(rawClass, typeArguments), rawClass, delegate);
   }
 
