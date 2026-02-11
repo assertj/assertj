@@ -39,7 +39,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return optionalAssert.actual();
   }
 
-  public SoftOptionalAssert<VALUE> as(String description, Object[] args) {
+  public SoftOptionalAssert<VALUE> as(String description, Object... args) {
     optionalAssert.as(description,args);
     return this;
   }
@@ -93,7 +93,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> describedAs(String description, Object[] args) {
+  public SoftOptionalAssert<VALUE> describedAs(String description, Object... args) {
     optionalAssert.describedAs(description,args);
     return this;
   }
@@ -606,7 +606,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> overridingErrorMessage(String newErrorMessage, Object[] args) {
+  public SoftOptionalAssert<VALUE> overridingErrorMessage(String newErrorMessage, Object... args) {
     optionalAssert.overridingErrorMessage(newErrorMessage,args);
     return this;
   }
@@ -744,7 +744,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> withFailMessage(String newErrorMessage, Object[] args) {
+  public SoftOptionalAssert<VALUE> withFailMessage(String newErrorMessage, Object... args) {
     optionalAssert.withFailMessage(newErrorMessage,args);
     return this;
   }
