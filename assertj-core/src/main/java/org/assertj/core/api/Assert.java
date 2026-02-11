@@ -15,7 +15,9 @@
  */
 package org.assertj.core.api;
 
+import java.util.Comparator;
 import java.util.Date;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -63,7 +65,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * accept that result without detecting the bug.
    * <p>
    * Additionally, the comparison strategy can be customized via
-   * {@link #usingComparator(Comparator)} or {@link #usingEquals(BiPredicate)}.
+   * {@link AssertWithComparator#usingComparator(Comparator)} or {@link AssertWithComparator#usingEquals(BiPredicate)}.
    * In these cases, {@code isEqualTo} bypasses {@code equals} entirely in favor of the provided
    * logic.
    * <p>
