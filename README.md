@@ -15,7 +15,7 @@ You can ask questions in [**stackoverflow (assertj tag)**](https://stackoverflow
 
 ## Sponsors
 
-<a href="https://www.testmu.ai" target="_blank"><img width="202" height="100" style="vertical-align: middle;" alt="TestMu AI" src="https://github.com/user-attachments/assets/6437eddd-da98-4246-b2af-ebe573f3735d" />
+<a href="https://www.testmuai.com/?utm_medium=sponsor&utm_source=assertj" target="_blank"><img width="202" height="100" style="vertical-align: middle;" alt="TestMu AI" src="https://github.com/user-attachments/assets/6437eddd-da98-4246-b2af-ebe573f3735d" />
 
 ## AssertJ's Goals
 
