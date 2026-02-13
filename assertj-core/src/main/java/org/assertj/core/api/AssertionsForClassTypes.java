@@ -937,8 +937,8 @@ public class AssertionsForClassTypes {
    *   }
    * }
    *
-   * TextException textException = catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); },
-   *                                                    TextException.class);
+   * TextException textException = catchThrowableOfType(TextException.class,
+   *                                                    () -&gt; { throw new TextException("boom!", 1, 5); });
    * // assertions succeed:
    * assertThat(textException).hasMessage("boom!");
    * assertThat(textException.line).isEqualTo(1);
