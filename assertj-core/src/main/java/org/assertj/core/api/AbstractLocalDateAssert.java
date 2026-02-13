@@ -241,13 +241,18 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * @param localDateAsString String representing a {@link LocalDate}.
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
-   * @throws IllegalArgumentException if given String is null or can't be converted to a {@link LocalDate}.
+   * @throws IllegalArgumentException if given String is null.
    * @throws AssertionError if the actual {@code LocalDate} is not equal to the {@link LocalDate} built from
-   *           given String.
+   * given String.
    */
   public SELF isEqualTo(String localDateAsString) {
     assertLocalDateAsStringParameterIsNotNull(localDateAsString);
-    return isEqualTo(parse(localDateAsString));
+    try {
+      return isEqualTo(parse(localDateAsString));
+    } catch (DateTimeParseException e) {
+      // Fallback to object comparison if parsing fails (Fixes #4021)
+      return isEqualTo((Object) localDateAsString);
+    }
   }
 
   /**
@@ -514,7 +519,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
    * @return this assertion object.
    * @throws AssertionError if the actual {@code LocalDate} is {@code null}.
    * @throws AssertionError if the actual {@code LocalDate} is not in the given year.
-   * 
+   *
    * @since 3.23.0
    */
   public SELF hasYear(int year) {
