@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.GeneratedSoftAssertions;
+import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -100,5 +101,24 @@ public final class SoftObjectAssertTest {
     then(errors.get(0)).hasMessageContainingAll("to contain", "bar");
     then(errors.get(1)).hasMessageContainingAll("to contain", "baz");
   }
+
+  @Test
+  void should_support_extracting_with_function_navigation_methods() {
+    // GIVEN
+    var yoda = new Jedi("Yoda", "Green");
+    softly.assertThat(yoda)
+          .extracting(value -> value.lightSaberColor)
+          .isEqualTo("Green")
+          .isEqualTo("Blue")
+          .isEqualTo("Red");
+    // WHEN
+    var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
+    // THEN
+    List<AssertionError> errors = multipleAssertionsError.getErrors();
+    then(errors).hasSize(2);
+    then(errors.get(0)).hasMessageContaining("Blue");
+    then(errors.get(1)).hasMessageContaining("Red");
+  }
+
 
 }
