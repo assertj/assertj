@@ -2,21 +2,15 @@ package org.assertj.core.api.soft;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.lang.AssertionError;
-import java.lang.Class;
-import java.lang.Iterable;
-import java.lang.Object;
-import java.lang.String;
 import java.util.Comparator;
-import java.util.List;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
 import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.AbstractCharSequenceAssert;
-import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.ObjectAssert;
@@ -128,7 +122,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
   }
 
   public SoftObjectAssert<ACTUAL> doesNotHaveToString(String expectedStringTemplate,
-      Object[] args) {
+      Object... args) {
     try {
       objectAssert.doesNotHaveToString(expectedStringTemplate,args);
       errorCollector.succeeded();
@@ -169,6 +163,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
+  @Deprecated(
+      since = "3"
+  )
   public boolean equals(Object obj) {
     return objectAssert.equals(obj);
   }
@@ -196,9 +193,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return extracting(extractor).asInstanceOf(softAssertFactory);
   }
 
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(
-      Function<? super ACTUAL, ?>[] extractors) {
-    return objectAssert.extracting(extractors);
+  @SafeVarargs
+  public final SoftListAssert<Object> extracting(Function<? super ACTUAL, ?>... extractors) {
+    return new SoftListAssert(objectAssert.extracting(extractors).actual(), errorCollector);
   }
 
   public WritableAssertionInfo getWritableAssertionInfo() {
@@ -226,7 +223,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
   }
 
   public SoftObjectAssert<ACTUAL> hasAllNullFieldsOrPropertiesExcept(
-      String[] propertiesOrFieldsToIgnore) {
+      String... propertiesOrFieldsToIgnore) {
     try {
       objectAssert.hasAllNullFieldsOrPropertiesExcept(propertiesOrFieldsToIgnore);
       errorCollector.succeeded();
@@ -271,7 +268,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
   }
 
   public SoftObjectAssert<ACTUAL> hasNoNullFieldsOrPropertiesExcept(
-      String[] propertiesOrFieldsToIgnore) {
+      String... propertiesOrFieldsToIgnore) {
     try {
       objectAssert.hasNoNullFieldsOrPropertiesExcept(propertiesOrFieldsToIgnore);
       errorCollector.succeeded();
@@ -281,7 +278,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> hasOnlyFields(String[] expectedFieldNames) {
+  public SoftObjectAssert<ACTUAL> hasOnlyFields(String... expectedFieldNames) {
     try {
       objectAssert.hasOnlyFields(expectedFieldNames);
       errorCollector.succeeded();
@@ -321,7 +318,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> hasToString(String expectedStringTemplate, Object[] args) {
+  public SoftObjectAssert<ACTUAL> hasToString(String expectedStringTemplate, Object... args) {
     try {
       objectAssert.hasToString(expectedStringTemplate,args);
       errorCollector.succeeded();
@@ -371,7 +368,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isIn(Object[] values) {
+  public SoftObjectAssert<ACTUAL> isIn(Object... values) {
     try {
       objectAssert.isIn(values);
       errorCollector.succeeded();
@@ -391,7 +388,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isInstanceOfAny(Class[] types) {
+  public SoftObjectAssert<ACTUAL> isInstanceOfAny(Class... types) {
     try {
       objectAssert.isInstanceOfAny(types);
       errorCollector.succeeded();
@@ -451,7 +448,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isNotIn(Object[] values) {
+  public SoftObjectAssert<ACTUAL> isNotIn(Object... values) {
     try {
       objectAssert.isNotIn(values);
       errorCollector.succeeded();
@@ -471,7 +468,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isNotInstanceOfAny(Class<?>[] types) {
+  public SoftObjectAssert<ACTUAL> isNotInstanceOfAny(Class<?>... types) {
     try {
       objectAssert.isNotInstanceOfAny(types);
       errorCollector.succeeded();
@@ -491,7 +488,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isNotOfAnyClassIn(Class<?>[] types) {
+  public SoftObjectAssert<ACTUAL> isNotOfAnyClassIn(Class<?>... types) {
     try {
       objectAssert.isNotOfAnyClassIn(types);
       errorCollector.succeeded();
@@ -521,7 +518,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isOfAnyClassIn(Class[] types) {
+  public SoftObjectAssert<ACTUAL> isOfAnyClassIn(Class... types) {
     try {
       objectAssert.isOfAnyClassIn(types);
       errorCollector.succeeded();
@@ -593,7 +590,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> satisfies(Consumer<? super ACTUAL>[] requirements) {
+  public SoftObjectAssert<ACTUAL> satisfies(Consumer<? super ACTUAL>... requirements) {
     try {
       objectAssert.satisfies(requirements);
       errorCollector.succeeded();
@@ -613,7 +610,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> satisfies(ThrowingConsumer<? super ACTUAL>[] assertions) {
+  public SoftObjectAssert<ACTUAL> satisfies(ThrowingConsumer<? super ACTUAL>... assertions) {
     try {
       objectAssert.satisfies(assertions);
       errorCollector.succeeded();
@@ -623,7 +620,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> satisfiesAnyOf(Consumer<? super ACTUAL>[] assertions) {
+  public SoftObjectAssert<ACTUAL> satisfiesAnyOf(Consumer<? super ACTUAL>... assertions) {
     try {
       objectAssert.satisfiesAnyOf(assertions);
       errorCollector.succeeded();
@@ -633,7 +630,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> satisfiesAnyOf(ThrowingConsumer<? super ACTUAL>[] assertions) {
+  public SoftObjectAssert<ACTUAL> satisfiesAnyOf(ThrowingConsumer<? super ACTUAL>... assertions) {
     try {
       objectAssert.satisfiesAnyOf(assertions);
       errorCollector.succeeded();
