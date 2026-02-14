@@ -18,7 +18,6 @@ import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractListAssert;
-import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.InstanceOfAssertFactory;
@@ -176,8 +175,8 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return objectAssert.equals(obj);
   }
 
-  public AbstractObjectAssert<?, ?> extracting(String propertyOrField) {
-    return objectAssert.extracting(propertyOrField);
+  public SoftObjectAssert<?> extracting(String propertyOrField) {
+    return new SoftObjectAssert<>(objectAssert.extracting(propertyOrField).actual(), errorCollector);
   }
 
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
