@@ -1647,7 +1647,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Loads the text content of a file with the default character set, so that it can be passed to
+   * Loads the text content of a file with the {@link Charset#defaultCharset() default charset}, so that it can be passed to
    * {@link #assertThat(String)}.
    * <p>
    * Note that this will load the entire file in memory; for larger files, there might be a more efficient alternative
@@ -1663,8 +1663,8 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Loads the text content of a file into a list of strings with the default charset, each string corresponding to a
-   * line.
+   * Loads the text content of a file into a list of strings with the {@link Charset#defaultCharset() default charset},
+   * each string corresponding to a line.
    * The line endings are either \n, \r or \r\n.
    *
    * @param file the file.
@@ -1705,8 +1705,8 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Loads the text content of a path into a list of strings with the default charset, each string corresponding to a
-   * line.
+   * Loads the text content of a path into a list of strings with the {@link Charset#defaultCharset() default charset},
+   * each string corresponding to a line.
    * The line endings are either \n, \r or \r\n.
    *
    * @param path the path.
@@ -1789,7 +1789,7 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Loads the text content of a URL with the default character set, so that it can be passed to
+   * Loads the text content of a URL with the {@link Charset#defaultCharset() default charset}, so that it can be passed to
    * {@link #assertThat(String)}.
    * <p>
    * Note that this will load the entire file in memory; for larger files.
@@ -1804,8 +1804,8 @@ public class AssertionsForClassTypes {
   }
 
   /**
-   * Loads the text content of a URL into a list of strings with the default charset, each string corresponding to a
-   * line.
+   * Loads the text content of a URL into a list of strings with the {@link Charset#defaultCharset() default charset},
+   * each string corresponding to a line.
    * The line endings are either \n, \r or \r\n.
    *
    * @param url the URL.

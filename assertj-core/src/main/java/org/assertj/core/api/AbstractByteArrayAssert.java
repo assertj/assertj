@@ -1270,7 +1270,8 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * Converts the actual byte[] under test to a String and returns assertions for the computed String
    * allowing String specific assertions from this call.
    * <p>
-   * The byte[] conversion to a String by decoding the specified bytes using the platform's default charset.
+   * The byte[] conversion to a String by decoding the specified bytes using the platform's
+   * {@link Charset#defaultCharset() default charset}.
    * <p>
    * Example :
    * <pre><code class='java'> byte[] bytes = new byte[] { -1, 0, 1 };
@@ -1300,8 +1301,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    * Converts the actual byte[] under test to a String by decoding the specified bytes using the given charset
    * and returns assertions for the computed String
    * allowing String specific assertions from this call.
-   * <p>
-   * The byte[] conversion to a String by decoding the specified bytes using the platform's default charset.
    * <p>
    * Example :
    * <pre><code class='java'> byte[] bytes = new byte[] { -1, 0, 1 };
