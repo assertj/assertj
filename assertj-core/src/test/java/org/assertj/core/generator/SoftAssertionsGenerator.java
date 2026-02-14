@@ -29,6 +29,7 @@ import org.assertj.core.api.AbstractObjectAssert;
 import org.assertj.core.api.Assert;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Assertions;
+import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.OptionalAssert;
 import org.assertj.core.api.soft.DefaultSoftAssertFactory;
@@ -263,6 +264,8 @@ public class SoftAssertionsGenerator {
       return generateOptionalFlatMapNavigationMethod(navigationMethod, assertField);
     } else if (isObjectExtracting(navigationMethod)) {
        return generateObjectExtractingWithSingleFunctionNavigationMethod(navigationMethod);
+    } else if (isStronglyTypedObjectExtracting(navigationMethod)) {
+       return generateStronglyTypedObjectExtractingWithSingleFunctionNavigationMethod(navigationMethod);
     }
     Type genericReturnType = navigationMethod.getGenericReturnType();
     var softAssertionMethodBuilder = MethodSpec.methodBuilder(navigationMethod.getName())
@@ -320,11 +323,11 @@ public class SoftAssertionsGenerator {
   }
 
   private static @NonNull MethodSpec generateObjectExtractingWithSingleFunctionNavigationMethod(Method navigationMethod) {
-    TypeVariableName typeVariableName = TypeVariableName.get("T");
-    var softObjectAssertType = ParameterizedTypeName.get(ClassName.get("", SoftObjectAssert.class.getSimpleName()), typeVariableName);
+    TypeVariableName genericT = TypeVariableName.get("T");
+    var softObjectAssertType = ParameterizedTypeName.get(ClassName.get("", SoftObjectAssert.class.getSimpleName()), genericT);
     var softAssertionMethodBuilder = MethodSpec.methodBuilder(navigationMethod.getName())
                                                .addModifiers(Modifier.PUBLIC)
-                                               .addTypeVariables(List.of(typeVariableName))
+                                               .addTypeVariable(genericT)
                                                .returns(softObjectAssertType)
                                                .addStatement("return new SoftObjectAssert<>(extractor.apply(actual()), errorCollector)");
     for (Parameter parameter : navigationMethod.getParameters()) {
@@ -332,6 +335,25 @@ public class SoftAssertionsGenerator {
     }
     return softAssertionMethodBuilder.build();
   }
+
+  private static @NonNull MethodSpec generateStronglyTypedObjectExtractingWithSingleFunctionNavigationMethod(Method navigationMethod) {
+    Parameter functionParameter = navigationMethod.getParameters()[0];
+    return MethodSpec.methodBuilder(navigationMethod.getName())
+                     .addModifiers(Modifier.PUBLIC)
+                     .addTypeVariables(List.of(TypeVariableName.get("T"), BOUNDED_SOFT_ASSERT))
+                     .returns(BOUNDED_SOFT_ASSERT)
+                     .addStatement("return extracting(extractor).asInstanceOf(softAssertFactory)")
+                     .addParameter(functionParameter.getParameterizedType(), functionParameter.getName())
+                     .addParameter(DEFAULT_SOFT_ASSERT_FACTORY_PARAMETERIZED_TYPE, "softAssertFactory")
+                     .build();
+
+//    public <T, SOFT_ASSERT extends SoftAssert> SOFT_ASSERT extracting(
+//      Function<? super ACTUAL, T> extractor, DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
+//      return extracting(extractor).asInstanceOf(softAssertFactory);
+//    }
+
+  }
+
 
   private static boolean isOptionalGet(Method navigationMethod, Class<? extends Assert> assertClass) {
     return assertClass.equals(OptionalAssert.class) && navigationMethod.toString().contains("get()");
@@ -353,6 +375,15 @@ public class SoftAssertionsGenerator {
       && navigationMethod.getName().contains("extracting")
       && parameterTypes.size() == 1
       && parameterTypes.contains(Function.class);
+  }
+
+  private static boolean isStronglyTypedObjectExtracting(Method navigationMethod) {
+    List<Class<?>> parameterTypes = Arrays.asList(navigationMethod.getParameterTypes());
+    return navigationMethod.getDeclaringClass().equals(AbstractObjectAssert.class)
+      && navigationMethod.getName().contains("extracting")
+      && parameterTypes.size() == 2
+      && parameterTypes.contains(Function.class)
+      && parameterTypes.contains(InstanceOfAssertFactory.class)      ;
   }
 
   private static boolean isOptionalFlatMap(Method navigationMethod, Class<? extends Assert> assertClass) {
