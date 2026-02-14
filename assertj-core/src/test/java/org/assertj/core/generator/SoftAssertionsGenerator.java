@@ -34,6 +34,7 @@ import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.OptionalAssert;
 import org.assertj.core.api.soft.DefaultSoftAssertFactory;
 import org.assertj.core.api.soft.SoftAssert;
+import org.assertj.core.api.soft.SoftListAssert;
 import org.assertj.core.api.soft.SoftObjectAssert;
 import org.assertj.core.api.soft.SoftOptionalAssert;
 import org.jspecify.annotations.NonNull;
@@ -120,6 +121,7 @@ public class SoftAssertionsGenerator {
   // <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT
   private static final TypeVariableName BOUNDED_SOFT_ASSERT = TypeVariableName.get("SOFT_ASSERT", TypeName.get(SoftAssert.class));
   private static final TypeVariableName WILDCARD_TYPE = TypeVariableName.get("?");
+  private static final TypeVariableName OBJECT_TYPE = TypeVariableName.get("Object");
   // DefaultSoftAssertFactory<?, SOFT_ASSERT>
   private static final ParameterizedTypeName DEFAULT_SOFT_ASSERT_FACTORY_PARAMETERIZED_TYPE = ParameterizedTypeName.get(ClassName.get("", DefaultSoftAssertFactory.class.getSimpleName()), WILDCARD_TYPE, TypeVariableName.get("SOFT_ASSERT"));
 
@@ -265,6 +267,8 @@ public class SoftAssertionsGenerator {
       return generateOptionalFlatMapNavigationMethod(navigationMethod, assertField);
     } else if (isObjectExtractingWithString(navigationMethod)) {
       return generateObjectExtractingWithSingleStringNavigationMethod(navigationMethod);
+    } else if (isObjectExtractingWithMultipleStrings(navigationMethod)) {
+      return generateObjectExtractingWithMultipleStringNavigationMethod(navigationMethod);
     } else if (isStronglyTypedObjectExtractingWithString(navigationMethod)) {
       return generateStronglyTypedObjectExtractingWithSingleStringNavigationMethod(navigationMethod);
     } else if (isObjectExtractingWithFunction(navigationMethod)) {
@@ -339,6 +343,18 @@ public class SoftAssertionsGenerator {
     return softAssertionMethodBuilder.build();
   }
 
+  private static @NonNull MethodSpec generateObjectExtractingWithMultipleStringNavigationMethod(Method navigationMethod) {
+    Parameter stringVarargsParameter = navigationMethod.getParameters()[0];
+
+    var softListAssertType = ParameterizedTypeName.get(ClassName.get("", SoftListAssert.class.getSimpleName()), OBJECT_TYPE);
+    var softAssertionMethodBuilder = MethodSpec.methodBuilder(navigationMethod.getName())
+                                               .addModifiers(Modifier.PUBLIC)
+                                               .returns(softListAssertType)
+                                               .addParameter(stringVarargsParameter.getParameterizedType(), stringVarargsParameter.getName())
+                                               .addStatement("return new SoftListAssert(objectAssert.extracting(propertiesOrFields).actual(), errorCollector)");
+    return softAssertionMethodBuilder.varargs(true).build();
+  }
+
   private static @NonNull MethodSpec generateStronglyTypedObjectExtractingWithSingleStringNavigationMethod(Method navigationMethod) {
     Parameter stringParameter = navigationMethod.getParameters()[0];
     return MethodSpec.methodBuilder(navigationMethod.getName())
@@ -402,6 +418,14 @@ public class SoftAssertionsGenerator {
       && navigationMethod.getName().contains("extracting")
       && parameterTypes.size() == 1
       && parameterTypes.contains(String.class);
+  }
+
+  private static boolean isObjectExtractingWithMultipleStrings(Method navigationMethod) {
+    List<Class<?>> parameterTypes = Arrays.asList(navigationMethod.getParameterTypes());
+    return navigationMethod.getDeclaringClass().equals(AbstractObjectAssert.class)
+      && navigationMethod.getName().contains("extracting")
+      && parameterTypes.size() == 1
+      && parameterTypes.contains(String[].class);
   }
 
   private static boolean isStronglyTypedObjectExtractingWithString(Method navigationMethod) {

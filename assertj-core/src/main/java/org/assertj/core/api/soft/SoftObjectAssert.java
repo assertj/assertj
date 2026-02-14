@@ -182,9 +182,8 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return extracting(propertyOrField).asInstanceOf(softAssertFactory);
   }
 
-  public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(
-      String[] propertiesOrFields) {
-    return objectAssert.extracting(propertiesOrFields);
+  public SoftListAssert<Object> extracting(String... propertiesOrFields) {
+    return new SoftListAssert(objectAssert.extracting(propertiesOrFields).actual(), errorCollector);
   }
 
   public <T> SoftObjectAssert<T> extracting(Function<? super ACTUAL, T> extractor) {
