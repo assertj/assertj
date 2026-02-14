@@ -194,9 +194,10 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return new SoftObjectAssert<>(extractor.apply(actual()), errorCollector);
   }
 
-  public <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(
-      Function<? super ACTUAL, T> extractor, InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return objectAssert.extracting(extractor,assertFactory);
+  public <T, SOFT_ASSERT extends SoftAssert> SOFT_ASSERT extracting(
+      Function<? super ACTUAL, T> extractor,
+      DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
+    return extracting(extractor).asInstanceOf(softAssertFactory);
   }
 
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(
