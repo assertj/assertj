@@ -27,6 +27,7 @@ import java.util.Objects;
 
 /**
  * {@link AssertFactory} decorator that casts the input value to the given type before invoking the decorated factory.
+ * Default implementations for common Java types are provided by {@link InstanceOfAssertFactories}.
  *
  * @param <T>      the type to use for the cast
  * @param <ASSERT> the type of the resulting {@link Assert}
