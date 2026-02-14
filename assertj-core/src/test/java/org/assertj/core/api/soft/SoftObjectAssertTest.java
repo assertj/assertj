@@ -156,5 +156,23 @@ public final class SoftObjectAssertTest {
     then(errors.get(1)).hasMessageContaining("Red");
   }
 
+  @Test
+  void should_support_strongly_typed_extracting_with_string_navigation_methods() {
+    // GIVEN
+    var yoda = new Jedi("Yoda", "Green");
+    softly.assertThat(yoda)
+          .extracting("lightSaberColor", STRING)
+          .containsIgnoringCase("green")
+          .containsIgnoringCase("Red")
+          .isEmpty();
+    // WHEN
+    var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
+    // THEN
+    List<AssertionError> errors = multipleAssertionsError.getErrors();
+    then(errors).hasSize(2);
+    then(errors.get(0)).hasMessageContaining("Red");
+    then(errors.get(1)).hasMessage(shouldBeEmpty("Green").create());
+  }
+
 
 }

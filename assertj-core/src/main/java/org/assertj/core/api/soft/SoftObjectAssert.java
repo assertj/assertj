@@ -15,12 +15,10 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import org.assertj.core.annotation.Beta;
-import org.assertj.core.api.AbstractAssert;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractListAssert;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Condition;
-import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.ThrowingConsumer;
@@ -179,9 +177,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return new SoftObjectAssert<>(objectAssert.extracting(propertyOrField).actual(), errorCollector);
   }
 
-  public <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(String propertyOrField,
-      InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return objectAssert.extracting(propertyOrField,assertFactory);
+  public <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT extracting(String propertyOrField,
+      DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
+    return extracting(propertyOrField).asInstanceOf(softAssertFactory);
   }
 
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(
