@@ -28,7 +28,7 @@ import org.assertj.core.annotation.Beta;
 
 /**
  * Base class for all implementations of assertions for {@link Collection}s.
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <ACTUAL> the type of the "actual" value.

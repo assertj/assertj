@@ -86,7 +86,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   /**
    * Same assertion as {@link #isBefore(ZonedDateTime)} but the {@link ZonedDateTime} is built from given String, which
    * must follow <a
-   * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
+   * href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
    * <b>Breaking change</b>: since 3.15.0 the default comparator uses {@link ChronoZonedDateTime#timeLineOrder()} which only
@@ -154,7 +154,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   /**
    * Same assertion as {@link #isBeforeOrEqualTo(ZonedDateTime)} but the {@link ZonedDateTime} is built from given
    * String which must follow <a
-   * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
+   * href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
    * <b>Breaking change</b>: since 3.15.0 the default comparator uses {@link ChronoZonedDateTime#timeLineOrder()} which only
@@ -221,7 +221,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   /**
    * Same assertion as {@link #isAfterOrEqualTo(ZonedDateTime)} but the {@link ZonedDateTime} is built from given
    * String which must follow <a
-   * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
+   * href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
    * <b>Breaking change</b>: since 3.15.0 the default comparator uses {@link ChronoZonedDateTime#timeLineOrder()} which only
@@ -289,7 +289,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   /**
    * Same assertion as {@link #isAfter(ZonedDateTime)} but the {@link ZonedDateTime} is built from given String, which
    * must follow <a
-   * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
+   * href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
    * <b>Breaking change</b>: since 3.15.0 the default comparator uses {@link ChronoZonedDateTime#timeLineOrder()} which only
@@ -359,7 +359,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
 
   /**
    * Same assertion as {@link #isEqualTo(Object)} but the {@link ZonedDateTime} is built from given String which must follow
-   * <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
+   * <a href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
    * <b>Breaking change</b>: since 3.15.0 the default comparator uses {@link ChronoZonedDateTime#timeLineOrder()} which only
@@ -427,7 +427,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
 
   /**
    * Same assertion as {@code #isNotEqualTo(Object)} but the {@link ZonedDateTime} is built from given String which must follow
-   * <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME">ISO date-time format</a>
+   * <a href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME">ISO date-time format</a>
    * to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
    * <b>Breaking change</b>: since 3.15.0 the default comparator uses {@link ChronoZonedDateTime#timeLineOrder()} which only
@@ -477,7 +477,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   /**
    * Same assertion as {@link #isIn(ZonedDateTime...)} but the {@link ZonedDateTime} are built from given String, which
    * must follow <a
-   * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
+   * href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
    * Note that the {@link ZonedDateTime}s created from the given Strings are built in the {@link java.time.ZoneId} of
@@ -520,7 +520,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
   /**
    * Same assertion as {@link #isNotIn(ZonedDateTime...)} but the {@link ZonedDateTime} is built from given String,
    * which must follow <a
-   * href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
+   * href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_DATE_TIME"
    * >ISO date-time format</a> to allow calling {@link ZonedDateTime#parse(CharSequence, DateTimeFormatter)} method.
    * <p>
    * Note that the {@link ZonedDateTime}s created from the given Strings are built in the {@link java.time.ZoneId} of
@@ -628,7 +628,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
 
   /**
    * Same assertion as {@link #isBetween(ZonedDateTime, ZonedDateTime)} but here you pass {@link ZonedDateTime} String representations
-   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_ZONED_DATE_TIME">ISO ZonedDateTime format</a>
+   * which must follow <a href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_ZONED_DATE_TIME">ISO ZonedDateTime format</a>
    * to allow calling {@link ZonedDateTime#parse(CharSequence)} method.
    * <p>
    * <b>Breaking change</b>: since 3.15.0 the default comparator uses {@link ChronoZonedDateTime#timeLineOrder()} which only
@@ -709,7 +709,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
 
   /**
    * Same assertion as {@link #isStrictlyBetween(ZonedDateTime, ZonedDateTime)} but here you pass {@link ZonedDateTime} String representations
-   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_ZONED_DATE_TIME">ISO ZonedDateTime format</a>
+   * which must follow <a href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_ZONED_DATE_TIME">ISO ZonedDateTime format</a>
    * to allow calling {@link ZonedDateTime#parse(CharSequence)} method.
    * <p>
    * <b>Breaking change</b>: since 3.15.0 the default comparator uses {@link ChronoZonedDateTime#timeLineOrder()} which only

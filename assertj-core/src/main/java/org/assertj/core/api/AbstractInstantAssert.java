@@ -74,7 +74,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   /**
    * Same assertion as {@link #isBefore(Instant)} but the {@link Instant} is built from given String, which
    * must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
    * >ISO Instant format</a> to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -121,7 +121,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   /**
    * Same assertion as {@link #isBeforeOrEqualTo(Instant)} but the {@link Instant} is built from given
    * String, which must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
    * >ISO Instant format</a> to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -169,7 +169,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   /**
    * Same assertion as {@link #isAfterOrEqualTo(Instant)} but the {@link Instant} is built from given
    * String, which must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
    * >ISO Instant format</a> to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -216,7 +216,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   /**
    * Same assertion as {@link #isAfter(Instant)} but the {@link Instant} is built from given a String that
    * must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
    * >ISO Instant format</a> to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -240,7 +240,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   /**
    * Same assertion as {@link #isEqualTo(Object)} (where Object is expected to be {@link Instant}) but here you
    * pass {@link Instant} String representation that must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
    * >ISO Instant format</a> to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -264,7 +264,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   /**
    * Same assertion as {@link #isNotEqualTo(Object)} (where Object is expected to be {@link Instant}) but here you
    * pass {@link Instant} String representation that must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
    * >ISO Instant format</a> to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -288,7 +288,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   /**
    * Same assertion as {@link #isIn(Object...)} (where Objects are expected to be {@link Instant}) but here you
    * pass {@link Instant} String representations that must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
    * >ISO Instant format</a> to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -312,7 +312,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
   /**
    * Same assertion as {@link #isNotIn(Object...)} (where Objects are expected to be {@link Instant}) but here you
    * pass {@link Instant} String representations that must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT"
    * >ISO Instant format</a> to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -404,7 +404,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
 
   /**
    * Same assertion as {@link #isBetween(Instant, Instant)} but here you pass {@link Instant} String representations
-   * that must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT">ISO Instant format</a>
+   * that must follow <a href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT">ISO Instant format</a>
    * to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example:
@@ -468,7 +468,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
 
   /**
    * Same assertion as {@link #isStrictlyBetween(Instant, Instant)} but here you pass {@link Instant} String representations
-   * that must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT">ISO Instant format</a>
+   * that must follow <a href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_INSTANT">ISO Instant format</a>
    * to allow calling {@link Instant#parse(CharSequence)} method.
    * <p>
    * Example:

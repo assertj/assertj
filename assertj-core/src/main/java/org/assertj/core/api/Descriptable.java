@@ -122,7 +122,7 @@ public interface Descriptable<SELF> {
    * the chained call by throwing an AssertionError.
    * <p>
    * Alias for <code>{@link #as(String, Object...)}</code> since "as" is a keyword in <a
-   * href="http://groovy-lang.org/" target="_blank">Groovy</a>.
+   * href="https://groovy-lang.org/" target="_blank">Groovy</a>.
    *
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.

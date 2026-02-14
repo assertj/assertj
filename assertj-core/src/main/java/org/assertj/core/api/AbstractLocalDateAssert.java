@@ -76,7 +76,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   /**
    * Same assertion as {@link #isBefore(LocalDate)} but the {@link LocalDate} is built from given String, which
    * must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -120,7 +120,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   /**
    * Same assertion as {@link #isBeforeOrEqualTo(LocalDate)} but the {@link LocalDate} is built from given
    * String, which must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -165,7 +165,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   /**
    * Same assertion as {@link #isAfterOrEqualTo(LocalDate)} but the {@link LocalDate} is built from given
    * String, which must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -209,7 +209,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   /**
    * Same assertion as {@link #isAfter(LocalDate)} but the {@link LocalDate} is built from given a String that
    * must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -231,7 +231,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   /**
    * Same assertion as {@link #isEqualTo(Object)} (where Object is expected to be {@link LocalDate}) but here you
    * pass {@link LocalDate} String representation that must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -253,7 +253,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   /**
    * Same assertion as {@link #isNotEqualTo(Object)} (where Object is expected to be {@link LocalDate}) but here you
    * pass {@link LocalDate} String representation that must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -275,7 +275,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   /**
    * Same assertion as {@link #isIn(Object...)} (where Objects are expected to be {@link LocalDate}) but here you
    * pass {@link LocalDate} String representations that must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -297,7 +297,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
   /**
    * Same assertion as {@link #isNotIn(Object...)} (where Objects are expected to be {@link LocalDate}) but here you
    * pass {@link LocalDate} String representations that must follow <a href=
-   * "http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
+   * "https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE"
    * >ISO LocalDate format</a> to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example :
@@ -407,7 +407,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
 
   /**
    * Same assertion as {@link #isBetween(LocalDate, LocalDate)} but here you pass {@link LocalDate} String representations
-   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE">ISO LocalDate format</a>
+   * which must follow <a href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE">ISO LocalDate format</a>
    * to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example:
@@ -470,7 +470,7 @@ public abstract class AbstractLocalDateAssert<SELF extends AbstractLocalDateAsse
 
   /**
    * Same assertion as {@link #isStrictlyBetween(LocalDate, LocalDate)} but here you pass {@link LocalDate} String representations
-   * which must follow <a href="http://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE">ISO LocalDate format</a>
+   * which must follow <a href="https://docs.oracle.com/javase/8/docs/api/java/time/format/DateTimeFormatter.html#ISO_LOCAL_DATE">ISO LocalDate format</a>
    * to allow calling {@link LocalDate#parse(CharSequence)} method.
    * <p>
    * Example:
