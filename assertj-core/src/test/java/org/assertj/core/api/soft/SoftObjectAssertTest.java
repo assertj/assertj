@@ -12,6 +12,7 @@ import java.util.Optional;
 
 import org.assertj.core.api.GeneratedSoftAssertions;
 import org.assertj.core.testkit.Jedi;
+import org.assertj.core.testkit.Person;
 import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
@@ -121,7 +122,7 @@ public final class SoftObjectAssertTest {
   }
 
   @Test
-  void should_support_strongly_typed_extracting_with_function_navigation_methods() {
+  void should_support_strongly_typed_extracting_with_single_function_navigation_methods() {
     // GIVEN
     var yoda = new Jedi("Yoda", "Green");
     softly.assertThat(yoda)
@@ -136,6 +137,24 @@ public final class SoftObjectAssertTest {
     then(errors).hasSize(2);
     then(errors.get(0)).hasMessageContaining("Red");
     then(errors.get(1)).hasMessage(shouldBeEmpty("Green").create());
+  }
+
+  @Test
+  void should_support_strongly_typed_extracting_with_multiple_functions_navigation_methods() {
+    // GIVEN
+    var yoda = new Jedi("Yoda", "Green");
+    softly.assertThat(yoda)
+          .extracting(Person::getName, value -> value.lightSaberColor)
+          .contains("Yoda", "Green")
+          .contains("Vader", "Red")
+          .isEmpty();
+    // WHEN
+    var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
+    // THEN
+    List<AssertionError> errors = multipleAssertionsError.getErrors();
+    then(errors).hasSize(2);
+    then(errors.get(0)).hasMessageContainingAll("Vader", "Red");
+    then(errors.get(1)).hasMessageContaining("empty");
   }
 
   @Test
