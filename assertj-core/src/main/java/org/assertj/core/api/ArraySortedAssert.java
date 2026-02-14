@@ -26,7 +26,7 @@ import java.util.Comparator;
  * comparator due to type erasure.
  * 
  * @param <SELF> the "self" type of this assertion class that must be a array type (e.g. arrays, collections).<br>
- *          Please read &quot;<a href="http://bit.ly/1IZIRcY" target="_blank">Emulating 'self types' using Java Generics to
+ *          Please read &quot;<a href="https://bit.ly/1IZIRcY" target="_blank">Emulating 'self types' using Java Generics to
  *          simplify fluent API implementation</a>&quot; for more details.
  * @param <ELEMENT> the array element type.
  * 

@@ -114,7 +114,7 @@ import org.assertj.core.presentation.UnicodeRepresentation;
  * <p>
  * Based on an idea by David Gageot :
  * <p>
- * <a href="http://blog.javabien.net/2014/04/23/what-if-assertj-used-java-8/">http://blog.javabien.net/2014/04/23/what-if-assertj-used-java-8/</a>
+ * <a href="https://blog.javabien.net/2014/04/23/what-if-assertj-used-java-8/">https://blog.javabien.net/2014/04/23/what-if-assertj-used-java-8/</a>
  *
  * @author Alan Rothkopf
  *
