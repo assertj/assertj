@@ -41,5 +41,15 @@ public final class SoftStringAssert implements SoftAssert {
     return this;
   }
 
+  public SoftStringAssert containsIgnoringCase(String text) {
+    try {
+      stringAssert.containsIgnoringCase(text);
+      errorCollector.succeeded();
+    } catch (AssertionError assertionError) {
+      errorCollector.collectAssertionError(assertionError);
+    }
+    return this;
+  }
+
 
 }
