@@ -154,7 +154,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   }
 
   public SoftOptionalAssert<VALUE> doesNotHaveToString(String expectedStringTemplate,
-      Object[] args) {
+      Object... args) {
     try {
       optionalAssert.doesNotHaveToString(expectedStringTemplate,args);
       errorCollector.succeeded();
@@ -195,6 +195,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
+  @Deprecated(
+      since = "3"
+  )
   public boolean equals(Object obj) {
     return optionalAssert.equals(obj);
   }
@@ -260,7 +263,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> hasToString(String expectedStringTemplate, Object[] args) {
+  public SoftOptionalAssert<VALUE> hasToString(String expectedStringTemplate, Object... args) {
     try {
       optionalAssert.hasToString(expectedStringTemplate,args);
       errorCollector.succeeded();
@@ -381,7 +384,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> isIn(Object[] values) {
+  public SoftOptionalAssert<VALUE> isIn(Object... values) {
     try {
       optionalAssert.isIn(values);
       errorCollector.succeeded();
@@ -401,7 +404,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> isInstanceOfAny(Class[] types) {
+  public SoftOptionalAssert<VALUE> isInstanceOfAny(Class... types) {
     try {
       optionalAssert.isInstanceOfAny(types);
       errorCollector.succeeded();
@@ -471,7 +474,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> isNotIn(Object[] values) {
+  public SoftOptionalAssert<VALUE> isNotIn(Object... values) {
     try {
       optionalAssert.isNotIn(values);
       errorCollector.succeeded();
@@ -491,7 +494,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> isNotInstanceOfAny(Class<?>[] types) {
+  public SoftOptionalAssert<VALUE> isNotInstanceOfAny(Class<?>... types) {
     try {
       optionalAssert.isNotInstanceOfAny(types);
       errorCollector.succeeded();
@@ -511,7 +514,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> isNotOfAnyClassIn(Class<?>[] types) {
+  public SoftOptionalAssert<VALUE> isNotOfAnyClassIn(Class<?>... types) {
     try {
       optionalAssert.isNotOfAnyClassIn(types);
       errorCollector.succeeded();
@@ -551,7 +554,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> isOfAnyClassIn(Class[] types) {
+  public SoftOptionalAssert<VALUE> isOfAnyClassIn(Class... types) {
     try {
       optionalAssert.isOfAnyClassIn(types);
       errorCollector.succeeded();
@@ -616,7 +619,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> satisfies(Consumer<? super Optional<VALUE>>[] requirements) {
+  public SoftOptionalAssert<VALUE> satisfies(Consumer<? super Optional<VALUE>>... requirements) {
     try {
       optionalAssert.satisfies(requirements);
       errorCollector.succeeded();
@@ -637,7 +640,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   }
 
   public SoftOptionalAssert<VALUE> satisfies(
-      ThrowingConsumer<? super Optional<VALUE>>[] assertions) {
+      ThrowingConsumer<? super Optional<VALUE>>... assertions) {
     try {
       optionalAssert.satisfies(assertions);
       errorCollector.succeeded();
@@ -647,7 +650,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> satisfiesAnyOf(Consumer<? super Optional<VALUE>>[] assertions) {
+  public SoftOptionalAssert<VALUE> satisfiesAnyOf(Consumer<? super Optional<VALUE>>... assertions) {
     try {
       optionalAssert.satisfiesAnyOf(assertions);
       errorCollector.succeeded();
@@ -658,7 +661,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   }
 
   public SoftOptionalAssert<VALUE> satisfiesAnyOf(
-      ThrowingConsumer<? super Optional<VALUE>>[] assertions) {
+      ThrowingConsumer<? super Optional<VALUE>>... assertions) {
     try {
       optionalAssert.satisfiesAnyOf(assertions);
       errorCollector.succeeded();
