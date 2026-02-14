@@ -190,8 +190,8 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return objectAssert.extracting(propertiesOrFields);
   }
 
-  public <T> AbstractObjectAssert<?, T> extracting(Function<? super ACTUAL, T> extractor) {
-    return objectAssert.extracting(extractor);
+  public <T> SoftObjectAssert<T> extracting(Function<? super ACTUAL, T> extractor) {
+    return new SoftObjectAssert<>(extractor.apply(actual()), errorCollector);
   }
 
   public <T, ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(
