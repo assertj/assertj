@@ -159,7 +159,8 @@ public class SoftAssertionsGenerator {
                                                      .addField(assertField)
                                                      .addMethod(generateConstructor(actualParameter, assertField))
                                                      .addTypeVariables(List.of(assertClassTypeVariables))
-                                                     .addAnnotation(Beta.class);
+                                                     .addAnnotation(Beta.class)
+                                                     .addAnnotation(AnnotationSpec.builder(SuppressWarnings.class).addMember("value", "$S", "ResultOfMethodCallIgnored").build());
 
     var softAssertType = ParameterizedTypeName.get(ClassName.get("", softAssertClassName), assertClassTypeVariables);
 
