@@ -619,7 +619,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> satisfies(Consumer<? super Optional<VALUE>>... requirements) {
+  @SafeVarargs
+  public final SoftOptionalAssert<VALUE> satisfies(
+      Consumer<? super Optional<VALUE>>... requirements) {
     try {
       optionalAssert.satisfies(requirements);
       errorCollector.succeeded();
@@ -639,7 +641,8 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> satisfies(
+  @SafeVarargs
+  public final SoftOptionalAssert<VALUE> satisfies(
       ThrowingConsumer<? super Optional<VALUE>>... assertions) {
     try {
       optionalAssert.satisfies(assertions);
@@ -650,7 +653,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> satisfiesAnyOf(Consumer<? super Optional<VALUE>>... assertions) {
+  @SafeVarargs
+  public final SoftOptionalAssert<VALUE> satisfiesAnyOf(
+      Consumer<? super Optional<VALUE>>... assertions) {
     try {
       optionalAssert.satisfiesAnyOf(assertions);
       errorCollector.succeeded();
@@ -660,7 +665,8 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public SoftOptionalAssert<VALUE> satisfiesAnyOf(
+  @SafeVarargs
+  public final SoftOptionalAssert<VALUE> satisfiesAnyOf(
       ThrowingConsumer<? super Optional<VALUE>>... assertions) {
     try {
       optionalAssert.satisfiesAnyOf(assertions);
