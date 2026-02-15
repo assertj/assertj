@@ -1,0 +1,5 @@
+= Assertions guide
+
+This section describes the assertions provided by AssertJ Core and other useful features to get the best of it.
+
+AssertJ Core http://www.javadoc.io/doc/org.assertj/assertj-core/[Javadoc] explains each assertion, most of them with code examples so be sure to check it if you want to know what a specific assertion does.
