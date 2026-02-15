@@ -55,6 +55,23 @@ public final class SoftObjectAssertTest {
   }
 
   @Test
+  void should_support_asString_navigation_methods() {
+    // GIVEN
+    Object actual = "foo";
+    softly.assertThat(actual).asString()
+          .containsIgnoringCase("FOO")
+          .containsIgnoringCase("bar")
+          .isEmpty();
+    // WHEN
+    var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
+    // THEN
+    List<AssertionError> errors = multipleAssertionsError.getErrors();
+    then(errors).hasSize(2);
+    then(errors.get(0)).hasMessageContaining("bar");
+    then(errors.get(1)).hasMessage(shouldBeEmpty("foo").create());
+  }
+
+  @Test
   void should_support_asInstanceOf_navigation_methods() {
     // GIVEN
     Object actual = "foo";

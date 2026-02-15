@@ -11,7 +11,6 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.assertj.core.annotation.Beta;
-import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AbstractOptionalAssert;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Condition;
@@ -59,8 +58,8 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
-  public AbstractCharSequenceAssert asString() {
-    return optionalAssert.asString();
+  public SoftStringAssert asString() {
+    return new SoftStringAssert(actual().toString(), errorCollector);
   }
 
   public SoftOptionalAssert<VALUE> contains(VALUE expectedValue) {

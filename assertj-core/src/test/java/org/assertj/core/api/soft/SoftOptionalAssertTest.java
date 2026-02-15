@@ -89,4 +89,21 @@ public final class SoftOptionalAssertTest {
     then(errors.get(0)).hasMessageContainingAll("Optional[3]", "5");
   }
 
+  @Test
+  void should_support_asString_navigation_methods() {
+    // GIVEN
+    Optional<String> actual = Optional.of("foo");
+    softly.assertThat(actual).asString()
+          .containsIgnoringCase("FOO")
+          .containsIgnoringCase("bar")
+          .containsIgnoringCase("baz");
+    // WHEN
+    var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
+    // THEN
+    List<AssertionError> errors = multipleAssertionsError.getErrors();
+    then(errors).hasSize(2);
+    then(errors.get(0)).hasMessageContaining("bar");
+    then(errors.get(1)).hasMessageContaining("baz");
+  }
+
 }
