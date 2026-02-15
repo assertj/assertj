@@ -24,6 +24,7 @@ import org.assertj.core.description.Description;
 import org.assertj.core.presentation.Representation;
 
 @Beta
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   private final AssertionErrorCollector errorCollector;
 
