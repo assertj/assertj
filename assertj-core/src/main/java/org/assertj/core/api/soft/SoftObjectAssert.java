@@ -2,13 +2,19 @@ package org.assertj.core.api.soft;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.lang.AssertionError;
+import java.lang.Class;
+import java.lang.Deprecated;
+import java.lang.Iterable;
+import java.lang.Object;
+import java.lang.SafeVarargs;
+import java.lang.String;
 import java.util.Comparator;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
 import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.AbstractCharSequenceAssert;
 import org.assertj.core.api.AssertionErrorCollector;
@@ -590,7 +596,8 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> satisfies(Consumer<? super ACTUAL>... requirements) {
+  @SafeVarargs
+  public final SoftObjectAssert<ACTUAL> satisfies(Consumer<? super ACTUAL>... requirements) {
     try {
       objectAssert.satisfies(requirements);
       errorCollector.succeeded();
@@ -610,7 +617,8 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> satisfies(ThrowingConsumer<? super ACTUAL>... assertions) {
+  @SafeVarargs
+  public final SoftObjectAssert<ACTUAL> satisfies(ThrowingConsumer<? super ACTUAL>... assertions) {
     try {
       objectAssert.satisfies(assertions);
       errorCollector.succeeded();
@@ -620,7 +628,8 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> satisfiesAnyOf(Consumer<? super ACTUAL>... assertions) {
+  @SafeVarargs
+  public final SoftObjectAssert<ACTUAL> satisfiesAnyOf(Consumer<? super ACTUAL>... assertions) {
     try {
       objectAssert.satisfiesAnyOf(assertions);
       errorCollector.succeeded();
@@ -630,7 +639,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> satisfiesAnyOf(ThrowingConsumer<? super ACTUAL>... assertions) {
+  @SafeVarargs
+  public final SoftObjectAssert<ACTUAL> satisfiesAnyOf(
+      ThrowingConsumer<? super ACTUAL>... assertions) {
     try {
       objectAssert.satisfiesAnyOf(assertions);
       errorCollector.succeeded();

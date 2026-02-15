@@ -136,6 +136,7 @@ public class SoftAssertionsGenerator {
     // TODO: generate GeneratedSoftAssertions ?
     // TODO: module export
     // TODO: move generator to a different place
+    // TODO: asString
     Stream.of(ObjectAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
     Stream.of(OptionalAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
   }
@@ -166,7 +167,7 @@ public class SoftAssertionsGenerator {
       if (methodBuilder != null) {
         Parameter[] methodParameters = method.getParameters();
         useVarargsWhenPossible(methodParameters, methodBuilder);
-//        addSafeVarargsAnnotationAndMakeMethodFinalWhenNeeded(methodParameters, methodBuilder);
+        addSafeVarargsAnnotationAndMakeMethodFinalWhenNeeded(methodParameters, methodBuilder);
         softAssertTypeBuilder.addMethod(methodBuilder.build());
       }
     }
@@ -274,9 +275,18 @@ public class SoftAssertionsGenerator {
   }
 
   private static void addSafeVarargsAnnotationAndMakeMethodFinalWhenNeeded(Parameter[] methodParameters, MethodSpec.Builder methodBuilder) {
-    if (isLastParameterAnArray(methodParameters) && methodParameters[methodParameters.length - 1].getParameterizedType() != null) {
-      methodBuilder.varargs(true);
+    if (isLastParameterAnArray(methodParameters) && isLastParameterHasNoWildcardType(methodParameters[methodParameters.length - 1])) {
+      methodBuilder.addAnnotation(SafeVarargs.class);
+      methodBuilder.addModifiers(Modifier.FINAL);
     }
+  }
+
+  // TOOD seems to work but could that be simplifiers
+  private static boolean isLastParameterHasNoWildcardType(Parameter parameter) {
+    // for parameter like Consumer<? super ACTUAL>... assertions but not Class<?>... types
+    return parameter.getParameterizedType() instanceof GenericArrayType genericArrayType
+      && genericArrayType.getGenericComponentType() instanceof ParameterizedType parameterizedType
+      && stream(parameterizedType.getActualTypeArguments()).anyMatch(t -> !t.getTypeName().equals("?"));
   }
 
   private static MethodSpec.Builder generateNavigationMethod(Method navigationMethod, FieldSpec assertField) {
@@ -383,8 +393,7 @@ public class SoftAssertionsGenerator {
 
     var softListAssertType = ParameterizedTypeName.get(ClassName.get("", SoftListAssert.class.getSimpleName()), OBJECT_TYPE);
     return MethodSpec.methodBuilder(navigationMethod.getName())
-                     .addAnnotation(SafeVarargs.class)
-                     .addModifiers(Modifier.PUBLIC, Modifier.FINAL)
+                     .addModifiers(Modifier.PUBLIC)
                      .returns(softListAssertType)
                      .addParameter(functionVarargsParameter.getParameterizedType(), functionVarargsParameter.getName())
                      .addStatement("return new SoftListAssert(objectAssert.extracting(extractors).actual(), errorCollector)");
