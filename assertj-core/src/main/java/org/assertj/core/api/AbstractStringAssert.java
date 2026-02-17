@@ -479,7 +479,8 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   }
 
   /**
-   * Encodes the actual value as byte array using the platform's default charset, the encoded byte array becoming the new value under test.
+   * Encodes the actual value as byte array using the platform's {@link Charset#defaultCharset() default charset},
+   * the encoded byte array becoming the new value under test.
    * <p>
    * Examples:
    * <pre><code class='java'> assertThat("abc").bytes()

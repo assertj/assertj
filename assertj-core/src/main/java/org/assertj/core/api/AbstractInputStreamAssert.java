@@ -228,6 +228,9 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
    * one can use {@link #asString(Charset)} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
    * <p>
+   * The {@link Charset#defaultCharset() default charset} is used for decoding the bytes of the stream to a String.
+   * To use a different charset for decoding, use {@link #asString(Charset)}.
+   * <p>
    * <b>Warning: this will consume the whole input stream in case the underlying
    * implementation does not support {@link InputStream#markSupported() marking}.</b>
    * <p>
