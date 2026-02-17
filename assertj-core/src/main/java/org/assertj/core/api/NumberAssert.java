@@ -21,7 +21,7 @@ import org.assertj.core.data.Percentage;
 /**
  * Assertion methods applicable to <code>{@link Number}</code>s.
  * 
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
  *          target="_blank">Emulating
  *          'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <ACTUAL> the type of the "actual" value.

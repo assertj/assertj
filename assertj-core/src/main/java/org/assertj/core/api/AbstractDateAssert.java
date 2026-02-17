@@ -58,7 +58,7 @@ import org.assertj.core.internal.Dates;
  * the test suite.<br>
  * To turn back to default format, simply call {@link #withDefaultDateFormatsOnly()}.
  *
- * @param <SELF> the "self" type of this assertion class. Please read "<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read "<a href="https://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>" for
  *          more details.
  * @author Tomasz Nurkiewicz (thanks for giving assertions idea)

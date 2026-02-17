@@ -408,7 +408,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @throws NullPointerException if stringTemplate parameter is {@code null}.
    * @throws AssertionError if the actual value is {@code null} as the template you provide must not be {@code null}.
    * @throws java.util.IllegalFormatException as in {@link String#format(String, Object...)}, see
-   *         <a href="http://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html#detail">Details</a> section of the
+   *         <a href="https://docs.oracle.com/javase/8/docs/api/java/util/Formatter.html#detail">Details</a> section of the
    *         formatter class specification.
    * @return this assertion object.
    *
