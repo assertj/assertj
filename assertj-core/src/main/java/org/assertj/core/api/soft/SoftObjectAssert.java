@@ -328,7 +328,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> is(Condition condition) {
+  public SoftObjectAssert<ACTUAL> is(Condition<? super ACTUAL> condition) {
     try {
       objectAssert.is(condition);
       errorCollector.succeeded();
@@ -348,7 +348,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isExactlyInstanceOf(Class type) {
+  public SoftObjectAssert<ACTUAL> isExactlyInstanceOf(Class<?> type) {
     try {
       objectAssert.isExactlyInstanceOf(type);
       errorCollector.succeeded();
@@ -358,7 +358,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isIn(Iterable values) {
+  public SoftObjectAssert<ACTUAL> isIn(Iterable<?> values) {
     try {
       objectAssert.isIn(values);
       errorCollector.succeeded();
@@ -388,7 +388,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isInstanceOfAny(Class... types) {
+  public SoftObjectAssert<ACTUAL> isInstanceOfAny(Class<?>... types) {
     try {
       objectAssert.isInstanceOfAny(types);
       errorCollector.succeeded();
@@ -398,7 +398,8 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isInstanceOfSatisfying(Class type, Consumer requirements) {
+  public <T> SoftObjectAssert<ACTUAL> isInstanceOfSatisfying(Class<T> type,
+      Consumer<T> requirements) {
     try {
       objectAssert.isInstanceOfSatisfying(type,requirements);
       errorCollector.succeeded();
@@ -408,7 +409,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isNot(Condition condition) {
+  public SoftObjectAssert<ACTUAL> isNot(Condition<? super ACTUAL> condition) {
     try {
       objectAssert.isNot(condition);
       errorCollector.succeeded();
@@ -518,7 +519,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> isOfAnyClassIn(Class... types) {
+  public SoftObjectAssert<ACTUAL> isOfAnyClassIn(Class<?>... types) {
     try {
       objectAssert.isOfAnyClassIn(types);
       errorCollector.succeeded();
@@ -601,7 +602,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> satisfies(Condition condition) {
+  public SoftObjectAssert<ACTUAL> satisfies(Condition<? super ACTUAL> condition) {
     try {
       objectAssert.satisfies(condition);
       errorCollector.succeeded();
@@ -650,7 +651,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
-  public SoftObjectAssert<ACTUAL> usingComparator(Comparator customComparator,
+  public SoftObjectAssert<ACTUAL> usingComparator(Comparator<? super ACTUAL> customComparator,
       String customComparatorDescription) {
     objectAssert.usingComparator(customComparator,customComparatorDescription);
     return this;
