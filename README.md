@@ -1,4 +1,4 @@
-# AssertJ - Fluent Assertions for Java [![Maven Central](https://img.shields.io/maven-central/v/org.assertj/assertj-core.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/org.assertj/assertj-core) [![Javadocs](http://www.javadoc.io/badge/org.assertj/assertj-core.svg)](http://www.javadoc.io/doc/org.assertj/assertj-core)
+# AssertJ - Fluent Assertions for Java [![Maven Central](https://img.shields.io/maven-central/v/org.assertj/assertj-core.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/org.assertj/assertj-core) [![Javadocs](https://www.javadoc.io/badge/org.assertj/assertj-core.svg)](https://www.javadoc.io/doc/org.assertj/assertj-core)
 
 [![CI](https://github.com/assertj/assertj/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/assertj/assertj/actions/workflows/main.yml?query=branch%3Amain)
 [![Binary Compatibility](https://github.com/assertj/assertj/actions/workflows/binary-compatibility.yml/badge.svg?branch=main)](https://github.com/assertj/assertj/actions/workflows/binary-compatibility.yml?query=branch%3Amain)
@@ -15,7 +15,7 @@ You can ask questions in [**stackoverflow (assertj tag)**](https://stackoverflow
 
 ## Sponsors
 
-<a href="https://www.testmu.ai" target="_blank"><img width="202" height="100" style="vertical-align: middle;" alt="TestMu AI" src="https://github.com/user-attachments/assets/6437eddd-da98-4246-b2af-ebe573f3735d" />
+<a href="https://www.testmuai.com/?utm_medium=sponsor&utm_source=assertj" target="_blank"><img width="202" height="100" style="vertical-align: middle;" alt="TestMu AI" src="https://github.com/user-attachments/assets/6437eddd-da98-4246-b2af-ebe573f3735d" />
 
 ## AssertJ's Goals
 
@@ -31,10 +31,10 @@ Assertion missing? Please [create an issue](https://github.com/assertj/assertj/i
 AssertJ is composed of several modules:
 * A **core module** to provide assertions for JDK types (`String`, `Iterable`, `Stream`, `Path`, `File`, `Map`...) - see [AssertJ Core documentation](https://assertj.github.io/doc/#assertj-core-assertions-guide) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-core/latest/index.html).
 * A **Guava module** to provide assertions for Guava types (`Multimap`, `Optional`...) - see [AssertJ Guava documentation](https://assertj.github.io/doc/#assertj-guava) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-guava/latest/index.html).
-* A **[Joda Time module](https://github.com/assertj/assertj-joda-time#readme)** to provide assertions for Joda Time types (`DateTime`, `LocalDateTime`) - see [AssertJ Joda Time documentation](http://joel-costigliola.github.io/assertj/assertj-joda-time.html) and  [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-joda-time/latest/index.html).
-* A **[Neo4J module](https://github.com/joel-costigliola/assertj-neo4j#readme)** to provide assertions for Neo4J types (`Path`, `Node`, `Relationship`...) - see [AssertJ Neo4J documentation](http://joel-costigliola.github.io/assertj/assertj-neo4j.html) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-neo4j/latest/index.html).
+* A **[Joda Time module](https://github.com/assertj/assertj-joda-time#readme)** to provide assertions for Joda Time types (`DateTime`, `LocalDateTime`) - see [AssertJ Joda Time documentation](https://joel-costigliola.github.io/assertj/assertj-joda-time.html) and  [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-joda-time/latest/index.html).
+* A **[Neo4J module](https://github.com/joel-costigliola/assertj-neo4j#readme)** to provide assertions for Neo4J types (`Path`, `Node`, `Relationship`...) - see [AssertJ Neo4J documentation](https://joel-costigliola.github.io/assertj/assertj-neo4j.html) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-neo4j/latest/index.html).
 * A **[DB module](https://github.com/assertj/assertj-db#readme)** to provide assertions for relational database types (`Table`, `Row`, `Column`...) - see [AssertJ DB documentation](https://assertj.github.io/doc/#assertj-db) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-db/latest/index.html).
-* A **[Swing module](https://github.com/assertj/assertj-swing#readme)** provides a simple and intuitive API for functional testing of Swing user interfaces - see [AssertJ Swing documentation](http://joel-costigliola.github.io/assertj/assertj-swing.html) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-swing/latest/index.html).
+* A **[Swing module](https://github.com/assertj/assertj-swing#readme)** provides a simple and intuitive API for functional testing of Swing user interfaces - see [AssertJ Swing documentation](https://joel-costigliola.github.io/assertj/assertj-swing.html) and [javadoc](https://www.javadoc.io/doc/org.assertj/assertj-swing/latest/index.html).
 
 ## Want to Contribute?
 

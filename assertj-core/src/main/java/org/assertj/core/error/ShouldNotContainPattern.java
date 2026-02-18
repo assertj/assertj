@@ -37,6 +37,6 @@ public class ShouldNotContainPattern extends BasicErrorMessageFactory {
           "  %s%n" +
           "not to contain pattern:%n" +
           "  %s",
-          actual, pattern);
+          IndentWrapper.of(actual), pattern);
   }
 }

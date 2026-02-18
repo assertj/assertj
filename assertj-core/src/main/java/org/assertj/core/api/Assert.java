@@ -15,7 +15,9 @@
  */
 package org.assertj.core.api;
 
+import java.util.Comparator;
 import java.util.Date;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -25,7 +27,7 @@ import org.assertj.core.presentation.StandardRepresentation;
 /**
  * Base contract of all assertion objects: the minimum functionality that any assertion object should provide.
  *
- * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF>   the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
  *                 target="_blank">Emulating
  *                 'self types' using Java Generics to simplify fluent API implementation</a>&quot; for more details.
  * @param <ACTUAL> the type of the "actual" value.
@@ -37,7 +39,7 @@ import org.assertj.core.presentation.StandardRepresentation;
 public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descriptable<SELF>, ExtensionPoints<SELF, ACTUAL> {
 
   /**
-   * Verifies that the actual value is equal to the given one.
+   * Verifies that the actual value is equal to the expected one.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions succeed
@@ -48,14 +50,44 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(&quot;abc&quot;).isEqualTo(&quot;123&quot;);
    * assertThat(new ArrayList&lt;String&gt;()).isEqualTo(1);</code></pre>
    *
-   * @param expected the given value to compare the actual value to.
+   * <b>Note on testing {@link Object#equals(Object) equals} and {@link Object#hashCode() hashCode}
+   * contracts</b>
+   * <p>
+   * {@code isEqualTo} uses a comparison strategy to determine equality and is <b>not</b> designed
+   * to validate the correctness of {@code equals} or {@code hashCode} implementations. By default,
+   * the comparison strategy delegates to the object's {@code equals} method (or performs deep
+   * equality for arrays).
+   * This means {@code isEqualTo} only verifies the <i>outcome</i> of a single equality check;
+   * it does not validate that the full {@code equals} contract (reflexivity, symmetry,
+   * transitivity, consistency, and null-handling) is satisfied.
+   * <p>
+   * If the {@code equals} implementation returns an incorrect result, {@code isEqualTo} will
+   * accept that result without detecting the bug.
+   * <p>
+   * Additionally, the comparison strategy can be customized via
+   * {@link AssertWithComparator#usingComparator(Comparator)} or {@link AssertWithComparator#usingEquals(BiPredicate)}.
+   * In these cases, {@code isEqualTo} bypasses {@code equals} entirely in favor of the provided
+   * logic.
+   * <p>
+   * For comprehensive testing of the {@code equals} and {@code hashCode} contracts, consider using
+   * dedicated libraries such as:
+   *
+   *  <ul>
+   * <li><a href="https://jqno.nl/equalsverifier/">EqualsVerifier</a></li>
+   * <li>Guava's <a href="https://javadoc.io/doc/com.google.guava/guava-testlib/latest/com/google/common/testing/EqualsTester.html">EqualsTester</a></li>
+   * </ul>
+   *
+   * To verify that two objects have the same field values without relying on {@code equals}, use
+   * the {@link AbstractObjectAssert#usingRecursiveComparison() recursive comparison}.
+   *
+   * @param expected the expected value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   SELF isEqualTo(Object expected);
 
   /**
-   * Verifies that the actual value is not equal to the given one.
+   * Verifies that the actual value is not equal to the expected one.
    * <p>
    * Example:
    * <pre><code class='java'> // assertions succeed
@@ -66,7 +98,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * assertThat(&quot;abc&quot;).isNotEqualTo(&quot;abc&quot;);
    * assertThat(new HashMap&lt;String, Integer&gt;()).isNotEqualTo(new HashMap&lt;String, Integer&gt;());</code></pre>
    *
-   * @param other the given value to compare the actual value to.
+   * @param other the expected value to compare the actual value to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the actual value is equal to the given one.
    */
@@ -106,7 +138,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   SELF isNotNull();
 
   /**
-   * Verifies that the actual value is the same as the given one, i.e., using == comparison.
+   * Verifies that the actual value is the same as the given one
+   * (reference equality, not {@link Object#equals(Object) equals}).
    * <p>
    * Example:
    * <pre><code class='java'> // Name is a class with first and last fields, two Names are equals if both first and last are equals.
@@ -128,7 +161,8 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
   SELF isSameAs(Object expected);
 
   /**
-   * Verifies that the actual value is not the same as the given one, i.e., using == comparison.
+   * Verifies that the actual value is not the same as the given one
+   * (reference equality, not {@link Object#equals(Object) equals}).
    * <p>
    * Example:
    * <pre><code class='java'> // Name is a class with first and last fields, two Names are equals if both first and last are equals.

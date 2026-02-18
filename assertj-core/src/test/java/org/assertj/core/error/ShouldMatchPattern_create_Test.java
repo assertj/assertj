@@ -15,6 +15,7 @@
  */
 package org.assertj.core.error;
 
+import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldMatchPattern.shouldMatch;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
@@ -47,5 +48,22 @@ class ShouldMatchPattern_create_Test {
     String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
     // THEN
     then(message).isEqualTo("[Test] %nExpecting actual:%n  \"%%%%E\"%nto match pattern:%n  \"fffff\"".formatted());
+  }
+
+  @Test
+  void should_create_error_message_with_multiline_actual_correctly_indented() {
+    // GIVEN
+    String actual = "Yoda%nthe%nmaster".formatted();
+    ErrorMessageFactory factory = shouldMatch(actual, "Luke");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda%n" +
+                                   "  the%n" +
+                                   "  master\"%n" +
+                                   "to match pattern:%n" +
+                                   "  \"Luke\""));
   }
 }

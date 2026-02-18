@@ -106,8 +106,8 @@ public class Files {
 
   /**
    * Asserts that the given files have same content. Adapted from <a
-   * href="http://junit-addons.sourceforge.net/junitx/framework/FileAssert.html" target="_blank">FileAssert</a> (from <a
-   * href="http://sourceforge.net/projects/junit-addons">JUnit-addons</a>.)
+   * href="https://junit-addons.sourceforge.net/junitx/framework/FileAssert.html" target="_blank">FileAssert</a> (from <a
+   * href="https://sourceforge.net/projects/junit-addons/">JUnit-addons</a>.)
    * @param info contains information about the assertion.
    * @param actual the "actual" file.
    * @param actualCharset {@link Charset} of the "actual" file.

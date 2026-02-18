@@ -30,6 +30,8 @@ public class ShouldBeBlank extends BasicErrorMessageFactory {
   }
 
   private ShouldBeBlank(Object actual) {
-    super("%nExpecting blank but was: %s", actual);
+    super("%n" +
+          "Expecting blank but was:%n" +
+          "  %s", IndentWrapper.of(actual));
   }
 }

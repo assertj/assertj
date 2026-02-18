@@ -203,12 +203,12 @@ public class ShouldContainCharSequence extends BasicErrorMessageFactory {
 
   private ShouldContainCharSequence(String format, CharSequence actual, CharSequence sequence,
                                     ComparisonStrategy comparisonStrategy) {
-    super(format, actual, sequence, comparisonStrategy);
+    super(format, IndentWrapper.of(actual), IndentWrapper.of(sequence), comparisonStrategy);
   }
 
   private ShouldContainCharSequence(String format, CharSequence actual, CharSequence[] values,
                                     Set<? extends CharSequence> notFound,
                                     ComparisonStrategy comparisonStrategy) {
-    super(format, actual, values, notFound, comparisonStrategy);
+    super(format, IndentWrapper.of(actual), IndentWrapper.of(values), notFound, comparisonStrategy);
   }
 }

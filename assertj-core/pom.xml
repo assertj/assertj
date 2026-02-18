@@ -27,7 +27,7 @@
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <byte-buddy.version>1.18.4</byte-buddy.version>
+    <byte-buddy.version>1.18.5</byte-buddy.version>
   </properties>
 
   <dependencyManagement>
@@ -45,7 +45,7 @@
       <dependency> <!-- Included by hibernate-core -->
         <groupId>org.jboss.logging</groupId>
         <artifactId>jboss-logging</artifactId>
-        <version>3.6.1.Final</version>
+        <version>3.6.2.Final</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -107,7 +107,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>4.3</version>
+      <version>4.3.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -131,7 +131,7 @@
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>7.2.1.Final</version>
+      <version>7.2.4.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>
@@ -159,7 +159,7 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-core</artifactId>
-      <version>7.0.3</version>
+      <version>7.0.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

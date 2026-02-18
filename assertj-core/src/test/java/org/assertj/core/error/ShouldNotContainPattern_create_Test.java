@@ -39,4 +39,21 @@ class ShouldNotContainPattern_create_Test {
                                    "  \"Fr.do\""));
   }
 
+  @Test
+  void should_create_error_message_with_multiline_actual_correctly_indented() {
+    // GIVEN
+    String actual = "Frodo%nthe%nhobbit".formatted();
+    ErrorMessageFactory factory = shouldNotContainPattern(actual, "Fr.do");
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), CONFIGURATION_PROVIDER.representation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Frodo%n" +
+                                   "  the%n" +
+                                   "  hobbit\"%n" +
+                                   "not to contain pattern:%n" +
+                                   "  \"Fr.do\""));
+  }
+
 }

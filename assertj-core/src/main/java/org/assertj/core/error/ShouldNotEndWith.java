@@ -51,6 +51,7 @@ public class ShouldNotEndWith extends BasicErrorMessageFactory {
   }
 
   private ShouldNotEndWith(Object actual, Object expected, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nnot to end with:%n  %s%n%s", actual, expected, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nnot to end with:%n  %s%n%s",
+          IndentWrapper.of(actual), IndentWrapper.of(expected), comparisonStrategy);
   }
 }

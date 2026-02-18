@@ -130,11 +130,11 @@ public class ShouldContainSubsequenceOfCharSequence extends BasicErrorMessageFac
                                                  CharSequence foundButBadOrder,
                                                  CharSequence foundButBadOrder2,
                                                  ComparisonStrategy comparisonStrategy) {
-    super(format, actual, strings, foundButBadOrder, foundButBadOrder2, comparisonStrategy);
+    super(format, IndentWrapper.of(actual), IndentWrapper.of(strings), foundButBadOrder, foundButBadOrder2, comparisonStrategy);
   }
 
   private ShouldContainSubsequenceOfCharSequence(String format, CharSequence actual, CharSequence[] strings,
                                                  ComparisonStrategy comparisonStrategy) {
-    super(format, actual, strings, comparisonStrategy);
+    super(format, IndentWrapper.of(actual), IndentWrapper.of(strings), comparisonStrategy);
   }
 }

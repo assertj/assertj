@@ -33,6 +33,6 @@ public class ShouldContainOnlyWhitespaces extends BasicErrorMessageFactory {
     super("%n" +
           "Expecting string to contain only whitespaces but was:%n" +
           "  %s",
-          actual);
+          IndentWrapper.of(actual));
   }
 }

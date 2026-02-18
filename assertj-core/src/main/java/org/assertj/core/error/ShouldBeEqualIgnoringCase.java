@@ -34,6 +34,7 @@ public class ShouldBeEqualIgnoringCase extends BasicErrorMessageFactory {
   }
 
   private ShouldBeEqualIgnoringCase(CharSequence actual, CharSequence expected) {
-    super("%nexpected: %s%n but was: %s%nignoring case considerations", expected, actual);
+    super("%nexpected: %s%n but was: %s%nignoring case considerations",
+          IndentWrapper.of(expected), IndentWrapper.of(actual));
   }
 }

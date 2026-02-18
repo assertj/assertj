@@ -34,6 +34,6 @@ public class ShouldContainOneOrMoreWhitespaces extends BasicErrorMessageFactory 
     super("%n" +
           "Expecting string to contain one or more whitespaces but did not, string was:%n" +
           "  %s",
-          actual);
+          IndentWrapper.of(actual));
   }
 }

@@ -31,6 +31,8 @@ public class ShouldNotBeBlank extends BasicErrorMessageFactory {
   }
 
   private ShouldNotBeBlank(Object actual) {
-    super("%nExpecting not blank but was: %s", actual);
+    super("%n" +
+          "Expecting not blank but was:%n" +
+          "  %s", IndentWrapper.of(actual));
   }
 }

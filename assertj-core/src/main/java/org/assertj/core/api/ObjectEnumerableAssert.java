@@ -22,7 +22,7 @@ import java.util.function.Predicate;
 /**
  * Assertions methods applicable to groups of objects (e.g. arrays or collections.)
  *
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <ELEMENT> the type of elements of the "actual" value.

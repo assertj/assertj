@@ -57,13 +57,12 @@ public class ShouldContainCharSequenceOnlyOnce extends BasicErrorMessageFactory 
 
   private ShouldContainCharSequenceOnlyOnce(CharSequence actual, CharSequence expected, int occurrences,
                                             ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nto appear only once in:%n  %s%nbut it appeared %s times %s", expected, actual,
-          occurrences,
-          comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto contain:%n  %s%nonly once but it appeared %s times %s",
+          IndentWrapper.of(actual), IndentWrapper.of(expected), occurrences, comparisonStrategy);
   }
 
   private ShouldContainCharSequenceOnlyOnce(CharSequence actual, CharSequence expected, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nto appear only once in:%n  %s%nbut it did not appear %s", expected, actual,
-          comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto contain:%n  %s%nonly once but it did not appear %s",
+          IndentWrapper.of(actual), IndentWrapper.of(expected), comparisonStrategy);
   }
 }

@@ -16,6 +16,8 @@
 package org.assertj.core.error;
 
 import static java.lang.System.lineSeparator;
+import static java.util.Objects.deepEquals;
+import static org.assertj.core.util.Objects.hashCodeFor;
 
 /**
  * Wrapper record for values that should have all lines indented in error messages.
@@ -44,6 +46,20 @@ public record IndentWrapper(Object value) {
   static String indentAllLines(String representation) {
     if (representation == null) return null;
     return representation.replace(lineSeparator(), lineSeparator() + INDENTATION);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!(obj instanceof IndentWrapper other))
+      return false;
+    return deepEquals(this.value, other.value);
+  }
+
+  @Override
+  public int hashCode() {
+    return hashCodeFor(value);
   }
 
 }

@@ -42,4 +42,23 @@ class ShouldBeEqualIgnoringCase_create_Test {
     // THEN
     then(message).isEqualTo(format(shouldBeEqualMessage("Test", "\"Yoda\"", "\"Luke\"") + "%nignoring case considerations"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "foo%nbar%nbaz".formatted();
+    String expected = "moreFoo%nbar%nbaz".formatted();
+    ErrorMessageFactory factory = shouldBeEqual(actual, expected);
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), new StandardRepresentation());
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "expected: \"moreFoo%n" +
+                                   "  bar%n" +
+                                   "  baz\"%n" +
+                                   " but was: \"foo%n" +
+                                   "  bar%n" +
+                                   "  baz\"%n" +
+                                   "ignoring case considerations"));
+  }
 }

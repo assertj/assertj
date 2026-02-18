@@ -45,7 +45,7 @@ import org.assertj.core.util.diff.Delta;
 
 /**
  * Base class for all implementations of assertions for {@link InputStream}s.
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <ACTUAL> the type of the "actual" value.
@@ -227,6 +227,9 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * <p>
    * This will change in AssertJ 4.0 where newlines will be taken into account, in the meantime, to get this behavior
    * one can use {@link #asString(Charset)} and then chain with {@link AbstractStringAssert#isEqualTo(String)}.
+   * <p>
+   * The {@link Charset#defaultCharset() default charset} is used for decoding the bytes of the stream to a String.
+   * To use a different charset for decoding, use {@link #asString(Charset)}.
    * <p>
    * <b>Warning: this will consume the whole input stream in case the underlying
    * implementation does not support {@link InputStream#markSupported() marking}.</b>

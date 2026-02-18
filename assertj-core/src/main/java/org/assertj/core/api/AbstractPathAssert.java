@@ -180,7 +180,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    *
    * // The following assertion succeeds:
    * String expectedContent = "Gerçek Başka bir yerde mi" + org.assertj.core.util.Compatibility.System.lineSeparator();
-   * byte[] binaryContent = expectedContent.getBytes(turkishCharset.name());
+   * byte[] binaryContent = expectedContent.getBytes(turkishCharset);
    * assertThat(xFileTurkish).hasBinaryContent(binaryContent);
    *
    * // The following assertion fails ... unless you are in Turkey ;-):

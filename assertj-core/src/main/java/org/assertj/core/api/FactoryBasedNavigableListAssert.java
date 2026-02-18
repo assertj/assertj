@@ -24,17 +24,18 @@ import java.util.List;
  * through deeply nested models more easily.
  * 
  * @since 2.5.0 / 3.5.0
+ * @deprecated Use {@link AbstractListAssert#withElementAssert(AssertFactory)} instead.
  */
-//@format:off
+// @format:off
+@Deprecated
 public class FactoryBasedNavigableListAssert<SELF extends FactoryBasedNavigableListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
                                              ACTUAL extends List<? extends ELEMENT>, 
                                              ELEMENT, 
-                                             ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+                                             ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
        extends AbstractListAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
+// @format:on
 
   private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
-
-// @format:on
 
   public FactoryBasedNavigableListAssert(ACTUAL actual, Class<?> selfType,
                                          AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {

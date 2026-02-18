@@ -17,6 +17,7 @@ package org.assertj.core.api;
 
 import static java.util.function.UnaryOperator.identity;
 import static org.assertj.core.error.ShouldBeUnmodifiable.shouldBeUnmodifiable;
+import static org.assertj.core.util.Lists.newArrayList;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -27,7 +28,7 @@ import org.assertj.core.annotation.Beta;
 
 /**
  * Base class for all implementations of assertions for {@link Collection}s.
- * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="http://bit.ly/1IZIRcY"
+ * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
  *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
  *          for more details.
  * @param <ACTUAL> the type of the "actual" value.
@@ -40,12 +41,27 @@ import org.assertj.core.annotation.Beta;
 public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
                                                ACTUAL extends Collection<? extends ELEMENT>,
                                                ELEMENT,
-                                               ELEMENT_ASSERT extends AbstractAssert<ELEMENT_ASSERT, ELEMENT>>
+                                               ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
     extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
 //@format:on
 
   protected AbstractCollectionAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @param <ASSERT> the type of the assertion to be created when a navigation method is invoked
+   * @param assertFactory the factory responsible for creating an {@link ASSERT} instance from an {@link ELEMENT};
+   *                      must not be {@code null}.
+   * @return an {@link AbstractCollectionAssert} whose element assertions are created using the given {@code assertFactory};
+   *         the returned instance allows fluent type-specific assertions when navigating to a specific element.
+   * @since 3.28.0
+   */
+  @Override
+  public <ASSERT extends AbstractAssert<? extends ASSERT, ELEMENT>> AbstractCollectionAssert<?, ACTUAL, ELEMENT, ASSERT> withElementAssert(AssertFactory<ELEMENT, ASSERT> assertFactory) {
+    return new FactoryBasedAssert<>(actual, assertFactory);
   }
 
   /**
@@ -131,6 +147,39 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
 
   private <E extends ELEMENT> Collection<E> emptyCollection() {
     return Collections.emptyList();
+  }
+
+  /**
+   * This class exists to maintain binary compatibility in version 3 and will be merged into {@link CollectionAssert}
+   * in version 4.
+   */
+  // @format:off
+  private static class FactoryBasedAssert<SELF extends FactoryBasedAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>,
+                                          ACTUAL extends Collection<? extends ELEMENT>,
+                                          ELEMENT,
+                                          ELEMENT_ASSERT extends AbstractAssert<? extends ELEMENT_ASSERT, ELEMENT>>
+    extends AbstractCollectionAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> {
+  // @format:on
+
+    private final AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory;
+
+    private FactoryBasedAssert(ACTUAL actual, AssertFactory<ELEMENT, ELEMENT_ASSERT> assertFactory) {
+      super(actual, FactoryBasedAssert.class);
+      this.assertFactory = assertFactory;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
+      return assertFactory.createAssert(value).as(description);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected SELF newAbstractIterableAssert(Iterable<? extends ELEMENT> iterable) {
+      return (SELF) new FactoryBasedAssert<>(newArrayList(iterable), assertFactory);
+    }
+
   }
 
 }

@@ -17,7 +17,7 @@ package org.assertj.core.error;
 
 import static java.lang.String.format;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldContainSequence.shouldContainSequence;
+import static org.assertj.core.error.ShouldContainSequenceOfCharSequence.shouldContainSequence;
 import static org.assertj.core.presentation.StandardRepresentation.STANDARD_REPRESENTATION;
 
 import org.assertj.core.description.TextDescription;
@@ -61,5 +61,21 @@ class ShouldContainSequenceOfCharSequence_create_Test {
                                    "to contain sequence:%n" +
                                    "  [\"{\", \"author\", \"title\", \"}\"]%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
+  }
+
+  @Test
+  void should_create_error_message_with_multiline_actual_correctly_indented() {
+    // GIVEN
+    String[] sequenceValues = { "author", "title" };
+    String actual = "{ 'title':'A Game of Thrones',%n'author':'George Martin'}".formatted();
+    // WHEN
+    String message = shouldContainSequence(actual, sequenceValues).create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"{ 'title':'A Game of Thrones',%n" +
+                                   "  'author':'George Martin'}\"%n" +
+                                   "to contain sequence:%n" +
+                                   "  [\"author\", \"title\"]%n"));
   }
 }

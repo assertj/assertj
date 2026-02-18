@@ -36,6 +36,7 @@ public class ShouldStartWithIgnoringCase extends BasicErrorMessageFactory {
   }
 
   private ShouldStartWithIgnoringCase(CharSequence actual, CharSequence expected, ComparisonStrategy comparisonStrategy) {
-    super("%nExpecting actual:%n  %s%nto start with (ignoring case):%n  %s%n%s", actual, expected, comparisonStrategy);
+    super("%nExpecting actual:%n  %s%nto start with (ignoring case):%n  %s%n%s",
+          IndentWrapper.of(actual), IndentWrapper.of(expected), comparisonStrategy);
   }
 }

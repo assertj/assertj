@@ -69,4 +69,24 @@ class ShouldStartWith_create_Test {
                                    "  [\"Han\", \"Leia\"]%n" +
                                    "when comparing values using CaseInsensitiveStringComparator"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "Yoda%nthe%nmaster".formatted();
+    String expected = "Luke%nthe%napprentice".formatted();
+    factory = shouldStartWith(actual, expected);
+    // WHEN
+    String message = factory.create(new TextDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"Yoda%n" +
+                                   "  the%n" +
+                                   "  master\"%n" +
+                                   "to start with:%n" +
+                                   "  \"Luke%n" +
+                                   "  the%n" +
+                                   "  apprentice\"%n"));
+  }
 }

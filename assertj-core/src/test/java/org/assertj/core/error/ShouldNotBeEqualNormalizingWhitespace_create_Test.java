@@ -46,4 +46,25 @@ class ShouldNotBeEqualNormalizingWhitespace_create_Test {
                                    "  \" my  foo bar \"%n" +
                                    "after whitespace differences are normalized"));
   }
+
+  @Test
+  void should_create_error_message_with_multiline_values_correctly_indented() {
+    // GIVEN
+    String actual = "foo%nbar%nbaz".formatted();
+    String expected = "foo%nbar %nbaz".formatted();
+    ErrorMessageFactory factory = shouldNotBeEqualNormalizingWhitespace(actual, expected);
+    // WHEN
+    String message = factory.create(new TestDescription("Test"), STANDARD_REPRESENTATION);
+    // THEN
+    then(message).isEqualTo(format("[Test] %n" +
+                                   "Expecting actual:%n" +
+                                   "  \"foo%n" +
+                                   "  bar%n" +
+                                   "  baz\"%n" +
+                                   "not to be equal to:%n" +
+                                   "  \"foo%n" +
+                                   "  bar %n" +
+                                   "  baz\"%n" +
+                                   "after whitespace differences are normalized"));
+  }
 }
