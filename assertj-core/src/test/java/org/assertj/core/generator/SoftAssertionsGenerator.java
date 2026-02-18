@@ -137,7 +137,6 @@ public class SoftAssertionsGenerator {
     // TODO: generate GeneratedSoftAssertions ?
     // TODO: module export
     // TODO: move generator to a different place
-    // TODO: get proper generic in delegate methods
     Stream.of(ObjectAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
     Stream.of(OptionalAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
   }
@@ -207,7 +206,19 @@ public class SoftAssertionsGenerator {
     Map<String, List<Method>> methodsByMethodWithParametersName = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     methodsByMethodWithParametersName.putAll(stream(methods)
                                                .collect(groupingBy(method -> method.toString().replaceAll(".*(" + method.getName() + ".*)", "$1"))));
-    return methodsByMethodWithParametersName.values().stream().map(sameMethods -> sameMethods.get(0)).toList();
+    return methodsByMethodWithParametersName.values().stream().map(SoftAssertionsGenerator::getMethodWithGenericSignature).toList();
+  }
+
+  private static Method getMethodWithGenericSignature(List<Method> sameMethods) {
+    for (Method method : sameMethods) {
+      // return the method with generic info, so that we can generate soft methods honoring generics
+      if (hasGenericParameterInformation(method.getGenericParameterTypes())) return method;
+    }
+    return sameMethods.get(0);
+  }
+
+  private static boolean hasGenericParameterInformation(Type[] types) {
+    return stream(types).anyMatch(type -> type instanceof ParameterizedType || type instanceof GenericArrayType);
   }
 
   private static boolean isNotStatic(Method m) {
