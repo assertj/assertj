@@ -370,6 +370,34 @@ limitations under the License.
 
   <profiles>
     <profile>
+      <id>eclipse-compiler</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <configuration>
+                <compilerId>eclipse</compilerId>
+              </configuration>
+              <dependencies>
+                <dependency>
+                  <groupId>org.codehaus.plexus</groupId>
+                  <artifactId>plexus-compiler-eclipse</artifactId>
+                  <version>2.15.0</version>
+                </dependency>
+                <dependency>
+                  <groupId>org.eclipse.jdt</groupId>
+                  <artifactId>ecj</artifactId>
+                  <version>3.43.0</version>
+                </dependency>
+              </dependencies>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+    <profile>
       <id>publish</id>
       <build>
         <plugins>
