@@ -1769,8 +1769,8 @@ public class BDDAssertions extends Assertions {
    *   }
    * }
    *
-   * TextException textException = catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); },
-   *                                                    TextException.class);
+   * TextException textException = catchThrowableOfType(TextException.class,
+   *                                                    () -&gt; { throw new TextException("boom!", 1, 5); });
    * // assertions succeed:
    * then(textException).hasMessage("boom!");
    * then(textException.line).isEqualTo(1);
