@@ -52,4 +52,17 @@ class OffsetTimeAssert_isEqualTo_Test extends OffsetTimeAssertBaseTest {
     assertThatIllegalArgumentException().isThrownBy(() -> assertThat(OffsetTime.now()).isEqualTo((String) null))
                                         .withMessage("The String representing the OffsetTime to compare actual with should not be null");
   }
+
+  @Test
+  void should_fail_with_assertion_error_when_comparing_to_invalid_string() {
+    // GIVEN
+    OffsetTime now = OffsetTime.now();
+    String invalidString = "not an OffsetTime";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(now).isEqualTo(invalidString));
+    // THEN
+    then(assertionError).hasMessageContaining(now.toString())
+                        .hasMessageContaining(invalidString);
+  }
+
 }

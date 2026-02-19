@@ -16,9 +16,9 @@
 package org.assertj.core.api.zoneddatetime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenIllegalArgumentException;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.verify;
 
 import java.time.ZoneId;
@@ -26,7 +26,6 @@ import java.time.ZonedDateTime;
 import java.time.chrono.ChronoZonedDateTime;
 import java.time.chrono.JapaneseChronology;
 import java.time.chrono.JapaneseDate;
-import java.time.format.DateTimeParseException;
 
 import org.assertj.core.api.AbstractZonedDateTimeAssertBaseTest;
 import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
@@ -57,7 +56,7 @@ class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAssertBase
     verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), NOW);
     verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), YESTERDAY);
     verify(objects).assertEqual(getInfo(assertions), getActual(assertions), null);
-    verify(comparables).assertEqual(getInfo(assertions), getActual(assertions), otherType);
+    verify(objects).assertEqual(getInfo(assertions), getActual(assertions), otherType);
   }
 
   @Test
@@ -81,8 +80,15 @@ class ZonedDateTimeAssert_isEqualTo_Test extends AbstractZonedDateTimeAssertBase
   }
 
   @Test
-  void should_fail_if_given_string_parameter_cant_be_parsed() {
-    assertThatThrownBy(() -> assertions.isEqualTo("not a ZonedDateTime")).isInstanceOf(DateTimeParseException.class);
+  void should_fail_with_assertion_error_when_comparing_to_invalid_string() {
+    // GIVEN
+    ZonedDateTime actual = ZonedDateTime.now();
+    String invalidString = "not a ZonedDateTime";
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(actual).isEqualTo(invalidString));
+    // THEN
+    then(assertionError).hasMessageContaining(actual.toString())
+                        .hasMessageContaining(invalidString);
   }
 
   @Test
