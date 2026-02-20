@@ -24,6 +24,7 @@ import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.internal.Digests.digestDiff;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -60,8 +61,40 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   private final Diff diff = new Diff();
   private final BinaryDiff binaryDiff = new BinaryDiff();
 
+  /**
+   * The charset to use for text-based assertions on the InputStream's content.
+   */
+  protected Charset charset = Charset.defaultCharset();
+
   protected AbstractInputStreamAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /**
+   * Specifies the name of the charset to use for text-based assertions on the InputStream's content.
+   *
+   * @param charsetName the name of the charset to use.
+   * @return {@code this} assertion object.
+   * @throws IllegalArgumentException if the given encoding is not supported on this platform.
+   */
+  @CheckReturnValue
+  public SELF usingCharset(String charsetName) {
+    requireNonNull(charsetName, shouldNotBeNull("charsetName")::create);
+    checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
+    return usingCharset(Charset.forName(charsetName));
+  }
+
+  /**
+   * Specifies the charset to use for text-based assertions on the InputStream's content.
+   *
+   * @param charset the charset to use.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given charset is {@code null}.
+   */
+  @CheckReturnValue
+  public SELF usingCharset(Charset charset) {
+    this.charset = requireNonNull(charset, shouldNotBeNull("charset")::create);
+    return myself;
   }
 
   /**
