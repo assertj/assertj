@@ -107,6 +107,18 @@ public final class IterableUtil {
     return iterable instanceof Collection ? (Collection<T>) iterable : newArrayList(iterable);
   }
 
+  /**
+   * Returns a {@link List} containing all elements of the given {@link Iterable}.
+   *
+   * @param iterable the {@link Iterable} to convert to a {@link List}.
+   * @param <T> the type of elements of the {@code Iterable}.
+   * @return a {@link List} containing all elements of the given {@link Iterable}, or {@code null} if the given {@link Iterable} is {@code null}.
+   */
+  public static <T> List<T> toArrayList(Iterable<? extends T> iterable) {
+    if (iterable == null) return null;
+    return newArrayList(iterable);
+  }
+
   @SafeVarargs
   public static <T> Iterable<T> iterable(T... elements) {
     if (elements == null) return null;
