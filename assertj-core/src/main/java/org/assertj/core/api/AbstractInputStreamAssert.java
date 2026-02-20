@@ -133,7 +133,10 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws AssertionError if the actual {@code InputStream} is {@code null}.
    * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
    * @throws UncheckedIOException if an I/O error occurs.
+   * @deprecated use {@link #hasSameBinaryContentAs(InputStream)} for byte-to-byte comparison, 
+   *             or {@link #hasSameTextualContentAs(InputStream, Charset)} for text-based comparison.
    */
+  @Deprecated
   public SELF hasSameContentAs(InputStream expected) {
     isNotNull();
     assertHasSameContentAs(expected);
