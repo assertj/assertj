@@ -162,6 +162,21 @@
       <version>7.0.5</version>
       <scope>test</scope>
     </dependency>
+    <!-- for soft assertion code generation -->
+    <dependency>
+      <groupId>com.palantir.javapoet</groupId>
+      <artifactId>javapoet</artifactId>
+      <version>0.11.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.javaparser</groupId>
+      <artifactId>javaparser-symbol-solver-core</artifactId>
+      <version>3.28.0</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- for soft assertion code generation end -->
+
   </dependencies>
 
   <build>
@@ -211,12 +226,6 @@
                 <groupId>org.opentest4j</groupId>
                 <artifactId>opentest4j</artifactId>
                 <version>${opentest4j.version}</version>
-              </dependency>
-              <dependency>99
-                <groupId>com.palantir.javapoet</groupId>
-                <artifactId>javapoet</artifactId>
-                <version>0.10.0</version>
-                <scope>test</scope>
               </dependency>
             </dependencies>
             <parameter>
