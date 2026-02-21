@@ -2,6 +2,7 @@ package org.assertj.core.generator;
 
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toUnmodifiableMap;
 import static org.apache.commons.lang3.reflect.TypeUtils.wildcardType;
 
 import java.io.IOException;
@@ -13,13 +14,17 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.WildcardType;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.TreeMap;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import javax.lang.model.element.Modifier;
 
@@ -52,6 +57,12 @@ import org.springframework.javapoet.ParameterizedTypeName;
 import org.springframework.javapoet.TypeName;
 import org.springframework.javapoet.TypeSpec;
 import org.springframework.javapoet.TypeVariableName;
+
+import com.github.javaparser.ParserConfiguration;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.javadoc.Javadoc;
 
 @SuppressWarnings("rawtypes")
 public class SoftAssertionsGenerator {
@@ -127,9 +138,16 @@ public class SoftAssertionsGenerator {
   private static final TypeVariableName WILDCARD_TYPE = TypeVariableName.get("?");
   private static final TypeVariableName OBJECT_TYPE = TypeVariableName.get("Object");
   // DefaultSoftAssertFactory<?, SOFT_ASSERT>
-  private static final ParameterizedTypeName DEFAULT_SOFT_ASSERT_FACTORY_PARAMETERIZED_TYPE = ParameterizedTypeName.get(ClassName.get("", DefaultSoftAssertFactory.class.getSimpleName()), WILDCARD_TYPE, TypeVariableName.get("SOFT_ASSERT"));
+  private static final ParameterizedTypeName DEFAULT_SOFT_ASSERT_FACTORY_PARAMETERIZED_TYPE = ParameterizedTypeName.get(ClassName.get("",
+                                                                                                                                      DefaultSoftAssertFactory.class.getSimpleName()),
+                                                                                                                        WILDCARD_TYPE,
+                                                                                                                        TypeVariableName.get("SOFT_ASSERT"));
+
+  private static final Map<Class<?>, CompilationUnit> compilationUnitCache = new HashMap<>();
 
   public static void main(String[] args) {
+    // for javadoc generation
+    StaticJavaParser.getParserConfiguration().setLanguageLevel(ParserConfiguration.LanguageLevel.JAVA_17);
 
     // TODO: generate assertions with several parameterized types: map assertions
     // TODO: methods to ignore ?
@@ -137,14 +155,18 @@ public class SoftAssertionsGenerator {
     // TODO: generate GeneratedSoftAssertions ?
     // TODO: module export
     // TODO: move generator to a different place
+    // TODO: DefaultSoftAssertFactory -> SoftAssertFactory
     Stream.of(ObjectAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
     Stream.of(OptionalAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
   }
 
   private static void generateSoftAssertionFor(Class<? extends Assert> assertClass) {
-    var methods = getNonDuplicatedInstanceMethods(assertClass);
 
-    var assertClassTypeVariables = stream(assertClass.getTypeParameters()).map(TypeVariableName::get).toArray(TypeVariableName[]::new);
+    var methods = getNonDuplicatedInstanceMethods(assertClass);
+    var javadocByMethods = getJavadocOfMethods(methods);
+
+    var assertClassTypeVariables = stream(assertClass.getTypeParameters()).map(TypeVariableName::get)
+                                                                          .toArray(TypeVariableName[]::new);
     FieldSpec assertField = generateAssertField(assertClass, assertClassTypeVariables);
 
     Type realActualType = assertClass.getDeclaredConstructors()[0].getGenericParameterTypes()[0];
@@ -159,7 +181,10 @@ public class SoftAssertionsGenerator {
                                                      .addMethod(generateConstructor(actualParameter, assertField))
                                                      .addTypeVariables(List.of(assertClassTypeVariables))
                                                      .addAnnotation(Beta.class)
-                                                     .addAnnotation(AnnotationSpec.builder(SuppressWarnings.class).addMember("value", "$S", "ResultOfMethodCallIgnored").build());
+                                                     .addAnnotation(AnnotationSpec.builder(SuppressWarnings.class)
+                                                                                  .addMember("value", "$S",
+                                                                                             "ResultOfMethodCallIgnored")
+                                                                                  .build());
 
     var softAssertType = ParameterizedTypeName.get(ClassName.get("", softAssertClassName), assertClassTypeVariables);
 
@@ -169,6 +194,7 @@ public class SoftAssertionsGenerator {
         Parameter[] methodParameters = method.getParameters();
         useVarargsWhenPossible(methodParameters, methodBuilder);
         addSafeVarargsAnnotationAndMakeMethodFinalWhenNeeded(methodParameters, methodBuilder);
+        addJavadoc(method, javadocByMethods, methodBuilder);
         softAssertTypeBuilder.addMethod(methodBuilder.build());
       }
     }
@@ -178,6 +204,110 @@ public class SoftAssertionsGenerator {
               .addStaticImport(Assertions.class, "assertThat")
               .build()
               .writeTo(Path.of("assertj-core/src/main/java"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  private static void addJavadoc(Method method, Map<Method, String> javadocByMethods, MethodSpec.Builder methodBuilder) {
+    String javadoc = javadocByMethods.get(method);
+    if (!javadoc.isEmpty()) {
+      methodBuilder.addJavadoc(javadoc);
+    }
+  }
+
+  private static Map<Method, String> getJavadocOfMethods(Collection<Method> methods) {
+    return methods.stream().collect(toUnmodifiableMap(method -> method, SoftAssertionsGenerator::getJavadoc));
+  }
+
+  private static @NonNull String getJavadoc(Method method) {
+    var compilationUnit = getCompilationUnit(method.getDeclaringClass());
+    var methodDeclarations = compilationUnit.findAll(MethodDeclaration.class, matchMethod(method));
+    for (MethodDeclaration methodDeclaration : methodDeclarations) {
+      String javadocText = methodDeclaration.getJavadoc().map(Javadoc::toText).orElse("");
+      // replace stuff in Javadoc that does not compile since the correct import are not there
+      javadocText = javadocText.replaceAll("link Map}", "link java.util.Map}");
+      javadocText = javadocText.replaceAll("link Assertions", "link org.assertj.core.api.Assertions");
+      javadocText = javadocText.replaceAll(", InstanceOfAssertFactory", ", DefaultSoftAssertFactory");
+      javadocText = javadocText.replaceAll(Pattern.quote("@param <ASSERT> the type of the resulting {@code Assert}"),
+                                           "@param <SOFT_ASSERT> the type of the resulting {@code SoftAssert}");
+      javadocText = javadocText.replaceAll(Pattern.quote("@param assertFactory"), "@param softAssertFactory");
+      javadocText = javadocText.replaceAll(Pattern.quote("{@code assertFactory}"), "{@code softAssertFactory}");
+      javadocText = javadocText.replaceAll(Pattern.quote("{@link InstanceOfAssertFactory}"), "{@link DefaultSoftAssertFactory}");
+      javadocText = javadocText.replaceAll(Pattern.quote("@see #get(InstanceOfAssertFactory)"),
+                                           "@see #get(DefaultSoftAssertFactory)");
+      javadocText = javadocText.replaceAll(Pattern.quote("{@code Assert}"), "{@code SoftAssert}");
+      return javadocText;
+    }
+    return "";
+  }
+
+  private static @NonNull Predicate<MethodDeclaration> matchMethod(Method method) {
+    return methodDeclaration -> methodDeclaration.getName().asString().contains(method.getName())
+                                && parametersTypesMatch(methodDeclaration, method);
+  }
+
+  private static boolean parametersTypesMatch(MethodDeclaration methodDeclaration, Method method) {
+    var methodDeclarationParameters = methodDeclaration.getParameters();
+    if (methodDeclarationParameters.size() != method.getParameterCount()) return false;
+
+    Class<?>[] parameterTypes = method.getParameterTypes();
+    for (int i = 0; i < parameterTypes.length; i++) {
+      if (!parsedParameterTypeMatches(methodDeclarationParameters.get(i), parameterTypes[i])) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static boolean parsedParameterTypeMatches(com.github.javaparser.ast.body.Parameter parameter, Class<?> type) {
+    // handle checking varargs vs array
+    var parsedParameterType = parameter.getType();
+    if (type.isArray()) {
+      Class<?> elementType = type.getComponentType();
+      if (parameter.isVarArgs()) {
+        return typeNamesMatch(parsedParameterType, elementType);
+      }
+      if (parsedParameterType.isArrayType()) {
+        return typeNamesMatch(parsedParameterType, elementType);
+      }
+      // parameter is not an array nor a varargs, it can't match an array type
+      return false;
+    }
+    if (parameter.isVarArgs() || parsedParameterType.isArrayType()) {
+      // since type is not an array it can't match a vararg/array
+      return false;
+    }
+    return typeNamesMatch(parsedParameterType, type);
+  }
+
+  private static boolean typeNamesMatch(com.github.javaparser.ast.type.Type parsedParameterType, Class<?> type) {
+    String parameterTypeName = parsedParameterType.asString();
+    if (parsedParameterType.isClassOrInterfaceType()) {
+      parameterTypeName = asClassOrInterfaceTypeString(parsedParameterType);
+    } else if (parsedParameterType.isArrayType()) {
+      var elementType = parsedParameterType.asArrayType().getElementType();
+      // handle generic array like Function<T, U>[], where we want to get Function and not Function<T, U>
+      parameterTypeName = elementType.isClassOrInterfaceType() ? asClassOrInterfaceTypeString(elementType)
+          : elementType.asString();
+    }
+    return type.getSimpleName().equals(parameterTypeName);
+  }
+
+  private static String asClassOrInterfaceTypeString(com.github.javaparser.ast.type.Type type) {
+    // remove the generic types, ex: Predicate in Predicate<? super T>, as type simple name does not show generics
+    return type.asClassOrInterfaceType().getName().asString();
+  }
+
+  private static CompilationUnit getCompilationUnit(Class<?> assertClass) {
+    try {
+      if (compilationUnitCache.containsKey(assertClass)) {
+        return compilationUnitCache.get(assertClass);
+      }
+      CompilationUnit compilationUnit = StaticJavaParser.parse(Paths.get("assertj-core/src/main/java/org/assertj/core/api/"
+                                                                         + assertClass.getSimpleName() + ".java"));
+      compilationUnitCache.put(assertClass, compilationUnit);
+      return compilationUnit;
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -201,12 +331,17 @@ public class SoftAssertionsGenerator {
   private static @NonNull Collection<Method> getNonDuplicatedInstanceMethods(Class<? extends Assert> assertClass) {
     // remove inherited duplicate methods
     Method[] methods = stream(ArrayUtils.removeElements(assertClass.getMethods(), Object.class.getMethods()))
-      .filter(SoftAssertionsGenerator::isNotStatic)
-      .toArray(Method[]::new);
+                                                                                                             .filter(SoftAssertionsGenerator::isNotStatic)
+                                                                                                             .toArray(Method[]::new);
     Map<String, List<Method>> methodsByMethodWithParametersName = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
     methodsByMethodWithParametersName.putAll(stream(methods)
-                                               .collect(groupingBy(method -> method.toString().replaceAll(".*(" + method.getName() + ".*)", "$1"))));
-    return methodsByMethodWithParametersName.values().stream().map(SoftAssertionsGenerator::getMethodWithGenericSignature).toList();
+                                                            .collect(groupingBy(method -> method.toString()
+                                                                                                .replaceAll(".*("
+                                                                                                            + method.getName()
+                                                                                                            + ".*)", "$1"))));
+    return methodsByMethodWithParametersName.values().stream()
+                                            .map(SoftAssertionsGenerator::getMethodWithGenericSignature)
+                                            .toList();
   }
 
   private static Method getMethodWithGenericSignature(List<Method> sameMethods) {
@@ -225,7 +360,8 @@ public class SoftAssertionsGenerator {
     return (m.getModifiers() & java.lang.reflect.Modifier.STATIC) == 0;
   }
 
-  private static @NonNull FieldSpec generateAssertField(Class<? extends Assert> assertClass, TypeVariableName[] typeVariableNames) {
+  private static @NonNull FieldSpec generateAssertField(Class<? extends Assert> assertClass,
+                                                        TypeVariableName[] typeVariableNames) {
     var assertClassSimpleName = assertClass.getSimpleName();
     String assertFieldName = assertClassSimpleName.toLowerCase().charAt(0) + assertClassSimpleName.substring(1);
     var parameterizedTypeName = ParameterizedTypeName.get(ClassName.get("", assertClassSimpleName), typeVariableNames);
@@ -245,7 +381,8 @@ public class SoftAssertionsGenerator {
                      .build();
   }
 
-  private static MethodSpec.Builder generateMethod(Method method, ParameterizedTypeName softAssertType, FieldSpec assertField, Type realActualType) {
+  private static MethodSpec.Builder generateMethod(Method method, ParameterizedTypeName softAssertType, FieldSpec assertField,
+                                                   Type realActualType) {
     if (method.getName().equals("actual") && method.getDeclaringClass().equals(AbstractAssert.class)) {
       return generateActualMethod(method, realActualType, assertField);
     } else if (isMethodToDelegateTo(method)) {
@@ -260,7 +397,8 @@ public class SoftAssertionsGenerator {
     return null;
   }
 
-  private static MethodSpec.Builder generateAssertionMethod(Method assertionMethod, ParameterizedTypeName softAssertType, FieldSpec assertField, Type actualType) {
+  private static MethodSpec.Builder generateAssertionMethod(Method assertionMethod, ParameterizedTypeName softAssertType,
+                                                            FieldSpec assertField, Type actualType) {
     var softAssertionMethodBuilder = MethodSpec.methodBuilder(assertionMethod.getName())
                                                .addModifiers(Modifier.PUBLIC)
                                                .addTypeVariables(getMethodTypeVariables(assertionMethod))
@@ -287,19 +425,21 @@ public class SoftAssertionsGenerator {
     }
   }
 
-  private static void addSafeVarargsAnnotationAndMakeMethodFinalWhenNeeded(Parameter[] methodParameters, MethodSpec.Builder methodBuilder) {
-    if (isLastParameterAnArray(methodParameters) && isLastParameterHasNoWildcardType(methodParameters[methodParameters.length - 1])) {
+  private static void addSafeVarargsAnnotationAndMakeMethodFinalWhenNeeded(Parameter[] methodParameters,
+                                                                           MethodSpec.Builder methodBuilder) {
+    if (isLastParameterAnArray(methodParameters)
+        && isLastParameterHasNoWildcardType(methodParameters[methodParameters.length - 1])) {
       methodBuilder.addAnnotation(SafeVarargs.class);
       methodBuilder.addModifiers(Modifier.FINAL);
     }
   }
 
-  // TOOD seems to work but could that be simplifiers
+  // TODo seems to work but could that be simplified
   private static boolean isLastParameterHasNoWildcardType(Parameter parameter) {
     // for parameter like Consumer<? super ACTUAL>... assertions but not Class<?>... types
     return parameter.getParameterizedType() instanceof GenericArrayType genericArrayType
-      && genericArrayType.getGenericComponentType() instanceof ParameterizedType parameterizedType
-      && stream(parameterizedType.getActualTypeArguments()).anyMatch(t -> !t.getTypeName().equals("?"));
+           && genericArrayType.getGenericComponentType() instanceof ParameterizedType parameterizedType
+           && stream(parameterizedType.getActualTypeArguments()).anyMatch(t -> !t.getTypeName().equals("?"));
   }
 
   private static MethodSpec.Builder generateNavigationMethod(Method navigationMethod, FieldSpec assertField) {
@@ -332,7 +472,7 @@ public class SoftAssertionsGenerator {
                                                .addTypeVariables(getMethodTypeVariables(navigationMethod))
                                                .returns(genericReturnType)
                                                .addStatement("return $N." + navigationMethod.getName()
-                                                               + methodArguments(navigationMethod),
+                                                             + methodArguments(navigationMethod),
                                                              assertField);
 
     Parameter[] methodParameters = navigationMethod.getParameters();
@@ -350,7 +490,8 @@ public class SoftAssertionsGenerator {
   }
 
   private static MethodSpec.Builder generateOptionalGetNavigationMethod(Method navigationMethod, FieldSpec assertField) {
-    var softObjectAssertType = ParameterizedTypeName.get(ClassName.get("", SoftObjectAssert.class.getSimpleName()), TypeVariableName.get("VALUE"));
+    var softObjectAssertType = ParameterizedTypeName.get(ClassName.get("", SoftObjectAssert.class.getSimpleName()),
+                                                         TypeVariableName.get("VALUE"));
     return MethodSpec.methodBuilder(navigationMethod.getName())
                      .addModifiers(Modifier.PUBLIC)
                      .returns(softObjectAssertType)
@@ -359,12 +500,14 @@ public class SoftAssertionsGenerator {
 
   private static MethodSpec.Builder generateOptionalFlatMapNavigationMethod(Method navigationMethod, FieldSpec assertField) {
     // <U> SoftOptionalAssert<U>
-    var softOptionalAssertType = ParameterizedTypeName.get(ClassName.get("", SoftOptionalAssert.class.getSimpleName()), TypeVariableName.get("U"));
+    var softOptionalAssertType = ParameterizedTypeName.get(ClassName.get("", SoftOptionalAssert.class.getSimpleName()),
+                                                           TypeVariableName.get("U"));
     var softAssertionMethodBuilder = MethodSpec.methodBuilder(navigationMethod.getName())
                                                .addModifiers(Modifier.PUBLIC)
                                                .addTypeVariables(getMethodTypeVariables(navigationMethod))
                                                .returns(softOptionalAssertType)
-                                               .addStatement("return new SoftOptionalAssert<>($N.flatMap(mapper).actual(), errorCollector)", assertField);
+                                               .addStatement("return new SoftOptionalAssert<>($N.flatMap(mapper).actual(), errorCollector)",
+                                                             assertField);
     for (Parameter parameter : navigationMethod.getParameters()) {
       softAssertionMethodBuilder.addParameter(parameter.getParameterizedType(), parameter.getName());
     }
@@ -372,11 +515,13 @@ public class SoftAssertionsGenerator {
   }
 
   private static MethodSpec.Builder generateStronglyTypedOptionalGetNavigationMethod(Method navigationMethod) {
-    return generateStronglyTypedNavigationMethod(navigationMethod, "return softAssertFactory.createSoftAssert(actual().get(), errorCollector)");
+    return generateStronglyTypedNavigationMethod(navigationMethod,
+                                                 "return softAssertFactory.createSoftAssert(actual().get(), errorCollector)");
   }
 
   private static MethodSpec.Builder generateAsInstanceOfNavigationMethod(Method navigationMethod) {
-    return generateStronglyTypedNavigationMethod(navigationMethod, "return softAssertFactory.createSoftAssert(actual(), errorCollector)");
+    return generateStronglyTypedNavigationMethod(navigationMethod,
+                                                 "return softAssertFactory.createSoftAssert(actual(), errorCollector)");
   }
 
   private static MethodSpec.Builder generateStronglyTypedNavigationMethod(Method navigationMethod, String returnStatement) {
@@ -391,7 +536,8 @@ public class SoftAssertionsGenerator {
   private static MethodSpec.Builder generateObjectExtractingWithSingleStringNavigationMethod(Method navigationMethod) {
     Parameter stringParameter = navigationMethod.getParameters()[0];
 
-    var softObjectAssertType = ParameterizedTypeName.get(ClassName.get("", SoftObjectAssert.class.getSimpleName()), WILDCARD_TYPE);
+    var softObjectAssertType = ParameterizedTypeName.get(ClassName.get("", SoftObjectAssert.class.getSimpleName()),
+                                                         WILDCARD_TYPE);
     return MethodSpec.methodBuilder(navigationMethod.getName())
                      .addModifiers(Modifier.PUBLIC)
                      .returns(softObjectAssertType)
@@ -457,9 +603,9 @@ public class SoftAssertionsGenerator {
                      .addParameter(DEFAULT_SOFT_ASSERT_FACTORY_PARAMETERIZED_TYPE, "softAssertFactory");
   }
 
-
   private static boolean isOptionalGet(Method navigationMethod) {
-    return navigationMethod.getDeclaringClass().equals(AbstractOptionalAssert.class) && navigationMethod.toString().contains("get()");
+    return navigationMethod.getDeclaringClass().equals(AbstractOptionalAssert.class)
+           && navigationMethod.toString().contains("get()");
   }
 
   private static boolean isAsString(Method navigationMethod) {
@@ -468,71 +614,73 @@ public class SoftAssertionsGenerator {
 
   private static boolean isStronglyTypedOptionalGet(Method navigationMethod) {
     return navigationMethod.getDeclaringClass().equals(AbstractOptionalAssert.class)
-      && navigationMethod.toString().contains("get(")
-      && navigationMethod.getParameterCount() == 1;
+           && navigationMethod.toString().contains("get(")
+           && navigationMethod.getParameterCount() == 1;
   }
 
   private static boolean isAsInstanceOf(Method navigationMethod) {
-    return navigationMethod.getDeclaringClass().equals(AbstractAssert.class) && navigationMethod.getName().contains("asInstanceOf");
+    return navigationMethod.getDeclaringClass().equals(AbstractAssert.class)
+           && navigationMethod.getName().contains("asInstanceOf");
   }
 
   private static boolean isObjectExtractingWithString(Method navigationMethod) {
     List<Class<?>> parameterTypes = Arrays.asList(navigationMethod.getParameterTypes());
     return navigationMethod.getDeclaringClass().equals(AbstractObjectAssert.class)
-      && navigationMethod.getName().contains("extracting")
-      && parameterTypes.size() == 1
-      && parameterTypes.contains(String.class);
+           && navigationMethod.getName().contains("extracting")
+           && parameterTypes.size() == 1
+           && parameterTypes.contains(String.class);
   }
 
   private static boolean isObjectExtractingWithMultipleStrings(Method navigationMethod) {
     List<Class<?>> parameterTypes = Arrays.asList(navigationMethod.getParameterTypes());
     return navigationMethod.getDeclaringClass().equals(AbstractObjectAssert.class)
-      && navigationMethod.getName().contains("extracting")
-      && parameterTypes.size() == 1
-      && parameterTypes.contains(String[].class);
+           && navigationMethod.getName().contains("extracting")
+           && parameterTypes.size() == 1
+           && parameterTypes.contains(String[].class);
   }
 
   private static boolean isStronglyTypedObjectExtractingWithString(Method navigationMethod) {
     List<Class<?>> parameterTypes = Arrays.asList(navigationMethod.getParameterTypes());
     return navigationMethod.getDeclaringClass().equals(AbstractObjectAssert.class)
-      && navigationMethod.getName().contains("extracting")
-      && parameterTypes.size() == 2
-      && parameterTypes.contains(String.class)
-      && parameterTypes.contains(InstanceOfAssertFactory.class);
+           && navigationMethod.getName().contains("extracting")
+           && parameterTypes.size() == 2
+           && parameterTypes.contains(String.class)
+           && parameterTypes.contains(InstanceOfAssertFactory.class);
   }
 
   private static boolean isObjectExtractingWithFunction(Method navigationMethod) {
     List<Class<?>> parameterTypes = Arrays.asList(navigationMethod.getParameterTypes());
     return navigationMethod.getDeclaringClass().equals(AbstractObjectAssert.class)
-      && navigationMethod.getName().contains("extracting")
-      && parameterTypes.size() == 1
-      && parameterTypes.contains(Function.class);
+           && navigationMethod.getName().contains("extracting")
+           && parameterTypes.size() == 1
+           && parameterTypes.contains(Function.class);
   }
 
   private static boolean isObjectExtractingWithMultipleFunctions(Method navigationMethod) {
     List<Class<?>> parameterTypes = Arrays.asList(navigationMethod.getParameterTypes());
     return navigationMethod.getDeclaringClass().equals(AbstractObjectAssert.class)
-      && navigationMethod.getName().contains("extracting")
-      && parameterTypes.size() == 1
-      && parameterTypes.contains(Function[].class);
+           && navigationMethod.getName().contains("extracting")
+           && parameterTypes.size() == 1
+           && parameterTypes.contains(Function[].class);
   }
 
   private static boolean isStronglyTypedObjectExtractingWithFunction(Method navigationMethod) {
     List<Class<?>> parameterTypes = Arrays.asList(navigationMethod.getParameterTypes());
     return navigationMethod.getDeclaringClass().equals(AbstractObjectAssert.class)
-      && navigationMethod.getName().contains("extracting")
-      && parameterTypes.size() == 2
-      && parameterTypes.contains(Function.class)
-      && parameterTypes.contains(InstanceOfAssertFactory.class);
+           && navigationMethod.getName().contains("extracting")
+           && parameterTypes.size() == 2
+           && parameterTypes.contains(Function.class)
+           && parameterTypes.contains(InstanceOfAssertFactory.class);
   }
 
   private static boolean isOptionalFlatMap(Method navigationMethod) {
-    return navigationMethod.getDeclaringClass().equals(AbstractOptionalAssert.class) && navigationMethod.toString().contains("flatMap");
+    return navigationMethod.getDeclaringClass().equals(AbstractOptionalAssert.class)
+           && navigationMethod.toString().contains("flatMap");
   }
 
   private static @NonNull List<TypeVariableName> getMethodTypeVariables(Method navigationMethod) {
     return stream(navigationMethod.getTypeParameters())
-      .map(tp -> TypeVariableName.get(tp.getName(), tp.getBounds())).toList();
+                                                       .map(tp -> TypeVariableName.get(tp.getName(), tp.getBounds())).toList();
   }
 
   private static MethodSpec.Builder generateDelegateMethod(Method objectMethod, FieldSpec assertField) {
@@ -541,7 +689,7 @@ public class SoftAssertionsGenerator {
                                                      .addModifiers(Modifier.PUBLIC)
                                                      .returns(objectMethod.getGenericReturnType())
                                                      .addStatement("return $N." + objectMethod.getName()
-                                                                     + methodArguments(objectMethod), assertField);
+                                                                   + methodArguments(objectMethod), assertField);
     Parameter[] methodParameters = objectMethod.getParameters();
     for (Parameter parameter : methodParameters) {
       softAssertionObjectMethodBuilder.addParameter(parameter.getParameterizedType(), parameter.getName());
@@ -552,7 +700,8 @@ public class SoftAssertionsGenerator {
     return softAssertionObjectMethodBuilder;
   }
 
-  private static MethodSpec.Builder generateDelegateMethodReturningThis(Method methodToCall, ParameterizedTypeName softAssertType, FieldSpec assertField, Type realActualType) {
+  private static MethodSpec.Builder generateDelegateMethodReturningThis(Method methodToCall, ParameterizedTypeName softAssertType,
+                                                                        FieldSpec assertField, Type realActualType) {
     var delegateMethodBuilder = MethodSpec.methodBuilder(methodToCall.getName())
                                           .addModifiers(Modifier.PUBLIC)
                                           .returns(softAssertType)
@@ -585,16 +734,17 @@ public class SoftAssertionsGenerator {
       var realParameterType = ParameterizedTypeName.get(parameter.getType(), realGenericTypes);
       return ParameterSpec.builder(realParameterType, parameter.getName()).build();
     } else if (parameterType instanceof GenericArrayType genericArrayType
-      && genericArrayType.getGenericComponentType() instanceof ParameterizedType parameterizedType
-      && parameterizedType.getRawType() instanceof Class<?> rawClass
-      && referencesACTUALGenericType(parameterizedType)) {
-      // the array generic type references ACTUAL, ex: Consumer<? super ACTUAL>... requirements, we need to transform it
-      // to the real ACTUAL type, ex: Consumer<? super String>... requirements
-      Type[] realGenericTypes = resolveRealGenericTypes(realActualType, parameterizedType.getActualTypeArguments());
-      TypeName[] realGenericTypesNames = stream(realGenericTypes).map(TypeName::get).toArray(TypeName[]::new);
-      var realParameterType = ParameterizedTypeName.get(ClassName.get(rawClass), realGenericTypesNames);
-      return ParameterSpec.builder(ArrayTypeName.of(realParameterType), parameter.getName()).build();
-    }
+               && genericArrayType.getGenericComponentType() instanceof ParameterizedType parameterizedType
+               && parameterizedType.getRawType() instanceof Class<?> rawClass
+               && referencesACTUALGenericType(parameterizedType)) {
+                 // the array generic type references ACTUAL, ex: Consumer<? super ACTUAL>... requirements, we need to transform
+                 // it
+                 // to the real ACTUAL type, ex: Consumer<? super String>... requirements
+                 Type[] realGenericTypes = resolveRealGenericTypes(realActualType, parameterizedType.getActualTypeArguments());
+                 TypeName[] realGenericTypesNames = stream(realGenericTypes).map(TypeName::get).toArray(TypeName[]::new);
+                 var realParameterType = ParameterizedTypeName.get(ClassName.get(rawClass), realGenericTypesNames);
+                 return ParameterSpec.builder(ArrayTypeName.of(realParameterType), parameter.getName()).build();
+               }
     return ParameterSpec.builder(parameterType, parameter.getName()).build();
   }
 
@@ -604,21 +754,22 @@ public class SoftAssertionsGenerator {
 
   private static Type[] resolveRealGenericTypes(Type actualType, Type... types) {
     return stream(types)
-      .map(t -> {
-        if (t instanceof WildcardType wildcardType) {
-          return wildcardType().withLowerBounds(actualType)
-                               .withUpperBounds(wildcardType.getUpperBounds())
-                               .build();
-        } else if (t instanceof ParameterizedType parameterizedType && parameterizedType.getActualTypeArguments()[0] instanceof WildcardType wildcardType) {
-          // generic type array has only one parameter
-          return wildcardType().withLowerBounds(actualType)
-                               .withUpperBounds(wildcardType.getUpperBounds())
-                               .build();
-        } else {
-          return t;
-        }
-      })
-      .toArray(Type[]::new);
+                        .map(t -> {
+                          if (t instanceof WildcardType wildcardType) {
+                            return wildcardType().withLowerBounds(actualType)
+                                                 .withUpperBounds(wildcardType.getUpperBounds())
+                                                 .build();
+                          } else if (t instanceof ParameterizedType parameterizedType
+                                     && parameterizedType.getActualTypeArguments()[0] instanceof WildcardType wildcardType) {
+                                       // generic type array has only one parameter
+                                       return wildcardType().withLowerBounds(actualType)
+                                                            .withUpperBounds(wildcardType.getUpperBounds())
+                                                            .build();
+                                     } else {
+                                       return t;
+                                     }
+                        })
+                        .toArray(Type[]::new);
   }
 
   private static boolean isAssertionMethod(Method method) {
@@ -640,6 +791,5 @@ public class SoftAssertionsGenerator {
     }
     return argsStringJoiner.toString();
   }
-
 
 }
