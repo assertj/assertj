@@ -228,5 +228,4 @@ public final class SoftObjectAssertTest {
     then(errors.get(1)).hasMessageContaining("empty");
   }
 
-
 }

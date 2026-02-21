@@ -52,5 +52,4 @@ public final class SoftListAssert<ELEMENT> implements SoftAssert {
     return this;
   }
 
-
 }

@@ -51,5 +51,4 @@ public final class SoftStringAssert implements SoftAssert {
     return this;
   }
 
-
 }
