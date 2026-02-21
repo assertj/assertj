@@ -124,13 +124,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   protected AbstractIterableAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
-
-    if (actual instanceof SortedSet) {
-      @SuppressWarnings("unchecked")
-      SortedSet<ELEMENT> sortedSet = (SortedSet<ELEMENT>) actual;
-      Comparator<? super ELEMENT> comparator = sortedSet.comparator();
-      if (comparator != null) usingElementComparator(sortedSet.comparator());
-    }
   }
 
   /**
