@@ -85,9 +85,11 @@ class Tuple_Test {
   }
 
   @Test
+  @SuppressWarnings("unchecked")
   void should_honor_equals_contract() {
     // WHEN/THEN
     EqualsVerifier.forClass(Tuple.class)
+                  .withFactory(values -> new Tuple(((List<Object>) values.get("values")).toArray()))
                   .withNonnullFields("values")
                   .verify();
   }

@@ -35,6 +35,9 @@ class FieldLocation_Test {
   void should_honor_equals_contract() {
     // WHEN/THEN
     EqualsVerifier.forClass(FieldLocation.class)
+                  .withFactory(values -> new FieldLocation(values.<List<String>> get("decomposedPath")))
+                  .withNonnullFields("decomposedPath")
+                  .withIgnoredFields("pathToUseInRules", "pathsHierarchyToUseInRules")
                   .verify();
   }
 

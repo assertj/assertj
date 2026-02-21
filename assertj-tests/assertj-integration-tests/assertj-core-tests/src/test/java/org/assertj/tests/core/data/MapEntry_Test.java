@@ -32,6 +32,7 @@ class MapEntry_Test {
   void should_honor_equals_contract() {
     // WHEN/THEN
     EqualsVerifier.forClass(MapEntry.class)
+                  .withFactory(values -> MapEntry.entry(values.get("key"), values.get("value")))
                   .verify();
   }
 
