@@ -64,7 +64,8 @@ public interface SoftAssertFactory<T, SOFT_ASSERT extends SoftAssert> {
    * @return the custom {@code Assert} instance for the provided value
    * @since 3.26.0
    */
-  default SOFT_ASSERT createSoftAssert(ValueProvider<? extends T> valueProvider, AssertionErrorCollector assertionErrorCollector) {
+  default SOFT_ASSERT createSoftAssert(ValueProvider<? extends T> valueProvider,
+                                       AssertionErrorCollector assertionErrorCollector) {
     T actual = valueProvider.apply(Object.class);
     return createSoftAssert(actual, assertionErrorCollector);
   }
