@@ -21,10 +21,6 @@ import static org.assertj.core.util.Lists.newArrayList;
 import java.util.ArrayList;
 import java.util.List;
 
-// immutable
-/**
- * @param <T> the type of element to compare.
- */
 class IterableDiff<T> {
 
   private final ComparisonStrategy comparisonStrategy;
@@ -74,7 +70,7 @@ class IterableDiff<T> {
     return unmodifiableList(missingInFirst);
   }
 
-  private boolean isActualElementInExpected(T elementInActual, List<T> copyOfExpected) {
+  private boolean isActualElementInExpected(Object elementInActual, List<?> copyOfExpected) {
     // the order of comparisonStrategy.areEqual is important if element comparison is not symmetrical, we must compare actual to
     // expected but not expected to actual, for ex recursive comparison where:
     // - actual element is PersonDto, expected a list of Person
