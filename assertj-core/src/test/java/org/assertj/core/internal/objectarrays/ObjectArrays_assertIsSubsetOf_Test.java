@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldBeSubsetOf.shouldBeSubsetOf;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
 import static org.assertj.core.testkit.TestData.someInfo;
 import static org.assertj.core.util.Arrays.array;
@@ -81,7 +82,7 @@ class ObjectArrays_assertIsSubsetOf_Test extends ObjectArraysBaseTest {
   void should_throw_error_if_set_is_null() {
     actual = array("Yoda", "Luke");
     assertThatNullPointerException().isThrownBy(() -> arrays.assertIsSubsetOf(someInfo(), actual, null))
-                                    .withMessage(iterableToLookForIsNull());
+                                    .withMessage(shouldNotBeNull("iterable").create());
   }
 
   @Test

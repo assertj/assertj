@@ -21,7 +21,6 @@ import java.util.List;
 class SinglyIterableFactory {
 
   static Iterable<String> createSinglyIterable(final List<String> values) {
-    // can't use Iterable<> for anonymous class in java 8
     return new Iterable<String>() {
       private boolean isIteratorCreated = false;
 
