@@ -22,8 +22,8 @@ import java.util.Optional;
  */
 public interface SoftAssertFactories {
 
-
-  DefaultSoftAssertFactory<Object, SoftObjectAssert<?>> OBJECT = new DefaultSoftAssertFactory<>(Object.class, SoftObjectAssert::new);
+  DefaultSoftAssertFactory<Object, SoftObjectAssert<?>> OBJECT = new DefaultSoftAssertFactory<>(Object.class,
+                                                                                                SoftObjectAssert::new);
   DefaultSoftAssertFactory<String, SoftStringAssert> STRING = new DefaultSoftAssertFactory<>(String.class, SoftStringAssert::new);
 
   DefaultSoftAssertFactory<Optional, SoftOptionalAssert<Object>> OPTIONAL = optional(Object.class);

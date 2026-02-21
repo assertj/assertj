@@ -45,8 +45,6 @@ public class AssertionsUtil {
     return (MultipleAssertionsError) expectAssertionError(callable);
   }
 
-
-
   public static ThrowableAssertAlternative<AssertionError> assertThatAssertionErrorIsThrownBy(ThrowingCallable shouldRaiseAssertionError) {
     return assertThatExceptionOfType(AssertionError.class).isThrownBy(shouldRaiseAssertionError);
   }
