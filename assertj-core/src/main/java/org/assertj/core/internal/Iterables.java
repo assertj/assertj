@@ -347,7 +347,7 @@ public class Iterables {
    * @throws AssertionError if the given {@code Iterable} does not contain the given values.
    */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
+    Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
     if (commonCheckThatIterableAssertionSucceeds(info, failures, actualAsCollection, values)) return;
     // check for elements in values that are missing in actual.
     assertIterableContainsGivenValues(actual.getClass(), actualAsCollection, values, info);
@@ -1114,11 +1114,10 @@ public class Iterables {
    *           {@code Iterable}, in any order.
    */
   public void assertContainsAll(AssertionInfo info, Iterable<?> actual, Iterable<?> other) {
-    final List<?> actualAsList = newArrayList(actual);
+    assertNotNull(info, actual);
     checkIterableIsNotNull(other);
-    assertNotNull(info, actualAsList);
     Object[] values = newArrayList(other).toArray();
-    assertIterableContainsGivenValues(actual.getClass(), actualAsList, values, info);
+    assertIterableContainsGivenValues(actual.getClass(), ensureActualCanBeReadMultipleTimes(actual), values, info);
   }
 
   /**
