@@ -1,12 +1,12 @@
 name: Binary Compatibility
 
 on:
-  pull_request:
-    paths:
-      - 'assertj-core/**'
   push:
-    paths:
-      - 'assertj-core/**'
+    branches: [ 'main', '3.x' ]
+    paths: [ 'assertj-core/**' ]
+  pull_request:
+    branches: [ 'main', '3.x' ]
+    paths: [ 'assertj-core/**' ]
 
 permissions: {}
 
