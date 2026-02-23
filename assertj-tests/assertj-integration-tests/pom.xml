@@ -15,6 +15,7 @@
 
   <modules>
     <module>assertj-core-junit4-with-opentest4j</module>
+    <module>assertj-core-osgi</module>
     <module>assertj-core-spring-boot</module>
     <module>assertj-core-testng-with-junit4</module>
     <module>assertj-core-tests</module>
@@ -25,12 +26,11 @@
     <profile>
       <id>java-ea-incompatible</id>
       <activation>
-        <jdk>(,24)</jdk>
+        <jdk>(,26)</jdk>
       </activation>
       <modules>
         <module>assertj-core-groovy</module>
         <module>assertj-core-kotlin</module>
-        <module>assertj-core-osgi</module> <!-- https://github.com/bndtools/bnd/issues/6370 -->
       </modules>
     </profile>
   </profiles>

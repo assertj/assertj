@@ -5,18 +5,22 @@
   <parent>
     <groupId>org.assertj</groupId>
     <artifactId>assertj-integration-tests</artifactId>
-    <version>3.27.7-SNAPSHOT</version>
+    <version>3.27.8-SNAPSHOT</version>
   </parent>
 
   <artifactId>assertj-core-groovy</artifactId>
 
   <name>AssertJ Core Integration Tests (Groovy)</name>
 
+  <properties>
+    <groovy.version>5.0.4</groovy.version>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.apache.groovy</groupId>
       <artifactId>groovy</artifactId>
-      <version>4.0.24</version>
+      <version>${groovy.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -50,15 +54,12 @@
       <plugin>
         <groupId>org.codehaus.gmavenplus</groupId>
         <artifactId>gmavenplus-plugin</artifactId>
-        <version>4.0.1</version>
+        <version>4.3.1</version>
         <executions>
           <execution>
             <goals>
               <goal>compileTests</goal>
             </goals>
-            <configuration>
-              <targetBytecode>1.8</targetBytecode>
-            </configuration>
           </execution>
         </executions>
       </plugin>

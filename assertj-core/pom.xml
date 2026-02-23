@@ -307,7 +307,6 @@
                 -exportcontents: \
                   !org.assertj.core.internal.*,\
                   org.assertj.core.*
-                -noclassforname: true
                 -noextraheaders: true
                 -snapshot: SNAPSHOT
                 -removeheaders: Private-Package
