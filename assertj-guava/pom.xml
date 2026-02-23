@@ -150,9 +150,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <links>
-            <link>https://javadoc.io/static/com.google.guava/guava/${guava.version}</link>
-          </links>
+          <detectOfflineLinks>false</detectOfflineLinks>
           <offlineLinks>
             <offlineLink>
               <url>https://javadoc.io/static/org.assertj/assertj-core/${project.version}</url>
