@@ -91,7 +91,7 @@ jobs:
         uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
         with:
           distribution: 'zulu'
-          java-version: '25'
+          java-version: '21'
           cache: 'maven'
       - name: Test
         run: ./mvnw $MAVEN_ARGS -Dkotlin.version=${{ matrix.kotlin }} verify
