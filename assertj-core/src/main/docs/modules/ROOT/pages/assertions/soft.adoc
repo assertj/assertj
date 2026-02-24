@@ -1,0 +1,401 @@
+[[soft-assertions]]
+= Soft assertions
+
+With soft assertions AssertJ collects all assertion errors instead of stopping at the first one.
+
+TIP: This is especially useful for long tests like end to end tests as we can fix all reported errors at once and avoid multiple failing runs.
+
+Since soft assertions don't fail at the first error, you need to tell AssertJ when to report the captured assertion errors, there are different ways of doing so:
+
+* Calling `assertAll()` (basic approach)
+* Using a link:#junit4-soft-assertions[JUnit 4 rule] that takes care of calling `assertAll()` after each tests
+* Using the provided link:#junit5-soft-assertions[JUnit 5 extension] which injects a `SoftAssertions` or a `BDDSoftAssertions` parameter and calls `assertAll()` after each tests
+* Using a link:#closeable-soft-assertions[`AutoCloseableSoftAssertions`]
+* Using link:#assertSoftly-assertions[`assertSoftly` static method]
+
+Soft assertions comes with a link:#bdd-soft-assertions[BDD flavor] where `assertThat` is replaced by `then`.
+
+If you have created your own custom Soft assertions it is possible to link:#soft-assertions-combining[combine them all in a single soft assertions entry point].
+
+Let's see first how to use soft assertions *requiring an explicit call to `assertAll()`*, the other approaches that don't require this explicitit call are described in the subsequent sections.
+
+Example:
+[source,java,indent=0]
+----
+include::example$SoftAssertionsExample.java[tags=basic-soft-assertions]
+----
+<1> Build a `SoftAssertions` instance to record all assertion errors
+<2> Use `softly.assertThat` instead of the usual `assertThat` methods
+<3> *Don't forget to call `assertAll()` to report all assertion errors!*
+
+The previous test fails with the message below reporting all the errors:
+
+[source, text]
+----
+Multiple Failures (3 failures)
+-- failure 1 --
+[great authors]
+Expecting:
+ <"George Martin">
+to be equal to:
+ <"JRR Tolkien">
+but was not.
+-- failure 2 --
+[response to Everything]
+Expecting:
+ \<42>
+to be greater than:
+ \<100>
+-- failure 3 --
+Expecting:
+ <"gandalf">
+to be equal to:
+ <"sauron">
+but was not.
+----
+
+[[bdd-soft-assertions]]
+== BDD Soft assertions
+
+BDD aficionados can use BDD soft assertions where `assertThat` is replaced by `then`.
+
+Example:
+[source,java,indent=0]
+----
+include::example$BDDSoftAssertionsExample.java[tags=basic-bdd-soft-assertions]
+----
+
+There are BDD soft assertions versions for the different soft assertions approaches:
+
+* `AutoCloseableBDDSoftAssertions`
+* Using `JUnitBDDSoftAssertions` that takes care of calling `assertAll()` after each tests
+* Using a JUnit 5 extension that takes care of calling `assertAll()` after each tests
+
+[[junit4-soft-assertions]]
+== JUnit 4 Soft assertions rule
+
+The JUnit rule provided by AssertJ takes care of calling `assertAll()` at the end of each tests.
+
+Example:
+[source,java,indent=0]
+----
+include::example$JUnit4SoftAssertionsExample.java[tags=junit4-soft-assertions]
+----
+
+In a similar way you can use `JUnitBDDSoftAssertions`  where `assertThat` is replaced by `then`:
+[source,java,indent=0]
+----
+include::example$JUnit4BDDSoftAssertionsExample.java[tags=junit4-bdd-soft-assertions]
+----
+
+[[junit5-soft-assertions]]
+== JUnit 5 soft assertions extension
+
+`SoftAssertionsExtension` is a JUnit 5 extension that:
+
+* takes care of calling `assertAll()` at the end of each tests
+* supports link:#junit5-soft-assertions-field-injection[initializing `SoftAssertionsProvider` field] annotated with `@InjectSoftAssertions`
+* supports link:#junit5-soft-assertions-field-parameter[injecting a `SoftAssertionsProvider` parameter] in each test methods
+
+`SoftAssertionsProvider` is the interface that any concrete soft assertions class must implement, AssertJ provides two of them: `SoftAssertions` and `BDDSoftAssertions`, but custom implementations are also supported as long as they have a default constructor. See the end of link:#soft-assertions-combining[combining soft assertions entry points] section for an example.
+
+IMPORTANT: `JUnitJupiterSoftAssertions`, `JUnitJupiterBDDSoftAssertions` and `SoftlyExtension` are now deprecated in favor of `SoftAssertionsExtension`.
+
+[[junit5-soft-assertions-field-injection]]
+=== SoftAssertionsProvider field injection
+
+`SoftAssertionsExtension` supports injecting any instance of `SoftAssertionsProvider` into a class test field annotated with `@InjectSoftAssertions`. +
+The injection occurs before each test method execution, after each test `assertAll()` is invoked to verify that no soft assertions failed.
+
+A nested test class can provide a `SoftAssertionsProvider` field when it extends this extension or can inherit the parent's one.
+
+You can have multiple soft assertion providers injected into a single test class. Assertions made on any of them will be collected in a single error collector and reported all together, in the same order that they failed.
+
+This extension throws an `ExtensionConfigurationException` if:
+
+* the field is static or final or cannot be accessed;
+* the field type is not a concrete implementation of `SoftAssertionsProvider` (or subclass); or
+* the field type has no default constructor.
+
+Example:
+[source,java,indent=0]
+----
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+@ExtendWith(SoftAssertionsExtension.class)
+public class JUnit5SoftAssertionsExtensionAssertionsExamples {
+
+  @InjectSoftAssertions
+  private SoftAssertions softly;
+
+  @Test
+  public void chained_soft_assertions_example() {
+    String name = "Michael Jordan - Bulls";
+    softly.assertThat(name).startsWith("Mi")
+                           .contains("Bulls");
+    // no need to call softly.assertAll(), this is done by the extension
+  }
+
+  // nested classes test work too
+  @Nested
+  class NestedExample {
+
+    @Test
+    public void football_assertions_example() {
+      String kylian = "Kylian Mbappé";
+      softly.assertThat(kylian).startsWith("Ky")
+                               .contains("bap");
+      // no need to call softly.assertAll(), this is done by the extension
+    }
+  }
+}
+----
+
+[[junit5-soft-assertions-parameter-injection]]
+=== SoftAssertionsProvider parameter injection
+
+`SoftAssertionsExtension` supports injecting any `SoftAssertionsProvider` implementation as a parameter in any test method.
+
+The term "test method" refers to any method annotated with `@Test`, `@RepeatedTest`, `@ParameterizedTest`, `@TestFactory` or `@TestTemplate`.
+Notably, the extension is compatible with link:https://junit.org/junit5/docs/current/user-guide/#writing-tests-parameterized-tests[parameterized tests], the parameterized arguments must come first and the soft assertions argument last.
+
+The scope of the `SoftAssertionsProvider` instance managed by this extension begins when a parameter of type `SoftAssertionsProvider` is resolved for a test method. +
+It ends after the test method has been executed, this is when `assertAll()` will be invoked on the instance to verify that no soft assertions failed.
+
+Parameter injection and field injection can be mixed. Assertions made on the field- and parameter-injected soft assertion providers will all be collected and reported together when the extension calls `assertAll()`.
+
+This extension throws a `ParameterResolutionException` if the resolved `SoftAssertionsProvider` :
+
+* is abstract; or
+* has no default constructor.
+
+
+Example:
+[source,java,indent=0]
+----
+include::example$JUnit5SoftAssertionsExample.java[tags=junit5-soft-assertions]
+----
+
+
+[[closeable-soft-assertions]]
+== Auto Closeable Soft assertions
+
+As `AutoCloseableSoftAssertions` implements `AutoCloseable#close()` by calling `assertAll()`, when used in a try-with-resources block `assertAll()` is called automatically before exiting the block.
+
+Example:
+[source,java,indent=0]
+----
+include::example$AutoCloseableSoftAssertionsExample.java[tags=closeable-soft-assertions]
+----
+
+In a similar way you can use `AutoCloseableBDDSoftAssertions`  where `assertThat` is replaced by `then`:
+[source,java,indent=0]
+----
+include::example$AutoCloseableBDDSoftAssertionsExample.java[tags=closeable-bdd-soft-assertions]
+----
+
+[[assertSoftly-assertions]]
+== Soft assertions with `assertSoftly`
+
+The `assertSoftly` static method takes care of calling `assertAll()` before exiting.
+
+Example:
+[source,java,indent=0]
+----
+include::example$SoftAssertionsExample.java[tags=assertSoftly-soft-assertions]
+----
+
+[[soft-assertions-combining]]
+== Combining soft assertions entry points
+
+Since the 3.16.0 version AssertJ provides a way to combine standard soft assertions with custom ones in a single entry point.
+
+Let's assume we have written an entry point for `TolkienCharacter` soft assertions so that we can write assertions like:
+
+[source,java,indent=0]
+----
+TolkienSoftAssertions softly = new TolkienSoftAssertions();
+softly.assertThat(frodo).hasRace(HOBBIT)
+                        .hasName("Frodo");
+----
+If we want to check standard soft assertions we could make `TolkienSoftAssertions` inherit `SoftAssertions` but if we want to have `GoTSoftAssertions` too then we are stuck as Java does not allow multiple inheritance.
+
+The 3.16.0 release introduced the `SoftAssertionsProvider` interface to define soft assertions entry points.
+
+[.underline]#Step 1# +
+The first step consists in extending this interface to expose as many custom entry points as you need. +
+The typical custom `SoftAssertionsProvider` interface exposes default `assertThat` methods, as shown below:
+
+[source,java,indent=0]
+----
+public interface TolkienSoftAssertionsProvider extends SoftAssertionsProvider {
+  // custom assertions
+  default TolkienCharacterAssert assertThat(TolkienCharacter actual) {
+    return proxy(TolkienCharacterAssert.class, TolkienCharacter.class, actual);
+  }
+}
+
+// let's add a Game of Thrones entry point
+public interface GoTSoftAssertionsProvider extends SoftAssertionsProvider {
+  // custom assertions
+  default GoTCharacterAssert assertThat(GoTCharacter actual) {
+    return proxy(GoTCharacterAssert.class, GoTCharacter.class, actual);
+  }
+}
+----
+
+[.underline]#Step 2# +
+In order to get a concrete entry point exposing all custom entry points, create a class implementing all custom `SoftAssertionsProvider` subinterfaces and extending `AbstractSoftAssertions`.
+`AbstractSoftAssertions` provides the core internal implementation to collect all errors from the different implemented entry points (it also implements `SoftAssertionsProvider`).
+
+To get standard soft assertions, inherit from `SoftAssertions` instead of `AbstractSoftAssertions` (or `BddSoftAssertions` to get the BDD flavor).
+
+Let's define our concrete entry points implementing both `TolkienSoftAssertionsProvider` and `GoTSoftAssertionsProvider`:
+[source,java,indent=0]
+----
+// we extend SoftAssertions to get standard soft assertions
+public class FantasySoftAssertions extends SoftAssertions
+                                   implements TolkienSoftAssertionsProvider, GoTSoftAssertionsProvider {
+
+  // we can even add more assertions here
+  public HumanAssert assertThat(Human actual) {
+    return proxy(HumanAssert.class, Human.class, actual);
+  }
+}
+----
+
+[.underline]#Step 3# +
+The last step is to use `FantasySoftAssertions`:
+[source,java,indent=0]
+----
+FantasySoftAssertions softly = new FantasySoftAssertions();
+
+// custom TolkienCharacter assertions
+softly.assertThat(frodo).hasRace(HOBBIT);
+
+// custom GoTCharacter assertions
+softly.assertThat(nedStark).isDead();
+
+// standard assertions
+softly.assertThat("Games of Thrones").startsWith("Games")
+                                     .endsWith("Thrones");
+// verify assertions
+softly.assertAll();
+----
+
+[.underline]#Optional step: create a custom JUnit 4 `Rule`# +
+
+Because our custom assertions are defined in an interface, we can also combine them with AssertJ's
+JUnit 4 rule so that we can use our custom assertions as a test rule for use in JUnit 4:
+[source,java,indent=0]
+----
+// we extend JUnitSoftAssertions to get standard soft assertions classes
+public class JUnitFantasySoftAssertions extends JUnitSoftAssertions
+                                   implements TolkienSoftAssertionsProvider, GoTSoftAssertionsProvider {}
+----
+Then in our test class we use it per normal:
+[source,java,indent=0]
+----
+public class JUnit4_StandardAndCustomSoftAssertionsExamples {
+  @Rule
+  public final JUnitFantasySoftAssertions softly = new JUnitFantasySoftAssertions();
+
+  @Test
+  public void successful_junit_soft_custom_assertion_example() {
+    softly.assertThat(frodo).hasName("Frodo")
+                            .hasAge(33);
+    softly.assertThat(frodo.age).isEqualTo(33);
+  }
+}
+----
+
+The rule will automatically take care of calling `assertAll()` at the end of every test.
+
+
+[[junit5-parameter-soft-assertions-custom-injection]]
+[.underline]#Optional step: use `SoftAssertionsExtension`# +
+
+JUnit 5 `SoftAssertionsExtension` calls `softly.assertAll()` after each test so that we don't have to do it manually. +
+Since 3.16.0 it is capable of injecting any `SoftAssertionsProvider`, we can then inject our custom `FantasySoftAssertions`:
+
+[source,java,indent=0]
+----
+@ExtendWith(SoftAssertionsExtension.class)
+public class JUnit5_StandardAndCustomSoftAssertionsExamples {
+
+  @Test
+  public void successful_junit_soft_custom_assertion_example(FantasySoftAssertions softly) {
+    softly.assertThat(frodo).hasName("Frodo")
+                            .hasAge(33);
+    softly.assertThat(frodo.age).isEqualTo(33);
+  }
+}
+----
+
+[[soft-assertions-collect-listener]]
+== Reacting to collected soft assertions
+
+AssertJ allows to perform an action after an `AssertionError` is collected.
+
+The action is specified by the `AfterAssertionErrorCollected` functional interface which can be expressed as lambda, to register your callback call `setAfterAssertionErrorCollected` as shown below:
+
+Example:
+[source,java,indent=0]
+----
+SoftAssertions softly = new SoftAssertions();
+StringBuilder reportBuilder = new StringBuilder(format("Assertions report:%n"));
+
+// register our callback
+softly.setAfterAssertionErrorCollected(error -> reportBuilder.append(format("------------------%n%s%n", error.getMessage())));
+// the AssertionError corresponding to the failing assertions are registered in the report
+softly.assertThat("The Beatles").isEqualTo("The Rolling Stones");
+softly.assertThat(123).isEqualTo(123)
+                      .isEqualTo(456);
+----
+resulting `reportBuilder`:
+[source,text]
+----
+Assertions report:
+------------------
+Expecting:
+ <"The Beatles">
+to be equal to:
+ <"The Rolling Stones">
+but was not.
+------------------
+Expecting:
+ \<123>
+to be equal to:
+ \<456>
+but was not.
+----
+
+
+Alternatively, if you have defined your own `SoftAssertions` class and inherited from `AbstractSoftAssertions`, you can instead override `onAssertionErrorCollected(AssertionError)`.
+
+Example:
+[source,java,indent=0]
+----
+class TolkienSoftAssertions extends AbstractSoftAssertions {
+
+  public TolkienHeroesAssert assertThat(TolkienHero actual) {
+    return proxy(TolkienHeroesAssert.class, TolkienHero.class, actual);
+  }
+
+  @Override
+  public void onAssertionErrorCollected(AssertionError assertionError) {
+    System.out.println(assertionError);
+  }
+}
+
+TolkienSoftAssertions softly = new TolkienSoftAssertions();
+
+TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
+
+// the AssertionError corresponding to this failing assertion is printed to the console.
+softly.assertThat(frodo).hasName("Bilbo");
+----
