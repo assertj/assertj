@@ -178,8 +178,7 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   /**
    * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one, the comparison is done at the binary level.
    * <p>
-   * <b>Warning: this will consume the whole input streams in case the underlying
-   * implementations do not support {@link InputStream#markSupported() marking}.</b>
+   * <b>Warning: this will consume the input streams in case the underlying implementations do not support {@link InputStream#markSupported() marking} (the consumption may be partial if a difference is found).</b>
    * <p>
    * Example:
    * <pre><code class='java'> // assertion will pass
