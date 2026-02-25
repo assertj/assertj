@@ -47,7 +47,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
   }
 
   public SoftObjectAssert<ACTUAL> as(String description, Object... args) {
-    objectAssert.as(description, args);
+    objectAssert.as(description,args);
     return this;
   }
 
@@ -90,7 +90,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * {@inheritDoc}
    */
   public <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT asInstanceOf(
-                                                                   DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
+      DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
     return softAssertFactory.createSoftAssert(actual(), errorCollector);
   }
 
@@ -113,7 +113,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * the chained call by throwing an AssertionError.
    * <p>
    * Alias for <code>{@link #as(String, Object...)}</code> since "as" is a keyword in <a
-   * href="http://groovy-lang.org/" target="_blank">Groovy</a>.
+   * href="https://groovy-lang.org/" target="_blank">Groovy</a>.
    *
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.
@@ -121,7 +121,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @throws NullPointerException if the description is {@code null}.
    */
   public SoftObjectAssert<ACTUAL> describedAs(String description, Object... args) {
-    objectAssert.describedAs(description, args);
+    objectAssert.describedAs(description,args);
     return this;
   }
 
@@ -235,9 +235,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * {@inheritDoc}
    */
   public SoftObjectAssert<ACTUAL> doesNotHaveToString(String expectedStringTemplate,
-                                                      Object... args) {
+      Object... args) {
     try {
-      objectAssert.doesNotHaveToString(expectedStringTemplate, args);
+      objectAssert.doesNotHaveToString(expectedStringTemplate,args);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -289,9 +289,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @throws NullPointerException if given predicateDescription is null.
    */
   public SoftObjectAssert<ACTUAL> doesNotMatch(Predicate<? super ACTUAL> predicate,
-                                               String predicateDescription) {
+      String predicateDescription) {
     try {
-      objectAssert.doesNotMatch(predicate, predicateDescription);
+      objectAssert.doesNotMatch(predicate,predicateDescription);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -301,7 +301,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
 
   public <T> SoftObjectAssert<ACTUAL> doesNotReturn(T expected, Function<ACTUAL, T> from) {
     try {
-      objectAssert.doesNotReturn(expected, from);
+      objectAssert.doesNotReturn(expected,from);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -315,7 +315,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @throws UnsupportedOperationException if this method is called.
    * @deprecated use {@link #isEqualTo} instead
    */
-  @Deprecated(since = "3")
+  @Deprecated(
+      since = "3"
+  )
   public boolean equals(Object obj) {
     return objectAssert.equals(obj);
   }
@@ -409,7 +411,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @since 3.14.0
    */
   public <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT extracting(String propertyOrField,
-                                                                 DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
+      DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
     return extracting(propertyOrField).asInstanceOf(softAssertFactory);
   }
 
@@ -516,8 +518,8 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @since 3.14.0
    */
   public <T, SOFT_ASSERT extends SoftAssert> SOFT_ASSERT extracting(
-                                                                    Function<? super ACTUAL, T> extractor,
-                                                                    DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
+      Function<? super ACTUAL, T> extractor,
+      DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
     return extracting(extractor).asInstanceOf(softAssertFactory);
   }
 
@@ -632,7 +634,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @since 3.12.0
    */
   public SoftObjectAssert<ACTUAL> hasAllNullFieldsOrPropertiesExcept(
-                                                                     String... propertiesOrFieldsToIgnore) {
+      String... propertiesOrFieldsToIgnore) {
     try {
       objectAssert.hasAllNullFieldsOrPropertiesExcept(propertiesOrFieldsToIgnore);
       errorCollector.succeeded();
@@ -735,7 +737,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    */
   public SoftObjectAssert<ACTUAL> hasFieldOrPropertyWithValue(String name, Object value) {
     try {
-      objectAssert.hasFieldOrPropertyWithValue(name, value);
+      objectAssert.hasFieldOrPropertyWithValue(name,value);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -813,7 +815,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @since 2.5.0 / 3.5.0
    */
   public SoftObjectAssert<ACTUAL> hasNoNullFieldsOrPropertiesExcept(
-                                                                    String... propertiesOrFieldsToIgnore) {
+      String... propertiesOrFieldsToIgnore) {
     try {
       objectAssert.hasNoNullFieldsOrPropertiesExcept(propertiesOrFieldsToIgnore);
       errorCollector.succeeded();
@@ -913,7 +915,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    */
   public SoftObjectAssert<ACTUAL> hasToString(String expectedStringTemplate, Object... args) {
     try {
-      objectAssert.hasToString(expectedStringTemplate, args);
+      objectAssert.hasToString(expectedStringTemplate,args);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -1016,9 +1018,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * {@inheritDoc}
    */
   public <T> SoftObjectAssert<ACTUAL> isInstanceOfSatisfying(Class<T> type,
-                                                             Consumer<T> requirements) {
+      Consumer<T> requirements) {
     try {
-      objectAssert.isInstanceOfSatisfying(type, requirements);
+      objectAssert.isInstanceOfSatisfying(type,requirements);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -1236,9 +1238,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @throws NullPointerException if given predicateDescription is null.
    */
   public SoftObjectAssert<ACTUAL> matches(Predicate<? super ACTUAL> predicate,
-                                          String predicateDescription) {
+      String predicateDescription) {
     try {
-      objectAssert.matches(predicate, predicateDescription);
+      objectAssert.matches(predicate,predicateDescription);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -1264,7 +1266,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @return this assertion object.
    */
   public SoftObjectAssert<ACTUAL> overridingErrorMessage(String newErrorMessage, Object... args) {
-    objectAssert.overridingErrorMessage(newErrorMessage, args);
+    objectAssert.overridingErrorMessage(newErrorMessage,args);
     return this;
   }
 
@@ -1290,7 +1292,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
 
   public <T> SoftObjectAssert<ACTUAL> returns(T expected, Function<ACTUAL, T> from) {
     try {
-      objectAssert.returns(expected, from);
+      objectAssert.returns(expected,from);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -1299,9 +1301,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
   }
 
   public <T> SoftObjectAssert<ACTUAL> returns(T expected, Function<ACTUAL, T> from,
-                                              String description) {
+      String description) {
     try {
-      objectAssert.returns(expected, from, description);
+      objectAssert.returns(expected,from,description);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -1483,7 +1485,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    */
   @SafeVarargs
   public final SoftObjectAssert<ACTUAL> satisfiesAnyOf(
-                                                       ThrowingConsumer<? super ACTUAL>... assertions) {
+      ThrowingConsumer<? super ACTUAL>... assertions) {
     try {
       objectAssert.satisfiesAnyOf(assertions);
       errorCollector.succeeded();
@@ -1517,8 +1519,8 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * {@inheritDoc}
    */
   public SoftObjectAssert<ACTUAL> usingComparator(Comparator<? super ACTUAL> customComparator,
-                                                  String customComparatorDescription) {
-    objectAssert.usingComparator(customComparator, customComparatorDescription);
+      String customComparatorDescription) {
+    objectAssert.usingComparator(customComparator,customComparatorDescription);
     return this;
   }
 
@@ -1560,9 +1562,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @see #doesNotReturn(Object, Function)
    */
   public <T> SoftObjectAssert<ACTUAL> usingComparatorForType(Comparator<? super T> comparator,
-                                                             Class<T> type) {
+      Class<T> type) {
     try {
-      objectAssert.usingComparatorForType(comparator, type);
+      objectAssert.usingComparatorForType(comparator,type);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -1594,7 +1596,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @throws NullPointerException if the given biPredicate is {@code null}.
    */
   public SoftObjectAssert<ACTUAL> usingEquals(
-                                              BiPredicate<? super ACTUAL, ? super ACTUAL> predicate) {
+      BiPredicate<? super ACTUAL, ? super ACTUAL> predicate) {
     objectAssert.usingEquals(predicate);
     return this;
   }
@@ -1616,8 +1618,8 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @throws NullPointerException if the given comparator is {@code null}.
    */
   public SoftObjectAssert<ACTUAL> usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate,
-                                              String customEqualsDescription) {
-    objectAssert.usingEquals(predicate, customEqualsDescription);
+      String customEqualsDescription) {
+    objectAssert.usingEquals(predicate,customEqualsDescription);
     return this;
   }
 
@@ -1721,7 +1723,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @return A new instance of {@link RecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
    */
   public SoftObjectAssert<ACTUAL> usingRecursiveAssertion(
-                                                          RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
+      RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
     try {
       objectAssert.usingRecursiveAssertion(recursiveAssertionConfiguration);
       errorCollector.succeeded();
@@ -1806,7 +1808,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
   public RecursiveComparisonAssert<?> usingRecursiveComparison(
-                                                               RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+      RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return objectAssert.usingRecursiveComparison(recursiveComparisonConfiguration);
   }
 
@@ -1825,7 +1827,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @return this assertion object.
    */
   public SoftObjectAssert<ACTUAL> withFailMessage(String newErrorMessage, Object... args) {
-    objectAssert.withFailMessage(newErrorMessage, args);
+    objectAssert.withFailMessage(newErrorMessage,args);
     return this;
   }
 
