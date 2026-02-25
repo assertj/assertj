@@ -75,7 +75,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @see #describedAs(String, Object...)
    */
   public SoftOptionalAssert<VALUE> as(String description, Object... args) {
-    optionalAssert.as(description, args);
+    optionalAssert.as(description,args);
     return this;
   }
 
@@ -118,7 +118,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * {@inheritDoc}
    */
   public <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT asInstanceOf(
-                                                                   DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
+      DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
     return softAssertFactory.createSoftAssert(actual(), errorCollector);
   }
 
@@ -204,7 +204,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * the chained call by throwing an AssertionError.
    * <p>
    * Alias for <code>{@link #as(String, Object...)}</code> since "as" is a keyword in <a
-   * href="http://groovy-lang.org/" target="_blank">Groovy</a>.
+   * href="https://groovy-lang.org/" target="_blank">Groovy</a>.
    *
    * @param description the new description to set.
    * @param args optional parameter if description is a format String.
@@ -212,7 +212,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @throws NullPointerException if the description is {@code null}.
    */
   public SoftOptionalAssert<VALUE> describedAs(String description, Object... args) {
-    optionalAssert.describedAs(description, args);
+    optionalAssert.describedAs(description,args);
     return this;
   }
 
@@ -326,9 +326,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * {@inheritDoc}
    */
   public SoftOptionalAssert<VALUE> doesNotHaveToString(String expectedStringTemplate,
-                                                       Object... args) {
+      Object... args) {
     try {
-      optionalAssert.doesNotHaveToString(expectedStringTemplate, args);
+      optionalAssert.doesNotHaveToString(expectedStringTemplate,args);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -390,9 +390,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @throws NullPointerException if given predicateDescription is null.
    */
   public SoftOptionalAssert<VALUE> doesNotMatch(Predicate<? super Optional<VALUE>> predicate,
-                                                String predicateDescription) {
+      String predicateDescription) {
     try {
-      optionalAssert.doesNotMatch(predicate, predicateDescription);
+      optionalAssert.doesNotMatch(predicate,predicateDescription);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -406,7 +406,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @throws UnsupportedOperationException if this method is called.
    * @deprecated use {@link #isEqualTo} instead
    */
-  @Deprecated(since = "3")
+  @Deprecated(
+      since = "3"
+  )
   public boolean equals(Object obj) {
     return optionalAssert.equals(obj);
   }
@@ -495,7 +497,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @since 3.14.0
    */
   public <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT get(
-                                                          DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
+      DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
     return softAssertFactory.createSoftAssert(actual().get(), errorCollector);
   }
 
@@ -576,7 +578,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    */
   public SoftOptionalAssert<VALUE> hasToString(String expectedStringTemplate, Object... args) {
     try {
-      optionalAssert.hasToString(expectedStringTemplate, args);
+      optionalAssert.hasToString(expectedStringTemplate,args);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -634,9 +636,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @return this assertion object.
    */
   public SoftOptionalAssert<VALUE> hasValueMatching(Predicate<? super VALUE> predicate,
-                                                    String description) {
+      String description) {
     try {
-      optionalAssert.hasValueMatching(predicate, description);
+      optionalAssert.hasValueMatching(predicate,description);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -849,9 +851,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * {@inheritDoc}
    */
   public <T> SoftOptionalAssert<VALUE> isInstanceOfSatisfying(Class<T> type,
-                                                              Consumer<T> requirements) {
+      Consumer<T> requirements) {
     try {
-      optionalAssert.isInstanceOfSatisfying(type, requirements);
+      optionalAssert.isInstanceOfSatisfying(type,requirements);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -1113,8 +1115,8 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @throws AssertionError if the actual {@link Optional} is null.
    * @since 3.6.0
    */
-  public <U> AbstractOptionalAssert<?, U> map(Function<? super VALUE, ? extends U> mapper) {
-    return optionalAssert.map(mapper);
+  public <U> SoftOptionalAssert<U> map(Function<? super VALUE, ? extends U> mapper) {
+    return new SoftOptionalAssert(optionalAssert.map(mapper).actual(), errorCollector);
   }
 
   /**
@@ -1158,9 +1160,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @throws NullPointerException if given predicateDescription is null.
    */
   public SoftOptionalAssert<VALUE> matches(Predicate<? super Optional<VALUE>> predicate,
-                                           String predicateDescription) {
+      String predicateDescription) {
     try {
-      optionalAssert.matches(predicate, predicateDescription);
+      optionalAssert.matches(predicate,predicateDescription);
       errorCollector.succeeded();
     } catch (AssertionError assertionError) {
       errorCollector.collectAssertionError(assertionError);
@@ -1186,7 +1188,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @return this assertion object.
    */
   public SoftOptionalAssert<VALUE> overridingErrorMessage(String newErrorMessage, Object... args) {
-    optionalAssert.overridingErrorMessage(newErrorMessage, args);
+    optionalAssert.overridingErrorMessage(newErrorMessage,args);
     return this;
   }
 
@@ -1247,7 +1249,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    */
   @SafeVarargs
   public final SoftOptionalAssert<VALUE> satisfies(
-                                                   Consumer<? super Optional<VALUE>>... requirements) {
+      Consumer<? super Optional<VALUE>>... requirements) {
     try {
       optionalAssert.satisfies(requirements);
       errorCollector.succeeded();
@@ -1304,7 +1306,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    */
   @SafeVarargs
   public final SoftOptionalAssert<VALUE> satisfies(
-                                                   ThrowingConsumer<? super Optional<VALUE>>... assertions) {
+      ThrowingConsumer<? super Optional<VALUE>>... assertions) {
     try {
       optionalAssert.satisfies(assertions);
       errorCollector.succeeded();
@@ -1344,7 +1346,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    */
   @SafeVarargs
   public final SoftOptionalAssert<VALUE> satisfiesAnyOf(
-                                                        Consumer<? super Optional<VALUE>>... assertions) {
+      Consumer<? super Optional<VALUE>>... assertions) {
     try {
       optionalAssert.satisfiesAnyOf(assertions);
       errorCollector.succeeded();
@@ -1387,7 +1389,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    */
   @SafeVarargs
   public final SoftOptionalAssert<VALUE> satisfiesAnyOf(
-                                                        ThrowingConsumer<? super Optional<VALUE>>... assertions) {
+      ThrowingConsumer<? super Optional<VALUE>>... assertions) {
     try {
       optionalAssert.satisfiesAnyOf(assertions);
       errorCollector.succeeded();
@@ -1413,7 +1415,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @throws NullPointerException if the given comparator is {@code null}.
    */
   public SoftOptionalAssert<VALUE> usingComparator(
-                                                   Comparator<? super Optional<VALUE>> customComparator) {
+      Comparator<? super Optional<VALUE>> customComparator) {
     optionalAssert.usingComparator(customComparator);
     return this;
   }
@@ -1422,9 +1424,8 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * {@inheritDoc}
    */
   public SoftOptionalAssert<VALUE> usingComparator(
-                                                   Comparator<? super Optional<VALUE>> customComparator,
-                                                   String customComparatorDescription) {
-    optionalAssert.usingComparator(customComparator, customComparatorDescription);
+      Comparator<? super Optional<VALUE>> customComparator, String customComparatorDescription) {
+    optionalAssert.usingComparator(customComparator,customComparatorDescription);
     return this;
   }
 
@@ -1470,7 +1471,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @throws NullPointerException if the given biPredicate is {@code null}.
    */
   public SoftOptionalAssert<VALUE> usingEquals(
-                                               BiPredicate<? super Optional<VALUE>, ? super Optional<VALUE>> predicate) {
+      BiPredicate<? super Optional<VALUE>, ? super Optional<VALUE>> predicate) {
     optionalAssert.usingEquals(predicate);
     return this;
   }
@@ -1492,9 +1493,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @throws NullPointerException if the given comparator is {@code null}.
    */
   public SoftOptionalAssert<VALUE> usingEquals(
-                                               BiPredicate<? super Optional<VALUE>, ? super Optional<VALUE>> predicate,
-                                               String customEqualsDescription) {
-    optionalAssert.usingEquals(predicate, customEqualsDescription);
+      BiPredicate<? super Optional<VALUE>, ? super Optional<VALUE>> predicate,
+      String customEqualsDescription) {
+    optionalAssert.usingEquals(predicate,customEqualsDescription);
     return this;
   }
 
@@ -1599,7 +1600,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @return A new instance of {@link RecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
    */
   public SoftOptionalAssert<VALUE> usingRecursiveAssertion(
-                                                           RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
+      RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
     try {
       optionalAssert.usingRecursiveAssertion(recursiveAssertionConfiguration);
       errorCollector.succeeded();
@@ -1667,7 +1668,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
   public RecursiveComparisonAssert<?> usingRecursiveComparison(
-                                                               RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
+      RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
     return optionalAssert.usingRecursiveComparison(recursiveComparisonConfiguration);
   }
 
@@ -1694,7 +1695,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @return {@code this} assertion object.
    */
   public SoftOptionalAssert<VALUE> usingValueComparator(
-                                                        Comparator<? super VALUE> customComparator) {
+      Comparator<? super VALUE> customComparator) {
     optionalAssert.usingValueComparator(customComparator);
     return this;
   }
@@ -1714,7 +1715,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @return this assertion object.
    */
   public SoftOptionalAssert<VALUE> withFailMessage(String newErrorMessage, Object... args) {
-    optionalAssert.withFailMessage(newErrorMessage, args);
+    optionalAssert.withFailMessage(newErrorMessage,args);
     return this;
   }
 
