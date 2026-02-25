@@ -9,17 +9,17 @@
     <relativePath>../assertj-parent</relativePath>
   </parent>
 
-  <artifactId>assertj-guava</artifactId>
+  <artifactId>assertj-protobuf</artifactId>
 
-  <name>AssertJ Guava</name>
-  <description>Rich and fluent assertions for testing for Guava</description>
+  <name>AssertJ Protobuf</name>
+  <description>Rich and fluent assertions for testing Protobuf messages</description>
   <url>${project.organization.url}#${project.artifactId}</url>
 
   <properties>
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <guava.version>33.5.0-jre</guava.version>
+    <protobuf.version>4.29.3</protobuf.version>
   </properties>
 
   <dependencies>
@@ -31,9 +31,9 @@
     </dependency>
     <!-- Provided -->
     <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${guava.version}</version>
+      <groupId>com.google.protobuf</groupId>
+      <artifactId>protobuf-java</artifactId>
+      <version>${protobuf.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -53,7 +53,7 @@
           <configuration>
             <parameter>
               <excludes>
-                <exclude>org.assertj.guava.internal</exclude>
+                <exclude>org.assertj.protobuf.internal</exclude>
               </excludes>
             </parameter>
           </configuration>
@@ -72,7 +72,7 @@
                 <include>org.assertj:assertj-core</include>
               </includes>
               <excludes>
-                <exclude>org.assertj:assertj-guava</exclude>
+                <exclude>org.assertj:assertj-protobuf</exclude>
                 <exclude>*:*:*:jar:compile</exclude>
               </excludes>
             </bannedDependencies>
@@ -92,8 +92,8 @@
             <configuration>
               <bnd><![CDATA[
                -exportcontents: \
-                  !org.assertj.guava.util.*,\
-                  org.assertj.guava.*
+                  !org.assertj.protobuf.util.*,\
+                  org.assertj.protobuf.*
                 -noclassforname: true
                 -noextraheaders: true
                 -snapshot: SNAPSHOT
@@ -139,24 +139,15 @@
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <!-- exclude deprecated classes -->
-            <exclude>org/assertj/guava/data/MapEntry*</exclude>
-          </excludes>
-        </configuration>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
+          <links>
+            <link>https://protobuf.dev/reference/java/api-docs/</link>
+          </links>
           <detectOfflineLinks>false</detectOfflineLinks>
-          <offlineLinks>
-            <offlineLink>
-              <url>https://javadoc.io/static/org.assertj/assertj-core/${project.version}</url>
-              <location>${project.basedir}/../assertj-core/target/site/apidocs</location>
-            </offlineLink>
-          </offlineLinks>
         </configuration>
       </plugin>
       <plugin>
