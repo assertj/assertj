@@ -30,7 +30,7 @@ jobs:
           distribution: 'zulu'
           java-version: '25'
           cache: 'maven'
-      - uses: testlens-app/setup-testlens@304aa0888a2485ef4135a55d6eb7352e0714a2c1 # v1.7.0
+      - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
       - name: Test
         run: ./mvnw $MAVEN_ARGS verify
 
@@ -52,7 +52,7 @@ jobs:
           website: jdk.java.net
           release: ${{ matrix.java }}
           version: latest
-      - uses: testlens-app/setup-testlens@304aa0888a2485ef4135a55d6eb7352e0714a2c1 # v1.7.0
+      - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
       - name: Test
         run: ./mvnw $MAVEN_ARGS verify
 
@@ -74,7 +74,7 @@ jobs:
           distribution: 'zulu'
           java-version: '25'
           cache: 'maven'
-      - uses: testlens-app/setup-testlens@304aa0888a2485ef4135a55d6eb7352e0714a2c1 # v1.7.0
+      - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
       - name: Test
         run: ./mvnw $MAVEN_ARGS -Dgroovy.version=${{ matrix.groovy }} verify
 
@@ -96,7 +96,7 @@ jobs:
           distribution: 'zulu'
           java-version: '21'
           cache: 'maven'
-      - uses: testlens-app/setup-testlens@304aa0888a2485ef4135a55d6eb7352e0714a2c1 # v1.7.0
+      - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
       - name: Test
         run: ./mvnw $MAVEN_ARGS -Dkotlin.version=${{ matrix.kotlin }} verify
 
@@ -132,7 +132,7 @@ jobs:
           distribution: 'zulu'
           java-version: '25'
           cache: 'maven'
-      - uses: testlens-app/setup-testlens@304aa0888a2485ef4135a55d6eb7352e0714a2c1 # v1.7.0
+      - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
       - name: Test with Sonar
         run: >
           ./mvnw $MAVEN_ARGS verify sonar:sonar
