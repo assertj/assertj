@@ -18,7 +18,6 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.RecursiveAssertionAssert;
-import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.ThrowingConsumer;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
@@ -35,8 +34,8 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
   private final ObjectAssert<ACTUAL> objectAssert;
 
   public SoftObjectAssert(ACTUAL actual, AssertionErrorCollector errorCollector) {
-    this.errorCollector = errorCollector;
     this.objectAssert = assertThat(actual);
+    this.errorCollector = errorCollector;
   }
 
   /**
@@ -363,7 +362,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    *
    * @param propertyOrField the property/field to extract from the initial object under test
    * @return a new {@link ObjectAssert} instance whose object under test is the extracted property/field value
-   * @throws IntrospectionError if one of the given name does not match a field or property
+   * @throws org.assertj.core.util.introspection.IntrospectionError if one of the given name does not match a field or property
    * @see #extracting(String, DefaultSoftAssertFactory)
    * @since 3.13.0
    */
@@ -407,7 +406,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * @param softAssertFactory the factory which verifies the type and creates the new {@code SoftAssert}
    * @return a new narrowed {@link Assert} instance whose object under test is the extracted property/field value
    * @throws NullPointerException if the given factory is {@code null}
-   * @throws IntrospectionError if one of the given name does not match a field or property
+   * @throws org.assertj.core.util.introspection.IntrospectionError if one of the given name does not match a field or property
    * @since 3.14.0
    */
   public <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT extracting(String propertyOrField,
@@ -448,7 +447,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    *
    * @param propertiesOrFields the properties/fields to extract from the initial object under test
    * @return a new assertion object whose object under test is the list containing the extracted properties/fields values
-   * @throws IntrospectionError if one of the given name does not match a field or property
+   * @throws org.assertj.core.util.introspection.IntrospectionError if one of the given name does not match a field or property
    */
   public SoftListAssert<Object> extracting(String... propertiesOrFields) {
     return new SoftListAssert(objectAssert.extracting(propertiesOrFields).actual(), errorCollector);
@@ -1531,7 +1530,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * The comparators specified by this method are used in the {@link #usingRecursiveComparison() recursive comparison},
    * the {@link #returns(Object, Function)} and {@link #doesNotReturn(Object, Function)} assertions.
    * <p>
-   * Note that for the recursive comparison, it is more idiomatic to use {@link RecursiveComparisonAssert#withComparatorForType(Comparator, Class)} or {@link RecursiveComparisonAssert#withEqualsForType(BiPredicate, Class)}.
+   * Note that for the recursive comparison, it is more idiomatic to use {@link SoftRecursiveComparisonAssert#withComparatorForType(Comparator, Class)} or {@link SoftRecursiveComparisonAssert#withEqualsForType(BiPredicate, Class)}.
    * <p>
    * If multiple compatible comparators have been registered for a given {@code type}, the closest in the inheritance
    * chain to the given {@code type} is chosen in the following order:
@@ -1734,7 +1733,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
   }
 
   /**
-   * Enable using a recursive field by field comparison strategy when calling the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
+   * Enable using a recursive field by field comparison strategy when calling the chained {@link SoftRecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
    * <p>
    * The detailed documentation is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
    * <p>
@@ -1774,7 +1773,7 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * <p>
    * The recursive comparison is performed according to the default {@link RecursiveComparisonConfiguration} that is:
    * <ul>
-   * <li>actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call {@link RecursiveComparisonAssert#withStrictTypeChecking() withStrictTypeChecking()} to change that behavior). </li>
+   * <li>actual and expected objects and their fields were compared field by field recursively even if they were not of the same type, this allows for example to compare a Person to a PersonDto (call {@link SoftRecursiveComparisonAssert#withStrictTypeChecking() withStrictTypeChecking()} to change that behavior). </li>
    * <li>overridden equals methods were used in the comparison (unless stated otherwise)</li>
    * <li>these types were compared with the following comparators:
    *   <ul>
@@ -1795,21 +1794,21 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * <p>
    * Please consult the detailed documentation available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    *
-   * @return a new {@link RecursiveComparisonAssert} instance
+   * @return a new {@link SoftRecursiveComparisonAssert} instance
    */
-  public RecursiveComparisonAssert<?> usingRecursiveComparison() {
-    return objectAssert.usingRecursiveComparison();
+  public SoftRecursiveComparisonAssert<?> usingRecursiveComparison() {
+    return new SoftRecursiveComparisonAssert<>(objectAssert.usingRecursiveComparison(), errorCollector);
   }
 
   /**
    * Same as {@link #usingRecursiveComparison()} but allows specifying your own {@link RecursiveComparisonConfiguration}.
    *
-   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
-   * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
+   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link SoftRecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
+   * @return a new {@link SoftRecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
-  public RecursiveComparisonAssert<?> usingRecursiveComparison(
+  public SoftRecursiveComparisonAssert<?> usingRecursiveComparison(
       RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    return objectAssert.usingRecursiveComparison(recursiveComparisonConfiguration);
+    return new SoftRecursiveComparisonAssert<>(objectAssert.usingRecursiveComparison(recursiveComparisonConfiguration), errorCollector);
   }
 
   /**
