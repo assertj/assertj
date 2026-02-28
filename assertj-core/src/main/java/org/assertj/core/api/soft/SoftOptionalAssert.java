@@ -21,7 +21,6 @@ import org.assertj.core.api.Condition;
 import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.OptionalAssert;
 import org.assertj.core.api.RecursiveAssertionAssert;
-import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.ThrowingConsumer;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
@@ -37,8 +36,8 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   private final OptionalAssert<VALUE> optionalAssert;
 
   public SoftOptionalAssert(Optional<VALUE> actual, AssertionErrorCollector errorCollector) {
-    this.errorCollector = errorCollector;
     this.optionalAssert = assertThat(actual);
+    this.errorCollector = errorCollector;
   }
 
   /**
@@ -161,7 +160,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   }
 
   /**
-   * Verifies that the actual {@link Optional} contains a value that is an instance of the argument.
+   * Verifies that the actual {@link java.util.Optional} contains a value that is an instance of the argument.
    * <p>
    * Assertions succeeds:
    *
@@ -174,7 +173,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    *
    * <pre><code class='java'> assertThat(Optional.of("something")).containsInstanceOf(Integer.class);</code></pre>
    *
-   * @param clazz the expected class of the value inside the {@link Optional}.
+   * @param clazz the expected class of the value inside the {@link java.util.Optional}.
    * @return this assertion object.
    */
   public SoftOptionalAssert<VALUE> containsInstanceOf(Class<?> clazz) {
@@ -435,10 +434,10 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * assertThat(Optional.of("something")).flatMap(UPPER_CASE_OPTIONAL_STRING)
    *                                     .contains("something");</code></pre>
    *
-   * @param <U> the type wrapped in the {@link Optional} after the {@link Optional#flatMap(Function) flatMap} operation.
+   * @param <U> the type wrapped in the {@link java.util.Optional} after the {@link Optional#flatMap(Function) flatMap} operation.
    * @param mapper the {@link Function} to use in the {@link Optional#flatMap(Function) flatMap} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the flatMap of the Optional.
-   * @throws AssertionError if the actual {@link Optional} is null.
+   * @throws AssertionError if the actual {@link java.util.Optional} is null.
    * @since 3.6.0
    */
   public <U> SoftOptionalAssert<U> flatMap(Function<? super VALUE, Optional<U>> mapper) {
@@ -446,7 +445,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   }
 
   /**
-   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns an Object assertion
+   * Verifies that the actual {@link java.util.Optional} is not {@code null} and not empty and returns an Object assertion
    * that allows chaining (object) assertions on the optional value.
    * <p>
    * Note that it is only possible to return Object assertions after calling this method due to java generics limitations.
@@ -462,8 +461,8 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * assertThat(Optional.of(sam)).get().hasNoNullFieldsOrProperties();</code></pre>
    *
    * @return a new {@link AbstractObjectAssert} for assertions chaining on the value of the Optional.
-   * @throws AssertionError if the actual {@link Optional} is null.
-   * @throws AssertionError if the actual {@link Optional} is empty.
+   * @throws AssertionError if the actual {@link java.util.Optional} is null.
+   * @throws AssertionError if the actual {@link java.util.Optional} is empty.
    * @since 3.9.0
    * @see #get(DefaultSoftAssertFactory)
    */
@@ -472,7 +471,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   }
 
   /**
-   * Verifies that the actual {@link Optional} is not {@code null} and not empty and returns a new assertion instance
+   * Verifies that the actual {@link java.util.Optional} is not {@code null} and not empty and returns a new assertion instance
    * to chain assertions on the optional value.
    * <p>
    * The {@code softAssertFactory} parameter allows to specify an {@link DefaultSoftAssertFactory}, which is used to get the
@@ -492,8 +491,8 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * @param softAssertFactory the factory which verifies the type and creates the new {@code SoftAssert}
    * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the Optional
    * @throws NullPointerException if the given factory is {@code null}
-   * @throws AssertionError if the actual {@link Optional} is null
-   * @throws AssertionError if the actual {@link Optional} is empty
+   * @throws AssertionError if the actual {@link java.util.Optional} is null
+   * @throws AssertionError if the actual {@link java.util.Optional} is empty
    * @since 3.14.0
    */
   public <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT get(
@@ -684,7 +683,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   }
 
   /**
-   * Verifies that the actual {@link Optional} contains a value which satisfies the given {@link Condition}.
+   * Verifies that the actual {@link java.util.Optional} contains a value which satisfies the given {@link Condition}.
    * <p>
    * Examples:
    * <pre><code class='java'> Condition&lt;TolkienCharacter&gt; isAnElf = new Condition&lt;&gt;(character -&gt; character.getRace() == ELF, "an elf");
@@ -700,7 +699,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    *
    * @param condition the given condition.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@link Optional} is null or empty.
+   * @throws AssertionError if the actual {@link java.util.Optional} is null or empty.
    * @throws NullPointerException if the given condition is {@code null}.
    * @throws AssertionError if the actual value does not satisfy the given condition.
    * @since 3.6.0
@@ -1109,10 +1108,10 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * assertThat(Optional.of("42")).map(String::length)
    *                              .contains(3);</code></pre>
    *
-   * @param <U> the type wrapped in the {@link Optional} after the {@link Optional#map(Function) map} operation.
+   * @param <U> the type wrapped in the {@link java.util.Optional} after the {@link Optional#map(Function) map} operation.
    * @param mapper the {@link Function} to use in the {@link Optional#map(Function) map} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the map of the Optional.
-   * @throws AssertionError if the actual {@link Optional} is null.
+   * @throws AssertionError if the actual {@link java.util.Optional} is null.
    * @since 3.6.0
    */
   public <U> SoftOptionalAssert<U> map(Function<? super VALUE, ? extends U> mapper) {
@@ -1438,7 +1437,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   }
 
   /**
-   * Revert to standard comparison for incoming assertion {@link Optional} value checks.
+   * Revert to standard comparison for incoming assertion {@link java.util.Optional} value checks.
    * <p>
    * This method should be used to disable a custom comparison strategy set by calling
    * {@link #usingValueComparator(Comparator)}.
@@ -1611,7 +1610,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   }
 
   /**
-   * Enable using a recursive field by field comparison strategy when calling the chained {@link RecursiveComparisonAssert},
+   * Enable using a recursive field by field comparison strategy when calling the chained {@link SoftRecursiveComparisonAssert},
    * <p>
    * Example:
    * <pre><code class='java'> public class Person {
@@ -1643,7 +1642,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * <p>
    * The default recursive comparison behavior is {@link RecursiveComparisonConfiguration configured} as follows:
    * <ul>
-   *   <li> different types of iterable can be compared by default as in the example, this can be turned off by calling {@link RecursiveComparisonAssert#withStrictTypeChecking() withStrictTypeChecking}.</li>
+   *   <li> different types of iterable can be compared by default as in the example, this can be turned off by calling {@link SoftRecursiveComparisonAssert#withStrictTypeChecking() withStrictTypeChecking}.</li>
    *   <li>overridden equals methods are used in the comparison (unless stated otherwise - see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals">https://assertj.github.io/doc/#assertj-core-recursive-comparison-ignoring-equals</a>)</li>
    *   <li>the following types are compared with these comparators:
    *     <ul>
@@ -1654,27 +1653,27 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    *   </li>
    * </ul>
    *
-   * @return a new {@link RecursiveComparisonAssert} instance
+   * @return a new {@link SoftRecursiveComparisonAssert} instance
    * @see RecursiveComparisonConfiguration RecursiveComparisonConfiguration
    */
-  public RecursiveComparisonAssert<?> usingRecursiveComparison() {
-    return optionalAssert.usingRecursiveComparison();
+  public SoftRecursiveComparisonAssert<?> usingRecursiveComparison() {
+    return new SoftRecursiveComparisonAssert<>(optionalAssert.usingRecursiveComparison(), errorCollector);
   }
 
   /**
    * Same as {@link #usingRecursiveComparison()} but allows to specify your own {@link RecursiveComparisonConfiguration}.
    *
-   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link RecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
-   * @return a new {@link RecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
+   * @param recursiveComparisonConfiguration the {@link RecursiveComparisonConfiguration} used in the chained {@link SoftRecursiveComparisonAssert#isEqualTo(Object) isEqualTo} assertion.
+   * @return a new {@link SoftRecursiveComparisonAssert} instance built with the given {@link RecursiveComparisonConfiguration}.
    */
-  public RecursiveComparisonAssert<?> usingRecursiveComparison(
+  public SoftRecursiveComparisonAssert<?> usingRecursiveComparison(
       RecursiveComparisonConfiguration recursiveComparisonConfiguration) {
-    return optionalAssert.usingRecursiveComparison(recursiveComparisonConfiguration);
+    return new SoftRecursiveComparisonAssert<>(optionalAssert.usingRecursiveComparison(recursiveComparisonConfiguration), errorCollector);
   }
 
   /**
    * Use given custom comparator instead of relying on actual type A <code>equals</code> method to compare the
-   * {@link Optional} value's object for incoming assertion checks.
+   * {@link java.util.Optional} value's object for incoming assertion checks.
    * <p>
    * Custom comparator is bound to assertion instance, meaning that if a new assertion is created, it will use default
    * comparison strategy.

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.assertj.core.api.GeneratedSoftAssertions;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.testkit.Jedi;
 import org.assertj.core.testkit.Person;
 import org.junit.jupiter.api.Test;
@@ -227,5 +228,41 @@ public final class SoftObjectAssertTest {
     then(errors.get(0)).hasMessageContainingAll("Vader", "Red");
     then(errors.get(1)).hasMessageContaining("empty");
   }
+
+  @Test
+  void should_support_recursive_comparison_navigation_methods() {
+    // GIVEN
+    var yoda = new Jedi("Yoda", "Green");
+    softly.assertThat(yoda)
+          .usingRecursiveComparison()
+          .isEqualTo(new Jedi("Yoda", "Red"))
+          .isEqualTo(new Jedi("Yoda", "Blue"));
+    // WHEN
+    var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
+    // THEN
+    List<AssertionError> errors = multipleAssertionsError.getErrors();
+    then(errors).hasSize(2);
+    then(errors.get(0)).hasMessageContainingAll("when recursively comparing field by field", "Red");
+    then(errors.get(1)).hasMessageContainingAll("when recursively comparing field by field", "Blue");
+  }
+
+  @Test
+  void should_support_recursive_comparison_with_config_navigation_methods() {
+    // GIVEN
+    var yoda = new Jedi("Yoda", "Green");
+    softly.assertThat(yoda)
+          .usingRecursiveComparison(new RecursiveComparisonConfiguration())
+          .isEqualTo(new Jedi("Yoda", "Red"))
+          .isEqualTo(new Jedi("Yoda", "Blue"));
+    // WHEN
+    var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
+    // THEN
+    List<AssertionError> errors = multipleAssertionsError.getErrors();
+    then(errors).hasSize(2);
+    then(errors.get(0)).hasMessageContainingAll("when recursively comparing field by field", "Red");
+    then(errors.get(1)).hasMessageContainingAll("when recursively comparing field by field", "Blue");
+  }
+
+
 
 }
