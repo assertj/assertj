@@ -578,7 +578,7 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * Makes the recursive comparison to ignore all <b>actual empty optional fields</b> (including {@link java.util.Optional}, {@link OptionalInt}, {@link OptionalLong} and {@link OptionalDouble}),
+   * Makes the recursive comparison to ignore all <b>actual empty optional fields</b> (including {@link java.util.Optional}, {@link java.util.OptionalInt}, {@link java.util.OptionalLong} and {@link java.util.OptionalDouble}),
    * note that the expected object empty optional fields are not ignored, this only applies to actual's fields.
    * <p>
    * Example:
