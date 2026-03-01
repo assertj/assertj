@@ -32,6 +32,7 @@ import static org.assertj.core.internal.Iterables.byPassingAssertions;
 import static org.assertj.core.internal.TypeComparators.defaultTypeComparators;
 import static org.assertj.core.util.Arrays.isArray;
 import static org.assertj.core.util.IterableUtil.toArray;
+import static org.assertj.core.util.IterableUtil.toArrayList;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.assertj.core.util.Preconditions.checkArgument;
 import static org.assertj.core.util.Preconditions.checkNotNull;
@@ -408,14 +409,14 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @Override
   @SafeVarargs
   public final SELF containsExactlyInAnyOrder(ELEMENT... values) {
-    return containsExactlyInAnyOrderForProxy(values);
+    return containsExactlyInAnyOrderForProxy(newArrayList(values));
   }
 
   // This method is protected in order to be proxied for SoftAssertions / Assumptions.
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
-  protected SELF containsExactlyInAnyOrderForProxy(ELEMENT[] values) {
-    iterables.assertContainsExactlyInAnyOrder(info, actual, values);
+  protected SELF containsExactlyInAnyOrderForProxy(Collection<? extends ELEMENT> values) {
+    iterables.assertContainsExactlyInAnyOrder(info, actual, values.toArray());
     return myself;
   }
 
@@ -424,7 +425,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @Override
   public SELF containsExactlyInAnyOrderElementsOf(Iterable<? extends ELEMENT> values) {
-    return containsExactlyInAnyOrder(toArray(values));
+    return containsExactlyInAnyOrderForProxy(toArrayList(values));
   }
 
   /**
