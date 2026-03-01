@@ -24,6 +24,7 @@ import static org.assertj.core.error.ShouldHaveSameContent.shouldHaveSameContent
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.internal.Digests.digestDiff;
+import static org.assertj.core.util.Preconditions.checkArgument;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -60,8 +61,40 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   private final Diff diff = new Diff();
   private final BinaryDiff binaryDiff = new BinaryDiff();
 
+  /**
+   * The charset to use for text-based assertions on the InputStream's content.
+   */
+  protected Charset charset = Charset.defaultCharset();
+
   protected AbstractInputStreamAssert(ACTUAL actual, Class<?> selfType) {
     super(actual, selfType);
+  }
+
+  /**
+   * Specifies the name of the charset to use for text-based assertions on the InputStream's content.
+   *
+   * @param charsetName the name of the charset to use.
+   * @return {@code this} assertion object.
+   * @throws IllegalArgumentException if the given encoding is not supported on this platform.
+   */
+  @CheckReturnValue
+  public SELF usingCharset(String charsetName) {
+    requireNonNull(charsetName, shouldNotBeNull("charsetName")::create);
+    checkArgument(Charset.isSupported(charsetName), "Charset:<'%s'> is not supported on this system", charsetName);
+    return usingCharset(Charset.forName(charsetName));
+  }
+
+  /**
+   * Specifies the charset to use for text-based assertions on the InputStream's content.
+   *
+   * @param charset the charset to use.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given charset is {@code null}.
+   */
+  @CheckReturnValue
+  public SELF usingCharset(Charset charset) {
+    this.charset = requireNonNull(charset, shouldNotBeNull("charset")::create);
+    return myself;
   }
 
   /**
@@ -133,19 +166,92 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws AssertionError if the actual {@code InputStream} is {@code null}.
    * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
    * @throws UncheckedIOException if an I/O error occurs.
+   * @deprecated use {@link #hasSameBinaryContentAs(InputStream)} for byte-to-byte comparison, 
+   *             or {@link #hasSameTextualContentAs(InputStream, Charset)} for text-based comparison.
    */
+  @Deprecated
   public SELF hasSameContentAs(InputStream expected) {
     isNotNull();
-    assertHasSameContentAs(expected);
+    return hasSameTextualContentAs(expected, charset);
+  }
+
+  /**
+   * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one, the comparison is done at the binary level.
+   * <p>
+   * <b>Warning: this will consume the input streams in case the underlying implementations do not support {@link InputStream#markSupported() marking} (the consumption may be partial if a difference is found).</b>
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameBinaryContentAs(new ByteArrayInputStream(new byte[] {0xa}));
+   *
+   * // assertions will fail
+   * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameBinaryContentAs(new ByteArrayInputStream(new byte[] {}));
+   * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameBinaryContentAs(new ByteArrayInputStream(new byte[] {0xa, 0xc, 0xd}));</code></pre>
+   *
+   * @param expected the given {@code InputStream} to compare the actual {@code InputStream} to.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code InputStream} is {@code null}.
+   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @since 3.27.0
+   */
+  public SELF hasSameBinaryContentAs(InputStream expected) {
+    isNotNull();
+    assertHasSameBinaryContentAs(expected);
     return myself;
   }
 
-  private void assertHasSameContentAs(InputStream expected) {
+  /**
+   * Verifies that the content of the actual {@code InputStream} is equal to the content of the given one.
+   * the charset used to read the actual {@code InputStream} can be provided with {@link AbstractInputStreamAssert#usingCharset(Charset)}, {@link AbstractInputStreamAssert#usingCharset(String)}
+   * if not, the platform's default charset (as returned by {@link Charset#defaultCharset()}) will be used.
+   * <p>
+   * <b>Warning: this will consume the whole input streams in case the underlying
+   * implementations do not support {@link InputStream#markSupported() marking}.</b>
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertion will pass
+   * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameTextualContentAs(new ByteArrayInputStream(new byte[] {0xa}), StandardCharsets.UTF_8);
+   *
+   * // assertions will fail
+   * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameTextualContentAs(new ByteArrayInputStream(new byte[] {}), StandardCharsets.UTF_8);
+   * assertThat(new ByteArrayInputStream(new byte[] {0xa})).hasSameTextualContentAs(new ByteArrayInputStream(new byte[] {0xa, 0xc, 0xd}), StandardCharsets.UTF_8);</code></pre>
+   *
+   * @param expected the given {@code InputStream} to compare the actual {@code InputStream} to.
+   * @param expectedCharset the {@link Charset} used to read the content of the InputStream.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given {@code InputStream} is {@code null}.
+   * @throws AssertionError if the actual {@code InputStream} is {@code null}.
+   * @throws AssertionError if the content of the actual {@code InputStream} is not equal to the content of the given one.
+   * @throws UncheckedIOException if an I/O error occurs.
+   * @since 3.27.0
+   */
+  public SELF hasSameTextualContentAs(InputStream expected, Charset expectedCharset) {
+    isNotNull();
+    requireNonNull(expectedCharset, shouldNotBeNull("charset")::create);
+    assertHasSameTextualContentAs(expected, expectedCharset);
+    return myself;
+  }
+
+  private void assertHasSameTextualContentAs(InputStream expected, Charset expectedCharset) {
     requireNonNull(expected, shouldNotBeNull("expected")::create);
     wrapWithMarkAndReset(actual, () -> wrapWithMarkAndReset(expected, () -> {
       try {
-        List<Delta<String>> diffs = diff.diff(actual, expected);
-        if (!diffs.isEmpty()) throw assertionError(shouldHaveSameContent(actual, expected, diffs));
+        List<Delta<String>> diffResult = diff.diff(actual, this.charset, expected, expectedCharset);
+        if (!diffResult.isEmpty()) throw assertionError(shouldHaveSameContent(actual, expected, diffResult));
+      } catch (IOException e) {
+        throw new UncheckedIOException(e);
+      }
+    }));
+  }
+
+  private void assertHasSameBinaryContentAs(InputStream expected) {
+    requireNonNull(expected, shouldNotBeNull("expected")::create);
+    wrapWithMarkAndReset(actual, () -> wrapWithMarkAndReset(expected, () -> {
+      try {
+        BinaryDiffResult binaryDiffResult = binaryDiff.diff(actual, expected);
+        if (binaryDiffResult.hasDiff()) throw assertionError(shouldHaveBinaryContent(actual, binaryDiffResult));
       } catch (IOException e) {
         throw new UncheckedIOException(e);
       }

@@ -58,6 +58,11 @@ public class Diff {
     return diff(readerFor(actual), readerFor(expected));
   }
 
+  public List<Delta<String>> diff(InputStream actual, Charset actualCharset, InputStream expected,
+                                  Charset expectedCharset) throws IOException {
+    return diff(readerFor(actual, actualCharset), readerFor(expected, expectedCharset));
+  }
+
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   public List<Delta<String>> diff(File actual, Charset actualCharset, File expected, Charset expectedCharset) throws IOException {
     return diff(actual.toPath(), actualCharset, expected.toPath(), expectedCharset);
@@ -80,6 +85,10 @@ public class Diff {
 
   private BufferedReader readerFor(InputStream stream) {
     return new BufferedReader(new InputStreamReader(stream, Charset.defaultCharset()));
+  }
+
+  private BufferedReader readerFor(InputStream stream, Charset charset) {
+    return new BufferedReader(new InputStreamReader(stream, charset));
   }
 
   private BufferedReader readerFor(String string) {
