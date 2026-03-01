@@ -39,12 +39,14 @@ import org.assertj.core.api.Assertions;
 import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.ObjectAssert;
 import org.assertj.core.api.OptionalAssert;
+import org.assertj.core.api.RecursiveAssertionAssert;
 import org.assertj.core.api.RecursiveComparisonAssert;
 import org.assertj.core.api.soft.DefaultSoftAssertFactory;
 import org.assertj.core.api.soft.SoftAssert;
 import org.assertj.core.api.soft.SoftListAssert;
 import org.assertj.core.api.soft.SoftObjectAssert;
 import org.assertj.core.api.soft.SoftOptionalAssert;
+import org.assertj.core.api.soft.SoftRecursiveAssertionAssert;
 import org.assertj.core.api.soft.SoftRecursiveComparisonAssert;
 import org.assertj.core.api.soft.SoftStringAssert;
 import org.jspecify.annotations.NonNull;
@@ -105,7 +107,8 @@ public class SoftAssertionsGenerator {
                                                                  "size",
                                                                  "succeedsWithin",
                                                                  "toAssert",
-                                                                 "usingRecursiveComparison");
+                                                                 "usingRecursiveComparison",
+                                                                 "usingRecursiveAssertion");
 
   static final List<String> METHODS_TO_DELEGATE_TO = List.of("equals",
                                                              "hashCode",
@@ -160,6 +163,7 @@ public class SoftAssertionsGenerator {
     // TODO: DefaultSoftAssertFactory -> SoftAssertFactory
     // TODO: using recursive assertion => SoftRecursiveAssertionAssert
     Stream.of(RecursiveComparisonAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
+    Stream.of(RecursiveAssertionAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
     Stream.of(ObjectAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
     Stream.of(OptionalAssert.class).forEach(SoftAssertionsGenerator::generateSoftAssertionFor);
   }
@@ -190,7 +194,7 @@ public class SoftAssertionsGenerator {
                                                                                              "ResultOfMethodCallIgnored")
                                                                                   .build());
 
-    var softAssertType = ParameterizedTypeName.get(ClassName.get("", softAssertClassName), assertClassTypeVariables);
+    var softAssertType = getSoftAssertType(softAssertClassName, assertClassTypeVariables);
 
     for (Method method : methods) {
       MethodSpec.Builder methodBuilder = generateMethod(method, softAssertType, assertField, realActualType);
@@ -213,6 +217,13 @@ public class SoftAssertionsGenerator {
     }
   }
 
+  private static @NonNull TypeName getSoftAssertType(String softAssertClassName, TypeVariableName[] assertClassTypeVariables) {
+    if (softAssertClassName.equals("SoftRecursiveAssertionAssert")) {
+      return ClassName.get("", softAssertClassName); // no type parameter
+    }
+    return ParameterizedTypeName.get(ClassName.get("", softAssertClassName), assertClassTypeVariables);
+  }
+
   private static void addJavadoc(Method method, Map<Method, String> javadocByMethods, MethodSpec.Builder methodBuilder) {
     String javadoc = javadocByMethods.get(method);
     if (!javadoc.isEmpty()) {
@@ -231,12 +242,13 @@ public class SoftAssertionsGenerator {
       String javadocText = methodDeclaration.getJavadoc().map(Javadoc::toText).orElse("");
       // replace stuff in Javadoc that does not compile since the correct import are not there
       javadocText = javadocText.replaceAll("link Map}", "link java.util.Map}");
-      javadocText = javadocText.replaceAll("link Optional}", "link java.util.Optional}");
+      javadocText = javadocText.replaceAll("link Optional", "link java.util.Optional");
       javadocText = javadocText.replaceAll("link Assertions", "link org.assertj.core.api.Assertions");
       javadocText = javadocText.replaceAll("link Assertions", "link org.assertj.core.api.Assertions");
       javadocText = javadocText.replaceAll("@throws IntrospectionError", "@throws org.assertj.core.util.introspection.IntrospectionError");
       javadocText = javadocText.replaceAll(", InstanceOfAssertFactory", ", DefaultSoftAssertFactory");
       javadocText = javadocText.replaceAll("RecursiveComparisonAssert", "SoftRecursiveComparisonAssert");
+      javadocText = javadocText.replaceAll("RecursiveAssertionAssert", "SoftRecursiveAssertionAssert");
       javadocText = javadocText.replaceAll(Pattern.quote("@param <ASSERT> the type of the resulting {@code Assert}"),
                                            "@param <SOFT_ASSERT> the type of the resulting {@code SoftAssert}");
       javadocText = javadocText.replaceAll(Pattern.quote("@param assertFactory"), "@param softAssertFactory");
@@ -371,14 +383,19 @@ public class SoftAssertionsGenerator {
   private static @NonNull FieldSpec generateAssertField(Class<? extends Assert> assertClass,
                                                         TypeVariableName[] typeVariableNames) {
     if (assertClass == RecursiveComparisonAssert.class) {
-      // private final RecursiveComparisonAssert<?> recursiveComparisonAssert
+      // private final RecursiveComparisonAssert<?> recursiveComparisonAssert;
       typeVariableNames = new TypeVariableName[]{ WILDCARD_TYPE };
+    } else if (assertClass == RecursiveAssertionAssert.class) {
+      // private final RecursiveAssertionAssert recursiveAssertionAssert;
+      typeVariableNames = null;
     }
-
     var assertClassSimpleName = assertClass.getSimpleName();
+    var typeName = typeVariableNames != null
+      ? ParameterizedTypeName.get(ClassName.get("", assertClassSimpleName), typeVariableNames)
+      : TypeName.get(RecursiveAssertionAssert.class);
+
     String assertFieldName = assertClassSimpleName.toLowerCase().charAt(0) + assertClassSimpleName.substring(1);
-    var parameterizedTypeName = ParameterizedTypeName.get(ClassName.get("", assertClassSimpleName), typeVariableNames);
-    return FieldSpec.builder(parameterizedTypeName, assertFieldName, Modifier.PRIVATE, Modifier.FINAL).build();
+    return FieldSpec.builder(typeName, assertFieldName, Modifier.PRIVATE, Modifier.FINAL).build();
   }
 
   private static @NonNull FieldSpec generateErrorCollectorField() {
@@ -388,9 +405,12 @@ public class SoftAssertionsGenerator {
   private static MethodSpec generateConstructor(ParameterSpec assertParameter, FieldSpec assertField, Class<? extends Assert> assertClass) {
     var assertFieldValue = "assertThat(actual)";
     if (assertClass == RecursiveComparisonAssert.class) {
-      assertFieldValue = "recursiveComparisonAssert";
       // RecursiveComparisonAssert<?> recursiveComparisonAssert
+      assertFieldValue = "recursiveComparisonAssert";
       assertParameter = ParameterSpec.builder(ParameterizedTypeName.get(ClassName.get(RecursiveComparisonAssert.class), WILDCARD_TYPE), assertFieldValue).build();
+    } else if (assertClass == RecursiveAssertionAssert.class) {
+      assertFieldValue = "recursiveAssertionAssert";
+      assertParameter = ParameterSpec.builder(TypeName.get(RecursiveAssertionAssert.class), assertFieldValue).build();
     }
     return MethodSpec.constructorBuilder().addModifiers(Modifier.PUBLIC)
                      .addParameter(assertParameter)
@@ -400,7 +420,7 @@ public class SoftAssertionsGenerator {
                      .build();
   }
 
-  private static MethodSpec.Builder generateMethod(Method method, ParameterizedTypeName softAssertType, FieldSpec assertField,
+  private static MethodSpec.Builder generateMethod(Method method, TypeName softAssertType, FieldSpec assertField,
                                                    Type realActualType) {
     if (method.getName().equals("actual") && method.getDeclaringClass().equals(AbstractAssert.class)) {
       return generateActualMethod(method, realActualType, assertField);
@@ -416,7 +436,7 @@ public class SoftAssertionsGenerator {
     return null;
   }
 
-  private static MethodSpec.Builder generateAssertionMethod(Method assertionMethod, ParameterizedTypeName softAssertType,
+  private static MethodSpec.Builder generateAssertionMethod(Method assertionMethod, TypeName softAssertType,
                                                             FieldSpec assertField, Type actualType) {
     var softAssertionMethodBuilder = MethodSpec.methodBuilder(assertionMethod.getName())
                                                .addModifiers(Modifier.PUBLIC)
@@ -466,6 +486,8 @@ public class SoftAssertionsGenerator {
       return generateOptionalGetNavigationMethod(navigationMethod, assertField);
     } else if (isUsingRecursiveComparison(navigationMethod)) {
       return generateUsingRecursiveComparisonMethod(navigationMethod, assertField);
+    } else if (isUsingRecursiveAssertion(navigationMethod)) {
+      return generateUsingRecursiveAssertionMethod(navigationMethod, assertField);
     } else if (isAsString(navigationMethod)) {
       return generateAsStringNavigationMethod(navigationMethod);
     } else if (isStronglyTypedOptionalGet(navigationMethod)) {
@@ -514,6 +536,19 @@ public class SoftAssertionsGenerator {
       Parameter configParameter = navigationMethod.getParameters()[0];
       methodBuilder.addParameter(configParameter.getParameterizedType(), configParameter.getName());
       statement = "return new SoftRecursiveComparisonAssert<>($N.usingRecursiveComparison(" + configParameter.getName() + "), errorCollector)";
+    }
+    return methodBuilder.addStatement(statement, assertField);
+  }
+
+  private static MethodSpec.Builder generateUsingRecursiveAssertionMethod(Method navigationMethod, FieldSpec assertField) {
+    var statement = "return new SoftRecursiveAssertionAssert($N.usingRecursiveAssertion(), errorCollector)";
+    MethodSpec.Builder methodBuilder = MethodSpec.methodBuilder(navigationMethod.getName())
+                                                 .addModifiers(Modifier.PUBLIC)
+                                                 .returns(TypeName.get(SoftRecursiveAssertionAssert.class));
+    if (navigationMethod.getParameterCount() == 1) {
+      Parameter configParameter = navigationMethod.getParameters()[0];
+      methodBuilder.addParameter(configParameter.getParameterizedType(), configParameter.getName());
+      statement = "return new SoftRecursiveAssertionAssert($N.usingRecursiveAssertion(" + configParameter.getName() + "), errorCollector)";
     }
     return methodBuilder.addStatement(statement, assertField);
   }
@@ -664,6 +699,10 @@ public class SoftAssertionsGenerator {
     return navigationMethod.toString().contains("usingRecursiveComparison");
   }
 
+  private static boolean isUsingRecursiveAssertion(Method navigationMethod) {
+    return navigationMethod.toString().contains("usingRecursiveAssertion");
+  }
+
   private static boolean isAsString(Method navigationMethod) {
     return navigationMethod.toString().contains("asString()");
   }
@@ -761,7 +800,7 @@ public class SoftAssertionsGenerator {
     return softAssertionObjectMethodBuilder;
   }
 
-  private static MethodSpec.Builder generateDelegateMethodReturningThis(Method methodToCall, ParameterizedTypeName softAssertType,
+  private static MethodSpec.Builder generateDelegateMethodReturningThis(Method methodToCall, TypeName softAssertType,
                                                                         FieldSpec assertField, Type realActualType) {
     var delegateMethodBuilder = MethodSpec.methodBuilder(methodToCall.getName())
                                           .addModifiers(Modifier.PUBLIC)

@@ -8,9 +8,11 @@ import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.util.AssertionsUtil.expectMultipleAssertionsError;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.assertj.core.api.GeneratedSoftAssertions;
+import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.testkit.Jedi;
 import org.assertj.core.testkit.Person;
@@ -263,6 +265,40 @@ public final class SoftObjectAssertTest {
     then(errors.get(1)).hasMessageContainingAll("when recursively comparing field by field", "Blue");
   }
 
+  @Test
+  void should_support_recursive_assertion_navigation_methods() {
+    // GIVEN
+    var yoda = new Jedi("Yoda", null);
+    softly.assertThat(yoda)
+          .usingRecursiveAssertion()
+          .allFieldsSatisfy(Objects::isNull)
+          .allFieldsSatisfy(Objects::nonNull)
+          .isEqualTo(new Jedi("Yoda", null));
+    // WHEN
+    var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
+    // THEN
+    List<AssertionError> errors = multipleAssertionsError.getErrors();
+    then(errors).hasSize(2);
+    then(errors.get(0)).hasMessageContainingAll("The following fields did not satisfy the predicate", "name");
+    then(errors.get(1)).hasMessageContainingAll("The following fields did not satisfy the predicate:", "lightSaberColor");
+  }
 
+  @Test
+  void should_support_recursive_assertion_with_config_navigation_methods() {
+    // GIVEN
+    var yoda = new Jedi("Yoda", null);
+    softly.assertThat(yoda)
+          .usingRecursiveAssertion(RecursiveAssertionConfiguration.builder().build())
+          .allFieldsSatisfy(Objects::isNull)
+          .allFieldsSatisfy(Objects::nonNull)
+          .isEqualTo(new Jedi("Yoda", null));
+    // WHEN
+    var multipleAssertionsError = expectMultipleAssertionsError(softly::assertAll);
+    // THEN
+    List<AssertionError> errors = multipleAssertionsError.getErrors();
+    then(errors).hasSize(2);
+    then(errors.get(0)).hasMessageContainingAll("The following fields did not satisfy the predicate", "name");
+    then(errors.get(1)).hasMessageContainingAll("The following fields did not satisfy the predicate:", "lightSaberColor");
+  }
 
 }

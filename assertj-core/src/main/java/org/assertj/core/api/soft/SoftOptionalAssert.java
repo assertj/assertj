@@ -20,7 +20,6 @@ import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.OptionalAssert;
-import org.assertj.core.api.RecursiveAssertionAssert;
 import org.assertj.core.api.ThrowingConsumer;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
@@ -413,7 +412,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   }
 
   /**
-   * Call {@link Optional#flatMap(Function) flatMap} on the {@code Optional} under test, assertions chained afterward are performed on the {@code Optional} resulting from the flatMap call.
+   * Call {@link java.util.Optional#flatMap(Function) flatMap} on the {@code Optional} under test, assertions chained afterward are performed on the {@code Optional} resulting from the flatMap call.
    * <p>
    * Examples:
    * <pre><code class='java'> Function&lt;String, Optional&lt;String&gt;&gt; UPPER_CASE_OPTIONAL_STRING =
@@ -434,8 +433,8 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * assertThat(Optional.of("something")).flatMap(UPPER_CASE_OPTIONAL_STRING)
    *                                     .contains("something");</code></pre>
    *
-   * @param <U> the type wrapped in the {@link java.util.Optional} after the {@link Optional#flatMap(Function) flatMap} operation.
-   * @param mapper the {@link Function} to use in the {@link Optional#flatMap(Function) flatMap} operation.
+   * @param <U> the type wrapped in the {@link java.util.Optional} after the {@link java.util.Optional#flatMap(Function) flatMap} operation.
+   * @param mapper the {@link Function} to use in the {@link java.util.Optional#flatMap(Function) flatMap} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the flatMap of the Optional.
    * @throws AssertionError if the actual {@link java.util.Optional} is null.
    * @since 3.6.0
@@ -1093,7 +1092,7 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
   }
 
   /**
-   * Call {@link Optional#map(Function) map} on the {@code Optional} under test, assertions chained afterward are performed on the {@code Optional} resulting from the map call.
+   * Call {@link java.util.Optional#map(Function) map} on the {@code Optional} under test, assertions chained afterward are performed on the {@code Optional} resulting from the map call.
    * <p>
    * Examples:
    * <pre><code class='java'> // assertions succeed
@@ -1108,8 +1107,8 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * assertThat(Optional.of("42")).map(String::length)
    *                              .contains(3);</code></pre>
    *
-   * @param <U> the type wrapped in the {@link java.util.Optional} after the {@link Optional#map(Function) map} operation.
-   * @param mapper the {@link Function} to use in the {@link Optional#map(Function) map} operation.
+   * @param <U> the type wrapped in the {@link java.util.Optional} after the {@link java.util.Optional#map(Function) map} operation.
+   * @param mapper the {@link Function} to use in the {@link java.util.Optional#map(Function) map} operation.
    * @return a new {@link AbstractOptionalAssert} for assertions chaining on the map of the Optional.
    * @throws AssertionError if the actual {@link java.util.Optional} is null.
    * @since 3.6.0
@@ -1515,9 +1514,9 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * </ul>
    * <p>You can change how the recursive assertion deals with arrays, collections, maps and optionals, see:</p>
    * <ul>
-   *   <li>{@link RecursiveAssertionAssert#withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy)} for collections and arrays</li>
-   *   <li>{@link RecursiveAssertionAssert#withMapAssertionPolicy(RecursiveAssertionConfiguration.MapAssertionPolicy)} for maps</li>
-   *   <li>{@link RecursiveAssertionAssert#withOptionalAssertionPolicy(RecursiveAssertionConfiguration.OptionalAssertionPolicy)} for optionals</li>
+   *   <li>{@link SoftRecursiveAssertionAssert#withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy)} for collections and arrays</li>
+   *   <li>{@link SoftRecursiveAssertionAssert#withMapAssertionPolicy(RecursiveAssertionConfiguration.MapAssertionPolicy)} for maps</li>
+   *   <li>{@link SoftRecursiveAssertionAssert#withOptionalAssertionPolicy(RecursiveAssertionConfiguration.OptionalAssertionPolicy)} for optionals</li>
    * </ul>
    *
    * <p>It is possible to assert several predicates over the object graph in a row.</p>
@@ -1566,16 +1565,10 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * <p>In case one or more fields in the object graph fails the predicate test, the entire assertion will fail. Failing fields
    * will be listed in the failure report using a JSON path-ish notation.</p>
    *
-   * @return A new instance of {@link RecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
+   * @return A new instance of {@link SoftRecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
    */
-  public SoftOptionalAssert<VALUE> usingRecursiveAssertion() {
-    try {
-      optionalAssert.usingRecursiveAssertion();
-      errorCollector.succeeded();
-    } catch (AssertionError assertionError) {
-      errorCollector.collectAssertionError(assertionError);
-    }
-    return this;
+  public SoftRecursiveAssertionAssert usingRecursiveAssertion() {
+    return new SoftRecursiveAssertionAssert(optionalAssert.usingRecursiveAssertion(), errorCollector);
   }
 
   /**
@@ -1596,17 +1589,11 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
    * <p>Please refer to the documentation of {@link RecursiveAssertionConfiguration.Builder} for more details.</p>
    *
    * @param recursiveAssertionConfiguration The recursion configuration described above.
-   * @return A new instance of {@link RecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
+   * @return A new instance of {@link SoftRecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
    */
-  public SoftOptionalAssert<VALUE> usingRecursiveAssertion(
+  public SoftRecursiveAssertionAssert usingRecursiveAssertion(
       RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
-    try {
-      optionalAssert.usingRecursiveAssertion(recursiveAssertionConfiguration);
-      errorCollector.succeeded();
-    } catch (AssertionError assertionError) {
-      errorCollector.collectAssertionError(assertionError);
-    }
-    return this;
+    return new SoftRecursiveAssertionAssert(optionalAssert.usingRecursiveAssertion(recursiveAssertionConfiguration), errorCollector);
   }
 
   /**
