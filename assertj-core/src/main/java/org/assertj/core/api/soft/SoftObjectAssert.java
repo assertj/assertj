@@ -17,7 +17,6 @@ import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Condition;
 import org.assertj.core.api.InstanceOfAssertFactory;
 import org.assertj.core.api.ObjectAssert;
-import org.assertj.core.api.RecursiveAssertionAssert;
 import org.assertj.core.api.ThrowingConsumer;
 import org.assertj.core.api.WritableAssertionInfo;
 import org.assertj.core.api.recursive.assertion.RecursiveAssertionConfiguration;
@@ -1639,9 +1638,9 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * </ul>
    * <p>You can change how the recursive assertion deals with arrays, collections, maps and optionals, see:</p>
    * <ul>
-   *   <li>{@link RecursiveAssertionAssert#withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy)} for collections and arrays</li>
-   *   <li>{@link RecursiveAssertionAssert#withMapAssertionPolicy(RecursiveAssertionConfiguration.MapAssertionPolicy)} for maps</li>
-   *   <li>{@link RecursiveAssertionAssert#withOptionalAssertionPolicy(RecursiveAssertionConfiguration.OptionalAssertionPolicy)} for optionals</li>
+   *   <li>{@link SoftRecursiveAssertionAssert#withCollectionAssertionPolicy(RecursiveAssertionConfiguration.CollectionAssertionPolicy)} for collections and arrays</li>
+   *   <li>{@link SoftRecursiveAssertionAssert#withMapAssertionPolicy(RecursiveAssertionConfiguration.MapAssertionPolicy)} for maps</li>
+   *   <li>{@link SoftRecursiveAssertionAssert#withOptionalAssertionPolicy(RecursiveAssertionConfiguration.OptionalAssertionPolicy)} for optionals</li>
    * </ul>
    *
    * <p>It is possible to assert several predicates over the object graph in a row.</p>
@@ -1690,16 +1689,10 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * <p>In case one or more fields in the object graph fails the predicate test, the entire assertion will fail. Failing fields
    * will be listed in the failure report using a JSON path-ish notation.</p>
    *
-   * @return A new instance of {@link RecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
+   * @return A new instance of {@link SoftRecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
    */
-  public SoftObjectAssert<ACTUAL> usingRecursiveAssertion() {
-    try {
-      objectAssert.usingRecursiveAssertion();
-      errorCollector.succeeded();
-    } catch (AssertionError assertionError) {
-      errorCollector.collectAssertionError(assertionError);
-    }
-    return this;
+  public SoftRecursiveAssertionAssert usingRecursiveAssertion() {
+    return new SoftRecursiveAssertionAssert(objectAssert.usingRecursiveAssertion(), errorCollector);
   }
 
   /**
@@ -1719,17 +1712,11 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
    * <p>Please refer to the documentation of {@link RecursiveAssertionConfiguration.Builder} for more details.</p>
    *
    * @param recursiveAssertionConfiguration The recursion configuration described above.
-   * @return A new instance of {@link RecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
+   * @return A new instance of {@link SoftRecursiveAssertionAssert} built with a default {@link RecursiveAssertionConfiguration}.
    */
-  public SoftObjectAssert<ACTUAL> usingRecursiveAssertion(
+  public SoftRecursiveAssertionAssert usingRecursiveAssertion(
       RecursiveAssertionConfiguration recursiveAssertionConfiguration) {
-    try {
-      objectAssert.usingRecursiveAssertion(recursiveAssertionConfiguration);
-      errorCollector.succeeded();
-    } catch (AssertionError assertionError) {
-      errorCollector.collectAssertionError(assertionError);
-    }
-    return this;
+    return new SoftRecursiveAssertionAssert(objectAssert.usingRecursiveAssertion(recursiveAssertionConfiguration), errorCollector);
   }
 
   /**
