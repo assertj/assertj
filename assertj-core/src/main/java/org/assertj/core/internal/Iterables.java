@@ -54,6 +54,7 @@ import static org.assertj.core.error.ShouldContainSubsequence.shouldContainSubse
 import static org.assertj.core.error.ShouldContainsOnlyOnce.shouldContainsOnlyOnce;
 import static org.assertj.core.error.ShouldEndWith.shouldEndWith;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.error.ShouldNotContain.shouldNotContain;
 import static org.assertj.core.error.ShouldNotContainNull.shouldNotContainNull;
 import static org.assertj.core.error.ShouldNotContainSequence.shouldNotContainSequence;
@@ -335,35 +336,22 @@ public class Iterables {
     hasSameSizeAsCheck(info, actual, other, sizeOf(actual));
   }
 
-  /**
-   * Asserts that the given {@code Iterable} contains the given values, in any order.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the given {@code Iterable}.
-   * @param values the values that are expected to be in the given {@code Iterable}.
-   * @throws NullPointerException if the array of values is {@code null}.
-   * @throws IllegalArgumentException if the array of values is empty.
-   * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the given {@code Iterable} does not contain the given values.
-   */
   public void assertContains(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    final Collection<?> actualAsCollection = ensureActualCanBeReadMultipleTimes(actual);
-    if (commonCheckThatIterableAssertionSucceeds(info, failures, actualAsCollection, values)) return;
-    // check for elements in values that are missing in actual.
-    assertIterableContainsGivenValues(actual.getClass(), actualAsCollection, values, info);
+    assertNotNull(info, actual);
+    java.util.Objects.requireNonNull(values, shouldNotBeNull("values")::create);
+    assertIterableContainsGivenValues(info, actual.getClass(), ensureActualCanBeReadMultipleTimes(actual), values);
   }
 
   private static Collection<?> ensureActualCanBeReadMultipleTimes(Iterable<?> actual) {
     return actual instanceof Collection<?> ? (Collection<?>) actual : newArrayList(actual);
   }
 
-  private void assertIterableContainsGivenValues(@SuppressWarnings("rawtypes") Class<? extends Iterable> clazz,
-                                                 Iterable<?> actual, Object[] values, AssertionInfo info) {
-    Set<Object> notFound = stream(values).filter(value -> !iterableContains(actual, value))
+  private void assertIterableContainsGivenValues(AssertionInfo info, Class<?> actualType, Iterable<?> iterable, Object[] values) {
+    Set<Object> notFound = stream(values).filter(value -> !iterableContains(iterable, value))
                                          .collect(toCollection(LinkedHashSet::new));
-    if (notFound.isEmpty())
-      return;
-    throw failures.failure(info, shouldContain(clazz, actual, values, notFound, comparisonStrategy));
+    if (!notFound.isEmpty()) {
+      throw failures.failure(info, shouldContain(actualType, iterable, values, notFound, comparisonStrategy));
+    }
   }
 
   private boolean iterableContains(Iterable<?> actual, Object value) {
@@ -1114,11 +1102,10 @@ public class Iterables {
    *           {@code Iterable}, in any order.
    */
   public void assertContainsAll(AssertionInfo info, Iterable<?> actual, Iterable<?> other) {
-    final List<?> actualAsList = newArrayList(actual);
+    assertNotNull(info, actual);
     checkIterableIsNotNull(other);
-    assertNotNull(info, actualAsList);
     Object[] values = newArrayList(other).toArray();
-    assertIterableContainsGivenValues(actual.getClass(), actualAsList, values, info);
+    assertIterableContainsGivenValues(info, actual.getClass(), ensureActualCanBeReadMultipleTimes(actual), values);
   }
 
   /**
@@ -1372,25 +1359,16 @@ public class Iterables {
                   });
   }
 
-  /**
-   * Asserts that the given {@code Iterable} contains at least one of the given {@code values}.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the given {@code Iterable}.
-   * @param values the values that, at least one of which is expected to be in the given {@code Iterable}.
-   * @throws NullPointerException if the array of values is {@code null}.
-   * @throws IllegalArgumentException if the array of values is empty and given {@code Iterable} is not empty.
-   * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the given {@code Iterable} does not contain any of given {@code values}.
-   */
   public void assertContainsAnyOf(AssertionInfo info, Iterable<?> actual, Object[] values) {
-    if (commonCheckThatIterableAssertionSucceeds(info, failures, actual, values))
-      return;
+    assertNotNull(info, actual);
+    java.util.Objects.requireNonNull(values, shouldNotBeNull("values")::create);
 
-    Iterable<Object> valuesToSearchFor = newArrayList(values);
-    for (Object element : actual) {
-      if (iterableContains(valuesToSearchFor, element)) return;
+    if (values.length == 0) return;
+
+    for (Object value : values) {
+      if (comparisonStrategy.iterableContains(actual, value)) return;
     }
+
     throw failures.failure(info, shouldContainAnyOf(actual, values, comparisonStrategy));
   }
 

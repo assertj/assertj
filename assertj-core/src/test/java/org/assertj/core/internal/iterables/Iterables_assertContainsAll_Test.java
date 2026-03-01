@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.internal.ErrorMessages.iterableToLookForIsNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.testkit.TestData.someInfo;
@@ -36,8 +37,6 @@ import org.assertj.core.internal.IterablesBaseTest;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertContainsAll(AssertionInfo, Iterable, Iterable)}</code>.
- * 
  * @author Joel Costigliola
  */
 class Iterables_assertContainsAll_Test extends IterablesBaseTest {
@@ -68,7 +67,7 @@ class Iterables_assertContainsAll_Test extends IterablesBaseTest {
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsAll(someInfo(), actual, null))
-                                    .withMessage(iterableToLookForIsNull());
+                                    .withMessage(shouldNotBeNull("iterable").create());
   }
 
   @Test
