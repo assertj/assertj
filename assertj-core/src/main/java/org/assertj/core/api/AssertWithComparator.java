@@ -93,7 +93,17 @@ public interface AssertWithComparator<SELF extends Assert<SELF, ACTUAL>, ACTUAL>
    */
   @SuppressWarnings("ComparatorMethodParameterNotUsed")
   default SELF usingEquals(BiPredicate<? super ACTUAL, ? super ACTUAL> predicate, String customEqualsDescription) {
-    return usingComparator((o1, o2) -> predicate.test(o1, o2) ? 0 : -1, customEqualsDescription);
+    return usingComparator(new Comparator<>() {
+      @Override
+      public int compare(ACTUAL o1, ACTUAL o2) {
+        return predicate.test(o1, o2) ? 0 : -1;
+      }
+
+      @Override
+      public String toString() {
+        return predicate.toString();
+      }
+    }, customEqualsDescription);
   }
 
   /**

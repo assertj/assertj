@@ -24,6 +24,8 @@ import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import org.assertj.core.testkit.Jedi;
 import org.junit.jupiter.api.Test;
 
+import java.util.function.BiPredicate;
+
 class ObjectAssert_usingEquals_Test {
 
   @Test
@@ -50,6 +52,31 @@ class ObjectAssert_usingEquals_Test {
                                                                     .isEqualTo(luke));
     // THEN
     then(assertionError).hasMessageContaining("comparing names");
+  }
+
+  @Test
+  void should_include_bi_predicate_to_string() {
+    // GIVEN
+    Jedi yoda = new Jedi("Yoda", "green");
+    Jedi luke = new Jedi("Luke", "green");
+
+    var jediEquals = new BiPredicate<Jedi, Jedi>() {
+      @Override
+      public boolean test(Jedi jedi, Jedi jedi2) {
+        return jedi.equals(jedi2);
+      }
+
+      @Override
+      public String toString() {
+        return "Jedi equals";
+      }
+    };
+
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(yoda).usingEquals(jediEquals)
+                                                                    .isEqualTo(luke));
+    // THEN
+    then(assertionError).hasMessageContaining("Jedi equals");
   }
 
   @Test
