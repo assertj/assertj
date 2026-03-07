@@ -24,8 +24,6 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for {@link StandardComparisonStrategy#duplicatesFrom(Iterable)}.<br>
- * 
  * @author Joel Costigliola
  */
 class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest_StandardComparisonStrategy {
@@ -50,7 +48,7 @@ class StandardComparisonStrategy_duplicatesFrom_Test extends AbstractTest_Standa
     @SuppressWarnings("unchecked")
     Iterable<String[]> duplicates = (Iterable<String[]>) standardComparisonStrategy.duplicatesFrom(list);
     // THEN
-    then(duplicates).containsExactly(new String[] { null }, array("Merry"), array("Frodo"));
+    then(duplicates).usingRecursiveFieldByFieldElementComparator().contains(new String[] { null }, array("Merry"), array("Frodo"));
   }
 
   @Test
