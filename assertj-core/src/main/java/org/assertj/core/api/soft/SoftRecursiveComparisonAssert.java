@@ -2888,7 +2888,7 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
    * Messages registered with this method have precedence over the ones registered with {@link #withErrorMessageForType(String, Class)}.
    * <p>
    * In case of {@code null} as message the default error message will be used (See
-   * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+   * {@link org.assertj.core.api.recursive.comparison.ComparisonDifference#DEFAULT_TEMPLATE}).
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -2951,7 +2951,7 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
    * Message registered with this method have less precedence than the ones registered with {@link #withErrorMessageForFields(String, String...)}.
    * <p>
    * In case of {@code null} as message the default error message will be used (See
-   * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+   * {@link org.assertj.core.api.recursive.comparison.ComparisonDifference#DEFAULT_TEMPLATE}).
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
