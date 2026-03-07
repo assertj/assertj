@@ -700,7 +700,7 @@ public interface Assert<SELF extends Assert<SELF, ACTUAL>, ACTUAL> extends Descr
    * <p>
    * The usual way to introduce a new {@link Representation} is to extend {@link StandardRepresentation}
    * and override any existing {@code toStringOf} methods that don't suit you. For example you can control
-   * {@link Date} formatting by overriding {@link StandardRepresentation#toStringOf(Date)}).
+   * {@link Date} formatting by overriding {@code StandardRepresentation#toStringOf(Date)}).
    * <p>
    * You can also control other types format by overriding {@link StandardRepresentation#toStringOf(Object)})
    * calling your formatting method first and then fall back to the default representation by calling {@code super.toStringOf(Object)}.

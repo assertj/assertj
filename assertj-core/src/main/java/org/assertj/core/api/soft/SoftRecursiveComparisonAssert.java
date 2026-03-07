@@ -1,20 +1,11 @@
 package org.assertj.core.api.soft;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.lang.AssertionError;
-import java.lang.Class;
-import java.lang.Deprecated;
-import java.lang.Iterable;
-import java.lang.Object;
-import java.lang.SafeVarargs;
-import java.lang.String;
-import java.lang.SuppressWarnings;
 import java.util.Comparator;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+
 import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Condition;
@@ -40,7 +31,24 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Returns actual (the object currently under test).
+   * <p>
+   * This can be useful if after chaining assertions, the object under test has changed and you want to get it.
+   * <p>
+   * Examples of method changing actual:
+   * {@link org.assertj.core.api.AbstractObjectAssert#extracting(java.util.function.Function) extracting(java.util.function.Function)} or a navigation methods like
+   * {@link org.assertj.core.api.AbstractThrowableAssert#rootCause() rootCause()}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
+   *
+   * String newActual = assertThat(frodo).extracting(TolkienCharacter::getName).actual();
+   *
+   * // newActual == frodo.getName()
+   * assertThat(newActual).isSameAs(frodo.name);</code></pre>
+   *
+   * @return actual the object currently under test.
+   * @since 3.27.0 in {@link org.assertj.core.api.AbstractAssert} and 4.0.0 in {@link org.assertj.core.api.Assert}
    */
   public Object actual() {
     return recursiveComparisonAssert.actual();
@@ -113,7 +121,31 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Uses an {@link DefaultSoftAssertFactory} to verify that the actual value is an instance of a given type and to produce
+   * a new {@link org.assertj.core.api.Assert} narrowed to that type.
+   * <p>
+   * {@link SoftAssertFactories} provides static factories for all the types supported by {@code Assertions#assertThat}.
+   * <p>
+   * Additional factories can be created with custom {@code InstanceOfAssertFactory} instances.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeeds
+   * Object string = &quot;abc&quot;;
+   * assertThat(string).asInstanceOf(InstanceOfAssertFactories.STRING).startsWith(&quot;ab&quot;);
+   *
+   * Object integer = 1;
+   * assertThat(integer).asInstanceOf(InstanceOfAssertFactories.INTEGER).isNotZero();
+   *
+   * // assertions fails
+   * assertThat(&quot;abc&quot;).asInstanceOf(InstanceOfAssertFactories.INTEGER);</code></pre>
+   *
+   * @param <SOFT_ASSERT> the type of the resulting {@code SoftAssert}.
+   * @param softAssertFactory the factory which verifies the type and creates the new {@code SoftAssert}.
+   * @return the narrowed {@code SoftAssert} instance.
+   * @throws NullPointerException if the given factory is {@code null}.
+   * @see DefaultSoftAssertFactory
+   * @see SoftAssertFactories
+   * @since 3.13.0
    */
   public <SOFT_ASSERT extends SoftAssert> SOFT_ASSERT asInstanceOf(
       DefaultSoftAssertFactory<?, SOFT_ASSERT> softAssertFactory) {
@@ -142,7 +174,19 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Returns a String assertion for the <code>toString()</code> of the actual
+   * value, to allow chaining of String-specific assertions from this call.
+   * <p>
+   * Example :
+   * <pre><code class='java'> Object stringAsObject = "hello world";
+   *
+   * // assertion succeeds
+   * assertThat(stringAsObject).asString().contains("hello");
+   *
+   * // assertions fails
+   * assertThat(stringAsObject).asString().contains("holla");</code></pre>
+   *
+   * @return a string assertion object
    */
   public SoftStringAssert asString() {
     return new SoftStringAssert(actual().toString(), errorCollector);
@@ -331,7 +375,19 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Sets the description of the assertion that is going to be called after.
+   * <p>
+   * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
+   * the chained call by throwing an AssertionError.
+   * <p>
+   * This overloaded version of "describedAs" offers more flexibility than the one taking a {@code String} by allowing
+   * users to pass their own implementation of a description. For example, a description that creates its value lazily,
+   * only when an assertion failure occurs.
+   * </p>
+   *
+   * @param description the new description to set.
+   * @return {@code this} object.
+   * @throws NullPointerException if the description is {@code null}.
    */
   public SoftRecursiveComparisonAssert<SELF> describedAs(Description description) {
     recursiveComparisonAssert.describedAs(description);
@@ -350,7 +406,14 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value does not satisfy the given condition. This method is an alias for
+   * <code>{@link #isNot(Condition)}</code>.
+   *
+   * @param condition the given condition.
+   * @return {@code this ExtensionPoints} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual value satisfies the given condition.
+   * @see #isNot(Condition)
    */
   public SoftRecursiveComparisonAssert<SELF> doesNotHave(Condition<? super Object> condition) {
     try {
@@ -363,7 +426,23 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value does not have the same class as the given object.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(1).doesNotHaveSameClassAs(&quot;abc&quot;);
+   * assertThat(new ArrayList&lt;String&gt;()).doesNotHaveSameClassAs(new LinkedList&lt;String&gt;());
+   *
+   * // assertions fail
+   * assertThat(1).doesNotHaveSameClassAs(2);
+   * assertThat(&quot;abc&quot;).doesNotHaveSameClassAs(&quot;123&quot;);
+   * assertThat(new ArrayList&lt;String&gt;()).doesNotHaveSameClassAs(new ArrayList&lt;Integer&gt;());</code></pre>
+   *
+   * @param other the object to check type against.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual} has the same type as the given object.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given object is null.
    */
   public SoftRecursiveComparisonAssert<SELF> doesNotHaveSameClassAs(Object other) {
     try {
@@ -376,7 +455,24 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual object does not have the same hashCode as the given object.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(42L).doesNotHaveSameHashCodeAs(2501L);
+   * assertThat(&quot;The Force&quot;).doesNotHaveSameHashCodeAs(&quot;Awakens&quot;);
+   *
+   * // assertions fail
+   * assertThat(42L).doesNotHaveSameHashCodeAs(42L);
+   * assertThat(&quot;The Force&quot;).doesNotHaveSameHashCodeAs(&quot;The Force&quot;);
+   * assertThat(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;)).doesNotHaveSameHashCodeAs(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;)); </code></pre>
+   *
+   * @param other the object to check hashCode against.
+   * @return this assertion object.
+   * @throws AssertionError if the actual object is null.
+   * @throws NullPointerException if the other object is null.
+   * @throws AssertionError if the actual object has the same hashCode as the given object.
+   * @since 3.19.0
    */
   public SoftRecursiveComparisonAssert<SELF> doesNotHaveSameHashCodeAs(Object other) {
     try {
@@ -389,7 +485,20 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that actual {@code actual.toString()} is not equal to the given {@code String}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> CartoonCharacter homer = new CartoonCharacter("Homer");
+   *
+   * // Instead of writing ...
+   * assertThat(homer.toString()).isNotEqualTo("Marge");
+   * // ... you can simply write:
+   * assertThat(homer).doesNotHaveToString("Marge");</code></pre>
+   *
+   * @param otherToString the String to check against.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual.toString()} result is equal to the given {@code String}.
+   * @throws AssertionError if actual is {@code null}.
    */
   public SoftRecursiveComparisonAssert<SELF> doesNotHaveToString(String otherToString) {
     try {
@@ -402,7 +511,21 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that actual {@code actual.toString()} is not equal to the given {@code String}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Foo foo = new Foo();
+   * Bar bar = new Bar();
+   * FooBarWrapper wrapper = new FooBarWrapper(bar);
+   *
+   * assertThat(wrapper).doesNotHaveToString("FooBarWrapper[%s]", foo);</code></pre>
+   *
+   * @param expectedStringTemplate the format string to use.
+   * @param args the arguments to interpolate into the format string.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual.toString()} result is equal to the given {@code String}.
+   * @throws AssertionError if actual is {@code null}.
+   * @since 3.25.0
    */
   public SoftRecursiveComparisonAssert<SELF> doesNotHaveToString(String expectedStringTemplate,
       Object... args) {
@@ -470,10 +593,10 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
    *
    * @throws UnsupportedOperationException if this method is called.
-   * @deprecated use {@link #isEqualTo} instead
+   * @deprecated Throws <code>{@link UnsupportedOperationException}</code> if called. It is easy to accidentally call
+   * <code>equals(Object)</code> instead of <code>{@link #isEqualTo(Object)}</code>.
    */
   @Deprecated(
       since = "3"
@@ -503,7 +626,14 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value satisfies the given condition. This method is an alias for <code>{@link #is(Condition)}</code>
+   * .
+   *
+   * @param condition the given condition.
+   * @return {@code this ExtensionPoints} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual value does not satisfy the given condition.
+   * @see #is(Condition)
    */
   public SoftRecursiveComparisonAssert<SELF> has(Condition<? super Object> condition) {
     try {
@@ -525,7 +655,23 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value has the same class as the given object.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(1).hasSameClassAs(2);
+   * assertThat(&quot;abc&quot;).hasSameClassAs(&quot;123&quot;);
+   * assertThat(new ArrayList&lt;String&gt;()).hasSameClassAs(new ArrayList&lt;Integer&gt;());
+   *
+   * // assertions fail
+   * assertThat(1).hasSameClassAs(&quot;abc&quot;);
+   * assertThat(new ArrayList&lt;String&gt;()).hasSameClassAs(new LinkedList&lt;String&gt;());</code></pre>
+   *
+   * @param other the object to check type against.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual} has not the same type as the given object.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given object is null.
    */
   public SoftRecursiveComparisonAssert<SELF> hasSameClassAs(Object other) {
     try {
@@ -538,7 +684,25 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual object has the same hashCode as the given object.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(42L).hasSameHashCodeAs(42L);
+   * assertThat(&quot;The Force&quot;).hasSameHashCodeAs(&quot;The Force&quot;);
+   * assertThat(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;)).hasSameHashCodeAs(new Jedi(&quot;Yoda&quot;, &quot;Blue&quot;));
+   *
+   * // assertions fail
+   * assertThat(42L).hasSameHashCodeAs(2501L);
+   * assertThat(null).hasSameHashCodeAs(&quot;The Force&quot;);
+   * assertThat(&quot;The Force&quot;).hasSameHashCodeAs(&quot;Awakens&quot;);</code></pre>
+   *
+   * @param other the object to check hashCode against.
+   * @return this assertion object.
+   * @throws AssertionError if the actual object is null.
+   * @throws NullPointerException if the other object is null.
+   * @throws AssertionError if the actual object has not the same hashCode as the given object.
+   * @since 2.9.0
    */
   public SoftRecursiveComparisonAssert<SELF> hasSameHashCodeAs(Object other) {
     try {
@@ -551,7 +715,20 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that actual {@code actual.toString()} is equal to the given {@code String}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> CartoonCharacter homer = new CartoonCharacter("Homer");
+   *
+   * // Instead of writing ...
+   * assertThat(homer.toString()).isEqualTo("Homer");
+   * // ... you can simply write:
+   * assertThat(homer).hasToString("Homer");</code></pre>
+   *
+   * @param expectedToString the expected String description of actual.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual.toString()} result is not equal to the given {@code String}.
+   * @throws AssertionError if actual is {@code null}.
    */
   public SoftRecursiveComparisonAssert<SELF> hasToString(String expectedToString) {
     try {
@@ -564,7 +741,21 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that actual {@code actual.toString()} is equal to the given {@code String} when
+   * {@link String#format formatted} with the given arguments.
+   * <p>
+   * Example:
+   * <pre><code class='java'> Foo foo = new Foo();
+   * FooWrapper wrapper = new FooWrapper(foo);
+   *
+   * assertThat(wrapper).hasToString("FooWrapper[foo=%s]", foo); </code></pre>
+   *
+   * @param expectedStringTemplate the format string to use.
+   * @param args the arguments to interpolate into the format string.
+   * @return this assertion object.
+   * @throws AssertionError if {@code actual.toString()} result is not equal to the given {@code String}.
+   * @throws AssertionError if actual is {@code null}.
+   * @since 3.25.0
    */
   public SoftRecursiveComparisonAssert<SELF> hasToString(String expectedStringTemplate,
       Object... args) {
@@ -1494,7 +1685,14 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value satisfies the given condition. This method is an alias for
+   * <code>{@link #has(Condition)}</code>.
+   *
+   * @param condition the given condition.
+   * @return {@code this ExtensionPoints} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual value does not satisfy the given condition.
+   * @see #has(Condition)
    */
   public SoftRecursiveComparisonAssert<SELF> is(Condition<? super Object> condition) {
     try {
@@ -1507,101 +1705,50 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * Asserts that the object under test (actual) is equal to the given object when compared field by field recursively (including
-   * inherited fields are included in the comparison). If the comparison fails it will report all the differences found and which
-   * effective {@link RecursiveComparisonConfiguration} was used to help users understand the failure.
+   * Verifies that the actual value is equal to the expected one.
    * <p>
-   * This is typically useful when actual's {@code equals} was not overridden.
-   * <p>
-   * The comparison is <b>not symmetrical</b> since it is <b>limited to actual's fields</b>, the algorithm gather all actual's fields
-   * and then compare them to the corresponding expected's fields.<br>
-   * It is then possible for the expected object to have more fields than actual which is handy when comparing a base type to a subtype.
-   * <p>
-   * <strong>Strict/lenient recursive comparison</strong>
-   * <p>
-   * By default, the objects to compare can be of different types but must have the same properties/fields. For example if object under test has a {@code work} field of type {@code Address},
-   * the expected object to compare the object under test to must also have one, but it can of a different type like {@code AddressDto}.
-   * <p>
-   * It is possible to enforce strict type checking by calling {@link #withStrictTypeChecking()} and make the comparison fail whenever the compared objects or their fields are not compatible.<br>
-   * Compatible means that the expected object/field types are the same or a subtype of actual/field types, for example if actual is an {@code Animal} and expected a {@code Dog}, they will be compared field by field in strict type checking mode.
-   * <p>
-   * <strong>Ignoring null fields in the recursive comparison</strong>
-   * <p>
-   * When an object is partially populated, it can still be interesting to see if its populated values are correct against a fully populated object.
-   * <p>
-   * This possible by calling {@link #ignoringActualNullFields()} before {@link #isEqualTo(Object) isEqualTo}
-   * but bear in mind that <b>only actual null fields are ignored</b>, said otherwise the expected object null fields are used in the comparison.
-   * <p>
-   * <strong>Recursive comparison use of overridden {@code equals} methods</strong>
-   * <p>
-   * By default, the recursive comparison is <b>not</b> applied on fields whose classes have overridden the {@code equals} method,
-   * concretely it means {@code equals} is used to compare these fields instead of keeping on applying the recursive comparison.
-   * The rationale is that if a class has redefined {@code equals} then it should be used to compare instances unless having a good reason.
-   * <p>
-   * It is possible though to change this behavior and force recursive comparison by calling any of these methods (but before calling {@code isEqualTo} otherwise this has no effect!):
-   * <ol>
-   * <li> {@link #ignoringOverriddenEqualsForTypes(Class...)} Any fields of these classes are compared recursively</li>
-   * <li> {@link #ignoringOverriddenEqualsForFields(String...)} Any given fields are compared recursively</li>
-   * <li> {@link #ignoringOverriddenEqualsForFieldsMatchingRegexes(String...)} Any fields matching one of these regexes are compared recursively</li>
-   * <li> {@link #ignoringAllOverriddenEquals()} except for java types, all fields are compared field by field recursively.</li>
-   * </ol>
-   * <strong>Recursive comparison and cycles</strong>
-   * <p>
-   * The recursive comparison handles cycles.
-   * <p>
-   * <strong>Comparator used in the recursive comparison</strong>
-   * <p>
-   * By default {@code floats} are compared with a precision of 1.0E-6 and {@code doubles} with 1.0E-15.
-   * <p>
-   * You can specify a custom comparator or equals BiPredicate per (nested) fields or type with the methods below (but before calling {@code isEqualTo} otherwise this has no effect!):
-   * <ol>
-   * <li> {@link #withEqualsForType(BiPredicate, Class)} for a given type</li>
-   * <li> {@link #withEqualsForFields(BiPredicate, String...)} for one or multiple fields</li>
-   * <li> {@link #withComparatorForType(Comparator, Class)} for a given type</li>
-   * <li> {@link #withComparatorForFields(Comparator, String...)} for one or multiple fields</li>
-   * </ol>
-   * <p>
-   * Note that field comparators always take precedence over type comparators.
-   * <p>
-   * <strong>Example</strong>
-   * <p>
-   * Here is a basic example with a default {@link RecursiveComparisonConfiguration}, you can find other examples for each of the methods changing the recursive comparison behavior
-   * like {@link #ignoringFields(String...)}.
-   * <pre><code class='java'> class Person {
-   *   String name;
-   *   double height;
-   *   Home home = new Home();
-   * }
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(&quot;abc&quot;).isEqualTo(&quot;abc&quot;);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isEqualTo(new HashMap&lt;String, Integer&gt;());
    *
-   * class Home {
-   *   Address address = new Address();
-   *   Date ownedSince;
-   * }
+   * // assertions fail
+   * assertThat(&quot;abc&quot;).isEqualTo(&quot;123&quot;);
+   * assertThat(new ArrayList&lt;String&gt;()).isEqualTo(1);</code></pre>
    *
-   * class Address {
-   *   int number;
-   *   String street;
-   * }
+   * <b>Note on testing {@link Object#equals(Object) equals} and {@link Object#hashCode() hashCode}
+   * contracts</b>
+   * <p>
+   * {@code isEqualTo} uses a comparison strategy to determine equality and is <b>not</b> designed
+   * to validate the correctness of {@code equals} or {@code hashCode} implementations. By default,
+   * the comparison strategy delegates to the object's {@code equals} method (or performs deep
+   * equality for arrays).
+   * This means {@code isEqualTo} only verifies the <i>outcome</i> of a single equality check;
+   * it does not validate that the full {@code equals} contract (reflexivity, symmetry,
+   * transitivity, consistency, and null-handling) is satisfied.
+   * <p>
+   * If the {@code equals} implementation returns an incorrect result, {@code isEqualTo} will
+   * accept that result without detecting the bug.
+   * <p>
+   * Additionally, the comparison strategy can be customized via
+   * {@link org.assertj.core.api.AssertWithComparator#usingComparator(Comparator)} or {@link org.assertj.core.api.AssertWithComparator#usingEquals(BiPredicate)}.
+   * In these cases, {@code isEqualTo} bypasses {@code equals} entirely in favor of the provided
+   * logic.
+   * <p>
+   * For comprehensive testing of the {@code equals} and {@code hashCode} contracts, consider using
+   * dedicated libraries such as:
    *
-   * Person sherlock = new Person("Sherlock", 1.80);
-   * sherlock.home.ownedSince = new Date(123);
-   * sherlock.home.address.street = "Baker Street";
-   * sherlock.home.address.number = 221;
+   *  <ul>
+   * <li><a href="https://jqno.nl/equalsverifier/">EqualsVerifier</a></li>
+   * <li>Guava's <a href="https://javadoc.io/doc/com.google.guava/guava-testlib/latest/com/google/common/testing/EqualsTester.html">EqualsTester</a></li>
+   * </ul>
    *
-   * Person sherlock2 = new Person("Sherlock", 1.80);
-   * sherlock2.home.ownedSince = new Date(123);
-   * sherlock2.home.address.street = "Baker Street";
-   * sherlock2.home.address.number = 221;
+   * To verify that two objects have the same field values without relying on {@code equals}, use
+   * the {@link org.assertj.core.api.AbstractObjectAssert#usingRecursiveComparison() recursive comparison}.
    *
-   * // assertion succeeds as the data of both objects are the same.
-   * assertThat(sherlock).usingRecursiveComparison()
-   *                     .isEqualTo(sherlock2);</code></pre>
-   *
-   * @param expected the object to compare {@code actual} to.
+   * @param expected the expected value to compare the actual value to.
    * @return {@code this} assertion object.
-   * @throws AssertionError if the actual object is {@code null}.
-   * @throws AssertionError if the actual and the given objects are not deeply equal property/field by property/field.
-   * @throws org.assertj.core.util.introspection.IntrospectionError if one property/field to compare cannot be found.
+   * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SoftRecursiveComparisonAssert<SELF> isEqualTo(Object expected) {
     try {
@@ -1614,7 +1761,24 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is <b>exactly</b> an instance of the given type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(&quot;abc&quot;).isExactlyInstanceOf(String.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isExactlyInstanceOf(ArrayList.class);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isExactlyInstanceOf(HashMap.class);
+   *
+   * // assertions fail
+   * assertThat(1).isExactlyInstanceOf(String.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isExactlyInstanceOf(List.class);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isExactlyInstanceOf(Map.class);</code></pre>
+   *
+   * @param type the type to check the actual value against.
+   * @return this assertion object.
+   * @throws AssertionError if the actual is not <b>exactly</b> an instance of given type.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given object is null.
    */
   public SoftRecursiveComparisonAssert<SELF> isExactlyInstanceOf(Class<?> type) {
     try {
@@ -1627,49 +1791,23 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * Verifies that the actual value is present in the given iterable, comparing values with the recursive comparison.
+   * Verifies that the actual value is present in the given iterable.
    * <p>
    * This assertion always fails if the given iterable is empty.
-   * <strong>Example</strong>
    * <p>
-   * <pre><code class='java'> class Person {
-   *   String name;
-   *   double height;
-   *   Home home = new Home();
-   * }
+   * Example:
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = list(vilya, nenya, narya);
    *
-   * class Home {
-   *   Address address = new Address();
-   *   Date ownedSince;
-   * }
+   * // assertion succeeds
+   * assertThat(nenya).isIn(elvesRings);
    *
-   * class Address {
-   *   int number;
-   *   String street;
-   * }
-   *
-   * Person sherlock = new Person("Sherlock", 1.80);
-   * sherlock.home.ownedSince = new Date(123);
-   * sherlock.home.address.street = "Baker Street";
-   * sherlock.home.address.number = 221;
-   *
-   * Person sherlock2 = new Person("Sherlock", 1.80);
-   * sherlock2.home.ownedSince = new Date(123);
-   * sherlock2.home.address.street = "Baker Street";
-   * sherlock2.home.address.number = 221;
-   *
-   * Person moriarty = new Person("Moriarty", 1.80);
-   * moriarty.home.ownedSince = new Date(123);
-   * moriarty.home.address.street = "Butcher Street";
-   * moriarty.home.address.number = 221;
-   *
-   * // assertion succeeds as sherlock and sherlock2 data are the same.
-   * assertThat(sherlock).usingRecursiveComparison()
-   *                     .isIn(Arrays.asList(sherlock2, moriarty));</code></pre>
+   * // assertions fail:
+   * assertThat(oneRing).isIn(elvesRings);
+   * assertThat(oneRing).isIn(emptyList());</code></pre>
    *
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given iterable is {@code null}.
+   * @throws NullPointerException if the given collection is {@code null}.
    * @throws AssertionError if the actual value is not present in the given iterable.
    */
   public SoftRecursiveComparisonAssert<SELF> isIn(Iterable<?> values) {
@@ -1683,46 +1821,19 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * Verifies that the actual value is present in the given array of values, comparing values with the recursive comparison.
+   * Verifies that the actual value is present in the given array of values.
    * <p>
    * This assertion always fails if the given array of values is empty.
    * <p>
-   * <strong>Example</strong>
-   * <p>
-   * <pre><code class='java'> class Person {
-   *   String name;
-   *   double height;
-   *   Home home = new Home();
-   * }
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
    *
-   * class Home {
-   *   Address address = new Address();
-   *   Date ownedSince;
-   * }
+   * // assertion succeeds
+   * assertThat(nenya).isIn(elvesRings);
    *
-   * class Address {
-   *   int number;
-   *   String street;
-   * }
-   *
-   * Person sherlock = new Person("Sherlock", 1.80);
-   * sherlock.home.ownedSince = new Date(123);
-   * sherlock.home.address.street = "Baker Street";
-   * sherlock.home.address.number = 221;
-   *
-   * Person sherlock2 = new Person("Sherlock", 1.80);
-   * sherlock2.home.ownedSince = new Date(123);
-   * sherlock2.home.address.street = "Baker Street";
-   * sherlock2.home.address.number = 221;
-   *
-   * Person moriarty = new Person("Moriarty", 1.80);
-   * moriarty.home.ownedSince = new Date(123);
-   * moriarty.home.address.street = "Butcher Street";
-   * moriarty.home.address.number = 221;
-   *
-   * // assertion succeeds as sherlock and sherlock2 data are the same.
-   * assertThat(sherlock).usingRecursiveComparison()
-   *                     .isIn(sherlock2, moriarty);</code></pre>
+   * // assertions fail
+   * assertThat(oneRing).isIn(elvesRings);
+   * assertThat(oneRing).isIn(new Ring[0]);</code></pre>
    *
    * @param values the given array to search the actual value in.
    * @return {@code this} assertion object.
@@ -1740,7 +1851,23 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is an instance of the given type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(&quot;abc&quot;).isInstanceOf(String.class);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isInstanceOf(HashMap.class);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isInstanceOf(Map.class);
+   *
+   * // assertions fail
+   * assertThat(1).isInstanceOf(String.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isInstanceOf(LinkedList.class);</code></pre>
+   *
+   * @param type the type to check the actual value against.
+   * @return this assertion object.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not an instance of the given type.
    */
   public SoftRecursiveComparisonAssert<SELF> isInstanceOf(Class<?> type) {
     try {
@@ -1753,7 +1880,24 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is an instance of any of the given types.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(&quot;abc&quot;).isInstanceOfAny(String.class, Integer.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isInstanceOfAny(LinkedList.class, ArrayList.class);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isInstanceOfAny(TreeMap.class, Map.class);
+   *
+   * // assertions fail
+   * assertThat(1).isInstanceOfAny(Double.class, Float.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isInstanceOfAny(LinkedList.class, Vector.class);</code></pre>
+   *
+   * @param types the types to check the actual value against.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not an instance of any of the given types.
+   * @throws NullPointerException if the given array of types is {@code null}.
+   * @throws NullPointerException if the given array of types contains {@code null}s.
    */
   public SoftRecursiveComparisonAssert<SELF> isInstanceOfAny(Class<?>... types) {
     try {
@@ -1766,7 +1910,38 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is an instance of the given type satisfying the given requirements expressed as a {@link Consumer}.
+   * <p>
+   * This is useful to perform a group of assertions on a single object after checking its runtime type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // second constructor parameter is the light saber color
+   * Object yoda = new Jedi("Yoda", "Green");
+   * Object luke = new Jedi("Luke Skywalker", "Green");
+   *
+   * Consumer&lt;Jedi&gt; jediRequirements = jedi -&gt; {
+   *   assertThat(jedi.getLightSaberColor()).isEqualTo("Green");
+   *   assertThat(jedi.getName()).doesNotContain("Dark");
+   * };
+   *
+   * // assertions succeed:
+   * assertThat(yoda).isInstanceOfSatisfying(Jedi.class, jediRequirements);
+   * assertThat(luke).isInstanceOfSatisfying(Jedi.class, jediRequirements);
+   *
+   * // assertions fail:
+   * Jedi vader = new Jedi("Vader", "Red");
+   * assertThat(vader).isInstanceOfSatisfying(Jedi.class, jediRequirements);
+   * // not a Jedi !
+   * assertThat("foo").isInstanceOfSatisfying(Jedi.class, jediRequirements);</code></pre>
+   *
+   * @param <T> the generic type to check the actual value against.
+   * @param type the type to check the actual value against.
+   * @param requirements the requirements expressed as a {@link Consumer}.
+   * @return this assertion object.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws NullPointerException if the given Consumer is {@code null}.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is not an instance of the given type.
    */
   public <T> SoftRecursiveComparisonAssert<SELF> isInstanceOfSatisfying(Class<T> type,
       Consumer<T> requirements) {
@@ -1780,7 +1955,14 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value does not satisfy the given condition. This method is an alias for
+   * <code>{@link #doesNotHave(Condition)}</code>.
+   *
+   * @param condition the given condition.
+   * @return {@code this ExtensionPoints} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual value satisfies the given condition.
+   * @see #isNot(Condition)
    */
   public SoftRecursiveComparisonAssert<SELF> isNot(Condition<? super Object> condition) {
     try {
@@ -1793,41 +1975,20 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * Asserts that actual object is not equal to the given object based on a recursive property/field by property/field comparison
-   * (including inherited ones).
+   * Verifies that the actual value is not equal to the expected one.
    * <p>
-   * This is typically useful when actual's {@code equals} was not overridden.
-   * <p>
-   * The comparison is <b>not symmetrical</b> since it is <b>limited to actual's fields</b>, the algorithm gather all
-   * actual's fields and then compare them to the corresponding expected's fields.<br>
-   * It is then possible for the expected object to have more fields than actual which is handy when comparing
-   * a base type to a subtype.
-   * <p>
-   * This method is based on {@link #isEqualTo(Object)}, you can check out more usages in that method.
-   * <p>
-   * Example
-   * <pre><code class='java'> // equals not overridden in TolkienCharacter
-   * TolkienCharacter frodo = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter frodoClone = new TolkienCharacter("Frodo", 33, HOBBIT);
-   * TolkienCharacter youngFrodo = new TolkienCharacter("Frodo", 22, HOBBIT);
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(&quot;abc&quot;).isNotEqualTo(&quot;123&quot;);
+   * assertThat(new ArrayList&lt;String&gt;()).isNotEqualTo(1);
    *
-   * // Pass as equals compares object references
-   * assertThat(frodo).isNotEqualTo(frodoClone);
+   * // assertions fail
+   * assertThat(&quot;abc&quot;).isNotEqualTo(&quot;abc&quot;);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotEqualTo(new HashMap&lt;String, Integer&gt;());</code></pre>
    *
-   * // Fail as frodo and frodoClone are equals when doing a field by field comparison.
-   * assertThat(frodo).usingRecursiveComparison()
-   *                  .isNotEqualTo(frodoClone);
-   *
-   * // Pass as one the age fields differ between frodo and youngFrodo.
-   * assertThat(frodo).usingRecursiveComparison()
-   *                  .isNotEqualTo(youngFrodo);</code></pre>
-   *
-   * @param other the object to compare {@code actual} to.
-   * @return {@code this} assertions object
-   * @throws AssertionError if the actual object and the given objects are both {@code null}.
-   * @throws AssertionError if the actual and the given objects are equals property/field by property/field recursively.
-   * @see #isEqualTo(Object)
-   * @since 3.17.0
+   * @param other the expected value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is equal to the given one.
    */
   public SoftRecursiveComparisonAssert<SELF> isNotEqualTo(Object other) {
     try {
@@ -1840,7 +2001,24 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is not <b>exactly</b> an instance of given type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(1).isNotExactlyInstanceOf(String.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isNotExactlyInstanceOf(List.class);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotExactlyInstanceOf(Map.class);
+   *
+   * // assertions fail
+   * assertThat(&quot;abc&quot;).isNotExactlyInstanceOf(String.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isNotExactlyInstanceOf(ArrayList.class);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotExactlyInstanceOf(HashMap.class);</code></pre>
+   *
+   * @param type the type to check the actual value against.
+   * @return this assertion object.
+   * @throws AssertionError if the actual is exactly an instance of given type.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given object is null.
    */
   public SoftRecursiveComparisonAssert<SELF> isNotExactlyInstanceOf(Class<?> type) {
     try {
@@ -1853,46 +2031,19 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * Verifies that the actual value is not present in the given iterable, comparing values with the recursive comparison.
+   * Verifies that the actual value is not present in the given iterable.
    * <p>
    * This assertion always succeeds if the given iterable is empty.
    * <p>
-   * <strong>Example</strong>
-   * <p>
-   * <pre><code class='java'> class Person {
-   *   String name;
-   *   double height;
-   *   Home home = new Home();
-   * }
+   * Example:
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = list(vilya, nenya, narya);
    *
-   * class Home {
-   *   Address address = new Address();
-   *   Date ownedSince;
-   * }
+   * // assertions succeed:
+   * assertThat(oneRing).isNotIn(elvesRings);
+   * assertThat(oneRing).isNotIn(emptyList());
    *
-   * class Address {
-   *   int number;
-   *   String street;
-   * }
-   *
-   * Person sherlock = new Person("Sherlock", 1.80);
-   * sherlock.home.ownedSince = new Date(123);
-   * sherlock.home.address.street = "Baker Street";
-   * sherlock.home.address.number = 221;
-   *
-   * Person watson = new Person("Watson", 1.70);
-   * watson.home.ownedSince = new Date(123);
-   * watson.home.address.street = "Baker Street";
-   * watson.home.address.number = 221;
-   *
-   * Person moriarty = new Person("Moriarty", 1.80);
-   * moriarty.home.ownedSince = new Date(123);
-   * moriarty.home.address.street = "Butcher Street";
-   * moriarty.home.address.number = 221;
-   *
-   * // assertion succeeds as sherlock data is different from watson and moriarty
-   * assertThat(sherlock).usingRecursiveComparison()
-   *                     .isNotIn(Arrays.asList(watson, moriarty));</code></pre>
+   * // assertions fails:
+   * assertThat(nenya).isNotIn(elvesRings);</code></pre>
    *
    * @param values the given iterable to search the actual value in.
    * @return {@code this} assertion object.
@@ -1910,46 +2061,19 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * Verifies that the actual value is not present in the given array of values, comparing values with the recursive comparison.
+   * Verifies that the actual value is not present in the given array of values.
    * <p>
    * This assertion always succeeds if the given array of values is empty.
    * <p>
-   * <strong>Example</strong>
-   * <p>
-   * <pre><code class='java'> class Person {
-   *   String name;
-   *   double height;
-   *   Home home = new Home();
-   * }
+   * Example:
+   * <pre><code class='java'> Ring[] elvesRings = new Ring[] { vilya, nenya, narya };
    *
-   * class Home {
-   *   Address address = new Address();
-   *   Date ownedSince;
-   * }
+   * // assertions succeed
+   * assertThat(oneRing).isNotIn(elvesRings);
+   * assertThat(oneRing).isNotIn(new Ring[0]);
    *
-   * class Address {
-   *   int number;
-   *   String street;
-   * }
-   *
-   * Person sherlock = new Person("Sherlock", 1.80);
-   * sherlock.home.ownedSince = new Date(123);
-   * sherlock.home.address.street = "Baker Street";
-   * sherlock.home.address.number = 221;
-   *
-   * Person watson = new Person("Watson", 1.70);
-   * watson.home.ownedSince = new Date(123);
-   * watson.home.address.street = "Baker Street";
-   * watson.home.address.number = 221;
-   *
-   * Person moriarty = new Person("Moriarty", 1.80);
-   * moriarty.home.ownedSince = new Date(123);
-   * moriarty.home.address.street = "Butcher Street";
-   * moriarty.home.address.number = 221;
-   *
-   * // assertion succeeds as sherlock data is different from watson and moriarty
-   * assertThat(sherlock).usingRecursiveComparison()
-   *                     .isNotIn(watson, moriarty);</code></pre>
+   * // assertions fails:
+   * assertThat(nenya).isNotIn(elvesRings);</code></pre>
    *
    * @param values the given array to search the actual value in.
    * @return {@code this} assertion object.
@@ -1967,7 +2091,23 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is not an instance of the given type.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(1).isNotInstanceOf(Double.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOf(LinkedList.class);
+   *
+   * // assertions fail
+   * assertThat(&quot;abc&quot;).isNotInstanceOf(String.class);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOf(HashMap.class);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOf(Map.class);</code></pre>
+   *
+   * @param type the type to check the actual value against.
+   * @return this assertion object.
+   * @throws NullPointerException if the given type is {@code null}.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is an instance of the given type.
    */
   public SoftRecursiveComparisonAssert<SELF> isNotInstanceOf(Class<?> type) {
     try {
@@ -1980,7 +2120,24 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is not an instance of any of the given types.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(1).isNotInstanceOfAny(Double.class, Float.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOfAny(LinkedList.class, Vector.class);
+   *
+   * // assertions fail
+   * assertThat(1).isNotInstanceOfAny(Double.class, Integer.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isNotInstanceOfAny(LinkedList.class, ArrayList.class);
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotInstanceOfAny(TreeMap.class, Map.class);</code></pre>
+   *
+   * @param types the types to check the actual value against.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
+   * @throws AssertionError if the actual value is an instance of any of the given types.
+   * @throws NullPointerException if the given array of types is {@code null}.
+   * @throws NullPointerException if the given array of types contains {@code null}s.
    */
   public SoftRecursiveComparisonAssert<SELF> isNotInstanceOfAny(Class<?>... types) {
     try {
@@ -1993,7 +2150,19 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is not {@code null}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(&quot;abc&quot;).isNotNull();
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotNull();
+   *
+   * // assertions fails
+   * String value = null;
+   * assertThat(value).isNotNull();</code></pre>
+   *
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is {@code null}.
    */
   public SoftRecursiveComparisonAssert<SELF> isNotNull() {
     try {
@@ -2006,7 +2175,22 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value type is not in given types.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotOfAnyClassIn(Map.class, TreeMap.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isNotOfAnyClassIn(LinkedList.class, List.class);
+   *
+   * // assertions fail
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isNotOfAnyClassIn(HashMap.class, TreeMap.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isNotOfAnyClassIn(ArrayList.class, LinkedList.class);</code></pre>
+   *
+   * @param types the types to check the actual value against.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value type is in given types.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given types is null.
    */
   public SoftRecursiveComparisonAssert<SELF> isNotOfAnyClassIn(Class<?>... types) {
     try {
@@ -2019,7 +2203,25 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is not the same as the given one
+   * (reference equality, not {@link Object#equals(Object) equals}).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Name is a class with first and last fields, two Names are equals if both first and last are equals.
+   * Name tyrion = new Name("Tyrion", "Lannister");
+   * Name alias  = tyrion;
+   * Name clone  = new Name("Tyrion", "Lannister");
+   *
+   * // assertions succeed:
+   * assertThat(clone).isNotSameAs(tyrion)
+   *                  .isEqualTo(tyrion);
+   *
+   * // assertion fails:
+   * assertThat(alias).isNotSameAs(tyrion);</code></pre>
+   *
+   * @param other the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is the same as the given one.
    */
   public SoftRecursiveComparisonAssert<SELF> isNotSameAs(Object other) {
     try {
@@ -2032,7 +2234,18 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is {@code null}.
+   * <p>
+   * Example:
+   * <pre><code class='java'> String value = null;
+   * // assertion succeeds
+   * assertThat(value).isNull();
+   *
+   * // assertions fail
+   * assertThat(&quot;abc&quot;).isNull();
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isNull();</code></pre>
+   *
+   * @throws AssertionError if the actual value is not {@code null}.
    */
   public SoftRecursiveComparisonAssert<SELF> isNull() {
     try {
@@ -2045,7 +2258,22 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value type is in given types.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // assertions succeed
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isOfAnyClassIn(HashMap.class, TreeMap.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isOfAnyClassIn(ArrayList.class, LinkedList.class);
+   *
+   * // assertions fail
+   * assertThat(new HashMap&lt;String, Integer&gt;()).isOfAnyClassIn(TreeMap.class, Map.class);
+   * assertThat(new ArrayList&lt;String&gt;()).isOfAnyClassIn(LinkedList.class, List.class);</code></pre>
+   *
+   * @param types the types to check the actual value against.
+   * @return this assertion object.
+   * @throws AssertionError if the actual value type is not in given type.
+   * @throws NullPointerException if the actual value is null.
+   * @throws NullPointerException if the given types is null.
    */
   public SoftRecursiveComparisonAssert<SELF> isOfAnyClassIn(Class<?>... types) {
     try {
@@ -2058,7 +2286,25 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value is the same as the given one
+   * (reference equality, not {@link Object#equals(Object) equals}).
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Name is a class with first and last fields, two Names are equals if both first and last are equals.
+   * Name tyrion = new Name("Tyrion", "Lannister");
+   * Name alias  = tyrion;
+   * Name clone  = new Name("Tyrion", "Lannister");
+   *
+   * // assertions succeed:
+   * assertThat(tyrion).isSameAs(alias)
+   *                   .isEqualTo(clone);
+   *
+   * // assertion fails:
+   * assertThat(tyrion).isSameAs(clone);</code></pre>
+   *
+   * @param expected the given value to compare the actual value to.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if the actual value is not the same as the given one.
    */
   public SoftRecursiveComparisonAssert<SELF> isSameAs(Object expected) {
     try {
@@ -2212,7 +2458,22 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Verifies that the actual value satisfies the given condition. This method is an alias for <code>{@link #is(Condition)}</code>.
+   * <p>
+   * Example:
+   * <pre><code class='java'> // Given
+   * Condition&lt;String&gt; fairyTale = new Condition&lt;&gt;(s -&gt; s.startsWith("Once upon a time"), "fairy tale start");
+   * // When
+   * String littleRedCap = "Once upon a time there was a dear little girl ...";
+   * // Then
+   * assertThat(littleRedCap).satisfies(fairyTale);</code></pre>
+   *
+   * @param condition the given condition.
+   * @return {@code this ExtensionPoints} object.
+   * @throws NullPointerException if the given condition is {@code null}.
+   * @throws AssertionError if the actual value does not satisfy the given condition.
+   * @see #is(Condition)
+   * @since 3.11
    */
   public SoftRecursiveComparisonAssert<SELF> satisfies(Condition<? super Object> condition) {
     try {
@@ -2408,7 +2669,20 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Use the given custom comparator instead of relying on actual type A equals method for incoming assertion checks.
+   * <p>
+   * The custom comparator is bound to the current assertion chain, meaning that if a new assertion instance is created, the default
+   * comparison strategy will be used.
+   * <p>
+   * Examples :
+   * <pre><code class='java'> // frodo and sam are instances of Character with Hobbit race (obviously :).
+   * // raceComparator implements Comparator&lt;Character&gt;
+   * assertThat(frodo).usingComparator(raceComparator, "Hobbit Race Comparator").isEqualTo(sam);</code></pre>
+   *
+   * @param customComparator the comparator to use for the incoming assertion checks.
+   * @param customComparatorDescription comparator description to be used in assertion error messages
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if the given comparator is {@code null}.
    */
   public SoftRecursiveComparisonAssert<SELF> usingComparator(
       Comparator<? super Object> customComparator, String customComparatorDescription) {
@@ -2417,7 +2691,11 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Revert to standard comparison for the incoming assertion checks.
+   * <p>
+   * This method should be used to disable a custom comparison strategy set by calling {@link #usingComparator(Comparator) usingComparator}.
+   *
+   * @return {@code this} assertion object.
    */
   public SoftRecursiveComparisonAssert<SELF> usingDefaultComparator() {
     recursiveComparisonAssert.usingDefaultComparator();
@@ -2888,7 +3166,7 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
    * Messages registered with this method have precedence over the ones registered with {@link #withErrorMessageForType(String, Class)}.
    * <p>
    * In case of {@code null} as message the default error message will be used (See
-   * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+   * {@link org.assertj.core.api.recursive.comparison.ComparisonDifference#DEFAULT_TEMPLATE}).
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -2951,7 +3229,7 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
    * Message registered with this method have less precedence than the ones registered with {@link #withErrorMessageForFields(String, String...)}.
    * <p>
    * In case of {@code null} as message the default error message will be used (See
-   * {@link ComparisonDifference#DEFAULT_TEMPLATE}).
+   * {@link org.assertj.core.api.recursive.comparison.ComparisonDifference#DEFAULT_TEMPLATE}).
    * <p>
    * Example:
    * <pre><code class='java'> public class TolkienCharacter {
@@ -3008,7 +3286,7 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * Alternative method for {@link AbstractAssert#overridingErrorMessage}
+   * Alternative method for {@link org.assertj.core.api.AbstractAssert#overridingErrorMessage}
    * <p>
    * You must set it <b>before</b> calling the assertion otherwise it is ignored as the failing assertion breaks
    * the chained call by throwing an AssertionError.
@@ -3028,7 +3306,7 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * Alternative method for {@link AbstractAssert#overridingErrorMessage}
+   * Alternative method for {@link org.assertj.core.api.AbstractAssert#overridingErrorMessage}
    * <p>
    * The new error message is only built if the assertion fails (by consuming the given supplier), this is useful if building messages is expensive.
    * <p>
@@ -3054,7 +3332,7 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
    *  <li>how to get a node value</li>
    *  </ul>
    * <p>
-   * Default to {@link LegacyRecursiveComparisonIntrospectionStrategy} that introspects all fields (including inherited ones).
+   * Default to {@link RecursiveComparisonConfiguration#DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY} that introspects all fields (including inherited ones).
    *
    * @param introspectionStrategy the {@link RecursiveComparisonIntrospectionStrategy} to use
    * @return this {@link SoftRecursiveComparisonAssert} to chain other methods.
@@ -3071,7 +3349,51 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * Use the given {@link Representation} to describe/represent values in AssertJ error messages.
+   * <p>
+   * The usual way to introduce a new {@link Representation} is to extend {@link org.assertj.core.presentation.StandardRepresentation}
+   * and override any existing {@code toStringOf} methods that don't suit you. For example you can control
+   * {@link java.util.Date} formatting by overriding {@code StandardRepresentation#toStringOf(Date)}).
+   * <p>
+   * You can also control other types format by overriding {@link org.assertj.core.presentation.StandardRepresentation#toStringOf(Object)})
+   * calling your formatting method first and then fall back to the default representation by calling {@code super.toStringOf(Object)}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> private class Example {}
+   *
+   * private class CustomRepresentation extends StandardRepresentation {
+   *
+   *   // override needed to hook specific formatting
+   *   {@literal @}Override
+   *   public String toStringOf(Object o) {
+   *     if (o instanceof Example) return "Example";
+   *     // fall back to default formatting
+   *     return super.toStringOf(o);
+   *   }
+   *
+   *   // change String representation
+   *   {@literal @}Override
+   *   protected String toStringOf(String s) {
+   *     return "&#36;" + s + "&#36;";
+   *   }
+   * }
+   *
+   * // next assertion fails with error : "expected:&lt;[null]&gt; but was:&lt;[Example]&gt;"
+   * Example example = new Example();
+   * assertThat(example).withRepresentation(new CustomRepresentation())
+   *                    .isNull(); // example is not null !
+   *
+   * // next assertion fails ...
+   * assertThat("foo").withRepresentation(new CustomRepresentation())
+   *                  .startsWith("bar");
+   * // ... with error :
+   * Expecting:
+   *  &lt;&#36;foo&#36;&gt;
+   * to start with:
+   *  &lt;&#36;bar&#36;&gt;</code></pre>
+   *
+   * @param representation Describe/represent values in AssertJ error messages.
+   * @return this assertion object.
    */
   public SoftRecursiveComparisonAssert<SELF> withRepresentation(Representation representation) {
     recursiveComparisonAssert.withRepresentation(representation);
@@ -3145,7 +3467,49 @@ public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {
   }
 
   /**
-   * {@inheritDoc}
+   * In case of an assertion error, a thread dump will be printed to {@link System#err}.
+   * <p>
+   * Example :
+   * <pre><code class='java'> assertThat("Messi").withThreadDumpOnError().isEqualTo("Ronaldo");</code></pre>
+   * <p>
+   * will print a thread dump, something similar to this:
+   * <pre>{@code "JDWP Command Reader"
+   * 	java.lang.Thread.State: RUNNABLE
+   *
+   * "JDWP Event Helper Thread"
+   * 	java.lang.Thread.State: RUNNABLE
+   *
+   * "JDWP Transport Listener: dt_socket"
+   * 	java.lang.Thread.State: RUNNABLE
+   *
+   * "Signal Dispatcher"
+   * 	java.lang.Thread.State: RUNNABLE
+   *
+   * "Finalizer"
+   * 	java.lang.Thread.State: WAITING
+   * 		at java.lang.Object.wait(Native Method)
+   * 		at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:135)
+   * 		at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:151)
+   * 		at java.lang.ref.Finalizer&#36;FinalizerThread.run(Finalizer.java:189)
+   *
+   * "Reference Handler"
+   * 	java.lang.Thread.State: WAITING
+   * 		at java.lang.Object.wait(Native Method)
+   * 		at java.lang.Object.wait(Object.java:503)
+   * 		at java.lang.ref.Reference&#36;ReferenceHandler.run(Reference.java:133)
+   *
+   * "main"
+   * 	java.lang.Thread.State: RUNNABLE
+   * 		at sun.management.ThreadImpl.dumpThreads0(Native Method)
+   * 		at sun.management.ThreadImpl.dumpAllThreads(ThreadImpl.java:446)
+   * 		at org.assertj.core.internal.Failures.threadDumpDescription(Failures.java:193)
+   * 		at org.assertj.core.internal.Failures.printThreadDumpIfNeeded(Failures.java:141)
+   * 		at org.assertj.core.internal.Failures.failure(Failures.java:91)
+   * 		at org.assertj.core.internal.Objects.assertEqual(Objects.java:314)
+   * 		at org.assertj.core.api.AbstractAssert.isEqualTo(AbstractAssert.java:198)
+   * 		at org.assertj.examples.ThreadDumpOnErrorExample.main(ThreadDumpOnErrorExample.java:28)}</pre>
+   *
+   * @return this assertion object.
    */
   public SoftRecursiveComparisonAssert<SELF> withThreadDumpOnError() {
     recursiveComparisonAssert.withThreadDumpOnError();
