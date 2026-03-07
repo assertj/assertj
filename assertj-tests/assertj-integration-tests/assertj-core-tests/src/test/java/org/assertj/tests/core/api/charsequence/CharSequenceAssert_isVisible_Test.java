@@ -32,6 +32,7 @@ class CharSequenceAssert_isVisible_Test {
       "/", ":", ";", "<", "=", ">", "?", "@", "[", "\\", "]", "^", "_", "`", "{", "|", "}", "~" })
 
   void should_pass_when_actual_is_visible(CharSequence actual) {
+    // WHEN/THEN
     assertThat(actual).isVisible();
   }
 

@@ -177,27 +177,6 @@ public class Iterables {
     if (!isNullOrEmpty(actual)) throw failures.failure(info, shouldBeNullOrEmpty(actual));
   }
 
-  /**
-   * Asserts that the given {@code Iterable} is empty.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the given {@code Iterable}.
-   * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the given {@code Iterable} is not empty.
-   */
-  public void assertEmpty(AssertionInfo info, Iterable<?> actual) {
-    assertNotNull(info, actual);
-    if (!isNullOrEmpty(actual)) throw failures.failure(info, shouldBeEmpty(actual));
-  }
-
-  /**
-   * Asserts that the given {@code Iterable} is not empty.
-   *
-   * @param info contains information about the assertion.
-   * @param actual the given {@code Iterable}.
-   * @throws AssertionError if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the given {@code Iterable} is empty.
-   */
   public void assertNotEmpty(AssertionInfo info, Iterable<?> actual) {
     assertNotNull(info, actual);
     if (isNullOrEmpty(actual)) throw failures.failure(info, shouldNotBeEmpty());

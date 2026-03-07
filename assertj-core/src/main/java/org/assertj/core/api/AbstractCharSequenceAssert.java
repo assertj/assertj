@@ -174,11 +174,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.6.0 / 3.6.0
    */
   public SELF isBlank() {
-    assertBlank(actual);
+    assertBlank();
     return myself;
   }
 
-  private void assertBlank(CharSequence actual) {
+  private void assertBlank() {
     if (!isBlank(actual)) throw assertionError(shouldBeBlank(actual));
   }
 
@@ -209,11 +209,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.6.0 / 3.6.0
    */
   public SELF isNotBlank() {
-    assertNotBlank(actual);
+    assertNotBlank();
     return myself;
   }
 
-  private void assertNotBlank(CharSequence actual) {
+  private void assertNotBlank() {
     if (isBlank(actual)) throw assertionError(shouldNotBeBlank(actual));
   }
 
@@ -237,11 +237,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.11.0
    */
   public SELF containsWhitespaces() {
-    assertContainsWhitespaces(actual);
+    assertContainsWhitespaces();
     return myself;
   }
 
-  private void assertContainsWhitespaces(CharSequence actual) {
+  private void assertContainsWhitespaces() {
     if (!containsWhitespaces(actual)) throw assertionError(shouldContainOneOrMoreWhitespaces(actual));
   }
 
@@ -267,11 +267,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsOnlyWhitespaces() {
-    assertContainsOnlyWhitespaces(actual);
+    assertContainsOnlyWhitespaces();
     return myself;
   }
 
-  private void assertContainsOnlyWhitespaces(CharSequence actual) {
+  private void assertContainsOnlyWhitespaces() {
     if (!containsOnlyWhitespaces(actual)) throw assertionError(shouldContainOnlyWhitespaces(actual));
   }
 
@@ -295,11 +295,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.11.0
    */
   public SELF doesNotContainAnyWhitespaces() {
-    assertDoesNotContainAnyWhitespaces(actual);
+    assertDoesNotContainAnyWhitespaces();
     return myself;
   }
 
-  private void assertDoesNotContainAnyWhitespaces(CharSequence actual) {
+  private void assertDoesNotContainAnyWhitespaces() {
     if (containsWhitespaces(actual)) throw assertionError(shouldNotContainAnyWhitespaces(actual));
   }
 
@@ -330,11 +330,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.9.0 / 3.9.0
    */
   public SELF doesNotContainOnlyWhitespaces() {
-    assertDoesNotContainOnlyWhitespaces(actual);
+    assertDoesNotContainOnlyWhitespaces();
     return myself;
   }
 
-  private void assertDoesNotContainOnlyWhitespaces(CharSequence actual) {
+  private void assertDoesNotContainOnlyWhitespaces() {
     if (containsOnlyWhitespaces(actual)) throw assertionError(shouldNotContainOnlyWhitespaces(actual));
   }
 
@@ -360,11 +360,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Deprecated
   public SELF isJavaBlank() {
-    assertJavaBlank(actual);
+    assertJavaBlank();
     return myself;
   }
 
-  private void assertJavaBlank(CharSequence actual) {
+  private void assertJavaBlank() {
     if (!containsOnlyWhitespaces(actual)) throw assertionError(shouldBeBlank(actual));
   }
 
@@ -391,11 +391,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Deprecated
   public SELF isNotJavaBlank() {
-    assertNotJavaBlank(actual);
+    assertNotJavaBlank();
     return myself;
   }
 
-  private void assertNotJavaBlank(CharSequence actual) {
+  private void assertNotJavaBlank() {
     if (containsOnlyWhitespaces(actual)) throw assertionError(shouldNotBeBlank(actual));
   }
 

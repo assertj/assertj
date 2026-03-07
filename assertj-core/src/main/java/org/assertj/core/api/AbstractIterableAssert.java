@@ -21,6 +21,8 @@ import static java.util.stream.StreamSupport.stream;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
+import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
+import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
@@ -169,34 +171,32 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return new FactoryBasedAssert<>(actual, assertFactory);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void isNullOrEmpty() {
     iterables.assertNullOrEmpty(info, actual);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public void isEmpty() {
-    iterables.assertEmpty(info, actual);
+    isNotNull();
+    assertEmpty();
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  private void assertEmpty() {
+    if (!IterableUtil.isNullOrEmpty(actual)) throw assertionError(shouldBeEmpty(actual));
+  }
+
   @Override
   public SELF isNotEmpty() {
-    iterables.assertNotEmpty(info, actual);
+    isNotNull();
+    assertNotEmpty();
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  private void assertNotEmpty() {
+    if (IterableUtil.isNullOrEmpty(actual)) throw assertionError(shouldNotBeEmpty());
+  }
+
   @Override
   public SELF hasSize(int expected) {
     iterables.assertHasSize(info, actual, expected);
@@ -372,27 +372,18 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF hasSameSizeAs(Object other) {
     iterables.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
     iterables.assertHasSameSizeAs(info, actual, other);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF contains(ELEMENT... values) {
@@ -407,9 +398,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF containsOnly(ELEMENT... values) {
@@ -424,9 +412,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF containsOnlyOnce(ELEMENT... values) {
@@ -441,18 +426,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF containsOnlyNulls() {
     iterables.assertContainsOnlyNulls(info, actual);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF containsExactly(ELEMENT... values) {
@@ -482,26 +461,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF containsExactlyInAnyOrderElementsOf(Iterable<? extends ELEMENT> values) {
     return containsExactlyInAnyOrder(toArray(values));
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF isSubsetOf(Iterable<? extends ELEMENT> values) {
     iterables.assertIsSubsetOf(info, actual, values);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF isSubsetOf(ELEMENT... values) {
@@ -516,9 +486,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF containsSequence(ELEMENT... sequence) {
@@ -533,9 +500,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF containsSequence(Iterable<? extends ELEMENT> sequence) {
     checkSequenceIsNotNull(sequence);
@@ -543,9 +507,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF doesNotContainSequence(ELEMENT... sequence) {
@@ -560,9 +521,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF doesNotContainSequence(Iterable<? extends ELEMENT> sequence) {
     checkSequenceIsNotNull(sequence);
@@ -570,9 +528,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF containsSubsequence(ELEMENT... subsequence) {
@@ -587,9 +542,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF containsSubsequence(Iterable<? extends ELEMENT> subsequence) {
     checkSubsequenceIsNotNull(subsequence);
@@ -597,9 +549,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF doesNotContainSubsequence(ELEMENT... subsequence) {
@@ -614,9 +563,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF doesNotContainSubsequence(Iterable<? extends ELEMENT> subsequence) {
     checkSubsequenceIsNotNull(subsequence);
@@ -644,18 +590,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF doesNotHaveDuplicates() {
     iterables.assertDoesNotHaveDuplicates(info, actual);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF startsWith(ELEMENT... sequence) {
@@ -670,9 +610,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF endsWith(ELEMENT first, ELEMENT... rest) {
@@ -687,99 +624,66 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF endsWith(ELEMENT[] sequence) {
     iterables.assertEndsWith(info, actual, sequence);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF containsNull() {
     iterables.assertContainsNull(info, actual);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF doesNotContainNull() {
     iterables.assertDoesNotContainNull(info, actual);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF are(Condition<? super ELEMENT> condition) {
     iterables.assertAre(info, actual, condition);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF areNot(Condition<? super ELEMENT> condition) {
     iterables.assertAreNot(info, actual, condition);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF have(Condition<? super ELEMENT> condition) {
     iterables.assertHave(info, actual, condition);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF doNotHave(Condition<? super ELEMENT> condition) {
     iterables.assertDoNotHave(info, actual, condition);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF areAtLeastOne(Condition<? super ELEMENT> condition) {
     areAtLeast(1, condition);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF areAtLeast(int times, Condition<? super ELEMENT> condition) {
     iterables.assertAreAtLeast(info, actual, times, condition);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF areAtMost(int times, Condition<? super ELEMENT> condition) {
     iterables.assertAreAtMost(info, actual, times, condition);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF areExactly(int times, Condition<? super ELEMENT> condition) {
     iterables.assertAreExactly(info, actual, times, condition);
@@ -792,27 +696,18 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return haveAtLeast(1, condition);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF haveAtLeast(int times, Condition<? super ELEMENT> condition) {
     iterables.assertHaveAtLeast(info, actual, times, condition);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF haveAtMost(int times, Condition<? super ELEMENT> condition) {
     iterables.assertHaveAtMost(info, actual, times, condition);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF haveExactly(int times, Condition<? super ELEMENT> condition) {
     iterables.assertHaveExactly(info, actual, times, condition);
@@ -918,18 +813,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF containsAll(Iterable<? extends ELEMENT> iterable) {
     iterables.assertContainsAll(info, actual, iterable);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @CheckReturnValue
   public SELF usingElementComparator(Comparator<? super ELEMENT> elementComparator) {
@@ -945,9 +834,6 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return usingElementComparator(new ExtendedByTypesComparator(elementComparator, getComparatorsByType()));
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @CheckReturnValue
   public SELF usingDefaultElementComparator() {
@@ -2084,34 +1970,22 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return newListAssertInstanceForMethodsChangingElementType(extractedValues);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF containsExactlyElementsOf(Iterable<? extends ELEMENT> iterable) {
     return containsExactly(toArray(iterable));
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Deprecated
   @Override
   public SELF containsOnlyElementsOf(Iterable<? extends ELEMENT> iterable) {
     return containsOnly(toArray(iterable));
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF containsOnlyOnceElementsOf(Iterable<? extends ELEMENT> iterable) {
     return containsOnlyOnce(toArray(iterable));
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF hasSameElementsAs(Iterable<? extends ELEMENT> iterable) {
     // containsOnlyElementsOf is deprecated so we use its implementation
@@ -3834,35 +3708,23 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return internalFilteredOn(predicate);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF allMatch(Predicate<? super ELEMENT> predicate) {
     iterables.assertAllMatch(info, actual, predicate, PredicateDescription.GIVEN);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF allMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
     iterables.assertAllMatch(info, actual, predicate, new PredicateDescription(predicateDescription));
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF allSatisfy(Consumer<? super ELEMENT> requirements) {
     return internalAllSatisfy(requirements);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF allSatisfy(ThrowingConsumer<? super ELEMENT> requirements) {
     return internalAllSatisfy(requirements);
@@ -3873,18 +3735,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF anyMatch(Predicate<? super ELEMENT> predicate) {
     iterables.assertAnyMatch(info, actual, predicate, PredicateDescription.GIVEN);
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF anyMatch(Predicate<? super ELEMENT> predicate, String predicateDescription) {
     iterables.assertAnyMatch(info, actual, predicate, new PredicateDescription(predicateDescription));
@@ -3925,17 +3781,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF anySatisfy(Consumer<? super ELEMENT> requirements) {
     return internalAnySatisfy(requirements);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF anySatisfy(ThrowingConsumer<? super ELEMENT> requirements) {
     return internalAnySatisfy(requirements);
@@ -3946,17 +3796,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF noneSatisfy(Consumer<? super ELEMENT> restrictions) {
     return internalNoneSatisfy(restrictions);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF noneSatisfy(ThrowingConsumer<? super ELEMENT> restrictions) {
     return internalNoneSatisfy(restrictions);
@@ -3967,18 +3811,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF satisfiesExactly(Consumer<? super ELEMENT>... requirements) {
     return satisfiesExactlyForProxy(requirements);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF satisfiesExactly(ThrowingConsumer<? super ELEMENT>... requirements) {
@@ -3993,18 +3831,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... requirements) {
     return satisfiesExactlyInAnyOrderForProxy(requirements);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   @SafeVarargs
   public final SELF satisfiesExactlyInAnyOrder(ThrowingConsumer<? super ELEMENT>... requirements) {
@@ -4019,17 +3851,11 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     return myself;
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
     return satisfiesOnlyOnceForProxy(requirements);
   }
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   public SELF satisfiesOnlyOnce(ThrowingConsumer<? super ELEMENT> requirements) {
     return satisfiesOnlyOnceForProxy(requirements);
