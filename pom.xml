@@ -155,6 +155,9 @@
                 <include>src/main/java/**/*.java</include>
                 <include>src/test/java/**/*.java</include>
               </includes>
+              <excludes>
+                <exclude>src/main/java/org/assertj/core/api/soft/Soft*Assert.java</exclude>
+              </excludes>
               <eclipse>
                 <version>4.33</version>
                 <file>${rootDirectory}/eclipse/assertj-eclipse-formatter.xml</file>
