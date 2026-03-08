@@ -198,6 +198,20 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return new SoftStringAssert(actual().toString(), errorCollector);
   }
 
+  /**
+   * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #hasValue(Object)}).
+   * <p>
+   * Assertion succeeds:
+   * <pre><code class='java'> assertThat(Optional.of("something")).contains("something");
+   * assertThat(Optional.of(10)).contains(10);</code></pre>
+   *
+   * Assertion fails:
+   * <pre><code class='java'> assertThat(Optional.of("something")).contains("something else");
+   * assertThat(Optional.of(20)).contains(10);</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
   public SoftOptionalAssert<VALUE> contains(VALUE expectedValue) {
     try {
       optionalAssert.contains(expectedValue);
@@ -235,6 +249,31 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
+  /**
+   * Verifies that the actual {@link java.util.Optional} contains the instance given as an argument (i.e. it must be the
+   * same instance).
+   * <p>
+   * Assertion succeeds:
+   *
+   * <pre><code class='java'> String someString = "something";
+   * assertThat(Optional.of(someString)).containsSame(someString);
+   *
+   * // Java will create the same 'Integer' instance when boxing small ints
+   * assertThat(Optional.of(10)).containsSame(10);</code></pre>
+   *
+   * Assertion fails:
+   *
+   * <pre><code class='java'> // not even equal:
+   * assertThat(Optional.of("something")).containsSame("something else");
+   * assertThat(Optional.of(20)).containsSame(10);
+   *
+   * // equal but not the same:
+   * assertThat(Optional.of(new String("something"))).containsSame(new String("something"));
+   * assertThat(Optional.of(new Integer(10))).containsSame(new Integer(10));</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
   public SoftOptionalAssert<VALUE> containsSame(VALUE expectedValue) {
     try {
       optionalAssert.containsSame(expectedValue);
@@ -463,6 +502,20 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
+  /**
+   * Verifies that the actual {@link java.util.Optional} does not contain the given value.
+   * <p>
+   * Assertion succeeds:
+   * <pre><code class='java'> assertThat(Optional.of("something")).doesNotHaveValue("something else");</code></pre>
+   *
+   * Assertion fails:
+   * <pre><code class='java'> assertThat(Optional.of("something")).doesNotHaveValue("something");</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link java.util.Optional}.
+   * @throws NullPointerException if the given value is {@code null}; use {@link #isNotPresent()} or {@link #isNotEmpty()} instead.
+   * @return this assertion object.
+   * @since 3.28.0
+   */
   public SoftOptionalAssert<VALUE> doesNotHaveValue(VALUE expectedValue) {
     try {
       optionalAssert.doesNotHaveValue(expectedValue);
@@ -781,6 +834,20 @@ public final class SoftOptionalAssert<VALUE> implements SoftAssert {
     return this;
   }
 
+  /**
+   * Verifies that the actual {@link java.util.Optional} contains the given value (alias of {@link #contains(Object)}).
+   * <p>
+   * Assertion succeeds:
+   * <pre><code class='java'> assertThat(Optional.of("something")).hasValue("something");
+   * assertThat(Optional.of(10)).contains(10);</code></pre>
+   *
+   * Assertion fails:
+   * <pre><code class='java'> assertThat(Optional.of("something")).hasValue("something else");
+   * assertThat(Optional.of(20)).contains(10);</code></pre>
+   *
+   * @param expectedValue the expected value inside the {@link java.util.Optional}.
+   * @return this assertion object.
+   */
   public SoftOptionalAssert<VALUE> hasValue(VALUE expectedValue) {
     try {
       optionalAssert.hasValue(expectedValue);

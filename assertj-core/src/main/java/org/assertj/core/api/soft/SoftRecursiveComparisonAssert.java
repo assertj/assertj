@@ -1,11 +1,20 @@
 package org.assertj.core.api.soft;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.lang.AssertionError;
+import java.lang.Class;
+import java.lang.Deprecated;
+import java.lang.Iterable;
+import java.lang.Object;
+import java.lang.SafeVarargs;
+import java.lang.String;
+import java.lang.SuppressWarnings;
 import java.util.Comparator;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
 import org.assertj.core.annotation.Beta;
 import org.assertj.core.api.AssertionErrorCollector;
 import org.assertj.core.api.Condition;

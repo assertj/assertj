@@ -469,6 +469,29 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
+  /**
+   * Verifies that the object under test does not return the given expected value from the given {@link Function},
+   * a typical usage is to pass a method reference to assert object's property.
+   * <p>
+   * Wrapping the given {@link Function} with {@link org.assertj.core.api.Assertions#from(Function)} makes the assertion more readable.
+   * <p>
+   * The assertion supports custom comparators, configurable with {@link #usingComparatorForType(Comparator, Class)}.
+   * <p>
+   * Example:
+   * <pre><code class="java"> // from is not mandatory but it makes the assertions more readable
+   * assertThat(frodo).doesNotReturn("Bilbo", from(TolkienCharacter::getName))
+   *                  .doesNotReturn("Bilbo", TolkienCharacter::getName) // no from :(
+   *                  .doesNotReturn(null, from(TolkienCharacter::getRace));</code></pre>
+   *
+   * @param expected the value the object under test method's call should not return.
+   * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T> the expected value type the given {@code method} returns.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if {@code actual} is {@code null}
+   * @throws NullPointerException if given {@code from} function is null
+   * @see #usingComparatorForType(Comparator, Class)
+   * @since 3.22.0
+   */
   public <T> SoftObjectAssert<ACTUAL> doesNotReturn(T expected, Function<ACTUAL, T> from) {
     try {
       objectAssert.doesNotReturn(expected,from);
@@ -1886,6 +1909,29 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
+  /**
+   * Verifies that the object under test returns the given expected value from the given {@link Function},
+   * a typical usage is to pass a method reference to assert object's property.
+   * <p>
+   * Wrapping the given {@link Function} with {@link org.assertj.core.api.Assertions#from(Function)} makes the assertion more readable.
+   * <p>
+   * The assertion supports custom comparators, configurable with {@link #usingComparatorForType(Comparator, Class)}.
+   * <p>
+   * Example:
+   * <pre><code class="java">  import static org.assertj.core.api.Assertions.from;
+   * // from is not mandatory but it makes the assertions more readable
+   * assertThat(frodo).returns("Frodo", from(TolkienCharacter::getName))
+   *                  .returns("Frodo", TolkienCharacter::getName) // no from :(
+   *                  .returns(HOBBIT, from(TolkienCharacter::getRace));</code></pre>
+   *
+   * @param expected the value the object under test method's call should return.
+   * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T> the expected value type the given {@code method} returns.
+   * @return {@code this} assertion object.
+   * @throws AssertionError if {@code actual} is {@code null}
+   * @throws NullPointerException if given {@code from} function is null
+   * @see #usingComparatorForType(Comparator, Class)
+   */
   public <T> SoftObjectAssert<ACTUAL> returns(T expected, Function<ACTUAL, T> from) {
     try {
       objectAssert.returns(expected,from);
@@ -1896,6 +1942,24 @@ public final class SoftObjectAssert<ACTUAL> implements SoftAssert {
     return this;
   }
 
+  /**
+   * This is an overload of {@link #returns(Object, Function)} with a description that will show up in the error
+   * message if the assertion fails (like calling {@link #as(String, Object...) as(String)} before the assertion).
+   * <p>
+   * Example:
+   * <pre><code class="java"> import static org.assertj.core.api.Assertions.from;
+   * // from is not mandatory but it makes the assertions more readable
+   * assertThat(frodo).returns("Frodo", from(TolkienCharacter::getName), "name check");
+   * // the previous assertion is equivalent to:
+   * assertThat(frodo).as("name check").returns("Frodo", from(TolkienCharacter::getName));</code></pre>
+   *
+   * @param expected the value the object under test method's call should return.
+   * @param from {@link Function} used to acquire the value to test from the object under test. Must not be {@code null}
+   * @param <T> the expected value type the given {@code method} returns.
+   * @param description the description that you hope to show in return.
+   * @return {@code this} assertion object.
+   * @throws NullPointerException if given {@code from} function is null
+   */
   public <T> SoftObjectAssert<ACTUAL> returns(T expected, Function<ACTUAL, T> from,
       String description) {
     try {

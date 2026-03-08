@@ -316,9 +316,12 @@ public class SoftAssertionsGenerator {
     var methodDeclarationParameters = methodDeclaration.getParameters();
     if (methodDeclarationParameters.size() != method.getParameterCount()) return false;
 
+    Type[] genericParameterTypes = method.getGenericParameterTypes();
     Class<?>[] parameterTypes = method.getParameterTypes();
     for (int i = 0; i < parameterTypes.length; i++) {
-      if (!parsedParameterTypeMatches(methodDeclarationParameters.get(i), parameterTypes[i])) {
+      // need the generic parameter to compare method like contains(VALUE value) when the non generic param is Object
+      if (!parsedParameterTypeMatches(methodDeclarationParameters.get(i), parameterTypes[i])
+          && !methodDeclarationParameters.get(i).getType().toString().equals(genericParameterTypes[i].toString())) {
         return false;
       }
     }
