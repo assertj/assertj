@@ -1,4 +1,23 @@
-/*
+package org.assertj.core.api.soft;
+
+import java.util.Comparator;
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
+
+import org.assertj.core.annotation.Beta;
+import org.assertj.core.api.AssertionErrorCollector;
+import org.assertj.core.api.Condition;
+import org.assertj.core.api.RecursiveComparisonAssert;
+import org.assertj.core.api.ThrowingConsumer;
+import org.assertj.core.api.WritableAssertionInfo;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.assertj.core.api.recursive.comparison.RecursiveComparisonIntrospectionStrategy;
+import org.assertj.core.description.Description;
+import org.assertj.core.presentation.Representation;
+
+/**
  * Copyright 2012-2026 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,34 +32,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.assertj.core.api.soft;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.lang.AssertionError;
-import java.lang.Class;
-import java.lang.Deprecated;
-import java.lang.Iterable;
-import java.lang.Object;
-import java.lang.SafeVarargs;
-import java.lang.String;
-import java.lang.SuppressWarnings;
-import java.util.Comparator;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import org.assertj.core.annotation.Beta;
-import org.assertj.core.api.AssertionErrorCollector;
-import org.assertj.core.api.Condition;
-import org.assertj.core.api.RecursiveComparisonAssert;
-import org.assertj.core.api.ThrowingConsumer;
-import org.assertj.core.api.WritableAssertionInfo;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
-import org.assertj.core.api.recursive.comparison.RecursiveComparisonIntrospectionStrategy;
-import org.assertj.core.description.Description;
-import org.assertj.core.presentation.Representation;
-
 @Beta
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public final class SoftRecursiveComparisonAssert<SELF> implements SoftAssert {

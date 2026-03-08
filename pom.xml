@@ -192,6 +192,7 @@ limitations under the License.
                 </includes>
                 <excludes>
                   <exclude>src/ide-support/**</exclude>
+                  <exclude>src/main/java/org/assertj/core/api/soft/Soft*Assert.java</exclude>
                 </excludes>
               </licenseSet>
             </licenseSets>
