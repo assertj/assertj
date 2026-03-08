@@ -86,6 +86,8 @@ import org.assertj.core.api.filter.Filters;
 import org.assertj.core.api.filter.InFilter;
 import org.assertj.core.api.filter.NotFilter;
 import org.assertj.core.api.filter.NotInFilter;
+import org.assertj.core.api.soft.DefaultSoftAssertFactory;
+import org.assertj.core.api.soft.SoftAssert;
 import org.assertj.core.condition.AllOf;
 import org.assertj.core.condition.AnyOf;
 import org.assertj.core.condition.DoesNotHave;
@@ -1886,6 +1888,27 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    */
   default <T, ASSERT extends AbstractAssert<?, ?>> InstanceOfAssertFactory<T, ASSERT> as(InstanceOfAssertFactory<T, ASSERT> assertFactory) {
     return Assertions.as(assertFactory);
+  }
+
+  /**
+   * A syntax sugar to write fluent soft assertion with methods having an {@link DefaultSoftAssertFactory} parameter.
+   * <p>
+   * Example:
+   * <pre><code class="java"> Jedi yoda = new Jedi("Yoda", "Green");
+   * GeneratedSoftAssertions softly = new GeneratedSoftAssertions();
+   * softly.assertThat(yoda)
+   *       .extracting(Jedi::getName, as(SoftAssertFactories.STRING))
+   *       .startsWith("Yo");</code></pre>
+   *
+   * @param softAssertFactory the factory which verifies the type and creates the new {@code Assert}
+   * @param <T>           the type to use for the cast.
+   * @param <SOFT_ASSERT>      the type of the resulting {@code SoftAssert}
+   * @return same instance of {@code softAssertFactory}
+   *
+   * @since 4.0.0
+   */
+  public default <T, SOFT_ASSERT extends SoftAssert> DefaultSoftAssertFactory<T, SOFT_ASSERT> as(DefaultSoftAssertFactory<T, SOFT_ASSERT> softAssertFactory) {
+    return Assertions.as(softAssertFactory);
   }
 
   /**

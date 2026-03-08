@@ -15,6 +15,7 @@
  */
 package org.assertj.core.api.soft;
 
+import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.soft.SoftAssertFactories.OPTIONAL;
 import static org.assertj.core.api.soft.SoftAssertFactories.STRING;
@@ -161,7 +162,7 @@ public final class SoftObjectAssertTest {
     // GIVEN
     var yoda = new Jedi("Yoda", "Green");
     softly.assertThat(yoda)
-          .extracting(value -> value.lightSaberColor, STRING)
+          .extracting(value -> value.lightSaberColor, as(STRING))
           .containsIgnoringCase("green")
           .containsIgnoringCase("Red")
           .isEmpty();
