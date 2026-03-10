@@ -61,4 +61,5 @@ public class ObjectArrayElementComparisonStrategy<T> extends StandardComparisonS
   public boolean isStandard() {
     return false;
   }
+
 }

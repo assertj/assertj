@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.error.ShouldContainAnyOf.shouldContainAnyOf;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.testkit.Name.name;
 import static org.assertj.core.testkit.ObjectArrays.emptyArray;
@@ -38,8 +39,6 @@ import org.assertj.core.testkit.Name;
 import org.junit.jupiter.api.Test;
 
 /**
- * Tests for <code>{@link Iterables#assertContainsAnyOf(AssertionInfo, Iterable, Object[])} </code>.
- *
  * @author Marko Bekhta
  */
 class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
@@ -90,15 +89,15 @@ class Iterables_assertContainsAnyOf_Test extends IterablesBaseTest {
   }
 
   @Test
-  void should_fail_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
-    assertThatExceptionOfType(AssertionError.class).isThrownBy(() -> iterables.assertContainsAnyOf(someInfo(), actual,
-                                                                                                   emptyArray()));
+  void should_pass_if_array_of_values_to_look_for_is_empty_and_actual_is_not() {
+    // WHEN/THEN
+    iterables.assertContainsAnyOf(someInfo(), actual, emptyArray());
   }
 
   @Test
   void should_throw_error_if_array_of_values_to_look_for_is_null() {
     assertThatNullPointerException().isThrownBy(() -> iterables.assertContainsAnyOf(someInfo(), actual, null))
-                                    .withMessage(valuesToLookForIsNull());
+                                    .withMessage(shouldNotBeNull("values").create());
   }
 
   @Test
