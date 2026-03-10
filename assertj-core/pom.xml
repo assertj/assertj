@@ -27,7 +27,7 @@
     <rootDirectory>${project.basedir}/../</rootDirectory>
     <spotless.skip>false</spotless.skip>
     <!-- Dependency versions -->
-    <byte-buddy.version>1.18.5</byte-buddy.version>
+    <byte-buddy.version>1.18.7</byte-buddy.version>
   </properties>
 
   <dependencyManagement>
@@ -107,7 +107,7 @@
     <dependency>
       <groupId>nl.jqno.equalsverifier</groupId>
       <artifactId>equalsverifier</artifactId>
-      <version>4.3.1</version>
+      <version>4.4.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -131,7 +131,7 @@
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>7.2.4.Final</version>
+      <version>7.2.6.Final</version>
       <scope>test</scope>
       <exclusions>
         <exclusion>

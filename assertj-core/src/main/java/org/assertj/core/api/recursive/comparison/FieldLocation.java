@@ -61,17 +61,12 @@ public final class FieldLocation implements Comparable<FieldLocation> {
     if (this == obj) return true;
     if (!(obj instanceof FieldLocation)) return false;
     FieldLocation that = (FieldLocation) obj;
-    return Objects.equals(pathToUseInRules, that.pathToUseInRules)
-           && Objects.equals(decomposedPath, that.decomposedPath)
-           && Objects.equals(pathsHierarchyToUseInRules, that.pathsHierarchyToUseInRules);
+    return Objects.equals(decomposedPath, that.decomposedPath);
   }
 
   @Override
   public int hashCode() {
-    int result = Objects.hashCode(pathToUseInRules);
-    result = 31 * result + Objects.hashCode(decomposedPath);
-    result = 31 * result + Objects.hashCode(pathsHierarchyToUseInRules);
-    return result;
+    return Objects.hashCode(decomposedPath);
   }
 
   @Override

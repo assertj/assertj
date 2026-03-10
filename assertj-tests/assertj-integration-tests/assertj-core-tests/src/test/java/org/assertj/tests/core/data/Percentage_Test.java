@@ -37,6 +37,7 @@ class Percentage_Test {
   void should_honor_equals_contract() {
     // WHEN/THEN
     EqualsVerifier.forClass(Percentage.class)
+                  .withFactory(v -> Percentage.withPercentage(v.getDouble("value")))
                   .verify();
   }
 

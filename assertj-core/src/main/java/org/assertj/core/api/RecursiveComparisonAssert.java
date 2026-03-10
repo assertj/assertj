@@ -28,7 +28,6 @@ import java.util.function.BiPredicate;
 
 import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.api.recursive.comparison.ComparisonDifference;
-import org.assertj.core.api.recursive.comparison.LegacyRecursiveComparisonIntrospectionStrategy;
 import org.assertj.core.api.recursive.comparison.RecursiveComparator;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonDifferenceCalculator;
@@ -1952,7 +1951,7 @@ public class RecursiveComparisonAssert<SELF extends RecursiveComparisonAssert<SE
    *  <li>how to get a node value</li>
    *  </ul>
    * <p>
-   * Default to {@link LegacyRecursiveComparisonIntrospectionStrategy} that introspects all fields (including inherited ones).
+   * Default to {@link RecursiveComparisonConfiguration#DEFAULT_RECURSIVE_COMPARISON_INTROSPECTION_STRATEGY} that introspects all fields (including inherited ones).
    *
    * @param introspectionStrategy the {@link RecursiveComparisonIntrospectionStrategy} to use
    * @return this {@link RecursiveComparisonAssert} to chain other methods.
