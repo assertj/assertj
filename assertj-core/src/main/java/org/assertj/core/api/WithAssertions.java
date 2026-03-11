@@ -117,7 +117,6 @@ import org.assertj.core.presentation.UnicodeRepresentation;
  * <a href="https://blog.javabien.net/2014/04/23/what-if-assertj-used-java-8/">https://blog.javabien.net/2014/04/23/what-if-assertj-used-java-8/</a>
  *
  * @author Alan Rothkopf
- *
  */
 @CheckReturnValue
 public interface WithAssertions extends InstanceOfAssertFactories {
@@ -2831,8 +2830,8 @@ public interface WithAssertions extends InstanceOfAssertFactories {
    *   }
    * }
    *
-   * TextException textException = catchThrowableOfType(() -&gt; { throw new TextException("boom!", 1, 5); },
-   *                                                    TextException.class);
+   * TextException textException = catchThrowableOfType(TextException.class,
+   *                                                    () -&gt; { throw new TextException("boom!", 1, 5); });
    * // assertions succeed:
    * assertThat(textException).hasMessage("boom!");
    * assertThat(textException.line).isEqualTo(1);
