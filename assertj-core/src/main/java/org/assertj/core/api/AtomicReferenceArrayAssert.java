@@ -307,7 +307,7 @@ public class AtomicReferenceArrayAssert<T>
    * // assertion will fail
    * assertThat(atomicReferenceArray).hasSizeBetween(4, 6);</code></pre>
    *
-   * @param lowerBoundary the lower boundary compared to which actual size should be greater than or equal to.
+   * @param lowerBoundary  the lower boundary compared to which actual size should be greater than or equal to.
    * @param higherBoundary the higher boundary compared to which actual size should be less than or equal to.
    * @return {@code this} assertion object.
    * @throws AssertionError if the number of values of the actual array is not between the boundaries.
@@ -390,10 +390,10 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given values.
+   * @throws AssertionError           if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError           if the actual AtomicReferenceArray does not contain the given values.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -427,11 +427,11 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given values, i.e. the actual AtomicReferenceArray contains some
-   *           or none of the given values, or the actual AtomicReferenceArray contains more values than the given ones.
+   * @throws AssertionError           if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError           if the actual AtomicReferenceArray does not contain the given values, i.e. the actual AtomicReferenceArray contains some
+   *                                  or none of the given values, or the actual AtomicReferenceArray contains more values than the given ones.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -491,10 +491,10 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param iterable the {@code Iterable} whose elements we expect to be present
    * @return this assertion object
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}
+   * @throws AssertionError       if the actual AtomicReferenceArray is {@code null}
    * @throws NullPointerException if the given {@code Iterable} is {@code null}
-   * @throws AssertionError if the actual {@code Iterable} does not have the same elements, in any order, as the given
-   *           {@code Iterable}
+   * @throws AssertionError       if the actual {@code Iterable} does not have the same elements, in any order, as the given
+   *                              {@code Iterable}
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -520,11 +520,11 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given values, i.e. the actual AtomicReferenceArray contains some
-   *           or none of the given values, or the actual AtomicReferenceArray contains more than once these values.
+   * @throws AssertionError           if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError           if the actual AtomicReferenceArray does not contain the given values, i.e. the actual AtomicReferenceArray contains some
+   *                                  or none of the given values, or the actual AtomicReferenceArray contains more than once these values.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -564,10 +564,10 @@ public class AtomicReferenceArrayAssert<T>
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given values with same order, i.e. the actual AtomicReferenceArray
-   *           contains some or none of the given values, or the actual AtomicReferenceArray contains more values than the given ones
-   *           or values are the same but the order is not.
+   * @throws AssertionError       if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError       if the actual AtomicReferenceArray does not contain the given values with same order, i.e. the actual AtomicReferenceArray
+   *                              contains some or none of the given values, or the actual AtomicReferenceArray contains more values than the given ones
+   *                              or values are the same but the order is not.
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -600,9 +600,9 @@ public class AtomicReferenceArrayAssert<T>
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given values, i.e. it
-   *           contains some or none of the given values, or more values than the given ones.
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if the actual AtomicReferenceArray does not contain the given values, i.e. it
+   *                              contains some or none of the given values, or more values than the given ones.
    */
   @Override
   @SafeVarargs
@@ -637,9 +637,9 @@ public class AtomicReferenceArrayAssert<T>
    * @param values the given values.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if the actual group does not contain the given values, i.e. the actual group
-   *           contains some or none of the given values, or the actual group contains more values than the given ones.
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if the actual group does not contain the given values, i.e. the actual group
+   *                              contains some or none of the given values, or the actual group contains more values than the given ones.
    * @since 2.9.0 / 3.9.0
    */
   @Override
@@ -936,11 +936,11 @@ public class AtomicReferenceArrayAssert<T>
    * @param value the object to look for.
    * @param index the index where the object should be stored in the actual AtomicReferenceArray.
    * @return this assertion object.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null} or empty.
-   * @throws NullPointerException if the given {@code Index} is {@code null}.
+   * @throws AssertionError            if the actual AtomicReferenceArray is {@code null} or empty.
+   * @throws NullPointerException      if the given {@code Index} is {@code null}.
    * @throws IndexOutOfBoundsException if the value of the given {@code Index} is equal to or greater than the size of the actual
-   *           AtomicReferenceArray.
-   * @throws AssertionError if the actual AtomicReferenceArray does not contain the given object at the given index.
+   *                                   AtomicReferenceArray.
+   * @throws AssertionError            if the actual AtomicReferenceArray does not contain the given object at the given index.
    */
   @Override
   public AtomicReferenceArrayAssert<T> contains(T value, Index index) {
@@ -966,8 +966,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param types the expected classes and interfaces
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual group is {@code null}.
-   * @throws AssertionError if not all elements of the actual group are instances of one of the given types
+   * @throws AssertionError       if the actual group is {@code null}.
+   * @throws AssertionError       if not all elements of the actual group are instances of one of the given types
    * @since 2.7.0 / 3.7.0
    */
   @Override
@@ -998,8 +998,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param expectedTypes the expected types
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given type array is {@code null}.
-   * @throws AssertionError if actual is {@code null}.
-   * @throws AssertionError if the actual elements types don't exactly match the given ones (in the given order).
+   * @throws AssertionError       if actual is {@code null}.
+   * @throws AssertionError       if the actual elements types don't exactly match the given ones (in the given order).
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasExactlyElementsOfTypes(Class<?>... expectedTypes) {
@@ -1026,9 +1026,9 @@ public class AtomicReferenceArrayAssert<T>
    * @param value the object to look for.
    * @param index the index where the object should not be stored in the actual AtomicReferenceArray.
    * @return this assertion object.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError       if the actual AtomicReferenceArray is {@code null}.
    * @throws NullPointerException if the given {@code Index} is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray contains the given object at the given index.
+   * @throws AssertionError       if the actual AtomicReferenceArray contains the given object at the given index.
    */
   @Override
   public AtomicReferenceArrayAssert<T> doesNotContain(T value, Index index) {
@@ -1052,10 +1052,10 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param values the given values.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray contains any of the given values.
+   * @throws AssertionError           if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError           if the actual AtomicReferenceArray contains any of the given values.
    */
   @Override
   @SafeVarargs
@@ -1086,10 +1086,10 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param iterable the {@link Iterable} whose elements must not be in the actual AtomicReferenceArray.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty iterable.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray contains some elements of the given {@link Iterable}.
+   * @throws AssertionError           if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError           if the actual AtomicReferenceArray contains some elements of the given {@link Iterable}.
    */
   @Override
   public AtomicReferenceArrayAssert<T> doesNotContainAnyElementsOf(Iterable<? extends T> iterable) {
@@ -1136,10 +1136,10 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param sequence the sequence of objects to look for.
    * @return this assertion object.
-   * @throws NullPointerException if the given argument is {@code null}.
+   * @throws NullPointerException     if the given argument is {@code null}.
    * @throws IllegalArgumentException if the given argument is an empty array.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray does not start with the given sequence of objects.
+   * @throws AssertionError           if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError           if the actual AtomicReferenceArray does not start with the given sequence of objects.
    */
   @Override
   @SafeVarargs
@@ -1169,12 +1169,12 @@ public class AtomicReferenceArrayAssert<T>
    * // assertion will fail
    * assertThat(abc).endsWith("a");</code></pre>
    *
-   * @param first the first element of the end sequence of objects to look for.
+   * @param first    the first element of the end sequence of objects to look for.
    * @param sequence the rest of the end sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray does not end with the given sequence of objects.
+   * @throws AssertionError       if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError       if the actual AtomicReferenceArray does not end with the given sequence of objects.
    */
   @Override
   @SafeVarargs
@@ -1208,8 +1208,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param sequence the (possibly empty) sequence of objects to look for.
    * @return this assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray does not end with the given sequence of objects.
+   * @throws AssertionError       if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError       if the actual AtomicReferenceArray does not end with the given sequence of objects.
    */
   @Override
   public AtomicReferenceArrayAssert<T> endsWith(T[] sequence) {
@@ -1232,9 +1232,9 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param values the {@code Iterable} that should contain all actual elements.
    * @return this assertion object.
-   * @throws AssertionError if the actual {@code Iterable} is {@code null}.
+   * @throws AssertionError       if the actual {@code Iterable} is {@code null}.
    * @throws NullPointerException if the given {@code Iterable} is {@code null}.
-   * @throws AssertionError if the actual {@code Iterable} is not subset of set {@code Iterable}.
+   * @throws AssertionError       if the actual {@code Iterable} is not subset of set {@code Iterable}.
    */
   @Override
   public AtomicReferenceArrayAssert<T> isSubsetOf(Iterable<? extends T> values) {
@@ -1340,8 +1340,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements don't satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements don't satisfy the given condition.
    */
   @Override
   public AtomicReferenceArrayAssert<T> are(Condition<? super T> condition) {
@@ -1368,8 +1368,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements satisfy the given condition.
    */
   @Override
   public AtomicReferenceArrayAssert<T> areNot(Condition<? super T> condition) {
@@ -1396,8 +1396,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements do not satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements do not satisfy the given condition.
    */
   @Override
   public AtomicReferenceArrayAssert<T> have(Condition<? super T> condition) {
@@ -1424,8 +1424,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements satisfy the given condition.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements satisfy the given condition.
    */
   @Override
   public AtomicReferenceArrayAssert<T> doNotHave(Condition<? super T> condition) {
@@ -1447,12 +1447,12 @@ public class AtomicReferenceArrayAssert<T>
    * // assertion will fail
    * oneTwoThree.areAtLeast(3, oddNumber);</code></pre>
    *
-   * @param times the minimum number of times the condition should be verified.
+   * @param times     the minimum number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element can not be cast to T.
-   * @throws AssertionError if the number of elements satisfying the given condition is &lt; n.
+   * @throws AssertionError       if an element can not be cast to T.
+   * @throws AssertionError       if the number of elements satisfying the given condition is &lt; n.
    */
   @Override
   public AtomicReferenceArrayAssert<T> areAtLeast(int times, Condition<? super T> condition) {
@@ -1494,12 +1494,12 @@ public class AtomicReferenceArrayAssert<T>
    * // assertion will fail
    * oneTwoThree.areAtMost(1, oddNumber);</code></pre>
    *
-   * @param times the number of times the condition should be at most verified.
+   * @param times     the number of times the condition should be at most verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if the number of elements satisfying the given condition is &gt; n.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if the number of elements satisfying the given condition is &gt; n.
    */
   @Override
   public AtomicReferenceArrayAssert<T> areAtMost(int times, Condition<? super T> condition) {
@@ -1522,12 +1522,12 @@ public class AtomicReferenceArrayAssert<T>
    * oneTwoThree.areExactly(1, oddNumber);
    * oneTwoThree.areExactly(3, oddNumber);</code></pre>
    *
-   * @param times the exact number of times the condition should be verified.
+   * @param times     the exact number of times the condition should be verified.
    * @param condition the given condition.
    * @return {@code this} object.
    * @throws NullPointerException if the given condition is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if the number of elements satisfying the given condition is &ne; n.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if the number of elements satisfying the given condition is &ne; n.
    */
   @Override
   public AtomicReferenceArrayAssert<T> areExactly(int times, Condition<? super T> condition) {
@@ -1566,7 +1566,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // assertion will fail
    * oneTwoThree.haveAtLeast(3, oddNumber);</code></pre>
-   *
+   * <p>
    * This method is an alias for {@link #areAtLeast(int, Condition)}.
    */
   @Override
@@ -1589,7 +1589,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // assertion will fail
    * oneTwoThree.haveAtMost(1, oddNumber);</code></pre>
-   *
+   * <p>
    * This method is an alias {@link #areAtMost(int, Condition)}.
    */
   @Override
@@ -1612,7 +1612,7 @@ public class AtomicReferenceArrayAssert<T>
    * // assertions will fail
    * oneTwoThree.haveExactly(1, oddNumber);
    * oneTwoThree.haveExactly(3, oddNumber);</code></pre>
-   *
+   * <p>
    * This method is an alias {@link #areExactly(int, Condition)}.
    */
   @Override
@@ -1637,7 +1637,7 @@ public class AtomicReferenceArrayAssert<T>
    * @param expectedType the expected type.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray does not have any elements of the given type.
+   * @throws AssertionError       if the actual AtomicReferenceArray does not have any elements of the given type.
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasAtLeastOneElementOfType(Class<?> expectedType) {
@@ -1661,7 +1661,7 @@ public class AtomicReferenceArrayAssert<T>
    * @param expectedType the expected type.
    * @return this assertion object.
    * @throws NullPointerException if the given type is {@code null}.
-   * @throws AssertionError if one element is not of the expected type.
+   * @throws AssertionError       if one element is not of the expected type.
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasOnlyElementsOfType(Class<?> expectedType) {
@@ -1684,7 +1684,7 @@ public class AtomicReferenceArrayAssert<T>
    * @param unexpectedTypes the not expected types.
    * @return this assertion object.
    * @throws NullPointerException if the given types is {@code null}.
-   * @throws AssertionError if one element's type matches the given types.
+   * @throws AssertionError       if one element's type matches the given types.
    * @since 2.9.0 / 3.9.0
    */
   @Override
@@ -1693,14 +1693,18 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public AtomicReferenceArrayAssert<T> isSorted() {
     arrays.assertIsSorted(info, array);
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public AtomicReferenceArrayAssert<T> isSortedAccordingTo(Comparator<? super T> comparator) {
     arrays.assertIsSortedAccordingToComparator(info, array, comparator);
@@ -1723,8 +1727,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param iterable the given {@code Iterable} we will get elements from.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given argument is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray is {@code null}.
-   * @throws AssertionError if the actual AtomicReferenceArray does not contain all the elements of given {@code Iterable}.
+   * @throws AssertionError       if the actual AtomicReferenceArray is {@code null}.
+   * @throws AssertionError       if the actual AtomicReferenceArray does not contain all the elements of given {@code Iterable}.
    */
   @Override
   public AtomicReferenceArrayAssert<T> containsAll(Iterable<? extends T> iterable) {
@@ -1759,8 +1763,8 @@ public class AtomicReferenceArrayAssert<T>
    *                                .contains(sauron);</code></pre>
    *
    * @param elementComparator the comparator to use for incoming assertion checks.
-   * @throws NullPointerException if the given comparator is {@code null}.
    * @return {@code this} assertion object.
+   * @throws NullPointerException if the given comparator is {@code null}.
    */
   @Override
   @CheckReturnValue
@@ -1770,7 +1774,9 @@ public class AtomicReferenceArrayAssert<T>
     return myself;
   }
 
-  /** {@inheritDoc} */
+  /**
+   * {@inheritDoc}
+   */
   @Override
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingDefaultElementComparator() {
@@ -1788,9 +1794,9 @@ public class AtomicReferenceArrayAssert<T>
    *       .contains(new BigDecimal("4.20"));
    * </code></pre>
    *
-   * @param <C> the type to compare.
+   * @param <C>        the type to compare.
    * @param comparator the {@link java.util.Comparator} to use
-   * @param type the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for
+   * @param type       the {@link java.lang.Class} of the type of the element or element fields the comparator should be used for
    * @return {@code this} assertions object
    * @since 2.9.0 / 3.9.0
    */
@@ -1807,7 +1813,6 @@ public class AtomicReferenceArrayAssert<T>
   }
 
   /**
-   /**
    * Enable using a recursive field by field comparison strategy similar to {@link #usingRecursiveComparison()} but contrary to the latter <b>you can chain any iterable assertions after this method</b> (this is why this method exists).
    * <p>
    * This method uses the default {@link RecursiveComparisonConfiguration}, if you need to customize it use {@link #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)} instead.
@@ -1854,9 +1859,9 @@ public class AtomicReferenceArrayAssert<T>
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @return {@code this} assertion object.
-   * @since 2.7.0 / 3.7.0 - breaking change in 3.20.0
    * @see RecursiveComparisonConfiguration
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
+   * @since 2.7.0 / 3.7.0 - breaking change in 3.20.0
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparator() {
@@ -1908,7 +1913,7 @@ public class AtomicReferenceArrayAssert<T>
    * // assertion fails because howard is missing and leonard is not expected.
    * assertThat(doctors).usingRecursiveFieldByFieldElementComparator(configuration)
    *                    .containsExactlyInAnyOrderElementsOf(List.of(howard, sheldon, raj));</code></pre>
-   *
+   * <p>
    * A detailed documentation for the recursive comparison is available here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>.
    * <p>
    * A point worth mentioning: <b>elements order does matter if the expected iterable is ordered</b>, for example comparing a {@code Set<Person>} to a {@code List<Person>} fails as {@code List} is ordered and {@code Set} is not.<br>
@@ -1917,10 +1922,9 @@ public class AtomicReferenceArrayAssert<T>
    * {@link RecursiveComparisonAssert#ignoringCollectionOrderInFieldsMatchingRegexes(String...) ignoringCollectionOrderInFieldsMatchingRegexes}.
    *
    * @param configuration the recursive comparison configuration.
-   *
    * @return {@code this} assertion object.
-   * @since 3.20.0
    * @see RecursiveComparisonConfiguration
+   * @since 3.20.0
    */
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration configuration) {
     return usingElementComparator(new ConfigurableRecursiveFieldByFieldComparator(configuration));
@@ -1961,11 +1965,12 @@ public class AtomicReferenceArrayAssert<T>
    *                                     .contains(jalenRose);</code></pre>
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    * <p>
+   *
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
-   * @since 3.20.0
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @since 3.20.0
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparatorOnFields(String... fields) {
@@ -2010,11 +2015,12 @@ public class AtomicReferenceArrayAssert<T>
    *                                     .contains(jalenRose);</code></pre>
    * The recursive comparison is documented here: <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
    * <p>
+   *
    * @param fields the field names to exclude in the elements comparison.
    * @return {@code this} assertion object.
-   * @since 3.20.0
    * @see #usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration)
    * @see <a href="https://assertj.github.io/doc/#assertj-core-recursive-comparison">https://assertj.github.io/doc/#assertj-core-recursive-comparison</a>
+   * @since 3.20.0
    */
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> usingRecursiveFieldByFieldElementComparatorIgnoringFields(String... fields) {
@@ -2056,7 +2062,7 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;)
    *                                .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *                                .doesNotContain(&quot;Orc&quot;);</code></pre>
-   *
+   * <p>
    * A property with the given name is looked for first, if it does not exist then a field with the given name
    * is looked for.
    * <p>
@@ -2107,15 +2113,15 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(fellowshipOfTheRing).extracting(&quot;race.name&quot;, String.class)
    *                                .contains(&quot;Hobbit&quot;, &quot;Elf&quot;)
    *                                .doesNotContain(&quot;Orc&quot;);</code></pre>
-   *
+   * <p>
    * A property with the given name is looked for first, if it does not exist then a field with the given name
    * is looked for.
    * <p>
    * Note that the order of extracted field/property values is consistent with the order of the array under test.
    *
-   * @param <P> the extracted type
+   * @param <P>             the extracted type
    * @param fieldOrProperty the field/property to extract from the array under test
-   * @param extractingType type to return
+   * @param extractingType  type to return
    * @return a new assertion object whose object under test is the array of extracted field/property values.
    * @throws IntrospectionError if no field or property exists with the given name
    * @since 2.7.0 / 3.7.0
@@ -2168,7 +2174,7 @@ public class AtomicReferenceArrayAssert<T>
    *                                .contains(tuple(&quot;Boromir&quot;, 37, &quot;Man&quot;),
    *                                          tuple(&quot;Sam&quot;, 38, &quot;Hobbit&quot;),
    *                                          tuple(&quot;Legolas&quot;, 1000, &quot;Elf&quot;));</code></pre>
-   *
+   * <p>
    * A property with the given name is looked for first, if it does not exist a field with the given name is looked for.
    * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the array under
@@ -2176,9 +2182,9 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param propertiesOrFields the properties/fields to extract from the initial array under test
    * @return a new assertion object whose object under test is the list of Tuple with extracted properties/fields values
-   *         as data.
+   * as data.
    * @throws IntrospectionError if one of the given name does not match a field or property in one of the initial
-   *         Iterable's element.
+   *                            Iterable's element.
    */
   @CheckReturnValue
   public ObjectArrayAssert<Tuple> extracting(String... propertiesOrFields) {
@@ -2221,12 +2227,12 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // fellowship has hobbits, right, my presioussss?
    * assertThat(fellowshipOfTheRing).extracting(race).contains(HOBBIT);</code></pre>
-   *
+   * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
    *
-   * @param <U> the extracted values type
+   * @param <U>       the extracted values type
    * @param extractor the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 2.7.0 / 3.7.0
@@ -2267,14 +2273,14 @@ public class AtomicReferenceArrayAssert<T>
    *   }
    *   return input.getName();
    * }).contains("Frodo");</code></pre>
-   *
+   * <p>
    * Note that the order of extracted property/field values is consistent with the iteration order of the Iterable under
    * test, for example if it's a {@link HashSet}, you won't be able to make any assumptions on the extracted values
    * order.
    *
-   * @param <U> the extracted values type
+   * @param <U>         the extracted values type
    * @param <EXCEPTION> the exception type
-   * @param extractor the object transforming input object to desired one
+   * @param extractor   the object transforming input object to desired one
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.7.0
    */
@@ -2313,12 +2319,12 @@ public class AtomicReferenceArrayAssert<T>
    * // check children
    * assertThat(parents).flatExtracting(childrenOf)
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
-   *
+   * <p>
    * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
-   * @param <U> the type of elements to extract.
-   * @param <C> the type of collection to flat/extract.
+   * @param <U>       the type of elements to extract.
+   * @param <C>       the type of collection to flat/extract.
    * @param extractor the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 2.7.0 / 3.7.0
@@ -2354,14 +2360,14 @@ public class AtomicReferenceArrayAssert<T>
    *   }
    *   return input.getChildren();
    * }).containsOnly(bart, lisa, maggie, pebbles);</code></pre>
-   *
+   * <p>
    * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
-   * @param <U> the type of elements to extract.
-   * @param <C> the type of collection to flat/extract.
+   * @param <U>         the type of elements to extract.
+   * @param <C>         the type of collection to flat/extract.
    * @param <EXCEPTION> the exception type
-   * @param extractor the object transforming input object to an Iterable of desired ones
+   * @param extractor   the object transforming input object to an Iterable of desired ones
    * @return a new assertion object whose object under test is the list of values extracted
    * @since 3.7.0
    */
@@ -2397,7 +2403,7 @@ public class AtomicReferenceArrayAssert<T>
    * // check children
    * assertThat(parents).flatExtracting("children")
    *                    .containsOnly(bart, lisa, maggie, pebbles);</code></pre>
-   *
+   * <p>
    * The order of extracted values is consisted with both the order of the collection itself, and the extracted
    * collections.
    *
@@ -2466,7 +2472,7 @@ public class AtomicReferenceArrayAssert<T>
    * @param method the name of the method which result is to be extracted from the array under test
    * @return a new assertion object whose object under test is the array of extracted values.
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
-   *           return void, or method accepts arguments.
+   *                                  return void, or method accepts arguments.
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
@@ -2512,12 +2518,12 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Note that the order of extracted values is consistent with the order of the array under test.
    *
-   * @param <P> the extracted type
-   * @param method the name of the method which result is to be extracted from the array under test
+   * @param <P>            the extracted type
+   * @param method         the name of the method which result is to be extracted from the array under test
    * @param extractingType type to return
    * @return a new assertion object whose object under test is the array of extracted values.
    * @throws IllegalArgumentException if no method exists with the given name, or method is not public, or method does
-   *           return void, or method accepts arguments.
+   *                                  return void, or method accepts arguments.
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
@@ -2539,7 +2545,7 @@ public class AtomicReferenceArrayAssert<T>
    * <pre><code class='java'>
    * AtomicReferenceArray&lt;Byte&gt; bytes = new AtomicReferenceArray&lt;&gt;(new Byte[]{ 0x10, 0x20 });
    * assertThat(bytes).inHexadecimal().contains(new Byte[] { 0x30 });</code></pre>
-   *
+   * <p>
    * With standard error message:
    * <pre><code class='java'> Expecting:
    *  &lt;[16, 32]&gt;
@@ -2547,7 +2553,7 @@ public class AtomicReferenceArrayAssert<T>
    *  &lt;[48]&gt;
    * but could not find:
    *  &lt;[48]&gt;</code></pre>
-   *
+   * <p>
    * With Hexadecimal error message:
    * <pre><code class='java'> Expecting:
    *  &lt;[0x10, 0x20]&gt;
@@ -2583,7 +2589,7 @@ public class AtomicReferenceArrayAssert<T>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
-   *
+   * <p>
    * As an example, let's check all employees 800 years old (yes, special employees):
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
@@ -2594,7 +2600,7 @@ public class AtomicReferenceArrayAssert<T>
    *
    * assertThat(employees).filteredOn("age", 800)
    *                      .containsOnly(yoda, obiwan);</code></pre>
-   *
+   * <p>
    * Nested properties/fields are supported:
    * <pre><code class='java'> // Name is bean class with 'first' and 'last' String properties
    *
@@ -2622,10 +2628,10 @@ public class AtomicReferenceArrayAssert<T>
    * filter to apply.
    *
    * @param propertyOrFieldName the name of the property or field to read
-   * @param expectedValue the value to compare element's property or field with
+   * @param expectedValue       the value to compare element's property or field with
    * @return a new assertion object with the filtered array under test
    * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
-   * @throws IntrospectionError if the given propertyOrFieldName can't be found in one of the array elements.
+   * @throws IntrospectionError       if the given propertyOrFieldName can't be found in one of the array elements.
    * @since 2.7.0 / 3.7.0
    */
   @CheckReturnValue
@@ -2654,13 +2660,13 @@ public class AtomicReferenceArrayAssert<T>
    *
    * assertThat(employees).filteredOnNull("name")
    *                      .containsOnly(noname);</code></pre>
-   *
+   * <p>
    * Nested properties/fields are supported:
    * <pre><code class='java'> // Name is bean class with 'first' and 'last' String properties
    *
    * assertThat(employees).filteredOnNull("name.last")
    *                      .containsOnly(yoda, obiwan, noname);</code></pre>
-   *
+   * <p>
    * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the array
    * elements.
    * <p>
@@ -2697,7 +2703,7 @@ public class AtomicReferenceArrayAssert<T>
    * When reading <b>nested</b> property/field, if an intermediate value is null the whole nested property/field is
    * considered to be null, thus reading "address.street.name" value will return null if "street" value is null.
    * <p>
-   *
+   * <p>
    * As an example, let's check stuff on some special employees :
    * <pre><code class='java'> Employee yoda   = new Employee(1L, new Name("Yoda"), 800);
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
@@ -2717,7 +2723,7 @@ public class AtomicReferenceArrayAssert<T>
    * // 'notIn' filter is statically imported from Assertions.notIn
    * assertThat(employees).filteredOn("name.first", notIn("Yoda", "Luke"))
    *                      .containsOnly(obiwan);</code></pre>
-   *
+   * <p>
    * An {@link IntrospectionError} is thrown if the given propertyOrFieldName can't be found in one of the array
    * elements.
    * <p>
@@ -2734,12 +2740,12 @@ public class AtomicReferenceArrayAssert<T>
    * assertThat(fellowshipOfTheRing).filteredOn("race.name", "Man")
    *                                .filteredOn("name", not("Boromir"))
    *                                .containsOnly(aragorn);</code></pre>
-   *
+   * <p>
    * If you need more complex filter, use {@link #filteredOn(Condition)} or {@link #filteredOn(Predicate)} and
    * provide a {@link Condition} or {@link Predicate} to specify the filter to apply.
    *
    * @param propertyOrFieldName the name of the property or field to read
-   * @param filterOperator the filter operator to apply
+   * @param filterOperator      the filter operator to apply
    * @return a new assertion object with the filtered array under test
    * @throws IllegalArgumentException if the given propertyOrFieldName is {@code null} or empty.
    * @since 2.7.0 / 3.7.0
@@ -2774,7 +2780,7 @@ public class AtomicReferenceArrayAssert<T>
    *   }
    * assertThat(employees).filteredOn(oldEmployees)
    *                      .containsOnly(yoda, obiwan);</code></pre>
-   *
+   * <p>
    * You can combine {@link Condition} with condition operator like {@link Not}:
    * <pre><code class='java'> // 'not' filter is statically imported from Assertions.not
    * assertThat(employees).filteredOn(not(oldEmployees))
@@ -2833,11 +2839,11 @@ public class AtomicReferenceArrayAssert<T>
    *
    * assertThat(employees).filteredOn(e -&gt; e.getName(), null)
    *                      .containsOnly(noname);</code></pre>
-   *
+   * <p>
    * If you need more complex filter, use {@link #filteredOn(Predicate)} or {@link #filteredOn(Condition)}.
    *
-   * @param <U> result type of the filter function
-   * @param function the filter function
+   * @param <U>           result type of the filter function
+   * @param function      the filter function
    * @param expectedValue the expected value of the filter function
    * @return a new assertion object with the filtered array under test
    * @throws IllegalArgumentException if the given function is {@code null}.
@@ -2862,14 +2868,14 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // assertion will fail
    * assertThat(abcc).allMatch(s -&gt; s.length() == 1);</code></pre>
-   *
+   * <p>
    * Note that you can achieve the same result with {@link #are(Condition) are(Condition)} or {@link #have(Condition) have(Condition)}.
    *
    * @param predicate the given {@link Predicate}.
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements don't satisfy the given predicate.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements don't satisfy the given predicate.
    * @since 3.7.0
    */
   @Override
@@ -2891,20 +2897,19 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // assertion will fail
    * assertThat(abcc).allMatch(s -&gt; s.length() == 1, "length of 1");</code></pre>
-   *
+   * <p>
    * The message of the failed assertion would be:
    * <pre><code class='java'>Expecting all elements of:
    *  &lt;["a", "b", "cc"]&gt;
    *  to match 'length of 1' predicate but this element did not:
    *  &lt;"cc"&gt;</code></pre>
    *
-   *
-   * @param predicate the given {@link Predicate}.
+   * @param predicate            the given {@link Predicate}.
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if one or more elements don't satisfy the given predicate.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if one or more elements don't satisfy the given predicate.
    * @since 3.7.0
    */
   @Override
@@ -2928,7 +2933,7 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the given {@link Consumer}.
    * @return {@code this} object.
    * @throws NullPointerException if the given {@link Consumer} is {@code null}.
-   * @throws AssertionError if one or more elements don't satisfy given requirements.
+   * @throws AssertionError       if one or more elements don't satisfy given requirements.
    * @since 3.7.0
    */
   @Override
@@ -2942,18 +2947,18 @@ public class AtomicReferenceArrayAssert<T>
    * This is useful to perform a group of assertions on elements.
    * <p>
    * This is the same assertion as {@link #allSatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'>  // read() throws IOException
-   * // note that the code would not compile if isNotEmpty, startsWithA or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * // note that the code would not compile if isNotEmpty, startsWithA or startsWithZ were declared as a Consumer&lt;Reader&gt;
    * ThrowingConsumer&lt;Reader&gt; isNotEmpty = reader -&gt; assertThat(reader.read()).isEqualTo(-1);
    * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
    *
-   * // ABC.txt contains: ABC  
-   * // XYZ.txt contains: XYZ  
+   * // ABC.txt contains: ABC
+   * // XYZ.txt contains: XYZ
    * AtomicReferenceArray&lt;FileReader&gt; fileReaders = new AtomicReferenceArray&lt;&gt;(new FileReader[] {new FileReader("ABC.txt"), new FileReader("XYZ.txt")});
-   * 
+   *
    * // assertion succeeds as none of the files are empty
    * assertThat(fileReaders).allSatisfy(isNotEmpty);
    *
@@ -2965,8 +2970,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the given {@link ThrowingConsumer}.
    * @return {@code this} object.
    * @throws NullPointerException if given {@link ThrowingConsumer} is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if one or more elements don't satisfy the given requirements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if one or more elements don't satisfy the given requirements.
    * @since 3.21.0
    */
   @Override
@@ -2991,14 +2996,14 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // assertion will fail
    * assertThat(abcc).anyMatch(s -&gt; s.length() &gt; 2);</code></pre>
-   *
+   * <p>
    * Note that you can achieve the same result with {@link #areAtLeastOne(Condition) areAtLeastOne(Condition)}
    * or {@link #haveAtLeastOne(Condition) haveAtLeastOne(Condition)}.
    *
    * @param predicate the given {@link Predicate}.
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if no elements satisfy the given predicate.
+   * @throws AssertionError       if no elements satisfy the given predicate.
    * @since 3.9.0
    */
   @Override
@@ -3019,17 +3024,17 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // assertion will fail
    * assertThat(abcc).anyMatch(s -&gt; s.length() &gt; 2, "length greater than 2);</code></pre>
-   *
+   * <p>
    * The message of the failed assertion would be:
    * <pre><code class='java'>Expecting any elements of:
    *  &lt;["a", "b", "cc"]&gt;
    *  to match 'length greater than 2' predicate but none did.</code></pre>
    *
-   * @param predicate the given {@link Predicate}.
+   * @param predicate            the given {@link Predicate}.
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if no elements satisfy the given predicate.
+   * @throws AssertionError       if no elements satisfy the given predicate.
    * @since 3.27.0
    */
   @Override
@@ -3061,7 +3066,7 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the given {@link Consumer}.
    * @return {@code this} object.
    * @throws NullPointerException if the given {@link Consumer} is {@code null}.
-   * @throws AssertionError if all elements don't satisfy given requirements.
+   * @throws AssertionError       if all elements don't satisfy given requirements.
    * @since 3.7.0
    */
   @Override
@@ -3075,18 +3080,18 @@ public class AtomicReferenceArrayAssert<T>
    * This is useful to check that a group of assertions is verified by (at least) one element.
    * <p>
    * This is the same assertion as {@link #anySatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'>  // read() throws IOException
-   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt;
    * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
    * ThrowingConsumer&lt;Reader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
    *
-   * // ABC.txt contains: ABC  
-   * // XYZ.txt contains: XYZ  
+   * // ABC.txt contains: ABC
+   * // XYZ.txt contains: XYZ
    * AtomicReferenceArray&lt;FileReader&gt; fileReaders = new AtomicReferenceArray&lt;&gt;(new FileReader[] {new FileReader("ABC.txt"), new FileReader("XYZ.txt")});
-   * 
+   *
    * // assertion succeeds as ABC.txt starts with 'A'
    * assertThat(fileReaders).anySatisfy(startsWithA);
    *
@@ -3098,8 +3103,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the given {@link ThrowingConsumer}.
    * @return {@code this} object.
    * @throws NullPointerException if given {@link ThrowingConsumer} is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError no elements satisfy the given requirements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       no elements satisfy the given requirements.
    * @since 3.21.0
    */
   @Override
@@ -3126,18 +3131,18 @@ public class AtomicReferenceArrayAssert<T>
    * This is useful to check that a group of assertions is verified by (at least) one element.
    * <p>
    * This is the same assertion as {@link #anySatisfy(Consumer)} but the given consumer can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'>  // read() throws IOException
-   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt; 
+   * // note that the code would not compile if startsWithA, startsWithY or startsWithZ were declared as a Consumer&lt;Reader&gt;
    * ThrowingConsumer&lt;Reader&gt; startsWithA = reader -&gt; assertThat(reader.read()).isEqualTo('A');
    * ThrowingConsumer&lt;Reader&gt; startsWithZ = reader -&gt; assertThat(reader.read()).isEqualTo('Z');
    *
-   * // ABC.txt contains: ABC  
-   * // XYZ.txt contains: XYZ  
+   * // ABC.txt contains: ABC
+   * // XYZ.txt contains: XYZ
    * AtomicReferenceArray&lt;FileReader&gt; fileReaders = new AtomicReferenceArray&lt;&gt;(new FileReader[] {new FileReader("ABC.txt"), new FileReader("XYZ.txt")});
-   * 
+   *
    * // assertion succeeds as none of the file starts 'Z'
    * assertThat(fileReaders).noneSatisfy(startsWithZ);
    *
@@ -3149,8 +3154,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param restrictions the given {@link ThrowingConsumer}.
    * @return {@code this} object.
    * @throws NullPointerException if given {@link ThrowingConsumer} is null
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if one or more elements satisfy the given requirements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if one or more elements satisfy the given requirements.
    * @since 3.21.0
    */
   @Override
@@ -3199,8 +3204,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the requirements to meet.
    * @return {@code this} to chain assertions.
    * @throws NullPointerException if given requirements are null.
-   * @throws AssertionError if any element does not satisfy the requirements at the same index
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @throws AssertionError       if any element does not satisfy the requirements at the same index
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.19.0
    */
   @Override
@@ -3216,11 +3221,11 @@ public class AtomicReferenceArrayAssert<T>
    * Each requirement is expressed as a {@link ThrowingConsumer}, there must be as many requirements as there are iterable elements.
    * <p>
    * This is the same assertion as {@link #satisfiesExactly(Consumer...)} but the given consumers can throw checked exceptions.<br>
-   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}. 
+   * More precisely, {@link RuntimeException} and {@link AssertionError} are rethrown as they are and {@link Throwable} wrapped in a {@link RuntimeException}.
    * <p>
    * Example:
    * <pre><code class='java'> AtomicReferenceArray&lt;TolkienCharacter&gt; characters = new AtomicReferenceArray&lt;&gt;(new TolkienCharacter[] {frodo, aragorn, legolas});
-   * 
+   *
    * // the code would compile even if TolkienCharacter.getRace(), isMortal() or getName() threw a checked exception
    *
    * // assertions succeed
@@ -3250,9 +3255,9 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the requirements to meet.
    * @return {@code this} to chain assertions.
    * @throws NullPointerException if given requirements are null.
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if any element does not satisfy the requirements at the same index
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if any element does not satisfy the requirements at the same index
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.21.0
    */
   @Override
@@ -3315,9 +3320,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
-   * @throws AssertionError if there is no permutation of elements that satisfies the individual consumers in order
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
-   *
+   * @throws AssertionError       if there is no permutation of elements that satisfies the individual consumers in order
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.19.0
    */
   @Override
@@ -3372,9 +3376,9 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the consumers that are expected to be satisfied by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given consumers array or any consumer is {@code null}.
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if there is no permutation of elements that satisfies the individual consumers in order
-   * @throws AssertionError if there are not as many requirements as there are iterable elements.
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if there is no permutation of elements that satisfies the individual consumers in order
+   * @throws AssertionError       if there are not as many requirements as there are iterable elements.
    * @since 3.21.0
    */
   @Override
@@ -3411,7 +3415,7 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the {@link Consumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given requirements are {@code null}.
-   * @throws AssertionError if the requirements are not satisfied only once
+   * @throws AssertionError       if the requirements are not satisfied only once
    * @since 3.24.0
    */
   @Override
@@ -3439,8 +3443,8 @@ public class AtomicReferenceArrayAssert<T>
    * @param requirements the {@link ThrowingConsumer} that is expected to be satisfied only once by the elements of the given {@code Iterable}.
    * @return this assertion object.
    * @throws NullPointerException if the given requirements are {@code null}.
-   * @throws RuntimeException rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.    
-   * @throws AssertionError if the requirements are not satisfied only once
+   * @throws RuntimeException     rethrown as is by the given {@link ThrowingConsumer} or wrapping any {@link Throwable}.
+   * @throws AssertionError       if the requirements are not satisfied only once
    * @since 3.24.0
    */
   @Override
@@ -3475,10 +3479,10 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param values the values whose at least one which is expected to be in the {@code AtomicReferenceArray} under test.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the array of values is {@code null}.
+   * @throws NullPointerException     if the array of values is {@code null}.
    * @throws IllegalArgumentException if the array of values is empty and the {@code AtomicReferenceArray} under test is not empty.
-   * @throws AssertionError if the {@code AtomicReferenceArray} under test is {@code null}.
-   * @throws AssertionError if the {@code AtomicReferenceArray} under test does not contain any of the given {@code values}.
+   * @throws AssertionError           if the {@code AtomicReferenceArray} under test is {@code null}.
+   * @throws AssertionError           if the {@code AtomicReferenceArray} under test does not contain any of the given {@code values}.
    * @since 2.9.0 / 3.9.0
    */
   @Override
@@ -3514,10 +3518,10 @@ public class AtomicReferenceArrayAssert<T>
    *
    * @param iterable the iterable whose at least one element is expected to be in the {@code AtomicReferenceArray} under test.
    * @return {@code this} assertion object.
-   * @throws NullPointerException if the iterable of expected values is {@code null}.
+   * @throws NullPointerException     if the iterable of expected values is {@code null}.
    * @throws IllegalArgumentException if the iterable of expected values is empty and the {@code AtomicReferenceArray} under test is not empty.
-   * @throws AssertionError if the {@code AtomicReferenceArray} under test is {@code null}.
-   * @throws AssertionError if the {@code AtomicReferenceArray} under test does not contain any of elements from the given {@code Iterable}.
+   * @throws AssertionError           if the {@code AtomicReferenceArray} under test is {@code null}.
+   * @throws AssertionError           if the {@code AtomicReferenceArray} under test does not contain any of elements from the given {@code Iterable}.
    * @since 2.9.0 / 3.9.0
    */
   @Override
@@ -3536,15 +3540,15 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // assertion will fail
    * assertThat(abcc).noneMatch(s -&gt; s.length() == 2);</code></pre>
-   *
+   * <p>
    * Note that you can achieve the same result with {@link #areNot(Condition) areNot(Condition)}
    * or {@link #doNotHave(Condition) doNotHave(Condition)}.
    *
    * @param predicate the given {@link Predicate}.
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if an element cannot be cast to T.
-   * @throws AssertionError if any element satisfy the given predicate.
+   * @throws AssertionError       if an element cannot be cast to T.
+   * @throws AssertionError       if any element satisfy the given predicate.
    * @since 3.9.0
    */
   @Override
@@ -3565,18 +3569,18 @@ public class AtomicReferenceArrayAssert<T>
    *
    * // assertion will fail
    * assertThat(abcc).noneMatch(s -&gt; s.length() == 2, "length of 2");</code></pre>
-   *
+   * <p>
    * The message of the failed assertion would be:
    * <pre><code class='java'>Expecting no elements of:
    *  &lt;["a", "b", "cc"]&gt;
    *  to match 'length of 2' predicate but this element did:
    *  &lt;"cc"&gt;</code></pre>
    *
-   * @param predicate the given {@link Predicate}.
+   * @param predicate            the given {@link Predicate}.
    * @param predicateDescription a description of the {@link Predicate} used in the error message
    * @return {@code this} object.
    * @throws NullPointerException if the given predicate is {@code null}.
-   * @throws AssertionError if any elements satisfy the given predicate.
+   * @throws AssertionError       if any elements satisfy the given predicate.
    * @since 3.27.0
    */
   @Override
@@ -3593,7 +3597,8 @@ public class AtomicReferenceArrayAssert<T>
 
   // lazy init TypeComparators
   protected TypeComparators getComparatorsForElementPropertyOrFieldTypes() {
-    if (comparatorsForElementPropertyOrFieldTypes == null) comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
+    if (comparatorsForElementPropertyOrFieldTypes == null)
+      comparatorsForElementPropertyOrFieldTypes = defaultTypeComparators();
     return comparatorsForElementPropertyOrFieldTypes;
   }
 
