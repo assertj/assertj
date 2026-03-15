@@ -83,7 +83,7 @@ jobs:
           cache: 'maven'
       - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
       - name: Test
-        run: ./mvnw $MAVEN_ARGS -Dgroovy.version=${{ matrix.groovy }} verify
+        run: ./mvnw $MAVEN_ARGS -pl assertj-tests/assertj-integration-tests/assertj-core-groovy -am -Dgroovy.version=${{ matrix.groovy }} verify
 
   kotlin:
 
@@ -105,7 +105,7 @@ jobs:
           cache: 'maven'
       - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
       - name: Test
-        run: ./mvnw $MAVEN_ARGS -Dkotlin.version=${{ matrix.kotlin }} verify
+        run: ./mvnw $MAVEN_ARGS -pl assertj-tests/assertj-integration-tests/assertj-core-kotlin -am -Dkotlin.version=${{ matrix.kotlin }} verify
 
   javadoc:
 
