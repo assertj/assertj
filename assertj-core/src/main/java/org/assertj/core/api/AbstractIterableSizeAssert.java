@@ -15,6 +15,9 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.annotation.CheckReturnValue;
+import org.assertj.core.util.IterableUtil;
+
 //@format:off
 public abstract class AbstractIterableSizeAssert<SELF extends AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>, 
                                                  ACTUAL extends Iterable<? extends ELEMENT>, 
@@ -23,9 +26,39 @@ public abstract class AbstractIterableSizeAssert<SELF extends AbstractIterableAs
     extends AbstractIntegerAssert<AbstractIterableSizeAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT>> {
 //@format:on
 
-  protected AbstractIterableSizeAssert(Integer actual, Class<?> selfType) {
-    super(actual, selfType);
+  private final AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> originAssert;
+
+  /**
+   * Creates a new instance from an origin {@link AbstractIterableAssert} instance.
+   *
+   * @param originAssert the origin {@link AbstractIterableAssert} that initiated the navigation.
+   * @since 3.28.0
+   */
+  protected AbstractIterableSizeAssert(AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> originAssert) {
+    super(IterableUtil.sizeOf(originAssert.actual), AbstractIterableSizeAssert.class);
+    this.originAssert = originAssert;
   }
 
-  public abstract AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> returnToIterable();
+  /**
+   * @deprecated use {@link #AbstractIterableSizeAssert(AbstractIterableAssert)} instead.
+   */
+  @Deprecated
+  protected AbstractIterableSizeAssert(Integer actual, Class<?> selfType) {
+    super(actual, selfType);
+    this.originAssert = null;
+  }
+
+  /**
+   * Returns to the origin {@link AbstractIterableAssert} instance that initiated the navigation.
+   *
+   * @return the origin {@link AbstractIterableAssert} instance.
+   */
+  @CheckReturnValue
+  public AbstractIterableAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> returnToIterable() {
+    if (originAssert == null) {
+      throw new IllegalStateException("No origin available. Was this assert created from its deprecated constructor?");
+    }
+    return originAssert;
+  }
+
 }

@@ -4077,19 +4077,19 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertThat(elvesRings).size().isGreaterThan(1)
    *                              .isLessThanOrEqualTo(3)
    *                       .returnToIterable().contains(narya)
-   *                                          .doesNotContain(oneRing);
+   *                                        .doesNotContain(oneRing);
    *
    * // assertion will fail:
    * assertThat(elvesRings).size().isGreaterThan(3);</code></pre>
    *
    * @return AbstractIterableSizeAssert built with the {@code Iterable}'s size.
-   * @throws NullPointerException if the given {@code Iterable} is {@code null}.
+   * @throws AssertionError if actual is {@code null}.
    */
-  @SuppressWarnings({ "rawtypes" })
+  @SuppressWarnings({ "unchecked", "rawtypes" }) // FIXME gh-4210
   @CheckReturnValue
   public AbstractIterableSizeAssert<SELF, ACTUAL, ELEMENT, ELEMENT_ASSERT> size() {
-    requireNonNull(actual, "Can not perform assertions on the size of a null iterable.");
-    return new IterableSizeAssert(this, IterableUtil.sizeOf(actual));
+    isNotNull();
+    return new IterableSizeAssert(this);
   }
 
   // lazy init TypeComparators

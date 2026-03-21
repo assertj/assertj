@@ -1219,7 +1219,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .size()
           .isGreaterThan(22)
           .returnToIterable()
-          .as("shoud not be empty") // TODO returnToIterable() does not yet propagate assertion info
+          .as("should not be empty") // TODO returnToIterable() does not yet propagate assertion info
           .overridingErrorMessage("error message 2")
           .isEmpty();
     softly.assertThat(names)
@@ -1262,7 +1262,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     then(errorsCollected).hasSize(10);
     then(errorsCollected.get(0)).hasMessage("[size isGreaterThan(10)] error message");
     then(errorsCollected.get(1)).hasMessage("[size isGreaterThan(22)] error message");
-    then(errorsCollected.get(2)).hasMessage("[shoud not be empty] error message 2");
+    then(errorsCollected.get(2)).hasMessage("[should not be empty] error message 2");
     then(errorsCollected.get(3)).hasMessage("[first element] error message");
     then(errorsCollected.get(4)).hasMessage("[first element as Name] error message");
     then(errorsCollected.get(5)).hasMessage("[element(0)] error message");

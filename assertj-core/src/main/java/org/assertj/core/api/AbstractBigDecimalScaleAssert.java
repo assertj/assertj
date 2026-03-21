@@ -15,18 +15,38 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.annotation.CheckReturnValue;
+
 /**
  * Base class for BigDecimal scale assertions.
  */
 public abstract class AbstractBigDecimalScaleAssert<SELF extends AbstractBigDecimalAssert<SELF>>
     extends AbstractIntegerAssert<AbstractBigDecimalScaleAssert<SELF>> {
 
-  protected AbstractBigDecimalScaleAssert(Integer actualScale, Class<?> selfType) {
-    super(actualScale, selfType);
+  private final AbstractBigDecimalAssert<SELF> originAssert;
+
+  /**
+   * Creates a new instance from an origin {@link AbstractBigDecimalAssert} instance.
+   *
+   * @param originAssert the origin {@link AbstractBigDecimalAssert} that initiated the navigation.
+   * @since 3.28.0
+   */
+  protected AbstractBigDecimalScaleAssert(AbstractBigDecimalAssert<SELF> originAssert) {
+    super(originAssert.actual.scale(), AbstractBigDecimalScaleAssert.class);
+    this.originAssert = originAssert;
   }
 
   /**
-   * Returns to the BigDecimal on which we ran scale assertions on.
+   * @deprecated use {@link #AbstractBigDecimalScaleAssert(AbstractBigDecimalAssert)} instead.
+   */
+  @Deprecated
+  protected AbstractBigDecimalScaleAssert(Integer actualScale, Class<?> selfType) {
+    super(actualScale, selfType);
+    this.originAssert = null;
+  }
+
+  /**
+   * Returns to the origin {@link AbstractBigDecimalAssert} instance that initiated the navigation.
    * <p>
    * Example:
    * <pre><code class='java'> assertThat(new BigDecimal(&quot;2.313&quot;)).scale()
@@ -35,8 +55,14 @@ public abstract class AbstractBigDecimalScaleAssert<SELF extends AbstractBigDeci
    *                                    .returnToBigDecimal()
    *                                      .isPositive();</code></pre>
    *
-   * @return BigDecimal assertions.
+   * @return the origin {@link AbstractBigDecimalAssert} instance.
    */
-  public abstract AbstractBigDecimalAssert<SELF> returnToBigDecimal();
+  @CheckReturnValue
+  public AbstractBigDecimalAssert<SELF> returnToBigDecimal() {
+    if (originAssert == null) {
+      throw new IllegalStateException("No origin available. Was this assert created from its deprecated constructor?");
+    }
+    return originAssert;
+  }
 
 }

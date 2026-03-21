@@ -171,9 +171,8 @@ class SoftProxies {
   IterableSizeAssert<?> createIterableSizeAssertProxy(IterableSizeAssert<?> iterableSizeAssert) {
     Class<?> proxyClass = createSoftAssertionProxyClass(IterableSizeAssert.class);
     try {
-      Constructor<?> constructor = proxyClass.getConstructor(AbstractIterableAssert.class, Integer.class);
-      IterableSizeAssert<?> proxiedAssert = (IterableSizeAssert<?>) constructor.newInstance(iterableSizeAssert.returnToIterable(),
-                                                                                            iterableSizeAssert.actual);
+      Constructor<?> constructor = proxyClass.getConstructor(AbstractIterableAssert.class);
+      IterableSizeAssert<?> proxiedAssert = (IterableSizeAssert<?>) constructor.newInstance(iterableSizeAssert.returnToIterable());
       ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
       return proxiedAssert;
     } catch (Exception e) {
@@ -184,9 +183,8 @@ class SoftProxies {
   MapSizeAssert<?, ?> createMapSizeAssertProxy(MapSizeAssert<?, ?> mapSizeAssert) {
     Class<?> proxyClass = createSoftAssertionProxyClass(MapSizeAssert.class);
     try {
-      Constructor<?> constructor = proxyClass.getConstructor(AbstractMapAssert.class, Integer.class);
-      MapSizeAssert<?, ?> proxiedAssert = (MapSizeAssert<?, ?>) constructor.newInstance(mapSizeAssert.returnToMap(),
-                                                                                        mapSizeAssert.actual);
+      Constructor<?> constructor = proxyClass.getConstructor(AbstractMapAssert.class);
+      MapSizeAssert<?, ?> proxiedAssert = (MapSizeAssert<?, ?>) constructor.newInstance(mapSizeAssert.returnToMap());
       ((AssertJProxySetup) proxiedAssert).assertj$setup(new ProxifyMethodChangingTheObjectUnderTest(this), collector);
       return proxiedAssert;
     } catch (Exception e) {

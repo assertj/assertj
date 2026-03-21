@@ -101,13 +101,11 @@ public class ProxifyMethodChangingTheObjectUnderTest {
 
   private MapSizeAssert<?, ?> createMapSizeAssertProxy(Object currentAssert) {
     MapSizeAssert<?, ?> mapSizeAssert = (MapSizeAssert<?, ?>) currentAssert;
-    // can't use the usual way of building soft proxy since MapSizeAssert takes 2 parameters
     return proxies.createMapSizeAssertProxy(mapSizeAssert);
   }
 
   private IterableSizeAssert<?> createIterableSizeAssertProxy(Object currentAssert) {
     IterableSizeAssert<?> iterableSizeAssert = (IterableSizeAssert<?>) currentAssert;
-    // can't use the usual way of building soft proxy since IterableSizeAssert takes 2 parameters
     return proxies.createIterableSizeAssertProxy(iterableSizeAssert);
   }
 
