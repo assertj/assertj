@@ -15,7 +15,11 @@
  */
 package org.assertj.core.error;
 
+import static org.assertj.core.error.UnsatisfiedRequirement.describeErrors;
+
 import java.util.List;
+
+import org.assertj.core.api.AssertionInfo;
 
 /**
  * Creates an error message indicating that an assertion that verifies that requirements are not satisfied only once.
@@ -35,22 +39,39 @@ public class ShouldSatisfyOnlyOnce extends BasicErrorMessageFactory {
   // @format:on
 
   /**
-   * Creates a new <code>{@link ShouldSatisfyOnlyOnce}</code>.
+   * Creates a new <code>{@link ShouldSatisfyOnlyOnce}</code> with per-element failure details.
    *
    * @param <E> the iterable elements type.
    * @param actual the actual iterable in the failed assertion.
    * @param satisfiedElements the elements which satisfied the requirement
+   * @param unsatisfiedRequirements the per-element failure details
+   * @param info the assertion info
    * @return the created {@link ErrorMessageFactory}.
    */
-  public static <E> ErrorMessageFactory shouldSatisfyOnlyOnce(Iterable<? extends E> actual, List<? extends E> satisfiedElements) {
-    return satisfiedElements.isEmpty() ? new ShouldSatisfyOnlyOnce(actual) : new ShouldSatisfyOnlyOnce(actual, satisfiedElements);
+  public static <E> ErrorMessageFactory shouldSatisfyOnlyOnce(Iterable<? extends E> actual,
+                                                              List<? extends E> satisfiedElements,
+                                                              List<UnsatisfiedRequirement> unsatisfiedRequirements,
+                                                              AssertionInfo info) {
+    if (satisfiedElements.isEmpty()) {
+      return new ShouldSatisfyOnlyOnce(actual, unsatisfiedRequirements, info);
+    }
+    return new ShouldSatisfyOnlyOnce(actual, satisfiedElements, unsatisfiedRequirements, info);
   }
 
-  private ShouldSatisfyOnlyOnce(Iterable<?> actual) {
-    super(NO_ELEMENT_SATISFIED_REQUIREMENTS, actual);
+  // 0 satisfied — show all per-element errors
+  private ShouldSatisfyOnlyOnce(Iterable<?> actual, List<UnsatisfiedRequirement> unsatisfiedRequirements,
+                                AssertionInfo info) {
+    super(NO_ELEMENT_SATISFIED_REQUIREMENTS + "%n%n" + describeErrors(unsatisfiedRequirements, info), actual);
   }
 
-  private ShouldSatisfyOnlyOnce(Iterable<?> actual, List<?> satisfiedElements) {
-    super(MORE_THAN_ONE_ELEMENT_SATISFIED_REQUIREMENTS, actual, satisfiedElements.size(), satisfiedElements);
+  // 2+ satisfied — show which passed + why others failed
+  private ShouldSatisfyOnlyOnce(Iterable<?> actual, List<?> satisfiedElements,
+                                List<UnsatisfiedRequirement> unsatisfiedRequirements, AssertionInfo info) {
+    super(MORE_THAN_ONE_ELEMENT_SATISFIED_REQUIREMENTS
+          + (unsatisfiedRequirements.isEmpty() ? ""
+              : "%n%nElements which did not satisfy the requirements:%n%n"
+                + describeErrors(unsatisfiedRequirements, info)),
+          actual, satisfiedElements.size(), satisfiedElements);
   }
+
 }

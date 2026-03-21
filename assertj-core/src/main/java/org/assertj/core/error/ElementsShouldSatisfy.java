@@ -58,7 +58,7 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
 
   private ElementsShouldSatisfy(String message, Object actual, List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements,
                                 AssertionInfo info) {
-    super(message + describeErrors(elementsNotSatisfyingRequirements, info), actual);
+    super(message + UnsatisfiedRequirement.describeErrors(elementsNotSatisfyingRequirements, info), actual);
   }
 
   private ElementsShouldSatisfy(String message, Object actual, Map<Integer, UnsatisfiedRequirement> unsatisfiedRequirements,
@@ -76,12 +76,6 @@ public class ElementsShouldSatisfy extends BasicErrorMessageFactory {
     int index = requirementsAtIndex.getKey();
     UnsatisfiedRequirement unsatisfiedRequirement = requirementsAtIndex.getValue();
     return unsatisfiedRequirement.describe(index, info);
-  }
-
-  private static String describeErrors(List<UnsatisfiedRequirement> elementsNotSatisfyingRequirements, AssertionInfo info) {
-    return escapePercent(elementsNotSatisfyingRequirements.stream()
-                                                          .map(unsatisfiedRequirement -> unsatisfiedRequirement.describe(info))
-                                                          .collect(joining("%n%n".formatted())));
   }
 
 }

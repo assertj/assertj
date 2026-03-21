@@ -16,6 +16,10 @@
 package org.assertj.core.error;
 
 import static java.lang.String.format;
+import static java.util.stream.Collectors.joining;
+import static org.assertj.core.util.Strings.escapePercent;
+
+import java.util.List;
 
 import org.assertj.core.api.AssertionInfo;
 import org.assertj.core.presentation.Representation;
@@ -48,6 +52,12 @@ public class UnsatisfiedRequirement {
                   "- element index: %s%n" +
                   "- error: %s",
                   representation.toStringOf(elementNotSatisfyingRequirements), index, describeError(representation));
+  }
+
+  public static String describeErrors(List<UnsatisfiedRequirement> unsatisfiedRequirements, AssertionInfo info) {
+    return escapePercent(unsatisfiedRequirements.stream()
+                                                .map(unsatisfiedRequirement -> unsatisfiedRequirement.describe(info))
+                                                .collect(joining("%n%n".formatted())));
   }
 
   private String describeError(Representation representation) {
