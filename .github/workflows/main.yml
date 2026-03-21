@@ -32,7 +32,7 @@ jobs:
           distribution: 'zulu'
           java-version: '25'
           cache: 'maven'
-      - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
+      - uses: testlens-app/setup-testlens@0232fb63c43e5b93421545ba67bbb2981790a87f # v1.8.0
       - name: Test
         run: ./mvnw $MAVEN_ARGS verify
       - name: Publish Test Report
@@ -59,7 +59,7 @@ jobs:
           website: jdk.java.net
           release: ${{ matrix.java }}
           version: latest
-      - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
+      - uses: testlens-app/setup-testlens@0232fb63c43e5b93421545ba67bbb2981790a87f # v1.8.0
       - name: Test
         run: ./mvnw $MAVEN_ARGS verify
 
@@ -81,7 +81,7 @@ jobs:
           distribution: 'zulu'
           java-version: '25'
           cache: 'maven'
-      - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
+      - uses: testlens-app/setup-testlens@0232fb63c43e5b93421545ba67bbb2981790a87f # v1.8.0
       - name: Test
         run: ./mvnw $MAVEN_ARGS -pl assertj-tests/assertj-integration-tests/assertj-core-groovy -am -Dgroovy.version=${{ matrix.groovy }} verify
 
@@ -103,7 +103,7 @@ jobs:
           distribution: 'zulu'
           java-version: '25'
           cache: 'maven'
-      - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
+      - uses: testlens-app/setup-testlens@0232fb63c43e5b93421545ba67bbb2981790a87f # v1.8.0
       - name: Test
         run: ./mvnw $MAVEN_ARGS -pl assertj-tests/assertj-integration-tests/assertj-core-kotlin -am -Dkotlin.version=${{ matrix.kotlin }} verify
 
@@ -139,7 +139,7 @@ jobs:
           distribution: 'zulu'
           java-version: '25'
           cache: 'maven'
-      - uses: testlens-app/setup-testlens@7f83d4feb810f54f9a4ccc1df7cbc79ee3cd836b # v1.7.1
+      - uses: testlens-app/setup-testlens@0232fb63c43e5b93421545ba67bbb2981790a87f # v1.8.0
       - name: Test with Sonar
         run: >
           ./mvnw $MAVEN_ARGS verify sonar:sonar
