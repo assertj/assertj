@@ -130,8 +130,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameTextualContentAs(Path expected) {
-    paths.assertHasSameTextualContentAs(info, actual, charset, expected, Charset.defaultCharset());
-    return myself;
+    return executeAssertion(() -> paths.assertHasSameTextualContentAs(info, actual, charset, expected, Charset.defaultCharset()));
   }
 
   /**
@@ -162,8 +161,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameTextualContentAs(Path expected, Charset expectedCharset) {
-    paths.assertHasSameTextualContentAs(info, actual, charset, expected, expectedCharset);
-    return myself;
+    return executeAssertion(() -> paths.assertHasSameTextualContentAs(info, actual, charset, expected, expectedCharset));
   }
 
   /**
@@ -195,8 +193,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the given binary content.
    */
   public SELF hasBinaryContent(byte[] expected) {
-    paths.assertHasBinaryContent(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> paths.assertHasBinaryContent(info, actual, expected));
   }
 
   /**
@@ -226,8 +223,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameBinaryContentAs(Path expected) {
-    paths.assertHasSameBinaryContentAs(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> paths.assertHasSameBinaryContentAs(info, actual, expected));
   }
 
   /**
@@ -312,8 +308,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code Path} is not equal to the given content.
    */
   public SELF hasContent(String expected) {
-    paths.assertHasTextualContent(info, actual, expected, charset);
-    return myself;
+    return executeAssertion(() -> paths.assertHasTextualContent(info, actual, expected, charset));
   }
 
   /**
@@ -340,8 +335,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.23.0
    */
   public SELF hasFileSystem(FileSystem expected) {
-    paths.assertHasFileSystem(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> paths.assertHasFileSystem(info, actual, expected));
   }
 
   /**
@@ -367,8 +361,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.23.0
    */
   public SELF hasSameFileSystemAs(Path expected) {
-    paths.assertHasSameFileSystemAs(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> paths.assertHasSameFileSystemAs(info, actual, expected));
   }
 
   /**
@@ -404,8 +397,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#isReadable(Path)
    */
   public SELF isReadable() {
-    paths.assertIsReadable(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsReadable(info, actual));
   }
 
   /**
@@ -441,8 +433,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#isWritable(Path)
    */
   public SELF isWritable() {
-    paths.assertIsWritable(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsWritable(info, actual));
   }
 
   /**
@@ -479,8 +470,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#isExecutable(Path)
    */
   public SELF isExecutable() {
-    paths.assertIsExecutable(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsExecutable(info, actual));
   }
 
   /**
@@ -523,8 +513,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#exists(Path, LinkOption...)
    */
   public SELF exists() {
-    paths.assertExists(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertExists(info, actual));
   }
 
   /**
@@ -562,8 +551,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#exists(Path, LinkOption...)
    */
   public SELF existsNoFollowLinks() {
-    paths.assertExistsNoFollowLinks(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertExistsNoFollowLinks(info, actual));
   }
 
   /**
@@ -609,8 +597,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see LinkOption#NOFOLLOW_LINKS
    */
   public SELF doesNotExist() {
-    paths.assertDoesNotExist(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertDoesNotExist(info, actual));
   }
 
   /**
@@ -661,8 +648,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return self
    */
   public SELF isRegularFile() {
-    paths.assertIsRegularFile(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsRegularFile(info, actual));
   }
 
   /**
@@ -712,8 +698,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return self
    */
   public SELF isDirectory() {
-    paths.assertIsDirectory(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsDirectory(info, actual));
   }
 
   /**
@@ -758,8 +743,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return self
    */
   public SELF isSymbolicLink() {
-    paths.assertIsSymbolicLink(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsSymbolicLink(info, actual));
   }
 
   /**
@@ -794,8 +778,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#isAbsolute()
    */
   public SELF isAbsolute() {
-    paths.assertIsAbsolute(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsAbsolute(info, actual));
   }
 
   /**
@@ -826,8 +809,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#isAbsolute()
    */
   public SELF isRelative() {
-    paths.assertIsRelative(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsRelative(info, actual));
   }
 
   /**
@@ -855,8 +837,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @return self
    */
   public SELF isNormalized() {
-    paths.assertIsNormalized(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsNormalized(info, actual));
   }
 
   /**
@@ -896,8 +877,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Files#isSameFile(Path, Path)
    */
   public SELF isCanonical() {
-    paths.assertIsCanonical(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsCanonical(info, actual));
   }
 
   /**
@@ -934,8 +914,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#getFileName()
    */
   public SELF hasFileName(final String fileName) {
-    paths.assertHasFileName(info, actual, fileName);
-    return myself;
+    return executeAssertion(() -> paths.assertHasFileName(info, actual, fileName));
   }
 
   /**
@@ -972,8 +951,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#getParent()
    */
   public SELF hasParent(final Path expected) {
-    paths.assertHasParent(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> paths.assertHasParent(info, actual, expected));
   }
 
   /**
@@ -1021,8 +999,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#getParent()
    */
   public SELF hasParentRaw(final Path expected) {
-    paths.assertHasParentRaw(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> paths.assertHasParentRaw(info, actual, expected));
   }
 
   /**
@@ -1056,8 +1033,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#getParent()
    */
   public SELF hasNoParent() {
-    paths.assertHasNoParent(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertHasNoParent(info, actual));
   }
 
   /**
@@ -1096,8 +1072,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#getParent()
    */
   public SELF hasNoParentRaw() {
-    paths.assertHasNoParentRaw(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertHasNoParentRaw(info, actual));
   }
 
   /**
@@ -1126,8 +1101,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.21.0
    */
   public SELF hasSize(long expectedSize) {
-    paths.assertHasSize(info, actual, expectedSize);
-    return myself;
+    return executeAssertion(() -> paths.assertHasSize(info, actual, expectedSize));
   }
 
   /**
@@ -1168,8 +1142,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#toRealPath(LinkOption...)
    */
   public SELF startsWith(final Path other) {
-    paths.assertStartsWith(info, actual, other);
-    return myself;
+    return executeAssertion(() -> paths.assertStartsWith(info, actual, other));
   }
 
   /**
@@ -1214,8 +1187,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#startsWith(Path)
    */
   public SELF startsWithRaw(final Path other) {
-    paths.assertStartsWithRaw(info, actual, other);
-    return myself;
+    return executeAssertion(() -> paths.assertStartsWithRaw(info, actual, other));
   }
 
   /**
@@ -1256,8 +1228,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#toRealPath(LinkOption...)
    */
   public SELF endsWith(final Path other) {
-    paths.assertEndsWith(info, actual, other);
-    return myself;
+    return executeAssertion(() -> paths.assertEndsWith(info, actual, other));
   }
 
   /**
@@ -1297,8 +1268,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @see Path#endsWith(Path)
    */
   public SELF endsWithRaw(final Path other) {
-    paths.assertEndsWithRaw(info, actual, other);
-    return myself;
+    return executeAssertion(() -> paths.assertEndsWithRaw(info, actual, other));
   }
 
   /**
@@ -1333,8 +1303,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest digest, byte[] expected) {
-    paths.assertHasDigest(info, actual, digest, expected);
-    return myself;
+    return executeAssertion(() -> paths.assertHasDigest(info, actual, digest, expected));
   }
 
   /**
@@ -1369,8 +1338,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest digest, String expected) {
-    paths.assertHasDigest(info, actual, digest, expected);
-    return myself;
+    return executeAssertion(() -> paths.assertHasDigest(info, actual, digest, expected));
   }
 
   /**
@@ -1405,8 +1373,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, byte[] expected) {
-    paths.assertHasDigest(info, actual, algorithm, expected);
-    return myself;
+    return executeAssertion(() -> paths.assertHasDigest(info, actual, algorithm, expected));
   }
 
   /**
@@ -1440,8 +1407,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, String expected) {
-    paths.assertHasDigest(info, actual, algorithm, expected);
-    return myself;
+    return executeAssertion(() -> paths.assertHasDigest(info, actual, algorithm, expected));
   }
 
   /**
@@ -1480,8 +1446,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryContaining(Predicate<Path> filter) {
-    paths.assertIsDirectoryContaining(info, actual, filter);
-    return myself;
+    return executeAssertion(() -> paths.assertIsDirectoryContaining(info, actual, filter));
   }
 
   /**
@@ -1524,8 +1489,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryContaining(String syntaxAndPattern) {
-    paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern);
-    return myself;
+    return executeAssertion(() -> paths.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
   }
 
   /**
@@ -1569,8 +1533,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.16.0
    */
   public SELF isDirectoryRecursivelyContaining(String syntaxAndPattern) {
-    paths.assertIsDirectoryRecursivelyContaining(info, actual, syntaxAndPattern);
-    return myself;
+    return executeAssertion(() -> paths.assertIsDirectoryRecursivelyContaining(info, actual, syntaxAndPattern));
   }
 
   /**
@@ -1612,8 +1575,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.16.0
    */
   public SELF isDirectoryRecursivelyContaining(Predicate<Path> filter) {
-    paths.assertIsDirectoryRecursivelyContaining(info, actual, filter);
-    return myself;
+    return executeAssertion(() -> paths.assertIsDirectoryRecursivelyContaining(info, actual, filter));
   }
 
   /**
@@ -1652,8 +1614,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryNotContaining(Predicate<Path> filter) {
-    paths.assertIsDirectoryNotContaining(info, actual, filter);
-    return myself;
+    return executeAssertion(() -> paths.assertIsDirectoryNotContaining(info, actual, filter));
   }
 
   /**
@@ -1697,8 +1658,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryNotContaining(String syntaxAndPattern) {
-    paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern);
-    return myself;
+    return executeAssertion(() -> paths.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern));
   }
 
   /**
@@ -1733,8 +1693,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isEmptyDirectory() {
-    paths.assertIsEmptyDirectory(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsEmptyDirectory(info, actual));
   }
 
   /**
@@ -1769,8 +1728,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isNotEmptyDirectory() {
-    paths.assertIsNotEmptyDirectory(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsNotEmptyDirectory(info, actual));
   }
 
   /**
@@ -1800,8 +1758,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isEmptyFile() {
-    paths.assertIsEmptyFile(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsEmptyFile(info, actual));
   }
 
   /**
@@ -1831,8 +1788,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.19.0
    */
   public SELF isNotEmptyFile() {
-    paths.assertIsNotEmptyFile(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertIsNotEmptyFile(info, actual));
   }
 
   /**
@@ -1944,8 +1900,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @since 3.21.0
    */
   public SELF hasExtension(String expectedExtension) {
-    paths.assertHasExtension(info, actual, expectedExtension);
-    return myself;
+    return executeAssertion(() -> paths.assertHasExtension(info, actual, expectedExtension));
   }
 
   /**
@@ -1966,8 +1921,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws AssertionError if the actual {@code Path} does have an extension.
    */
   public SELF hasNoExtension() {
-    paths.assertHasNoExtension(info, actual);
-    return myself;
+    return executeAssertion(() -> paths.assertHasNoExtension(info, actual));
   }
 
 }

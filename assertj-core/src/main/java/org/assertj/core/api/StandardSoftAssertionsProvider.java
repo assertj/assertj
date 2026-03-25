@@ -86,7 +86,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default BigDecimalAssert assertThat(BigDecimal actual) {
-    return proxy(BigDecimalAssert.class, BigDecimal.class, actual);
+    return (BigDecimalAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -97,7 +97,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 2.7.0 / 3.7.0
    */
   default BigIntegerAssert assertThat(BigInteger actual) {
-    return proxy(BigIntegerAssert.class, BigInteger.class, actual);
+    return (BigIntegerAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -107,7 +107,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default BooleanAssert assertThat(boolean actual) {
-    return proxy(BooleanAssert.class, Boolean.class, actual);
+    return (BooleanAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -117,7 +117,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default BooleanAssert assertThat(Boolean actual) {
-    return proxy(BooleanAssert.class, Boolean.class, actual);
+    return (BooleanAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -127,7 +127,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default BooleanArrayAssert assertThat(boolean[] actual) {
-    return proxy(BooleanArrayAssert.class, boolean[].class, actual);
+    return (BooleanArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -138,7 +138,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Boolean2DArrayAssert assertThat(boolean[][] actual) {
-    return proxy(Boolean2DArrayAssert.class, boolean[][].class, actual);
+    return (Boolean2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -148,7 +148,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default ByteAssert assertThat(byte actual) {
-    return proxy(ByteAssert.class, Byte.class, actual);
+    return (ByteAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -158,7 +158,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default ByteAssert assertThat(Byte actual) {
-    return proxy(ByteAssert.class, Byte.class, actual);
+    return (ByteAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -168,7 +168,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default ByteArrayAssert assertThat(byte[] actual) {
-    return proxy(ByteArrayAssert.class, byte[].class, actual);
+    return (ByteArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -179,7 +179,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Byte2DArrayAssert assertThat(byte[][] actual) {
-    return proxy(Byte2DArrayAssert.class, byte[][].class, actual);
+    return (Byte2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -189,7 +189,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default CharacterAssert assertThat(char actual) {
-    return proxy(CharacterAssert.class, Character.class, actual);
+    return (CharacterAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -199,7 +199,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default CharArrayAssert assertThat(char[] actual) {
-    return proxy(CharArrayAssert.class, char[].class, actual);
+    return (CharArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -210,7 +210,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Char2DArrayAssert assertThat(char[][] actual) {
-    return proxy(Char2DArrayAssert.class, char[][].class, actual);
+    return (Char2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -220,7 +220,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default CharacterAssert assertThat(Character actual) {
-    return proxy(CharacterAssert.class, Character.class, actual);
+    return (CharacterAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -230,7 +230,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default ClassAssert assertThat(Class<?> actual) {
-    return proxy(ClassAssert.class, Class.class, actual);
+    return (ClassAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -241,9 +241,9 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.21.0
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   default <T> CollectionAssert<T> assertThat(Collection<? extends T> actual) {
-    return proxy(CollectionAssert.class, Collection.class, actual);
+    return (CollectionAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -271,7 +271,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
-    return proxy(GenericComparableAssert.class, Comparable.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -288,7 +288,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
-    return proxy(UniversalComparableAssert.class, Comparable.class, actual);
+    return soft(Assertions.assertThatComparable(actual));
   }
 
   /**
@@ -300,7 +300,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <T> IterableAssert<T> assertThat(Iterable<? extends T> actual) {
-    return proxy(IterableAssert.class, Iterable.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -329,7 +329,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <T> IteratorAssert<T> assertThat(Iterator<? extends T> actual) {
-    return proxy(IteratorAssert.class, Iterator.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -354,7 +354,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default DoubleAssert assertThat(double actual) {
-    return proxy(DoubleAssert.class, Double.class, actual);
+    return (DoubleAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -364,7 +364,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default DoubleAssert assertThat(Double actual) {
-    return proxy(DoubleAssert.class, Double.class, actual);
+    return (DoubleAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -374,7 +374,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default DoubleArrayAssert assertThat(double[] actual) {
-    return proxy(DoubleArrayAssert.class, double[].class, actual);
+    return (DoubleArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -385,7 +385,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Double2DArrayAssert assertThat(double[][] actual) {
-    return proxy(Double2DArrayAssert.class, double[][].class, actual);
+    return (Double2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -395,7 +395,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default FileAssert assertThat(File actual) {
-    return proxy(FileAssert.class, File.class, actual);
+    return (FileAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -407,7 +407,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
-    return proxy(FutureAssert.class, Future.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -417,7 +417,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default InputStreamAssert assertThat(InputStream actual) {
-    return proxy(InputStreamAssert.class, InputStream.class, actual);
+    return (InputStreamAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -427,7 +427,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default FloatAssert assertThat(float actual) {
-    return proxy(FloatAssert.class, Float.class, actual);
+    return (FloatAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -437,7 +437,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default FloatAssert assertThat(Float actual) {
-    return proxy(FloatAssert.class, Float.class, actual);
+    return (FloatAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -447,7 +447,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default FloatArrayAssert assertThat(float[] actual) {
-    return proxy(FloatArrayAssert.class, float[].class, actual);
+    return (FloatArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -458,7 +458,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Float2DArrayAssert assertThat(float[][] actual) {
-    return proxy(Float2DArrayAssert.class, float[][].class, actual);
+    return (Float2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -468,7 +468,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default IntegerAssert assertThat(int actual) {
-    return proxy(IntegerAssert.class, Integer.class, actual);
+    return (IntegerAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -478,7 +478,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default IntArrayAssert assertThat(int[] actual) {
-    return proxy(IntArrayAssert.class, int[].class, actual);
+    return (IntArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -489,7 +489,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Int2DArrayAssert assertThat(int[][] actual) {
-    return proxy(Int2DArrayAssert.class, int[][].class, actual);
+    return (Int2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -499,7 +499,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default IntegerAssert assertThat(Integer actual) {
-    return proxy(IntegerAssert.class, Integer.class, actual);
+    return (IntegerAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -511,7 +511,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <T> ListAssert<T> assertThat(List<? extends T> actual) {
-    return proxy(ListAssert.class, List.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -536,7 +536,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default LongAssert assertThat(long actual) {
-    return proxy(LongAssert.class, Long.class, actual);
+    return (LongAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -546,7 +546,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default LongAssert assertThat(Long actual) {
-    return proxy(LongAssert.class, Long.class, actual);
+    return (LongAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -556,7 +556,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default LongArrayAssert assertThat(long[] actual) {
-    return proxy(LongArrayAssert.class, long[].class, actual);
+    return (LongArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -567,7 +567,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Long2DArrayAssert assertThat(long[][] actual) {
-    return proxy(Long2DArrayAssert.class, long[][].class, actual);
+    return (Long2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -579,7 +579,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <T> ObjectAssert<T> assertThat(T actual) {
-    return proxy(ObjectAssert.class, Object.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -591,7 +591,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <T> ObjectArrayAssert<T> assertThat(T[] actual) {
-    return proxy(ObjectArrayAssert.class, Object[].class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -604,7 +604,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
-    return proxy(Object2DArrayAssert.class, Object[].class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -617,7 +617,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
-    return proxy(MapAssert.class, Map.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -627,7 +627,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default ShortAssert assertThat(short actual) {
-    return proxy(ShortAssert.class, Short.class, actual);
+    return (ShortAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -637,7 +637,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default ShortAssert assertThat(Short actual) {
-    return proxy(ShortAssert.class, Short.class, actual);
+    return (ShortAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -647,7 +647,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default ShortArrayAssert assertThat(short[] actual) {
-    return proxy(ShortArrayAssert.class, short[].class, actual);
+    return (ShortArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -658,7 +658,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Short2DArrayAssert assertThat(short[][] actual) {
-    return proxy(Short2DArrayAssert.class, short[][].class, actual);
+    return (Short2DArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -668,7 +668,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default CharSequenceAssert assertThat(CharSequence actual) {
-    return proxy(CharSequenceAssert.class, CharSequence.class, actual);
+    return (CharSequenceAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -693,7 +693,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.11.0
    */
   default CharSequenceAssert assertThat(StringBuilder actual) {
-    return proxy(CharSequenceAssert.class, CharSequence.class, actual);
+    return (CharSequenceAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -704,7 +704,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.11.0
    */
   default CharSequenceAssert assertThat(StringBuffer actual) {
-    return proxy(CharSequenceAssert.class, CharSequence.class, actual);
+    return (CharSequenceAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -714,7 +714,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default StringAssert assertThat(String actual) {
-    return proxy(StringAssert.class, String.class, actual);
+    return (StringAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -724,7 +724,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default DateAssert assertThat(Date actual) {
-    return proxy(DateAssert.class, Date.class, actual);
+    return (DateAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -734,7 +734,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default AtomicBooleanAssert assertThat(AtomicBoolean actual) {
-    return proxy(AtomicBooleanAssert.class, AtomicBoolean.class, actual);
+    return (AtomicBooleanAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -744,7 +744,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default AtomicIntegerAssert assertThat(AtomicInteger actual) {
-    return proxy(AtomicIntegerAssert.class, AtomicInteger.class, actual);
+    return (AtomicIntegerAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -754,7 +754,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
-    return proxy(AtomicIntegerArrayAssert.class, AtomicIntegerArray.class, actual);
+    return (AtomicIntegerArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -766,7 +766,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
-    return proxy(AtomicIntegerFieldUpdaterAssert.class, AtomicIntegerFieldUpdater.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -776,7 +776,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default AtomicLongAssert assertThat(AtomicLong actual) {
-    return proxy(AtomicLongAssert.class, AtomicLong.class, actual);
+    return (AtomicLongAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -786,7 +786,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
-    return proxy(AtomicLongArrayAssert.class, AtomicLongArray.class, actual);
+    return (AtomicLongArrayAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -798,7 +798,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
-    return proxy(AtomicLongFieldUpdaterAssert.class, AtomicLongFieldUpdater.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -810,7 +810,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
-    return proxy(AtomicReferenceAssert.class, AtomicReference.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -822,7 +822,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
-    return proxy(AtomicReferenceArrayAssert.class, AtomicReferenceArray.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -835,7 +835,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
-    return proxy(AtomicReferenceFieldUpdaterAssert.class, AtomicReferenceFieldUpdater.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -847,7 +847,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
-    return proxy(AtomicMarkableReferenceAssert.class, AtomicMarkableReference.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -859,7 +859,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
-    return proxy(AtomicStampedReferenceAssert.class, AtomicStampedReference.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -869,9 +869,9 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion Throwable.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   default <T extends Throwable> ThrowableAssert<T> assertThat(T actual) {
-    return proxy(ThrowableAssert.class, Throwable.class, actual);
+    return (ThrowableAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -881,9 +881,9 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion for SQLException.
    */
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   default <T extends SQLException> ThrowableAssert<T> assertThat(T actual) {
-    return proxy(ThrowableAssert.class, SQLException.class, actual);
+    return (ThrowableAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1031,7 +1031,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default UriAssert assertThat(URI actual) {
-    return proxy(UriAssert.class, URI.class, actual);
+    return (UriAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1041,7 +1041,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default AbstractUrlAssert<?> assertThat(URL actual) {
-    return proxy(UrlAssert.class, URL.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1151,7 +1151,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object
    */
   default PathAssert assertThat(Path actual) {
-    return proxy(PathAssert.class, Path.class, actual);
+    return (PathAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1178,7 +1178,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <VALUE> OptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
-    return proxy(OptionalAssert.class, Optional.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1189,7 +1189,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default OptionalDoubleAssert assertThat(OptionalDouble actual) {
-    return proxy(OptionalDoubleAssert.class, OptionalDouble.class, actual);
+    return (OptionalDoubleAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1200,7 +1200,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default OptionalLongAssert assertThat(OptionalLong actual) {
-    return proxy(OptionalLongAssert.class, OptionalLong.class, actual);
+    return (OptionalLongAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1211,7 +1211,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default MatcherAssert assertThat(Matcher actual) {
-    return proxy(MatcherAssert.class, Matcher.class, actual);
+    return (MatcherAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1222,7 +1222,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default OptionalIntAssert assertThat(OptionalInt actual) {
-    return proxy(OptionalIntAssert.class, OptionalInt.class, actual);
+    return (OptionalIntAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1232,7 +1232,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default LocalDateAssert assertThat(LocalDate actual) {
-    return proxy(LocalDateAssert.class, LocalDate.class, actual);
+    return (LocalDateAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1243,7 +1243,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.26.0
    */
   default YearMonthAssert assertThat(YearMonth actual) {
-    return proxy(YearMonthAssert.class, YearMonth.class, actual);
+    return (YearMonthAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1253,7 +1253,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default LocalDateTimeAssert assertThat(LocalDateTime actual) {
-    return proxy(LocalDateTimeAssert.class, LocalDateTime.class, actual);
+    return (LocalDateTimeAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1263,7 +1263,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default ZonedDateTimeAssert assertThat(ZonedDateTime actual) {
-    return proxy(ZonedDateTimeAssert.class, ZonedDateTime.class, actual);
+    return (ZonedDateTimeAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1273,7 +1273,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default LocalTimeAssert assertThat(LocalTime actual) {
-    return proxy(LocalTimeAssert.class, LocalTime.class, actual);
+    return (LocalTimeAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1283,7 +1283,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default OffsetTimeAssert assertThat(OffsetTime actual) {
-    return proxy(OffsetTimeAssert.class, OffsetTime.class, actual);
+    return (OffsetTimeAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1293,7 +1293,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default OffsetDateTimeAssert assertThat(OffsetDateTime actual) {
-    return proxy(OffsetDateTimeAssert.class, OffsetDateTime.class, actual);
+    return (OffsetDateTimeAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1304,7 +1304,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.7.0
    */
   default InstantAssert assertThat(Instant actual) {
-    return proxy(InstantAssert.class, Instant.class, actual);
+    return (InstantAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1315,7 +1315,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.15.0
    */
   default DurationAssert assertThat(Duration actual) {
-    return proxy(DurationAssert.class, Duration.class, actual);
+    return (DurationAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1326,7 +1326,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default PeriodAssert assertThat(Period actual) {
-    return proxy(PeriodAssert.class, Period.class, actual);
+    return (PeriodAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1339,7 +1339,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
-    return proxy(CompletableFutureAssert.class, CompletableFuture.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1354,7 +1354,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
-    return proxy(CompletableFutureAssert.class, CompletionStage.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1369,7 +1369,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
-    return proxy(PredicateAssert.class, Predicate.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1395,7 +1395,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.5.0
    */
   default IntPredicateAssert assertThat(IntPredicate actual) {
-    return proxy(IntPredicateAssert.class, IntPredicate.class, actual);
+    return (IntPredicateAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1406,7 +1406,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.5.0
    */
   default DoublePredicateAssert assertThat(DoublePredicate actual) {
-    return proxy(DoublePredicateAssert.class, DoublePredicate.class, actual);
+    return (DoublePredicateAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1417,7 +1417,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.5.0
    */
   default LongPredicateAssert assertThat(LongPredicate actual) {
-    return proxy(LongPredicateAssert.class, LongPredicate.class, actual);
+    return (LongPredicateAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1433,7 +1433,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
-    return proxy(ListAssert.class, Stream.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1467,7 +1467,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
-    return proxy(ListAssert.class, DoubleStream.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1482,7 +1482,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
-    return proxy(ListAssert.class, LongStream.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1497,7 +1497,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
-    return proxy(ListAssert.class, IntStream.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1509,7 +1509,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    */
   @SuppressWarnings("unchecked")
   default <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
-    return proxy(SpliteratorAssert.class, Spliterator.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1520,7 +1520,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default LongAdderAssert assertThat(LongAdder actual) {
-    return proxy(LongAdderAssert.class, LongAdder.class, actual);
+    return (LongAdderAssert) soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1532,7 +1532,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.26.1
    */
   default TemporalAssert assertThatTemporal(Temporal actual) {
-    return proxy(TemporalAssert.class, Temporal.class, actual);
+    return soft(Assertions.assertThatTemporal(actual));
   }
 
   /**
@@ -1544,7 +1544,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 4.0.0
    */
   default <ELEMENT> HashSetAssert<ELEMENT> assertThat(HashSet<? extends ELEMENT> actual) {
-    return proxy(HashSetAssert.class, HashSet.class, actual);
+    return soft(Assertions.assertThat(actual));
   }
 
 }

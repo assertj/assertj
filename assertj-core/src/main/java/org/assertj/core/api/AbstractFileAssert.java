@@ -84,8 +84,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} does not exist.
    */
   public SELF exists() {
-    files.assertExists(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertExists(info, actual));
   }
 
   /**
@@ -112,8 +111,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} exists.
    */
   public SELF doesNotExist() {
-    files.assertDoesNotExist(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertDoesNotExist(info, actual));
   }
 
   /**
@@ -137,8 +135,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} is not an existing file.
    */
   public SELF isFile() {
-    files.assertIsFile(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertIsFile(info, actual));
   }
 
   /**
@@ -162,8 +159,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} is not an existing file.
    */
   public SELF isDirectory() {
-    files.assertIsDirectory(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertIsDirectory(info, actual));
   }
 
   /**
@@ -185,8 +181,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} is not an absolute path.
    */
   public SELF isAbsolute() {
-    files.assertIsAbsolute(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertIsAbsolute(info, actual));
   }
 
   /**
@@ -208,8 +203,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} is not a relative path.
    */
   public SELF isRelative() {
-    files.assertIsRelative(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertIsRelative(info, actual));
   }
 
   /**
@@ -263,8 +257,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.24.0
    */
   public SELF isExecutable() {
-    files.assertIsExecutable(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertIsExecutable(info, actual));
   }
 
   /**
@@ -300,8 +293,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameTextualContentAs(File expected) {
-    files.assertSameContentAs(info, actual, charset, expected, Charset.defaultCharset());
-    return myself;
+    return executeAssertion(() -> files.assertSameContentAs(info, actual, charset, expected, Charset.defaultCharset()));
   }
 
   /**
@@ -331,8 +323,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.15
    */
   public SELF hasSameBinaryContentAs(File expected) {
-    files.assertSameBinaryContentAs(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> files.assertSameBinaryContentAs(info, actual, expected));
   }
 
   /**
@@ -363,8 +354,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.13
    */
   public SELF hasSameTextualContentAs(File expected, Charset expectedCharset) {
-    files.assertSameContentAs(info, actual, charset, expected, expectedCharset);
-    return myself;
+    return executeAssertion(() -> files.assertSameContentAs(info, actual, charset, expected, expectedCharset));
   }
 
   /**
@@ -390,8 +380,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given binary content.
    */
   public SELF hasBinaryContent(byte[] expected) {
-    files.assertHasBinaryContent(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> files.assertHasBinaryContent(info, actual, expected));
   }
 
   /**
@@ -415,8 +404,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.14.0
    */
   public SELF hasSize(long expectedSizeInBytes) {
-    files.assertHasSizeInBytes(info, actual, expectedSizeInBytes);
-    return myself;
+    return executeAssertion(() -> files.assertHasSizeInBytes(info, actual, expectedSizeInBytes));
   }
 
   /**
@@ -485,8 +473,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the content of the actual {@code File} is not equal to the given content.
    */
   public SELF hasContent(String expected) {
-    files.assertHasContent(info, actual, expected, charset);
-    return myself;
+    return executeAssertion(() -> files.assertHasContent(info, actual, expected, charset));
   }
 
   /**
@@ -513,8 +500,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @see #isWritable()
    */
   public SELF canWrite() {
-    files.assertCanWrite(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertCanWrite(info, actual));
   }
 
   /**
@@ -568,8 +554,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} can not be read by the application.
    */
   public SELF canRead() {
-    files.assertCanRead(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertCanRead(info, actual));
   }
 
   /**
@@ -595,8 +580,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @see java.io.File#getParentFile() parent definition.
    */
   public SELF hasParent(File expected) {
-    files.assertHasParent(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> files.assertHasParent(info, actual, expected));
   }
 
   /**
@@ -616,8 +600,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @return {@code this} assertion object.
    */
   public SELF hasParent(String expected) {
-    files.assertHasParent(info, actual, expected != null ? new File(expected) : null);
-    return myself;
+    return executeAssertion(() -> files.assertHasParent(info, actual, expected != null ? new File(expected) : null));
   }
 
   /**
@@ -643,8 +626,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @see <a href="https://en.wikipedia.org/wiki/Filename_extension">Filename extension</a>
    */
   public SELF hasExtension(String expected) {
-    files.assertHasExtension(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> files.assertHasExtension(info, actual, expected));
   }
 
   /**
@@ -673,8 +655,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @see #hasFileName(String)
    */
   public SELF hasName(String expected) {
-    files.assertHasName(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> files.assertHasName(info, actual, expected));
   }
 
   /**
@@ -727,8 +708,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} has a parent.
    */
   public SELF hasNoParent() {
-    files.assertHasNoParent(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertHasNoParent(info, actual));
   }
 
   /**
@@ -762,8 +742,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest digest, byte[] expected) {
-    files.assertHasDigest(info, actual, digest, expected);
-    return myself;
+    return executeAssertion(() -> files.assertHasDigest(info, actual, digest, expected));
   }
 
   /**
@@ -797,8 +776,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest digest, String expected) {
-    files.assertHasDigest(info, actual, digest, expected);
-    return myself;
+    return executeAssertion(() -> files.assertHasDigest(info, actual, digest, expected));
   }
 
   /**
@@ -832,8 +810,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, byte[] expected) {
-    files.assertHasDigest(info, actual, algorithm, expected);
-    return myself;
+    return executeAssertion(() -> files.assertHasDigest(info, actual, algorithm, expected));
   }
 
   /**
@@ -867,8 +844,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, String expected) {
-    files.assertHasDigest(info, actual, algorithm, expected);
-    return myself;
+    return executeAssertion(() -> files.assertHasDigest(info, actual, algorithm, expected));
   }
 
   /**
@@ -907,8 +883,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryContaining(Predicate<File> filter) {
-    files.assertIsDirectoryContaining(info, actual, filter);
-    return myself;
+    return executeAssertion(() -> files.assertIsDirectoryContaining(info, actual, filter));
   }
 
   /**
@@ -951,8 +926,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryContaining(String syntaxAndPattern) {
-    files.assertIsDirectoryContaining(info, actual, syntaxAndPattern);
-    return myself;
+    return executeAssertion(() -> files.assertIsDirectoryContaining(info, actual, syntaxAndPattern));
   }
 
   /**
@@ -996,8 +970,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.16.0
    */
   public SELF isDirectoryRecursivelyContaining(String syntaxAndPattern) {
-    files.assertIsDirectoryRecursivelyContaining(info, actual, syntaxAndPattern);
-    return myself;
+    return executeAssertion(() -> files.assertIsDirectoryRecursivelyContaining(info, actual, syntaxAndPattern));
   }
 
   /**
@@ -1039,8 +1012,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.16.0
    */
   public SELF isDirectoryRecursivelyContaining(Predicate<File> filter) {
-    files.assertIsDirectoryRecursivelyContaining(info, actual, filter);
-    return myself;
+    return executeAssertion(() -> files.assertIsDirectoryRecursivelyContaining(info, actual, filter));
   }
 
   /**
@@ -1079,8 +1051,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryNotContaining(Predicate<File> filter) {
-    files.assertIsDirectoryNotContaining(info, actual, filter);
-    return myself;
+    return executeAssertion(() -> files.assertIsDirectoryNotContaining(info, actual, filter));
   }
 
   /**
@@ -1124,8 +1095,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isDirectoryNotContaining(String syntaxAndPattern) {
-    files.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern);
-    return myself;
+    return executeAssertion(() -> files.assertIsDirectoryNotContaining(info, actual, syntaxAndPattern));
   }
 
   /**
@@ -1160,8 +1130,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isEmptyDirectory() {
-    files.assertIsEmptyDirectory(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertIsEmptyDirectory(info, actual));
   }
 
   /**
@@ -1196,8 +1165,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.13.0
    */
   public SELF isNotEmptyDirectory() {
-    files.assertIsNotEmptyDirectory(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertIsNotEmptyDirectory(info, actual));
   }
 
   /**
@@ -1221,8 +1189,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.14.0
    */
   public SELF isEmpty() {
-    files.assertIsEmptyFile(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertIsEmptyFile(info, actual));
   }
 
   /**
@@ -1247,8 +1214,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @since 3.14.0
    */
   public SELF isNotEmpty() {
-    files.assertIsNotEmptyFile(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertIsNotEmptyFile(info, actual));
   }
 
   /**
@@ -1334,8 +1300,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws AssertionError if the actual {@code File} does have an extension.
    */
   public SELF hasNoExtension() {
-    files.assertHasNoExtension(info, actual);
-    return myself;
+    return executeAssertion(() -> files.assertHasNoExtension(info, actual));
   }
 
   /**
@@ -1363,7 +1328,9 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   @CheckReturnValue
   public AbstractFileSizeAssert<SELF> size() {
     requireNonNull(actual, "Can not perform assertions on the size of a null file.");
-    return new FileSizeAssert(this);
+    FileSizeAssert result = new FileSizeAssert(this);
+    result.withAssertionState(myself);
+    return result;
   }
 
   // this method was introduced to avoid double proxying in soft assertions for content()

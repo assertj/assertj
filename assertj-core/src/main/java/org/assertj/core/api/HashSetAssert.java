@@ -68,8 +68,11 @@ public class HashSetAssert<ELEMENT>
   }
 
   @Override
+  @SuppressWarnings("rawtypes")
   protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
-    return new ObjectAssert<>(value).as(description);
+    ObjectAssert<ELEMENT> result = new ObjectAssert<>(value).as(description);
+    ((AbstractAssert) result).assertionErrorHandler = this.assertionErrorHandler;
+    return result;
   }
 
   @Override
@@ -83,14 +86,12 @@ public class HashSetAssert<ELEMENT>
    */
   @Override
   public HashSetAssert<ELEMENT> isSubsetOf(Iterable<? extends ELEMENT> values) {
-    originalIterables.assertIsSubsetOf(info, actual, values);
-    return myself;
+    return executeAssertion(() -> originalIterables.assertIsSubsetOf(info, actual, values));
   }
 
   @Override
   protected HashSetAssert<ELEMENT> isSubsetOfForProxy(ELEMENT[] values) {
-    originalIterables.assertIsSubsetOf(info, actual, Arrays.asList(values));
-    return myself;
+    return executeAssertion(() -> originalIterables.assertIsSubsetOf(info, actual, Arrays.asList(values)));
   }
 
   private static class InHashSetComparisonStrategy extends StandardComparisonStrategy {

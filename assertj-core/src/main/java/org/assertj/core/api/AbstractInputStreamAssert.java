@@ -135,9 +135,10 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @throws UncheckedIOException if an I/O error occurs.
    */
   public SELF hasSameContentAs(InputStream expected) {
-    isNotNull();
-    assertHasSameContentAs(expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasSameContentAs(expected);
+    });
   }
 
   private void assertHasSameContentAs(InputStream expected) {
@@ -172,9 +173,10 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.17.0
    */
   public SELF isEmpty() {
-    isNotNull();
-    assertIsEmpty();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsEmpty();
+    });
   }
 
   private void assertIsEmpty() {
@@ -207,9 +209,10 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.17.0
    */
   public SELF isNotEmpty() {
-    isNotNull();
-    assertIsNotEmpty();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsNotEmpty();
+    });
   }
 
   private void assertIsNotEmpty() {
@@ -251,9 +254,10 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.11.0
    */
   public SELF hasContent(String expected) {
-    isNotNull();
-    assertHasContent(expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasContent(expected);
+    });
   }
 
   private void assertHasContent(String expected) {
@@ -293,9 +297,10 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.16.0
    */
   public SELF hasBinaryContent(byte[] expected) {
-    isNotNull();
-    assertHasBinaryContent(expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasBinaryContent(expected);
+    });
   }
 
   private void assertHasBinaryContent(byte[] expected) {
@@ -340,9 +345,10 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest algorithm, byte[] expected) {
-    isNotNull();
-    assertHasDigest(algorithm, expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasDigest(algorithm, expected);
+    });
   }
 
   /**
@@ -375,9 +381,10 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.11.0
    */
   public SELF hasDigest(MessageDigest algorithm, String digest) {
-    isNotNull();
-    assertHasDigest(algorithm, Digests.fromHex(digest));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasDigest(algorithm, Digests.fromHex(digest));
+    });
   }
 
   /**
@@ -410,9 +417,10 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, byte[] expected) {
-    isNotNull();
-    assertHasDigest(algorithm, expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasDigest(algorithm, expected);
+    });
   }
 
   /**
@@ -445,9 +453,10 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
    * @since 3.11.0
    */
   public SELF hasDigest(String algorithm, String digest) {
-    isNotNull();
-    assertHasDigest(algorithm, digest);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasDigest(algorithm, digest);
+    });
   }
 
   private void assertHasDigest(String algorithm, String digest) {

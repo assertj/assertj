@@ -15,6 +15,7 @@
  */
 package org.assertj.core.api;
 
+import java.lang.reflect.Constructor;
 import java.util.function.Consumer;
 
 import org.opentest4j.MultipleFailuresError;
@@ -33,19 +34,54 @@ public interface SoftAssertionsProvider extends AssertionErrorCollector {
   }
 
   /**
-   * Creates a proxied assertion class of the given type. The returned value
-   * is an assertion object compatible with the supplied assertion class, but
-   * instead of throwing errors it will collect them and store.
+   * Creates a soft-assertion-aware instance of the given assertion class.
+   * The returned assertion object will collect errors instead of throwing them.
+   * <p>
+   * The assertion class must have a public constructor taking a single parameter of {@code actualClass} type.
+   * The returned instance will have its {@code softAssertionCollector} set to this provider.
    *
    * @param <SELF> The type of the assertion class
    * @param <ACTUAL> The type of the object-under-test
    * @param assertClass Class instance for the assertion type.
    * @param actualClass Class instance for the type of the object-under-test.
    * @param actual The actual object-under-test.
-   * @return A proxied assertion class for the given object-under-test.
+   * @return A soft-assertion-aware instance for the given object-under-test.
    */
-  <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF proxy(Class<SELF> assertClass, Class<ACTUAL> actualClass,
-                                                                             ACTUAL actual);
+  default <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF proxy(Class<SELF> assertClass,
+                                                                                     Class<ACTUAL> actualClass,
+                                                                                     ACTUAL actual) {
+    try {
+      Constructor<SELF> constructor = assertClass.getDeclaredConstructor(actualClass);
+      constructor.setAccessible(true);
+      SELF instance = constructor.newInstance(actual);
+      if (instance instanceof AbstractAssert<?, ?> abstractAssert) {
+        abstractAssert.assertionErrorHandler = this;
+      }
+      return instance;
+    } catch (ReflectiveOperationException e) {
+      throw new RuntimeException("Failed to create soft assertion instance for " + assertClass.getName(), e);
+    }
+  }
+
+  /**
+   * Makes the given assertion instance soft-assertion-aware by setting its error collector to this provider.
+   * <p>
+   * This is used by the generated soft assertion providers to wrap calls to {@code Assertions} static methods:
+   * <pre><code class='java'> default StringAssert assertThat(String actual) {
+   *   return soft(Assertions.assertThat(actual));
+   * }</code></pre>
+   *
+   * @param <T> the assertion type
+   * @param assertion the assertion instance to make soft
+   * @return the same assertion instance, now collecting errors into this provider
+   */
+  @SuppressWarnings("rawtypes")
+  default <T> T soft(T assertion) {
+    if (assertion instanceof AbstractAssert abstractAssert) {
+      abstractAssert.assertionErrorHandler = this;
+    }
+    return assertion;
+  }
 
   /**
    * Verifies that no soft assertions have failed.

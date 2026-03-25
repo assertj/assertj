@@ -65,8 +65,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isZero() {
-    bigDecimals.assertIsZero(info, actual);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsZero(info, actual));
   }
 
   /**
@@ -82,8 +81,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isNotZero() {
-    bigDecimals.assertIsNotZero(info, actual);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsNotZero(info, actual));
   }
 
   /**
@@ -99,8 +97,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isOne() {
-    bigDecimals.assertIsOne(info, actual);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsOne(info, actual));
   }
 
   /**
@@ -116,8 +113,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isPositive() {
-    bigDecimals.assertIsPositive(info, actual);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsPositive(info, actual));
   }
 
   /**
@@ -133,8 +129,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isNegative() {
-    bigDecimals.assertIsNegative(info, actual);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsNegative(info, actual));
   }
 
   /**
@@ -150,8 +145,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isNotPositive() {
-    bigDecimals.assertIsNotPositive(info, actual);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsNotPositive(info, actual));
   }
 
   /**
@@ -167,8 +161,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isNotNegative() {
-    bigDecimals.assertIsNotNegative(info, actual);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsNotNegative(info, actual));
   }
 
   /**
@@ -191,8 +184,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isBetween(BigDecimal start, BigDecimal end) {
-    bigDecimals.assertIsBetween(info, actual, start, end);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsBetween(info, actual, start, end));
   }
 
   /**
@@ -210,8 +202,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isStrictlyBetween(BigDecimal start, BigDecimal end) {
-    bigDecimals.assertIsStrictlyBetween(info, actual, start, end);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsStrictlyBetween(info, actual, start, end));
   }
 
   /**
@@ -304,8 +295,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * @return {@code this} assertion object.
    */
   public SELF hasScaleOf(int expectedScale) {
-    bigDecimals.assertHasScale(info, actual, expectedScale);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertHasScale(info, actual, expectedScale));
   }
 
   @Override
@@ -365,8 +355,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isCloseTo(final BigDecimal expected, final Offset<BigDecimal> offset) {
-    bigDecimals.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -407,8 +396,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isNotCloseTo(final BigDecimal expected, final Offset<BigDecimal> offset) {
-    bigDecimals.assertIsNotCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsNotCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -434,8 +422,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isCloseTo(BigDecimal expected, Percentage percentage) {
-    bigDecimals.assertIsCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -463,8 +450,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    */
   @Override
   public SELF isNotCloseTo(BigDecimal expected, Percentage percentage) {
-    bigDecimals.assertIsNotCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> bigDecimals.assertIsNotCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -544,6 +530,8 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
   @SuppressWarnings({ "rawtypes" })
   public AbstractBigDecimalScaleAssert<SELF> scale() {
     requireNonNull(actual, "Can not perform assertions on the scale of a null BigDecimal");
-    return new BigDecimalScaleAssert(myself);
+    BigDecimalScaleAssert result = new BigDecimalScaleAssert(myself);
+    result.withAssertionState(myself);
+    return result;
   }
 }

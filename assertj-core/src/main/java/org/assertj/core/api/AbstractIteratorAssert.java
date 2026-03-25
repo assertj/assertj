@@ -62,8 +62,7 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    * @since 3.12.0
    */
   public SELF hasNext() {
-    iterators.assertHasNext(info, actual);
-    return myself;
+    return executeAssertion(() -> iterators.assertHasNext(info, actual));
   }
 
   /**
@@ -79,8 +78,7 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    * @since 3.12.0
    */
   public SELF isExhausted() {
-    iterators.assertIsExhausted(info, actual);
-    return myself;
+    return executeAssertion(() -> iterators.assertIsExhausted(info, actual));
   }
 
   /**
@@ -117,9 +115,10 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    */
   @Beta
   public SELF isUnmodifiable() {
-    isNotNull();
-    assertIsUnmodifiable();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsUnmodifiable();
+    });
   }
 
   private void assertIsUnmodifiable() {

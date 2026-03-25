@@ -71,9 +71,10 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @see CompletableFuture#isDone()
    */
   public SELF isDone() {
-    isNotNull();
-    if (!actual.isDone()) throwAssertionError(shouldBeDone(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.isDone()) throwAssertionError(shouldBeDone(actual));
+    });
   }
 
   /**
@@ -90,9 +91,10 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @see CompletableFuture#isDone()
    */
   public SELF isNotDone() {
-    isNotNull();
-    if (actual.isDone()) throwAssertionError(shouldNotBeDone(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isDone()) throwAssertionError(shouldNotBeDone(actual));
+    });
   }
 
   /**
@@ -113,9 +115,10 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @see CompletableFuture#isCompletedExceptionally()
    */
   public SELF isCompletedExceptionally() {
-    isNotNull();
-    if (!actual.isCompletedExceptionally()) throwAssertionError(shouldHaveCompletedExceptionally(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.isCompletedExceptionally()) throwAssertionError(shouldHaveCompletedExceptionally(actual));
+    });
   }
 
   /**
@@ -134,9 +137,10 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @see CompletableFuture#isCompletedExceptionally()
    */
   public SELF isNotCompletedExceptionally() {
-    isNotNull();
-    if (actual.isCompletedExceptionally()) throwAssertionError(shouldNotHaveCompletedExceptionally(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isCompletedExceptionally()) throwAssertionError(shouldNotHaveCompletedExceptionally(actual));
+    });
   }
 
   /**
@@ -155,9 +159,10 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @see CompletableFuture#isCancelled()
    */
   public SELF isCancelled() {
-    isNotNull();
-    if (!actual.isCancelled()) throwAssertionError(shouldBeCancelled(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.isCancelled()) throwAssertionError(shouldBeCancelled(actual));
+    });
   }
 
   /**
@@ -176,9 +181,10 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @see CompletableFuture#isCancelled()
    */
   public SELF isNotCancelled() {
-    isNotNull();
-    if (actual.isCancelled()) throwAssertionError(shouldNotBeCancelled(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isCancelled()) throwAssertionError(shouldNotBeCancelled(actual));
+    });
   }
 
   /**
@@ -194,10 +200,11 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @return this assertion object.
    */
   public SELF isCompleted() {
-    isNotNull();
-    // cancelled is included in completed exceptionally
-    if (actual.isCompletedExceptionally() || !actual.isDone()) throwAssertionError(shouldBeCompleted(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      // cancelled is included in completed exceptionally
+      if (actual.isCompletedExceptionally() || !actual.isDone()) throwAssertionError(shouldBeCompleted(actual));
+    });
   }
 
   /**
@@ -212,9 +219,10 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @return this assertion object.
    */
   public SELF isNotCompleted() {
-    isNotNull();
-    if (actual.isDone() && !actual.isCompletedExceptionally()) throwAssertionError(shouldNotBeCompleted(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isDone() && !actual.isCompletedExceptionally()) throwAssertionError(shouldNotBeCompleted(actual));
+    });
   }
 
   /**
@@ -232,13 +240,13 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @return this assertion object.
    */
   public SELF isCompletedWithValue(RESULT expected) {
-    isCompleted();
+    return executeAssertion(() -> {
+      isCompleted();
 
-    RESULT actualResult = actual.join();
-    if (!Objects.equals(actualResult, expected))
-      throw Failures.instance().failure(info, shouldBeEqual(actualResult, expected, info.representation()));
-
-    return myself;
+      RESULT actualResult = actual.join();
+      if (!Objects.equals(actualResult, expected))
+        throw Failures.instance().failure(info, shouldBeEqual(actualResult, expected, info.representation()));
+    });
   }
 
   /**
@@ -310,13 +318,13 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   private SELF isCompletedWithValueMatching(Predicate<? super RESULT> predicate, PredicateDescription description) {
-    isCompleted();
+    return executeAssertion(() -> {
+      isCompleted();
 
-    RESULT actualResult = actual.join();
-    if (!predicate.test(actualResult))
-      throw Failures.instance().failure(info, shouldMatch(actualResult, predicate, description));
-
-    return myself;
+      RESULT actualResult = actual.join();
+      if (!predicate.test(actualResult))
+        throw Failures.instance().failure(info, shouldMatch(actualResult, predicate, description));
+    });
   }
 
   /**
@@ -369,10 +377,11 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @since 4.0
    */
   public SELF isCompletedWithValueSatisfying(Consumer<? super RESULT> requirements) {
-    isCompleted();
-    RESULT actualResult = actual.join();
-    requirements.accept(actualResult);
-    return myself;
+    return executeAssertion(() -> {
+      isCompleted();
+      RESULT actualResult = actual.join();
+      requirements.accept(actualResult);
+    });
   }
 
   /**
@@ -397,10 +406,11 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @since 4.0
    */
   public SELF isCompletedWithValueSatisfying(Condition<? super RESULT> condition) {
-    isCompleted();
-    RESULT actualResult = actual.join();
-    conditions.assertIs(info, actualResult, condition);
-    return myself;
+    return executeAssertion(() -> {
+      isCompleted();
+      RESULT actualResult = actual.join();
+      conditions.assertIs(info, actualResult, condition);
+    });
   }
 
   /**
@@ -437,6 +447,8 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   private ObjectAssert<RESULT> internalSucceedsWithin(Duration timeout) {
+    // succeedsWithin does NOT integrate with soft assertions - errors are thrown directly.
+    // Only if it succeeds, the returned assert gets the handler for chained assertions.
     RESULT result = futures.assertSucceededWithin(info, actual, timeout);
     return newObjectAssert(result);
   }
@@ -480,6 +492,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   private ObjectAssert<RESULT> internalSucceedsWithin(long timeout, TimeUnit unit) {
+    // succeedsWithin does NOT integrate with soft assertions - errors are thrown directly.
     RESULT result = futures.assertSucceededWithin(info, actual, timeout, unit);
     return newObjectAssert(result);
   }

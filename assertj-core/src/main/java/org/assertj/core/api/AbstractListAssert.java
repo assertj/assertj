@@ -75,15 +75,13 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
   /** {@inheritDoc} */
   @Override
   public SELF contains(ELEMENT value, Index index) {
-    lists.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> lists.assertContains(info, actual, value, index));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF doesNotContain(ELEMENT value, Index index) {
-    lists.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> lists.assertDoesNotContain(info, actual, value, index));
   }
 
   /**
@@ -101,8 +99,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    *           {@code Condition} .
    */
   public SELF has(Condition<? super ELEMENT> condition, Index index) {
-    lists.assertHas(info, actual, condition, index);
-    return myself;
+    return executeAssertion(() -> lists.assertHas(info, actual, condition, index));
   }
 
   /**
@@ -120,8 +117,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    *           {@code Condition} .
    */
   public SELF is(Condition<? super ELEMENT> condition, Index index) {
-    lists.assertIs(info, actual, condition, index);
-    return myself;
+    return executeAssertion(() -> lists.assertIs(info, actual, condition, index));
   }
 
   /**
@@ -145,8 +141,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    * @throws AssertionError if the actual list elements are not mutually {@link Comparable}.
    */
   public SELF isSorted() {
-    lists.assertIsSorted(info, actual);
-    return myself;
+    return executeAssertion(() -> lists.assertIsSorted(info, actual));
   }
 
   /**
@@ -163,8 +158,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    * @throws AssertionError if the actual list elements are not mutually comparable according to given Comparator.
    */
   public SELF isSortedAccordingTo(Comparator<? super ELEMENT> comparator) {
-    lists.assertIsSortedAccordingToComparator(info, actual, comparator);
-    return myself;
+    return executeAssertion(() -> lists.assertIsSortedAccordingToComparator(info, actual, comparator));
   }
 
   /**
@@ -203,8 +197,7 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
    * @since 3.10.0
    */
   public SELF satisfies(Consumer<? super ELEMENT> requirements, Index index) {
-    lists.satisfies(info, actual, requirements, index);
-    return myself;
+    return executeAssertion(() -> lists.satisfies(info, actual, requirements, index));
   }
 
   @Override

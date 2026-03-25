@@ -84,8 +84,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is not equal when comparing to the given one.
    */
   public SELF isEqualByComparingTo(T other) {
-    comparables.assertEqualByComparison(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertEqualByComparison(info, actual, other));
   }
 
   /**
@@ -107,8 +106,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is equal when comparing to the given one.
    */
   public SELF isNotEqualByComparingTo(T other) {
-    comparables.assertNotEqualByComparison(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertNotEqualByComparison(info, actual, other));
   }
 
   /**
@@ -129,8 +127,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
   public SELF isLessThan(T other) {
-    comparables.assertLessThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertLessThan(info, actual, other));
   }
 
   /**
@@ -152,8 +149,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is greater than the given one.
    */
   public SELF isLessThanOrEqualTo(T other) {
-    comparables.assertLessThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertLessThanOrEqualTo(info, actual, other));
   }
 
   /**
@@ -174,8 +170,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
   public SELF isGreaterThan(T other) {
-    comparables.assertGreaterThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertGreaterThan(info, actual, other));
   }
 
   /**
@@ -196,8 +191,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is less than the given one.
    */
   public SELF isGreaterThanOrEqualTo(T other) {
-    comparables.assertGreaterThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertGreaterThanOrEqualTo(info, actual, other));
   }
 
   /**
@@ -222,8 +216,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is not in [start, end] range.
    */
   public SELF isBetween(T startInclusive, T endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true));
   }
 
   /**
@@ -248,8 +241,7 @@ public abstract class AbstractUniversalComparableAssert<SELF extends AbstractUni
    * @throws AssertionError if the actual value is not in ]start, end[ range.
    */
   public SELF isStrictlyBetween(T startExclusive, T endExclusive) {
-    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false));
   }
 
   /** {@inheritDoc} */

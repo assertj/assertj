@@ -86,9 +86,10 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
    */
   @Beta
   public SELF isUnmodifiable() {
-    isNotNull();
-    assertIsUnmodifiable();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsUnmodifiable();
+    });
   }
 
   @SuppressWarnings("unchecked")

@@ -64,9 +64,10 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasValueBetween(long startInclusive, long endInclusive) {
-    isNotNull();
-    longs.assertIsBetween(info, actual.get(), startInclusive, endInclusive);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      longs.assertIsBetween(info, actual.get(), startInclusive, endInclusive);
+    });
   }
 
   /**
@@ -89,9 +90,10 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasValueLessThan(long other) {
-    isNotNull();
-    longs.assertLessThan(info, actual.get(), other);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      longs.assertLessThan(info, actual.get(), other);
+    });
   }
 
   /**
@@ -114,9 +116,10 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasValueLessThanOrEqualTo(long other) {
-    isNotNull();
-    longs.assertLessThanOrEqualTo(info, actual.get(), other);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      longs.assertLessThanOrEqualTo(info, actual.get(), other);
+    });
   }
 
   /**
@@ -139,9 +142,10 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasValueGreaterThan(long other) {
-    isNotNull();
-    longs.assertGreaterThan(info, actual.get(), other);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      longs.assertGreaterThan(info, actual.get(), other);
+    });
   }
 
   /**
@@ -164,9 +168,10 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasValueGreaterThanOrEqualTo(long other) {
-    isNotNull();
-    longs.assertGreaterThanOrEqualTo(info, actual.get(), other);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      longs.assertGreaterThanOrEqualTo(info, actual.get(), other);
+    });
   }
 
   /**
@@ -187,9 +192,10 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasPositiveValue() {
-    isNotNull();
-    longs.assertIsPositive(info, actual.get());
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      longs.assertIsPositive(info, actual.get());
+    });
   }
 
   /**
@@ -210,9 +216,10 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasNonPositiveValue() {
-    isNotNull();
-    longs.assertIsNotPositive(info, actual.get());
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      longs.assertIsNotPositive(info, actual.get());
+    });
   }
 
   /**
@@ -233,9 +240,10 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasNegativeValue() {
-    isNotNull();
-    longs.assertIsNegative(info, actual.get());
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      longs.assertIsNegative(info, actual.get());
+    });
   }
 
   /**
@@ -256,9 +264,10 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasNonNegativeValue() {
-    isNotNull();
-    longs.assertIsNotNegative(info, actual.get());
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      longs.assertIsNotNegative(info, actual.get());
+    });
   }
 
   /**
@@ -284,9 +293,10 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasValueCloseTo(long expected, Percentage percentage) {
-    isNotNull();
-    longs.assertIsCloseToPercentage(info, actual.get(), expected, percentage);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      longs.assertIsCloseToPercentage(info, actual.get(), expected, percentage);
+    });
   }
 
   /**
@@ -324,9 +334,10 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasValueCloseTo(long expected, Offset<Long> offset) {
-    isNotNull();
-    longs.assertIsCloseTo(info, actual.get(), expected, offset);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      longs.assertIsCloseTo(info, actual.get(), expected, offset);
+    });
   }
 
   /**
@@ -347,12 +358,13 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert hasValue(long expectedValue) {
-    isNotNull();
-    long actualValue = actual.get();
-    if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
-      throwAssertionError(shouldHaveValue(actual, expectedValue));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      long actualValue = actual.get();
+      if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
+        throwAssertionError(shouldHaveValue(actual, expectedValue));
+      }
+    });
   }
 
   /**
@@ -373,12 +385,13 @@ public class AtomicLongAssert extends AbstractAssertWithComparator<AtomicLongAss
    * @since 2.7.0 / 3.7.0
    */
   public AtomicLongAssert doesNotHaveValue(long expectedValue) {
-    isNotNull();
-    long actualValue = actual.get();
-    if (objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
-      throwAssertionError(shouldNotContainValue(actual, expectedValue));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      long actualValue = actual.get();
+      if (objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
+        throwAssertionError(shouldNotContainValue(actual, expectedValue));
+      }
+    });
   }
 
   @Override

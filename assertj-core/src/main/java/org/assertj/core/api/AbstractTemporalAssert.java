@@ -74,15 +74,16 @@ public abstract class AbstractTemporalAssert<SELF extends AbstractTemporalAssert
    * @throws AssertionError if the actual {@code Temporal} is not close to the given one for a provided offset.
    */
   public SELF isCloseTo(TEMPORAL other, TemporalOffset<? super TEMPORAL> offset) {
-    Objects.instance().assertNotNull(info, actual);
-    requireNonNull(other, "The temporal object to compare actual with should not be null");
-    requireNonNull(offset, "The offset should not be null");
-    if (offset.isBeyondOffset(actual, other)) {
-      throw Failures.instance().failure(info,
-                                        shouldBeCloseTo(actual, other,
-                                                        offset.getBeyondOffsetDifferenceDescription(actual, other)));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      requireNonNull(other, "The temporal object to compare actual with should not be null");
+      requireNonNull(offset, "The offset should not be null");
+      if (offset.isBeyondOffset(actual, other)) {
+        throw Failures.instance().failure(info,
+                                          shouldBeCloseTo(actual, other,
+                                                          offset.getBeyondOffsetDifferenceDescription(actual, other)));
+      }
+    });
   }
 
   /**

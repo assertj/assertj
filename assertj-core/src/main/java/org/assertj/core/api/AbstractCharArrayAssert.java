@@ -37,20 +37,19 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
   /** {@inheritDoc} */
   @Override
   public void isNullOrEmpty() {
-    arrays.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> arrays.assertNullOrEmpty(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public void isEmpty() {
-    arrays.assertEmpty(info, actual);
+    executeAssertion(() -> arrays.assertEmpty(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotEmpty() {
-    arrays.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertNotEmpty(info, actual));
   }
 
   /**
@@ -66,8 +65,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   @Override
   public SELF hasSize(int expected) {
-    arrays.assertHasSize(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSize(info, actual, expected));
   }
 
   /**
@@ -87,8 +85,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   @Override
   public SELF hasSizeGreaterThan(int boundary) {
-    arrays.assertHasSizeGreaterThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThan(info, actual, boundary));
   }
 
   /**
@@ -109,8 +106,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   @Override
   public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -130,8 +126,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   @Override
   public SELF hasSizeLessThan(int boundary) {
-    arrays.assertHasSizeLessThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThan(info, actual, boundary));
   }
 
   /**
@@ -152,8 +147,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   @Override
   public SELF hasSizeLessThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -175,8 +169,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   @Override
   public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary));
   }
 
   /**
@@ -192,8 +185,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -217,8 +209,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array does not contain the given values.
    */
   public SELF contains(char... values) {
-    arrays.assertContains(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, values));
   }
 
   /**
@@ -244,8 +235,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF contains(Character[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContains(info, actual, toPrimitiveCharacterArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, toPrimitiveCharacterArray(values)));
   }
 
   /**
@@ -270,8 +260,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
   public SELF containsOnly(char... values) {
-    arrays.assertContainsOnly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, values));
   }
 
   /**
@@ -298,8 +287,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF containsOnly(Character[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsOnly(info, actual, toPrimitiveCharacterArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, toPrimitiveCharacterArray(values)));
   }
 
   /**
@@ -323,8 +311,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    *           or none of the given values, or the actual group contains more than once these values.
    */
   public SELF containsOnlyOnce(char... values) {
-    arrays.assertContainsOnlyOnce(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, values));
   }
 
   /**
@@ -350,8 +337,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF containsOnlyOnce(Character[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsOnlyOnce(info, actual, toPrimitiveCharacterArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, toPrimitiveCharacterArray(values)));
   }
 
   /**
@@ -375,8 +361,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   public SELF containsSequence(char... sequence) {
-    arrays.assertContainsSequence(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, sequence));
   }
 
   /**
@@ -402,8 +387,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF containsSequence(Character[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertContainsSequence(info, actual, toPrimitiveCharacterArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, toPrimitiveCharacterArray(sequence)));
   }
 
   /**
@@ -428,8 +412,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   public SELF containsSubsequence(char... subsequence) {
-    arrays.assertContainsSubsequence(info, actual, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
   }
 
   /**
@@ -456,8 +439,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF containsSubsequence(Character[] subsequence) {
     requireNonNullParameter(subsequence, "subsequence");
-    arrays.assertContainsSubsequence(info, actual, toPrimitiveCharacterArray(subsequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, toPrimitiveCharacterArray(subsequence)));
   }
 
   /**
@@ -482,8 +464,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public SELF contains(char value, Index index) {
-    arrays.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, value, index));
   }
 
   /**
@@ -504,8 +485,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array contains any of the given values.
    */
   public SELF doesNotContain(char... values) {
-    arrays.assertDoesNotContain(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, values));
   }
 
   /**
@@ -528,8 +508,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF doesNotContain(Character[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertDoesNotContain(info, actual, toPrimitiveCharacterArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, toPrimitiveCharacterArray(values)));
   }
 
   /**
@@ -552,8 +531,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
   public SELF doesNotContain(char value, Index index) {
-    arrays.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, value, index));
   }
 
   /**
@@ -571,8 +549,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array contains duplicates.
    */
   public SELF doesNotHaveDuplicates() {
-    arrays.assertDoesNotHaveDuplicates(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
   }
 
   /**
@@ -595,8 +572,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
   public SELF startsWith(char... sequence) {
-    arrays.assertStartsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, sequence));
   }
 
   /**
@@ -621,8 +597,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF startsWith(Character[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertStartsWith(info, actual, toPrimitiveCharacterArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, toPrimitiveCharacterArray(sequence)));
   }
 
   /**
@@ -644,8 +619,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
   public SELF endsWith(char... sequence) {
-    arrays.assertEndsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, sequence));
   }
 
   /**
@@ -669,22 +643,19 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF endsWith(Character[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertEndsWith(info, actual, toPrimitiveCharacterArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, toPrimitiveCharacterArray(sequence)));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isSorted() {
-    arrays.assertIsSorted(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSorted(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isSortedAccordingTo(Comparator<? super Character> comparator) {
-    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSortedAccordingToComparator(info, actual, comparator));
   }
 
   /** {@inheritDoc} */
@@ -723,8 +694,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    *           or values are the same but the order is not.
    */
   public SELF containsExactly(char... values) {
-    arrays.assertContainsExactly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, values));
   }
 
   /**
@@ -749,8 +719,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF containsExactly(Character[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsExactly(info, actual, toPrimitiveCharacterArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, toPrimitiveCharacterArray(values)));
   }
 
   /**
@@ -776,8 +745,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsExactlyInAnyOrder(char... values) {
-    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, values));
   }
 
   /**
@@ -804,8 +772,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF containsExactlyInAnyOrder(Character[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveCharacterArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveCharacterArray(values)));
   }
 
   /**
@@ -859,8 +826,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsAnyOf(char... values) {
-    arrays.assertContainsAnyOf(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, values));
   }
 
   /**
@@ -890,8 +856,7 @@ public abstract class AbstractCharArrayAssert<SELF extends AbstractCharArrayAsse
    */
   public SELF containsAnyOf(Character[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsAnyOf(info, actual, toPrimitiveCharacterArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, toPrimitiveCharacterArray(values)));
   }
 
   private static char[] toPrimitiveCharacterArray(Character[] values) {

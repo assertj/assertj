@@ -15,8 +15,6 @@
  */
 package org.assertj.core.api;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
 import java.time.Duration;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -61,8 +59,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @since 2.7.0 / 3.7.0
    */
   public SELF isCancelled() {
-    futures.assertIsCancelled(info, actual);
-    return myself;
+    return executeAssertion(() -> futures.assertIsCancelled(info, actual));
   }
 
   /**
@@ -90,8 +87,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @since 2.7.0 / 3.7.0
    */
   public SELF isNotCancelled() {
-    futures.assertIsNotCancelled(info, actual);
-    return myself;
+    return executeAssertion(() -> futures.assertIsNotCancelled(info, actual));
   }
 
   /**
@@ -126,8 +122,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @since 2.7.0 / 3.7.0
    */
   public SELF isDone() {
-    futures.assertIsDone(info, actual);
-    return myself;
+    return executeAssertion(() -> futures.assertIsDone(info, actual));
   }
 
   /**
@@ -162,8 +157,7 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
    * @since 2.7.0 / 3.7.0
    */
   public SELF isNotDone() {
-    futures.assertIsNotDone(info, actual);
-    return myself;
+    return executeAssertion(() -> futures.assertIsNotDone(info, actual));
   }
 
   /**
@@ -451,12 +445,12 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
 
   private ObjectAssert<RESULT> internalSucceedsWithin(Duration timeout) {
     RESULT result = futures.assertSucceededWithin(info, actual, timeout);
-    return assertThat(result).withAssertionState(myself);
+    return new ObjectAssert<>(result).withAssertionState(myself);
   }
 
   private ObjectAssert<RESULT> internalSucceedsWithin(long timeout, TimeUnit unit) {
     RESULT result = futures.assertSucceededWithin(info, actual, timeout, unit);
-    return assertThat(result).withAssertionState(myself);
+    return new ObjectAssert<>(result).withAssertionState(myself);
   }
 
 }

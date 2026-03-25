@@ -76,8 +76,10 @@ public class AtomicStampedReferenceAssert<VALUE>
    * @since 2.7.0 / 3.7.0
    */
   public AtomicStampedReferenceAssert<VALUE> hasStamp(int expectedStamp) {
-    int timestamp = actual.getStamp();
-    if (timestamp != expectedStamp) throwAssertionError(shouldHaveStamp(actual, expectedStamp));
-    return this;
+    return executeAssertion(() -> {
+      int timestamp = actual.getStamp();
+      if (timestamp != expectedStamp)
+        throwAssertionError(shouldHaveStamp(actual, expectedStamp));
+    });
   }
 }

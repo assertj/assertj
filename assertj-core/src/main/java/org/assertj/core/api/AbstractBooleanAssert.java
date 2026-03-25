@@ -58,9 +58,11 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * @throws AssertionError if the actual value is not {@code true}.
    */
   public SELF isTrue() {
-    objects.assertNotNull(info, actual);
-    if (actual) return myself;
-    throw Failures.instance().failure(info, shouldBeTrue(actual), actual, true);
+    return executeAssertion(() -> {
+      objects.assertNotNull(info, actual);
+      if (actual) return;
+      throw Failures.instance().failure(info, shouldBeTrue(actual), actual, true);
+    });
   }
 
   /**
@@ -80,9 +82,11 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * @throws AssertionError if the actual value is not {@code false}.
    */
   public SELF isFalse() {
-    objects.assertNotNull(info, actual);
-    if (!actual) return myself;
-    throw Failures.instance().failure(info, shouldBeFalse(actual), actual, false);
+    return executeAssertion(() -> {
+      objects.assertNotNull(info, actual);
+      if (!actual) return;
+      throw Failures.instance().failure(info, shouldBeFalse(actual), actual, false);
+    });
   }
 
   /**
@@ -103,9 +107,10 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(boolean expected) {
-    if (actual == null || actual != expected)
-      throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
-    return myself;
+    return executeAssertion(() -> {
+      if (actual == null || actual != expected)
+        throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
+    });
   }
 
   /**
@@ -126,7 +131,8 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    * @throws AssertionError if the actual value is equal to the given one.
    */
   public SELF isNotEqualTo(boolean other) {
-    if (actual != null && actual == other) throwAssertionError(shouldNotBeEqual(actual, other));
-    return myself;
+    return executeAssertion(() -> {
+      if (actual != null && actual == other) throwAssertionError(shouldNotBeEqual(actual, other));
+    });
   }
 }

@@ -79,8 +79,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    */
   public SELF isBefore(ZonedDateTime other) {
     assertDateTimeParameterIsNotNull(other);
-    comparables.assertIsBefore(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBefore(info, actual, other));
   }
 
   /**
@@ -147,8 +146,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    */
   public SELF isBeforeOrEqualTo(ZonedDateTime other) {
     assertDateTimeParameterIsNotNull(other);
-    comparables.assertIsBeforeOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBeforeOrEqualTo(info, actual, other));
   }
 
   /**
@@ -214,8 +212,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    */
   public SELF isAfterOrEqualTo(ZonedDateTime other) {
     assertDateTimeParameterIsNotNull(other);
-    comparables.assertIsAfterOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsAfterOrEqualTo(info, actual, other));
   }
 
   /**
@@ -282,8 +279,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    */
   public SELF isAfter(ZonedDateTime other) {
     assertDateTimeParameterIsNotNull(other);
-    comparables.assertIsAfter(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsAfter(info, actual, other));
   }
 
   /**
@@ -349,12 +345,13 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    */
   @Override
   public SELF isEqualTo(Object expected) {
-    if (actual == null || expected == null) {
-      super.isEqualTo(expected);
-    } else {
-      comparables.assertEqual(info, actual, expected);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      if (actual == null || expected == null) {
+        super.isEqualTo(expected);
+      } else {
+        comparables.assertEqual(info, actual, expected);
+      }
+    });
   }
 
   /**
@@ -417,12 +414,13 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    */
   @Override
   public SELF isNotEqualTo(Object expected) {
-    if (actual == null || expected == null) {
-      super.isNotEqualTo(expected);
-    } else {
-      comparables.assertNotEqual(info, actual, expected);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      if (actual == null || expected == null) {
+        super.isNotEqualTo(expected);
+      } else {
+        comparables.assertNotEqual(info, actual, expected);
+      }
+    });
   }
 
   /**
@@ -557,10 +555,11 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @since 3.25.0
    */
   public SELF isInThePast() {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.isBefore(ZonedDateTime.now(actual.getZone())))
-      throw Failures.instance().failure(info, shouldBeInThePast(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.isBefore(ZonedDateTime.now(actual.getZone())))
+        throw Failures.instance().failure(info, shouldBeInThePast(actual));
+    });
   }
 
   /**
@@ -577,10 +576,11 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @since 3.25.0
    */
   public SELF isInTheFuture() {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.isAfter(ZonedDateTime.now(actual.getZone())))
-      throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.isAfter(ZonedDateTime.now(actual.getZone())))
+        throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+    });
   }
 
   /**
@@ -622,8 +622,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @since 3.7.1
    */
   public SELF isBetween(ZonedDateTime startInclusive, ZonedDateTime endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true));
   }
 
   /**
@@ -703,8 +702,7 @@ public abstract class AbstractZonedDateTimeAssert<SELF extends AbstractZonedDate
    * @since 3.7.1
    */
   public SELF isStrictlyBetween(ZonedDateTime startExclusive, ZonedDateTime endExclusive) {
-    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false));
   }
 
   /**

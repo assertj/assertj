@@ -97,6 +97,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   private static Consumer<Description> descriptionConsumer;
 
+  // When non-null, assertion errors are handled by this handler instead of being thrown directly.
+  // Used by soft assertions (collect errors) and assumptions (convert to assumption exceptions).
+  AssertionErrorHandler assertionErrorHandler;
+
+  // Depth counter for nested soft assertion call detection (replaces stack trace scanning)
+  private static final ThreadLocal<Integer> SOFT_CALL_DEPTH = ThreadLocal.withInitial(() -> 0);
+
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
   // let's keep compiler warning internal (when we can) and not expose them to our end users.
@@ -106,6 +113,72 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     this.actual = actual;
     info = new WritableAssertionInfo(customRepresentation);
     assertionErrorCreator = new AssertionErrorCreator();
+  }
+
+  /**
+   * Wraps an assertion method body for soft assertion support.
+   * When {@code softAssertionCollector} is set, catches {@link AssertionError} and collects it
+   * instead of throwing. Uses a depth counter to handle nested calls (e.g., {@code isTrue()}
+   * calling {@code isEqualTo(true)}) — only the outermost call catches and collects.
+   *
+   * @param body the assertion logic to execute
+   * @return {@code myself} for fluent chaining
+   */
+  protected SELF executeAssertion(Runnable body) {
+    if (assertionErrorHandler == null) {
+      body.run();
+      return myself;
+    }
+    int depth = SOFT_CALL_DEPTH.get();
+    SOFT_CALL_DEPTH.set(depth + 1);
+    try {
+      body.run();
+      if (depth == 0) assertionErrorHandler.succeeded();
+    } catch (AssertionError e) {
+      if (depth > 0) throw e;
+      assertionErrorHandler.handleError(e);
+    } finally {
+      SOFT_CALL_DEPTH.set(depth);
+    }
+    return myself;
+  }
+
+  /**
+   * Wraps a navigation method that returns a different assert type and also performs assertion checks.
+   * In soft mode, catches {@link AssertionError} from the assertion guards, collects it,
+   * and returns {@code null} (matching the old proxy behavior).
+   *
+   * @param <T> the return type of the navigation method
+   * @param body the navigation method logic to execute
+   * @return the navigation result, or {@code null} if an assertion error was collected in soft mode
+   */
+  protected <T> T executeAssertionNavigation(Supplier<T> body) {
+    if (assertionErrorHandler == null) {
+      try {
+        return body.get();
+      } catch (AssertionError | RuntimeException e) {
+        throw e;
+      } catch (Exception e) {
+        throw new RuntimeException(e);
+      }
+    }
+    int depth = SOFT_CALL_DEPTH.get();
+    SOFT_CALL_DEPTH.set(depth + 1);
+    try {
+      T result = body.get();
+      if (depth == 0) assertionErrorHandler.succeeded();
+      return result;
+    } catch (AssertionError e) {
+      if (depth > 0) throw e;
+      assertionErrorHandler.handleError(e);
+      return null;
+    } catch (RuntimeException e) {
+      throw e;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    } finally {
+      SOFT_CALL_DEPTH.set(depth);
+    }
   }
 
   /**
@@ -376,8 +449,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
                                               + "This is not supported. Perhaps you meant 'isSameAs' instead?");
     }
 
-    objects.assertEqual(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> objects.assertEqual(info, actual, expected));
   }
 
   /**
@@ -390,8 +462,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
                                               + "This is not supported. Perhaps you meant 'isNotSameAs' instead?");
     }
 
-    objects.assertNotEqual(info, actual, other);
-    return myself;
+    return executeAssertion(() -> objects.assertNotEqual(info, actual, other));
   }
 
   /**
@@ -399,7 +470,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public void isNull() {
-    objects.assertNull(info, actual);
+    executeAssertion(() -> objects.assertNull(info, actual));
   }
 
   /**
@@ -407,8 +478,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isNotNull() {
-    objects.assertNotNull(info, actual);
-    return myself;
+    return executeAssertion(() -> objects.assertNotNull(info, actual));
   }
 
   /**
@@ -416,8 +486,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isSameAs(Object expected) {
-    objects.assertSame(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> objects.assertSame(info, actual, expected));
   }
 
   /**
@@ -425,8 +494,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isNotSameAs(Object other) {
-    objects.assertNotSame(info, actual, other);
-    return myself;
+    return executeAssertion(() -> objects.assertNotSame(info, actual, other));
   }
 
   /**
@@ -434,8 +502,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isIn(Object... values) {
-    objects.assertIsIn(info, actual, values);
-    return myself;
+    return executeAssertion(() -> objects.assertIsIn(info, actual, values));
   }
 
   /**
@@ -443,8 +510,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isNotIn(Object... values) {
-    objects.assertIsNotIn(info, actual, values);
-    return myself;
+    return executeAssertion(() -> objects.assertIsNotIn(info, actual, values));
   }
 
   /**
@@ -452,8 +518,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isIn(Iterable<?> values) {
-    objects.assertIsIn(info, actual, values);
-    return myself;
+    return executeAssertion(() -> objects.assertIsIn(info, actual, values));
   }
 
   /**
@@ -461,8 +526,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isNotIn(Iterable<?> values) {
-    objects.assertIsNotIn(info, actual, values);
-    return myself;
+    return executeAssertion(() -> objects.assertIsNotIn(info, actual, values));
   }
 
   /**
@@ -470,8 +534,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF is(Condition<? super ACTUAL> condition) {
-    conditions.assertIs(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> conditions.assertIs(info, actual, condition));
   }
 
   /**
@@ -479,8 +542,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isNot(Condition<? super ACTUAL> condition) {
-    conditions.assertIsNot(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> conditions.assertIsNot(info, actual, condition));
   }
 
   /**
@@ -488,8 +550,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF has(Condition<? super ACTUAL> condition) {
-    conditions.assertHas(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> conditions.assertHas(info, actual, condition));
   }
 
   /**
@@ -497,8 +558,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF doesNotHave(Condition<? super ACTUAL> condition) {
-    conditions.assertDoesNotHave(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> conditions.assertDoesNotHave(info, actual, condition));
   }
 
   /**
@@ -506,8 +566,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF satisfies(Condition<? super ACTUAL> condition) {
-    conditions.assertSatisfies(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> conditions.assertSatisfies(info, actual, condition));
   }
 
   /**
@@ -535,8 +594,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isInstanceOf(Class<?> type) {
-    objects.assertIsInstanceOf(info, actual, type);
-    return myself;
+    return executeAssertion(() -> objects.assertIsInstanceOf(info, actual, type));
   }
 
   /**
@@ -545,10 +603,11 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @SuppressWarnings("unchecked")
   @Override
   public <T> SELF isInstanceOfSatisfying(Class<T> type, Consumer<T> requirements) {
-    objects.assertIsInstanceOf(info, actual, type);
-    requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
-    requirements.accept((T) actual);
-    return myself;
+    return executeAssertion(() -> {
+      objects.assertIsInstanceOf(info, actual, type);
+      requireNonNull(requirements, "The Consumer<T> expressing the assertions requirements must not be null");
+      requirements.accept((T) actual);
+    });
   }
 
   /**
@@ -556,8 +615,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isInstanceOfAny(Class<?>... types) {
-    objects.assertIsInstanceOfAny(info, actual, types);
-    return myself;
+    return executeAssertion(() -> objects.assertIsInstanceOfAny(info, actual, types));
   }
 
   /**
@@ -565,8 +623,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isNotInstanceOf(Class<?> type) {
-    objects.assertIsNotInstanceOf(info, actual, type);
-    return myself;
+    return executeAssertion(() -> objects.assertIsNotInstanceOf(info, actual, type));
   }
 
   /**
@@ -574,8 +631,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isNotInstanceOfAny(Class<?>... types) {
-    objects.assertIsNotInstanceOfAny(info, actual, types);
-    return myself;
+    return executeAssertion(() -> objects.assertIsNotInstanceOfAny(info, actual, types));
   }
 
   /**
@@ -583,8 +639,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF hasSameClassAs(Object other) {
-    objects.assertHasSameClassAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> objects.assertHasSameClassAs(info, actual, other));
   }
 
   /**
@@ -592,8 +647,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF hasToString(String expectedToString) {
-    objects.assertHasToString(info, actual, expectedToString);
-    return myself;
+    return executeAssertion(() -> objects.assertHasToString(info, actual, expectedToString));
   }
 
   /**
@@ -610,8 +664,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF doesNotHaveToString(String otherToString) {
-    objects.assertDoesNotHaveToString(info, actual, otherToString);
-    return myself;
+    return executeAssertion(() -> objects.assertDoesNotHaveToString(info, actual, otherToString));
   }
 
   /**
@@ -628,8 +681,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF doesNotHaveSameClassAs(Object other) {
-    objects.assertDoesNotHaveSameClassAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> objects.assertDoesNotHaveSameClassAs(info, actual, other));
   }
 
   /**
@@ -637,8 +689,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isExactlyInstanceOf(Class<?> type) {
-    objects.assertIsExactlyInstanceOf(info, actual, type);
-    return myself;
+    return executeAssertion(() -> objects.assertIsExactlyInstanceOf(info, actual, type));
   }
 
   /**
@@ -646,8 +697,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isNotExactlyInstanceOf(Class<?> type) {
-    objects.assertIsNotExactlyInstanceOf(info, actual, type);
-    return myself;
+    return executeAssertion(() -> objects.assertIsNotExactlyInstanceOf(info, actual, type));
   }
 
   /**
@@ -655,8 +705,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isOfAnyClassIn(Class<?>... types) {
-    objects.assertIsOfAnyClassIn(info, actual, types);
-    return myself;
+    return executeAssertion(() -> objects.assertIsOfAnyClassIn(info, actual, types));
   }
 
   /**
@@ -664,8 +713,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF isNotOfAnyClassIn(Class<?>... types) {
-    objects.assertIsNotOfAnyClassIn(info, actual, types);
-    return myself;
+    return executeAssertion(() -> objects.assertIsNotOfAnyClassIn(info, actual, types));
   }
 
   /**
@@ -978,14 +1026,15 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF satisfiesForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
-    checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
-    List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchOptionalAssertionError)
-                                                                   .flatMap(Optional::stream)
-                                                                   .collect(toList());
-    if (!assertionErrors.isEmpty()) {
-      throw multipleAssertionsError(actual, assertionErrors);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
+      List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchOptionalAssertionError)
+                                                                     .flatMap(Optional::stream)
+                                                                     .collect(toList());
+      if (!assertionErrors.isEmpty()) {
+        throw multipleAssertionsError(actual, assertionErrors);
+      }
+    });
   }
 
   private Optional<AssertionError> catchOptionalAssertionError(Consumer<? super ACTUAL> assertions) {
@@ -1070,17 +1119,19 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF satisfiesAnyOfForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
-    checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
-    // use a for loop over stream to return as soon as one assertion is met
-    List<AssertionError> assertionErrors = list();
-    for (Consumer<? super ACTUAL> assertionsGroup : assertionsGroups) {
-      Optional<AssertionError> maybeError = catchOptionalAssertionError(assertionsGroup);
-      if (maybeError.isEmpty()) {
-        return myself;
+    return executeAssertion(() -> {
+      checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
+      // use a for loop over stream to return as soon as one assertion is met
+      List<AssertionError> assertionErrors = list();
+      for (Consumer<? super ACTUAL> assertionsGroup : assertionsGroups) {
+        Optional<AssertionError> maybeError = catchOptionalAssertionError(assertionsGroup);
+        if (maybeError.isEmpty()) {
+          return;
+        }
+        assertionErrors.add(maybeError.get());
       }
-      assertionErrors.add(maybeError.get());
-    }
-    throw multipleAssertionsError(actual, assertionErrors);
+      throw multipleAssertionsError(actual, assertionErrors);
+    });
   }
 
   private AssertionError multipleAssertionsError(ACTUAL actual, List<AssertionError> assertionErrors) {
@@ -1119,8 +1170,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF hasSameHashCodeAs(Object other) {
-    objects.assertHasSameHashCodeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> objects.assertHasSameHashCodeAs(info, actual, other));
   }
 
   /**
@@ -1128,8 +1178,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @Override
   public SELF doesNotHaveSameHashCodeAs(Object other) {
-    objects.assertDoesNotHaveSameHashCodeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> objects.assertDoesNotHaveSameHashCodeAs(info, actual, other));
   }
 
   /**
@@ -1142,19 +1191,30 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @return a new {@link AbstractListAssert}.
    */
   protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
-    return new ListAssert<>(newActual);
+    ListAssert<E> listAssert = new ListAssert<>(newActual);
+    listAssert.withAssertionState(myself);
+    return listAssert;
   }
 
   SELF withAssertionState(@SuppressWarnings("rawtypes") AbstractAssert assertInstance) {
     this.objects = assertInstance.objects;
+    this.assertionErrorHandler = assertInstance.assertionErrorHandler;
     propagateAssertionInfoFrom(assertInstance);
     return myself;
   }
 
   private void propagateAssertionInfoFrom(AbstractAssert<?, ?> assertInstance) {
     this.info.useRepresentation(assertInstance.info.representation());
-    this.info.description(assertInstance.info.description());
-    this.info.overridingErrorMessage(assertInstance.info.overridingErrorMessage());
+    if (assertInstance.info.overridingErrorMessage() != null) {
+      // When overridingErrorMessage is set, always propagate both it and the description
+      // (even if null) so the overridingErrorMessage is used as-is without any description prefix.
+      this.info.overridingErrorMessage(assertInstance.info.overridingErrorMessage());
+      this.info.description(assertInstance.info.description());
+    } else if (assertInstance.info.description() != null) {
+      // Only overwrite description if the source has one set.
+      // This preserves descriptions set by extracting/navigation methods (via .as()).
+      this.info.description(assertInstance.info.description());
+    }
   }
 
   // this method is meant to be overridden and made public in subclasses that want to expose it
@@ -1211,7 +1271,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
     @SuppressWarnings("unchecked")
-    ASSERT result = (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
+    ASSERT result = (ASSERT) assertFactory.createAssert(value).as(description).withAssertionState(myself);
     return result;
   }
 

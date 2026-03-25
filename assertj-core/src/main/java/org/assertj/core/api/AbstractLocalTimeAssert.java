@@ -62,12 +62,13 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @throws AssertionError if the actual {@code LocalTime} is not strictly before the given one.
    */
   public SELF isBefore(LocalTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertLocalTimeParameterIsNotNull(other);
-    if (!actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeBefore(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertLocalTimeParameterIsNotNull(other);
+      if (!actual.isBefore(other)) {
+        throw Failures.instance().failure(info, shouldBeBefore(actual, other));
+      }
+    });
   }
 
   /**
@@ -106,12 +107,13 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @throws AssertionError if the actual {@code LocalTime} is not before or equals to the given one.
    */
   public SELF isBeforeOrEqualTo(LocalTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertLocalTimeParameterIsNotNull(other);
-    if (actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertLocalTimeParameterIsNotNull(other);
+      if (actual.isAfter(other)) {
+        throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
+      }
+    });
   }
 
   /**
@@ -151,12 +153,13 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @throws AssertionError if the actual {@code LocalTime} is not after or equals to the given one.
    */
   public SELF isAfterOrEqualTo(LocalTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertLocalTimeParameterIsNotNull(other);
-    if (actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertLocalTimeParameterIsNotNull(other);
+      if (actual.isBefore(other)) {
+        throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
+      }
+    });
   }
 
   /**
@@ -195,12 +198,13 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @throws AssertionError if the actual {@code LocalTime} is not strictly after the given one.
    */
   public SELF isAfter(LocalTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertLocalTimeParameterIsNotNull(other);
-    if (!actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeAfter(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertLocalTimeParameterIsNotNull(other);
+      if (!actual.isAfter(other)) {
+        throw Failures.instance().failure(info, shouldBeAfter(actual, other));
+      }
+    });
   }
 
   /**
@@ -374,12 +378,13 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    *           fields.
    */
   public SELF hasSameHourAs(LocalTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertLocalTimeParameterIsNotNull(other);
-    if (!haveSameHourField(actual, other)) {
-      throw Failures.instance().failure(info, shouldHaveSameHourAs(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertLocalTimeParameterIsNotNull(other);
+      if (!haveSameHourField(actual, other)) {
+        throw Failures.instance().failure(info, shouldHaveSameHourAs(actual, other));
+      }
+    });
   }
 
   /**
@@ -409,8 +414,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @since 3.7.1
    */
   public SELF isBetween(LocalTime startInclusive, LocalTime endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true));
   }
 
   /**
@@ -472,8 +476,7 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @since 3.7.1
    */
   public SELF isStrictlyBetween(LocalTime startExclusive, LocalTime endExclusive) {
-    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false));
   }
 
   /**
@@ -526,11 +529,12 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @since 3.23.0
    */
   public SELF hasHour(int hour) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getHour() != hour) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual, "hour", hour));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getHour() != hour) {
+        throw Failures.instance().failure(info, shouldHaveDateField(actual, "hour", hour));
+      }
+    });
   }
 
   /**
@@ -551,11 +555,12 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @since 3.23.0
    */
   public SELF hasMinute(int minute) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getMinute() != minute) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual, "minute", minute));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getMinute() != minute) {
+        throw Failures.instance().failure(info, shouldHaveDateField(actual, "minute", minute));
+      }
+    });
   }
 
   /**
@@ -576,11 +581,12 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @since 3.23.0
    */
   public SELF hasSecond(int second) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getSecond() != second) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual, "second", second));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getSecond() != second) {
+        throw Failures.instance().failure(info, shouldHaveDateField(actual, "second", second));
+      }
+    });
   }
 
   /**
@@ -601,11 +607,12 @@ public abstract class AbstractLocalTimeAssert<SELF extends AbstractLocalTimeAsse
    * @since 3.23.0
    */
   public SELF hasNano(int nano) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getNano() != nano) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual, "nano", nano));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getNano() != nano) {
+        throw Failures.instance().failure(info, shouldHaveDateField(actual, "nano", nano));
+      }
+    });
   }
 
   @Override

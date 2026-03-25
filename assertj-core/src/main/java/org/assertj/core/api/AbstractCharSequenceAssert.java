@@ -93,7 +93,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Override
   public void isNullOrEmpty() {
-    strings.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> strings.assertNullOrEmpty(info, actual));
   }
 
   /**
@@ -116,7 +116,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Override
   public void isEmpty() {
-    strings.assertEmpty(info, actual);
+    executeAssertion(() -> strings.assertEmpty(info, actual));
   }
 
   /**
@@ -139,8 +139,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Override
   public SELF isNotEmpty() {
-    strings.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> strings.assertNotEmpty(info, actual));
   }
 
   /**
@@ -166,8 +165,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.6.0 / 3.6.0
    */
   public SELF isBlank() {
-    assertBlank();
-    return myself;
+    return executeAssertion(() -> assertBlank());
   }
 
   private void assertBlank() {
@@ -201,8 +199,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.6.0 / 3.6.0
    */
   public SELF isNotBlank() {
-    assertNotBlank();
-    return myself;
+    return executeAssertion(() -> assertNotBlank());
   }
 
   private void assertNotBlank() {
@@ -229,8 +226,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.11.0
    */
   public SELF containsWhitespaces() {
-    assertContainsWhitespaces();
-    return myself;
+    return executeAssertion(() -> assertContainsWhitespaces());
   }
 
   private void assertContainsWhitespaces() {
@@ -259,8 +255,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsOnlyWhitespaces() {
-    assertContainsOnlyWhitespaces();
-    return myself;
+    return executeAssertion(() -> assertContainsOnlyWhitespaces());
   }
 
   private void assertContainsOnlyWhitespaces() {
@@ -287,8 +282,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.11.0
    */
   public SELF doesNotContainAnyWhitespaces() {
-    assertDoesNotContainAnyWhitespaces();
-    return myself;
+    return executeAssertion(() -> assertDoesNotContainAnyWhitespaces());
   }
 
   private void assertDoesNotContainAnyWhitespaces() {
@@ -322,8 +316,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.9.0 / 3.9.0
    */
   public SELF doesNotContainOnlyWhitespaces() {
-    assertDoesNotContainOnlyWhitespaces();
-    return myself;
+    return executeAssertion(() -> assertDoesNotContainOnlyWhitespaces());
   }
 
   private void assertDoesNotContainOnlyWhitespaces() {
@@ -347,8 +340,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Override
   public SELF hasSize(int expected) {
-    strings.assertHasSize(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertHasSize(info, actual, expected));
   }
 
   /**
@@ -367,8 +359,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Override
   public SELF hasSizeLessThan(int expected) {
-    strings.assertHasSizeLessThan(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertHasSizeLessThan(info, actual, expected));
   }
 
   /**
@@ -387,8 +378,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Override
   public SELF hasSizeLessThanOrEqualTo(int expected) {
-    strings.assertHasSizeLessThanOrEqualTo(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertHasSizeLessThanOrEqualTo(info, actual, expected));
   }
 
   /**
@@ -407,8 +397,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Override
   public SELF hasSizeGreaterThan(int expected) {
-    strings.assertHasSizeGreaterThan(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertHasSizeGreaterThan(info, actual, expected));
   }
 
   /**
@@ -427,8 +416,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Override
   public SELF hasSizeGreaterThanOrEqualTo(int expected) {
-    strings.assertHasSizeGreaterThanOrEqualTo(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertHasSizeGreaterThanOrEqualTo(info, actual, expected));
   }
 
   /**
@@ -452,8 +440,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Override
   public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    strings.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
-    return myself;
+    return executeAssertion(() -> strings.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary));
   }
 
   /**
@@ -476,8 +463,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual line count is not equal to the expected one.
    */
   public SELF hasLineCount(int expectedLineCount) {
-    strings.assertHasLineCount(info, actual, expectedLineCount);
-    return myself;
+    return executeAssertion(() -> strings.assertHasLineCount(info, actual, expectedLineCount));
   }
 
   /**
@@ -498,8 +484,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws NullPointerException if the given {@code CharSequence} is {@code null}.
    */
   public SELF hasSameSizeAs(CharSequence other) {
-    strings.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> strings.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -521,8 +506,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Override
   public SELF hasSameSizeAs(Object other) {
-    strings.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> strings.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -544,8 +528,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
-    strings.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> strings.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -564,8 +547,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one.
    */
   public SELF isEqualToIgnoringCase(CharSequence expected) {
-    strings.assertEqualsIgnoringCase(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertEqualsIgnoringCase(info, actual, expected));
   }
 
   /**
@@ -588,8 +570,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one.
    */
   public SELF isNotEqualToIgnoringCase(CharSequence expected) {
-    strings.assertNotEqualsIgnoringCase(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertNotEqualsIgnoringCase(info, actual, expected));
   }
 
   /**
@@ -607,8 +588,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} contains non-digit characters or is {@code null}.
    */
   public SELF containsOnlyDigits() {
-    strings.assertContainsOnlyDigits(info, actual);
-    return myself;
+    return executeAssertion(() -> strings.assertContainsOnlyDigits(info, actual));
   }
 
   /**
@@ -628,8 +608,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                        it more than once.
    */
   public SELF containsOnlyOnce(CharSequence sequence) {
-    strings.assertContainsOnlyOnce(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> strings.assertContainsOnlyOnce(info, actual, sequence));
   }
 
   /**
@@ -647,8 +626,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF contains(CharSequence... values) {
-    strings.assertContains(info, actual, values);
-    return myself;
+    return executeAssertion(() -> strings.assertContains(info, actual, values));
   }
 
   /**
@@ -670,8 +648,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.21.0
    */
   public SELF containsAnyOf(CharSequence... values) {
-    strings.assertContainsAnyOf(info, actual, values);
-    return myself;
+    return executeAssertion(() -> strings.assertContainsAnyOf(info, actual, values));
   }
 
   /**
@@ -689,8 +666,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF contains(Iterable<? extends CharSequence> values) {
-    strings.assertContains(info, actual, toArray(values, CharSequence.class));
-    return myself;
+    return executeAssertion(() -> strings.assertContains(info, actual, toArray(values, CharSequence.class)));
   }
 
   /**
@@ -719,8 +695,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError           if the given {@code CharSequence} does not contain the given sequence of values in the given order without any other values between them.
    */
   public SELF containsSequence(CharSequence... values) {
-    strings.assertContainsSequence(info, actual, values);
-    return myself;
+    return executeAssertion(() -> strings.assertContainsSequence(info, actual, values));
   }
 
   /**
@@ -750,8 +725,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError           if the given {@code CharSequence} does not contain the given sequence of values in the given order without any other charvalues between them.
    */
   public SELF containsSequence(Iterable<? extends CharSequence> values) {
-    strings.assertContainsSequence(info, actual, toArray(values, CharSequence.class));
-    return myself;
+    return executeAssertion(() -> strings.assertContainsSequence(info, actual, toArray(values, CharSequence.class)));
   }
 
   /**
@@ -779,8 +753,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values in the given order.
    */
   public SELF containsSubsequence(CharSequence... values) {
-    strings.assertContainsSubsequence(info, actual, values);
-    return myself;
+    return executeAssertion(() -> strings.assertContainsSubsequence(info, actual, values));
   }
 
   /**
@@ -808,8 +781,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values in the given order.
    */
   public SELF containsSubsequence(Iterable<? extends CharSequence> values) {
-    strings.assertContainsSubsequence(info, actual, toArray(values, CharSequence.class));
-    return myself;
+    return executeAssertion(() -> strings.assertContainsSubsequence(info, actual, toArray(values, CharSequence.class)));
   }
 
   /**
@@ -829,8 +801,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError       if the actual {@code CharSequence} does not contain the given one.
    */
   public SELF containsIgnoringCase(CharSequence sequence) {
-    strings.assertContainsIgnoringCase(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> strings.assertContainsIgnoringCase(info, actual, sequence));
   }
 
   /**
@@ -854,8 +825,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF containsIgnoringWhitespaces(CharSequence... values) {
-    assertContainsIgnoringWhitespaces(values);
-    return myself;
+    return executeAssertion(() -> assertContainsIgnoringWhitespaces(values));
   }
 
   private void assertContainsIgnoringWhitespaces(CharSequence... values) {
@@ -895,8 +865,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError           if the actual {@code CharSequence} does not contain all the given values.
    */
   public SELF containsIgnoringNewlines(final CharSequence... values) {
-    strings.assertContainsIgnoringNewlines(info, actual, values);
-    return myself;
+    return executeAssertion(() -> strings.assertContainsIgnoringNewlines(info, actual, values));
   }
 
   /**
@@ -919,8 +888,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError           if the actual {@code CharSequence} contains any of the given values.
    */
   public SELF doesNotContain(CharSequence... values) {
-    strings.assertDoesNotContain(info, actual, values);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotContain(info, actual, values));
   }
 
   /**
@@ -942,8 +910,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError           if the actual {@code CharSequence} contains any of the given values.
    */
   public SELF doesNotContain(Iterable<? extends CharSequence> values) {
-    strings.assertDoesNotContain(info, actual, toArray(values, CharSequence.class));
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotContain(info, actual, toArray(values, CharSequence.class)));
   }
 
   /**
@@ -970,8 +937,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                                  without any characters between them.
    */
   public SELF doesNotContainSequence(CharSequence... sequence) {
-    strings.assertDoesNotContainSequence(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotContainSequence(info, actual, sequence));
   }
 
   /**
@@ -998,8 +964,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                                  without any characters between them.
    */
   public SELF doesNotContainSequence(Iterable<? extends CharSequence> sequence) {
-    strings.assertDoesNotContainSequence(info, actual, toArray(sequence, CharSequence.class));
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotContainSequence(info, actual, toArray(sequence, CharSequence.class)));
   }
 
   /**
@@ -1026,8 +991,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                                  possibly with other characters between them.
    */
   public SELF doesNotContainSubsequence(CharSequence... subsequence) {
-    strings.assertDoesNotContainSubsequence(info, actual, subsequence);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotContainSubsequence(info, actual, subsequence));
   }
 
   /**
@@ -1054,8 +1018,8 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                                  possibly with other characters between them.
    */
   public SELF doesNotContainSubsequence(Iterable<? extends CharSequence> subsequence) {
-    strings.assertDoesNotContainSubsequence(info, actual, toArray(subsequence, CharSequence.class));
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotContainSubsequence(info, actual,
+                                                                          toArray(subsequence, CharSequence.class)));
   }
 
   /**
@@ -1080,8 +1044,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.17.0
    */
   public SELF doesNotContainIgnoringCase(CharSequence... values) {
-    strings.assertDoesNotContainIgnoringCase(info, actual, values);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotContainIgnoringCase(info, actual, values));
   }
 
   /**
@@ -1102,8 +1065,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.7.0 / 3.7.0
    */
   public SELF doesNotContainPattern(CharSequence pattern) {
-    strings.assertDoesNotContainPattern(info, actual, pattern);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotContainPattern(info, actual, pattern));
   }
 
   /**
@@ -1124,8 +1086,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.7.0 / 3.7.0
    */
   public SELF doesNotContainPattern(Pattern pattern) {
-    strings.assertDoesNotContainPattern(info, actual, pattern);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotContainPattern(info, actual, pattern));
   }
 
   /**
@@ -1147,8 +1108,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError       if the actual {@code CharSequence} does not start with the given prefix.
    */
   public SELF startsWith(CharSequence prefix) {
-    strings.assertStartsWith(info, actual, prefix);
-    return myself;
+    return executeAssertion(() -> strings.assertStartsWith(info, actual, prefix));
   }
 
   /**
@@ -1170,8 +1130,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.23.0
    */
   public SELF startsWithIgnoringCase(CharSequence prefix) {
-    strings.assertStartsWithIgnoringCase(info, actual, prefix);
-    return myself;
+    return executeAssertion(() -> strings.assertStartsWithIgnoringCase(info, actual, prefix));
   }
 
   /**
@@ -1193,8 +1152,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError       if the actual {@code CharSequence} starts with the given prefix.
    */
   public SELF doesNotStartWith(CharSequence prefix) {
-    strings.assertDoesNotStartWith(info, actual, prefix);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotStartWith(info, actual, prefix));
   }
 
   /**
@@ -1217,8 +1175,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.23.0
    */
   public SELF doesNotStartWithIgnoringCase(CharSequence prefix) {
-    strings.assertDoesNotStartWithIgnoringCase(info, actual, prefix);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotStartWithIgnoringCase(info, actual, prefix));
   }
 
   /**
@@ -1238,8 +1195,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError       if the actual {@code CharSequence} does not end with the given suffix.
    */
   public SELF endsWith(CharSequence suffix) {
-    strings.assertEndsWith(info, actual, suffix);
-    return myself;
+    return executeAssertion(() -> strings.assertEndsWith(info, actual, suffix));
   }
 
   /**
@@ -1261,8 +1217,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.23.0
    */
   public SELF endsWithIgnoringCase(CharSequence suffix) {
-    strings.assertEndsWithIgnoringCase(info, actual, suffix);
-    return myself;
+    return executeAssertion(() -> strings.assertEndsWithIgnoringCase(info, actual, suffix));
   }
 
   /**
@@ -1283,8 +1238,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError       if the actual {@code CharSequence} ends with the given suffix.
    */
   public SELF doesNotEndWith(CharSequence suffix) {
-    strings.assertDoesNotEndWith(info, actual, suffix);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotEndWith(info, actual, suffix));
   }
 
   /**
@@ -1306,8 +1260,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.23.0
    */
   public SELF doesNotEndWithIgnoringCase(CharSequence suffix) {
-    strings.assertDoesNotEndWithIgnoringCase(info, actual, suffix);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotEndWithIgnoringCase(info, actual, suffix));
   }
 
   /**
@@ -1327,8 +1280,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError       if the actual {@code CharSequence} does not match the given regular expression.
    */
   public SELF matches(CharSequence regex) {
-    strings.assertMatches(info, actual, regex);
-    return myself;
+    return executeAssertion(() -> strings.assertMatches(info, actual, regex));
   }
 
   /**
@@ -1367,8 +1319,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError       if the actual {@code CharSequence} matches the given regular expression.
    */
   public SELF doesNotMatch(CharSequence regex) {
-    strings.assertDoesNotMatch(info, actual, regex);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotMatch(info, actual, regex));
   }
 
   /**
@@ -1388,8 +1339,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError       if the actual {@code CharSequence} does not match the given regular expression.
    */
   public SELF matches(Pattern pattern) {
-    strings.assertMatches(info, actual, pattern);
-    return myself;
+    return executeAssertion(() -> strings.assertMatches(info, actual, pattern));
   }
 
   /**
@@ -1415,10 +1365,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
 
   // internal method to avoid double proxying if one assertion calls another one
   private SELF internalMatchesSatisfying(Pattern pattern, Consumer<Matcher> matchSatisfies) {
-    Matcher matcher = pattern.matcher(actual);
-    strings.assertMatches(info, actual, matcher);
-    matchSatisfies.accept(matcher);
-    return myself;
+    return executeAssertion(() -> {
+      Matcher matcher = pattern.matcher(actual);
+      strings.assertMatches(info, actual, matcher);
+      matchSatisfies.accept(matcher);
+    });
   }
 
   /**
@@ -1437,8 +1388,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError       if the actual {@code CharSequence} does not match the given regular expression.
    */
   public SELF doesNotMatch(Pattern pattern) {
-    strings.assertDoesNotMatch(info, actual, pattern);
-    return myself;
+    return executeAssertion(() -> strings.assertDoesNotMatch(info, actual, pattern));
   }
 
   /**
@@ -1553,8 +1503,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                        one.
    */
   public SELF isEqualToIgnoringWhitespace(CharSequence expected) {
-    strings.assertEqualsIgnoringWhitespace(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertEqualsIgnoringWhitespace(info, actual, expected));
   }
 
   /**
@@ -1579,8 +1528,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    *                        one.
    */
   public SELF isNotEqualToIgnoringWhitespace(CharSequence expected) {
-    strings.assertNotEqualsIgnoringWhitespace(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertNotEqualsIgnoringWhitespace(info, actual, expected));
   }
 
   /**
@@ -1615,8 +1563,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.8.0 / 3.8.0
    */
   public SELF isEqualToNormalizingWhitespace(CharSequence expected) {
-    strings.assertEqualsNormalizingWhitespace(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertEqualsNormalizingWhitespace(info, actual, expected));
   }
 
   /**
@@ -1648,8 +1595,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.8.0 / 3.8.0
    */
   public SELF isNotEqualToNormalizingWhitespace(CharSequence expected) {
-    strings.assertNotEqualsNormalizingWhitespace(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertNotEqualsNormalizingWhitespace(info, actual, expected));
   }
 
   /**
@@ -1685,8 +1631,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.16.0
    */
   public SELF isEqualToNormalizingPunctuationAndWhitespace(CharSequence expected) {
-    strings.assertEqualsNormalizingPunctuationAndWhitespace(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertEqualsNormalizingPunctuationAndWhitespace(info, actual, expected));
   }
 
   /**
@@ -1705,8 +1650,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is not a substring of the given parameter.
    */
   public SELF isSubstringOf(CharSequence sequence) {
-    strings.assertIsSubstringOf(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> strings.assertIsSubstringOf(info, actual, sequence));
   }
 
   /**
@@ -1726,8 +1670,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError       if the given regular expression cannot be found in the actual {@code CharSequence}.
    */
   public SELF containsPattern(CharSequence regex) {
-    strings.assertContainsPattern(info, actual, regex);
-    return myself;
+    return executeAssertion(() -> strings.assertContainsPattern(info, actual, regex));
   }
 
   /**
@@ -1766,8 +1709,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError       if the given regular expression cannot be found in the actual {@code CharSequence}.
    */
   public SELF containsPattern(Pattern pattern) {
-    strings.assertContainsPattern(info, actual, pattern);
-    return myself;
+    return executeAssertion(() -> strings.assertContainsPattern(info, actual, pattern));
   }
 
   /**
@@ -1792,10 +1734,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
   }
 
   private SELF internalContainsPatternSatisfying(Pattern pattern, Consumer<Matcher> matchSatisfies) {
-    Matcher matcher = pattern.matcher(actual);
-    strings.assertContainsPattern(info, actual, matcher);
-    matchSatisfies.accept(matcher);
-    return myself;
+    return executeAssertion(() -> {
+      Matcher matcher = pattern.matcher(actual);
+      strings.assertContainsPattern(info, actual, matcher);
+      matchSatisfies.accept(matcher);
+    });
   }
 
   /**
@@ -1818,8 +1761,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 2.7.0 / 3.7.0
    */
   public SELF isEqualToNormalizingNewlines(CharSequence expected) {
-    strings.assertIsEqualToNormalizingNewlines(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertIsEqualToNormalizingNewlines(info, actual, expected));
   }
 
   /**
@@ -1844,8 +1786,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @throws AssertionError if the actual {@code CharSequence} is not equal to the given one after new lines have been removed.
    */
   public SELF isEqualToIgnoringNewlines(CharSequence expected) {
-    strings.assertIsEqualToIgnoringNewlines(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertIsEqualToIgnoringNewlines(info, actual, expected));
   }
 
   /**
@@ -1871,8 +1812,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see #isUpperCase()
    */
   public SELF isLowerCase() {
-    strings.assertLowerCase(info, actual);
-    return myself;
+    return executeAssertion(() -> strings.assertLowerCase(info, actual));
   }
 
   /**
@@ -1900,8 +1840,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.21.0
    */
   public SELF isMixedCase() {
-    strings.assertMixedCase(info, actual);
-    return myself;
+    return executeAssertion(() -> strings.assertMixedCase(info, actual));
   }
 
   /**
@@ -1927,8 +1866,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see #isMixedCase()
    */
   public SELF isUpperCase() {
-    strings.assertUpperCase(info, actual);
-    return myself;
+    return executeAssertion(() -> strings.assertUpperCase(info, actual));
   }
 
   /**
@@ -1957,8 +1895,7 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.19.0
    */
   public SELF isEqualToNormalizingUnicode(CharSequence expected) {
-    strings.assertEqualsToNormalizingUnicode(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> strings.assertEqualsToNormalizingUnicode(info, actual, expected));
   }
 
   /**
@@ -1982,9 +1919,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
   public SELF isAlphabetic() {
-    isNotNull();
-    if (!Pattern.matches("\\p{Alpha}+", actual)) throwAssertionError(shouldBeAlphabetic(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!Pattern.matches("\\p{Alpha}+", actual)) throwAssertionError(shouldBeAlphabetic(actual));
+    });
   }
 
   /**
@@ -2008,9 +1946,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
   public SELF isAlphanumeric() {
-    isNotNull();
-    if (!Pattern.matches("\\p{Alnum}+", actual)) throwAssertionError(shouldBeAlphanumeric(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!Pattern.matches("\\p{Alnum}+", actual)) throwAssertionError(shouldBeAlphanumeric(actual));
+    });
   }
 
   /**
@@ -2034,9 +1973,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
   public SELF isASCII() {
-    isNotNull();
-    if (!Pattern.matches("\\p{ASCII}+", actual)) throwAssertionError(shouldBeASCII(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!Pattern.matches("\\p{ASCII}+", actual)) throwAssertionError(shouldBeASCII(actual));
+    });
   }
 
   /**
@@ -2060,9 +2000,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
   public SELF isHexadecimal() {
-    isNotNull();
-    if (!Pattern.matches("\\p{XDigit}+", actual)) throwAssertionError(shouldBeHexadecimal(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!Pattern.matches("\\p{XDigit}+", actual)) throwAssertionError(shouldBeHexadecimal(actual));
+    });
   }
 
   /**
@@ -2087,9 +2028,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
   public SELF isPrintable() {
-    isNotNull();
-    if (!Pattern.matches("\\p{Print}+", actual)) throwAssertionError(shouldBePrintable(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!Pattern.matches("\\p{Print}+", actual)) throwAssertionError(shouldBePrintable(actual));
+    });
   }
 
   /**
@@ -2113,9 +2055,10 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @see <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">java.util.regex.Pattern</a>
    */
   public SELF isVisible() {
-    isNotNull();
-    if (!Pattern.matches("\\p{Graph}+", actual)) throwAssertionError(shouldBeVisible(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!Pattern.matches("\\p{Graph}+", actual)) throwAssertionError(shouldBeVisible(actual));
+    });
   }
 
   /**
@@ -2140,10 +2083,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.26.0
    */
   public SELF doesNotStartWithWhitespaces() {
-    isNotNull();
-    actual.codePoints().boxed().findFirst().filter(Character::isWhitespace)
-          .ifPresent(__ -> throwAssertionError(shouldNotStartWithWhitespaces(actual)));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      actual.codePoints().boxed().findFirst().filter(Character::isWhitespace)
+            .ifPresent(__ -> throwAssertionError(shouldNotStartWithWhitespaces(actual)));
+    });
   }
 
   /**
@@ -2168,10 +2112,11 @@ public abstract class AbstractCharSequenceAssert<SELF extends AbstractCharSequen
    * @since 3.26.0
    */
   public SELF doesNotEndWithWhitespaces() {
-    isNotNull();
-    actual.codePoints().boxed().reduce((v1, v2) -> v2).filter(Character::isWhitespace)
-          .ifPresent(__ -> throwAssertionError(shouldNotEndWithWhitespaces(actual)));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      actual.codePoints().boxed().reduce((v1, v2) -> v2).filter(Character::isWhitespace)
+            .ifPresent(__ -> throwAssertionError(shouldNotEndWithWhitespaces(actual)));
+    });
   }
 
   private static boolean isBlank(CharSequence actual) {

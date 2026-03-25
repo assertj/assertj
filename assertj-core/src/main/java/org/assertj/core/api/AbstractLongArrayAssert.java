@@ -36,27 +36,25 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
   /** {@inheritDoc} */
   @Override
   public void isNullOrEmpty() {
-    arrays.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> arrays.assertNullOrEmpty(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public void isEmpty() {
-    arrays.assertEmpty(info, actual);
+    executeAssertion(() -> arrays.assertEmpty(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotEmpty() {
-    arrays.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertNotEmpty(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF hasSize(int expected) {
-    arrays.assertHasSize(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSize(info, actual, expected));
   }
 
   /**
@@ -76,8 +74,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   @Override
   public SELF hasSizeGreaterThan(int boundary) {
-    arrays.assertHasSizeGreaterThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThan(info, actual, boundary));
   }
 
   /**
@@ -98,8 +95,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   @Override
   public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -119,8 +115,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   @Override
   public SELF hasSizeLessThan(int boundary) {
-    arrays.assertHasSizeLessThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThan(info, actual, boundary));
   }
 
   /**
@@ -141,8 +136,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   @Override
   public SELF hasSizeLessThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -165,15 +159,13 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   @Override
   public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -197,8 +189,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * @throws AssertionError if the actual array does not contain the given values.
    */
   public SELF contains(long... values) {
-    arrays.assertContains(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, values));
   }
 
   /**
@@ -224,8 +215,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   public SELF contains(Long[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContains(info, actual, toPrimitiveLongArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, toPrimitiveLongArray(values)));
   }
 
   /**
@@ -250,8 +240,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
   public SELF containsOnly(long... values) {
-    arrays.assertContainsOnly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, values));
   }
 
   /**
@@ -278,8 +267,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   public SELF containsOnly(Long[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsOnly(info, actual, toPrimitiveLongArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, toPrimitiveLongArray(values)));
   }
 
   /**
@@ -303,8 +291,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    *           or none of the given values, or the actual group contains more than once these values.
    */
   public SELF containsOnlyOnce(long... values) {
-    arrays.assertContainsOnlyOnce(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, values));
   }
 
   /**
@@ -330,8 +317,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   public SELF containsOnlyOnce(Long[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsOnlyOnce(info, actual, toPrimitiveLongArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, toPrimitiveLongArray(values)));
   }
 
   /**
@@ -353,8 +339,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   public SELF containsSequence(long... sequence) {
-    arrays.assertContainsSequence(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, sequence));
   }
 
   /**
@@ -378,8 +363,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   public SELF containsSequence(Long[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertContainsSequence(info, actual, toPrimitiveLongArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, toPrimitiveLongArray(sequence)));
   }
 
   /**
@@ -401,8 +385,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   public SELF containsSubsequence(long... subsequence) {
-    arrays.assertContainsSubsequence(info, actual, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
   }
 
   /**
@@ -426,8 +409,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   public SELF containsSubsequence(Long[] subsequence) {
     requireNonNullParameter(subsequence, "subsequence");
-    arrays.assertContainsSubsequence(info, actual, toPrimitiveLongArray(subsequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, toPrimitiveLongArray(subsequence)));
   }
 
   /**
@@ -452,8 +434,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public SELF contains(long value, Index index) {
-    arrays.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, value, index));
   }
 
   /**
@@ -474,8 +455,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * @throws AssertionError if the actual array contains any of the given values.
    */
   public SELF doesNotContain(long... values) {
-    arrays.assertDoesNotContain(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, values));
   }
 
   /**
@@ -498,8 +478,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   public SELF doesNotContain(Long[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertDoesNotContain(info, actual, toPrimitiveLongArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, toPrimitiveLongArray(values)));
   }
 
   /**
@@ -522,8 +501,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
   public SELF doesNotContain(long value, Index index) {
-    arrays.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, value, index));
   }
 
   /**
@@ -541,8 +519,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * @throws AssertionError if the actual array contains duplicates.
    */
   public SELF doesNotHaveDuplicates() {
-    arrays.assertDoesNotHaveDuplicates(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
   }
 
   /**
@@ -565,8 +542,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
   public SELF startsWith(long... sequence) {
-    arrays.assertStartsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, sequence));
   }
 
   /**
@@ -591,8 +567,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   public SELF startsWith(Long[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertStartsWith(info, actual, toPrimitiveLongArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, toPrimitiveLongArray(sequence)));
   }
 
   /**
@@ -614,8 +589,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
   public SELF endsWith(long... sequence) {
-    arrays.assertEndsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, sequence));
   }
 
   /**
@@ -639,22 +613,19 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   public SELF endsWith(Long[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertEndsWith(info, actual, toPrimitiveLongArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, toPrimitiveLongArray(sequence)));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isSorted() {
-    arrays.assertIsSorted(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSorted(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isSortedAccordingTo(Comparator<? super Long> comparator) {
-    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSortedAccordingToComparator(info, actual, comparator));
   }
 
   /** {@inheritDoc} */
@@ -695,8 +666,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    *           or values are the same but the order is not.
    */
   public SELF containsExactly(long... values) {
-    arrays.assertContainsExactly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, values));
   }
 
   /**
@@ -723,8 +693,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   public SELF containsExactly(Long[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsExactly(info, actual, toPrimitiveLongArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, toPrimitiveLongArray(values)));
   }
 
   /**
@@ -750,8 +719,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsExactlyInAnyOrder(long... values) {
-    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, values));
   }
 
   /**
@@ -778,8 +746,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   public SELF containsExactlyInAnyOrder(Long[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveLongArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveLongArray(values)));
   }
 
   /**
@@ -808,8 +775,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsAnyOf(long... values) {
-    arrays.assertContainsAnyOf(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, values));
   }
 
   /**
@@ -839,8 +805,7 @@ public abstract class AbstractLongArrayAssert<SELF extends AbstractLongArrayAsse
    */
   public SELF containsAnyOf(Long[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsAnyOf(info, actual, toPrimitiveLongArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, toPrimitiveLongArray(values)));
   }
 
   private static long[] toPrimitiveLongArray(Long[] values) {

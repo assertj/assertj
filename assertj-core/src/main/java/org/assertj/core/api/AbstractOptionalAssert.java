@@ -77,8 +77,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF isPresent() {
-    assertValueIsPresent();
-    return myself;
+    return executeAssertion(() -> assertValueIsPresent());
   }
 
   /**
@@ -108,9 +107,10 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF isEmpty() {
-    isNotNull();
-    if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
+    });
   }
 
   /**
@@ -143,13 +143,14 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF contains(VALUE expectedValue) {
-    isNotNull();
-    checkNotNull(expectedValue);
-    if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
-    // noinspection OptionalGetWithoutIsPresent
-    if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue))
-      throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.get(), expectedValue);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      checkNotNull(expectedValue);
+      if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
+      // noinspection OptionalGetWithoutIsPresent
+      if (!optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue))
+        throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.get(), expectedValue);
+    });
   }
 
   /**
@@ -198,10 +199,11 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   }
 
   private SELF internalHasValueSatisfying(Consumer<VALUE> requirement) {
-    assertValueIsPresent();
-    // noinspection OptionalGetWithoutIsPresent
-    requirement.accept(actual.get());
-    return myself;
+    return executeAssertion(() -> {
+      assertValueIsPresent();
+      // noinspection OptionalGetWithoutIsPresent
+      requirement.accept(actual.get());
+    });
   }
 
   /**
@@ -227,10 +229,11 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @since 3.6.0
    */
   public SELF hasValueSatisfying(Condition<? super VALUE> condition) {
-    assertValueIsPresent();
-    // noinspection OptionalGetWithoutIsPresent
-    conditions.assertIs(info, actual.get(), condition);
-    return myself;
+    return executeAssertion(() -> {
+      assertValueIsPresent();
+      // noinspection OptionalGetWithoutIsPresent
+      conditions.assertIs(info, actual.get(), condition);
+    });
   }
 
   /**
@@ -271,12 +274,13 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   }
 
   private SELF hasValueMatching(Predicate<? super VALUE> predicate, PredicateDescription description) {
-    assertValueIsPresent();
-    // noinspection OptionalGetWithoutIsPresent
-    if (!predicate.test(actual.get())) {
-      throwAssertionError(shouldMatch(actual.get(), predicate, description));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      assertValueIsPresent();
+      // noinspection OptionalGetWithoutIsPresent
+      if (!predicate.test(actual.get())) {
+        throwAssertionError(shouldMatch(actual.get(), predicate, description));
+      }
+    });
   }
 
   /**
@@ -312,11 +316,12 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @since 3.28.0
    */
   public SELF doesNotHaveValue(VALUE expectedValue) {
-    isNotNull();
-    if (actual.isPresent() && optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue)) {
-      throw Failures.instance().failure(info, shouldNotContainValue(actual.get(), expectedValue));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isPresent() && optionalValueComparisonStrategy.areEqual(actual.get(), expectedValue)) {
+        throw Failures.instance().failure(info, shouldNotContainValue(actual.get(), expectedValue));
+      }
+    });
   }
 
   /**
@@ -337,10 +342,11 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF containsInstanceOf(Class<?> clazz) {
-    assertValueIsPresent();
-    // noinspection OptionalGetWithoutIsPresent
-    if (!clazz.isInstance(actual.get())) throwAssertionError(shouldContainInstanceOf(actual, clazz));
-    return myself;
+    return executeAssertion(() -> {
+      assertValueIsPresent();
+      // noinspection OptionalGetWithoutIsPresent
+      if (!clazz.isInstance(actual.get())) throwAssertionError(shouldContainInstanceOf(actual, clazz));
+    });
   }
 
   /**
@@ -412,12 +418,13 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
    * @return this assertion object.
    */
   public SELF containsSame(VALUE expectedValue) {
-    isNotNull();
-    checkNotNull(expectedValue);
-    if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
-    // noinspection OptionalGetWithoutIsPresent
-    if (actual.get() != expectedValue) throwAssertionError(shouldContainSame(actual, expectedValue));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      checkNotNull(expectedValue);
+      if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
+      // noinspection OptionalGetWithoutIsPresent
+      if (actual.get() != expectedValue) throwAssertionError(shouldContainSame(actual, expectedValue));
+    });
   }
 
   /**
@@ -451,7 +458,9 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   @CheckReturnValue
   public <U> AbstractOptionalAssert<?, U> flatMap(Function<? super VALUE, Optional<U>> mapper) {
     isNotNull();
-    return assertThat(actual.flatMap(mapper));
+    OptionalAssert<U> result = assertThat(actual.flatMap(mapper));
+    result.withAssertionState(myself);
+    return result;
   }
 
   /**
@@ -479,7 +488,9 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   @CheckReturnValue
   public <U> AbstractOptionalAssert<?, U> map(Function<? super VALUE, ? extends U> mapper) {
     isNotNull();
-    return assertThat(actual.map(mapper));
+    OptionalAssert<U> result = assertThat(actual.map(mapper));
+    result.withAssertionState(myself);
+    return result;
   }
 
   /**

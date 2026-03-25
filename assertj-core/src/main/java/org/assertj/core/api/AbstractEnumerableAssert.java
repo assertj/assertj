@@ -51,9 +51,10 @@ public abstract class AbstractEnumerableAssert<SELF extends AbstractEnumerableAs
    */
   @Override
   public SELF hasSameSizeAs(Object other) {
-    assertIsArray(info, other);
-    new Arrays().assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> {
+      assertIsArray(info, other);
+      new Arrays().assertHasSameSizeAs(info, actual, other);
+    });
   }
 
   /**

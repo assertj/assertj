@@ -64,9 +64,10 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasValueBetween(int startInclusive, int endInclusive) {
-    isNotNull();
-    integers.assertIsBetween(info, actual.get(), startInclusive, endInclusive);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      integers.assertIsBetween(info, actual.get(), startInclusive, endInclusive);
+    });
   }
 
   /**
@@ -89,9 +90,10 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasValueLessThan(int other) {
-    isNotNull();
-    integers.assertLessThan(info, actual.get(), other);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      integers.assertLessThan(info, actual.get(), other);
+    });
   }
 
   /**
@@ -114,9 +116,10 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasValueLessThanOrEqualTo(int other) {
-    isNotNull();
-    integers.assertLessThanOrEqualTo(info, actual.get(), other);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      integers.assertLessThanOrEqualTo(info, actual.get(), other);
+    });
   }
 
   /**
@@ -139,9 +142,10 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasValueGreaterThan(int other) {
-    isNotNull();
-    integers.assertGreaterThan(info, actual.get(), other);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      integers.assertGreaterThan(info, actual.get(), other);
+    });
   }
 
   /**
@@ -164,9 +168,10 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasValueGreaterThanOrEqualTo(int other) {
-    isNotNull();
-    integers.assertGreaterThanOrEqualTo(info, actual.get(), other);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      integers.assertGreaterThanOrEqualTo(info, actual.get(), other);
+    });
   }
 
   /**
@@ -187,9 +192,10 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasPositiveValue() {
-    isNotNull();
-    integers.assertIsPositive(info, actual.get());
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      integers.assertIsPositive(info, actual.get());
+    });
   }
 
   /**
@@ -210,9 +216,10 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasNonPositiveValue() {
-    isNotNull();
-    integers.assertIsNotPositive(info, actual.get());
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      integers.assertIsNotPositive(info, actual.get());
+    });
   }
 
   /**
@@ -233,9 +240,10 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasNegativeValue() {
-    isNotNull();
-    integers.assertIsNegative(info, actual.get());
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      integers.assertIsNegative(info, actual.get());
+    });
   }
 
   /**
@@ -256,9 +264,10 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasNonNegativeValue() {
-    isNotNull();
-    integers.assertIsNotNegative(info, actual.get());
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      integers.assertIsNotNegative(info, actual.get());
+    });
   }
 
   /**
@@ -284,9 +293,10 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasValueCloseTo(int expected, Percentage percentage) {
-    isNotNull();
-    integers.assertIsCloseToPercentage(info, actual.get(), expected, percentage);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      integers.assertIsCloseToPercentage(info, actual.get(), expected, percentage);
+    });
   }
 
   /**
@@ -324,9 +334,10 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasValueCloseTo(int expected, Offset<Integer> offset) {
-    isNotNull();
-    integers.assertIsCloseTo(info, actual.get(), expected, offset);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      integers.assertIsCloseTo(info, actual.get(), expected, offset);
+    });
   }
 
   /**
@@ -347,12 +358,13 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert hasValue(int expectedValue) {
-    isNotNull();
-    int actualValue = actual.get();
-    if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
-      throwAssertionError(shouldHaveValue(actual, expectedValue));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      int actualValue = actual.get();
+      if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
+        throwAssertionError(shouldHaveValue(actual, expectedValue));
+      }
+    });
   }
 
   /**
@@ -373,12 +385,13 @@ public class AtomicIntegerAssert extends AbstractAssertWithComparator<AtomicInte
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerAssert doesNotHaveValue(int expectedValue) {
-    isNotNull();
-    int actualValue = actual.get();
-    if (objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
-      throwAssertionError(shouldNotContainValue(actual, expectedValue));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      int actualValue = actual.get();
+      if (objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
+        throwAssertionError(shouldNotContainValue(actual, expectedValue));
+      }
+    });
   }
 
   @Override

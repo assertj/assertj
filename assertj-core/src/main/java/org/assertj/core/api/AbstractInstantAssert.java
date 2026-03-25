@@ -63,12 +63,13 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
    * @since 3.7.0
    */
   public SELF isBefore(Instant other) {
-    assertNotNull(info, actual);
-    assertInstantParameterIsNotNull(other);
-    if (!actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeBefore(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      assertNotNull(info, actual);
+      assertInstantParameterIsNotNull(other);
+      if (!actual.isBefore(other)) {
+        throw Failures.instance().failure(info, shouldBeBefore(actual, other));
+      }
+    });
   }
 
   /**
@@ -110,12 +111,13 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
    * @since 3.7.0
    */
   public SELF isBeforeOrEqualTo(Instant other) {
-    assertNotNull(info, actual);
-    assertInstantParameterIsNotNull(other);
-    if (actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      assertNotNull(info, actual);
+      assertInstantParameterIsNotNull(other);
+      if (actual.isAfter(other)) {
+        throw Failures.instance().failure(info, shouldBeBeforeOrEqualTo(actual, other));
+      }
+    });
   }
 
   /**
@@ -158,12 +160,13 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
    * @since 3.7.0
    */
   public SELF isAfterOrEqualTo(Instant other) {
-    assertNotNull(info, actual);
-    assertInstantParameterIsNotNull(other);
-    if (actual.isBefore(other)) {
-      throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      assertNotNull(info, actual);
+      assertInstantParameterIsNotNull(other);
+      if (actual.isBefore(other)) {
+        throw Failures.instance().failure(info, shouldBeAfterOrEqualTo(actual, other));
+      }
+    });
   }
 
   /**
@@ -205,12 +208,13 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
    * @since 3.7.0
    */
   public SELF isAfter(Instant other) {
-    assertNotNull(info, actual);
-    assertInstantParameterIsNotNull(other);
-    if (!actual.isAfter(other)) {
-      throw Failures.instance().failure(info, shouldBeAfter(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      assertNotNull(info, actual);
+      assertInstantParameterIsNotNull(other);
+      if (!actual.isAfter(other)) {
+        throw Failures.instance().failure(info, shouldBeAfter(actual, other));
+      }
+    });
   }
 
   /**
@@ -347,9 +351,10 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
    * @since 3.25.0
    */
   public SELF isInThePast() {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.isBefore(Instant.now())) throw Failures.instance().failure(info, shouldBeInThePast(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.isBefore(Instant.now())) throw Failures.instance().failure(info, shouldBeInThePast(actual));
+    });
   }
 
   /**
@@ -366,9 +371,10 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
    * @since 3.25.0
    */
   public SELF isInTheFuture() {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.isAfter(Instant.now())) throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.isAfter(Instant.now())) throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+    });
   }
 
   /**
@@ -398,8 +404,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
    * @since 3.7.1
    */
   public SELF isBetween(Instant startInclusive, Instant endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true));
   }
 
   /**
@@ -462,8 +467,7 @@ public class AbstractInstantAssert<SELF extends AbstractInstantAssert<SELF>>
    * @since 3.7.1
    */
   public SELF isStrictlyBetween(Instant startExclusive, Instant endExclusive) {
-    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false));
   }
 
   /**

@@ -93,8 +93,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    */
   public SELF isBefore(OffsetDateTime other) {
     assertOffsetDateTimeParameterIsNotNull(other);
-    comparables.assertIsBefore(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBefore(info, actual, other));
   }
 
   /**
@@ -165,8 +164,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    */
   public SELF isBeforeOrEqualTo(OffsetDateTime other) {
     assertOffsetDateTimeParameterIsNotNull(other);
-    comparables.assertIsBeforeOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBeforeOrEqualTo(info, actual, other));
   }
 
   /**
@@ -235,8 +233,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    */
   public SELF isAfterOrEqualTo(OffsetDateTime other) {
     assertOffsetDateTimeParameterIsNotNull(other);
-    comparables.assertIsAfterOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsAfterOrEqualTo(info, actual, other));
   }
 
   /**
@@ -306,8 +303,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    */
   public SELF isAfter(OffsetDateTime other) {
     assertOffsetDateTimeParameterIsNotNull(other);
-    comparables.assertIsAfter(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsAfter(info, actual, other));
   }
 
   /**
@@ -376,12 +372,13 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    */
   @Override
   public SELF isEqualTo(Object other) {
-    if (actual == null || other == null) {
-      super.isEqualTo(other);
-    } else {
-      comparables.assertEqual(info, actual, other);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      if (actual == null || other == null) {
+        super.isEqualTo(other);
+      } else {
+        comparables.assertEqual(info, actual, other);
+      }
+    });
   }
 
   /**
@@ -500,12 +497,13 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    */
   @Override
   public SELF isNotEqualTo(Object other) {
-    if (actual == null || other == null) {
-      super.isNotEqualTo(other);
-    } else {
-      comparables.assertNotEqual(info, actual, other);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      if (actual == null || other == null) {
+        super.isNotEqualTo(other);
+      } else {
+        comparables.assertNotEqual(info, actual, other);
+      }
+    });
   }
 
   /**
@@ -616,12 +614,13 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @throws AssertionError if the actual {@code OffsetDateTime} is are not equal with timezone ignored.
    */
   public SELF isEqualToIgnoringTimezone(OffsetDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetDateTimeParameterIsNotNull(other);
-    if (!areEqualIgnoringTimezone(actual, other)) {
-      throw Failures.instance().failure(info, shouldBeEqualIgnoringTimezone(actual, other));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertOffsetDateTimeParameterIsNotNull(other);
+      if (!areEqualIgnoringTimezone(actual, other)) {
+        throw Failures.instance().failure(info, shouldBeEqualIgnoringTimezone(actual, other));
+      }
+    });
   }
 
   /**
@@ -638,10 +637,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @since 3.25.0
    */
   public SELF isInThePast() {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.isBefore(OffsetDateTime.now(actual.getOffset())))
-      throw Failures.instance().failure(info, shouldBeInThePast(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.isBefore(OffsetDateTime.now(actual.getOffset())))
+        throw Failures.instance().failure(info, shouldBeInThePast(actual));
+    });
   }
 
   /**
@@ -658,10 +658,11 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @since 3.25.0
    */
   public SELF isInTheFuture() {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.isAfter(OffsetDateTime.now(actual.getOffset())))
-      throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.isAfter(OffsetDateTime.now(actual.getOffset())))
+        throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+    });
   }
 
   /**
@@ -706,8 +707,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @since 3.7.1
    */
   public SELF isBetween(OffsetDateTime startInclusive, OffsetDateTime endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true));
   }
 
   /**
@@ -788,8 +788,7 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @since 3.7.1
    */
   public SELF isStrictlyBetween(OffsetDateTime startExclusive, OffsetDateTime endExclusive) {
-    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false));
   }
 
   /**
@@ -867,11 +866,12 @@ public abstract class AbstractOffsetDateTimeAssert<SELF extends AbstractOffsetDa
    * @throws AssertionError if the actual {@code OffsetDateTime} is not at the same {@code Instant} as the other.
    */
   public SELF isAtSameInstantAs(OffsetDateTime other) {
-    Objects.instance().assertNotNull(info, actual);
-    assertOffsetDateTimeParameterIsNotNull(other);
-    if (!actual.toInstant().equals(other.toInstant()))
-      throw Failures.instance().failure(info, shouldBeAtSameInstant(actual, other));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      assertOffsetDateTimeParameterIsNotNull(other);
+      if (!actual.toInstant().equals(other.toInstant()))
+        throw Failures.instance().failure(info, shouldBeAtSameInstant(actual, other));
+    });
   }
 
   /**

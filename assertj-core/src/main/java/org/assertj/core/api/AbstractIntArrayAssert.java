@@ -36,27 +36,25 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
   /** {@inheritDoc} */
   @Override
   public void isNullOrEmpty() {
-    arrays.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> arrays.assertNullOrEmpty(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public void isEmpty() {
-    arrays.assertEmpty(info, actual);
+    executeAssertion(() -> arrays.assertEmpty(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotEmpty() {
-    arrays.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertNotEmpty(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF hasSize(int expected) {
-    arrays.assertHasSize(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSize(info, actual, expected));
   }
 
   /**
@@ -76,8 +74,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   @Override
   public SELF hasSizeGreaterThan(int boundary) {
-    arrays.assertHasSizeGreaterThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThan(info, actual, boundary));
   }
 
   /**
@@ -98,8 +95,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   @Override
   public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -119,8 +115,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   @Override
   public SELF hasSizeLessThan(int boundary) {
-    arrays.assertHasSizeLessThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThan(info, actual, boundary));
   }
 
   /**
@@ -141,8 +136,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   @Override
   public SELF hasSizeLessThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -165,15 +159,13 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   @Override
   public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -197,8 +189,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * @throws AssertionError if the actual array does not contain the given values.
    */
   public SELF contains(int... values) {
-    arrays.assertContains(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, values));
   }
 
   /**
@@ -224,8 +215,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   public SELF contains(Integer[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContains(info, actual, toPrimitiveIntArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, toPrimitiveIntArray(values)));
   }
 
   /**
@@ -250,8 +240,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
   public SELF containsOnly(int... values) {
-    arrays.assertContainsOnly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, values));
   }
 
   /**
@@ -278,8 +267,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   public SELF containsOnly(Integer[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsOnly(info, actual, toPrimitiveIntArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, toPrimitiveIntArray(values)));
   }
 
   /**
@@ -303,8 +291,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    *           or none of the given values, or the actual array contains more than once these values.
    */
   public SELF containsOnlyOnce(int... values) {
-    arrays.assertContainsOnlyOnce(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, values));
   }
 
   /**
@@ -330,8 +317,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   public SELF containsOnlyOnce(Integer[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsOnlyOnce(info, actual, toPrimitiveIntArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, toPrimitiveIntArray(values)));
   }
 
   /**
@@ -353,8 +339,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   public SELF containsSequence(int... sequence) {
-    arrays.assertContainsSequence(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, sequence));
   }
 
   /**
@@ -378,8 +363,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   public SELF containsSequence(Integer[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertContainsSequence(info, actual, toPrimitiveIntArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, toPrimitiveIntArray(sequence)));
   }
 
   /**
@@ -401,8 +385,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   public SELF containsSubsequence(int... subsequence) {
-    arrays.assertContainsSubsequence(info, actual, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
   }
 
   /**
@@ -426,8 +409,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   public SELF containsSubsequence(Integer[] subsequence) {
     requireNonNullParameter(subsequence, "subsequence");
-    arrays.assertContainsSubsequence(info, actual, toPrimitiveIntArray(subsequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, toPrimitiveIntArray(subsequence)));
   }
 
   /**
@@ -452,8 +434,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public SELF contains(int value, Index index) {
-    arrays.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, value, index));
   }
 
   /**
@@ -474,8 +455,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * @throws AssertionError if the actual array contains any of the given values.
    */
   public SELF doesNotContain(int... values) {
-    arrays.assertDoesNotContain(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, values));
   }
 
   /**
@@ -498,8 +478,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   public SELF doesNotContain(Integer[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertDoesNotContain(info, actual, toPrimitiveIntArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, toPrimitiveIntArray(values)));
   }
 
   /**
@@ -522,8 +501,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
   public SELF doesNotContain(int value, Index index) {
-    arrays.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, value, index));
   }
 
   /**
@@ -541,8 +519,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * @throws AssertionError if the actual array contains duplicates.
    */
   public SELF doesNotHaveDuplicates() {
-    arrays.assertDoesNotHaveDuplicates(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
   }
 
   /**
@@ -565,8 +542,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
   public SELF startsWith(int... sequence) {
-    arrays.assertStartsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, sequence));
   }
 
   /**
@@ -591,8 +567,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   public SELF startsWith(Integer[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertStartsWith(info, actual, toPrimitiveIntArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, toPrimitiveIntArray(sequence)));
   }
 
   /**
@@ -614,8 +589,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
   public SELF endsWith(int... sequence) {
-    arrays.assertEndsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, sequence));
   }
 
   /**
@@ -639,22 +613,19 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   public SELF endsWith(Integer[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertEndsWith(info, actual, toPrimitiveIntArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, toPrimitiveIntArray(sequence)));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isSorted() {
-    arrays.assertIsSorted(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSorted(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isSortedAccordingTo(Comparator<? super Integer> comparator) {
-    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSortedAccordingToComparator(info, actual, comparator));
   }
 
   /** {@inheritDoc} */
@@ -695,8 +666,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    *           or values are the same but the order is not.
    */
   public SELF containsExactly(int... values) {
-    arrays.assertContainsExactly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, values));
   }
 
   /**
@@ -721,8 +691,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   public SELF containsExactly(Integer[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsExactly(info, actual, toPrimitiveIntArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, toPrimitiveIntArray(values)));
   }
 
   /**
@@ -748,8 +717,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsExactlyInAnyOrder(int... values) {
-    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, values));
   }
 
   /**
@@ -776,8 +744,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   public SELF containsExactlyInAnyOrder(Integer[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveIntArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveIntArray(values)));
   }
 
   /**
@@ -806,8 +773,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsAnyOf(int... values) {
-    arrays.assertContainsAnyOf(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, values));
   }
 
   /**
@@ -837,8 +803,7 @@ public abstract class AbstractIntArrayAssert<SELF extends AbstractIntArrayAssert
    */
   public SELF containsAnyOf(Integer[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsAnyOf(info, actual, toPrimitiveIntArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, toPrimitiveIntArray(values)));
   }
 
   private static int[] toPrimitiveIntArray(Integer[] values) {

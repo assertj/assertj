@@ -129,7 +129,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public void isNullOrEmpty() {
-    arrays.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> arrays.assertNullOrEmpty(info, actual));
   }
 
   /**
@@ -139,7 +139,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public void isEmpty() {
-    arrays.assertEmpty(info, actual);
+    executeAssertion(() -> arrays.assertEmpty(info, actual));
   }
 
   /**
@@ -149,8 +149,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF isNotEmpty() {
-    arrays.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertNotEmpty(info, actual));
   }
 
   /**
@@ -160,8 +159,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSize(int expected) {
-    arrays.assertHasSize(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSize(info, actual, expected));
   }
 
   /**
@@ -181,8 +179,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSizeGreaterThan(int boundary) {
-    arrays.assertHasSizeGreaterThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThan(info, actual, boundary));
   }
 
   /**
@@ -203,8 +200,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -224,8 +220,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSizeLessThan(int boundary) {
-    arrays.assertHasSizeLessThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThan(info, actual, boundary));
   }
 
   /**
@@ -246,8 +241,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSizeLessThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -269,8 +263,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary));
   }
 
   /**
@@ -298,8 +291,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF hasSameSizeAs(Object other) {
     // same implementation as in AbstractArrayAssert, but can't inherit from it due to generics problem ...
-    arrays.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -323,8 +315,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -358,8 +349,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsForProxy(ELEMENT[] values) {
-    arrays.assertContains(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, values));
   }
 
   /**
@@ -404,8 +394,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsOnlyForProxy(ELEMENT[] values) {
-    arrays.assertContainsOnly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, values));
   }
 
   /**
@@ -429,8 +418,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF containsOnlyNulls() {
-    arrays.assertContainsOnlyNulls(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyNulls(info, actual));
   }
 
   /**
@@ -492,8 +480,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsOnlyOnceForProxy(ELEMENT[] values) {
-    arrays.assertContainsOnlyOnce(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, values));
   }
 
   /**
@@ -535,8 +522,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsExactlyForProxy(ELEMENT[] values) {
-    arrays.assertContainsExactly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, values));
   }
 
   /**
@@ -570,8 +556,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsExactlyInAnyOrderForProxy(ELEMENT[] values) {
-    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, values));
   }
 
   /**
@@ -635,8 +620,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsSequenceForProxy(ELEMENT[] sequence) {
-    arrays.assertContainsSequence(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, sequence));
   }
 
   /**
@@ -665,8 +649,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF containsSequence(Iterable<? extends ELEMENT> sequence) {
     checkSequenceIsNotNull(sequence);
-    arrays.assertContainsSequence(info, actual, toArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, toArray(sequence)));
   }
 
   /**
@@ -701,8 +684,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF doesNotContainSequenceForProxy(ELEMENT[] sequence) {
-    arrays.assertDoesNotContainSequence(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainSequence(info, actual, sequence));
   }
 
   /**
@@ -730,8 +712,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF doesNotContainSequence(Iterable<? extends ELEMENT> sequence) {
     checkSequenceIsNotNull(sequence);
-    arrays.assertDoesNotContainSequence(info, actual, toArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainSequence(info, actual, toArray(sequence)));
   }
 
   /**
@@ -763,8 +744,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsSubsequenceForProxy(ELEMENT[] subsequence) {
-    arrays.assertContainsSubsequence(info, actual, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
   }
 
   /**
@@ -789,8 +769,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF containsSubsequence(Iterable<? extends ELEMENT> subsequence) {
     checkSubsequenceIsNotNull(subsequence);
-    arrays.assertContainsSubsequence(info, actual, toArray(subsequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, toArray(subsequence)));
   }
 
   /**
@@ -823,8 +802,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF doesNotContainSubsequenceForProxy(ELEMENT[] subsequence) {
-    arrays.assertDoesNotContainSubsequence(info, actual, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainSubsequence(info, actual, subsequence));
   }
 
   /**
@@ -850,8 +828,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   public SELF doesNotContainSubsequence(Iterable<? extends ELEMENT> subsequence) {
     checkSubsequenceIsNotNull(subsequence);
-    arrays.assertDoesNotContainSubsequence(info, actual, toArray(subsequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainSubsequence(info, actual, toArray(subsequence)));
   }
 
   /**
@@ -881,8 +858,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF contains(ELEMENT value, Index index) {
-    arrays.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, value, index));
   }
 
   /**
@@ -909,8 +885,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasOnlyElementsOfTypes(Class<?>... types) {
-    arrays.assertHasOnlyElementsOfTypes(info, actual, types);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasOnlyElementsOfTypes(info, actual, types));
   }
 
   /**
@@ -940,8 +915,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasExactlyElementsOfTypes(Class<?>... expectedTypes) {
-    arrays.assertHasExactlyElementsOfTypes(info, actual, expectedTypes);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasExactlyElementsOfTypes(info, actual, expectedTypes));
   }
 
   /**
@@ -969,8 +943,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doesNotContain(ELEMENT value, Index index) {
-    arrays.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, value, index));
   }
 
   /**
@@ -1004,8 +977,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF doesNotContainForProxy(ELEMENT[] values) {
-    arrays.assertDoesNotContain(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, values));
   }
 
   /**
@@ -1030,8 +1002,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doesNotContainAnyElementsOf(Iterable<? extends ELEMENT> iterable) {
-    arrays.assertDoesNotContainAnyElementsOf(info, actual, iterable);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainAnyElementsOf(info, actual, iterable));
   }
 
   /**
@@ -1053,8 +1024,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doesNotHaveDuplicates() {
-    arrays.assertDoesNotHaveDuplicates(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
   }
 
   /**
@@ -1088,8 +1058,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF startsWithForProxy(ELEMENT[] sequence) {
-    arrays.assertStartsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, sequence));
   }
 
   /**
@@ -1115,8 +1084,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF endsWith(ELEMENT[] sequence) {
-    arrays.assertEndsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, sequence));
   }
 
   /**
@@ -1150,8 +1118,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF endsWithForProxy(ELEMENT first, ELEMENT[] sequence) {
-    arrays.assertEndsWith(info, actual, first, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, first, sequence));
   }
 
   /**
@@ -1175,8 +1142,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF isSubsetOf(Iterable<? extends ELEMENT> values) {
-    arrays.assertIsSubsetOf(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSubsetOf(info, actual, values));
   }
 
   /**
@@ -1208,8 +1174,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF isSubsetOfForProxy(ELEMENT[] values) {
-    arrays.assertIsSubsetOf(info, actual, Arrays.asList(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSubsetOf(info, actual, Arrays.asList(values)));
   }
 
   /**
@@ -1231,8 +1196,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF containsNull() {
-    arrays.assertContainsNull(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsNull(info, actual));
   }
 
   /**
@@ -1254,8 +1218,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doesNotContainNull() {
-    arrays.assertDoesNotContainNull(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainNull(info, actual));
   }
 
   /**
@@ -1282,8 +1245,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF are(Condition<? super ELEMENT> condition) {
-    arrays.assertAre(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAre(info, actual, condition));
   }
 
   /**
@@ -1310,8 +1272,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF areNot(Condition<? super ELEMENT> condition) {
-    arrays.assertAreNot(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreNot(info, actual, condition));
   }
 
   /**
@@ -1338,8 +1299,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF have(Condition<? super ELEMENT> condition) {
-    arrays.assertHave(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHave(info, actual, condition));
   }
 
   /**
@@ -1366,8 +1326,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doNotHave(Condition<? super ELEMENT> condition) {
-    arrays.assertDoNotHave(info, actual, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoNotHave(info, actual, condition));
   }
 
   /**
@@ -1393,8 +1352,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF areAtLeast(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertAreAtLeast(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreAtLeast(info, actual, times, condition));
   }
 
   /**
@@ -1438,8 +1396,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF areAtMost(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertAreAtMost(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreAtMost(info, actual, times, condition));
   }
 
   /**
@@ -1466,8 +1423,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF areExactly(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertAreExactly(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreExactly(info, actual, times, condition));
   }
 
   /**
@@ -1506,8 +1462,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF haveAtLeast(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertHaveAtLeast(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHaveAtLeast(info, actual, times, condition));
   }
 
   /**
@@ -1529,8 +1484,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF haveAtMost(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertHaveAtMost(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHaveAtMost(info, actual, times, condition));
   }
 
   /**
@@ -1552,8 +1506,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF haveExactly(int times, Condition<? super ELEMENT> condition) {
-    arrays.assertHaveExactly(info, actual, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHaveExactly(info, actual, times, condition));
   }
 
   /**
@@ -1561,8 +1514,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasAtLeastOneElementOfType(Class<?> type) {
-    arrays.assertHasAtLeastOneElementOfType(info, actual, type);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasAtLeastOneElementOfType(info, actual, type));
   }
 
   /**
@@ -1570,8 +1522,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF hasOnlyElementsOfType(Class<?> type) {
-    arrays.assertHasOnlyElementsOfType(info, actual, type);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasOnlyElementsOfType(info, actual, type));
   }
 
   /**
@@ -1579,8 +1530,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF doesNotHaveAnyElementsOfTypes(Class<?>... unexpectedTypes) {
-    arrays.assertDoesNotHaveAnyElementsOfTypes(info, actual, unexpectedTypes);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(info, actual, unexpectedTypes));
   }
 
   /**
@@ -1588,8 +1538,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF isSorted() {
-    arrays.assertIsSorted(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSorted(info, actual));
   }
 
   /**
@@ -1597,8 +1546,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF isSortedAccordingTo(Comparator<? super ELEMENT> comparator) {
-    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSortedAccordingToComparator(info, actual, comparator));
   }
 
   /**
@@ -1622,8 +1570,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF containsAll(Iterable<? extends ELEMENT> iterable) {
-    arrays.assertContainsAll(info, actual, iterable);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAll(info, actual, iterable));
   }
 
   /**
@@ -3437,8 +3384,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsAnyOfForProxy(ELEMENT[] values) {
-    arrays.assertContainsAnyOf(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, values));
   }
 
   /**
@@ -3545,7 +3491,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
-    return new ListAssert<>(newActual);
+    ListAssert<E> result = new ListAssert<>(newActual);
+    result.withAssertionState(myself);
+    return result;
   }
 
   /**
@@ -3822,7 +3770,9 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   private ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
-    return new ObjectAssert<>(value).as(description);
+    ObjectAssert<ELEMENT> result = new ObjectAssert<>(value);
+    result.withAssertionState(myself);
+    return result.as(description);
   }
 
   // lazy init TypeComparators

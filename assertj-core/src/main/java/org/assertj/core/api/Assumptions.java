@@ -16,11 +16,12 @@
 package org.assertj.core.api;
 
 import static net.bytebuddy.matcher.ElementMatchers.any;
+import static net.bytebuddy.matcher.ElementMatchers.named;
+import static net.bytebuddy.matcher.ElementMatchers.namedOneOf;
 import static net.bytebuddy.matcher.ElementMatchers.not;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.AssumptionExceptionFactory.assumptionNotMet;
 import static org.assertj.core.api.ClassLoadingStrategyFactory.classLoadingStrategy;
-import static org.assertj.core.api.SoftProxies.METHODS_NOT_TO_PROXY;
 import static org.assertj.core.util.Arrays.array;
 
 import java.io.File;
@@ -94,10 +95,12 @@ import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.TypeCache;
 import net.bytebuddy.TypeCache.SimpleKey;
 import net.bytebuddy.TypeCache.Sort;
+import net.bytebuddy.description.method.MethodDescription;
 import net.bytebuddy.dynamic.scaffold.TypeValidation;
 import net.bytebuddy.implementation.Implementation;
 import net.bytebuddy.implementation.MethodDelegation;
 import net.bytebuddy.implementation.auxiliary.AuxiliaryType;
+import net.bytebuddy.matcher.ElementMatcher.Junction;
 import net.bytebuddy.implementation.bind.annotation.RuntimeType;
 import net.bytebuddy.implementation.bind.annotation.SuperCall;
 import net.bytebuddy.implementation.bind.annotation.This;
@@ -108,6 +111,32 @@ import net.bytebuddy.implementation.bind.annotation.This;
  */
 @CheckReturnValue
 public class Assumptions {
+
+  // Methods that should not be intercepted by the proxy — configuration/description methods.
+  static final Junction<MethodDescription> METHODS_NOT_TO_PROXY = namedOneOf("as").or(named("clone"))
+                                                                                  .or(named("describedAs"))
+                                                                                  .or(named("descriptionText"))
+                                                                                  .or(named("getWritableAssertionInfo"))
+                                                                                  .or(named("inBinary"))
+                                                                                  .or(named("inHexadecimal"))
+                                                                                  .or(named("newAbstractIterableAssert"))
+                                                                                  .or(named("newObjectArrayAssert"))
+                                                                                  .or(named("overridingErrorMessage"))
+                                                                                  .or(named("removeCustomAssertRelatedElementsFromStackTraceIfNeeded"))
+                                                                                  .or(named("succeedsWithin"))
+                                                                                  .or(named("failsWithin"))
+                                                                                  .or(named("usingComparator"))
+                                                                                  .or(named("usingDefaultComparator"))
+                                                                                  .or(named("usingElementComparator"))
+                                                                                  .or(named("withAssertionInfo"))
+                                                                                  .or(named("withAssertionState"))
+                                                                                  .or(named("withComparatorsForElementPropertyOrFieldNames"))
+                                                                                  .or(named("withComparatorsForElementPropertyOrFieldTypes"))
+                                                                                  .or(named("withFailMessage"))
+                                                                                  .or(named("withIterables"))
+                                                                                  .or(named("withRepresentation"))
+                                                                                  .or(named("withThreadDumpOnError"))
+                                                                                  .or(named("withTypeComparators"));
 
   /**
    * This NamingStrategy takes the original class's name and adds a suffix to distinguish it.
