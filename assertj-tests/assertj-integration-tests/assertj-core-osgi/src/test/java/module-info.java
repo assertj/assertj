@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 open module org.assertj.tests.core.osgi {
-  requires net.bytebuddy;
   requires org.assertj.core;
   requires org.junit.jupiter.api;
   requires org.opentest4j;
