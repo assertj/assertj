@@ -458,9 +458,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   @CheckReturnValue
   public <U> AbstractOptionalAssert<?, U> flatMap(Function<? super VALUE, Optional<U>> mapper) {
     isNotNull();
-    OptionalAssert<U> result = assertThat(actual.flatMap(mapper));
-    result.withAssertionState(myself);
-    return result;
+    return assertThat(actual.flatMap(mapper)).withAssertionState(myself);
   }
 
   /**

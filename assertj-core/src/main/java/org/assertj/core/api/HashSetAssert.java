@@ -68,11 +68,8 @@ public class HashSetAssert<ELEMENT>
   }
 
   @Override
-  @SuppressWarnings("rawtypes")
-  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
-    ObjectAssert<ELEMENT> result = new ObjectAssert<>(value).as(description);
-    ((AbstractAssert) result).assertionErrorHandler = this.assertionErrorHandler;
-    return result;
+  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value) {
+    return new ObjectAssert<>(value);
   }
 
   @Override

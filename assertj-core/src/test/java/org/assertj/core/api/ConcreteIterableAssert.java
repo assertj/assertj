@@ -25,7 +25,7 @@ public class ConcreteIterableAssert<ELEMENT> extends
   }
 
   @Override
-  public ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
+  public ObjectAssert<ELEMENT> toAssert(ELEMENT value) {
     return new ObjectAssert<>(value);
   }
 }

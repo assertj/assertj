@@ -3491,9 +3491,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
-    ListAssert<E> result = new ListAssert<>(newActual);
-    result.withAssertionState(myself);
-    return result;
+    return new ListAssert<>(newActual);
   }
 
   /**
@@ -3770,9 +3768,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   private ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
-    ObjectAssert<ELEMENT> result = new ObjectAssert<>(value);
-    result.withAssertionState(myself);
-    return result.as(description);
+    return new ObjectAssert<>(value).withAssertionState(myself).as(description);
   }
 
   // lazy init TypeComparators

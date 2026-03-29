@@ -411,7 +411,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
     Tuple values = byName(propertiesOrFields).apply(actual);
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-    return newListAssertInstance(values.toList()).as(description).withAssertionState(myself);
+    return newListAssertInstance(values.toList()).withAssertionState(myself).as(description);
   }
 
   /**
@@ -899,9 +899,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
 
   // override for proxyable friendly AbstractObjectAssert
   protected <T> AbstractObjectAssert<?, T> newObjectAssert(T objectUnderTest) {
-    ObjectAssert<T> result = new ObjectAssert<>(objectUnderTest);
-    result.withAssertionState(myself);
-    return result;
+    return new ObjectAssert<>(objectUnderTest);
   }
 
   @SuppressWarnings({ "rawtypes" })

@@ -891,7 +891,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
     String extractedDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return propagateState(newListAssertInstanceForMethodsChangingElementType(values).as(description));
+    return newListAssertInstanceForMethodsChangingElementType(values).as(description);
   }
 
   /**
@@ -939,7 +939,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return propagateState(newListAssertInstanceForMethodsChangingElementType(values).as(description));
+    return newListAssertInstanceForMethodsChangingElementType(values).as(description);
   }
 
   /**
@@ -989,7 +989,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return propagateState(newListAssertInstanceForMethodsChangingElementType(values).as(description));
+    return newListAssertInstanceForMethodsChangingElementType(values).as(description);
   }
 
   /**
@@ -1079,7 +1079,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
     String extractedDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return propagateState(newListAssertInstanceForMethodsChangingElementType(values).as(description));
+    return newListAssertInstanceForMethodsChangingElementType(values).as(description);
   }
 
   /**
@@ -1171,7 +1171,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Tuple> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
     String extractedDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedDescription);
-    return propagateState(newListAssertInstanceForMethodsChangingElementType(values).as(description));
+    return newListAssertInstanceForMethodsChangingElementType(values).as(description);
   }
 
   /**
@@ -1213,7 +1213,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> internalExtracting(Function<? super ELEMENT, V> extractor) {
     if (actual == null) throwAssertionError(shouldNotBeNull());
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
-    return propagateState(newListAssertInstanceForMethodsChangingElementType(values));
+    return newListAssertInstanceForMethodsChangingElementType(values);
   }
 
   /**
@@ -1348,21 +1348,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
       // extracting names we get a List<String> which is mot suitable for the age comparator
       usingDefaultElementComparator();
     }
-    return newListAssertInstance(values);
-  }
-
-  /**
-   * Called after an extracting/mapping/filtering method creates a new assert and sets its description.
-   * Propagates the soft assertion collector and assertion state from the parent, with the description
-   * being the most relevant between the parent's existing description and the new one.
-   * <p>
-   * This method must be called AFTER {@code .as(description)} so that {@code withAssertionState}
-   * overwrites the description with the parent's if the parent had one set.
-   */
-  @SuppressWarnings("rawtypes")
-  private <A extends AbstractAssert> A propagateState(A result) {
-    result.withAssertionState(myself);
-    return result;
+    return newListAssertInstance(values).withAssertionState(myself);
   }
 
   /**
@@ -1514,7 +1500,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<V> result = FieldsOrPropertiesExtractor.extract(actual, extractor).stream()
                                                 .flatMap(Collection::stream)
                                                 .collect(toList());
-    return propagateState(newListAssertInstanceForMethodsChangingElementType(result));
+    return newListAssertInstanceForMethodsChangingElementType(result);
   }
 
   /**
@@ -1588,7 +1574,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(extractors).map(extractor -> extractor.apply(element)))
                                       .collect(toList());
-    return propagateState(newListAssertInstanceForMethodsChangingElementType(result));
+    return newListAssertInstanceForMethodsChangingElementType(result);
   }
 
   /**
@@ -1723,7 +1709,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
         CommonErrors.wrongElementTypeForFlatExtracting(group);
       }
     }
-    return propagateState(newListAssertInstanceForMethodsChangingElementType(extractedValues));
+    return newListAssertInstanceForMethodsChangingElementType(extractedValues);
   }
 
   /**
@@ -1790,7 +1776,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
                                                                                           .toArray());
     List<Tuple> tuples = stream(actual.spliterator(), false).map(tupleExtractor).collect(toList());
-    return propagateState(newListAssertInstanceForMethodsChangingElementType(tuples));
+    return newListAssertInstanceForMethodsChangingElementType(tuples);
   }
 
   /**
@@ -1875,7 +1861,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
     List<Object> extractedValues = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyNames)).stream()
                                                               .flatMap(tuple -> tuple.toList().stream())
                                                               .collect(toList());
-    return propagateState(newListAssertInstanceForMethodsChangingElementType(extractedValues));
+    return newListAssertInstanceForMethodsChangingElementType(extractedValues);
   }
 
   @Override
@@ -2834,9 +2820,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private ELEMENT_ASSERT internalFirst() {
     isNotEmpty();
-    ELEMENT_ASSERT result = toAssert(actual.iterator().next(), navigationDescription("check first element"));
-    result.withAssertionState(myself);
-    return result;
+    return toAssert(actual.iterator().next(), navigationDescription("check first element"));
   }
 
   /**
@@ -2900,9 +2884,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private ELEMENT_ASSERT internalLast() {
     isNotEmpty();
-    ELEMENT_ASSERT result = toAssert(lastElement(), navigationDescription("check last element"));
-    result.withAssertionState(myself);
-    return result;
+    return toAssert(lastElement(), navigationDescription("check last element"));
   }
 
   @SuppressWarnings("unchecked")
@@ -3055,9 +3037,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
       elementAtIndex = actualIterator.next();
     }
 
-    ELEMENT_ASSERT result = toAssert(elementAtIndex, navigationDescription("element at index " + index));
-    result.withAssertionState(myself);
-    return result;
+    return toAssert(elementAtIndex, navigationDescription("element at index " + index));
   }
 
   /**
@@ -3143,9 +3123,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
 
   private ELEMENT_ASSERT internalSingleElement() {
     iterables.assertHasSize(info, actual, 1);
-    ELEMENT_ASSERT result = toAssert(actual.iterator().next(), navigationDescription("check single element"));
-    result.withAssertionState(myself);
-    return result;
+    return toAssert(actual.iterator().next(), navigationDescription("check single element"));
   }
 
   /**
@@ -3159,7 +3137,12 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * @param description describes the element, ex: "check first element" for {@link #first()}, used in assertion description.
    * @return the assertion for the given element
    */
-  protected abstract ELEMENT_ASSERT toAssert(ELEMENT value, String description);
+  @SuppressWarnings("unchecked")
+  protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
+    return toAssert(value).withAssertionState(myself).as(description);
+  }
+
+  protected abstract ELEMENT_ASSERT toAssert(ELEMENT value);
 
   protected String navigationDescription(String propertyName) {
     String text = descriptionText();
@@ -3657,10 +3640,9 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
       this.assertFactory = assertFactory;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
-      return assertFactory.createAssert(value).as(description);
+    protected ELEMENT_ASSERT toAssert(ELEMENT value) {
+      return assertFactory.createAssert(value);
     }
 
     @SuppressWarnings("unchecked")

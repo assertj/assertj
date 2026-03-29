@@ -722,8 +722,10 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @Override
   @CheckReturnValue
   public AbstractStringAssert<?> asString() {
-    objects.assertNotNull(info, actual);
-    return Assertions.assertThat(actual.toString()).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      objects.assertNotNull(info, actual);
+      return Assertions.assertThat(actual.toString()).withAssertionState(myself);
+    });
   }
 
   /**
@@ -1141,14 +1143,22 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   private SELF matches(Predicate<? super ACTUAL> predicate, PredicateDescription predicateDescription) {
     requireNonNull(predicate, "The predicate must not be null");
-    if (predicate.test(actual)) return myself;
-    throw Failures.instance().failure(info, shouldMatch(actual, predicate, predicateDescription));
+    return executeAssertion(() -> {
+      if (predicate.test(actual)) {
+        return;
+      }
+      throw Failures.instance().failure(info, shouldMatch(actual, predicate, predicateDescription));
+    });
   }
 
   private SELF doesNotMatch(Predicate<? super ACTUAL> predicate, PredicateDescription predicateDescription) {
     requireNonNull(predicate, "The predicate must not be null");
-    if (predicate.negate().test(actual)) return myself;
-    throw Failures.instance().failure(info, shouldNotMatch(actual, predicate, predicateDescription));
+    return executeAssertion(() -> {
+      if (predicate.negate().test(actual)) {
+        return;
+      }
+      throw Failures.instance().failure(info, shouldNotMatch(actual, predicate, predicateDescription));
+    });
   }
 
   public static void setCustomRepresentation(Representation customRepresentation) {
@@ -1191,9 +1201,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @return a new {@link AbstractListAssert}.
    */
   protected <E> AbstractListAssert<?, List<? extends E>, E, ObjectAssert<E>> newListAssertInstance(List<? extends E> newActual) {
-    ListAssert<E> listAssert = new ListAssert<>(newActual);
-    listAssert.withAssertionState(myself);
-    return listAssert;
+    return new ListAssert<>(newActual);
   }
 
   SELF withAssertionState(@SuppressWarnings("rawtypes") AbstractAssert assertInstance) {
@@ -1205,16 +1213,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   private void propagateAssertionInfoFrom(AbstractAssert<?, ?> assertInstance) {
     this.info.useRepresentation(assertInstance.info.representation());
-    if (assertInstance.info.overridingErrorMessage() != null) {
-      // When overridingErrorMessage is set, always propagate both it and the description
-      // (even if null) so the overridingErrorMessage is used as-is without any description prefix.
-      this.info.overridingErrorMessage(assertInstance.info.overridingErrorMessage());
-      this.info.description(assertInstance.info.description());
-    } else if (assertInstance.info.description() != null) {
-      // Only overwrite description if the source has one set.
-      // This preserves descriptions set by extracting/navigation methods (via .as()).
-      this.info.description(assertInstance.info.description());
-    }
+    this.info.description(assertInstance.info.description());
+    this.info.overridingErrorMessage(assertInstance.info.overridingErrorMessage());
   }
 
   // this method is meant to be overridden and made public in subclasses that want to expose it
@@ -1271,7 +1271,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
     @SuppressWarnings("unchecked")
-    ASSERT result = (ASSERT) assertFactory.createAssert(value).as(description).withAssertionState(myself);
+    ASSERT result = (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
     return result;
   }
 

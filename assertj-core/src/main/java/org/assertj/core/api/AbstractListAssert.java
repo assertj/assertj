@@ -426,10 +426,9 @@ public abstract class AbstractListAssert<SELF extends AbstractListAssert<SELF, A
       this.assertFactory = assertFactory;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
-      return assertFactory.createAssert(value).as(description);
+    protected ELEMENT_ASSERT toAssert(ELEMENT value) {
+      return assertFactory.createAssert(value);
     }
 
     @SuppressWarnings("unchecked")

@@ -859,9 +859,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public AbstractStringAssert<?> message() {
     objects.assertNotNull(info, actual);
-    StringAssert result = new StringAssert(actual.getMessage());
-    result.withAssertionState(myself);
-    return result;
+    return new StringAssert(actual.getMessage()).withAssertionState(myself);
   }
 
 }

@@ -169,10 +169,9 @@ public abstract class AbstractCollectionAssert<SELF extends AbstractCollectionAs
       this.assertFactory = assertFactory;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected ELEMENT_ASSERT toAssert(ELEMENT value, String description) {
-      return assertFactory.createAssert(value).as(description);
+    protected ELEMENT_ASSERT toAssert(ELEMENT value) {
+      return assertFactory.createAssert(value);
     }
 
     @SuppressWarnings("unchecked")

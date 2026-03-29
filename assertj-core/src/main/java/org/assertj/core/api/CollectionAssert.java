@@ -41,8 +41,8 @@ public class CollectionAssert<ELEMENT> extends
   }
 
   @Override
-  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value, String description) {
-    return new ObjectAssert<>(value).as(description);
+  protected ObjectAssert<ELEMENT> toAssert(ELEMENT value) {
+    return new ObjectAssert<>(value);
   }
 
   @Override

@@ -1935,7 +1935,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     List<Object> valuesFlattened = flatten(values.toList());
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-    return newListAssertInstance(valuesFlattened).as(description);
+    return newListAssertInstance(valuesFlattened).withAssertionState(myself).as(description);
   }
 
   /**
