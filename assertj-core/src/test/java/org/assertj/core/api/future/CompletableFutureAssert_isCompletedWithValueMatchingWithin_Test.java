@@ -77,8 +77,39 @@ public class CompletableFutureAssert_isCompletedWithValueMatchingWithin_Test ext
   void should_fail_on_pending_future_that_will_complete_in_provided_period_but_with_wrong_value() {
     // GIVEN
     CompletableFuture<String> future = completedFutureAfter("string", TEN_MS, executorService);
-    // WHEN/THEN
-    expectAssertionError(() -> assertThat(future).isCompletedWithValueMatchingWithin(s -> s.length() == 5, FIFTY_MS));
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatchingWithin(s -> s.length() == 5,
+                                                                                                          FIFTY_MS));
+    // THEN
+    then(assertionError).hasMessageContaining("to match given predicate");
+  }
+
+  @Test
+  void should_fail_with_custom_description() {
+    // GIVEN
+    CompletableFuture<String> future = completedFutureAfter("string", TEN_MS, executorService);
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(future)
+                                                                      .as("Custom description")
+                                                                      .isCompletedWithValueMatchingWithin(s -> s.length() == 5,
+                                                                                                          FIFTY_MS));
+    // THEN
+    then(assertionError)
+                        .hasMessageContaining("[Custom description]")
+                        .hasMessageContaining("to match given predicate");
+  }
+
+  @Test
+  void should_fail_with_overridingErrorMessage() {
+    // GIVEN
+    CompletableFuture<String> future = completedFutureAfter("string", TEN_MS, executorService);
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(future)
+                                                                      .overridingErrorMessage("Custom error message")
+                                                                      .isCompletedWithValueMatchingWithin(s -> s.length() == 5,
+                                                                                                          FIFTY_MS));
+    // THEN
+    then(assertionError).hasMessage("Custom error message");
   }
 
   @Test

@@ -29,6 +29,7 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
 import java.util.concurrent.Future;
+import java.util.function.Predicate;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -106,6 +107,20 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     // WHEN
     AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future).succeedsWithin(TEN_MILLIS,
                                                                                                         as(STRING)));
+    // THEN
+    assertThat(softly.errorsCollected()).isEmpty();
+    assertThat(assertionError).hasMessageContaining("Cancelled");
+  }
+
+  @Test
+  void should_not_collect_AssertionError_from_CompletableFuture_isCompletedWithValueMatchingWithin_Duration() {
+    // GIVEN
+    CompletableFuture<String> future = new CompletableFuture<>();
+    future.cancel(false);
+    // WHEN
+    var assertionError = expectAssertionError(() -> softly.assertThat(future)
+                                                          .isCompletedWithValueMatchingWithin(Predicate.isEqual("test"),
+                                                                                              TEN_MILLIS));
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
     assertThat(assertionError).hasMessageContaining("Cancelled");
@@ -234,6 +249,94 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     assertThat(softly.errorsCollected().get(5)).hasMessageContaining("not ok 10ms");
     assertThat(softly.errorsCollected().get(6)).hasMessageContaining("not 10ms");
     assertThat(softly.errorsCollected().get(7)).hasMessageContaining("NOT 10ms");
+  }
+
+  @Test
+  void should_pass_custom_description_to_chained_assertions_performed_after_CompletableFuture_succeedsWithin() {
+    // GIVEN
+    CompletableFuture<String> completableFuture = completedFuture("done");
+    // WHEN
+    softly.assertThat(completableFuture)
+          .as("custom 20ms")
+          .succeedsWithin(20, MILLISECONDS)
+          .isEqualTo("not done 20ms")
+          .isEqualTo("not ok 20ms");
+    softly.assertThat(completableFuture)
+          .as("custom 20ms asString")
+          .succeedsWithin(20, MILLISECONDS, as(STRING))
+          .contains("not 20ms")
+          .containsIgnoringCase("NOT 20ms");
+    softly.assertThat(completableFuture)
+          .as("custom 10ms")
+          .succeedsWithin(TEN_MILLIS)
+          .isEqualTo("not done 10ms")
+          .isEqualTo("not ok 10ms");
+    softly.assertThat(completableFuture)
+          .as("custom 10ms asString")
+          .succeedsWithin(TEN_MILLIS, as(STRING))
+          .contains("not 10ms")
+          .containsIgnoringCase("NOT 10ms");
+    // THEN
+    assertThat(softly.errorsCollected()).hasSize(8);
+    assertThat(softly.errorsCollected().get(0)).hasMessageStartingWith("[custom 20ms]").hasMessageContaining("not done 20ms");
+    assertThat(softly.errorsCollected().get(1)).hasMessageStartingWith("[custom 20ms]").hasMessageContaining("not ok 20ms");
+    assertThat(softly.errorsCollected().get(2)).hasMessageStartingWith("[custom 20ms asString]").hasMessageContaining("not 20ms");
+    assertThat(softly.errorsCollected().get(3)).hasMessageStartingWith("[custom 20ms asString]").hasMessageContaining("NOT 20ms");
+    assertThat(softly.errorsCollected().get(4)).hasMessageStartingWith("[custom 10ms]").hasMessageContaining("not done 10ms");
+    assertThat(softly.errorsCollected().get(5)).hasMessageStartingWith("[custom 10ms]").hasMessageContaining("not ok 10ms");
+    assertThat(softly.errorsCollected().get(6)).hasMessageStartingWith("[custom 10ms asString]").hasMessageContaining("not 10ms");
+    assertThat(softly.errorsCollected().get(7)).hasMessageStartingWith("[custom 10ms asString]").hasMessageContaining("NOT 10ms");
+  }
+
+  @Test
+  void should_pass_custom_overridingErrorMessage_to_chained_assertions_performed_after_CompletableFuture_succeedsWithin() {
+    // GIVEN
+    CompletableFuture<String> completableFuture = completedFuture("done");
+    // WHEN
+    softly.assertThat(completableFuture)
+          .overridingErrorMessage("custom 20ms")
+          .succeedsWithin(20, MILLISECONDS)
+          .isEqualTo("not done 20ms")
+          .isEqualTo("not ok 20ms");
+    softly.assertThat(completableFuture)
+          .overridingErrorMessage("custom 20ms asString")
+          .succeedsWithin(20, MILLISECONDS, as(STRING))
+          .contains("not 20ms")
+          .containsIgnoringCase("NOT 20ms");
+    softly.assertThat(completableFuture)
+          .overridingErrorMessage("custom 10ms")
+          .succeedsWithin(TEN_MILLIS)
+          .isEqualTo("not done 10ms")
+          .isEqualTo("not ok 10ms");
+    softly.assertThat(completableFuture)
+          .overridingErrorMessage("custom 10ms asString")
+          .succeedsWithin(TEN_MILLIS, as(STRING))
+          .contains("not 10ms")
+          .containsIgnoringCase("NOT 10ms");
+    // THEN
+    assertThat(softly.errorsCollected()).hasSize(8);
+    assertThat(softly.errorsCollected().get(0)).hasMessage("custom 20ms");
+    assertThat(softly.errorsCollected().get(1)).hasMessage("custom 20ms");
+    assertThat(softly.errorsCollected().get(2)).hasMessage("custom 20ms asString");
+    assertThat(softly.errorsCollected().get(3)).hasMessage("custom 20ms asString");
+    assertThat(softly.errorsCollected().get(4)).hasMessage("custom 10ms");
+    assertThat(softly.errorsCollected().get(5)).hasMessage("custom 10ms");
+    assertThat(softly.errorsCollected().get(6)).hasMessage("custom 10ms asString");
+    assertThat(softly.errorsCollected().get(7)).hasMessage("custom 10ms asString");
+  }
+
+  @Test
+  void should_collect_error_from_chained_assertions_after_CompletableFuture_isCompletedWithValueMatchingWithin() {
+    // GIVEN
+    CompletableFuture<String> future = completedFuture("done");
+    // WHEN
+    softly.assertThat(future)
+          .isCompletedWithValueMatchingWithin(Predicate.isEqual("test"), TEN_MILLIS)
+          .isEqualTo("not done 20ms");
+    // THEN
+    assertThat(softly.errorsCollected()).hasSize(2);
+    assertThat(softly.errorsCollected().get(0)).hasMessageContaining("to match given predicate");
+    assertThat(softly.errorsCollected().get(1)).hasMessageContaining("not done 20ms");
   }
 
   @Test

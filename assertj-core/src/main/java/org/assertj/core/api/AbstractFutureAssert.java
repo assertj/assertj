@@ -457,12 +457,12 @@ public abstract class AbstractFutureAssert<SELF extends AbstractFutureAssert<SEL
 
   private ObjectAssert<RESULT> internalSucceedsWithin(Duration timeout) {
     RESULT result = futures.assertSucceededWithin(info, actual, timeout);
-    return assertThat(result);
+    return assertThat(result).withAssertionState(myself);
   }
 
   private ObjectAssert<RESULT> internalSucceedsWithin(long timeout, TimeUnit unit) {
     RESULT result = futures.assertSucceededWithin(info, actual, timeout, unit);
-    return assertThat(result);
+    return assertThat(result).withAssertionState(myself);
   }
 
 }
