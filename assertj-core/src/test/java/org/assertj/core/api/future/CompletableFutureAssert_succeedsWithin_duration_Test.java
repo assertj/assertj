@@ -115,4 +115,30 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
                         .hasMessageContaining("to be completed within 0.001S.");
   }
 
+  @Test
+  void should_pass_custom_description() {
+    // GIVEN
+    String value = "done";
+    CompletableFuture<String> future = completedFuture(value);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).as("Custom description")
+                                                                                 .succeedsWithin(Duration.ofMillis(1), as(STRING))
+                                                                                 .startsWith("can"));
+    // THEN
+    then(assertionError).hasMessageStartingWith("[Custom description]");
+  }
+
+  @Test
+  void should_pass_overridingErrorMessage() {
+    // GIVEN
+    String value = "done";
+    CompletableFuture<String> future = completedFuture(value);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).overridingErrorMessage("Custom error")
+                                                                                 .succeedsWithin(Duration.ofMillis(1), as(STRING))
+                                                                                 .startsWith("can"));
+    // THEN
+    then(assertionError).hasMessage("Custom error");
+  }
+
 }

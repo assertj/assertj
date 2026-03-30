@@ -104,6 +104,32 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
     then(assertionError).hasMessage(actualIsNull());
   }
 
+  @Test
+  void should_pass_custom_description() {
+    // GIVEN
+    String value = "done";
+    Future<String> future = completedFuture(value);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).as("Custom description")
+                                                                                 .succeedsWithin(Duration.ofMillis(1), as(STRING))
+                                                                                 .startsWith("can"));
+    // THEN
+    then(assertionError).hasMessageStartingWith("[Custom description]");
+  }
+
+  @Test
+  void should_pass_overridingErrorMessage() {
+    // GIVEN
+    String value = "done";
+    Future<String> future = completedFuture(value);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).overridingErrorMessage("Custom error")
+                                                                                 .succeedsWithin(Duration.ofMillis(1), as(STRING))
+                                                                                 .startsWith("can"));
+    // THEN
+    then(assertionError).hasMessage("Custom error");
+  }
+
   private static <U> Future<U> futureAfter(U value, long sleepDuration, ExecutorService service) {
     return service.submit(() -> {
       Thread.sleep(sleepDuration);

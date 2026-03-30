@@ -25,8 +25,10 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
@@ -99,5 +101,33 @@ class FutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     AssertionError assertionError = expectAssertionError(() -> assertThat(future).succeedsWithin(1, MILLISECONDS));
     // THEN
     then(assertionError).hasMessage(actualIsNull());
+  }
+
+  @Test
+  void should_pass_custom_description() {
+    // GIVEN
+    String value = "done";
+    Future<String> future = completedFuture(value);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).as("Custom description")
+                                                                                 .succeedsWithin(1, TimeUnit.MILLISECONDS,
+                                                                                                 as(STRING))
+                                                                                 .startsWith("can"));
+    // THEN
+    then(assertionError).hasMessageStartingWith("[Custom description]");
+  }
+
+  @Test
+  void should_pass_overridingErrorMessage() {
+    // GIVEN
+    String value = "done";
+    Future<String> future = completedFuture(value);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).overridingErrorMessage("Custom error")
+                                                                                 .succeedsWithin(1, TimeUnit.MILLISECONDS,
+                                                                                                 as(STRING))
+                                                                                 .startsWith("can"));
+    // THEN
+    then(assertionError).hasMessage("Custom error");
   }
 }
