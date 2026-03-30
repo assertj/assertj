@@ -118,9 +118,9 @@ class SoftAssertions_future_Test extends BaseAssertionsTest {
     CompletableFuture<String> future = new CompletableFuture<>();
     future.cancel(false);
     // WHEN
-    var assertionError = expectAssertionError(() -> softly.assertThat(future)
-                                                          .isCompletedWithValueMatchingWithin(Predicate.isEqual("test"),
-                                                                                              TEN_MILLIS));
+    AssertionError assertionError = expectAssertionError(() -> softly.assertThat(future)
+                                                                     .isCompletedWithValueMatchingWithin(Predicate.isEqual("test"),
+                                                                                                         TEN_MILLIS));
     // THEN
     assertThat(softly.errorsCollected()).isEmpty();
     assertThat(assertionError).hasMessageContaining("Cancelled");

@@ -78,8 +78,8 @@ public class CompletableFutureAssert_isCompletedWithValueMatchingWithin_Test ext
     // GIVEN
     CompletableFuture<String> future = completedFutureAfter("string", TEN_MS, executorService);
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatchingWithin(s -> s.length() == 5,
-                                                                                                          FIFTY_MS));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).isCompletedWithValueMatchingWithin(s -> s.length() == 5,
+                                                                                                                     FIFTY_MS));
     // THEN
     then(assertionError).hasMessageContaining("to match given predicate");
   }
@@ -89,10 +89,10 @@ public class CompletableFutureAssert_isCompletedWithValueMatchingWithin_Test ext
     // GIVEN
     CompletableFuture<String> future = completedFutureAfter("string", TEN_MS, executorService);
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(future)
-                                                                      .as("Custom description")
-                                                                      .isCompletedWithValueMatchingWithin(s -> s.length() == 5,
-                                                                                                          FIFTY_MS));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future)
+                                                                                 .as("Custom description")
+                                                                                 .isCompletedWithValueMatchingWithin(s -> s.length() == 5,
+                                                                                                                     FIFTY_MS));
     // THEN
     then(assertionError)
                         .hasMessageContaining("[Custom description]")
@@ -104,10 +104,10 @@ public class CompletableFutureAssert_isCompletedWithValueMatchingWithin_Test ext
     // GIVEN
     CompletableFuture<String> future = completedFutureAfter("string", TEN_MS, executorService);
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(future)
-                                                                      .overridingErrorMessage("Custom error message")
-                                                                      .isCompletedWithValueMatchingWithin(s -> s.length() == 5,
-                                                                                                          FIFTY_MS));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future)
+                                                                                 .overridingErrorMessage("Custom error message")
+                                                                                 .isCompletedWithValueMatchingWithin(s -> s.length() == 5,
+                                                                                                                     FIFTY_MS));
     // THEN
     then(assertionError).hasMessage("Custom error message");
   }

@@ -121,9 +121,9 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     String value = "done";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(future).as("Custom description")
-                                                                      .succeedsWithin(Duration.ofMillis(1), as(STRING))
-                                                                      .startsWith("can"));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).as("Custom description")
+                                                                                 .succeedsWithin(Duration.ofMillis(1), as(STRING))
+                                                                                 .startsWith("can"));
     // THEN
     then(assertionError).hasMessageStartingWith("[Custom description]");
   }
@@ -134,9 +134,9 @@ class CompletableFutureAssert_succeedsWithin_duration_Test extends AbstractFutur
     String value = "done";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(future).overridingErrorMessage("Custom error")
-                                                                      .succeedsWithin(Duration.ofMillis(1), as(STRING))
-                                                                      .startsWith("can"));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).overridingErrorMessage("Custom error")
+                                                                                 .succeedsWithin(Duration.ofMillis(1), as(STRING))
+                                                                                 .startsWith("can"));
     // THEN
     then(assertionError).hasMessage("Custom error");
   }

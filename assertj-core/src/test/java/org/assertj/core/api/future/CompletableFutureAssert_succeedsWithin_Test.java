@@ -121,9 +121,10 @@ class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     String value = "done";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(future).as("Custom description")
-                                                                      .succeedsWithin(1, TimeUnit.MILLISECONDS, as(STRING))
-                                                                      .startsWith("can"));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).as("Custom description")
+                                                                                 .succeedsWithin(1, TimeUnit.MILLISECONDS,
+                                                                                                 as(STRING))
+                                                                                 .startsWith("can"));
     // THEN
     then(assertionError).hasMessageStartingWith("[Custom description]");
   }
@@ -134,9 +135,10 @@ class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     String value = "done";
     CompletableFuture<String> future = completedFuture(value);
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(future).overridingErrorMessage("Custom error")
-                                                                      .succeedsWithin(1, TimeUnit.MILLISECONDS, as(STRING))
-                                                                      .startsWith("can"));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).overridingErrorMessage("Custom error")
+                                                                                 .succeedsWithin(1, TimeUnit.MILLISECONDS,
+                                                                                                 as(STRING))
+                                                                                 .startsWith("can"));
     // THEN
     then(assertionError).hasMessage("Custom error");
   }

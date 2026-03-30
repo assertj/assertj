@@ -110,9 +110,9 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
     String value = "done";
     Future<String> future = completedFuture(value);
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(future).as("Custom description")
-                                                                      .succeedsWithin(Duration.ofMillis(1), as(STRING))
-                                                                      .startsWith("can"));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).as("Custom description")
+                                                                                 .succeedsWithin(Duration.ofMillis(1), as(STRING))
+                                                                                 .startsWith("can"));
     // THEN
     then(assertionError).hasMessageStartingWith("[Custom description]");
   }
@@ -123,9 +123,9 @@ class FutureAssert_succeedsWithin_duration_Test extends AbstractFutureTest {
     String value = "done";
     Future<String> future = completedFuture(value);
     // WHEN
-    var assertionError = expectAssertionError(() -> assertThat(future).overridingErrorMessage("Custom error")
-                                                                      .succeedsWithin(Duration.ofMillis(1), as(STRING))
-                                                                      .startsWith("can"));
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).overridingErrorMessage("Custom error")
+                                                                                 .succeedsWithin(Duration.ofMillis(1), as(STRING))
+                                                                                 .startsWith("can"));
     // THEN
     then(assertionError).hasMessage("Custom error");
   }
