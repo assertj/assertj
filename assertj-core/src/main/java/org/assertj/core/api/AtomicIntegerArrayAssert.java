@@ -261,7 +261,7 @@ public class AtomicIntegerArrayAssert
    * Verifies that the AtomicIntegerArray has the same size as given {@link Iterable}.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = List.of("a", "b", "c");
    * AtomicIntegerArray atomicIntegerArray = new AtomicIntegerArray(new int[] { 1, 2, 3 });
    *
    * // assertion will pass

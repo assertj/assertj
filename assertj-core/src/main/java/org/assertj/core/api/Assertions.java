@@ -2010,7 +2010,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * features (but you can use {@link Index} if you prefer).
    * <p>
    * Typical usage :
-   * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> List&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    * assertThat(elvesRings).contains(vilya, atIndex(0)).contains(nenya, atIndex(1)).contains(narya, atIndex(2));</code></pre>
    *
    * @param index the value of the index.
@@ -2681,7 +2681,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
    *
-   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * List&lt;Employee&gt; employees = List.of(yoda, luke, obiwan, noname);
    *
    * assertThat(employees).filteredOn("age", in(800, 26))
    *                      .containsOnly(yoda, obiwan, luke);</code></pre>
@@ -2704,7 +2704,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
    *
-   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * List&lt;Employee&gt; employees = List.of(yoda, luke, obiwan, noname);
    *
    * assertThat(employees).filteredOn("age", notIn(800, 50))
    *                      .containsOnly(luke);</code></pre>
@@ -2727,7 +2727,7 @@ public class Assertions implements InstanceOfAssertFactories {
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
    *
-   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * List&lt;Employee&gt; employees = List.of(yoda, luke, obiwan, noname);
    *
    * assertThat(employees).filteredOn("age", not(800))
    *                      .containsOnly(luke, noname);</code></pre>
@@ -2988,7 +2988,7 @@ public class Assertions implements InstanceOfAssertFactories {
    *
    * <p>
    * Example:
-   * <pre><code class='java'> final Date date = Dates.parse("2001-02-03");
+   * <pre><code class='java'> Date date = Dates.parse("2001-02-03");
    * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
    * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
    *

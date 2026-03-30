@@ -263,10 +263,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout with the satisfying value.
    */
   public SELF isCompletedWithValueMatchingWithin(Predicate<RESULT> resultPredicate, Duration completionDuration) {
-    RESULT actualResult = futures.assertSucceededWithin(info, actual, completionDuration);
-    if (!resultPredicate.test(actualResult)) {
-      throw Failures.instance().failure(info, shouldMatch(actualResult, resultPredicate, PredicateDescription.GIVEN));
-    }
+    succeedsWithin(completionDuration).matches(resultPredicate);
     return myself;
   }
 
@@ -446,7 +443,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
 
   // introduced to be proxied for assumptions and soft assertions.
   protected ObjectAssert<RESULT> newObjectAssert(RESULT objectUnderTest) {
-    return new ObjectAssert<>(objectUnderTest);
+    return new ObjectAssert<>(objectUnderTest).withAssertionState(myself);
   }
 
   /**

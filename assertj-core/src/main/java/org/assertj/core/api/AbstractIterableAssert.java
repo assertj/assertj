@@ -2412,7 +2412,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * It can be useful to better understand what the error was with a more meaningful error message.
    * <p>
    * Example
-   * <pre><code class='java'> final List&lt;Byte&gt; bytes = newArrayList((byte) 0x10, (byte) 0x20);</code></pre>
+   * <pre><code class='java'> List&lt;Byte&gt; bytes = List.of((byte) 0x10, (byte) 0x20);</code></pre>
    *
    * With standard error message:
    * <pre><code class='java'> assertThat(bytes).contains((byte) 0x30);
@@ -2446,7 +2446,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Enable binary representation of Iterable elements instead of standard representation in error messages.
    * <p>
    * Example:
-   * <pre><code class='java'> final List&lt;Byte&gt; bytes = newArrayList((byte) 0x10, (byte) 0x20);</code></pre>
+   * <pre><code class='java'> List&lt;Byte&gt; bytes = List.of((byte) 0x10, (byte) 0x20);</code></pre>
    *
    * With standard error message:
    * <pre><code class='java'> assertThat(bytes).contains((byte) 0x30);
@@ -2495,7 +2495,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
    *
-   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * List&lt;Employee&gt; employees = List.of(yoda, luke, obiwan, noname);
    *
    * assertThat(employees).filteredOn("age", 800)
    *                      .containsOnly(yoda, obiwan);</code></pre>
@@ -2557,7 +2557,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
    *
-   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * List&lt;Employee&gt; employees = List.of(yoda, luke, obiwan, noname);
    *
    * assertThat(employees).filteredOnNull("name")
    *                      .containsOnly(noname);</code></pre>
@@ -2611,7 +2611,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    *
-   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * List&lt;Employee&gt; employees = List.of(yoda, luke, obiwan, noname);
    *
    * // 'not' filter is statically imported from Assertions.not
    * assertThat(employees).filteredOn("age", not(800))
@@ -2669,7 +2669,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
    *
-   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * List&lt;Employee&gt; employees = List.of(yoda, luke, obiwan, noname);
    *
    * // old employee condition, "old employees" describes the condition in error message
    * // you just have to implement 'matches' method
@@ -2710,7 +2710,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    * Employee noname = new Employee(4L, null, 50);
    *
-   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan, noname);
+   * List&lt;Employee&gt; employees = List.of(yoda, luke, obiwan, noname);
    *
    * assertThat(employees).filteredOn(Employee::getAge, 800)
    *                      .containsOnly(yoda, obiwan);
@@ -2803,7 +2803,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * Example:
    * <pre><code class='java'> // default iterable assert =&gt; element assert is ObjectAssert
-   * Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
+   * Iterable&lt;TolkienCharacter&gt; hobbits = List.of(frodo, sam, pippin);
    *
    * // assertion succeeds, only Object assertions are available after first()
    * assertThat(hobbits).first()
@@ -2830,7 +2830,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertions narrowed to the factory type.
    * <p>
    * Example: use of {@code String} assertions after {@code first(as(InstanceOfAssertFactories.STRING)}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = List.of("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * assertThat(hobbits).first(as(InstanceOfAssertFactories.STRING))
@@ -2867,7 +2867,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * get more specific assertions with {@link #last(InstanceOfAssertFactory)}.
    * <p>
    * Example: default {@code Object} assertions
-   * <pre><code class='java'> Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
+   * <pre><code class='java'> Iterable&lt;TolkienCharacter&gt; hobbits = List.of(frodo, sam, pippin);
    *
    * // assertion succeeds, only Object assertions are available after last()
    * assertThat(hobbits).last()
@@ -2894,7 +2894,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertions narrowed to the factory type.
    * <p>
    * Example: use of {@code String} assertions after {@code last(as(InstanceOfAssertFactories.STRING)}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = List.of("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * assertThat(hobbits).last(as(InstanceOfAssertFactories.STRING))
@@ -2945,7 +2945,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * <p>
    * Example: default {@code Object} assertions
    * <pre><code class='java'> // default iterable assert =&gt; element assert is ObjectAssert
-   * Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
+   * Iterable&lt;TolkienCharacter&gt; hobbits = List.of(frodo, sam, pippin);
    *
    * // assertion succeeds, only Object assertions are available after element(index)
    * assertThat(hobbits).element(1)
@@ -2971,7 +2971,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * (the iterable {@link Iterable} under test is changed to an iterable with the selected elements).
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;TolkienCharacter&gt; hobbits = newArrayList(frodo, sam, pippin);
+   * <pre><code class='java'> Iterable&lt;TolkienCharacter&gt; hobbits = List.of(frodo, sam, pippin);
    *
    * // assertion succeeds
    * assertThat(hobbits).elements(1, 2)
@@ -3035,7 +3035,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * assertions narrowed to the factory type.
    * <p>
    * Example: use of {@code String} assertions after {@code element(index, as(InstanceOfAssertFactories.STRING)}
-   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = newArrayList("Frodo", "Sam", "Pippin");
+   * <pre><code class='java'> Iterable&lt;String&gt; hobbits = List.of("Frodo", "Sam", "Pippin");
    *
    * // assertion succeeds
    * assertThat(hobbits).element(1, as(InstanceOfAssertFactories.STRING))
@@ -3200,7 +3200,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * Employee obiwan = new Employee(2L, new Name("Obiwan"), 800);
    * Employee luke   = new Employee(3L, new Name("Luke", "Skywalker"), 26);
    *
-   * List&lt;Employee&gt; employees = newArrayList(yoda, luke, obiwan);
+   * List&lt;Employee&gt; employees = List.of(yoda, luke, obiwan);
    *
    * assertThat(employees).filteredOn(employee -&gt; employee.getAge() &gt; 100)
    *                      .containsOnly(yoda, obiwan);</code></pre>
@@ -3576,7 +3576,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    * to perform assertions on the {@link Iterable}, call {@link AbstractIterableSizeAssert#returnToIterable()}.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertion will pass:
    * assertThat(elvesRings).size().isGreaterThan(1)

@@ -341,7 +341,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * use {@link Assertions#within(BigDecimal)} to get the old behavior.
    * <p>
    * Examples:
-   * <pre><code class='java'> final BigDecimal eightDotOne = new BigDecimal("8.1");
+   * <pre><code class='java'> BigDecimal eightDotOne = new BigDecimal("8.1");
    * final BigDecimal eight =  new BigDecimal("8.0");
    *
    * // assertions succeed
@@ -382,7 +382,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * use {@link Assertions#within(BigDecimal)} to get the old behavior.
    * <p>
    * Example:
-   * <pre><code class='java'> final BigDecimal eightDotOne = new BigDecimal("8.1");
+   * <pre><code class='java'> BigDecimal eightDotOne = new BigDecimal("8.1");
    * final BigDecimal eight =  new BigDecimal("8.0");
    *
    * // assertions succeed
