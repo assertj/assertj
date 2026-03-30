@@ -199,8 +199,8 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
    * Verifies that the actual group has the same size as given {@link Iterable}.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = List.of("a", "b", "c");
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertion will pass
    * assertThat(elvesRings).hasSameSizeAs(abc);
@@ -224,7 +224,7 @@ public interface EnumerableAssert<SELF extends EnumerableAssert<SELF, ELEMENT>, 
    * </p>
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertion will pass
    * assertThat(elvesRings).hasSameSizeAs(oneTwoThree);

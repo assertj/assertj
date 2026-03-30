@@ -3392,7 +3392,7 @@ public abstract class AbstractDateAssert<SELF extends AbstractDateAssert<SELF>> 
    * With strict parsing, inputs must match exactly date/time formats.
    * <p>
    * Example:
-   * <pre><code class='java'> final Date date = Dates.parse("2001-02-03");
+   * <pre><code class='java'> Date date = Dates.parse("2001-02-03");
    * final Date dateTime = parseDatetime("2001-02-03T04:05:06");
    * final Date dateTimeWithMs = parseDatetimeWithMs("2001-02-03T04:05:06.700");
    *

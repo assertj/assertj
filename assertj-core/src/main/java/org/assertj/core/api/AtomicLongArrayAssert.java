@@ -262,7 +262,7 @@ public class AtomicLongArrayAssert
    * Verifies that the AtomicLongArray has the same size as given {@link Iterable}.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = List.of("a", "b", "c");
    * AtomicLongArray atomicLongArray = new AtomicLongArray(new long[] { 1, 2, 3 });
    *
    * // assertion will pass

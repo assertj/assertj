@@ -33,7 +33,7 @@ public interface IndexedObjectEnumerableAssert<SELF extends IndexedObjectEnumera
    * Verifies that the actual group contains the given object at the given index.
    * <p>
    * Example:
-   * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> List&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertions will pass
    * assertThat(elvesRings).contains(vilya, atIndex(0));
@@ -60,7 +60,7 @@ public interface IndexedObjectEnumerableAssert<SELF extends IndexedObjectEnumera
    * Verifies that the actual group does not contain the given object at the given index.
    * <p>
    * Example:
-   * <pre><code class='java'> List&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> List&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertions will pass
    * assertThat(elvesRings).contains(vilya, atIndex(1));

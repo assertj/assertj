@@ -42,7 +42,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Verifies that the actual group contains the given values, in any order.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = List.of("a", "b", "c");
    *
    * // assertions will pass
    * assertThat(abc).contains("b", "a");
@@ -73,7 +73,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * </ul>
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = List.of("a", "b", "c");
    *
    * // assertions will pass as order does not matter
    * assertThat(abc).containsOnly("c", "b", "a");
@@ -159,7 +159,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertion will pass
    * assertThat(elvesRings).containsExactly(vilya, nenya, narya);
@@ -186,7 +186,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya, vilya);
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya, vilya);
    *
    * // assertion will pass
    * assertThat(elvesRings).containsExactlyInAnyOrder(vilya, vilya, nenya, narya);
@@ -211,9 +211,9 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya, vilya);
-   * Iterable&lt;Ring&gt; elvesRingsSomeMissing = newArrayList(vilya, nenya, narya);
-   * Iterable&lt;Ring&gt; elvesRingsDifferentOrder = newArrayList(nenya, narya, vilya, vilya);
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya, vilya);
+   * Iterable&lt;Ring&gt; elvesRingsSomeMissing = List.of(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRingsDifferentOrder = List.of(nenya, narya, vilya, vilya);
    *
    * // assertion will pass
    * assertThat(elvesRings).containsExactlyInAnyOrderElementsOf(elvesRingsDifferentOrder);
@@ -240,7 +240,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertions will pass
    * assertThat(elvesRings).containsSequence(vilya, nenya)
@@ -267,7 +267,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Use {@link #containsSubsequence(Iterable)} to allow values between the expected sequence values.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertions will pass
    * assertThat(elvesRings).containsSequence(newArrayList(vilya, nenya))
@@ -295,7 +295,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertions will pass, the elements order is correct but there is a value between them (nenya)
    * assertThat(elvesRings).doesNotContainSequence(vilya, narya)
@@ -324,7 +324,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertions will pass, the elements order is correct but there is a value between them (nenya)
    * assertThat(elvesRings).doesNotContainSequence(newArrayList(vilya, narya))
@@ -349,7 +349,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertions will pass
    * assertThat(elvesRings).containsSubsequence(vilya, nenya)
@@ -373,7 +373,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Verifies that the actual group contains the given subsequence in the correct order (possibly with other values between them).
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertions will pass
    * assertThat(elvesRings).containsSubsequence(newArrayList(vilya, nenya))
@@ -398,7 +398,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertions will pass
    * assertThat(elvesRings).doesNotContainSubsequence(nenya, vilya)
@@ -424,7 +424,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * a subsequence is defined by an ordered group of values <b>with possibly extra values between them</b>.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * <pre><code class='java'> Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertions will pass
    * assertThat(elvesRings).doesNotContainSubsequence(newArrayList(nenya, vilya));
@@ -449,7 +449,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * Iterable&lt;String&gt; abc = List.of("a", "b", "c");
    *
    * // assertions will pass
    * assertThat(abc).doesNotContain("d")
@@ -477,8 +477,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
-   * Iterable&lt;String&gt; lotsOfAs = newArrayList("a", "a", "a");
+   * Iterable&lt;String&gt; abc = List.of("a", "b", "c");
+   * Iterable&lt;String&gt; lotsOfAs = List.of("a", "a", "a");
    *
    * // assertion will pass
    * assertThat(abc).doesNotHaveDuplicates();
@@ -499,7 +499,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * Iterable&lt;String&gt; abc = List.of("a", "b", "c");
    *
    * // assertions will pass
    * assertThat(abc).startsWith("a")
@@ -525,7 +525,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * Iterable&lt;String&gt; abc = List.of("a", "b", "c");
    *
    * // assertions will pass
    * assertThat(abc).endsWith("c")
@@ -553,7 +553,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * <p>
    * Example:
    * <pre><code class='java'> // an Iterable is used in the example but it would also work with an array
-   * Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * Iterable&lt;String&gt; abc = List.of("a", "b", "c");
    *
    * // assertions will pass
    * assertThat(abc).endsWith(new String[0])
@@ -576,8 +576,8 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Verifies that the actual group contains at least a null element.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
-   * Iterable&lt;String&gt; abNull = newArrayList("a", "b", null);
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = List.of("a", "b", "c");
+   * Iterable&lt;String&gt; abNull = List.of("a", "b", null);
    *
    * // assertion will pass
    * assertThat(abNull).containsNull();
@@ -595,7 +595,7 @@ public interface ObjectEnumerableAssert<SELF extends ObjectEnumerableAssert<SELF
    * Verifies that the actual group does not contain null elements.
    * <p>
    * Example:
-   * <pre><code class='java'> Iterable&lt;String&gt; abc = newArrayList("a", "b", "c");
+   * <pre><code class='java'> Iterable&lt;String&gt; abc = List.of("a", "b", "c");
    * Iterable&lt;String&gt; abNull = newArrayList("a", "b", null);
    *
    * // assertion will pass
