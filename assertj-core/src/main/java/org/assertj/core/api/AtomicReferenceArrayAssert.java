@@ -353,7 +353,7 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Example:
    * <pre><code class='java'> AtomicReferenceArray&lt;String&gt; abc = new AtomicReferenceArray&lt;&gt;(new String[]{"a", "b", "c"});
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertion will pass
    * assertThat(abc).hasSameSizeAs(elvesRings);
@@ -1222,7 +1222,7 @@ public class AtomicReferenceArrayAssert<T>
    * <p>
    * Example:
    * <pre><code class='java'> AtomicReferenceArray&lt;Ring&gt; elvesRings = new AtomicReferenceArray&lt;&gt;(new Ring[]{vilya, nenya, narya});
-   * List&lt;Ring&gt; ringsOfPower = newArrayList(oneRing, vilya, nenya, narya, dwarfRing, manRing);
+   * List&lt;Ring&gt; ringsOfPower = List.of(oneRing, vilya, nenya, narya, dwarfRing, manRing);
    *
    * // assertion will pass:
    * assertThat(elvesRings).isSubsetOf(ringsOfPower);

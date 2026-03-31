@@ -25,7 +25,9 @@ import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 
@@ -111,5 +113,33 @@ class CompletableFutureAssert_succeedsWithin_Test extends AbstractFutureTest {
     // THEN
     then(assertionError).hasMessageStartingWith("%nExpecting%n  <CompletableFuture[Failed with the following stack trace:%njava.lang.RuntimeException: boom%%s%%n".formatted())
                         .hasMessageContaining("to be completed within 1L Millis.");
+  }
+
+  @Test
+  void should_pass_custom_description() {
+    // GIVEN
+    String value = "done";
+    CompletableFuture<String> future = completedFuture(value);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).as("Custom description")
+                                                                                 .succeedsWithin(1, TimeUnit.MILLISECONDS,
+                                                                                                 as(STRING))
+                                                                                 .startsWith("can"));
+    // THEN
+    then(assertionError).hasMessageStartingWith("[Custom description]");
+  }
+
+  @Test
+  void should_pass_overridingErrorMessage() {
+    // GIVEN
+    String value = "done";
+    CompletableFuture<String> future = completedFuture(value);
+    // WHEN
+    AssertionError assertionError = expectAssertionError(() -> assertThat(future).overridingErrorMessage("Custom error")
+                                                                                 .succeedsWithin(1, TimeUnit.MILLISECONDS,
+                                                                                                 as(STRING))
+                                                                                 .startsWith("can"));
+    // THEN
+    then(assertionError).hasMessage("Custom error");
   }
 }

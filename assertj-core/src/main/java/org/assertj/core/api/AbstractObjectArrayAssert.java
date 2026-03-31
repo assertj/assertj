@@ -307,7 +307,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Example:
    * <pre><code class='java'> int[] oneTwoThree = {1, 2, 3};
-   * Iterable&lt;Ring&gt; elvesRings = newArrayList(vilya, nenya, narya);
+   * Iterable&lt;Ring&gt; elvesRings = List.of(vilya, nenya, narya);
    *
    * // assertion will pass
    * assertThat(oneTwoThree).hasSameSizeAs(elvesRings);
@@ -1159,7 +1159,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    * <p>
    * Example:
    * <pre><code class='java'> Ring[] elvesRings = {vilya, nenya, narya};
-   * List&lt;Ring&gt; ringsOfPower = newArrayList(oneRing, vilya, nenya, narya, dwarfRing, manRing);
+   * List&lt;Ring&gt; ringsOfPower = List.of(oneRing, vilya, nenya, narya, dwarfRing, manRing);
    *
    * // assertion will pass:
    * assertThat(elvesRings).isSubsetOf(ringsOfPower);

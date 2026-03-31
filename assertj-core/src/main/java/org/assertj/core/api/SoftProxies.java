@@ -95,6 +95,7 @@ class SoftProxies {
                                                                                     .or(named("removeCustomAssertRelatedElementsFromStackTraceIfNeeded"))
                                                                                     .or(named("succeedsWithin"))
                                                                                     .or(named("failsWithin"))
+                                                                                    .or(named("isCompletedWithValueMatchingWithin"))
                                                                                     .or(named("usingComparator"))
                                                                                     .or(named("usingDefaultComparator"))
                                                                                     .or(named("usingElementComparator"))

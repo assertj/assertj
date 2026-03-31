@@ -18,7 +18,6 @@ package org.assertj.core.internal.iterables;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.core.error.ShouldSatisfyOnlyOnce.shouldSatisfyOnlyOnce;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 import static org.assertj.core.util.FailureMessages.actualIsNull;
 
@@ -51,7 +50,9 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
     // WHEN
     var assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(INFO, actual, REQUIREMENTS));
     // THEN
-    then(assertionError).hasMessage(shouldSatisfyOnlyOnce(actual, List.of("Luke", "Luke")).create());
+    then(assertionError).hasMessageContaining("Expecting exactly one element of actual:")
+                        .hasMessageContaining("to satisfy the requirements but these 2 elements did:")
+                        .hasMessageContaining("[\"Luke\", \"Luke\"]");
   }
 
   @Test
@@ -61,7 +62,11 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
     // WHEN
     var assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(INFO, actual, requirements));
     // THEN
-    then(assertionError).hasMessage(shouldSatisfyOnlyOnce(actual, List.of()).create());
+    then(assertionError).hasMessageContaining("Expecting exactly one element of actual:")
+                        .hasMessageContaining("to satisfy the requirements but none did")
+                        .hasMessageContaining("\"Luke\"")
+                        .hasMessageContaining("\"Yoda\"")
+                        .hasMessageContaining("\"Leia\"");
   }
 
   @Test
@@ -71,7 +76,8 @@ class Iterables_assertSatisfiesOnlyOnce_Test extends IterablesBaseTest {
     // WHEN
     var assertionError = expectAssertionError(() -> iterables.assertSatisfiesOnlyOnce(INFO, actual, REQUIREMENTS));
     // THEN
-    then(assertionError).hasMessage(shouldSatisfyOnlyOnce(List.of(), List.of()).create());
+    then(assertionError).hasMessageContaining("Expecting exactly one element of actual:")
+                        .hasMessageContaining("to satisfy the requirements but none did");
   }
 
   @Test
