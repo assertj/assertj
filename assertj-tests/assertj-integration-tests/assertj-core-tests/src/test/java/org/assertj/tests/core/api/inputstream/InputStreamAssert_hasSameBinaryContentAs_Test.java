@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  * @author Jaeung Ha
  *
  */
-public class InputStreamAssert_hasSameBinaryContentAs_Test {
+class InputStreamAssert_hasSameBinaryContentAs_Test {
   private static BinaryDiffResult diff(String actual, String expected) {
     try {
       return new BinaryDiff().diff(new ByteArrayInputStream(actual.getBytes()), new ByteArrayInputStream(expected.getBytes()));
