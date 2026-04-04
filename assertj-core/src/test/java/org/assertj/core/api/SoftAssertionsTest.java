@@ -492,7 +492,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     then(errorsCollected).hasSize(6);
-    then(errorsCollected.get(0)).hasMessage("overridingErrorMessage with extracting(String)");
+    then(errorsCollected.get(0)).hasMessage("[Extracted: first] overridingErrorMessage with extracting(String)");
     then(errorsCollected.get(1)).hasMessageContaining("Foo2");
     then(errorsCollected.get(2)).hasMessageContaining("Foo3");
     then(errorsCollected.get(3)).hasMessageContaining("Foo")
@@ -675,7 +675,10 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .isEmpty();
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly("error 1", "error 2", "error 3");
+                                  .containsExactly(
+                                                   "[Extracted: first] error 1",
+                                                   "[Extracted: first] error 2",
+                                                   "[Extracted: last] error 3");
   }
 
   @Test
@@ -711,7 +714,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
           .startsWith("Bar");
     // THEN
     then(softly.errorsCollected()).extracting(Throwable::getMessage)
-                                  .containsExactly("error 1", "error 2", "error 3", "error 4", "error 5", "error 6");
+                                  .containsExactly("[Extracted: name] error 1", "[Extracted: name, age] error 2",
+                                                   "[Extracted: name] error 3", "error 4", "error 5", "error 6");
   }
 
   @Test
@@ -1192,12 +1196,12 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     then(errorsCollected.get(0)).hasMessage("[size isGreaterThan(10)] error message");
     then(errorsCollected.get(1)).hasMessage("[size isGreaterThan(22)] error message");
     then(errorsCollected.get(2)).hasMessage("[should not be empty] error message 2");
-    then(errorsCollected.get(3)).hasMessage("[first element] error message");
-    then(errorsCollected.get(4)).hasMessage("[first element as Name] error message");
-    then(errorsCollected.get(5)).hasMessage("[element(0)] error message");
-    then(errorsCollected.get(6)).hasMessage("[element(0) as Name] error message");
-    then(errorsCollected.get(7)).hasMessage("[last element] error message");
-    then(errorsCollected.get(8)).hasMessage("[last element as Name] error message");
+    then(errorsCollected.get(3)).hasMessage("[first element check first element] error message");
+    then(errorsCollected.get(4)).hasMessage("[first element as Name check first element] error message");
+    then(errorsCollected.get(5)).hasMessage("[element(0) element at index 0] error message");
+    then(errorsCollected.get(6)).hasMessage("[element(0) as Name element at index 0] error message");
+    then(errorsCollected.get(7)).hasMessage("[last element check last element] error message");
+    then(errorsCollected.get(8)).hasMessage("[last element as Name check last element] error message");
     then(errorsCollected.get(9)).hasMessage("[elements(0, 1)] error message");
   }
 
@@ -1261,12 +1265,12 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     then(errorsCollected.get(0)).hasMessage("[size isGreaterThan(10)] error message");
     then(errorsCollected.get(1)).hasMessage("[size isGreaterThan(22)] error message");
     then(errorsCollected.get(2)).hasMessage("[shoud not be empty] error message 2");
-    then(errorsCollected.get(3)).hasMessage("[first element] error message");
-    then(errorsCollected.get(4)).hasMessage("[first element as Name] error message");
-    then(errorsCollected.get(5)).hasMessage("[element(0)] error message");
-    then(errorsCollected.get(6)).hasMessage("[element(0) as Name] error message");
-    then(errorsCollected.get(7)).hasMessage("[last element] error message");
-    then(errorsCollected.get(8)).hasMessage("[last element as Name] error message");
+    then(errorsCollected.get(3)).hasMessage("[first element check first element] error message");
+    then(errorsCollected.get(4)).hasMessage("[first element as Name check first element] error message");
+    then(errorsCollected.get(5)).hasMessage("[element(0) element at index 0] error message");
+    then(errorsCollected.get(6)).hasMessage("[element(0) as Name element at index 0] error message");
+    then(errorsCollected.get(7)).hasMessage("[last element check last element] error message");
+    then(errorsCollected.get(8)).hasMessage("[last element as Name check last element] error message");
     then(errorsCollected.get(9)).hasMessage("[elements(0, 1)] error message");
   }
 
@@ -1292,8 +1296,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     then(errorsCollected).hasSize(2);
-    then(errorsCollected.get(0)).hasMessage("[single element] error message");
-    then(errorsCollected.get(1)).hasMessage("[single element as Name] error message");
+    then(errorsCollected.get(0)).hasMessage("[single element check single element] error message");
+    then(errorsCollected.get(1)).hasMessage("[single element as Name check single element] error message");
   }
 
   @Test
@@ -1318,8 +1322,8 @@ class SoftAssertionsTest extends BaseAssertionsTest {
     // THEN
     List<Throwable> errorsCollected = softly.errorsCollected();
     then(errorsCollected).hasSize(2);
-    then(errorsCollected.get(0)).hasMessage("[single element] error message");
-    then(errorsCollected.get(1)).hasMessage("[single element as Name] error message");
+    then(errorsCollected.get(0)).hasMessage("[single element check single element] error message");
+    then(errorsCollected.get(1)).hasMessage("[single element as Name check single element] error message");
   }
 
   // the test would fail if any method was not proxyable as the assertion error would not be softly caught

@@ -117,14 +117,15 @@ public class RecursiveAssertionAssert extends AbstractAssertWithComparator<Recur
    * @throws AssertionError if one or more fields as described above fail the predicate test.
    */
   public RecursiveAssertionAssert allFieldsSatisfy(Predicate<Object> predicate) {
-    // Reset the driver in case this is not the first predicate being run over actual.
-    recursiveAssertionDriver.reset();
+    return executeAssertion(() -> {
+      // Reset the driver in case this is not the first predicate being run over actual.
+      recursiveAssertionDriver.reset();
 
-    List<FieldLocation> failedFields = recursiveAssertionDriver.assertOverObjectGraph(predicate, actual);
-    if (!failedFields.isEmpty()) {
-      throw objects.getFailures().failure(info, shouldNotSatisfyRecursively(recursiveAssertionConfiguration, failedFields));
-    }
-    return this;
+      List<FieldLocation> failedFields = recursiveAssertionDriver.assertOverObjectGraph(predicate, actual);
+      if (!failedFields.isEmpty()) {
+        throw objects.getFailures().failure(info, shouldNotSatisfyRecursively(recursiveAssertionConfiguration, failedFields));
+      }
+    });
   }
 
   /**

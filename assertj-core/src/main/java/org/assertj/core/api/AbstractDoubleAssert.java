@@ -69,15 +69,13 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
   /** {@inheritDoc} */
   @Override
   public SELF isNaN() {
-    doubles.assertIsNaN(info, actual);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsNaN(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotNaN() {
-    doubles.assertIsNotNaN(info, actual);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsNotNaN(info, actual));
   }
 
   /**
@@ -100,9 +98,10 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   @Override
   public SELF isZero() {
-    if (isPrimitive) assertIsPrimitiveZero();
-    else doubles.assertIsZero(info, actual);
-    return myself;
+    return executeAssertion(() -> {
+      if (isPrimitive) assertIsPrimitiveZero();
+      else doubles.assertIsZero(info, actual);
+    });
   }
 
   /**
@@ -126,45 +125,41 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   @Override
   public SELF isNotZero() {
-    if (isPrimitive) assertIsPrimitiveNonZero();
-    else if (NEGATIVE_ZERO.equals(actual)) return myself;
-    else doubles.assertIsNotZero(info, actual);
-    return myself;
+    return executeAssertion(() -> {
+      if (isPrimitive) assertIsPrimitiveNonZero();
+      else if (NEGATIVE_ZERO.equals(actual)) return;
+      else doubles.assertIsNotZero(info, actual);
+    });
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isOne() {
-    doubles.assertIsOne(info, actual);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsOne(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isPositive() {
-    doubles.assertIsPositive(info, actual);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsPositive(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNegative() {
-    doubles.assertIsNegative(info, actual);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsNegative(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotNegative() {
-    doubles.assertIsNotNegative(info, actual);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsNotNegative(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotPositive() {
-    doubles.assertIsNotPositive(info, actual);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsNotPositive(info, actual));
   }
 
   /**
@@ -203,8 +198,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   // duplicate javadoc of isCloseTo(double other, Offset<Double> offset but can't define it in super class
   public SELF isCloseTo(final double expected, final Offset<Double> offset) {
-    doubles.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -245,8 +239,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   // duplicate javadoc of isNotCloseTo(double other, Offset<Double> offset but can't define it in super class
   public SELF isNotCloseTo(final double expected, final Offset<Double> offset) {
-    doubles.assertIsNotCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsNotCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -285,8 +278,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   @Override
   public SELF isCloseTo(Double expected, Offset<Double> offset) {
-    doubles.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -327,8 +319,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   @Override
   public SELF isNotCloseTo(Double expected, Offset<Double> offset) {
-    doubles.assertIsNotCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsNotCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -355,8 +346,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
 
   @Override
   public SELF isCloseTo(Double expected, Percentage percentage) {
-    doubles.assertIsCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -381,8 +371,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   @Override
   public SELF isNotCloseTo(Double expected, Percentage percentage) {
-    doubles.assertIsNotCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsNotCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -407,8 +396,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is not close to the given one.
    */
   public SELF isCloseTo(double expected, Percentage percentage) {
-    doubles.assertIsCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -432,8 +420,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @since 2.6.0 / 3.6.0
    */
   public SELF isNotCloseTo(double expected, Percentage percentage) {
-    doubles.assertIsNotCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsNotCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -465,21 +452,22 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(double expected) {
-    if (noCustomComparatorSet()) {
-      // check for null first to avoid casting a null to primitive
-      isNotNull();
-      // use primitive comparison since the parameter is a primitive.
-      if (expected == actual) return myself;
-      // At this point we know that the assertion failed, if actual and expected are Double.NaN we want to
-      // give a clear error message (we need to use equals to check that as Double.NaN != Double.NaN)
-      if (Double.valueOf(expected).equals(Double.NaN) && actual.equals(Double.NaN))
-        throw new AssertionError("Actual and expected values were compared with == because expected was a primitive double, the assertion failed as both were Double.NaN and Double.NaN != Double.NaN (as per Double#equals javadoc)");
-      // standard error message
-      throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
-    }
-    // doubles.assertEqual honors the custom comparator
-    doubles.assertEqual(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> {
+      if (noCustomComparatorSet()) {
+        // check for null first to avoid casting a null to primitive
+        isNotNull();
+        // use primitive comparison since the parameter is a primitive.
+        if (expected == actual) return;
+        // At this point we know that the assertion failed, if actual and expected are Double.NaN we want to
+        // give a clear error message (we need to use equals to check that as Double.NaN != Double.NaN)
+        if (Double.valueOf(expected).equals(Double.NaN) && actual.equals(Double.NaN))
+          throw new AssertionError("Actual and expected values were compared with == because expected was a primitive double, the assertion failed as both were Double.NaN and Double.NaN != Double.NaN (as per Double#equals javadoc)");
+        // standard error message
+        throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
+      }
+      // doubles.assertEqual honors the custom comparator
+      doubles.assertEqual(info, actual, expected);
+    });
   }
 
   /**
@@ -584,15 +572,16 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is == to the given one.
    */
   public SELF isNotEqualTo(double other) {
-    if (noCustomComparatorSet()) {
-      // check for null first to avoid casting a null to primitive
-      isNotNull();
-      // use primitive comparison since the parameter is a primitive.
-      if (other != actual) return myself;
-      throw Failures.instance().failure(info, shouldNotBeEqual(actual, other));
-    }
-    doubles.assertNotEqual(info, actual, other);
-    return myself;
+    return executeAssertion(() -> {
+      if (noCustomComparatorSet()) {
+        // check for null first to avoid casting a null to primitive
+        isNotNull();
+        // use primitive comparison since the parameter is a primitive.
+        if (other != actual) return;
+        throw Failures.instance().failure(info, shouldNotBeEqual(actual, other));
+      }
+      doubles.assertNotEqual(info, actual, other);
+    });
   }
 
   /**
@@ -642,8 +631,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
   public SELF isLessThan(double other) {
-    doubles.assertLessThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> doubles.assertLessThan(info, actual, other));
   }
 
   /**
@@ -671,13 +659,14 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is greater than the given one.
    */
   public SELF isLessThanOrEqualTo(double other) {
-    if (noCustomComparatorSet()) {
-      // use primitive comparison since the parameter is a primitive.
-      if (actual <= other) return myself;
-      throw Failures.instance().failure(info, shouldBeLessOrEqual(actual, other));
-    }
-    doubles.assertLessThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> {
+      if (noCustomComparatorSet()) {
+        // use primitive comparison since the parameter is a primitive.
+        if (actual <= other) return;
+        throw Failures.instance().failure(info, shouldBeLessOrEqual(actual, other));
+      }
+      doubles.assertLessThanOrEqualTo(info, actual, other);
+    });
   }
 
   /**
@@ -724,8 +713,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
   public SELF isGreaterThan(double other) {
-    doubles.assertGreaterThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> doubles.assertGreaterThan(info, actual, other));
   }
 
   /**
@@ -753,13 +741,14 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    * @throws AssertionError if the actual value is less than the given one.
    */
   public SELF isGreaterThanOrEqualTo(double other) {
-    if (noCustomComparatorSet()) {
-      // use primitive comparison since the parameter is a primitive.
-      if (actual >= other) return myself;
-      throw Failures.instance().failure(info, shouldBeGreaterOrEqual(actual, other));
-    }
-    doubles.assertGreaterThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> {
+      if (noCustomComparatorSet()) {
+        // use primitive comparison since the parameter is a primitive.
+        if (actual >= other) return;
+        throw Failures.instance().failure(info, shouldBeGreaterOrEqual(actual, other));
+      }
+      doubles.assertGreaterThanOrEqualTo(info, actual, other);
+    });
   }
 
   /**
@@ -804,8 +793,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   @Override
   public SELF isBetween(Double start, Double end) {
-    doubles.assertIsBetween(info, actual, start, end);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsBetween(info, actual, start, end));
   }
 
   /**
@@ -824,8 +812,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   @Override
   public SELF isStrictlyBetween(Double start, Double end) {
-    doubles.assertIsStrictlyBetween(info, actual, start, end);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsStrictlyBetween(info, actual, start, end));
   }
 
   @Override
@@ -885,8 +872,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   @Override
   public SELF isFinite() {
-    doubles.assertIsFinite(info, actual);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsFinite(info, actual));
   }
 
   /**
@@ -914,8 +900,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   @Override
   public SELF isNotFinite() {
-    doubles.assertIsNotFinite(info, actual);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsNotFinite(info, actual));
   }
 
   /**
@@ -941,8 +926,7 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   @Override
   public SELF isInfinite() {
-    doubles.assertIsInfinite(info, actual);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsInfinite(info, actual));
   }
 
   /**
@@ -968,7 +952,6 @@ public abstract class AbstractDoubleAssert<SELF extends AbstractDoubleAssert<SEL
    */
   @Override
   public SELF isNotInfinite() {
-    doubles.assertIsNotInfinite(info, actual);
-    return myself;
+    return executeAssertion(() -> doubles.assertIsNotInfinite(info, actual));
   }
 }

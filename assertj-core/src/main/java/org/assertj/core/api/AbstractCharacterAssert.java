@@ -62,8 +62,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(char expected) {
-    characters.assertEqual(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> characters.assertEqual(info, actual, expected));
   }
 
   /**
@@ -83,8 +82,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * @throws AssertionError if the actual value is equal to the given one.
    */
   public SELF isNotEqualTo(char other) {
-    characters.assertNotEqual(info, actual, other);
-    return myself;
+    return executeAssertion(() -> characters.assertNotEqual(info, actual, other));
   }
 
   /**
@@ -106,8 +104,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
   public SELF isLessThan(char other) {
-    characters.assertLessThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> characters.assertLessThan(info, actual, other));
   }
 
   /**
@@ -127,8 +124,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * @throws AssertionError if the actual value is greater than the given one.
    */
   public SELF isLessThanOrEqualTo(char other) {
-    characters.assertLessThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> characters.assertLessThanOrEqualTo(info, actual, other));
   }
 
   /**
@@ -150,8 +146,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
   public SELF isGreaterThan(char other) {
-    characters.assertGreaterThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> characters.assertGreaterThan(info, actual, other));
   }
 
   /**
@@ -199,8 +194,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * @throws AssertionError if the actual value is less than the given one.
    */
   public SELF isGreaterThanOrEqualTo(char other) {
-    characters.assertGreaterThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> characters.assertGreaterThanOrEqualTo(info, actual, other));
   }
 
   /**
@@ -222,8 +216,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    */
 
   public SELF isLowerCase() {
-    characters.assertLowerCase(info, actual);
-    return myself;
+    return executeAssertion(() -> characters.assertLowerCase(info, actual));
   }
 
   /**
@@ -244,8 +237,7 @@ public abstract class AbstractCharacterAssert<SELF extends AbstractCharacterAsse
    * @throws AssertionError if the actual value is not a uppercase character.
    */
   public SELF isUpperCase() {
-    characters.assertUpperCase(info, actual);
-    return myself;
+    return executeAssertion(() -> characters.assertUpperCase(info, actual));
   }
 
   @Override

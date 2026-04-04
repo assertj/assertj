@@ -18,7 +18,7 @@ package org.assertj.core.api;
 import java.util.List;
 import java.util.Optional;
 
-public interface AssertionErrorCollector extends AfterAssertionErrorCollected {
+public interface AssertionErrorCollector extends AfterAssertionErrorCollected, AssertionErrorHandler {
 
   /**
    * Optionally sets a "delegate" collector into which the collected assertions will be deposited.
@@ -32,6 +32,11 @@ public interface AssertionErrorCollector extends AfterAssertionErrorCollected {
 
   default Optional<AssertionErrorCollector> getDelegate() {
     return Optional.empty();
+  }
+
+  @Override
+  default void handleError(AssertionError error) {
+    collectAssertionError(error);
   }
 
   /**

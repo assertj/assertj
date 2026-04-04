@@ -26,12 +26,8 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
     implements SoftAssertionsProvider, InstanceOfAssertFactories {
 
   private static final AssertionErrorCreator ASSERTION_ERROR_CREATOR = new AssertionErrorCreator();
-  final SoftProxies proxies;
 
-  protected AbstractSoftAssertions() {
-    // pass itself as an AssertionErrorCollector instance
-    proxies = new SoftProxies(this);
-  }
+  protected AbstractSoftAssertions() {}
 
   public static void assertAll(AssertionErrorCollector collector) {
     List<AssertionError> errors = collector.assertionErrorsCollected();
@@ -41,12 +37,6 @@ public abstract class AbstractSoftAssertions extends DefaultAssertionErrorCollec
   @Override
   public void assertAll() {
     assertAll(this);
-  }
-
-  @Override
-  public <SELF extends Assert<? extends SELF, ? extends ACTUAL>, ACTUAL> SELF proxy(Class<SELF> assertClass,
-                                                                                    Class<ACTUAL> actualClass, ACTUAL actual) {
-    return proxies.createSoftAssertionProxy(assertClass, actualClass, actual);
   }
 
   /**

@@ -112,8 +112,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.9.0
    */
   public SELF allSatisfy(BiConsumer<? super K, ? super V> entryRequirements) {
-    maps.assertAllSatisfy(info, actual, entryRequirements);
-    return myself;
+    return executeAssertion(() -> maps.assertAllSatisfy(info, actual, entryRequirements));
   }
 
   /**
@@ -145,8 +144,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.12.0
    */
   public SELF anySatisfy(BiConsumer<? super K, ? super V> entryRequirements) {
-    maps.assertAnySatisfy(info, actual, entryRequirements);
-    return myself;
+    return executeAssertion(() -> maps.assertAnySatisfy(info, actual, entryRequirements));
   }
 
   /**
@@ -180,8 +178,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.12.0
    */
   public SELF noneSatisfy(BiConsumer<? super K, ? super V> entryRequirements) {
-    maps.assertNoneSatisfy(info, actual, entryRequirements);
-    return myself;
+    return executeAssertion(() -> maps.assertNoneSatisfy(info, actual, entryRequirements));
   }
 
   /**
@@ -202,7 +199,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public void isNullOrEmpty() {
-    maps.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> maps.assertNullOrEmpty(info, actual));
   }
 
   /**
@@ -221,7 +218,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public void isEmpty() {
-    maps.assertEmpty(info, actual);
+    executeAssertion(() -> maps.assertEmpty(info, actual));
   }
 
   /**
@@ -242,8 +239,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public SELF isNotEmpty() {
-    maps.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> maps.assertNotEmpty(info, actual));
   }
 
   /**
@@ -267,8 +263,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public SELF hasSize(int expected) {
-    maps.assertHasSize(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> maps.assertHasSize(info, actual, expected));
   }
 
   /**
@@ -292,8 +287,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public SELF hasSizeGreaterThan(int boundary) {
-    maps.assertHasSizeGreaterThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> maps.assertHasSizeGreaterThan(info, actual, boundary));
   }
 
   /**
@@ -319,8 +313,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
-    maps.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> maps.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -345,8 +338,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public SELF hasSizeLessThan(int boundary) {
-    maps.assertHasSizeLessThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> maps.assertHasSizeLessThan(info, actual, boundary));
   }
 
   /**
@@ -372,8 +364,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public SELF hasSizeLessThanOrEqualTo(int boundary) {
-    maps.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> maps.assertHasSizeLessThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -399,8 +390,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    maps.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
-    return myself;
+    return executeAssertion(() -> maps.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary));
   }
 
   /**
@@ -431,8 +421,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public SELF hasSameSizeAs(Object other) {
-    maps.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> maps.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -459,8 +448,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
-    maps.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> maps.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -493,8 +481,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map and the given {@code Map} don't have the same size
    */
   public SELF hasSameSizeAs(Map<?, ?> other) {
-    maps.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> maps.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -534,8 +521,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
-    maps.assertContains(info, actual, entries, valueEquals);
-    return myself;
+    return executeAssertion(() -> maps.assertContains(info, actual, entries, valueEquals));
   }
 
   /**
@@ -573,8 +559,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsAnyOfForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
-    maps.assertContainsAnyOf(info, actual, entries, valueEquals);
-    return myself;
+    return executeAssertion(() -> maps.assertContainsAnyOf(info, actual, entries, valueEquals));
   }
 
   /**
@@ -607,8 +592,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given entries.
    */
   public SELF containsAllEntriesOf(Map<? extends K, ? extends V> other) {
-    maps.assertContainsAllEntriesOf(info, actual, other, valueEquals);
-    return myself;
+    return executeAssertion(() -> maps.assertContainsAllEntriesOf(info, actual, other, valueEquals));
   }
 
   /**
@@ -726,8 +710,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given entries.
    */
   public SELF containsEntry(K key, V value) {
-    maps.assertContains(info, actual, array(entry(key, value)), valueEquals);
-    return myself;
+    return executeAssertion(() -> maps.assertContains(info, actual, array(entry(key, value)), valueEquals));
   }
 
   /**
@@ -762,8 +745,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 2.6.0 / 3.6.0
    */
   public SELF hasEntrySatisfying(K key, Condition<? super V> valueCondition) {
-    maps.assertHasEntrySatisfying(info, actual, key, valueCondition);
-    return myself;
+    return executeAssertion(() -> maps.assertHasEntrySatisfying(info, actual, key, valueCondition));
   }
 
   /**
@@ -797,8 +779,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.6.0
    */
   public SELF hasEntrySatisfying(K key, Consumer<? super V> valueRequirements) {
-    maps.assertHasEntrySatisfying(info, actual, key, valueRequirements);
-    return myself;
+    return executeAssertion(() -> maps.assertHasEntrySatisfying(info, actual, key, valueRequirements));
   }
 
   /**
@@ -834,8 +815,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasEntrySatisfying(Condition<? super Map.Entry<K, V>> entryCondition) {
-    maps.assertHasEntrySatisfying(info, actual, entryCondition);
-    return myself;
+    return executeAssertion(() -> maps.assertHasEntrySatisfying(info, actual, entryCondition));
   }
 
   /**
@@ -878,8 +858,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 2.7.0  / 3.7.0
    */
   public SELF hasEntrySatisfying(Condition<? super K> keyCondition, Condition<? super V> valueCondition) {
-    maps.assertHasEntrySatisfyingConditions(info, actual, keyCondition, valueCondition);
-    return myself;
+    return executeAssertion(() -> maps.assertHasEntrySatisfyingConditions(info, actual, keyCondition, valueCondition));
   }
 
   /**
@@ -918,8 +897,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 2.7.0  / 3.7.0
    */
   public SELF hasKeySatisfying(Condition<? super K> keyCondition) {
-    maps.assertHasKeySatisfying(info, actual, keyCondition);
-    return myself;
+    return executeAssertion(() -> maps.assertHasKeySatisfying(info, actual, keyCondition));
   }
 
   /**
@@ -958,8 +936,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 2.7.0  / 3.7.0
    */
   public SELF hasValueSatisfying(Condition<? super V> valueCondition) {
-    maps.assertHasValueSatisfying(info, actual, valueCondition);
-    return myself;
+    return executeAssertion(() -> maps.assertHasValueSatisfying(info, actual, valueCondition));
   }
 
   /**
@@ -995,8 +972,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF doesNotContainForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
-    maps.assertDoesNotContain(info, actual, entries, valueEquals);
-    return myself;
+    return executeAssertion(() -> maps.assertDoesNotContain(info, actual, entries, valueEquals));
   }
 
   /**
@@ -1024,8 +1000,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map contains any of the given entries.
    */
   public SELF doesNotContainEntry(K key, V value) {
-    maps.assertDoesNotContain(info, actual, array(entry(key, value)), valueEquals);
-    return myself;
+    return executeAssertion(() -> maps.assertDoesNotContain(info, actual, array(entry(key, value)), valueEquals));
   }
 
   /**
@@ -1083,8 +1058,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsKeysForProxy(K[] keys) {
-    maps.assertContainsKeys(info, actual, keys);
-    return myself;
+    return executeAssertion(() -> maps.assertContainsKeys(info, actual, keys));
   }
 
   /**
@@ -1141,8 +1115,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF doesNotContainKeysForProxy(K[] keys) {
-    maps.assertDoesNotContainKeys(info, actual, keys);
-    return myself;
+    return executeAssertion(() -> maps.assertDoesNotContainKeys(info, actual, keys));
   }
 
   /**
@@ -1182,8 +1155,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsOnlyKeysForProxy(K[] keys) {
-    maps.assertContainsOnlyKeys(info, actual, keys);
-    return myself;
+    return executeAssertion(() -> maps.assertContainsOnlyKeys(info, actual, keys));
   }
 
   /**
@@ -1217,14 +1189,15 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @since 3.12.0
    */
   public SELF containsOnlyKeys(Iterable<? extends K> keys) {
-    if (keys instanceof Path) {
-      // do not treat Path as an Iterable
-      K path = (K) keys;
-      maps.assertContainsOnlyKeys(info, actual, singleton(path));
-    } else {
-      maps.assertContainsOnlyKeys(info, actual, keys);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      if (keys instanceof Path) {
+        // do not treat Path as an Iterable
+        K path = (K) keys;
+        maps.assertContainsOnlyKeys(info, actual, singleton(path));
+      } else {
+        maps.assertContainsOnlyKeys(info, actual, keys);
+      }
+    });
   }
 
   /**
@@ -1249,8 +1222,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map does not contain the given value.
    */
   public SELF containsValue(V value) {
-    maps.assertContainsValue(info, actual, value, valueEquals);
-    return myself;
+    return executeAssertion(() -> maps.assertContainsValue(info, actual, value, valueEquals));
   }
 
   /**
@@ -1284,8 +1256,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsValuesForProxy(V[] values) {
-    maps.assertContainsValues(info, actual, values, valueEquals);
-    return myself;
+    return executeAssertion(() -> maps.assertContainsValues(info, actual, values, valueEquals));
   }
 
   /**
@@ -1310,8 +1281,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @throws AssertionError if the actual map contains the given value.
    */
   public SELF doesNotContainValue(V value) {
-    maps.assertDoesNotContainValue(info, actual, value, valueEquals);
-    return myself;
+    return executeAssertion(() -> maps.assertDoesNotContainValue(info, actual, value, valueEquals));
   }
 
   /**
@@ -1357,8 +1327,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsOnlyForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
-    maps.assertContainsOnly(info, actual, entries, valueEquals);
-    return myself;
+    return executeAssertion(() -> maps.assertContainsOnly(info, actual, entries, valueEquals));
   }
 
   /**
@@ -1401,8 +1370,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF containsExactlyForProxy(Map.Entry<? extends K, ? extends V>[] entries) {
-    maps.assertContainsExactly(info, actual, entries, valueEquals);
-    return myself;
+    return executeAssertion(() -> maps.assertContainsExactly(info, actual, entries, valueEquals));
   }
 
   /**
@@ -1424,9 +1392,10 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @Beta
   public SELF isUnmodifiable() {
-    isNotNull();
-    assertIsUnmodifiable();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsUnmodifiable();
+    });
   }
 
   private void assertIsUnmodifiable() {
@@ -1713,7 +1682,9 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   public AbstractMapSizeAssert<SELF, ACTUAL, K, V> size() {
     requireNonNull(actual, "Can not perform assertions on the size of a null map.");
-    return new MapSizeAssert(this, actual.size());
+    MapSizeAssert result = new MapSizeAssert(this, actual.size());
+    result.withAssertionState(myself);
+    return result;
   }
 
   /**
@@ -1964,7 +1935,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
     List<Object> valuesFlattened = flatten(values.toList());
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
-    return newListAssertInstance(valuesFlattened).as(description);
+    return newListAssertInstance(valuesFlattened).withAssertionState(myself).as(description);
   }
 
   /**

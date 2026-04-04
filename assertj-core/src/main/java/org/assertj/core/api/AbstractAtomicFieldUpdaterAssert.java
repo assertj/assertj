@@ -39,12 +39,13 @@ public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtom
   }
 
   public SELF hasValue(VALUE expectedValue, final OBJECT obj) {
-    validate(expectedValue);
-    VALUE actualValue = getActualValue(obj);
-    if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
-      throwAssertionError(shouldHaveValue(actual, actualValue, expectedValue, obj));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      validate(expectedValue);
+      VALUE actualValue = getActualValue(obj);
+      if (!objects.getComparisonStrategy().areEqual(actualValue, expectedValue)) {
+        throwAssertionError(shouldHaveValue(actual, actualValue, expectedValue, obj));
+      }
+    });
   }
 
   protected abstract VALUE getActualValue(OBJECT obj);

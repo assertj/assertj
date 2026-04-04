@@ -98,8 +98,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not assignable from all of the {@code others} classes.
    */
   public SELF isAssignableFrom(Class<?>... others) {
-    classes.assertIsAssignableFrom(info, actual, others);
-    return myself;
+    return executeAssertion(() -> classes.assertIsAssignableFrom(info, actual, others));
   }
 
   /**
@@ -125,9 +124,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.24.0
    */
   public SELF isAssignableTo(Class<?> other) {
-    isNotNull();
-    assertIsAssignableTo(other);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsAssignableTo(other);
+    });
   }
 
   private void assertIsAssignableTo(Class<?> other) {
@@ -153,9 +153,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
   public SELF isNotInterface() {
-    isNotNull();
-    assertIsNotInterface();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsNotInterface();
+    });
   }
 
   private void assertIsNotInterface() {
@@ -180,9 +181,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not an interface.
    */
   public SELF isInterface() {
-    isNotNull();
-    assertIsInterface();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsInterface();
+    });
   }
 
   private void assertIsInterface() {
@@ -208,9 +210,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.12.0
    */
   public SELF isAbstract() {
-    isNotNull();
-    assertIsAbstract();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsAbstract();
+    });
   }
 
   private void assertIsAbstract() {
@@ -236,9 +239,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not an annotation.
    */
   public SELF isAnnotation() {
-    isNotNull();
-    assertIsAnnotation();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsAnnotation();
+    });
   }
 
   private void assertIsAnnotation() {
@@ -264,9 +268,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is an annotation.
    */
   public SELF isNotAnnotation() {
-    isNotNull();
-    assertIsNotAnnotation();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsNotAnnotation();
+    });
   }
 
   private void assertIsNotAnnotation() {
@@ -292,9 +297,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.25.0
    */
   public SELF isRecord() {
-    isNotNull();
-    assertIsRecord();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsRecord();
+    });
   }
 
   private void assertIsRecord() {
@@ -320,9 +326,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.25.0
    */
   public SELF isNotRecord() {
-    isNotNull();
-    assertIsNotRecord();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsNotRecord();
+    });
   }
 
   private void assertIsNotRecord() {
@@ -359,9 +366,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.25.0
    */
   public SELF hasRecordComponents(String first, String... rest) {
-    isRecord();
-    assertHasRecordComponents(first, rest);
-    return myself;
+    return executeAssertion(() -> {
+      isRecord();
+      assertHasRecordComponents(first, rest);
+    });
   }
 
   private void assertHasRecordComponents(String first, String[] rest) {
@@ -415,9 +423,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is not final.
    */
   public SELF isFinal() {
-    isNotNull();
-    assertIsFinal();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsFinal();
+    });
   }
 
   private void assertIsFinal() {
@@ -441,9 +450,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} is final.
    */
   public SELF isNotFinal() {
-    isNotNull();
-    assertIsNotFinal();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsNotFinal();
+    });
   }
 
   private void assertIsNotFinal() {
@@ -470,9 +480,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF isPublic() {
-    isNotNull();
-    assertIsPublic();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsPublic();
+    });
   }
 
   private void assertIsPublic() {
@@ -499,9 +510,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF isProtected() {
-    isNotNull();
-    assertIsProtected();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsProtected();
+    });
   }
 
   private void assertIsProtected() {
@@ -528,9 +540,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.15.0
    */
   public SELF isPackagePrivate() {
-    isNotNull();
-    assertIsPackagePrivate();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsPackagePrivate();
+    });
   }
 
   private void assertIsPackagePrivate() {
@@ -562,9 +575,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.26.0
    */
   public SELF isPrivate() {
-    isNotNull();
-    assertIsPrivate();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsPrivate();
+    });
   }
 
   private void assertIsPrivate() {
@@ -591,9 +605,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.23.0
    */
   public SELF isStatic() {
-    isNotNull();
-    assertIsStatic();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsStatic();
+    });
   }
 
   private void assertIsStatic() {
@@ -620,9 +635,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.23.0
    */
   public SELF isNotStatic() {
-    isNotNull();
-    assertIsNotStatic();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsNotStatic();
+    });
   }
 
   private void assertIsNotStatic() {
@@ -668,9 +684,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected SELF hasAnnotationsForProxy(Class<? extends Annotation>[] annotations) {
-    isNotNull();
-    assertHasAnnotations(annotations);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasAnnotations(annotations);
+    });
   }
 
   private void assertHasAnnotations(Class<? extends Annotation>[] annotations) {
@@ -703,9 +720,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} doesn't have the given annotation.
    */
   public SELF hasAnnotation(Class<? extends Annotation> annotation) {
-    isNotNull();
-    assertHasAnnotation(annotation);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasAnnotation(annotation);
+    });
   }
 
   private void assertHasAnnotation(Class<? extends Annotation> annotation) {
@@ -750,9 +768,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see #hasNoSuperclass()
    */
   public SELF hasSuperclass(Class<?> superclass) {
-    isNotNull();
-    assertHasSuperclass(superclass);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasSuperclass(superclass);
+    });
   }
 
   private void assertHasSuperclass(Class<?> superclass) {
@@ -790,9 +809,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see #hasSuperclass(Class)
    */
   public SELF hasNoSuperclass() {
-    isNotNull();
-    assertHasNoSuperclass();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasNoSuperclass();
+    });
   }
 
   private void assertHasNoSuperclass() {
@@ -828,8 +848,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} doesn't contain all the specified fields.
    */
   public SELF hasPublicFields(String... fields) {
-    classes.assertHasPublicFields(info, actual, fields);
-    return myself;
+    return executeAssertion(() -> classes.assertHasPublicFields(info, actual, fields));
   }
 
   /**
@@ -861,8 +880,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasOnlyPublicFields(String... fields) {
-    classes.assertHasOnlyPublicFields(info, actual, fields);
-    return myself;
+    return executeAssertion(() -> classes.assertHasOnlyPublicFields(info, actual, fields));
   }
 
   /**
@@ -889,8 +907,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} doesn't contains all the specified fields.
    */
   public SELF hasDeclaredFields(String... fields) {
-    classes.assertHasDeclaredFields(info, actual, fields);
-    return myself;
+    return executeAssertion(() -> classes.assertHasDeclaredFields(info, actual, fields));
   }
 
   /**
@@ -922,8 +939,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasOnlyDeclaredFields(String... fields) {
-    classes.assertHasOnlyDeclaredFields(info, actual, fields);
-    return myself;
+    return executeAssertion(() -> classes.assertHasOnlyDeclaredFields(info, actual, fields));
   }
 
   /**
@@ -954,8 +970,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasMethods(String... methodNames) {
-    classes.assertHasMethods(info, actual, methodNames);
-    return myself;
+    return executeAssertion(() -> classes.assertHasMethods(info, actual, methodNames));
   }
 
   /**
@@ -988,8 +1003,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasDeclaredMethods(String... methodNames) {
-    classes.assertHasDeclaredMethods(info, actual, methodNames);
-    return myself;
+    return executeAssertion(() -> classes.assertHasDeclaredMethods(info, actual, methodNames));
   }
 
   /**
@@ -1018,8 +1032,7 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 2.7.0 / 3.7.0
    */
   public SELF hasPublicMethods(String... methodNames) {
-    classes.assertHasPublicMethods(info, actual, methodNames);
-    return myself;
+    return executeAssertion(() -> classes.assertHasPublicMethods(info, actual, methodNames));
   }
 
   /**
@@ -1049,9 +1062,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.18.0
    */
   public SELF hasPackage(String expected) {
-    isNotNull();
-    assertHasPackage(expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasPackage(expected);
+    });
   }
 
   private void assertHasPackage(String packageName) {
@@ -1092,9 +1106,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see #hasNoPackage()
    */
   public SELF hasPackage(Package expected) {
-    isNotNull();
-    assertHasPackage(expected);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasPackage(expected);
+    });
   }
 
   private void assertHasPackage(Package expected) {
@@ -1128,9 +1143,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see #hasPackage(String)
    */
   public SELF hasNoPackage() {
-    isNotNull();
-    assertHasNoPackage();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasNoPackage();
+    });
   }
 
   private void assertHasNoPackage() {
@@ -1158,9 +1174,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.25.0
    */
   public SELF isSealed() {
-    isNotNull();
-    assertIsSealed();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsSealed();
+    });
   }
 
   private void assertIsSealed() {
@@ -1188,9 +1205,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @since 3.25.0
    */
   public SELF isNotSealed() {
-    isNotNull();
-    assertIsNotSealed();
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertIsNotSealed();
+    });
   }
 
   private void assertIsNotSealed() {
@@ -1225,9 +1243,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @throws AssertionError if the actual {@code Class} does not have all of given permitted subclasses
    */
   public SELF hasPermittedSubclasses(Class<?>... permittedSubclasses) {
-    isNotNull();
-    assertHasPermittedSubclasses(permittedSubclasses);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      assertHasPermittedSubclasses(permittedSubclasses);
+    });
   }
 
   private void assertHasPermittedSubclasses(Class<?>[] expectedPermittedSubclasses) {
@@ -1277,9 +1296,10 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see Class#isPrimitive()
    */
   public SELF isPrimitive() {
-    isNotNull();
-    if (!actual.isPrimitive()) throw assertionError(shouldBePrimitive(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.isPrimitive()) throw assertionError(shouldBePrimitive(actual));
+    });
   }
 
   /**
@@ -1305,8 +1325,9 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    * @see Class#isPrimitive()
    */
   public SELF isNotPrimitive() {
-    isNotNull();
-    if (actual.isPrimitive()) throw assertionError(shouldNotBePrimitive(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isPrimitive()) throw assertionError(shouldNotBePrimitive(actual));
+    });
   }
 }

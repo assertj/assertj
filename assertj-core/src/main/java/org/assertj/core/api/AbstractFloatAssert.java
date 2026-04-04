@@ -67,15 +67,13 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
   /** {@inheritDoc} */
   @Override
   public SELF isNaN() {
-    floats.assertIsNaN(info, actual);
-    return myself;
+    return executeAssertion(() -> floats.assertIsNaN(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotNaN() {
-    floats.assertIsNotNaN(info, actual);
-    return myself;
+    return executeAssertion(() -> floats.assertIsNotNaN(info, actual));
   }
 
   /**
@@ -98,9 +96,10 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isZero() {
-    if (isPrimitive) assertIsPrimitiveZero();
-    else floats.assertIsZero(info, actual);
-    return myself;
+    return executeAssertion(() -> {
+      if (isPrimitive) assertIsPrimitiveZero();
+      else floats.assertIsZero(info, actual);
+    });
   }
 
   private void assertIsPrimitiveZero() {
@@ -134,45 +133,41 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isNotZero() {
-    if (isPrimitive) assertIsPrimitiveNonZero();
-    else if (NEGATIVE_ZERO.equals(actual)) return myself;
-    else floats.assertIsNotZero(info, actual);
-    return myself;
+    return executeAssertion(() -> {
+      if (isPrimitive) assertIsPrimitiveNonZero();
+      else if (NEGATIVE_ZERO.equals(actual)) return;
+      else floats.assertIsNotZero(info, actual);
+    });
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isOne() {
-    floats.assertIsOne(info, actual);
-    return myself;
+    return executeAssertion(() -> floats.assertIsOne(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isPositive() {
-    floats.assertIsPositive(info, actual);
-    return myself;
+    return executeAssertion(() -> floats.assertIsPositive(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNegative() {
-    floats.assertIsNegative(info, actual);
-    return myself;
+    return executeAssertion(() -> floats.assertIsNegative(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotNegative() {
-    floats.assertIsNotNegative(info, actual);
-    return myself;
+    return executeAssertion(() -> floats.assertIsNotNegative(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotPositive() {
-    floats.assertIsNotPositive(info, actual);
-    return myself;
+    return executeAssertion(() -> floats.assertIsNotPositive(info, actual));
   }
 
   /**
@@ -199,18 +194,19 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(float expected) {
-    if (noCustomComparatorSet()) {
-      // use primitive comparison since the parameter is a primitive.
-      if (expected == actual) return myself;
-      // at this point we know that the assertion failed, if actual and expected are Float.NaN first we want
-      // to give a clear error message (we need to use equals to check that as Float.NaN != Float.NaN)
-      if (Float.valueOf(expected).equals(Float.NaN) && actual.equals(Float.NaN))
-        throw new AssertionError("Actual and expected values were compared with == because expected was a primitive float, the assertion failed as both were Float.NaN and Float.NaN != Float.NaN (as per Float#equals javadoc)");
-      // standard error message
-      throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
-    }
-    floats.assertEqual(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> {
+      if (noCustomComparatorSet()) {
+        // use primitive comparison since the parameter is a primitive.
+        if (expected == actual) return;
+        // at this point we know that the assertion failed, if actual and expected are Float.NaN first we want
+        // to give a clear error message (we need to use equals to check that as Float.NaN != Float.NaN)
+        if (Float.valueOf(expected).equals(Float.NaN) && actual.equals(Float.NaN))
+          throw new AssertionError("Actual and expected values were compared with == because expected was a primitive float, the assertion failed as both were Float.NaN and Float.NaN != Float.NaN (as per Float#equals javadoc)");
+        // standard error message
+        throw Failures.instance().failure(info, shouldBeEqual(actual, expected, info.representation()));
+      }
+      floats.assertEqual(info, actual, expected);
+    });
   }
 
   /**
@@ -273,8 +269,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   // duplicate javadoc of isCloseTo(Float other, Offset<Float> offset but can't define it in super class
   public SELF isCloseTo(final float expected, final Offset<Float> offset) {
-    floats.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> floats.assertIsCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -315,8 +310,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   // duplicate javadoc of isNotCloseTo(Float other, Offset<Float> offset but can't define it in super class
   public SELF isNotCloseTo(final float expected, final Offset<Float> offset) {
-    floats.assertIsNotCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> floats.assertIsNotCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -355,8 +349,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isCloseTo(Float expected, Offset<Float> offset) {
-    floats.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> floats.assertIsCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -397,8 +390,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isNotCloseTo(Float expected, Offset<Float> offset) {
-    floats.assertIsNotCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> floats.assertIsNotCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -424,8 +416,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isCloseTo(Float expected, Percentage percentage) {
-    floats.assertIsCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> floats.assertIsCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -450,8 +441,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isNotCloseTo(Float expected, Percentage percentage) {
-    floats.assertIsNotCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> floats.assertIsNotCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -476,8 +466,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is not close to the given one.
    */
   public SELF isCloseTo(float expected, Percentage percentage) {
-    floats.assertIsCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> floats.assertIsCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -501,8 +490,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @since 2.6.0 / 3.6.0
    */
   public SELF isNotCloseTo(float expected, Percentage percentage) {
-    floats.assertIsNotCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> floats.assertIsNotCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -609,13 +597,14 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is equal to the given one.
    */
   public SELF isNotEqualTo(float other) {
-    if (noCustomComparatorSet()) {
-      // use primitive comparison since the parameter is a primitive.
-      if (other != actual.doubleValue()) return myself;
-      throw Failures.instance().failure(info, shouldNotBeEqual(actual, other));
-    }
-    floats.assertNotEqual(info, actual, other);
-    return myself;
+    return executeAssertion(() -> {
+      if (noCustomComparatorSet()) {
+        // use primitive comparison since the parameter is a primitive.
+        if (other != actual.doubleValue()) return;
+        throw Failures.instance().failure(info, shouldNotBeEqual(actual, other));
+      }
+      floats.assertNotEqual(info, actual, other);
+    });
   }
 
   /**
@@ -666,8 +655,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
   public SELF isLessThan(float other) {
-    floats.assertLessThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> floats.assertLessThan(info, actual, other));
   }
 
   /**
@@ -695,13 +683,14 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is greater than the given one.
    */
   public SELF isLessThanOrEqualTo(float other) {
-    if (noCustomComparatorSet()) {
-      // use primitive comparison since the parameter is a primitive.
-      if (actual <= other) return myself;
-      throw Failures.instance().failure(info, shouldBeLessOrEqual(actual, other));
-    }
-    floats.assertLessThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> {
+      if (noCustomComparatorSet()) {
+        // use primitive comparison since the parameter is a primitive.
+        if (actual <= other) return;
+        throw Failures.instance().failure(info, shouldBeLessOrEqual(actual, other));
+      }
+      floats.assertLessThanOrEqualTo(info, actual, other);
+    });
   }
 
   /**
@@ -749,8 +738,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
   public SELF isGreaterThan(float other) {
-    floats.assertGreaterThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> floats.assertGreaterThan(info, actual, other));
   }
 
   /**
@@ -776,13 +764,14 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    * @throws AssertionError if the actual value is less than the given one.
    */
   public SELF isGreaterThanOrEqualTo(float other) {
-    if (noCustomComparatorSet()) {
-      // use primitive comparison since the parameter is a primitive.
-      if (actual >= other) return myself;
-      throw Failures.instance().failure(info, shouldBeGreaterOrEqual(actual, other));
-    }
-    floats.assertGreaterThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> {
+      if (noCustomComparatorSet()) {
+        // use primitive comparison since the parameter is a primitive.
+        if (actual >= other) return;
+        throw Failures.instance().failure(info, shouldBeGreaterOrEqual(actual, other));
+      }
+      floats.assertGreaterThanOrEqualTo(info, actual, other);
+    });
   }
 
   /**
@@ -827,8 +816,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isBetween(Float start, Float end) {
-    floats.assertIsBetween(info, actual, start, end);
-    return myself;
+    return executeAssertion(() -> floats.assertIsBetween(info, actual, start, end));
   }
 
   /**
@@ -847,8 +835,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isStrictlyBetween(Float start, Float end) {
-    floats.assertIsStrictlyBetween(info, actual, start, end);
-    return myself;
+    return executeAssertion(() -> floats.assertIsStrictlyBetween(info, actual, start, end));
   }
 
   @Override
@@ -898,8 +885,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isFinite() {
-    floats.assertIsFinite(info, actual);
-    return myself;
+    return executeAssertion(() -> floats.assertIsFinite(info, actual));
   }
 
   /**
@@ -927,8 +913,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isNotFinite() {
-    floats.assertIsNotFinite(info, actual);
-    return myself;
+    return executeAssertion(() -> floats.assertIsNotFinite(info, actual));
   }
 
   /**
@@ -954,8 +939,7 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isInfinite() {
-    floats.assertIsInfinite(info, actual);
-    return myself;
+    return executeAssertion(() -> floats.assertIsInfinite(info, actual));
   }
 
   /**
@@ -981,7 +965,6 @@ public abstract class AbstractFloatAssert<SELF extends AbstractFloatAssert<SELF>
    */
   @Override
   public SELF isNotInfinite() {
-    floats.assertIsNotInfinite(info, actual);
-    return myself;
+    return executeAssertion(() -> floats.assertIsNotInfinite(info, actual));
   }
 }

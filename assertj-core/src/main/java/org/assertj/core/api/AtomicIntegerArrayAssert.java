@@ -55,8 +55,10 @@ public class AtomicIntegerArrayAssert
    */
   @Override
   public void isNullOrEmpty() {
-    if (actual == null) return;
-    isEmpty();
+    executeAssertion(() -> {
+      if (actual == null) return;
+      isEmpty();
+    });
   }
 
   /**
@@ -74,7 +76,7 @@ public class AtomicIntegerArrayAssert
    */
   @Override
   public void isEmpty() {
-    arrays.assertEmpty(info, array);
+    executeAssertion(() -> arrays.assertEmpty(info, array));
   }
 
   /**
@@ -93,8 +95,7 @@ public class AtomicIntegerArrayAssert
    */
   @Override
   public AtomicIntegerArrayAssert isNotEmpty() {
-    arrays.assertNotEmpty(info, array);
-    return myself;
+    return executeAssertion(() -> arrays.assertNotEmpty(info, array));
   }
 
   /**
@@ -115,8 +116,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert hasArray(int[] expected) {
-    arrays.assertContainsExactly(info, array, expected);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, array, expected));
   }
 
   /**
@@ -137,8 +137,7 @@ public class AtomicIntegerArrayAssert
    */
   @Override
   public AtomicIntegerArrayAssert hasSize(int expected) {
-    arrays.assertHasSize(info, array, expected);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSize(info, array, expected));
   }
 
   /**
@@ -160,8 +159,7 @@ public class AtomicIntegerArrayAssert
    */
   @Override
   public AtomicIntegerArrayAssert hasSizeGreaterThan(int boundary) {
-    arrays.assertHasSizeGreaterThan(info, array, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThan(info, array, boundary));
   }
 
   /**
@@ -183,8 +181,7 @@ public class AtomicIntegerArrayAssert
    */
   @Override
   public AtomicIntegerArrayAssert hasSizeGreaterThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeGreaterThanOrEqualTo(info, array, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThanOrEqualTo(info, array, boundary));
   }
 
   /**
@@ -206,8 +203,7 @@ public class AtomicIntegerArrayAssert
    */
   @Override
   public AtomicIntegerArrayAssert hasSizeLessThan(int boundary) {
-    arrays.assertHasSizeLessThan(info, array, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThan(info, array, boundary));
   }
 
   /**
@@ -229,8 +225,7 @@ public class AtomicIntegerArrayAssert
    */
   @Override
   public AtomicIntegerArrayAssert hasSizeLessThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeLessThanOrEqualTo(info, array, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThanOrEqualTo(info, array, boundary));
   }
 
   /**
@@ -253,8 +248,7 @@ public class AtomicIntegerArrayAssert
    */
   @Override
   public AtomicIntegerArrayAssert hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    arrays.assertHasSizeBetween(info, array, lowerBoundary, higherBoundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeBetween(info, array, lowerBoundary, higherBoundary));
   }
 
   /**
@@ -280,8 +274,7 @@ public class AtomicIntegerArrayAssert
    */
   @Override
   public AtomicIntegerArrayAssert hasSameSizeAs(Iterable<?> other) {
-    arrays.assertHasSameSizeAs(info, array, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, array, other));
   }
 
   /**
@@ -308,8 +301,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert contains(int... values) {
-    arrays.assertContains(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, array, values));
   }
 
   /**
@@ -337,8 +329,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert containsOnly(int... values) {
-    arrays.assertContainsOnly(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, array, values));
   }
 
   /**
@@ -364,8 +355,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert containsOnlyOnce(int... values) {
-    arrays.assertContainsOnlyOnce(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, array, values));
   }
 
   /**
@@ -389,8 +379,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert containsSequence(int... sequence) {
-    arrays.assertContainsSequence(info, array, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, array, sequence));
   }
 
   /**
@@ -414,8 +403,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert containsSubsequence(int... subsequence) {
-    arrays.assertContainsSubsequence(info, array, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, array, subsequence));
   }
 
   /**
@@ -443,8 +431,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert contains(int value, Index index) {
-    arrays.assertContains(info, array, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, array, value, index));
   }
 
   /**
@@ -468,8 +455,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert doesNotContain(int... values) {
-    arrays.assertDoesNotContain(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, array, values));
   }
 
   /**
@@ -495,8 +481,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert doesNotContain(int value, Index index) {
-    arrays.assertDoesNotContain(info, array, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, array, value, index));
   }
 
   /**
@@ -517,8 +502,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert doesNotHaveDuplicates() {
-    arrays.assertDoesNotHaveDuplicates(info, array);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveDuplicates(info, array));
   }
 
   /**
@@ -544,8 +528,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert startsWith(int... sequence) {
-    arrays.assertStartsWith(info, array, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, array, sequence));
   }
 
   /**
@@ -571,8 +554,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert endsWith(int... sequence) {
-    arrays.assertEndsWith(info, array, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, array, sequence));
   }
 
   /**
@@ -587,8 +569,7 @@ public class AtomicIntegerArrayAssert
    * @throws AssertionError if the actual AtomicIntegerArray is {@code null}.
    */
   public AtomicIntegerArrayAssert isSorted() {
-    arrays.assertIsSorted(info, array);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSorted(info, array));
   }
 
   /**
@@ -605,8 +586,7 @@ public class AtomicIntegerArrayAssert
    * @throws NullPointerException if the given comparator is {@code null}.
    */
   public AtomicIntegerArrayAssert isSortedAccordingTo(Comparator<? super Integer> comparator) {
-    arrays.assertIsSortedAccordingToComparator(info, array, comparator);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSortedAccordingToComparator(info, array, comparator));
   }
 
   /**
@@ -662,8 +642,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert containsExactly(int... values) {
-    arrays.assertContainsExactly(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, array, values));
   }
 
   /**
@@ -688,8 +667,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.7.0 / 3.7.0
    */
   public AtomicIntegerArrayAssert containsExactlyInAnyOrder(int... values) {
-    arrays.assertContainsExactlyInAnyOrder(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, array, values));
   }
 
   /**
@@ -718,8 +696,7 @@ public class AtomicIntegerArrayAssert
    * @since 2.9.0 / 3.9.0
    */
   public AtomicIntegerArrayAssert containsAnyOf(int... values) {
-    arrays.assertContainsAnyOf(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, array, values));
   }
 
 }

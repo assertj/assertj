@@ -50,8 +50,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual URI path is not equal to the expected path.
    */
   public SELF hasPath(String expected) {
-    uris.assertHasPath(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> uris.assertHasPath(info, actual, expected));
   }
 
   /**
@@ -69,8 +68,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a path.
    */
   public SELF hasNoPath() {
-    uris.assertHasPath(info, actual, null);
-    return myself;
+    return executeAssertion(() -> uris.assertHasPath(info, actual, null));
   }
 
   /**
@@ -90,8 +88,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual port is not equal to the expected port.
    */
   public SELF hasPort(int expected) {
-    uris.assertHasPort(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> uris.assertHasPort(info, actual, expected));
   }
 
   /**
@@ -108,8 +105,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a port.
    */
   public SELF hasNoPort() {
-    uris.assertHasPort(info, actual, -1);
-    return myself;
+    return executeAssertion(() -> uris.assertHasPort(info, actual, -1));
   }
 
   /**
@@ -130,8 +126,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual host is not equal to the expected host.
    */
   public SELF hasHost(String expected) {
-    uris.assertHasHost(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> uris.assertHasHost(info, actual, expected));
   }
 
   /**
@@ -149,8 +144,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @since 3.22.0
    */
   public SELF hasNoHost() {
-    uris.assertHasNoHost(info, actual);
-    return myself;
+    return executeAssertion(() -> uris.assertHasNoHost(info, actual));
   }
 
   /**
@@ -170,8 +164,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual authority is not equal to the expected authority.
    */
   public SELF hasAuthority(String expected) {
-    uris.assertHasAuthority(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> uris.assertHasAuthority(info, actual, expected));
   }
 
   /**
@@ -190,8 +183,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual fragment is not equal to the expected fragment.
    */
   public SELF hasFragment(String expected) {
-    uris.assertHasFragment(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> uris.assertHasFragment(info, actual, expected));
   }
 
   /**
@@ -208,8 +200,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a fragment.
    */
   public SELF hasNoFragment() {
-    uris.assertHasFragment(info, actual, null);
-    return myself;
+    return executeAssertion(() -> uris.assertHasFragment(info, actual, null));
   }
 
   /**
@@ -228,8 +219,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual query is not equal to the expected query.
    */
   public SELF hasQuery(String expected) {
-    uris.assertHasQuery(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> uris.assertHasQuery(info, actual, expected));
   }
 
   /**
@@ -246,8 +236,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has a query.
    */
   public SELF hasNoQuery() {
-    uris.assertHasQuery(info, actual, null);
-    return myself;
+    return executeAssertion(() -> uris.assertHasQuery(info, actual, null));
   }
 
   /**
@@ -265,8 +254,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual scheme is not equal to the expected scheme.
    */
   public SELF hasScheme(String expected) {
-    uris.assertHasScheme(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> uris.assertHasScheme(info, actual, expected));
   }
 
   /**
@@ -287,8 +275,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if the actual userinfo is not equal to the expected userinfo.
    */
   public SELF hasUserInfo(String expected) {
-    uris.assertHasUserInfo(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> uris.assertHasUserInfo(info, actual, expected));
   }
 
   /**
@@ -305,8 +292,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws AssertionError if {@code actual} has some userinfo.
    */
   public SELF hasNoUserInfo() {
-    uris.assertHasUserInfo(info, actual, null);
-    return myself;
+    return executeAssertion(() -> uris.assertHasUserInfo(info, actual, null));
   }
 
   /**
@@ -331,8 +317,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasParameter(String name) {
-    uris.assertHasParameter(info, actual, name);
-    return myself;
+    return executeAssertion(() -> uris.assertHasParameter(info, actual, name));
   }
 
   /**
@@ -359,8 +344,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasParameter(String name, String value) {
-    uris.assertHasParameter(info, actual, name, value);
-    return myself;
+    return executeAssertion(() -> uris.assertHasParameter(info, actual, name, value));
   }
 
   /**
@@ -381,8 +365,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoParameters() {
-    uris.assertHasNoParameters(info, actual);
-    return myself;
+    return executeAssertion(() -> uris.assertHasNoParameters(info, actual));
   }
 
   /**
@@ -404,8 +387,7 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasNoParameter(String name) {
-    uris.assertHasNoParameter(info, actual, name);
-    return myself;
+    return executeAssertion(() -> uris.assertHasNoParameter(info, actual, name));
   }
 
   /**
@@ -431,7 +413,6 @@ public abstract class AbstractUriAssert<SELF extends AbstractUriAssert<SELF>> ex
    * @throws IllegalArgumentException if the query string contains an invalid escape sequence.
    */
   public SELF hasNoParameter(String name, String value) {
-    uris.assertHasNoParameter(info, actual, name, value);
-    return myself;
+    return executeAssertion(() -> uris.assertHasNoParameter(info, actual, name, value));
   }
 }

@@ -123,12 +123,13 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * @since 3.15.0
    */
   public SELF hasNanos(long otherNanos) {
-    isNotNull();
-    long actualNanos = actual.toNanos();
-    if (otherNanos != actualNanos) {
-      throw Failures.instance().failure(info, shouldHaveNanos(actual, actualNanos, otherNanos), actualNanos, otherNanos);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      long actualNanos = actual.toNanos();
+      if (otherNanos != actualNanos) {
+        throw Failures.instance().failure(info, shouldHaveNanos(actual, actualNanos, otherNanos), actualNanos, otherNanos);
+      }
+    });
   }
 
   /**
@@ -148,12 +149,13 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * @since 3.15.0
    */
   public SELF hasMillis(long otherMillis) {
-    isNotNull();
-    long actualMillis = actual.toMillis();
-    if (otherMillis != actualMillis) {
-      throw Failures.instance().failure(info, shouldHaveMillis(actual, actualMillis, otherMillis), actualMillis, otherMillis);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      long actualMillis = actual.toMillis();
+      if (otherMillis != actualMillis) {
+        throw Failures.instance().failure(info, shouldHaveMillis(actual, actualMillis, otherMillis), actualMillis, otherMillis);
+      }
+    });
   }
 
   /**
@@ -173,13 +175,14 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * @since 3.15.0
    */
   public SELF hasSeconds(long otherSeconds) {
-    isNotNull();
-    long actualSeconds = actual.getSeconds();
-    if (otherSeconds != actualSeconds) {
-      throw Failures.instance().failure(info, shouldHaveSeconds(actual, actualSeconds, otherSeconds),
-                                        actualSeconds, otherSeconds);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      long actualSeconds = actual.getSeconds();
+      if (otherSeconds != actualSeconds) {
+        throw Failures.instance().failure(info, shouldHaveSeconds(actual, actualSeconds, otherSeconds),
+                                          actualSeconds, otherSeconds);
+      }
+    });
   }
 
   /**
@@ -199,13 +202,14 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * @since 3.15.0
    */
   public SELF hasMinutes(long otherMinutes) {
-    isNotNull();
-    long actualMinutes = actual.toMinutes();
-    if (otherMinutes != actualMinutes) {
-      throw Failures.instance().failure(info, shouldHaveMinutes(actual, actualMinutes, otherMinutes),
-                                        actualMinutes, otherMinutes);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      long actualMinutes = actual.toMinutes();
+      if (otherMinutes != actualMinutes) {
+        throw Failures.instance().failure(info, shouldHaveMinutes(actual, actualMinutes, otherMinutes),
+                                          actualMinutes, otherMinutes);
+      }
+    });
   }
 
   /**
@@ -225,12 +229,13 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * @since 3.15.0
    */
   public SELF hasHours(long otherHours) {
-    isNotNull();
-    long actualHours = actual.toHours();
-    if (otherHours != actualHours) {
-      throw Failures.instance().failure(info, shouldHaveHours(actual, actualHours, otherHours), actualHours, otherHours);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      long actualHours = actual.toHours();
+      if (otherHours != actualHours) {
+        throw Failures.instance().failure(info, shouldHaveHours(actual, actualHours, otherHours), actualHours, otherHours);
+      }
+    });
   }
 
   /**
@@ -250,12 +255,13 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * @since 3.15.0
    */
   public SELF hasDays(long otherDays) {
-    isNotNull();
-    long actualDays = actual.toDays();
-    if (otherDays != actualDays) {
-      throw Failures.instance().failure(info, shouldHaveDays(actual, actualDays, otherDays), actualDays, otherDays);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      long actualDays = actual.toDays();
+      if (otherDays != actualDays) {
+        throw Failures.instance().failure(info, shouldHaveDays(actual, actualDays, otherDays), actualDays, otherDays);
+      }
+    });
   }
 
   /**
@@ -292,14 +298,15 @@ public abstract class AbstractDurationAssert<SELF extends AbstractDurationAssert
    * @since 3.18.0
    */
   public SELF isCloseTo(Duration expected, Duration allowedDifference) {
-    Objects.instance().assertNotNull(info, actual);
-    checkArgument(expected != null, "expected duration should not be null");
-    checkArgument(allowedDifference != null, "allowed difference duration should not be null");
-    checkArgument(!allowedDifference.isNegative(), "allowed difference duration should be >= 0");
-    if (absDiff(actual, expected).compareTo(allowedDifference) > 0) {
-      throw Failures.instance().failure(info, shouldBeCloseTo(actual, expected, allowedDifference, absDiff(actual, expected)));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      checkArgument(expected != null, "expected duration should not be null");
+      checkArgument(allowedDifference != null, "allowed difference duration should not be null");
+      checkArgument(!allowedDifference.isNegative(), "allowed difference duration should be >= 0");
+      if (absDiff(actual, expected).compareTo(allowedDifference) > 0) {
+        throw Failures.instance().failure(info, shouldBeCloseTo(actual, expected, allowedDifference, absDiff(actual, expected)));
+      }
+    });
   }
 
   /**

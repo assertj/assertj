@@ -52,9 +52,10 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
    * @throws AssertionError if actual is null.
    */
   public SELF isPresent() {
-    isNotNull();
-    if (actual.isEmpty()) throwAssertionError(shouldBePresent(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isEmpty()) throwAssertionError(shouldBePresent(actual));
+    });
   }
 
   /**
@@ -86,9 +87,10 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
    * @throws AssertionError if actual is null.
    */
   public SELF isEmpty() {
-    isNotNull();
-    if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
+    });
   }
 
   /**
@@ -126,10 +128,11 @@ public abstract class AbstractOptionalLongAssert<SELF extends AbstractOptionalLo
    * @throws AssertionError if actual has not the value as expected.
    */
   public SELF hasValue(long expectedValue) {
-    isNotNull();
-    if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
-    if (expectedValue != actual.getAsLong())
-      throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsLong(), expectedValue);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isEmpty()) throwAssertionError(shouldContain(expectedValue));
+      if (expectedValue != actual.getAsLong())
+        throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsLong(), expectedValue);
+    });
   }
 }

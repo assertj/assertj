@@ -117,8 +117,10 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public void isNullOrEmpty() {
-    if (actual == null) return;
-    isEmpty();
+    executeAssertion(() -> {
+      if (actual == null) return;
+      isEmpty();
+    });
   }
 
   /**
@@ -136,7 +138,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public void isEmpty() {
-    arrays.assertEmpty(info, array);
+    executeAssertion(() -> arrays.assertEmpty(info, array));
   }
 
   /**
@@ -155,8 +157,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> isNotEmpty() {
-    arrays.assertNotEmpty(info, array);
-    return myself;
+    return executeAssertion(() -> arrays.assertNotEmpty(info, array));
   }
 
   /**
@@ -177,8 +178,7 @@ public class AtomicReferenceArrayAssert<T>
    * @since 2.7.0 / 3.7.0
    */
   public AtomicReferenceArrayAssert<T> hasArray(T[] expected) {
-    arrays.assertContainsExactly(info, array, expected);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, array, expected));
   }
 
   /**
@@ -199,8 +199,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasSize(int expected) {
-    arrays.assertHasSize(info, array, expected);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSize(info, array, expected));
   }
 
   /**
@@ -222,8 +221,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasSizeGreaterThan(int boundary) {
-    arrays.assertHasSizeGreaterThan(info, array, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThan(info, array, boundary));
   }
 
   /**
@@ -245,8 +243,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasSizeGreaterThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeGreaterThanOrEqualTo(info, array, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThanOrEqualTo(info, array, boundary));
   }
 
   /**
@@ -268,8 +265,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasSizeLessThan(int boundary) {
-    arrays.assertHasSizeLessThan(info, array, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThan(info, array, boundary));
   }
 
   /**
@@ -291,8 +287,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasSizeLessThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeLessThanOrEqualTo(info, array, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThanOrEqualTo(info, array, boundary));
   }
 
   /**
@@ -315,8 +310,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    arrays.assertHasSizeBetween(info, array, lowerBoundary, higherBoundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeBetween(info, array, lowerBoundary, higherBoundary));
   }
 
   /**
@@ -344,8 +338,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasSameSizeAs(Object other) {
-    arrays.assertHasSameSizeAs(info, array, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, array, other));
   }
 
   /**
@@ -370,8 +363,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasSameSizeAs(Iterable<?> other) {
-    arrays.assertHasSameSizeAs(info, array, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, array, other));
   }
 
   /**
@@ -406,8 +398,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> containsForProxy(T[] values) {
-    arrays.assertContains(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, array, values));
   }
 
   /**
@@ -444,8 +435,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> containsOnlyForProxy(T[] values) {
-    arrays.assertContainsOnly(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, array, values));
   }
 
   /**
@@ -471,8 +461,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> containsOnlyNulls() {
-    arrays.assertContainsOnlyNulls(info, array);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyNulls(info, array));
   }
 
   /**
@@ -537,8 +526,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> containsOnlyOnceForProxy(T[] values) {
-    arrays.assertContainsOnlyOnce(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, array, values));
   }
 
   /**
@@ -580,8 +568,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> containsExactlyForProxy(T[] values) {
-    arrays.assertContainsExactly(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, array, values));
   }
 
   /**
@@ -614,8 +601,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> containsExactlyInAnyOrderForProxy(T[] values) {
-    arrays.assertContainsExactlyInAnyOrder(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, array, values));
   }
 
   /**
@@ -699,8 +685,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> containsSequenceForProxy(T[] sequence) {
-    arrays.assertContainsSequence(info, array, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, array, sequence));
   }
 
   /**
@@ -727,9 +712,10 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> containsSequence(Iterable<? extends T> sequence) {
-    checkSequenceIsNotNull(sequence);
-    arrays.assertContainsSequence(info, array, toArray(sequence));
-    return myself;
+    return executeAssertion(() -> {
+      checkSequenceIsNotNull(sequence);
+      arrays.assertContainsSequence(info, array, toArray(sequence));
+    });
   }
 
   /**
@@ -764,8 +750,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> doesNotContainSequenceForProxy(T[] sequence) {
-    arrays.assertDoesNotContainSequence(info, array, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainSequence(info, array, sequence));
   }
 
   /**
@@ -792,9 +777,10 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> doesNotContainSequence(Iterable<? extends T> sequence) {
-    checkSequenceIsNotNull(sequence);
-    arrays.assertDoesNotContainSequence(info, array, toArray(sequence));
-    return myself;
+    return executeAssertion(() -> {
+      checkSequenceIsNotNull(sequence);
+      arrays.assertDoesNotContainSequence(info, array, toArray(sequence));
+    });
   }
 
   /**
@@ -826,8 +812,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> containsSubsequenceForProxy(T[] subsequence) {
-    arrays.assertContainsSubsequence(info, array, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, array, subsequence));
   }
 
   /**
@@ -851,9 +836,10 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> containsSubsequence(Iterable<? extends T> subsequence) {
-    checkSubsequenceIsNotNull(subsequence);
-    arrays.assertContainsSubsequence(info, array, toArray(subsequence));
-    return myself;
+    return executeAssertion(() -> {
+      checkSubsequenceIsNotNull(subsequence);
+      arrays.assertContainsSubsequence(info, array, toArray(subsequence));
+    });
   }
 
   /**
@@ -886,8 +872,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> doesNotContainSubsequenceForProxy(T[] subsequence) {
-    arrays.assertDoesNotContainSubsequence(info, array, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainSubsequence(info, array, subsequence));
   }
 
   /**
@@ -912,9 +897,10 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> doesNotContainSubsequence(Iterable<? extends T> subsequence) {
-    checkSubsequenceIsNotNull(subsequence);
-    arrays.assertDoesNotContainSubsequence(info, array, toArray(subsequence));
-    return myself;
+    return executeAssertion(() -> {
+      checkSubsequenceIsNotNull(subsequence);
+      arrays.assertDoesNotContainSubsequence(info, array, toArray(subsequence));
+    });
   }
 
   /**
@@ -944,8 +930,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> contains(T value, Index index) {
-    arrays.assertContains(info, array, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, array, value, index));
   }
 
   /**
@@ -972,8 +957,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasOnlyElementsOfTypes(Class<?>... types) {
-    arrays.assertHasOnlyElementsOfTypes(info, array, types);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasOnlyElementsOfTypes(info, array, types));
   }
 
   /**
@@ -1003,8 +987,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasExactlyElementsOfTypes(Class<?>... expectedTypes) {
-    arrays.assertHasExactlyElementsOfTypes(info, array, expectedTypes);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasExactlyElementsOfTypes(info, array, expectedTypes));
   }
 
   /**
@@ -1032,8 +1015,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> doesNotContain(T value, Index index) {
-    arrays.assertDoesNotContain(info, array, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, array, value, index));
   }
 
   /**
@@ -1067,8 +1049,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> doesNotContainForProxy(T[] values) {
-    arrays.assertDoesNotContain(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, array, values));
   }
 
   /**
@@ -1093,8 +1074,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> doesNotContainAnyElementsOf(Iterable<? extends T> iterable) {
-    arrays.assertDoesNotContainAnyElementsOf(info, array, iterable);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainAnyElementsOf(info, array, iterable));
   }
 
   /**
@@ -1116,8 +1096,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> doesNotHaveDuplicates() {
-    arrays.assertDoesNotHaveDuplicates(info, array);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveDuplicates(info, array));
   }
 
   /**
@@ -1151,8 +1130,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> startsWithForProxy(T[] sequence) {
-    arrays.assertStartsWith(info, array, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, array, sequence));
   }
 
   /**
@@ -1186,8 +1164,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> endsWithForProxy(T first, T[] sequence) {
-    arrays.assertEndsWith(info, array, first, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, array, first, sequence));
   }
 
   /**
@@ -1213,8 +1190,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> endsWith(T[] sequence) {
-    arrays.assertEndsWith(info, array, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, array, sequence));
   }
 
   /**
@@ -1238,8 +1214,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> isSubsetOf(Iterable<? extends T> values) {
-    arrays.assertIsSubsetOf(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSubsetOf(info, array, values));
   }
 
   /**
@@ -1271,8 +1246,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> isSubsetOfForProxy(T[] values) {
-    arrays.assertIsSubsetOf(info, array, Arrays.asList(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSubsetOf(info, array, Arrays.asList(values)));
   }
 
   /**
@@ -1294,8 +1268,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> containsNull() {
-    arrays.assertContainsNull(info, array);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsNull(info, array));
   }
 
   /**
@@ -1317,8 +1290,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> doesNotContainNull() {
-    arrays.assertDoesNotContainNull(info, array);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContainNull(info, array));
   }
 
   /**
@@ -1345,8 +1317,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> are(Condition<? super T> condition) {
-    arrays.assertAre(info, array, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAre(info, array, condition));
   }
 
   /**
@@ -1373,8 +1344,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> areNot(Condition<? super T> condition) {
-    arrays.assertAreNot(info, array, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreNot(info, array, condition));
   }
 
   /**
@@ -1401,8 +1371,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> have(Condition<? super T> condition) {
-    arrays.assertHave(info, array, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHave(info, array, condition));
   }
 
   /**
@@ -1429,8 +1398,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> doNotHave(Condition<? super T> condition) {
-    arrays.assertDoNotHave(info, array, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoNotHave(info, array, condition));
   }
 
   /**
@@ -1456,8 +1424,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> areAtLeast(int times, Condition<? super T> condition) {
-    arrays.assertAreAtLeast(info, array, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreAtLeast(info, array, times, condition));
   }
 
   /**
@@ -1503,8 +1470,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> areAtMost(int times, Condition<? super T> condition) {
-    arrays.assertAreAtMost(info, array, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreAtMost(info, array, times, condition));
   }
 
   /**
@@ -1531,8 +1497,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> areExactly(int times, Condition<? super T> condition) {
-    arrays.assertAreExactly(info, array, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertAreExactly(info, array, times, condition));
   }
 
   /**
@@ -1571,8 +1536,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> haveAtLeast(int times, Condition<? super T> condition) {
-    arrays.assertHaveAtLeast(info, array, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHaveAtLeast(info, array, times, condition));
   }
 
   /**
@@ -1594,8 +1558,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> haveAtMost(int times, Condition<? super T> condition) {
-    arrays.assertHaveAtMost(info, array, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHaveAtMost(info, array, times, condition));
   }
 
   /**
@@ -1617,8 +1580,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> haveExactly(int times, Condition<? super T> condition) {
-    arrays.assertHaveExactly(info, array, times, condition);
-    return myself;
+    return executeAssertion(() -> arrays.assertHaveExactly(info, array, times, condition));
   }
 
   /**
@@ -1641,8 +1603,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasAtLeastOneElementOfType(Class<?> expectedType) {
-    arrays.assertHasAtLeastOneElementOfType(info, array, expectedType);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasAtLeastOneElementOfType(info, array, expectedType));
   }
 
   /**
@@ -1665,8 +1626,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> hasOnlyElementsOfType(Class<?> expectedType) {
-    arrays.assertHasOnlyElementsOfType(info, array, expectedType);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasOnlyElementsOfType(info, array, expectedType));
   }
 
   /**
@@ -1689,22 +1649,19 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> doesNotHaveAnyElementsOfTypes(Class<?>... unexpectedTypes) {
-    arrays.assertDoesNotHaveAnyElementsOfTypes(info, array, unexpectedTypes);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveAnyElementsOfTypes(info, array, unexpectedTypes));
   }
 
   /** {@inheritDoc} */
   @Override
   public AtomicReferenceArrayAssert<T> isSorted() {
-    arrays.assertIsSorted(info, array);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSorted(info, array));
   }
 
   /** {@inheritDoc} */
   @Override
   public AtomicReferenceArrayAssert<T> isSortedAccordingTo(Comparator<? super T> comparator) {
-    arrays.assertIsSortedAccordingToComparator(info, array, comparator);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSortedAccordingToComparator(info, array, comparator));
   }
 
   /**
@@ -1728,8 +1685,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> containsAll(Iterable<? extends T> iterable) {
-    arrays.assertContainsAll(info, array, iterable);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAll(info, array, iterable));
   }
 
   /**
@@ -2749,7 +2705,9 @@ public class AtomicReferenceArrayAssert<T>
     checkNotNull(filterOperator);
     Filters<? extends T> filter = filter(array).with(propertyOrFieldName);
     filterOperator.applyOn(filter);
-    return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filter.get())));
+    AtomicReferenceArrayAssert<T> result = new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filter.get())));
+    result.withAssertionState(this);
+    return result;
   }
 
   /**
@@ -2788,7 +2746,9 @@ public class AtomicReferenceArrayAssert<T>
   @CheckReturnValue
   public AtomicReferenceArrayAssert<T> filteredOn(Condition<? super T> condition) {
     Iterable<? extends T> filteredIterable = filter(array).being(condition).get();
-    return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredIterable)));
+    AtomicReferenceArrayAssert<T> result = new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredIterable)));
+    result.withAssertionState(this);
+    return result;
   }
 
   /**
@@ -2874,8 +2834,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> allMatch(Predicate<? super T> predicate) {
-    iterables.assertAllMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN);
-    return myself;
+    return executeAssertion(() -> iterables.assertAllMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN));
   }
 
   /**
@@ -2909,8 +2868,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> allMatch(Predicate<? super T> predicate, String predicateDescription) {
-    iterables.assertAllMatch(info, newArrayList(array), predicate, new PredicateDescription(predicateDescription));
-    return myself;
+    return executeAssertion(() -> iterables.assertAllMatch(info, newArrayList(array), predicate,
+                                                           new PredicateDescription(predicateDescription)));
   }
 
   /**
@@ -3003,8 +2962,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> anyMatch(Predicate<? super T> predicate) {
-    iterables.assertAnyMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN);
-    return myself;
+    return executeAssertion(() -> iterables.assertAnyMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN));
   }
 
   /**
@@ -3034,8 +2992,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> anyMatch(Predicate<? super T> predicate, String predicateDescription) {
-    iterables.assertAnyMatch(info, newArrayList(array), predicate, new PredicateDescription(predicateDescription));
-    return myself;
+    return executeAssertion(() -> iterables.assertAnyMatch(info, newArrayList(array), predicate,
+                                                           new PredicateDescription(predicateDescription)));
   }
 
   /**
@@ -3265,8 +3223,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> satisfiesExactlyForProxy(Consumer<? super T>[] requirements) {
-    iterables.assertSatisfiesExactly(info, newArrayList(array), requirements);
-    return myself;
+    return executeAssertion(() -> iterables.assertSatisfiesExactly(info, newArrayList(array), requirements));
   }
 
   /**
@@ -3387,8 +3344,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> satisfiesExactlyInAnyOrderForProxy(Consumer<? super T>[] requirements) {
-    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), requirements);
-    return myself;
+    return executeAssertion(() -> iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(array), requirements));
   }
 
   /**
@@ -3452,8 +3408,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> satisfiesOnlyOnceForProxy(Consumer<? super T> requirements) {
-    iterables.assertSatisfiesOnlyOnce(info, newArrayList(array), requirements);
-    return myself;
+    return executeAssertion(() -> iterables.assertSatisfiesOnlyOnce(info, newArrayList(array), requirements));
   }
 
   /**
@@ -3491,8 +3446,7 @@ public class AtomicReferenceArrayAssert<T>
   // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
   // in order to avoid compiler warning in user code
   protected AtomicReferenceArrayAssert<T> containsAnyOfForProxy(T[] values) {
-    arrays.assertContainsAnyOf(info, array, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, array, values));
   }
 
   /**
@@ -3549,8 +3503,7 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> noneMatch(Predicate<? super T> predicate) {
-    iterables.assertNoneMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN);
-    return myself;
+    return executeAssertion(() -> iterables.assertNoneMatch(info, newArrayList(array), predicate, PredicateDescription.GIVEN));
   }
 
   /**
@@ -3581,8 +3534,8 @@ public class AtomicReferenceArrayAssert<T>
    */
   @Override
   public AtomicReferenceArrayAssert<T> noneMatch(Predicate<? super T> predicate, String predicateDescription) {
-    iterables.assertNoneMatch(info, newArrayList(array), predicate, new PredicateDescription(predicateDescription));
-    return myself;
+    return executeAssertion(() -> iterables.assertNoneMatch(info, newArrayList(array), predicate,
+                                                            new PredicateDescription(predicateDescription)));
   }
 
   // lazy init TypeComparators
@@ -3599,13 +3552,17 @@ public class AtomicReferenceArrayAssert<T>
 
   private AtomicReferenceArrayAssert<T> internalFilteredOn(String propertyOrFieldName, Object expectedValue) {
     Iterable<? extends T> filteredIterable = filter(array).with(propertyOrFieldName, expectedValue).get();
-    return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredIterable)));
+    AtomicReferenceArrayAssert<T> result = new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredIterable)));
+    result.withAssertionState(this);
+    return result;
   }
 
   private AtomicReferenceArrayAssert<T> internalFilteredOn(Predicate<? super T> predicate) {
     checkArgument(predicate != null, "The filter predicate should not be null");
     List<T> filteredList = stream(array).filter(predicate).collect(toList());
-    return new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredList)));
+    AtomicReferenceArrayAssert<T> result = new AtomicReferenceArrayAssert<>(new AtomicReferenceArray<>(toArray(filteredList)));
+    result.withAssertionState(this);
+    return result;
   }
 
 }

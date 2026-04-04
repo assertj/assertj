@@ -37,20 +37,19 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
   /** {@inheritDoc} */
   @Override
   public void isNullOrEmpty() {
-    arrays.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> arrays.assertNullOrEmpty(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public void isEmpty() {
-    arrays.assertEmpty(info, actual);
+    executeAssertion(() -> arrays.assertEmpty(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotEmpty() {
-    arrays.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertNotEmpty(info, actual));
   }
 
   /**
@@ -66,8 +65,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   @Override
   public SELF hasSize(int expected) {
-    arrays.assertHasSize(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSize(info, actual, expected));
   }
 
   /**
@@ -87,8 +85,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   @Override
   public SELF hasSizeGreaterThan(int boundary) {
-    arrays.assertHasSizeGreaterThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThan(info, actual, boundary));
   }
 
   /**
@@ -109,8 +106,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   @Override
   public SELF hasSizeGreaterThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeGreaterThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -130,8 +126,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   @Override
   public SELF hasSizeLessThan(int boundary) {
-    arrays.assertHasSizeLessThan(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThan(info, actual, boundary));
   }
 
   /**
@@ -152,8 +147,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   @Override
   public SELF hasSizeLessThanOrEqualTo(int boundary) {
-    arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeLessThanOrEqualTo(info, actual, boundary));
   }
 
   /**
@@ -175,8 +169,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   @Override
   public SELF hasSizeBetween(int lowerBoundary, int higherBoundary) {
-    arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSizeBetween(info, actual, lowerBoundary, higherBoundary));
   }
 
   /**
@@ -191,8 +184,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   @Override
   public SELF hasSameSizeAs(Iterable<?> other) {
-    arrays.assertHasSameSizeAs(info, actual, other);
-    return myself;
+    return executeAssertion(() -> arrays.assertHasSameSizeAs(info, actual, other));
   }
 
   /**
@@ -223,8 +215,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @throws AssertionError if the actual array does not contain the given values.
    */
   public SELF contains(double... values) {
-    arrays.assertContains(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, values));
   }
 
   /**
@@ -250,8 +241,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   public SELF contains(Double[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContains(info, actual, toPrimitiveDoubleArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, toPrimitiveDoubleArray(values)));
   }
 
   /**
@@ -338,8 +328,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    *           or none of the given values, or the actual array contains more values than the given ones.
    */
   public SELF containsOnly(double... values) {
-    arrays.assertContainsOnly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, values));
   }
 
   /**
@@ -366,8 +355,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   public SELF containsOnly(Double[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsOnly(info, actual, toPrimitiveDoubleArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnly(info, actual, toPrimitiveDoubleArray(values)));
   }
 
   /**
@@ -455,8 +443,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    *           or none of the given values, or the actual group contains more than once these values.
    */
   public SELF containsOnlyOnce(double... values) {
-    arrays.assertContainsOnlyOnce(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, values));
   }
 
   /**
@@ -482,8 +469,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   public SELF containsOnlyOnce(Double[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsOnlyOnce(info, actual, toPrimitiveDoubleArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, toPrimitiveDoubleArray(values)));
   }
 
   /**
@@ -569,8 +555,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @throws AssertionError if the actual array does not contain the given sequence.
    */
   public SELF containsSequence(double... sequence) {
-    arrays.assertContainsSequence(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, sequence));
   }
 
   /**
@@ -594,8 +579,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   public SELF containsSequence(Double[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertContainsSequence(info, actual, toPrimitiveDoubleArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSequence(info, actual, toPrimitiveDoubleArray(sequence)));
   }
 
   /**
@@ -685,8 +669,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @throws AssertionError if the actual array does not contain the given subsequence.
    */
   public SELF containsSubsequence(double... subsequence) {
-    arrays.assertContainsSubsequence(info, actual, subsequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
   }
 
   /**
@@ -710,8 +693,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   public SELF containsSubsequence(Double[] subsequence) {
     requireNonNullParameter(subsequence, "subsequence");
-    arrays.assertContainsSubsequence(info, actual, toPrimitiveDoubleArray(subsequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, toPrimitiveDoubleArray(subsequence)));
   }
 
   /**
@@ -802,8 +784,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public SELF contains(double value, Index index) {
-    arrays.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertContains(info, actual, value, index));
   }
 
   /**
@@ -862,8 +843,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @throws AssertionError if the actual array contains any of the given values.
    */
   public SELF doesNotContain(double... values) {
-    arrays.assertDoesNotContain(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, values));
   }
 
   /**
@@ -886,8 +866,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   public SELF doesNotContain(Double[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertDoesNotContain(info, actual, toPrimitiveDoubleArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, toPrimitiveDoubleArray(values)));
   }
 
   /**
@@ -969,8 +948,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
   public SELF doesNotContain(double value, Index index) {
-    arrays.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, value, index));
   }
 
   /**
@@ -1021,8 +999,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @throws AssertionError if the actual array contains duplicates.
    */
   public SELF doesNotHaveDuplicates() {
-    arrays.assertDoesNotHaveDuplicates(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertDoesNotHaveDuplicates(info, actual));
   }
 
   /**
@@ -1073,8 +1050,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @throws AssertionError if the actual array does not start with the given sequence.
    */
   public SELF startsWith(double... sequence) {
-    arrays.assertStartsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, sequence));
   }
 
   /**
@@ -1099,8 +1075,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   public SELF startsWith(Double[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertStartsWith(info, actual, toPrimitiveDoubleArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertStartsWith(info, actual, toPrimitiveDoubleArray(sequence)));
   }
 
   /**
@@ -1188,8 +1163,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @throws AssertionError if the actual array does not end with the given sequence.
    */
   public SELF endsWith(double... sequence) {
-    arrays.assertEndsWith(info, actual, sequence);
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, sequence));
   }
 
   /**
@@ -1213,8 +1187,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   public SELF endsWith(Double[] sequence) {
     requireNonNullParameter(sequence, "sequence");
-    arrays.assertEndsWith(info, actual, toPrimitiveDoubleArray(sequence));
-    return myself;
+    return executeAssertion(() -> arrays.assertEndsWith(info, actual, toPrimitiveDoubleArray(sequence)));
   }
 
   /**
@@ -1277,15 +1250,13 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
   /** {@inheritDoc} */
   @Override
   public SELF isSorted() {
-    arrays.assertIsSorted(info, actual);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSorted(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isSortedAccordingTo(Comparator<? super Double> comparator) {
-    arrays.assertIsSortedAccordingToComparator(info, actual, comparator);
-    return myself;
+    return executeAssertion(() -> arrays.assertIsSortedAccordingToComparator(info, actual, comparator));
   }
 
   /** {@inheritDoc} */
@@ -1332,8 +1303,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    *           or values are the same but the order is not.
    */
   public SELF containsExactly(double... values) {
-    arrays.assertContainsExactly(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, values));
   }
 
   /**
@@ -1358,8 +1328,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   public SELF containsExactly(Double[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsExactly(info, actual, toPrimitiveDoubleArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactly(info, actual, toPrimitiveDoubleArray(values)));
   }
 
   /**
@@ -1385,8 +1354,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @since 2.6.0 / 3.6.0
    */
   public SELF containsExactlyInAnyOrder(double... values) {
-    arrays.assertContainsExactlyInAnyOrder(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, values));
   }
 
   /**
@@ -1413,8 +1381,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   public SELF containsExactlyInAnyOrder(Double[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveDoubleArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, toPrimitiveDoubleArray(values)));
   }
 
   /**
@@ -1516,8 +1483,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    * @since 2.9.0 / 3.9.0
    */
   public SELF containsAnyOf(double... values) {
-    arrays.assertContainsAnyOf(info, actual, values);
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, values));
   }
 
   /**
@@ -1544,8 +1510,7 @@ public abstract class AbstractDoubleArrayAssert<SELF extends AbstractDoubleArray
    */
   public SELF containsAnyOf(Double[] values) {
     requireNonNullParameter(values, "values");
-    arrays.assertContainsAnyOf(info, actual, toPrimitiveDoubleArray(values));
-    return myself;
+    return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, toPrimitiveDoubleArray(values)));
   }
 
   private static double[] toPrimitiveDoubleArray(Double[] values) {

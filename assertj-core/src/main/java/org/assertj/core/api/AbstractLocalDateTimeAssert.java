@@ -82,8 +82,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    */
   public SELF isBefore(LocalDateTime other) {
     assertLocalDateTimeParameterIsNotNull(other);
-    comparables.assertIsBefore(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBefore(info, actual, other));
   }
 
   /**
@@ -128,8 +127,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    */
   public SELF isBeforeOrEqualTo(LocalDateTime other) {
     assertLocalDateTimeParameterIsNotNull(other);
-    comparables.assertIsBeforeOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBeforeOrEqualTo(info, actual, other));
   }
 
   /**
@@ -175,8 +173,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    */
   public SELF isAfterOrEqualTo(LocalDateTime other) {
     assertLocalDateTimeParameterIsNotNull(other);
-    comparables.assertIsAfterOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsAfterOrEqualTo(info, actual, other));
   }
 
   /**
@@ -221,8 +218,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    */
   public SELF isAfter(LocalDateTime other) {
     assertLocalDateTimeParameterIsNotNull(other);
-    comparables.assertIsAfter(info, actual, other);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsAfter(info, actual, other));
   }
 
   /**
@@ -266,12 +262,13 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    */
   @Override
   public SELF isEqualTo(Object other) {
-    if (actual == null || other == null) {
-      super.isEqualTo(other);
-    } else {
-      comparables.assertEqual(info, actual, other);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      if (actual == null || other == null) {
+        super.isEqualTo(other);
+      } else {
+        comparables.assertEqual(info, actual, other);
+      }
+    });
   }
 
   /**
@@ -315,12 +312,13 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    */
   @Override
   public SELF isNotEqualTo(Object other) {
-    if (actual == null || other == null) {
-      super.isNotEqualTo(other);
-    } else {
-      comparables.assertNotEqual(info, actual, other);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      if (actual == null || other == null) {
+        super.isNotEqualTo(other);
+      } else {
+        comparables.assertNotEqual(info, actual, other);
+      }
+    });
   }
 
   /**
@@ -478,9 +476,10 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @since 3.25.0
    */
   public SELF isInThePast() {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.isBefore(LocalDateTime.now())) throw Failures.instance().failure(info, shouldBeInThePast(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.isBefore(LocalDateTime.now())) throw Failures.instance().failure(info, shouldBeInThePast(actual));
+    });
   }
 
   /**
@@ -496,9 +495,10 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @since 3.25.0
    */
   public SELF isInTheFuture() {
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.isAfter(LocalDateTime.now())) throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.isAfter(LocalDateTime.now())) throw Failures.instance().failure(info, shouldBeInTheFuture(actual));
+    });
   }
 
   /**
@@ -531,8 +531,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @since 3.7.1
    */
   public SELF isBetween(LocalDateTime startInclusive, LocalDateTime endInclusive) {
-    comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startInclusive, endInclusive, true, true));
   }
 
   /**
@@ -595,8 +594,7 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @since 3.7.1
    */
   public SELF isStrictlyBetween(LocalDateTime startExclusive, LocalDateTime endExclusive) {
-    comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false);
-    return myself;
+    return executeAssertion(() -> comparables.assertIsBetween(info, actual, startExclusive, endExclusive, false, false));
   }
 
   /**
@@ -646,11 +644,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @since 3.23.0
    */
   public SELF hasYear(int year) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getYear() != year) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual, "year", year));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getYear() != year) {
+        throw Failures.instance().failure(info, shouldHaveDateField(actual, "year", year));
+      }
+    });
   }
 
   /**
@@ -672,11 +671,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    */
   public SELF hasMonth(Month month) {
     checkArgument(month != null, "The given Month should not be null");
-    Objects.instance().assertNotNull(info, actual);
-    if (!actual.getMonth().equals(month)) {
-      throw Failures.instance().failure(info, shouldHaveMonth(actual, month));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (!actual.getMonth().equals(month)) {
+        throw Failures.instance().failure(info, shouldHaveMonth(actual, month));
+      }
+    });
   }
 
   /**
@@ -696,11 +696,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @since 3.23.0
    */
   public SELF hasMonthValue(int monthVal) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getMonthValue() != monthVal) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual, "month", monthVal));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getMonthValue() != monthVal) {
+        throw Failures.instance().failure(info, shouldHaveDateField(actual, "month", monthVal));
+      }
+    });
   }
 
   /**
@@ -720,11 +721,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @since 3.23.0
    */
   public SELF hasDayOfMonth(int dayOfMonth) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getDayOfMonth() != dayOfMonth) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual, "day of month", dayOfMonth));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getDayOfMonth() != dayOfMonth) {
+        throw Failures.instance().failure(info, shouldHaveDateField(actual, "day of month", dayOfMonth));
+      }
+    });
   }
 
   /**
@@ -744,11 +746,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @since 3.23.0
    */
   public SELF hasHour(int hour) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getHour() != hour) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual, "hour", hour));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getHour() != hour) {
+        throw Failures.instance().failure(info, shouldHaveDateField(actual, "hour", hour));
+      }
+    });
   }
 
   /**
@@ -768,11 +771,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @since 3.23.0
    */
   public SELF hasMinute(int minute) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getMinute() != minute) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual, "minute", minute));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getMinute() != minute) {
+        throw Failures.instance().failure(info, shouldHaveDateField(actual, "minute", minute));
+      }
+    });
   }
 
   /**
@@ -792,11 +796,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @since 3.23.0
    */
   public SELF hasSecond(int second) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getSecond() != second) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual, "second", second));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getSecond() != second) {
+        throw Failures.instance().failure(info, shouldHaveDateField(actual, "second", second));
+      }
+    });
   }
 
   /**
@@ -816,11 +821,12 @@ public abstract class AbstractLocalDateTimeAssert<SELF extends AbstractLocalDate
    * @since 3.23.0
    */
   public SELF hasNano(int nano) {
-    Objects.instance().assertNotNull(info, actual);
-    if (actual.getNano() != nano) {
-      throw Failures.instance().failure(info, shouldHaveDateField(actual, "nanosecond", nano));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      Objects.instance().assertNotNull(info, actual);
+      if (actual.getNano() != nano) {
+        throw Failures.instance().failure(info, shouldHaveDateField(actual, "nanosecond", nano));
+      }
+    });
   }
 
   /**

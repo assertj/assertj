@@ -61,9 +61,10 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
    * @throws java.lang.AssertionError if actual is null.
    */
   public SELF isPresent() {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.isPresent()) throwAssertionError(shouldBePresent(actual));
+    });
   }
 
   /**
@@ -95,9 +96,10 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
    * @throws java.lang.AssertionError if actual is null.
    */
   public SELF isEmpty() {
-    isNotNull();
-    if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (actual.isPresent()) throwAssertionError(shouldBeEmpty(actual));
+    });
   }
 
   /**
@@ -139,11 +141,12 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
    * @throws java.lang.AssertionError if actual does not have the expected value.
    */
   public SELF hasValue(double expectedValue) {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
-    if (Double.compare(expectedValue, actual.getAsDouble()) != 0)
-      throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsDouble(), expectedValue);
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.isPresent()) throwAssertionError(shouldContain(expectedValue));
+      if (Double.compare(expectedValue, actual.getAsDouble()) != 0)
+        throw Failures.instance().failure(info, shouldContain(actual, expectedValue), actual.getAsDouble(), expectedValue);
+    });
   }
 
   /**
@@ -170,15 +173,17 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
    * @throws java.lang.IllegalArgumentException if offset is not positive.
    */
   public SELF hasValueCloseTo(Double expectedValue, Offset<Double> offset) {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseToOffset(expectedValue));
-    // Reuses doubles functionality, catches potential assertion error and throw correct one
-    try {
-      doubles.assertIsCloseTo(info, actual.getAsDouble(), expectedValue, offset);
-    } catch (AssertionError assertionError) {
-      throwAssertionError(shouldHaveValueCloseToOffset(actual, expectedValue, offset, abs(expectedValue - actual.getAsDouble())));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseToOffset(expectedValue));
+      // Reuses doubles functionality, catches potential assertion error and throw correct one
+      try {
+        doubles.assertIsCloseTo(info, actual.getAsDouble(), expectedValue, offset);
+      } catch (AssertionError assertionError) {
+        throwAssertionError(shouldHaveValueCloseToOffset(actual, expectedValue, offset,
+                                                         abs(expectedValue - actual.getAsDouble())));
+      }
+    });
   }
 
   /**
@@ -205,13 +210,14 @@ public abstract class AbstractOptionalDoubleAssert<SELF extends AbstractOptional
    */
   @SuppressWarnings("OptionalGetWithoutIsPresent")
   public SELF hasValueCloseTo(Double expectedValue, Percentage percentage) {
-    isNotNull();
-    if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseToPercentage(expectedValue));
-    try {
-      doubles.assertIsCloseToPercentage(info, actual.getAsDouble(), expectedValue, percentage);
-    } catch (AssertionError assertionError) {
-      throwAssertionError(shouldHaveValueCloseToPercentage(actual, expectedValue, percentage));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.isPresent()) throwAssertionError(shouldHaveValueCloseToPercentage(expectedValue));
+      try {
+        doubles.assertIsCloseToPercentage(info, actual.getAsDouble(), expectedValue, percentage);
+      } catch (AssertionError assertionError) {
+        throwAssertionError(shouldHaveValueCloseToPercentage(actual, expectedValue, percentage));
+      }
+    });
   }
 }

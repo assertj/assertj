@@ -103,8 +103,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoNullFieldsOrProperties() {
-    objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual);
-    return myself;
+    return executeAssertion(() -> objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual));
   }
 
   /**
@@ -132,8 +131,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @since 3.12.0
    */
   public SELF hasAllNullFieldsOrProperties() {
-    objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual);
-    return myself;
+    return executeAssertion(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual));
   }
 
   /**
@@ -163,8 +161,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @since 2.5.0 / 3.5.0
    */
   public SELF hasNoNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
-    objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore);
-    return myself;
+    return executeAssertion(() -> objects.assertHasNoNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore));
   }
 
   /**
@@ -193,8 +190,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @since 3.12.0
    */
   public SELF hasAllNullFieldsOrPropertiesExcept(String... propertiesOrFieldsToIgnore) {
-    objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore);
-    return myself;
+    return executeAssertion(() -> objects.assertHasAllNullFieldsOrPropertiesExcept(info, actual, propertiesOrFieldsToIgnore));
   }
 
   // lazy init TypeComparators
@@ -283,8 +279,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @throws AssertionError           if the actual object does not have the given field/property
    */
   public SELF hasFieldOrProperty(String name) {
-    objects.assertHasFieldOrProperty(info, actual, name);
-    return myself;
+    return executeAssertion(() -> objects.assertHasFieldOrProperty(info, actual, name));
   }
 
   /**
@@ -333,8 +328,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @see AbstractObjectAssert#hasFieldOrProperty(java.lang.String)
    */
   public SELF hasFieldOrPropertyWithValue(String name, Object value) {
-    objects.assertHasFieldOrPropertyWithValue(info, actual, name, value);
-    return myself;
+    return executeAssertion(() -> objects.assertHasFieldOrPropertyWithValue(info, actual, name, value));
   }
 
   /**
@@ -374,8 +368,7 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    * @since 3.19.0
    */
   public SELF hasOnlyFields(String... expectedFieldNames) {
-    objects.assertHasOnlyFields(info, actual, expectedFieldNames);
-    return myself;
+    return executeAssertion(() -> objects.assertHasOnlyFields(info, actual, expectedFieldNames));
   }
 
   /**

@@ -67,31 +67,32 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    */
   @Override
   public Long2DArrayAssert isDeepEqualTo(long[][] expected) {
-    if (actual == expected) return myself;
-    isNotNull();
-    if (expected.length != actual.length) {
-      throw failures.failure(info, shouldHaveSameSizeAs(actual, expected, actual.length, expected.length));
-    }
-
-    for (int i = 0; i < actual.length; i++) {
-      long[] actualSubArray = actual[i];
-      long[] expectedSubArray = expected[i];
-
-      if (actualSubArray == expectedSubArray) continue;
-      if (actualSubArray == null) throw failures.failure(info, shouldNotBeNull("actual[" + i + "]"));
-      if (expectedSubArray.length != actualSubArray.length) {
-        throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, actualSubArray.length,
-                                                                 expectedSubArray, expectedSubArray.length, i),
-                               info.representation().toStringOf(actual), info.representation().toStringOf(expected));
+    return executeAssertion(() -> {
+      if (actual == expected) return;
+      isNotNull();
+      if (expected.length != actual.length) {
+        throw failures.failure(info, shouldHaveSameSizeAs(actual, expected, actual.length, expected.length));
       }
-      for (int j = 0; j < actualSubArray.length; j++) {
-        if (actualSubArray[j] != expectedSubArray[j]) {
-          throw failures.failure(info, elementShouldBeEqual(actualSubArray[j], expectedSubArray[j], i, j),
+
+      for (int i = 0; i < actual.length; i++) {
+        long[] actualSubArray = actual[i];
+        long[] expectedSubArray = expected[i];
+
+        if (actualSubArray == expectedSubArray) continue;
+        if (actualSubArray == null) throw failures.failure(info, shouldNotBeNull("actual[" + i + "]"));
+        if (expectedSubArray.length != actualSubArray.length) {
+          throw failures.failure(info, subarraysShouldHaveSameSize(actual, expected, actualSubArray, actualSubArray.length,
+                                                                   expectedSubArray, expectedSubArray.length, i),
                                  info.representation().toStringOf(actual), info.representation().toStringOf(expected));
         }
+        for (int j = 0; j < actualSubArray.length; j++) {
+          if (actualSubArray[j] != expectedSubArray[j]) {
+            throw failures.failure(info, elementShouldBeEqual(actualSubArray[j], expectedSubArray[j], i, j),
+                                   info.representation().toStringOf(actual), info.representation().toStringOf(expected));
+          }
+        }
       }
-    }
-    return myself;
+    });
   }
 
   /**
@@ -139,7 +140,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    */
   @Override
   public void isNullOrEmpty() {
-    long2dArrays.assertNullOrEmpty(info, actual);
+    executeAssertion(() -> long2dArrays.assertNullOrEmpty(info, actual));
   }
 
   /**
@@ -162,7 +163,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    */
   @Override
   public void isEmpty() {
-    long2dArrays.assertEmpty(info, actual);
+    executeAssertion(() -> long2dArrays.assertEmpty(info, actual));
   }
 
   /**
@@ -186,8 +187,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    */
   @Override
   public Long2DArrayAssert isNotEmpty() {
-    long2dArrays.assertNotEmpty(info, actual);
-    return myself;
+    return executeAssertion(() -> long2dArrays.assertNotEmpty(info, actual));
   }
 
   /**
@@ -209,8 +209,8 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    */
   @Override
   public Long2DArrayAssert hasDimensions(int expectedFirstDimension, int expectedSecondDimension) {
-    long2dArrays.assertHasDimensions(info, actual, expectedFirstDimension, expectedSecondDimension);
-    return myself;
+    return executeAssertion(() -> long2dArrays.assertHasDimensions(info, actual, expectedFirstDimension,
+                                                                   expectedSecondDimension));
   }
 
   /**
@@ -232,8 +232,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    */
   @Override
   public Long2DArrayAssert hasNumberOfRows(int expected) {
-    long2dArrays.assertNumberOfRows(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> long2dArrays.assertNumberOfRows(info, actual, expected));
   }
 
   /**
@@ -261,8 +260,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    */
   @Override
   public Long2DArrayAssert hasSameDimensionsAs(Object array) {
-    long2dArrays.assertHasSameDimensionsAs(info, actual, array);
-    return myself;
+    return executeAssertion(() -> long2dArrays.assertHasSameDimensionsAs(info, actual, array));
   }
 
   /**
@@ -286,8 +284,7 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * @throws AssertionError if the actual array does not contain the given value at the given index.
    */
   public Long2DArrayAssert contains(long[] value, Index index) {
-    long2dArrays.assertContains(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> long2dArrays.assertContains(info, actual, value, index));
   }
 
   /**
@@ -309,7 +306,6 @@ public class Long2DArrayAssert extends Abstract2DArrayAssert<Long2DArrayAssert, 
    * @throws AssertionError if the actual array contains the given value at the given index.
    */
   public Long2DArrayAssert doesNotContain(long[] value, Index index) {
-    long2dArrays.assertDoesNotContain(info, actual, value, index);
-    return myself;
+    return executeAssertion(() -> long2dArrays.assertDoesNotContain(info, actual, value, index));
   }
 }

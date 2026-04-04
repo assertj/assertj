@@ -56,10 +56,11 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
   }
 
   protected SELF hasBeenThrown() {
-    if (actual == null) {
-      throw Failures.instance().failure(info, new BasicErrorMessageFactory("%nExpecting code to raise a throwable."));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      if (actual == null) {
+        throw Failures.instance().failure(info, new BasicErrorMessageFactory("%nExpecting code to raise a throwable."));
+      }
+    });
   }
 
   /**
@@ -71,8 +72,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the message of the actual {@code Throwable} is not equal to the given one.
    */
   public SELF hasMessage(String message) {
-    throwables.assertHasMessage(info, actual, message);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessage(info, actual, message));
   }
 
   /**
@@ -124,8 +124,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the actual {@code Throwable} has not the given cause.
    */
   public SELF hasCause(Throwable cause) {
-    throwables.assertHasCause(info, actual, cause);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasCause(info, actual, cause));
   }
 
   /**
@@ -136,8 +135,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the actual {@code Throwable} has a cause.
    */
   public SELF hasNoCause() {
-    throwables.assertHasNoCause(info, actual);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasNoCause(info, actual));
   }
 
   /**
@@ -239,8 +237,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the message of the actual {@code Throwable} does not start with the given description.
    */
   public SELF hasMessageStartingWith(String description) {
-    throwables.assertHasMessageStartingWith(info, actual, description);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessageStartingWith(info, actual, description));
   }
 
   /**
@@ -264,8 +261,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessageStartingWith(String description, Object... parameters) {
-    throwables.assertHasMessageStartingWith(info, actual, description.formatted(parameters));
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessageStartingWith(info, actual, description.formatted(parameters)));
   }
 
   /**
@@ -288,8 +284,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the message of the actual {@code Throwable} does not contain the given description.
    */
   public SELF hasMessageContaining(String description) {
-    throwables.assertHasMessageContaining(info, actual, description);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessageContaining(info, actual, description));
   }
 
   /**
@@ -312,8 +307,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the message of the actual {@code Throwable} does not contain all the given values.
    */
   public SELF hasMessageContainingAll(CharSequence... values) {
-    throwables.assertHasMessageContainingAll(info, actual, values);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessageContainingAll(info, actual, values));
   }
 
   /**
@@ -337,8 +331,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.12.0
    */
   public SELF hasMessageNotContaining(String content) {
-    throwables.assertHasMessageNotContaining(info, actual, content);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessageNotContaining(info, actual, content));
   }
 
   /**
@@ -362,8 +355,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.12.0
    */
   public SELF hasMessageNotContainingAny(CharSequence... values) {
-    throwables.assertHasMessageNotContainingAny(info, actual, values);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessageNotContainingAny(info, actual, values));
   }
 
   /**
@@ -384,8 +376,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the stack trace of the actual {@code Throwable} does not contain the given description.
    */
   public SELF hasStackTraceContaining(String description) {
-    throwables.assertHasStackTraceContaining(info, actual, description);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasStackTraceContaining(info, actual, description));
   }
 
   /**
@@ -409,8 +400,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasStackTraceContaining(String description, Object... parameters) {
-    throwables.assertHasStackTraceContaining(info, actual, description.formatted(parameters));
-    return myself;
+    return executeAssertion(() -> throwables.assertHasStackTraceContaining(info, actual, description.formatted(parameters)));
   }
 
   /**
@@ -432,8 +422,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws NullPointerException if the regex is null
    */
   public SELF hasMessageMatching(String regex) {
-    throwables.assertHasMessageMatching(info, actual, regex);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessageMatching(info, actual, regex));
   }
 
   /**
@@ -455,8 +444,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws NullPointerException if the regex is null
    */
   public SELF hasMessageMatching(Pattern regex) {
-    throwables.assertHasMessageMatching(info, actual, regex);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessageMatching(info, actual, regex));
   }
 
   /**
@@ -483,8 +471,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.12.0
    */
   public SELF hasMessageFindingMatch(String regex) {
-    throwables.assertHasMessageFindingMatch(info, actual, regex);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessageFindingMatch(info, actual, regex));
   }
 
   /**
@@ -505,8 +492,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError if the message of the actual {@code Throwable} does not end with the given description.
    */
   public SELF hasMessageEndingWith(String description) {
-    throwables.assertHasMessageEndingWith(info, actual, description);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessageEndingWith(info, actual, description));
   }
 
   /**
@@ -530,8 +516,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws IllegalFormatException if the message contains an illegal syntax according to {@link String#format(String, Object...)}.
    */
   public SELF hasMessageEndingWith(String description, Object... parameters) {
-    throwables.assertHasMessageEndingWith(info, actual, description.formatted(parameters));
-    return myself;
+    return executeAssertion(() -> throwables.assertHasMessageEndingWith(info, actual, description.formatted(parameters)));
   }
 
   /**
@@ -555,8 +540,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError       if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
   public SELF hasCauseInstanceOf(Class<? extends Throwable> type) {
-    throwables.assertHasCauseInstanceOf(info, actual, type);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasCauseInstanceOf(info, actual, type));
   }
 
   /**
@@ -581,8 +565,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *                              type.
    */
   public SELF hasCauseExactlyInstanceOf(Class<? extends Throwable> type) {
-    throwables.assertHasCauseExactlyInstanceOf(info, actual, type);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasCauseExactlyInstanceOf(info, actual, type));
   }
 
   /**
@@ -608,8 +591,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.12.0
    */
   public SELF hasRootCause(Throwable cause) {
-    throwables.assertHasRootCause(info, actual, cause);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasRootCause(info, actual, cause));
   }
 
   /**
@@ -633,8 +615,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @throws AssertionError       if the cause of the actual {@code Throwable} is not an instance of the given type.
    */
   public SELF hasRootCauseInstanceOf(Class<? extends Throwable> type) {
-    throwables.assertHasRootCauseInstanceOf(info, actual, type);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasRootCauseInstanceOf(info, actual, type));
   }
 
   /**
@@ -659,8 +640,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    *                              given type.
    */
   public SELF hasRootCauseExactlyInstanceOf(Class<? extends Throwable> type) {
-    throwables.assertHasRootCauseExactlyInstanceOf(info, actual, type);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasRootCauseExactlyInstanceOf(info, actual, type));
   }
 
   /**
@@ -687,8 +667,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.14.0
    */
   public SELF hasRootCauseMessage(String message) {
-    throwables.assertHasRootCauseMessage(info, actual, message);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasRootCauseMessage(info, actual, message));
   }
 
   /**
@@ -738,8 +717,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF hasNoSuppressedExceptions() {
-    throwables.assertHasNoSuppressedExceptions(info, actual);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasNoSuppressedExceptions(info, actual));
   }
 
   /**
@@ -766,8 +744,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 2.6.0 / 3.6.0
    */
   public SELF hasSuppressedException(Throwable suppressedException) {
-    throwables.assertHasSuppressedException(info, actual, suppressedException);
-    return myself;
+    return executeAssertion(() -> throwables.assertHasSuppressedException(info, actual, suppressedException));
   }
 
   /**
@@ -816,7 +793,9 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.7.0
    */
   public void doesNotThrowAnyException() {
-    if (actual != null) throw Failures.instance().failure(info, shouldNotHaveThrown(actual));
+    executeAssertion(() -> {
+      if (actual != null) throw Failures.instance().failure(info, shouldNotHaveThrown(actual));
+    });
   }
 
   /**
@@ -848,8 +827,10 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   @SafeVarargs
   public final void doesNotThrowAnyExceptionExcept(Class<? extends Throwable>... ignoredExceptionTypes) {
-    if (isNotAnInstanceOfAny(ignoredExceptionTypes))
-      throwAssertionError(shouldNotHaveThrownExcept(actual, ignoredExceptionTypes));
+    executeAssertion(() -> {
+      if (isNotAnInstanceOfAny(ignoredExceptionTypes))
+        throwAssertionError(shouldNotHaveThrownExcept(actual, ignoredExceptionTypes));
+    });
   }
 
   private boolean isNotAnInstanceOfAny(Class<? extends Throwable>[] exceptionTypes) {
@@ -878,7 +859,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public AbstractStringAssert<?> message() {
     objects.assertNotNull(info, actual);
-    return new StringAssert(actual.getMessage());
+    return new StringAssert(actual.getMessage()).withAssertionState(myself);
   }
 
 }

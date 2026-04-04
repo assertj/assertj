@@ -48,7 +48,9 @@ class SoftAssertionsMultipleProjectsTest {
     }
 
     public NotClassyAssert isClassy() {
-      throw new AssertionError("Sorry I'm not classy!");
+      return executeAssertion(() -> {
+        throw new AssertionError("Sorry I'm not classy!");
+      });
     }
 
     public NotClassyAssert isNotClassy() {
@@ -66,7 +68,9 @@ class SoftAssertionsMultipleProjectsTest {
     }
 
     public ClassyAssert isNotClassy() {
-      throw new AssertionError("Hey I'm classy!");
+      return executeAssertion(() -> {
+        throw new AssertionError("Hey I'm classy!");
+      });
     }
   }
 

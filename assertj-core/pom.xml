@@ -50,11 +50,6 @@
     </dependencies>
   </dependencyManagement>
   <dependencies>
-    <!-- Compile -->
-    <dependency>
-      <groupId>net.bytebuddy</groupId>
-      <artifactId>byte-buddy</artifactId>
-    </dependency>
     <!-- Provided -->
     <dependency>
       <groupId>org.hamcrest</groupId>
@@ -244,7 +239,6 @@
             <configuration>
               <bnd><![CDATA[
                 Import-Package:\
-                  net.bytebuddy.*,\
                   !org.assertj.core.*,\
                   *;resolution:="optional"
                 Multi-Release: true

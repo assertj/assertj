@@ -31,29 +31,27 @@ public class TolkienCharacterAssert extends AbstractAssert<TolkienCharacterAsser
 
   // 4 - a specific assertion !
   public TolkienCharacterAssert hasName(String name) {
-    // check that actual TolkienCharacter we want to make assertions on is not null.
-    isNotNull();
+    return executeAssertion(() -> {
+      // check that actual TolkienCharacter we want to make assertions on is not null.
+      isNotNull();
 
-    // check condition
-    if (!Objects.equals(actual.name, name)) {
-      failWithMessage("Expected character's name to be <%s> but was <%s>", name, actual.name);
-    }
-
-    // return the current assertion for method chaining
-    return this;
+      // check condition
+      if (!Objects.equals(actual.name, name)) {
+        failWithMessage("Expected character's name to be <%s> but was <%s>", name, actual.name);
+      }
+    });
   }
 
   // 4 - another specific assertion !
   public TolkienCharacterAssert hasAge(int age) {
-    // check that actual TolkienCharacter we want to make assertions on is not null.
-    isNotNull();
+    return executeAssertion(() -> {
+      // check that actual TolkienCharacter we want to make assertions on is not null.
+      isNotNull();
 
-    // check condition
-    if (actual.age != age) {
-      failWithMessage("Expected character's age to be <%s> but was <%s>", age, actual.age);
-    }
-
-    // return the current assertion for method chaining
-    return this;
+      // check condition
+      if (actual.age != age) {
+        failWithMessage("Expected character's age to be <%s> but was <%s>", age, actual.age);
+      }
+    });
   }
 }

@@ -34,11 +34,12 @@ public abstract class AbstractAtomicReferenceAssert<SELF extends AbstractAtomicR
   }
 
   public SELF hasReference(VALUE expectedReference) {
-    isNotNull();
-    if (!this.objects.getComparisonStrategy().areEqual(getReference(), expectedReference)) {
-      throwAssertionError(shouldHaveReference(actual, getReference(), expectedReference));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!this.objects.getComparisonStrategy().areEqual(getReference(), expectedReference)) {
+        throwAssertionError(shouldHaveReference(actual, getReference(), expectedReference));
+      }
+    });
   }
 
   protected abstract VALUE getReference();

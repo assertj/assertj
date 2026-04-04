@@ -96,126 +96,145 @@ public class ListAssert<ELEMENT> extends
 
   @Override
   public ListAssert<ELEMENT> isEqualTo(Object expected) {
-    if (actual instanceof ListFromStream && asListFromStream().stream == expected) {
-      return myself;
-    }
-    return super.isEqualTo(expected);
+    return executeAssertion(() -> {
+      if (actual instanceof ListFromStream && asListFromStream().stream == expected) {
+        return;
+      }
+      super.isEqualTo(expected);
+    });
   }
 
   @Override
   public ListAssert<ELEMENT> isInstanceOf(Class<?> type) {
-    if (actual instanceof ListFromStream) {
-      objects.assertIsInstanceOf(info, asListFromStream().stream, type);
-      return myself;
-    }
-    return super.isInstanceOf(type);
+    return executeAssertion(() -> {
+      if (actual instanceof ListFromStream) {
+        objects.assertIsInstanceOf(info, asListFromStream().stream, type);
+      } else {
+        super.isInstanceOf(type);
+      }
+    });
   }
 
   @Override
   public ListAssert<ELEMENT> isInstanceOfAny(Class<?>... types) {
-    if (actual instanceof ListFromStream) {
-      objects.assertIsInstanceOfAny(info, asListFromStream().stream, types);
-      return myself;
-    }
-    return super.isInstanceOfAny(types);
+    return executeAssertion(() -> {
+      if (actual instanceof ListFromStream) {
+        objects.assertIsInstanceOfAny(info, asListFromStream().stream, types);
+      } else {
+        super.isInstanceOfAny(types);
+      }
+    });
   }
 
   @Override
   public ListAssert<ELEMENT> isOfAnyClassIn(Class<?>... types) {
-    if (actual instanceof ListFromStream) {
-      objects.assertIsOfAnyClassIn(info, asListFromStream().stream, types);
-      return myself;
-    }
-    return super.isOfAnyClassIn(types);
+    return executeAssertion(() -> {
+      if (actual instanceof ListFromStream) {
+        objects.assertIsOfAnyClassIn(info, asListFromStream().stream, types);
+      } else {
+        super.isOfAnyClassIn(types);
+      }
+    });
   }
 
   @Override
   public ListAssert<ELEMENT> isExactlyInstanceOf(Class<?> type) {
-    if (actual instanceof ListFromStream) {
-      objects.assertIsExactlyInstanceOf(info, asListFromStream().stream, type);
-      return myself;
-    }
-    return super.isExactlyInstanceOf(type);
+    return executeAssertion(() -> {
+      if (actual instanceof ListFromStream) {
+        objects.assertIsExactlyInstanceOf(info, asListFromStream().stream, type);
+      } else {
+        super.isExactlyInstanceOf(type);
+      }
+    });
   }
 
   @Override
   public ListAssert<ELEMENT> isNotInstanceOf(Class<?> type) {
-    if (actual instanceof ListFromStream) {
-      objects.assertIsNotInstanceOf(info, asListFromStream().stream, type);
-      return myself;
-    }
-    return super.isNotInstanceOf(type);
+    return executeAssertion(() -> {
+      if (actual instanceof ListFromStream) {
+        objects.assertIsNotInstanceOf(info, asListFromStream().stream, type);
+      } else {
+        super.isNotInstanceOf(type);
+      }
+    });
   }
 
   @Override
   public ListAssert<ELEMENT> isNotInstanceOfAny(Class<?>... types) {
-    if (actual instanceof ListFromStream) {
-      objects.assertIsNotInstanceOfAny(info, asListFromStream().stream, types);
-      return myself;
-    }
-    return super.isNotInstanceOfAny(types);
+    return executeAssertion(() -> {
+      if (actual instanceof ListFromStream) {
+        objects.assertIsNotInstanceOfAny(info, asListFromStream().stream, types);
+      } else {
+        super.isNotInstanceOfAny(types);
+      }
+    });
   }
 
   @Override
   public ListAssert<ELEMENT> isNotOfAnyClassIn(Class<?>... types) {
-    if (actual instanceof ListFromStream) {
-      objects.assertIsNotOfAnyClassIn(info, asListFromStream().stream, types);
-      return myself;
-    }
-    return super.isNotOfAnyClassIn(types);
+    return executeAssertion(() -> {
+      if (actual instanceof ListFromStream) {
+        objects.assertIsNotOfAnyClassIn(info, asListFromStream().stream, types);
+      } else {
+        super.isNotOfAnyClassIn(types);
+      }
+    });
   }
 
   @Override
   public ListAssert<ELEMENT> isNotExactlyInstanceOf(Class<?> type) {
-    if (actual instanceof ListFromStream) {
-      objects.assertIsNotExactlyInstanceOf(info, asListFromStream().stream, type);
-      return myself;
-    }
-    return super.isNotExactlyInstanceOf(type);
+    return executeAssertion(() -> {
+      if (actual instanceof ListFromStream) {
+        objects.assertIsNotExactlyInstanceOf(info, asListFromStream().stream, type);
+      } else {
+        super.isNotExactlyInstanceOf(type);
+      }
+    });
   }
 
   @Override
   public ListAssert<ELEMENT> isSameAs(Object expected) {
-    if (actual instanceof ListFromStream) {
-      objects.assertSame(info, asListFromStream().stream, expected);
-      return myself;
-    }
-    return super.isSameAs(expected);
+    return executeAssertion(() -> {
+      if (actual instanceof ListFromStream) {
+        objects.assertSame(info, asListFromStream().stream, expected);
+      } else {
+        super.isSameAs(expected);
+      }
+    });
   }
 
   @Override
   public ListAssert<ELEMENT> isNotSameAs(Object expected) {
-    if (actual instanceof ListFromStream) {
-      objects.assertNotSame(info, asListFromStream().stream, expected);
-      return myself;
-    }
-    return super.isNotSameAs(expected);
+    return executeAssertion(() -> {
+      if (actual instanceof ListFromStream) {
+        objects.assertNotSame(info, asListFromStream().stream, expected);
+      } else {
+        super.isNotSameAs(expected);
+      }
+    });
   }
 
   @Override
   protected ListAssert<ELEMENT> startsWithForProxy(ELEMENT[] sequence) {
-    if (!(actual instanceof ListFromStream)) {
-      // don't call super.startsWith(sequence) which would lead to a stack overflow
-      iterables.assertStartsWith(info, actual, sequence);
-      return myself;
-    }
-    objects.assertNotNull(info, actual);
-    checkIsNotNull(sequence);
-    // NO SUPPORT FOR infinite streams as it prevents chaining other assertions afterward, it requires to consume the
-    // Stream partially, if you chain another assertion, the stream is already consumed.
-    Iterator<? extends ELEMENT> iterator = asListFromStream().stream().iterator();
-    if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
-    int i = 0;
-    while (iterator.hasNext()) {
-      if (i >= sequence.length) break;
-      if (iterables.getComparisonStrategy().areEqual(iterator.next(), sequence[i++])) continue;
-      throw actualDoesNotStartWithSequence(info, sequence);
-    }
-    if (sequence.length > i) {
-      // sequence has more elements than actual
-      throw actualDoesNotStartWithSequence(info, sequence);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      if (!(actual instanceof ListFromStream)) {
+        iterables.assertStartsWith(info, actual, sequence);
+        return;
+      }
+      objects.assertNotNull(info, actual);
+      checkIsNotNull(sequence);
+      Iterator<? extends ELEMENT> iterator = asListFromStream().stream().iterator();
+      if (sequence.length == 0 && iterator.hasNext()) throw new AssertionError("actual is not empty");
+      int i = 0;
+      while (iterator.hasNext()) {
+        if (i >= sequence.length) break;
+        if (iterables.getComparisonStrategy().areEqual(iterator.next(), sequence[i++])) continue;
+        throw actualDoesNotStartWithSequence(info, sequence);
+      }
+      if (sequence.length > i) {
+        throw actualDoesNotStartWithSequence(info, sequence);
+      }
+    });
   }
 
   private AssertionError actualDoesNotStartWithSequence(AssertionInfo info, Object[] sequence) {

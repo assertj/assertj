@@ -57,11 +57,12 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * @since 3.23.0
    */
   public SELF matches() {
-    isNotNull();
-    if (!actual.matches()) {
-      throw Failures.instance().failure(info, shouldMatch(actual));
-    }
-    return myself;
+    return executeAssertion(() -> {
+      isNotNull();
+      if (!actual.matches()) {
+        throw Failures.instance().failure(info, shouldMatch(actual));
+      }
+    });
   }
 
   /**

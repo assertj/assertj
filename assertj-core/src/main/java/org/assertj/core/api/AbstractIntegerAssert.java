@@ -68,8 +68,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @throws AssertionError if the actual value is not equal to the given one.
    */
   public SELF isEqualTo(int expected) {
-    integers.assertEqual(info, actual, expected);
-    return myself;
+    return executeAssertion(() -> integers.assertEqual(info, actual, expected));
   }
 
   /**
@@ -92,12 +91,13 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @since 3.10.0
    */
   public SELF isEqualTo(long expected) {
-    if (canBeCastToInt(expected)) {
-      integers.assertEqual(info, actual, (int) expected);
-    } else {
-      integers.assertEqual(info, actual, expected);
-    }
-    return myself;
+    return executeAssertion(() -> {
+      if (canBeCastToInt(expected)) {
+        integers.assertEqual(info, actual, (int) expected);
+      } else {
+        integers.assertEqual(info, actual, expected);
+      }
+    });
   }
 
   private static boolean canBeCastToInt(long expected) {
@@ -121,57 +121,49 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @throws AssertionError if the actual value is equal to the given one.
    */
   public SELF isNotEqualTo(int other) {
-    integers.assertNotEqual(info, actual, other);
-    return myself;
+    return executeAssertion(() -> integers.assertNotEqual(info, actual, other));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isZero() {
-    integers.assertIsZero(info, actual);
-    return myself;
+    return executeAssertion(() -> integers.assertIsZero(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotZero() {
-    integers.assertIsNotZero(info, actual);
-    return myself;
+    return executeAssertion(() -> integers.assertIsNotZero(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isOne() {
-    integers.assertIsOne(info, actual);
-    return myself;
+    return executeAssertion(() -> integers.assertIsOne(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isPositive() {
-    integers.assertIsPositive(info, actual);
-    return myself;
+    return executeAssertion(() -> integers.assertIsPositive(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNegative() {
-    integers.assertIsNegative(info, actual);
-    return myself;
+    return executeAssertion(() -> integers.assertIsNegative(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotNegative() {
-    integers.assertIsNotNegative(info, actual);
-    return myself;
+    return executeAssertion(() -> integers.assertIsNotNegative(info, actual));
   }
 
   /** {@inheritDoc} */
   @Override
   public SELF isNotPositive() {
-    integers.assertIsNotPositive(info, actual);
-    return myself;
+    return executeAssertion(() -> integers.assertIsNotPositive(info, actual));
   }
 
   /**
@@ -192,8 +184,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @since 3.17.0
    */
   public SELF isEven() {
-    integers.assertIsEven(info, actual);
-    return myself;
+    return executeAssertion(() -> integers.assertIsEven(info, actual));
   }
 
   /**
@@ -214,8 +205,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @since 3.17.0
    */
   public SELF isOdd() {
-    integers.assertIsOdd(info, actual);
-    return myself;
+    return executeAssertion(() -> integers.assertIsOdd(info, actual));
   }
 
   /**
@@ -236,8 +226,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @throws AssertionError if the actual value is equal to or greater than the given one.
    */
   public SELF isLessThan(int other) {
-    integers.assertLessThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> integers.assertLessThan(info, actual, other));
   }
 
   /**
@@ -259,8 +248,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @throws AssertionError if the actual value is greater than the given one.
    */
   public SELF isLessThanOrEqualTo(int other) {
-    integers.assertLessThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> integers.assertLessThanOrEqualTo(info, actual, other));
   }
 
   /**
@@ -281,8 +269,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @throws AssertionError if the actual value is equal to or less than the given one.
    */
   public SELF isGreaterThan(int other) {
-    integers.assertGreaterThan(info, actual, other);
-    return myself;
+    return executeAssertion(() -> integers.assertGreaterThan(info, actual, other));
   }
 
   /**
@@ -303,8 +290,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @throws AssertionError if the actual value is less than the given one.
    */
   public SELF isGreaterThanOrEqualTo(int other) {
-    integers.assertGreaterThanOrEqualTo(info, actual, other);
-    return myself;
+    return executeAssertion(() -> integers.assertGreaterThanOrEqualTo(info, actual, other));
   }
 
   /**
@@ -322,8 +308,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    */
   @Override
   public SELF isBetween(Integer start, Integer end) {
-    integers.assertIsBetween(info, actual, start, end);
-    return myself;
+    return executeAssertion(() -> integers.assertIsBetween(info, actual, start, end));
   }
 
   /**
@@ -341,8 +326,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    */
   @Override
   public SELF isStrictlyBetween(Integer start, Integer end) {
-    integers.assertIsStrictlyBetween(info, actual, start, end);
-    return myself;
+    return executeAssertion(() -> integers.assertIsStrictlyBetween(info, actual, start, end));
   }
 
   /**
@@ -379,8 +363,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @throws AssertionError if the actual value is not close enough to the given one.
    */
   public SELF isCloseTo(int expected, Offset<Integer> offset) {
-    integers.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> integers.assertIsCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -415,8 +398,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @since 2.6.0 / 3.6.0
    */
   public SELF isNotCloseTo(int expected, Offset<Integer> offset) {
-    integers.assertIsNotCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> integers.assertIsNotCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -454,8 +436,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    */
   @Override
   public SELF isCloseTo(Integer expected, Offset<Integer> offset) {
-    integers.assertIsCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> integers.assertIsCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -491,8 +472,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    */
   @Override
   public SELF isNotCloseTo(Integer expected, Offset<Integer> offset) {
-    integers.assertIsNotCloseTo(info, actual, expected, offset);
-    return myself;
+    return executeAssertion(() -> integers.assertIsNotCloseTo(info, actual, expected, offset));
   }
 
   /**
@@ -518,8 +498,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    */
   @Override
   public SELF isCloseTo(Integer expected, Percentage percentage) {
-    integers.assertIsCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> integers.assertIsCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -544,8 +523,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    */
   @Override
   public SELF isNotCloseTo(Integer expected, Percentage percentage) {
-    integers.assertIsNotCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> integers.assertIsNotCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -570,8 +548,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @throws AssertionError if the actual value is not close enough to the given one.
    */
   public SELF isCloseTo(int expected, Percentage percentage) {
-    integers.assertIsCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> integers.assertIsCloseToPercentage(info, actual, expected, percentage));
   }
 
   /**
@@ -595,8 +572,7 @@ public abstract class AbstractIntegerAssert<SELF extends AbstractIntegerAssert<S
    * @since 2.6.0 / 3.6.0
    */
   public SELF isNotCloseTo(int expected, Percentage percentage) {
-    integers.assertIsNotCloseToPercentage(info, actual, expected, percentage);
-    return myself;
+    return executeAssertion(() -> integers.assertIsNotCloseToPercentage(info, actual, expected, percentage));
   }
 
   @Override
