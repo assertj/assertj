@@ -1692,7 +1692,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * // assertion will pass:
    * assertThat(ringBearers).size().isGreaterThan(1)
    *                               .isLessThanOrEqualTo(3)
-   *                        returnToMap().contains(entry(oneRing, frodo),
+   *                        .returnToMap().contains(entry(oneRing, frodo),
    *                                               entry(nenya, galadriel),
    *                                               entry(narya, gandalf));
    *
@@ -1702,11 +1702,11 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    * @return a {@link AbstractMapSizeAssert} to allow assertions on the number of key-value mappings in this map
    * @throws NullPointerException if the given map is {@code null}.
    */
-  @SuppressWarnings({ "rawtypes" })
+  @SuppressWarnings({ "unchecked", "rawtypes" }) // FIXME gh-4210
   @CheckReturnValue
   public AbstractMapSizeAssert<SELF, ACTUAL, K, V> size() {
     requireNonNull(actual, "Can not perform assertions on the size of a null map.");
-    return new MapSizeAssert(this, actual.size());
+    return new MapSizeAssert(this);
   }
 
   /**

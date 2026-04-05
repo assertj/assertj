@@ -19,16 +19,14 @@ import org.assertj.core.annotation.CheckReturnValue;
 
 public class FileSizeAssert<T> extends AbstractFileSizeAssert<FileAssert> {
 
-  private AbstractFileAssert<FileAssert> fileAssert;
-
-  public FileSizeAssert(AbstractFileAssert<FileAssert> fileAssert) {
-    super(fileAssert.actual.length(), FileSizeAssert.class);
-    this.fileAssert = fileAssert;
+  public FileSizeAssert(AbstractFileAssert<FileAssert> originAssert) {
+    super(originAssert);
   }
 
   @Override
   @CheckReturnValue
   public AbstractFileAssert<FileAssert> returnToFile() {
-    return fileAssert;
+    return super.returnToFile();
   }
+
 }

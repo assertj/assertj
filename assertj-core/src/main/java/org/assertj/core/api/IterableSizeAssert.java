@@ -17,21 +17,26 @@ package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
 
-//@format:off
-public class IterableSizeAssert<T> extends AbstractIterableSizeAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> {
-//@format:on
+public class IterableSizeAssert<ELEMENT>
+    extends AbstractIterableSizeAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> {
 
-  private AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> source;
+  public IterableSizeAssert(AbstractIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> originAssert) {
+    super(originAssert);
+  }
 
-  public IterableSizeAssert(AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> source,
-                            Integer i) {
-    super(i, IterableSizeAssert.class);
-    this.source = source;
+  /**
+   * @deprecated use {@link #IterableSizeAssert(AbstractIterableAssert)} instead.
+   */
+  @Deprecated
+  public IterableSizeAssert(AbstractIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> originAssert,
+                            @SuppressWarnings("unused") Integer size) {
+    this(originAssert);
   }
 
   @Override
   @CheckReturnValue
-  public AbstractIterableAssert<IterableAssert<T>, Iterable<? extends T>, T, ObjectAssert<T>> returnToIterable() {
-    return source;
+  public AbstractIterableAssert<IterableAssert<ELEMENT>, Iterable<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> returnToIterable() {
+    return super.returnToIterable();
   }
+
 }

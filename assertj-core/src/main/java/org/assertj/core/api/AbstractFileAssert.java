@@ -1451,8 +1451,8 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
   /**
    * Returns an {@code Assert} object that allows performing assertions on the size of the {@link File} under test.
    * <p>
-   * Once this method is called, the object under test is no longer the {@link File} but its size,
-   * to perform assertions on the {@link File}, call {@link AbstractFileSizeAssert#returnToFile()}.
+   * Once this method is called, the object under test is no longer the {@link File} but its size;
+   * to perform further assertions on the {@link File}, call {@link AbstractFileSizeAssert#returnToFile()}.
    * <p>
    * Example:
    * <pre><code class='java'> File file = File.createTempFile(&quot;tmp&quot;, &quot;bin&quot;);

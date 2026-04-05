@@ -15,17 +15,18 @@
  */
 package org.assertj.core.api;
 
+import org.assertj.core.annotation.CheckReturnValue;
+
 public class BigDecimalScaleAssert<T> extends AbstractBigDecimalScaleAssert<BigDecimalAssert> {
 
-  private AbstractBigDecimalAssert<BigDecimalAssert> bigDecimalAssert;
-
-  public BigDecimalScaleAssert(AbstractBigDecimalAssert<BigDecimalAssert> bigDecimalAssert) {
-    super(bigDecimalAssert.actual.scale(), BigDecimalScaleAssert.class);
-    this.bigDecimalAssert = bigDecimalAssert;
+  public BigDecimalScaleAssert(AbstractBigDecimalAssert<BigDecimalAssert> originAssert) {
+    super(originAssert);
   }
 
   @Override
+  @CheckReturnValue
   public AbstractBigDecimalAssert<BigDecimalAssert> returnToBigDecimal() {
-    return bigDecimalAssert;
+    return super.returnToBigDecimal();
   }
+
 }

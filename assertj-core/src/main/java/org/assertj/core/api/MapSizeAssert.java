@@ -15,22 +15,29 @@
  */
 package org.assertj.core.api;
 
-import java.util.Map;
-
 import org.assertj.core.annotation.CheckReturnValue;
+
+import java.util.Map;
 
 public class MapSizeAssert<KEY, VALUE> extends AbstractMapSizeAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> {
 
-  private AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> source;
+  public MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> originAssert) {
+    super(originAssert);
+  }
 
-  public MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> source, Integer i) {
-    super(i, MapSizeAssert.class);
-    this.source = source;
+  /**
+   * @deprecated use {@link #MapSizeAssert(AbstractMapAssert)} instead.
+   */
+  @Deprecated
+  public MapSizeAssert(AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> originAssert,
+                       @SuppressWarnings("unused") Integer size) {
+    this(originAssert);
   }
 
   @Override
   @CheckReturnValue
   public AbstractMapAssert<MapAssert<KEY, VALUE>, Map<KEY, VALUE>, KEY, VALUE> returnToMap() {
-    return source;
+    return super.returnToMap();
   }
+
 }
