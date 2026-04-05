@@ -22,10 +22,10 @@ import org.assertj.core.annotation.CheckReturnValue;
  * 
  * @since 3.22.0
  */
-public abstract class AbstractFileSizeAssert<SELF extends AbstractFileAssert<SELF>>
-    extends AbstractLongAssert<AbstractFileSizeAssert<SELF>> {
+public abstract class AbstractFileSizeAssert<ORIGIN extends AbstractFileAssert<ORIGIN>>
+    extends AbstractLongAssert<AbstractFileSizeAssert<ORIGIN>> {
 
-  private final AbstractFileAssert<SELF> originAssert;
+  private final AbstractFileAssert<ORIGIN> originAssert;
 
   /**
    * Creates a new instance from an origin {@link AbstractFileAssert} instance.
@@ -33,7 +33,7 @@ public abstract class AbstractFileSizeAssert<SELF extends AbstractFileAssert<SEL
    * @param originAssert the origin {@link AbstractFileAssert} that initiated the navigation.
    * @since 3.28.0
    */
-  protected AbstractFileSizeAssert(AbstractFileAssert<SELF> originAssert) {
+  protected AbstractFileSizeAssert(AbstractFileAssert<ORIGIN> originAssert) {
     super(originAssert.actual.length(), AbstractFileSizeAssert.class);
     this.originAssert = originAssert;
   }
@@ -60,7 +60,7 @@ public abstract class AbstractFileSizeAssert<SELF extends AbstractFileAssert<SEL
    * @return the origin {@link AbstractFileAssert} instance.
    */
   @CheckReturnValue
-  public AbstractFileAssert<SELF> returnToFile() {
+  public AbstractFileAssert<ORIGIN> returnToFile() {
     if (originAssert == null) {
       throw new IllegalStateException("No origin available. Was this assert created from its deprecated constructor?");
     }

@@ -19,10 +19,15 @@ import org.assertj.core.annotation.CheckReturnValue;
 
 import java.util.Map;
 
-public abstract class AbstractMapSizeAssert<SELF extends AbstractMapAssert<SELF, A, KEY, VALUE>, A extends Map<KEY, VALUE>, KEY, VALUE>
-    extends AbstractIntegerAssert<AbstractMapSizeAssert<SELF, A, KEY, VALUE>> {
+//@format:off
+public abstract class AbstractMapSizeAssert<ORIGIN extends AbstractMapAssert<ORIGIN, MAP, KEY, VALUE>,
+                                            MAP extends Map<KEY, VALUE>,
+                                            KEY,
+                                            VALUE>
+    extends AbstractIntegerAssert<AbstractMapSizeAssert<ORIGIN, MAP, KEY, VALUE>> {
+//@format:on
 
-  private final AbstractMapAssert<SELF, A, KEY, VALUE> originAssert;
+  private final AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> originAssert;
 
   /**
    * Creates a new instance from an origin {@link AbstractMapAssert} instance.
@@ -30,7 +35,7 @@ public abstract class AbstractMapSizeAssert<SELF extends AbstractMapAssert<SELF,
    * @param originAssert the origin {@link AbstractMapAssert} that initiated the navigation.
    * @since 3.28.0
    */
-  protected AbstractMapSizeAssert(AbstractMapAssert<SELF, A, KEY, VALUE> originAssert) {
+  protected AbstractMapSizeAssert(AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> originAssert) {
     super(originAssert.actual.size(), AbstractMapSizeAssert.class);
     this.originAssert = originAssert;
   }
@@ -50,7 +55,7 @@ public abstract class AbstractMapSizeAssert<SELF extends AbstractMapAssert<SELF,
    * @return the origin {@link AbstractMapAssert} instance.
    */
   @CheckReturnValue
-  public AbstractMapAssert<SELF, A, KEY, VALUE> returnToMap() {
+  public AbstractMapAssert<ORIGIN, MAP, KEY, VALUE> returnToMap() {
     if (originAssert == null) {
       throw new IllegalStateException("No origin available. Was this assert created from its deprecated constructor?");
     }

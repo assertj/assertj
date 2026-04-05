@@ -20,10 +20,10 @@ import org.assertj.core.annotation.CheckReturnValue;
 /**
  * Base class for BigDecimal scale assertions.
  */
-public abstract class AbstractBigDecimalScaleAssert<SELF extends AbstractBigDecimalAssert<SELF>>
-    extends AbstractIntegerAssert<AbstractBigDecimalScaleAssert<SELF>> {
+public abstract class AbstractBigDecimalScaleAssert<ORIGIN extends AbstractBigDecimalAssert<ORIGIN>>
+    extends AbstractIntegerAssert<AbstractBigDecimalScaleAssert<ORIGIN>> {
 
-  private final AbstractBigDecimalAssert<SELF> originAssert;
+  private final AbstractBigDecimalAssert<ORIGIN> originAssert;
 
   /**
    * Creates a new instance from an origin {@link AbstractBigDecimalAssert} instance.
@@ -31,7 +31,7 @@ public abstract class AbstractBigDecimalScaleAssert<SELF extends AbstractBigDeci
    * @param originAssert the origin {@link AbstractBigDecimalAssert} that initiated the navigation.
    * @since 3.28.0
    */
-  protected AbstractBigDecimalScaleAssert(AbstractBigDecimalAssert<SELF> originAssert) {
+  protected AbstractBigDecimalScaleAssert(AbstractBigDecimalAssert<ORIGIN> originAssert) {
     super(originAssert.actual.scale(), AbstractBigDecimalScaleAssert.class);
     this.originAssert = originAssert;
   }
@@ -58,7 +58,7 @@ public abstract class AbstractBigDecimalScaleAssert<SELF extends AbstractBigDeci
    * @return the origin {@link AbstractBigDecimalAssert} instance.
    */
   @CheckReturnValue
-  public AbstractBigDecimalAssert<SELF> returnToBigDecimal() {
+  public AbstractBigDecimalAssert<ORIGIN> returnToBigDecimal() {
     if (originAssert == null) {
       throw new IllegalStateException("No origin available. Was this assert created from its deprecated constructor?");
     }
