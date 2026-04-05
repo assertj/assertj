@@ -994,11 +994,10 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   void check_477_bugfix() {
     // GIVEN
     TolkienCharacter frodo = TolkienCharacter.of("frodo", 33, HOBBIT);
-    TolkienCharacter samnullGamgee = null;
     TolkienSoftAssertions softly = new TolkienSoftAssertions();
     // WHEN
     softly.assertThat(frodo).hasAge(10); // Expect failure - age will be 0 due to not being initialized.
-    softly.assertThat(samnullGamgee).hasAge(11); // Expect failure - argument is null.
+    softly.assertThat((TolkienCharacter) null).hasAge(11); // Expect failure - argument is null.
     // THEN
     then(softly.errorsCollected()).hasSize(2);
   }
@@ -1006,7 +1005,7 @@ class SoftAssertionsTest extends BaseAssertionsTest {
   public static class TolkienSoftAssertions extends SoftAssertions {
 
     public TolkienCharacterAssert assertThat(TolkienCharacter actual) {
-      return proxy(TolkienCharacterAssert.class, TolkienCharacter.class, actual);
+      return soft(new TolkienCharacterAssert(actual));
     }
   }
 

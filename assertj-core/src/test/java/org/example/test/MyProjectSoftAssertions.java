@@ -20,6 +20,6 @@ import org.assertj.core.api.SoftAssertions;
 public class MyProjectSoftAssertions extends SoftAssertions {
 
   public MyProjectClassAssert assertThat(MyProjectClass actual) {
-    return proxy(MyProjectClassAssert.class, MyProjectClass.class, actual);
+    return soft(new MyProjectClassAssert(actual));
   }
 }

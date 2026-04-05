@@ -39,6 +39,9 @@ public interface SoftAssertionsProvider extends AssertionErrorCollector {
    * <p>
    * The assertion class must have a public constructor taking a single parameter of {@code actualClass} type.
    * The returned instance will have its {@code softAssertionCollector} set to this provider.
+   * <p>
+   * If you happen to already have an instance of an assert class, prefer using {@link #soft(Object) soft(assertionInstance)},
+   * it does the same thing without needing creating a new instance by reflection (which is costly).
    *
    * @param <SELF> The type of the assertion class
    * @param <ACTUAL> The type of the object-under-test

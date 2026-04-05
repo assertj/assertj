@@ -34,12 +34,11 @@ import org.assertj.core.description.Description;
  */
 public class SoftThrowableAssertAlternative<ACTUAL extends Throwable> extends ThrowableAssertAlternative<ACTUAL> {
 
-  private final ThrowableAssert<ACTUAL> proxiedThrowableAssert;
+  private final ThrowableAssert<ACTUAL> softThrowableAssert;
 
-  @SuppressWarnings("unchecked")
   public SoftThrowableAssertAlternative(final ACTUAL actual, SoftAssertionsProvider softAssertionsProvider) {
     super(actual);
-    proxiedThrowableAssert = softAssertionsProvider.proxy(ThrowableAssert.class, Throwable.class, actual);
+    softThrowableAssert = softAssertionsProvider.soft(new ThrowableAssert<>(actual));
   }
 
   @Override
@@ -50,6 +49,6 @@ public class SoftThrowableAssertAlternative<ACTUAL extends Throwable> extends Th
 
   @Override
   protected ThrowableAssert<ACTUAL> getDelegate() {
-    return proxiedThrowableAssert;
+    return softThrowableAssert;
   }
 }

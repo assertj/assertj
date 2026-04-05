@@ -30,7 +30,7 @@ import org.assertj.core.api.ObjectAssert;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-class CustomSoftAssertionTest {
+class CustomSoftAssertionsTest {
 
   @Disabled("This currently fails when running within IntelliJ IDEA")
   @Test
@@ -86,9 +86,8 @@ class CustomSoftAssertionTest {
   }
 
   public static class TestSoftAssertions extends AbstractSoftAssertions {
-    @SuppressWarnings("unchecked")
     public <K, V> TestProxyableMapAssert<K, V> assertThat(Map<K, V> actual) {
-      return proxy(TestProxyableMapAssert.class, Map.class, actual);
+      return soft(new TestProxyableMapAssert<>(actual));
     }
   }
 

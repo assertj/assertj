@@ -138,7 +138,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Boolean2DArrayAssert assertThat(boolean[][] actual) {
-    return (Boolean2DArrayAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -179,7 +179,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Byte2DArrayAssert assertThat(byte[][] actual) {
-    return (Byte2DArrayAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -210,7 +210,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Char2DArrayAssert assertThat(char[][] actual) {
-    return (Char2DArrayAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -230,7 +230,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default ClassAssert assertThat(Class<?> actual) {
-    return (ClassAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -269,9 +269,8 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <T extends Comparable<? super T>> AbstractComparableAssert<?, T> assertThat(T actual) {
-    return soft(Assertions.assertThat(actual));
+    return soft((AbstractComparableAssert<?, T>) Assertions.assertThat(actual));
   }
 
   /**
@@ -286,9 +285,8 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.23.0
    */
-  @SuppressWarnings("unchecked")
   default <T> AbstractUniversalComparableAssert<?, T> assertThatComparable(Comparable<T> actual) {
-    return soft(Assertions.assertThatComparable(actual));
+    return soft((AbstractUniversalComparableAssert<?, T>) Assertions.assertThatComparable(actual));
   }
 
   /**
@@ -298,7 +296,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <T> IterableAssert<T> assertThat(Iterable<? extends T> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -327,7 +324,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <T> IteratorAssert<T> assertThat(Iterator<? extends T> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -385,7 +381,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Double2DArrayAssert assertThat(double[][] actual) {
-    return (Double2DArrayAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -405,7 +401,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual   the actual value
    * @return the created assertion object
    */
-  @SuppressWarnings("unchecked")
   default <RESULT> FutureAssert<RESULT> assertThat(Future<RESULT> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -458,7 +453,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Float2DArrayAssert assertThat(float[][] actual) {
-    return (Float2DArrayAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -489,7 +484,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Int2DArrayAssert assertThat(int[][] actual) {
-    return (Int2DArrayAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -509,7 +504,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <T> ListAssert<T> assertThat(List<? extends T> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -567,7 +561,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Long2DArrayAssert assertThat(long[][] actual) {
-    return (Long2DArrayAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -577,7 +571,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <T>    the type of the actual value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <T> ObjectAssert<T> assertThat(T actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -589,7 +582,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <T>    the type values of the actual array.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <T> ObjectArrayAssert<T> assertThat(T[] actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -602,7 +594,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    * @since 3.17.0
    */
-  @SuppressWarnings("unchecked")
   default <T> Object2DArrayAssert<T> assertThat(T[][] actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -615,7 +606,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <K, V> MapAssert<K, V> assertThat(Map<K, V> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -658,7 +648,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.17.0
    */
   default Short2DArrayAssert assertThat(short[][] actual) {
-    return (Short2DArrayAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -734,7 +724,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default AtomicBooleanAssert assertThat(AtomicBoolean actual) {
-    return (AtomicBooleanAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -744,7 +734,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default AtomicIntegerAssert assertThat(AtomicInteger actual) {
-    return (AtomicIntegerAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -754,7 +744,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default AtomicIntegerArrayAssert assertThat(AtomicIntegerArray actual) {
-    return (AtomicIntegerArrayAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -764,7 +754,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <OBJECT> AtomicIntegerFieldUpdaterAssert<OBJECT> assertThat(AtomicIntegerFieldUpdater<OBJECT> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -776,7 +765,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default AtomicLongAssert assertThat(AtomicLong actual) {
-    return (AtomicLongAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -786,7 +775,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default AtomicLongArrayAssert assertThat(AtomicLongArray actual) {
-    return (AtomicLongArrayAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -796,7 +785,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <OBJECT> AtomicLongFieldUpdaterAssert<OBJECT> assertThat(AtomicLongFieldUpdater<OBJECT> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -808,7 +796,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <VALUE> the type of object referred to by the {@link AtomicReference}.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <VALUE> AtomicReferenceAssert<VALUE> assertThat(AtomicReference<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -820,7 +807,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual    the actual value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <ELEMENT> AtomicReferenceArrayAssert<ELEMENT> assertThat(AtomicReferenceArray<ELEMENT> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -833,7 +819,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param <OBJECT> the type of the object holding the updatable field.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <FIELD, OBJECT> AtomicReferenceFieldUpdaterAssert<FIELD, OBJECT> assertThat(AtomicReferenceFieldUpdater<OBJECT, FIELD> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -845,7 +830,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual  the actual value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <VALUE> AtomicMarkableReferenceAssert<VALUE> assertThat(AtomicMarkableReference<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -857,7 +841,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual  the actual value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <VALUE> AtomicStampedReferenceAssert<VALUE> assertThat(AtomicStampedReference<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -1176,7 +1159,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <VALUE> OptionalAssert<VALUE> assertThat(Optional<VALUE> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -1189,7 +1171,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default OptionalDoubleAssert assertThat(OptionalDouble actual) {
-    return (OptionalDoubleAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1200,7 +1182,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default OptionalLongAssert assertThat(OptionalLong actual) {
-    return (OptionalLongAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1211,7 +1193,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default MatcherAssert assertThat(Matcher actual) {
-    return (MatcherAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1222,7 +1204,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default OptionalIntAssert assertThat(OptionalInt actual) {
-    return (OptionalIntAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1337,7 +1319,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletableFuture<RESULT> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -1352,7 +1333,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <RESULT> CompletableFutureAssert<RESULT> assertThat(CompletionStage<RESULT> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -1367,7 +1347,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    *
    * @since 3.5.0
    */
-  @SuppressWarnings("unchecked")
   default <T> PredicateAssert<T> assertThat(Predicate<T> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -1395,7 +1374,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.5.0
    */
   default IntPredicateAssert assertThat(IntPredicate actual) {
-    return (IntPredicateAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1406,7 +1385,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.5.0
    */
   default DoublePredicateAssert assertThat(DoublePredicate actual) {
-    return (DoublePredicateAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1417,7 +1396,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @since 3.5.0
    */
   default LongPredicateAssert assertThat(LongPredicate actual) {
-    return (LongPredicateAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**
@@ -1431,7 +1410,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual {@link Stream} value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <ELEMENT> AbstractListAssert<?, List<? extends ELEMENT>, ELEMENT, ObjectAssert<ELEMENT>> assertThat(Stream<? extends ELEMENT> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -1465,7 +1443,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual {@link DoubleStream} value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default AbstractListAssert<?, List<? extends Double>, Double, ObjectAssert<Double>> assertThat(DoubleStream actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -1480,7 +1457,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual {@link LongStream} value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default AbstractListAssert<?, List<? extends Long>, Long, ObjectAssert<Long>> assertThat(LongStream actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -1495,7 +1471,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual {@link IntStream} value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default AbstractListAssert<?, List<? extends Integer>, Integer, ObjectAssert<Integer>> assertThat(IntStream actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -1507,7 +1482,6 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @param actual the actual {@link Spliterator} value.
    * @return the created assertion object.
    */
-  @SuppressWarnings("unchecked")
   default <ELEMENT> SpliteratorAssert<ELEMENT> assertThat(Spliterator<ELEMENT> actual) {
     return soft(Assertions.assertThat(actual));
   }
@@ -1520,7 +1494,7 @@ public interface StandardSoftAssertionsProvider extends SoftAssertionsProvider {
    * @return the created assertion object.
    */
   default LongAdderAssert assertThat(LongAdder actual) {
-    return (LongAdderAssert) soft(Assertions.assertThat(actual));
+    return soft(Assertions.assertThat(actual));
   }
 
   /**

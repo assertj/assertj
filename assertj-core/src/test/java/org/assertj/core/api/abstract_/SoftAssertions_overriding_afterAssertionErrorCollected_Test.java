@@ -15,7 +15,7 @@
  */
 package org.assertj.core.api.abstract_; // Make sure that package-private access is lost
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.testkit.TolkienCharacter.Race.HOBBIT;
 import static org.assertj.core.util.Lists.list;
 
@@ -30,10 +30,10 @@ class SoftAssertions_overriding_afterAssertionErrorCollected_Test {
 
   static class RecordingSoftAssertions extends SoftAssertions {
 
-    List<AssertionError> recordedErrors = list();
+    private List<AssertionError> recordedErrors = list();
 
     public TolkienCharacterAssert assertThat(TolkienCharacter actual) {
-      return proxy(TolkienCharacterAssert.class, TolkienCharacter.class, actual);
+      return soft(new TolkienCharacterAssert(actual));
     }
 
     @Override
@@ -45,13 +45,12 @@ class SoftAssertions_overriding_afterAssertionErrorCollected_Test {
   @Test
   void should_collect_all_assertion_errors_by_implementing_AfterAssertionErrorCollected() {
     // GIVEN
-    RecordingSoftAssertions recordingSoftly = new RecordingSoftAssertions();
-    TolkienCharacter frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
+    var recordingSoftly = new RecordingSoftAssertions();
+    var frodo = TolkienCharacter.of("Frodo", 33, HOBBIT);
     // WHEN
     recordingSoftly.assertThat("foo").isNull();
     recordingSoftly.assertThat(frodo).hasName("Bilbo");
     // THEN
-    assertThat(recordingSoftly.recordedErrors).hasSize(2)
-                                              .containsExactlyElementsOf(recordingSoftly.assertionErrorsCollected());
+    then(recordingSoftly.recordedErrors).containsExactlyElementsOf(recordingSoftly.assertionErrorsCollected());
   }
 }

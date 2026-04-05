@@ -76,13 +76,13 @@ class SoftAssertionsMultipleProjectsTest {
 
   interface Class1SoftAssertions extends SoftAssertionsProvider {
     default NotClassyAssert assertThat(NotClassy actual) {
-      return proxy(NotClassyAssert.class, NotClassy.class, actual);
+      return soft(new NotClassyAssert(actual));
     }
   }
 
   interface Class2SoftAssertions extends SoftAssertionsProvider {
     default ClassyAssert assertThat(Classy actual) {
-      return proxy(ClassyAssert.class, Classy.class, actual);
+      return soft(new ClassyAssert(actual));
     }
   }
 

@@ -817,7 +817,7 @@ class BDDSoftAssertionsTest extends BaseAssertionsTest {
   public static class TolkienSoftAssertions extends SoftAssertions {
 
     public TolkienHeroesAssert then(TolkienHero actual) {
-      return proxy(TolkienHeroesAssert.class, TolkienHero.class, actual);
+      return soft(new TolkienHeroesAssert(actual));
     }
 
     @Override
