@@ -68,7 +68,6 @@
           <rules combine.children="append">
             <bannedDependencies>
               <includes>
-                <include>net.bytebuddy:byte-buddy</include>
                 <include>org.assertj:assertj-core</include>
               </includes>
               <excludes>
