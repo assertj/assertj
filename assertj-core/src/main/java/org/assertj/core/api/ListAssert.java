@@ -214,8 +214,7 @@ public class ListAssert<ELEMENT> extends
     });
   }
 
-  @Override
-  protected ListAssert<ELEMENT> startsWithForProxy(ELEMENT[] sequence) {
+  protected ListAssert<ELEMENT> internalStartsWith(ELEMENT[] sequence) {
     return executeAssertion(() -> {
       if (!(actual instanceof ListFromStream)) {
         iterables.assertStartsWith(info, actual, sequence);
@@ -249,7 +248,7 @@ public class ListAssert<ELEMENT> extends
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   static class ListFromStream<ELEMENT, STREAM extends BaseStream<ELEMENT, STREAM>> extends AbstractList<ELEMENT> {
-    private BaseStream<ELEMENT, STREAM> stream;
+    private final BaseStream<ELEMENT, STREAM> stream;
     private List<ELEMENT> list;
 
     public ListFromStream(BaseStream<ELEMENT, STREAM> stream) {

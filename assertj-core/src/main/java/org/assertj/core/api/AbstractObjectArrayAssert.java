@@ -342,13 +342,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF contains(ELEMENT... values) {
-    return containsForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsForProxy(ELEMENT[] values) {
     return executeAssertion(() -> arrays.assertContains(info, actual, values));
   }
 
@@ -387,13 +380,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsOnly(ELEMENT... values) {
-    return containsOnlyForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsOnlyForProxy(ELEMENT[] values) {
     return executeAssertion(() -> arrays.assertContainsOnly(info, actual, values));
   }
 
@@ -473,13 +459,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsOnlyOnce(ELEMENT... values) {
-    return containsOnlyOnceForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsOnlyOnceForProxy(ELEMENT[] values) {
     return executeAssertion(() -> arrays.assertContainsOnlyOnce(info, actual, values));
   }
 
@@ -515,13 +494,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsExactly(ELEMENT... values) {
-    return containsExactlyForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsExactlyForProxy(ELEMENT[] values) {
     return executeAssertion(() -> arrays.assertContainsExactly(info, actual, values));
   }
 
@@ -549,13 +521,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsExactlyInAnyOrder(ELEMENT... values) {
-    return containsExactlyInAnyOrderForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsExactlyInAnyOrderForProxy(ELEMENT[] values) {
     return executeAssertion(() -> arrays.assertContainsExactlyInAnyOrder(info, actual, values));
   }
 
@@ -613,13 +578,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsSequence(ELEMENT... sequence) {
-    return containsSequenceForProxy(sequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsSequenceForProxy(ELEMENT[] sequence) {
     return executeAssertion(() -> arrays.assertContainsSequence(info, actual, sequence));
   }
 
@@ -677,13 +635,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF doesNotContainSequence(ELEMENT... sequence) {
-    return doesNotContainSequenceForProxy(sequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF doesNotContainSequenceForProxy(ELEMENT[] sequence) {
     return executeAssertion(() -> arrays.assertDoesNotContainSequence(info, actual, sequence));
   }
 
@@ -737,13 +688,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsSubsequence(ELEMENT... subsequence) {
-    return containsSubsequenceForProxy(subsequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsSubsequenceForProxy(ELEMENT[] subsequence) {
     return executeAssertion(() -> arrays.assertContainsSubsequence(info, actual, subsequence));
   }
 
@@ -795,13 +739,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF doesNotContainSubsequence(ELEMENT... subsequence) {
-    return doesNotContainSubsequenceForProxy(subsequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF doesNotContainSubsequenceForProxy(ELEMENT[] subsequence) {
     return executeAssertion(() -> arrays.assertDoesNotContainSubsequence(info, actual, subsequence));
   }
 
@@ -970,13 +907,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF doesNotContain(ELEMENT... values) {
-    return doesNotContainForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF doesNotContainForProxy(ELEMENT[] values) {
     return executeAssertion(() -> arrays.assertDoesNotContain(info, actual, values));
   }
 
@@ -1051,13 +981,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF startsWith(ELEMENT... sequence) {
-    return startsWithForProxy(sequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF startsWithForProxy(ELEMENT[] sequence) {
     return executeAssertion(() -> arrays.assertStartsWith(info, actual, sequence));
   }
 
@@ -1111,13 +1034,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF endsWith(ELEMENT first, ELEMENT... sequence) {
-    return endsWithForProxy(first, sequence);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF endsWithForProxy(ELEMENT first, ELEMENT[] sequence) {
     return executeAssertion(() -> arrays.assertEndsWith(info, actual, first, sequence));
   }
 
@@ -1167,13 +1083,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF isSubsetOf(ELEMENT... values) {
-    return isSubsetOfForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF isSubsetOfForProxy(ELEMENT[] values) {
     return executeAssertion(() -> arrays.assertIsSubsetOf(info, actual, Arrays.asList(values)));
   }
 
@@ -2164,13 +2073,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(Function<? super ELEMENT, ?>... extractors) {
-    return extractingForProxy(extractors);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingForProxy(Function<? super ELEMENT, ?>[] extractors) {
 
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
@@ -3100,7 +3002,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF satisfiesExactly(Consumer<? super ELEMENT>... requirements) {
-    return satisfiesExactlyForProxy(requirements);
+    iterables.assertSatisfiesExactly(info, newArrayList(actual), requirements);
+    return myself;
   }
 
   /**
@@ -3152,15 +3055,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF satisfiesExactly(ThrowingConsumer<? super ELEMENT>... requirements) {
-    return satisfiesExactlyForProxy(requirements);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF satisfiesExactlyForProxy(Consumer<? super ELEMENT>[] requirements) {
-    iterables.assertSatisfiesExactly(info, newArrayList(actual), requirements);
-    return myself;
+    return satisfiesExactly((Consumer<? super ELEMENT>[]) requirements);
   }
 
   /**
@@ -3216,7 +3111,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF satisfiesExactlyInAnyOrder(Consumer<? super ELEMENT>... requirements) {
-    return satisfiesExactlyInAnyOrderForProxy(requirements);
+    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(actual), requirements);
+    return myself;
   }
 
   /**
@@ -3273,15 +3169,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF satisfiesExactlyInAnyOrder(ThrowingConsumer<? super ELEMENT>... requirements) {
-    return satisfiesExactlyInAnyOrderForProxy(requirements);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF satisfiesExactlyInAnyOrderForProxy(Consumer<? super ELEMENT>[] requirements) {
-    iterables.assertSatisfiesExactlyInAnyOrder(info, newArrayList(actual), requirements);
-    return myself;
+    return satisfiesExactlyInAnyOrder((Consumer<? super ELEMENT>[]) requirements);
   }
 
   /**
@@ -3309,7 +3197,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF satisfiesOnlyOnce(Consumer<? super ELEMENT> requirements) {
-    return satisfiesOnlyOnceForProxy(requirements);
+    iterables.assertSatisfiesOnlyOnce(info, newArrayList(actual), requirements);
+    return myself;
   }
 
   /**
@@ -3338,15 +3227,7 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @Override
   public SELF satisfiesOnlyOnce(ThrowingConsumer<? super ELEMENT> requirements) {
-    return satisfiesOnlyOnceForProxy(requirements);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF satisfiesOnlyOnceForProxy(Consumer<? super ELEMENT> requirements) {
-    iterables.assertSatisfiesOnlyOnce(info, newArrayList(actual), requirements);
-    return myself;
+    return satisfiesOnlyOnce((Consumer<? super ELEMENT>) requirements);
   }
 
   /**
@@ -3377,13 +3258,6 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @Override
   @SafeVarargs
   public final SELF containsAnyOf(ELEMENT... values) {
-    return containsAnyOfForProxy(values);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF containsAnyOfForProxy(ELEMENT[] values) {
     return executeAssertion(() -> arrays.assertContainsAnyOf(info, actual, values));
   }
 

@@ -87,7 +87,7 @@ public class HashSetAssert<ELEMENT>
   }
 
   @Override
-  protected HashSetAssert<ELEMENT> isSubsetOfForProxy(ELEMENT[] values) {
+  protected HashSetAssert<ELEMENT> internalIsSubsetOf(ELEMENT[] values) {
     return executeAssertion(() -> originalIterables.assertIsSubsetOf(info, actual, Arrays.asList(values)));
   }
 

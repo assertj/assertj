@@ -677,13 +677,6 @@ public abstract class AbstractClassAssert<SELF extends AbstractClassAssert<SELF>
    */
   @SafeVarargs
   public final SELF hasAnnotations(Class<? extends Annotation>... annotations) {
-    return hasAnnotationsForProxy(annotations);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF hasAnnotationsForProxy(Class<? extends Annotation>[] annotations) {
     return executeAssertion(() -> {
       isNotNull();
       assertHasAnnotations(annotations);

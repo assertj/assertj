@@ -984,7 +984,15 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @SafeVarargs
   public final SELF satisfies(Consumer<? super ACTUAL>... requirements) {
-    return satisfiesForProxy(requirements);
+    return executeAssertion(() -> {
+      checkArgument(stream(requirements).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
+      List<AssertionError> assertionErrors = stream(requirements).map(this::catchOptionalAssertionError)
+                                                                 .flatMap(Optional::stream)
+                                                                 .collect(toList());
+      if (!assertionErrors.isEmpty()) {
+        throw multipleAssertionsError(actual, assertionErrors);
+      }
+    });
   }
 
   /**
@@ -1021,22 +1029,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @SafeVarargs
   public final SELF satisfies(ThrowingConsumer<? super ACTUAL>... assertions) {
-    return satisfiesForProxy(assertions);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF satisfiesForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
-    return executeAssertion(() -> {
-      checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
-      List<AssertionError> assertionErrors = stream(assertionsGroups).map(this::catchOptionalAssertionError)
-                                                                     .flatMap(Optional::stream)
-                                                                     .collect(toList());
-      if (!assertionErrors.isEmpty()) {
-        throw multipleAssertionsError(actual, assertionErrors);
-      }
-    });
+    return satisfies((Consumer<? super ACTUAL>[]) assertions);
   }
 
   private Optional<AssertionError> catchOptionalAssertionError(Consumer<? super ACTUAL> assertions) {
@@ -1078,7 +1071,19 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @SafeVarargs
   public final SELF satisfiesAnyOf(Consumer<? super ACTUAL>... assertions) {
-    return satisfiesAnyOfForProxy(assertions);
+    return executeAssertion(() -> {
+      checkArgument(stream(assertions).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
+      // use a for loop over stream to return as soon as one assertion is met
+      List<AssertionError> assertionErrors = list();
+      for (Consumer<? super ACTUAL> assertionsGroup : assertions) {
+        Optional<AssertionError> maybeError = catchOptionalAssertionError(assertionsGroup);
+        if (maybeError.isEmpty()) {
+          return;
+        }
+        assertionErrors.add(maybeError.get());
+      }
+      throw multipleAssertionsError(actual, assertionErrors);
+    });
   }
 
   /**
@@ -1114,26 +1119,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    */
   @SafeVarargs
   public final SELF satisfiesAnyOf(ThrowingConsumer<? super ACTUAL>... assertions) {
-    return satisfiesAnyOfForProxy(assertions);
-  }
-
-  // This method is protected in order to be proxied for SoftAssertions / Assumptions.
-  // The public method for it (the one not ending with "ForProxy") is marked as final and annotated with @SafeVarargs
-  // in order to avoid compiler warning in user code
-  protected SELF satisfiesAnyOfForProxy(Consumer<? super ACTUAL>[] assertionsGroups) throws AssertionError {
-    return executeAssertion(() -> {
-      checkArgument(stream(assertionsGroups).allMatch(java.util.Objects::nonNull), "No assertions group should be null");
-      // use a for loop over stream to return as soon as one assertion is met
-      List<AssertionError> assertionErrors = list();
-      for (Consumer<? super ACTUAL> assertionsGroup : assertionsGroups) {
-        Optional<AssertionError> maybeError = catchOptionalAssertionError(assertionsGroup);
-        if (maybeError.isEmpty()) {
-          return;
-        }
-        assertionErrors.add(maybeError.get());
-      }
-      throw multipleAssertionsError(actual, assertionErrors);
-    });
+    return satisfiesAnyOf((Consumer<? super ACTUAL>[]) assertions);
   }
 
   private AssertionError multipleAssertionsError(ACTUAL actual, List<AssertionError> assertionErrors) {
