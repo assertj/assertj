@@ -27,7 +27,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
 // other imports not shown for brevity
 
-class OptionalAssert_containsInstanceOf_Test extends BaseTest {
+class OptionalAssert_containsInstanceOf_Test {
 
   @Test
   void should_fail_if_optional_is_empty() {
