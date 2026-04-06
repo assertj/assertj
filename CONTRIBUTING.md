@@ -7,7 +7,7 @@ We appreciate your effort, and to make sure that your pull request is easy to re
 * Use JDK 25 or newer to build the project.
 * Use **[AssertJ code Eclipse formatting preferences](eclipse/assertj-eclipse-formatter.xml)** (for IntelliJ IDEA users, you can import it with the [Adapter for Eclipse Code Formatter](https://plugins.jetbrains.com/plugin/6546-adapter-for-eclipse-code-formatter) plugin)
 * Write a complete Javadoc for each assertion method with a code example (succeeding and failing assertion(s)).
-* As we use JUnit 5, favor `package-private` visibility for test classes and methods.
+* As we use JUnit 6, favor `package-private` visibility for test classes and methods.
 * Write one JUnit test class for each assertion method with the following naming convention: `<AssertClass>_<assertion>_Test`.
 * Write test assertions with AssertJ! Let's eat our own dog food.
 * The unit test method naming convention is underscore-based (like Python) rather than camel-case; we find it more readable for long test names!
