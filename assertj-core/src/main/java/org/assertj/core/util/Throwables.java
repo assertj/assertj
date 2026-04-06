@@ -260,8 +260,7 @@ public final class Throwables {
   public static StackTraceElement getFirstStackTraceElementFromTest(StackTraceElement[] stacktrace) {
     for (StackTraceElement element : stacktrace) {
       String className = element.getClassName();
-      if (isProxiedAssertionClass(className)
-          || className.startsWith("sun.reflect")
+      if (className.startsWith("sun.reflect")
           || className.startsWith("jdk.internal.reflect")
           || className.startsWith("java.")
           || className.startsWith("javax.")
@@ -279,10 +278,6 @@ public final class Throwables {
       return element;
     }
     return null;
-  }
-
-  private static boolean isProxiedAssertionClass(String className) {
-    return className.contains("$ByteBuddy$");
   }
 
   private static <T extends Throwable> T addLineNumberToErrorMessage(T error) {
