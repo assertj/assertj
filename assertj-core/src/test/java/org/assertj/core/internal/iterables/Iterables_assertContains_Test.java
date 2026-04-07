@@ -22,6 +22,7 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldContain.shouldContain;
+import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.internal.ErrorMessages.valuesToLookForIsNull;
 import static org.assertj.core.internal.iterables.SinglyIterableFactory.createSinglyIterable;
 import static org.assertj.core.testkit.TestData.someInfo;
@@ -67,17 +68,15 @@ class Iterables_assertContains_Test extends IterablesBaseTest {
     // WHEN
     Throwable thrown = catchThrowable(() -> iterables.assertContains(someInfo(), actual, values));
     // THEN
-    then(thrown).isInstanceOf(NullPointerException.class).hasMessage(valuesToLookForIsNull());
+    then(thrown).isInstanceOf(NullPointerException.class).hasMessage(shouldNotBeNull("values").create());
   }
 
   @Test
-  void should_fail_if_given_values_array_is_empty() {
+  void should_pass_if_given_values_array_is_empty() {
     // GIVEN
     String[] values = array();
-    // WHEN
-    AssertionError assertionError = expectAssertionError(() -> iterables.assertContains(someInfo(), actual, values));
-    // THEN
-    then(assertionError).isNotNull();
+    // WHEN/THEN
+    iterables.assertContains(someInfo(), actual, values);
   }
 
   @ParameterizedTest
