@@ -26,7 +26,7 @@
     <!-- Plugin versions -->
     <bnd.version>7.2.3</bnd.version>
     <jacoco-maven-plugin.version>0.8.14</jacoco-maven-plugin.version>
-    <japicmp-maven-plugin.version>0.25.4</japicmp-maven-plugin.version>
+    <japicmp-maven-plugin.version>0.25.5</japicmp-maven-plugin.version>
     <maven-project-info-reports-plugin.version>3.9.0</maven-project-info-reports-plugin.version>
     <spotbugs-maven-plugin.version>4.9.8.3</spotbugs-maven-plugin.version>
     <versions-maven-plugin.version>2.21.0</versions-maven-plugin.version>
