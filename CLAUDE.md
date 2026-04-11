@@ -7,12 +7,13 @@
 - JUnit 6, Mockito, AssertJ for testing
 
 ## Conventions
-* As we use JUnit 5, favor `package-private` visibility for test classes and methods.
+* As we use JUnit 6, favor `package-private` visibility for test classes and methods.
 * Write one JUnit test class for each assertion method with the naming convention: `<AssertClass>_<assertion>_Test`
 * The unit test method naming convention is underscore-based (like Python) rather than camel-case
 * Put `GIVEN` `WHEN` `THEN` steps in each test; prefer `BDDAssertions.then` over `Assertions.assertThat` for assertions in the `THEN` step. 
 * Use `AssertionUtil.expectAssertionError` for tests expecting an `AssertionError`
 * Use static import when it makes the code more readable.
+* Execute `./mvnw license:format` to add or update license headers
 * Execute `./mvnw spotless:apply` to format the code
 * Execute `./mvnw clean verify` to make sure all tests are passing
 
@@ -47,6 +48,7 @@ class OptionalAssert_containsInstanceOf_Test {
 
 ## Build & Run
 - Use JDK 25 or newer to build the project.
+- `./mvnw license:format` to add or update license headers
 - `./mvnw spotless:apply` to format the code
 - `./mvnw clean verify` to run all tests
 - `./mvnw clean javadoc:javadoc` to generate javadoc
@@ -54,4 +56,4 @@ class OptionalAssert_containsInstanceOf_Test {
 ## Do Not
 - Do not suggest Kotlin alternatives
 - Do not use Java EE / Jakarta EE APIs that are not part of Spring Boot's managed dependencies
-- Do not generate code that requires Java 17+
+- Do not generate code that requires Java > 17
