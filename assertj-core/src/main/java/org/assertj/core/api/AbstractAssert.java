@@ -140,9 +140,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     } catch (AssertionError e) {
       if (depth > 0) throw e;
       assertionErrorHandler.handleError(e);
-      if (e instanceof FinalAssertionError) {
-        assertionErrorHandler.skipChainedAssertions();
-      }
     } finally {
       SOFT_CALL_DEPTH.set(depth);
     }
@@ -177,10 +174,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     } catch (AssertionError e) {
       if (depth > 0) throw e;
       assertionErrorHandler.handleError(e);
-      if (e instanceof FinalAssertionError finalAssertionError) {
-        assertionErrorHandler.skipChainedAssertions();
-        return (T) finalAssertionError.getAssert();
-      }
       return null;
     } catch (RuntimeException e) {
       throw e;
@@ -456,7 +449,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   public SELF isEqualTo(Object expected) {
     if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
       throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isEqualTo'. "
-                                                + "This is not supported. Perhaps you meant 'isSameAs' instead?");
+                                              + "This is not supported. Perhaps you meant 'isSameAs' instead?");
     }
 
     return executeAssertion(() -> objects.assertEqual(info, actual, expected));
@@ -469,7 +462,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   public SELF isNotEqualTo(Object other) {
     if (actual instanceof AbstractAssert<?, ?> && throwUnsupportedExceptionOnEquals) {
       throw new UnsupportedOperationException("Attempted to compare an assertion object to another object using 'isNotEqualTo'. "
-                                                + "This is not supported. Perhaps you meant 'isNotSameAs' instead?");
+                                              + "This is not supported. Perhaps you meant 'isNotSameAs' instead?");
     }
 
     return executeAssertion(() -> objects.assertNotEqual(info, actual, other));
@@ -1264,14 +1257,16 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
     return executeAssertionNavigation(() -> {
       if (actual == null && assertionErrorHandler != null) {
-        ASSERT anAssert = (ASSERT) assertFactory.createAssert((Object) null).withAssertionState(myself);
-        throw new FinalAssertionError("can't extract from null", anAssert);
+        assertionErrorHandler.handleError(new AssertionError("can't extract from null"));
+        assertionErrorHandler.skipChainedAssertions();
+        // Noop assert since we just have skipChainedAssertions
+        return (ASSERT) assertFactory.createAssert((Object) null).withAssertionState(myself);
       }
       isNotNull();
       Object value = byName(propertyOrField).apply(actual);
       String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
       String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-      //noinspection unchecked
+      // noinspection unchecked
       return (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
     });
   }

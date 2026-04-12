@@ -73,8 +73,8 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
   @Override
   public List<AssertionError> assertionErrorsCollected() {
     List<AssertionError> errors = delegate != null
-      ? delegate.assertionErrorsCollected()
-      : unmodifiableList(collectedAssertionErrors);
+        ? delegate.assertionErrorsCollected()
+        : unmodifiableList(collectedAssertionErrors);
     return decorateErrorsCollected(errors);
   }
 
