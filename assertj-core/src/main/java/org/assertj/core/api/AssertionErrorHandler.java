@@ -40,4 +40,6 @@ public interface AssertionErrorHandler {
    * Called when an assertion succeeds.
    */
   void succeeded();
+  void skipChainedAssertions();
+  boolean mustSkipChainedAssertions();
 }

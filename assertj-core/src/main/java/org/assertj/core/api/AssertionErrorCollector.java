@@ -36,7 +36,9 @@ public interface AssertionErrorCollector extends AfterAssertionErrorCollected, A
 
   @Override
   default void handleError(AssertionError error) {
-    collectAssertionError(error);
+    if (!mustSkipChainedAssertions()) {
+      collectAssertionError(error);
+    }
   }
 
   /**

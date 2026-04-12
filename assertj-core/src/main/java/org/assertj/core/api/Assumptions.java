@@ -87,6 +87,8 @@ import org.assertj.core.util.Throwables;
 public class Assumptions {
 
   private static final AssertionErrorHandler ASSUMPTION_ERROR_HANDLER = new AssertionErrorHandler() {
+    private boolean skipRemainingErrors;
+
     @Override
     public void handleError(AssertionError error) {
       try {
@@ -99,6 +101,16 @@ public class Assumptions {
     @Override
     public void succeeded() {
       // no-op for assumptions
+    }
+
+    @Override
+    public void skipChainedAssertions() {
+      this.skipRemainingErrors = true;
+    }
+
+    @Override
+    public boolean mustSkipChainedAssertions() {
+      return skipRemainingErrors;
     }
   };
 

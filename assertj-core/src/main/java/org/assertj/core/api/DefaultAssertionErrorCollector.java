@@ -27,6 +27,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
   // Marking this field as volatile doesn't ensure complete thread safety
   // (mutual exclusion, race-free behavior), but guarantees eventual visibility
   private volatile boolean wasSuccess = true;
+  private volatile boolean skipChainedAssertions = false;
   private final List<AssertionError> collectedAssertionErrors = synchronizedList(new ArrayList<>());
 
   private final List<AfterAssertionErrorCollected> callbacks = synchronizedList(new ArrayList<>());
@@ -72,8 +73,8 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
   @Override
   public List<AssertionError> assertionErrorsCollected() {
     List<AssertionError> errors = delegate != null
-        ? delegate.assertionErrorsCollected()
-        : unmodifiableList(collectedAssertionErrors);
+      ? delegate.assertionErrorsCollected()
+      : unmodifiableList(collectedAssertionErrors);
     return decorateErrorsCollected(errors);
   }
 
@@ -82,7 +83,6 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    * also removes all previously added callbacks.
    *
    * @param afterAssertionErrorCollected the callback.
-   *
    * @since 3.17.0
    */
   public void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
@@ -128,7 +128,6 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    * the only thing you have to do is to override {@link AfterAssertionErrorCollected#onAssertionErrorCollected(AssertionError)}.
    *
    * @param afterAssertionErrorCollected the callback.
-   *
    * @since 3.26.0
    */
   public void addAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
@@ -145,16 +144,31 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
   }
 
   @Override
+  public void skipChainedAssertions() {
+    if (delegate == null) {
+      skipChainedAssertions = true;
+    } else {
+      delegate.skipChainedAssertions();
+    }
+  }
+
+  @Override
+  public boolean mustSkipChainedAssertions() {
+    return delegate == null ? skipChainedAssertions : delegate.mustSkipChainedAssertions();
+  }
+
+  @Override
   public boolean wasSuccess() {
     return delegate == null ? wasSuccess : delegate.wasSuccess();
   }
 
   /**
    * Modifies collected errors. Override to customize modification.
-   * @param <T> the supertype to use in the list return value
+   *
+   * @param <T>    the supertype to use in the list return value
    * @param errors list of errors to decorate
    * @return decorated list
-  */
+   */
   protected <T extends Throwable> List<T> decorateErrorsCollected(List<? extends T> errors) {
     return (List<T>) errors;
   }
