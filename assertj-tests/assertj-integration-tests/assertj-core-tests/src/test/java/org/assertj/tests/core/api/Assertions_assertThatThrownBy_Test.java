@@ -19,9 +19,9 @@ import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.error.ShouldHaveMessage.shouldHaveMessage;
+import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 class Assertions_assertThatThrownBy_Test {
@@ -74,12 +74,6 @@ class Assertions_assertThatThrownBy_Test {
     AssertionError assertionError = expectAssertionError(() -> assertThatThrownBy(codeThrowing(throwable)).hasMessage("bam"));
     // THEN
     then(assertionError).hasMessage(shouldHaveMessage(throwable, "bam").create());
-  }
-
-  private static ThrowingCallable codeThrowing(Throwable t) {
-    return () -> {
-      throw t;
-    };
   }
 
   private static void methodThrowing(Object... parameters) throws Exception {

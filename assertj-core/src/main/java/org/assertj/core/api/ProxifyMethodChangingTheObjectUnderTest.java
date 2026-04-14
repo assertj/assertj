@@ -89,6 +89,7 @@ public class ProxifyMethodChangingTheObjectUnderTest {
     if (currentAssert instanceof FileSizeAssert) return createFileSizeAssertProxy(currentAssert);
     if (currentAssert instanceof BigDecimalScaleAssert) return createBigDecimalScaleAssertProxy(currentAssert);
     if (currentAssert instanceof MapSizeAssert) return createMapSizeAssertProxy(currentAssert);
+    if (currentAssert instanceof SuppressedExceptionsAssert) return createSuppressedExceptionsAssertProxy(currentAssert);
     if (currentAssert instanceof RecursiveComparisonAssert)
       return createRecursiveComparisonAssertProxy((RecursiveComparisonAssert) currentAssert);
     return (AbstractAssert) proxies.createSoftAssertionProxy(currentAssert.getClass(), actualClass(currentAssert),
@@ -117,6 +118,11 @@ public class ProxifyMethodChangingTheObjectUnderTest {
   private BigDecimalScaleAssert<?> createBigDecimalScaleAssertProxy(Object currentAssert) {
     BigDecimalScaleAssert<?> bigDecimalScaleAssert = (BigDecimalScaleAssert<?>) currentAssert;
     return proxies.createBigDecimalScaleAssertProxy(bigDecimalScaleAssert);
+  }
+
+  private SuppressedExceptionsAssert<?, ?> createSuppressedExceptionsAssertProxy(Object currentAssert) {
+    SuppressedExceptionsAssert<?, ?> suppressedExceptionsAssert = (SuppressedExceptionsAssert<?, ?>) currentAssert;
+    return proxies.createSuppressedExceptionsAssertProxy(suppressedExceptionsAssert);
   }
 
   @SuppressWarnings("rawtypes")

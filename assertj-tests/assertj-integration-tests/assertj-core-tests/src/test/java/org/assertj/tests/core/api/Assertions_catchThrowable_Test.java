@@ -17,8 +17,8 @@ package org.assertj.tests.core.api;
 
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
 
-import org.assertj.core.api.ThrowableAssert.ThrowingCallable;
 import org.junit.jupiter.api.Test;
 
 class Assertions_catchThrowable_Test {
@@ -41,9 +41,4 @@ class Assertions_catchThrowable_Test {
     then(boom).isNull();
   }
 
-  static ThrowingCallable codeThrowing(Throwable t) {
-    return () -> {
-      throw t;
-    };
-  }
 }

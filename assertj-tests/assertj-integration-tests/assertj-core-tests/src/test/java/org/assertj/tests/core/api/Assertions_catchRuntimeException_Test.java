@@ -18,7 +18,7 @@ package org.assertj.tests.core.api;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchRuntimeException;
 import static org.assertj.core.api.BDDAssertions.then;
-import static org.assertj.tests.core.api.Assertions_catchThrowable_Test.codeThrowing;
+import static org.assertj.tests.core.testkit.ThrowingCallableFactory.codeThrowing;
 import static org.assertj.tests.core.util.AssertionsUtil.expectAssertionError;
 import static org.mockito.Mockito.mock;
 

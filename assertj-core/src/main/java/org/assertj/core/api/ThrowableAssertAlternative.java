@@ -21,8 +21,8 @@ import org.assertj.core.annotation.CheckReturnValue;
 import org.assertj.core.description.Description;
 
 /**
- * Assertion methods for {@link java.lang.Throwable} similar to {@link ThrowableAssert} but with assertions methods named
- * differently to make testing code fluent (ex : <code>withMessage</code> instead of <code>hasMessage</code>.
+ * Assertion methods for {@link Throwable} similar to {@link ThrowableAssert} but with assertions methods named
+ * differently to make testing code fluent (e.g.: <code>withMessage</code> instead of <code>hasMessage</code>).
  * <pre><code class='java'> assertThatExceptionOfType(IOException.class)
  *           .isThrownBy(() -&gt; { throw new IOException("boom! tcha!"); });
  *           .withMessage("boom! %s", "tcha!"); </code></pre>
@@ -688,6 +688,41 @@ public class ThrowableAssertAlternative<ACTUAL extends Throwable>
   public ThrowableAssertAlternative<?> havingRootCause() {
     AbstractThrowableAssert<?, ?> rootCauseAssert = getDelegate().rootCause();
     return new ThrowableAssertAlternative<>(rootCauseAssert.actual);
+  }
+
+  /**
+   * Returns a new assertion object with the current {@link Throwable} suppressed exceptions as the object under test.
+   * <p>
+   * As suppressed exceptions are contained in {@code Throwable[]} instance,
+   * {@link AbstractObjectArrayAssert array assertions} can be chained after this invocation.
+   * <p>
+   * You can navigate back to the current {@link Throwable} with {@link SuppressedExceptionsAssert#returnToThrowable() returnToThrowable()}.
+   * <p>
+   * Examples:
+   * <pre><code class='java'>Exception exception = new Exception("boom!");
+   * Exception illegalArgumentException = new IllegalArgumentException("invalid argument");
+   * Exception ioException = new IOException("IO error");
+   * exception.addSuppressed(illegalArgumentException);
+   * exception.addSuppressed(ioException);
+   *
+   * // these assertions succeed:
+   * assertThatException().isThrownBy(() -> { throw exception; })
+   *                      .withSuppressedExceptionsThat()
+   *                      .containsOnly(illegalArgumentException, ioException)
+   *                      .returnToThrowable()
+   *                      .hasMessage("boom!");
+   *
+   * // this assertion fails:
+   * assertThatException().isThrownBy(() -> { throw exception; })
+   *                      .withSuppressedExceptionsThat()
+   *                      .isEmpty();</code></pre>
+   *
+   * @return a new assertion object
+   * @throws AssertionError if the actual {@code Throwable} is {@code null}.
+   * @since 3.28.0
+   */
+  public SuppressedExceptionsAssert<ThrowableAssert<ACTUAL>, ACTUAL> withSuppressedExceptionsThat() {
+    return getDelegate().suppressedExceptions();
   }
 
 }
