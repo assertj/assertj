@@ -7,7 +7,7 @@
 | 3.27.x  | :white_check_mark: |
 | < 3.27  | :x:                |
 
-Snapshots, milestones, and release candidates are generally not supported from a security standpoint.
+Snapshots, milestones, and release candidates are not supported from a security standpoint.
 
 ## Reporting a Vulnerability
 
