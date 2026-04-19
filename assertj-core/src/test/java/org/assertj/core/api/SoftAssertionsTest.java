@@ -2738,4 +2738,21 @@ class SoftAssertionsTest extends BaseAssertionsTest {
 
   private void checkSomething() {}
 
+  // https://github.com/assertj/assertj/issues/4213
+  @Test
+  public void ignore_chained_assertion_if_extracting_from_null() {
+    // GIVEN
+    Object actual = null;
+    // WHEN
+    softly.assertThat(actual)
+          .extracting("foo")
+          .isEqualTo("bar")
+          .isEqualTo("baz");
+    softly.assertThat(10).overridingErrorMessage("failing assertion we want to see reported").isEqualTo(11);
+
+    // THEN
+    then(softly.errorsCollected()).extracting(Throwable::getMessage)
+                                  .containsExactly("can't extract from null",
+                                                   "failing assertion we want to see reported");
+  }
 }

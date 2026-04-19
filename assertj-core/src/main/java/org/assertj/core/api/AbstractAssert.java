@@ -103,6 +103,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   // Depth counter for nested soft assertion call detection (replaces stack trace scanning)
   private static final ThreadLocal<Integer> SOFT_CALL_DEPTH = ThreadLocal.withInitial(() -> 0);
+  private boolean skipChainedAssertions;
 
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
@@ -129,6 +130,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
       body.run();
       return myself;
     }
+    if (skipChainedAssertions) {
+      return myself;
+    }
     int depth = SOFT_CALL_DEPTH.get();
     SOFT_CALL_DEPTH.set(depth + 1);
     try {
@@ -148,7 +152,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * In soft mode, catches {@link AssertionError} from the assertion guards, collects it,
    * and returns {@code null} (matching the old proxy behavior).
    *
-   * @param <T> the return type of the navigation method
+   * @param <T>  the return type of the navigation method
    * @param body the navigation method logic to execute
    * @return the navigation result, or {@code null} if an assertion error was collected in soft mode
    */
@@ -412,7 +416,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    *
    * org.opentest4j.AssertionFailedError:
    * expected: 0b00000000_00000000_00000000_00000010
-    *  but was: 0b00000000_00000000_00000000_00000001</code></pre>
+   *  but was: 0b00000000_00000000_00000000_00000001</code></pre>
    *
    * @return {@code this} assertion object.
    */
@@ -1193,6 +1197,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   SELF withAssertionState(@SuppressWarnings("rawtypes") AbstractAssert assertInstance) {
     this.objects = assertInstance.objects;
     this.assertionErrorHandler = assertInstance.assertionErrorHandler;
+    this.skipChainedAssertions = assertInstance.skipChainedAssertions;
     propagateAssertionInfoFrom(assertInstance);
     return myself;
   }
@@ -1252,13 +1257,20 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
                                                                     AssertFactory<Object, ASSERT> assertFactory) {
     requireNonNull(propertyOrField, shouldNotBeNull("propertyOrField")::create);
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
-    isNotNull();
-    Object value = byName(propertyOrField).apply(actual);
-    String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
-    String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
-    @SuppressWarnings("unchecked")
-    ASSERT result = (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
-    return result;
+    return executeAssertionNavigation(() -> {
+      if (actual == null && assertionErrorHandler != null) {
+        assertionErrorHandler.handleError(new AssertionError("can't extract from null"));
+        skipChainedAssertions = true;
+        // Noop assert since we just have skipChainedAssertions
+        return (ASSERT)myself;
+      }
+      isNotNull();
+      Object value = byName(propertyOrField).apply(actual);
+      String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
+      String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
+      // noinspection unchecked
+      return (ASSERT) assertFactory.createAssert(value).withAssertionState(myself).as(description);
+    });
   }
 
   /**

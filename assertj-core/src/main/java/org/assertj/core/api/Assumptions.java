@@ -87,6 +87,8 @@ import org.assertj.core.util.Throwables;
 public class Assumptions {
 
   private static final AssertionErrorHandler ASSUMPTION_ERROR_HANDLER = new AssertionErrorHandler() {
+    private boolean skipRemainingErrors;
+
     @Override
     public void handleError(AssertionError error) {
       try {

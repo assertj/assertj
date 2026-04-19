@@ -27,6 +27,7 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
   // Marking this field as volatile doesn't ensure complete thread safety
   // (mutual exclusion, race-free behavior), but guarantees eventual visibility
   private volatile boolean wasSuccess = true;
+  private volatile boolean skipChainedAssertions = false;
   private final List<AssertionError> collectedAssertionErrors = synchronizedList(new ArrayList<>());
 
   private final List<AfterAssertionErrorCollected> callbacks = synchronizedList(new ArrayList<>());
@@ -82,7 +83,6 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    * also removes all previously added callbacks.
    *
    * @param afterAssertionErrorCollected the callback.
-   *
    * @since 3.17.0
    */
   public void setAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
@@ -128,7 +128,6 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
    * the only thing you have to do is to override {@link AfterAssertionErrorCollected#onAssertionErrorCollected(AssertionError)}.
    *
    * @param afterAssertionErrorCollected the callback.
-   *
    * @since 3.26.0
    */
   public void addAfterAssertionErrorCollected(AfterAssertionErrorCollected afterAssertionErrorCollected) {
@@ -151,10 +150,11 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
 
   /**
    * Modifies collected errors. Override to customize modification.
-   * @param <T> the supertype to use in the list return value
+   *
+   * @param <T>    the supertype to use in the list return value
    * @param errors list of errors to decorate
    * @return decorated list
-  */
+   */
   protected <T extends Throwable> List<T> decorateErrorsCollected(List<? extends T> errors) {
     return (List<T>) errors;
   }
