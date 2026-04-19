@@ -144,20 +144,6 @@ public class DefaultAssertionErrorCollector implements AssertionErrorCollector {
   }
 
   @Override
-  public void skipChainedAssertions() {
-    if (delegate == null) {
-      skipChainedAssertions = true;
-    } else {
-      delegate.skipChainedAssertions();
-    }
-  }
-
-  @Override
-  public boolean mustSkipChainedAssertions() {
-    return delegate == null ? skipChainedAssertions : delegate.mustSkipChainedAssertions();
-  }
-
-  @Override
   public boolean wasSuccess() {
     return delegate == null ? wasSuccess : delegate.wasSuccess();
   }

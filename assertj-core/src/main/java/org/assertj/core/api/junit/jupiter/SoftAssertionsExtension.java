@@ -200,16 +200,6 @@ public class SoftAssertionsExtension
     }
 
     @Override
-    public void skipChainedAssertions() {
-      threadLocal.get().skipChainedAssertions();
-    }
-
-    @Override
-    public boolean mustSkipChainedAssertions() {
-      return threadLocal.get().mustSkipChainedAssertions();
-    }
-
-    @Override
     public boolean wasSuccess() {
       return threadLocal.get().wasSuccess();
     }

@@ -28,7 +28,8 @@ public interface AssertionErrorCollector extends AfterAssertionErrorCollected, A
    *
    * @param delegate the {@link AssertionErrorCollector} to which the assertions will be forwarded.
    */
-  default void setDelegate(AssertionErrorCollector delegate) {}
+  default void setDelegate(AssertionErrorCollector delegate) {
+  }
 
   default Optional<AssertionErrorCollector> getDelegate() {
     return Optional.empty();
@@ -36,9 +37,7 @@ public interface AssertionErrorCollector extends AfterAssertionErrorCollected, A
 
   @Override
   default void handleError(AssertionError error) {
-    if (!mustSkipChainedAssertions()) {
-      collectAssertionError(error);
-    }
+    collectAssertionError(error);
   }
 
   /**

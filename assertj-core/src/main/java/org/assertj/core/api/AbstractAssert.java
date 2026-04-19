@@ -103,6 +103,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   // Depth counter for nested soft assertion call detection (replaces stack trace scanning)
   private static final ThreadLocal<Integer> SOFT_CALL_DEPTH = ThreadLocal.withInitial(() -> 0);
+  private boolean skipChainedAssertions;
 
   // we prefer not to use Class<? extends S> selfType because it would force inherited
   // constructor to cast with a compiler warning
@@ -129,7 +130,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
       body.run();
       return myself;
     }
-    if (assertionErrorHandler.mustSkipChainedAssertions()) {
+    if (skipChainedAssertions) {
       return myself;
     }
     int depth = SOFT_CALL_DEPTH.get();
@@ -1196,6 +1197,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   SELF withAssertionState(@SuppressWarnings("rawtypes") AbstractAssert assertInstance) {
     this.objects = assertInstance.objects;
     this.assertionErrorHandler = assertInstance.assertionErrorHandler;
+    this.skipChainedAssertions = assertInstance.skipChainedAssertions;
     propagateAssertionInfoFrom(assertInstance);
     return myself;
   }
@@ -1258,9 +1260,9 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return executeAssertionNavigation(() -> {
       if (actual == null && assertionErrorHandler != null) {
         assertionErrorHandler.handleError(new AssertionError("can't extract from null"));
-        assertionErrorHandler.skipChainedAssertions();
+        skipChainedAssertions = true;
         // Noop assert since we just have skipChainedAssertions
-        return (ASSERT) assertFactory.createAssert((Object) null).withAssertionState(myself);
+        return (ASSERT)myself;
       }
       isNotNull();
       Object value = byName(propertyOrField).apply(actual);

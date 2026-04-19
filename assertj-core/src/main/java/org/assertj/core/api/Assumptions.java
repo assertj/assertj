@@ -102,16 +102,6 @@ public class Assumptions {
     public void succeeded() {
       // no-op for assumptions
     }
-
-    @Override
-    public void skipChainedAssertions() {
-      this.skipRemainingErrors = true;
-    }
-
-    @Override
-    public boolean mustSkipChainedAssertions() {
-      return skipRemainingErrors;
-    }
   };
 
   /**
