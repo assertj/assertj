@@ -101,6 +101,12 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   // Used by soft assertions (collect errors) and assumptions (convert to assumption exceptions).
   AssertionErrorHandler assertionErrorHandler;
 
+  // When true in soft-assertion mode, all subsequent assertions on this instance are no-ops.
+  // Set by navigation methods (e.g. extracting) when they find actual == null after a failed
+  // soft null-guard, so that downstream assertions on the navigated (null) value do not
+  // pile up errors they cannot possibly succeed. Propagated by withAssertionState.
+  boolean skipAssertions;
+
   // Depth counter for nested soft assertion call detection (replaces stack trace scanning)
   private static final ThreadLocal<Integer> SOFT_CALL_DEPTH = ThreadLocal.withInitial(() -> 0);
 
@@ -129,6 +135,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
       body.run();
       return myself;
     }
+    if (skipAssertions) return myself;
     int depth = SOFT_CALL_DEPTH.get();
     SOFT_CALL_DEPTH.set(depth + 1);
     try {
@@ -1193,6 +1200,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   SELF withAssertionState(@SuppressWarnings("rawtypes") AbstractAssert assertInstance) {
     this.objects = assertInstance.objects;
     this.assertionErrorHandler = assertInstance.assertionErrorHandler;
+    this.skipAssertions = assertInstance.skipAssertions;
     propagateAssertionInfoFrom(assertInstance);
     return myself;
   }
@@ -1253,6 +1261,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     requireNonNull(propertyOrField, shouldNotBeNull("propertyOrField")::create);
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
     isNotNull();
+    if (actual == null) return deadChainNavigation(assertFactory);
     Object value = byName(propertyOrField).apply(actual);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
@@ -1281,10 +1290,28 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     requireNonNull(extractor, shouldNotBeNull("extractor")::create);
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
     isNotNull();
+    if (actual == null) return deadChainNavigation(assertFactory);
     T extractedValue = extractor.apply(actual);
     @SuppressWarnings("unchecked")
     ASSERT result = (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
     return result;
+  }
+
+  /**
+   * Marks a navigated assertion as {@linkplain #skipAssertions skipping subsequent assertions},
+   * intended for the soft-assertion dead-chain path: when a null-guard (e.g. {@link #isNotNull()})
+   * has collected an error and {@code actual} is still {@code null}, returning such a sentinel lets
+   * downstream chained assertions no-op instead of throwing a {@link RuntimeException} or piling up
+   * errors that cannot succeed.
+   */
+  protected <A extends AbstractAssert<?, ?>> A markAsDeadChain(A deadChain) {
+    deadChain.withAssertionState(myself);
+    deadChain.skipAssertions = true;
+    return deadChain;
+  }
+
+  private <T, ASSERT extends AbstractAssert<?, ?>> ASSERT deadChainNavigation(AssertFactory<T, ASSERT> assertFactory) {
+    return markAsDeadChain(assertFactory.createAssert((T) null));
   }
 
   /**

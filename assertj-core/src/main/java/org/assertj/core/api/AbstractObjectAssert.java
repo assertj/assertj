@@ -408,6 +408,8 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String... propertiesOrFields) {
+    isNotNull();
+    if (actual == null) return deadChainList();
     Tuple values = byName(propertiesOrFields).apply(actual);
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
@@ -537,10 +539,17 @@ public abstract class AbstractObjectAssert<SELF extends AbstractObjectAssert<SEL
   @SafeVarargs
   public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(Function<? super ACTUAL, ?>... extractors) {
     requireNonNull(extractors, shouldNotBeNull("extractors")::create);
+    isNotNull();
+    if (actual == null) return deadChainList();
     List<Object> values = Stream.of(extractors)
                                 .map(extractor -> extractor.apply(actual))
                                 .collect(toList());
     return newListAssertInstance(values).withAssertionState(myself);
+  }
+
+  private AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> deadChainList() {
+    List<Object> nullActual = null;
+    return markAsDeadChain(newListAssertInstance(nullActual));
   }
 
   /**
