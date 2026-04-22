@@ -627,6 +627,16 @@ class SoftAssertions_navigations_on_null_actual_Test {
     }
 
     @Test
+    void should_not_throw_when_flatExtracting_by_keys_on_null_map() {
+      // GIVEN / WHEN
+      softly.assertThat((Map<String, String>) null).flatExtracting("a", "b").hasSize(0);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
     void should_not_throw_when_extractingFromEntries_multiple_extractors_on_null_map() {
       // GIVEN / WHEN
       softly.assertThat((Map<String, String>) null).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue).hasSize(0);

@@ -1858,6 +1858,8 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String... keys) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<Object>) null));
     Tuple values = byName(keys).apply(actual);
     List<Object> valuesFlattened = flatten(values.toList());
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf(keys);
