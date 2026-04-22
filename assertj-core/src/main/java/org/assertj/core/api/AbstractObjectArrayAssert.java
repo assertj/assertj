@@ -1824,6 +1824,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String fieldOrProperty) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<Object>) null));
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrProperty));
     String extractedDescription = extractedDescriptionOf(fieldOrProperty);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -1877,6 +1879,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extracting(String fieldOrProperty,
                                                                                      Class<P> extractingType) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<P>) null));
     @SuppressWarnings("unchecked")
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(fieldOrProperty));
     String extractedDescription = extractedDescriptionOf(fieldOrProperty);
@@ -1935,6 +1939,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(String... propertiesOrFields) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<Tuple>) null));
     List<Tuple> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertiesOrFields));
     String extractedDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -1974,6 +1980,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <U> AbstractListAssert<?, List<? extends U>, U, ObjectAssert<U>> extracting(Function<? super ELEMENT, U> extractor) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<U>) null));
     List<U> values = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor);
     return newListAssertInstance(values).withAssertionState(myself);
   }
@@ -2018,6 +2026,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public <V, EXCEPTION extends Exception> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extracting(ThrowingExtractor<? super ELEMENT, V, EXCEPTION> extractor) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<V>) null));
     List<V> values = FieldsOrPropertiesExtractor.extract(newArrayList(actual), extractor);
     return newListAssertInstance(values).withAssertionState(myself);
   }
@@ -2073,7 +2083,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(Function<? super ELEMENT, ?>... extractors) {
-
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<Tuple>) null));
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
                                                                                           .toArray());
@@ -2159,6 +2170,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   }
 
   private <V, C extends Collection<V>> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Function<? super ELEMENT, C> extractor) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<V>) null));
     List<V> result = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), extractor).stream()
                                                 .flatMap(Collection::stream).collect(toList());
     return newListAssertInstance(result).withAssertionState(myself);
@@ -2195,6 +2208,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String propertyName) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<Object>) null));
     List<Object> extractedValues = newArrayList();
     List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(Arrays.asList(actual), byName(propertyName));
     for (Object group : extractedGroups) {
@@ -2254,6 +2269,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<Object>) null));
     Object[] values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -2302,6 +2319,8 @@ public abstract class AbstractObjectArrayAssert<SELF extends AbstractObjectArray
   @CheckReturnValue
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extractingResultOf(String method,
                                                                                              Class<P> extractingType) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<P>) null));
     @SuppressWarnings("unchecked")
     P[] values = (P[]) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
