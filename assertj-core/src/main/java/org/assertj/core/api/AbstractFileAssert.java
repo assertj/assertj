@@ -1333,11 +1333,12 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     return result;
   }
 
-  // this method was introduced to avoid double proxying in soft assertions for content()
   private AbstractStringAssert<?> internalContent(Charset charset) {
-    files.assertCanRead(info, actual);
-    String fileContent = readFile(charset);
-    return new StringAssert(fileContent).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      files.assertCanRead(info, actual);
+      String fileContent = readFile(charset);
+      return new StringAssert(fileContent).withAssertionState(myself);
+    }, () -> new StringAssert(null));
   }
 
   private byte[] readFile() {

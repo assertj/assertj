@@ -704,6 +704,51 @@ class SoftAssertions_navigations_on_null_actual_Test {
   }
 
   @Nested
+  class FileAndPathContent {
+
+    @Test
+    void should_not_throw_when_calling_content_on_null_file() {
+      // GIVEN / WHEN
+      softly.assertThat((java.io.File) null).content().contains("x");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_content_with_charset_on_null_file() {
+      // GIVEN / WHEN
+      softly.assertThat((java.io.File) null).content(java.nio.charset.StandardCharsets.UTF_8).contains("x");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_content_on_null_path() {
+      // GIVEN / WHEN
+      softly.assertThat((java.nio.file.Path) null).content().contains("x");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_content_with_charset_on_null_path() {
+      // GIVEN / WHEN
+      softly.assertThat((java.nio.file.Path) null).content(java.nio.charset.StandardCharsets.UTF_8).contains("x");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+  }
+
+  @Nested
   class AsStringAndAsHexString {
 
     @Test

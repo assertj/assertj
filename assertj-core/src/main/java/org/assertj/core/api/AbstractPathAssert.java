@@ -1856,11 +1856,12 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     return internalContent(charset);
   }
 
-  // this method was introduced to avoid double proxying in soft assertions for content()
   private AbstractStringAssert<?> internalContent(Charset charset) {
-    paths.assertIsReadable(info, actual);
-    String pathContent = readPath(charset);
-    return new StringAssert(pathContent).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      paths.assertIsReadable(info, actual);
+      String pathContent = readPath(charset);
+      return new StringAssert(pathContent).withAssertionState(myself);
+    }, () -> new StringAssert(null));
   }
 
   private byte[] readPath() {
