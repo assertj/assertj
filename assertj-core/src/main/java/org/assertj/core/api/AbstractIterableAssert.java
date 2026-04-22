@@ -23,7 +23,6 @@ import static org.assertj.core.api.filter.Filters.filter;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldBeEmpty.shouldBeEmpty;
 import static org.assertj.core.error.ShouldNotBeEmpty.shouldNotBeEmpty;
-import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
 import static org.assertj.core.extractor.Extractors.byName;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOf;
 import static org.assertj.core.extractor.Extractors.extractedDescriptionOfMethod;
@@ -798,6 +797,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extracting(String propertyOrField) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstanceForMethodsChangingElementType((List<Object>) null));
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
     String extractedDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -845,6 +846,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingResultOf(String method) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstanceForMethodsChangingElementType((List<Object>) null));
     // can't refactor by calling extractingResultOf(method, Object.class) as SoftAssertion would fail
     List<Object> values = FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
@@ -896,6 +899,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extractingResultOf(String method,
                                                                                              Class<P> extractedType) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstanceForMethodsChangingElementType((List<P>) null));
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, resultOf(method));
     String extractedDescription = extractedDescriptionOfMethod(method);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -986,6 +991,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   public <P> AbstractListAssert<?, List<? extends P>, P, ObjectAssert<P>> extracting(String propertyOrField,
                                                                                      Class<P> extractingType) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstanceForMethodsChangingElementType((List<P>) null));
     List<P> values = (List<P>) FieldsOrPropertiesExtractor.extract(actual, byName(propertyOrField));
     String extractedDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -1078,6 +1085,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extracting(String... propertiesOrFields) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstanceForMethodsChangingElementType((List<Tuple>) null));
     List<Tuple> values = FieldsOrPropertiesExtractor.extract(actual, byName(propertiesOrFields));
     String extractedDescription = extractedDescriptionOf(propertiesOrFields);
     String description = mostRelevantDescription(info.description(), extractedDescription);
@@ -1121,7 +1130,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> internalExtracting(Function<? super ELEMENT, V> extractor) {
-    if (actual == null) throwAssertionError(shouldNotBeNull());
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstanceForMethodsChangingElementType((List<V>) null));
     List<V> values = FieldsOrPropertiesExtractor.extract(actual, extractor);
     return newListAssertInstanceForMethodsChangingElementType(values);
   }
@@ -1407,6 +1417,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   }
 
   private <V> AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> doFlatExtracting(Function<? super ELEMENT, ? extends Collection<V>> extractor) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstanceForMethodsChangingElementType((List<V>) null));
     List<V> result = FieldsOrPropertiesExtractor.extract(actual, extractor).stream()
                                                 .flatMap(Collection::stream)
                                                 .collect(toList());
@@ -1473,7 +1485,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatMap(Function<? super ELEMENT, ?>... mappers) {
-    if (actual == null) throwAssertionError(shouldNotBeNull());
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstanceForMethodsChangingElementType((List<Object>) null));
     Stream<? extends ELEMENT> actualStream = stream(actual.spliterator(), false);
     List<Object> result = actualStream.flatMap(element -> Stream.of(mappers).map(extractor -> extractor.apply(element)))
                                       .collect(toList());
@@ -1595,6 +1608,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String fieldOrPropertyName) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstanceForMethodsChangingElementType((List<Object>) null));
     List<Object> extractedValues = newArrayList();
     List<?> extractedGroups = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyName));
     for (Object group : extractedGroups) {
@@ -1720,7 +1735,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> map(Function<? super ELEMENT, ?>... mappers) {
-    if (actual == null) throwAssertionError(shouldNotBeNull());
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstanceForMethodsChangingElementType((List<Tuple>) null));
     // combine all extractors into one function
     Function<ELEMENT, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(mappers)
                                                                                           .map(extractor -> extractor.apply(objectToExtractValueFrom))
@@ -1754,6 +1770,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> flatExtracting(String... fieldOrPropertyNames) {
+    isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstanceForMethodsChangingElementType((List<Object>) null));
     List<Object> extractedValues = FieldsOrPropertiesExtractor.extract(actual, byName(fieldOrPropertyNames)).stream()
                                                               .flatMap(tuple -> tuple.toList().stream())
                                                               .collect(toList());

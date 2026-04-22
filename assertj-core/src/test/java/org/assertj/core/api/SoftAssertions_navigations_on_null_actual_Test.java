@@ -288,6 +288,126 @@ class SoftAssertions_navigations_on_null_actual_Test {
     }
 
     @Test
+    void should_not_throw_when_extracting_by_property_name_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<Object>) null).extracting("foo").contains("x");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_extracting_by_property_name_and_type_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<Object>) null).extracting("foo", String.class).contains("x");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_extracting_multiple_property_names_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<Object>) null).extracting("foo", "bar").hasSize(0);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_extractingResultOf_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<Object>) null).extractingResultOf("toString").contains("x");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_extractingResultOf_with_type_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<Object>) null).extractingResultOf("toString", String.class).contains("x");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_extracting_by_function_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<String>) null).extracting(String::length).contains(0);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_extracting_multiple_functions_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<String>) null).extracting(String::length, String::hashCode).hasSize(0);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_map_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<String>) null).map(String::length).contains(0);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_flatExtracting_by_function_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<String>) null).flatExtracting(s -> List.of(s)).contains("x");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_flatExtracting_multiple_functions_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<String>) null).flatExtracting(String::length, String::hashCode).hasSize(0);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_flatExtracting_by_property_name_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<Object>) null).flatExtracting("foo").contains("x");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_flatExtracting_multiple_property_names_on_null_iterable() {
+      // GIVEN / WHEN
+      softly.assertThat((Iterable<Object>) null).flatExtracting("foo", "bar").hasSize(0);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
     void should_behave_normally_when_iterable_is_not_null_nor_empty() {
       // GIVEN / WHEN
       softly.assertThat(List.of("Frodo", "Sam")).first().isEqualTo("Frodo");
