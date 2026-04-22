@@ -1217,7 +1217,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     return executeAssertionNavigation(() -> {
       objects.assertNotNull(info, actual);
       return assertThat(toHexString(actual)).withAssertionState(myself);
-    });
+    }, () -> new StringAssert(null));
   }
 
   /**
@@ -1250,7 +1250,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
       objects.assertNotNull(info, actual);
       String actualAsString = new String(actual);
       return assertThat(actualAsString).withAssertionState(myself);
-    });
+    }, () -> new StringAssert(null));
   }
 
   /**

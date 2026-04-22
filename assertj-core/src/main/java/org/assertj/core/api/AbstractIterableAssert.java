@@ -2679,7 +2679,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public ELEMENT_ASSERT first() {
-    return executeAssertionNavigation(this::internalFirst);
+    return executeAssertionNavigation(this::internalFirst, () -> deadChainElement(navigationDescription("check first element")));
   }
 
   /**
@@ -2711,7 +2711,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT first(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return executeAssertionNavigation(() -> internalFirst().asInstanceOf(assertFactory));
+    return executeAssertionNavigation(() -> internalFirst().asInstanceOf(assertFactory),
+                                      () -> assertFactory.createAssert((Object) null));
   }
 
   private ELEMENT_ASSERT internalFirst() {
@@ -2743,7 +2744,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public ELEMENT_ASSERT last() {
-    return executeAssertionNavigation(this::internalLast);
+    return executeAssertionNavigation(this::internalLast, () -> deadChainElement(navigationDescription("check last element")));
   }
 
   /**
@@ -2775,7 +2776,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT last(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return executeAssertionNavigation(() -> internalLast().asInstanceOf(assertFactory));
+    return executeAssertionNavigation(() -> internalLast().asInstanceOf(assertFactory),
+                                      () -> assertFactory.createAssert((Object) null));
   }
 
   private ELEMENT_ASSERT internalLast() {
@@ -2822,7 +2824,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public ELEMENT_ASSERT element(int index) {
-    return executeAssertionNavigation(() -> internalElement(index));
+    return executeAssertionNavigation(() -> internalElement(index),
+                                      () -> deadChainElement(navigationDescription("element at index " + index)));
   }
 
   /**
@@ -2851,7 +2854,7 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
   @CheckReturnValue
   @SuppressWarnings("unchecked")
   public SELF elements(int... indices) {
-    return (SELF) executeAssertionNavigation(() -> {
+    return executeAssertionNavigation(() -> {
       isNotEmpty();
       assertIndicesIsNotNull(indices);
       assertIndicesIsNotEmpty(indices);
@@ -2862,8 +2865,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
                                              .peek(index -> checkIndexValidity(index, indexedActual))
                                              .mapToObj(indexedActual::get)
                                              .collect(toList());
-      return newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
-    });
+      return (SELF) newAbstractIterableAssert(filteredIterable).withAssertionState(myself);
+    }, () -> (SELF) newAbstractIterableAssert(List.<ELEMENT> of()));
   }
 
   private static void assertIndicesIsNotNull(int[] indices) {
@@ -2909,7 +2912,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT element(int index, InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return executeAssertionNavigation(() -> internalElement(index).asInstanceOf(assertFactory));
+    return executeAssertionNavigation(() -> internalElement(index).asInstanceOf(assertFactory),
+                                      () -> assertFactory.createAssert((Object) null));
   }
 
   @SuppressWarnings("unchecked")
@@ -2965,7 +2969,8 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public ELEMENT_ASSERT singleElement() {
-    return executeAssertionNavigation(this::internalSingleElement);
+    return executeAssertionNavigation(this::internalSingleElement,
+                                      () -> deadChainElement(navigationDescription("check single element")));
   }
 
   /**
@@ -3009,12 +3014,17 @@ public abstract class AbstractIterableAssert<SELF extends AbstractIterableAssert
    */
   @CheckReturnValue
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT singleElement(InstanceOfAssertFactory<?, ASSERT> assertFactory) {
-    return executeAssertionNavigation(() -> internalSingleElement().asInstanceOf(assertFactory));
+    return executeAssertionNavigation(() -> internalSingleElement().asInstanceOf(assertFactory),
+                                      () -> assertFactory.createAssert((Object) null));
   }
 
   private ELEMENT_ASSERT internalSingleElement() {
     iterables.assertHasSize(info, actual, 1);
     return toAssert(actual.iterator().next(), navigationDescription("check single element"));
+  }
+
+  private ELEMENT_ASSERT deadChainElement(String description) {
+    return toAssert((ELEMENT) null, description);
   }
 
   /**

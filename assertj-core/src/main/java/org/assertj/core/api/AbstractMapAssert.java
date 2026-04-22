@@ -1655,6 +1655,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends V>, V, ObjectAssert<V>> extractingByKeys(K... keys) {
     isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<V>) null));
     List<V> extractedValues = Stream.of(keys).map(actual::get).collect(toList());
     String extractedPropertiesOrFieldsDescription = extractedDescriptionOf((Object[]) keys);
     String description = mostRelevantDescription(info.description(), extractedPropertiesOrFieldsDescription);
@@ -1724,6 +1725,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   private AbstractObjectAssert<?, V> internalExtractingByKey(K key) {
     isNotNull();
+    if (actual == null) return markAsDeadChain(new ObjectAssert<>((V) null));
     V extractedValue = actual.get(key);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
@@ -1752,6 +1754,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @CheckReturnValue
   public AbstractListAssert<?, List<?>, Object, ObjectAssert<Object>> extractingFromEntries(Function<? super Map.Entry<K, V>, Object> extractor) {
     isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<Object>) null));
     List<Object> extractedObjects = actual.entrySet().stream()
                                           .map(extractor)
                                           .collect(toList());
@@ -1797,6 +1800,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
   @SafeVarargs
   public final AbstractListAssert<?, List<? extends Tuple>, Tuple, ObjectAssert<Tuple>> extractingFromEntries(Function<? super Map.Entry<K, V>, Object>... extractors) {
     isNotNull();
+    if (actual == null) return markAsDeadChain(newListAssertInstance((List<Tuple>) null));
     // combine all extractors into one function
     Function<Map.Entry<K, V>, Tuple> tupleExtractor = objectToExtractValueFrom -> new Tuple(Stream.of(extractors)
                                                                                                   .map(extractor -> extractor.apply(objectToExtractValueFrom))

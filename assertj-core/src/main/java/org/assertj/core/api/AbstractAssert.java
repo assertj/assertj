@@ -152,14 +152,17 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
 
   /**
    * Wraps a navigation method that returns a different assert type and also performs assertion checks.
-   * In soft mode, catches {@link AssertionError} from the assertion guards, collects it,
-   * and returns {@code null} (matching the old proxy behavior).
+   * In soft mode, catches {@link AssertionError} from the assertion guards, collects it, and returns a
+   * dead-chain assertion built from {@code deadChainFactory} (marked with {@link #skipAssertions} so
+   * that subsequent chained assertions no-op instead of throwing a {@link RuntimeException}).
    *
    * @param <T> the return type of the navigation method
    * @param body the navigation method logic to execute
-   * @return the navigation result, or {@code null} if an assertion error was collected in soft mode
+   * @param deadChainFactory supplies a fresh assertion instance to mark as dead-chain when a soft
+   *        assertion error is collected; typically wraps {@code null} actual
+   * @return the navigation result, or a dead-chain assertion if an assertion error was collected in soft mode
    */
-  protected <T> T executeAssertionNavigation(Supplier<T> body) {
+  protected <T extends AbstractAssert<?, ?>> T executeAssertionNavigation(Supplier<T> body, Supplier<T> deadChainFactory) {
     if (assertionErrorHandler == null) {
       try {
         return body.get();
@@ -169,6 +172,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
         throw new RuntimeException(e);
       }
     }
+    if (skipAssertions) return markAsDeadChain(deadChainFactory.get());
     int depth = SOFT_CALL_DEPTH.get();
     SOFT_CALL_DEPTH.set(depth + 1);
     try {
@@ -178,7 +182,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     } catch (AssertionError e) {
       if (depth > 0) throw e;
       assertionErrorHandler.handleError(e);
-      return null;
+      return markAsDeadChain(deadChainFactory.get());
     } catch (RuntimeException e) {
       throw e;
     } catch (Exception e) {
@@ -732,7 +736,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return executeAssertionNavigation(() -> {
       objects.assertNotNull(info, actual);
       return Assertions.assertThat(actual.toString()).withAssertionState(myself);
-    });
+    }, () -> new StringAssert(null));
   }
 
   /**
@@ -1261,7 +1265,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     requireNonNull(propertyOrField, shouldNotBeNull("propertyOrField")::create);
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
     isNotNull();
-    if (actual == null) return deadChainNavigation(assertFactory);
+    if (actual == null) return markAsDeadChain(assertFactory.createAssert((Object) null));
     Object value = byName(propertyOrField).apply(actual);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(propertyOrField);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);
@@ -1290,7 +1294,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     requireNonNull(extractor, shouldNotBeNull("extractor")::create);
     requireNonNull(assertFactory, shouldNotBeNull("assertFactory")::create);
     isNotNull();
-    if (actual == null) return deadChainNavigation(assertFactory);
+    if (actual == null) return markAsDeadChain(assertFactory.createAssert((T) null));
     T extractedValue = extractor.apply(actual);
     @SuppressWarnings("unchecked")
     ASSERT result = (ASSERT) assertFactory.createAssert(extractedValue).withAssertionState(myself);
@@ -1298,11 +1302,17 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   }
 
   /**
-   * Marks a navigated assertion as {@linkplain #skipAssertions skipping subsequent assertions},
-   * intended for the soft-assertion dead-chain path: when a null-guard (e.g. {@link #isNotNull()})
-   * has collected an error and {@code actual} is still {@code null}, returning such a sentinel lets
-   * downstream chained assertions no-op instead of throwing a {@link RuntimeException} or piling up
-   * errors that cannot succeed.
+   * Marks the given navigated assertion as {@linkplain #skipAssertions skipping subsequent assertions}
+   * and propagates {@code this} assertion's state to it.
+   * <p>
+   * Intended for the soft-assertion dead-chain path: when a navigation's internal guard (e.g.
+   * {@link #isNotNull()}, {@code isNotEmpty()}, {@code isPresent()}) has collected an error, the
+   * navigation method must still return an assertion instance so the caller can chain further calls.
+   * Returning a dead-chain assertion causes downstream chained assertions to no-op instead of
+   * throwing a {@link RuntimeException} or piling up errors that cannot succeed.
+   * <p>
+   * Always safe to use: the caller supplies a concrete {@code deadChain} instance of the right type,
+   * so there is no risk of a runtime cast mismatch.
    */
   protected <A extends AbstractAssert<?, ?>> A markAsDeadChain(A deadChain) {
     deadChain.withAssertionState(myself);
@@ -1310,8 +1320,25 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return deadChain;
   }
 
-  private <T, ASSERT extends AbstractAssert<?, ?>> ASSERT deadChainNavigation(AssertFactory<T, ASSERT> assertFactory) {
-    return markAsDeadChain(assertFactory.createAssert((T) null));
+  /**
+   * Marks {@code this} assertion as a dead chain and returns {@code myself} cast to the caller's
+   * expected navigation return type.
+   * <p>
+   * Safe <strong>only</strong> when the navigation's declared return type erases to a concrete class
+   * that {@code this} already is — e.g. {@link AbstractOptionalAssert#map(java.util.function.Function)}
+   * whose return is declared as {@code AbstractOptionalAssert<?, U>} (erases to
+   * {@code AbstractOptionalAssert}, which {@code myself} always is).
+   * <p>
+   * <strong>Not safe</strong> when the declared return type is a caller-supplied type variable
+   * (e.g. {@code <ASSERT extends AbstractAssert<?, ?>> ASSERT extracting(..., AssertFactory<?, ASSERT>)}).
+   * In that case the compiler inserts a synthetic {@code checkcast} at the call site to the inferred
+   * concrete type, which {@code myself} will generally not satisfy — prefer
+   * {@link #markAsDeadChain(AbstractAssert)} with a factory-built instance of the correct type.
+   */
+  @SuppressWarnings("unchecked")
+  protected <A extends AbstractAssert<?, ?>> A deadChainSameType() {
+    skipAssertions = true;
+    return (A) myself;
   }
 
   /**

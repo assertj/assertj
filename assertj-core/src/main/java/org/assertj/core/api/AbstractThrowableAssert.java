@@ -155,8 +155,10 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.23.0
    */
   public AbstractThrowableAssert<?, ?> cause() {
-    throwables.assertHasCause(info, actual);
-    return new ThrowableAssert<>(actual.getCause()).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      throwables.assertHasCause(info, actual);
+      return new ThrowableAssert<>(actual.getCause()).withAssertionState(myself);
+    }, () -> new ThrowableAssert<>((Throwable) null));
   }
 
   /**
@@ -177,8 +179,10 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    * @since 3.23.0
    */
   public AbstractThrowableAssert<?, ?> rootCause() {
-    throwables.assertHasRootCause(info, actual);
-    return new ThrowableAssert<>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      throwables.assertHasRootCause(info, actual);
+      return new ThrowableAssert<>(org.assertj.core.util.Throwables.getRootCause(actual)).withAssertionState(myself);
+    }, () -> new ThrowableAssert<>((Throwable) null));
   }
 
   /**
@@ -206,6 +210,7 @@ public abstract class AbstractThrowableAssert<SELF extends AbstractThrowableAsse
    */
   public ListAssert<Throwable> throwablesChain() {
     isNotNull();
+    if (actual == null) return markAsDeadChain(new ListAssert<>((List<Throwable>) null));
     List<Throwable> throwablesChain = getThrowablesChain(actual);
     return assertThat(throwablesChain);
   }
