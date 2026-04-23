@@ -1808,8 +1808,10 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
    * @throws UncheckedIOException when failing to read the actual {@code Path}.
    */
   public AbstractByteArrayAssert<?> binaryContent() {
-    paths.assertIsReadable(info, actual);
-    return new ByteArrayAssert(readPath()).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      paths.assertIsReadable(info, actual);
+      return new ByteArrayAssert(readPath()).withAssertionState(myself);
+    }, () -> new ByteArrayAssert((byte[]) null));
   }
 
   /**

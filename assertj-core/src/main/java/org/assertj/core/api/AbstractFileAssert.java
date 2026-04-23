@@ -1234,8 +1234,10 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
    * @throws UncheckedIOException when failing to read the actual {@code File}.
    */
   public AbstractByteArrayAssert<?> binaryContent() {
-    files.assertCanRead(info, actual);
-    return new ByteArrayAssert(readFile()).withAssertionState(myself);
+    return executeAssertionNavigation(() -> {
+      files.assertCanRead(info, actual);
+      return new ByteArrayAssert(readFile()).withAssertionState(myself);
+    }, () -> new ByteArrayAssert((byte[]) null));
   }
 
   /**
