@@ -92,7 +92,8 @@ public abstract class AbstractInputStreamAssert<SELF extends AbstractInputStream
   @CheckReturnValue
   public AbstractStringAssert<?> asString(Charset charset) {
     isNotNull();
-    return assertThat(asString(actual, charset));
+    if (actual == null) return markAsDeadChain(new StringAssert(null));
+    return assertThat(asString(actual, charset)).withAssertionState(myself);
   }
 
   private String asString(InputStream actual, Charset charset) {

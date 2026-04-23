@@ -831,6 +831,16 @@ class SoftAssertions_navigations_on_null_actual_Test {
       then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
     }
 
+    @Test
+    void should_not_throw_when_calling_asString_with_charset_on_null_input_stream() {
+      // GIVEN / WHEN
+      softly.assertThat((java.io.InputStream) null).asString(java.nio.charset.StandardCharsets.UTF_8).isEqualTo("foo");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
   }
 
   /**
