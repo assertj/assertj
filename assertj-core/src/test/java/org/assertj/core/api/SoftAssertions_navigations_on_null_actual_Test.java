@@ -844,6 +844,51 @@ class SoftAssertions_navigations_on_null_actual_Test {
   }
 
   @Nested
+  class MatcherAndIterator {
+
+    @Test
+    void should_not_throw_when_calling_group_by_index_on_null_matcher() {
+      // GIVEN / WHEN
+      softly.assertThat((java.util.regex.Matcher) null).group(1).isEqualTo("foo");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_group_by_name_on_null_matcher() {
+      // GIVEN / WHEN
+      softly.assertThat((java.util.regex.Matcher) null).group("g1").isEqualTo("foo");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_groups_on_null_matcher() {
+      // GIVEN / WHEN
+      softly.assertThat((java.util.regex.Matcher) null).groups().contains("foo");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_toIterable_on_null_iterator() {
+      // GIVEN / WHEN
+      softly.assertThat((java.util.Iterator<String>) null).toIterable().contains("foo");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+  }
+
+  @Nested
   class StringNavigations {
 
     @Test

@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.error.MatcherShouldHaveGroup.shouldHaveGroup;
 import static org.assertj.core.error.MatcherShouldMatch.shouldMatch;
 
+import java.util.List;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 
@@ -84,9 +85,9 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * @since 4.0.0
    */
   public AbstractStringAssert<?> group(int groupIndex) {
-    isNotNull();
     matches();
-    return assertThat(extractGroup(() -> actual.group(groupIndex), groupIndex));
+    if (actual == null) return markAsDeadChain(new StringAssert(null));
+    return assertThat(extractGroup(() -> actual.group(groupIndex), groupIndex)).withAssertionState(myself);
   }
 
   /**
@@ -108,9 +109,9 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * @since 4.0.0
    */
   public AbstractStringAssert<?> group(String groupName) {
-    isNotNull();
     matches();
-    return assertThat(extractGroup(() -> actual.group(groupName), groupName));
+    if (actual == null) return markAsDeadChain(new StringAssert(null));
+    return assertThat(extractGroup(() -> actual.group(groupName), groupName)).withAssertionState(myself);
   }
 
   /**
@@ -130,9 +131,9 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    * @since 4.0.0
    */
   public ListAssert<String> groups() {
-    isNotNull();
     matches();
-    return assertThat(rangeClosed(1, actual.groupCount()).mapToObj(actual::group).toList());
+    if (actual == null) return markAsDeadChain(new ListAssert<>((List<String>) null));
+    return assertThat(rangeClosed(1, actual.groupCount()).mapToObj(actual::group).toList()).withAssertionState(myself);
   }
 
   private String extractGroup(Supplier<String> groupExtractor, Object groupIdentifier) {
