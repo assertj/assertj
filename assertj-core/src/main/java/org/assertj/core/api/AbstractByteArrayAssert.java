@@ -1277,7 +1277,8 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   @CheckReturnValue
   public AbstractStringAssert<?> asString(Charset charset) {
-    objects.assertNotNull(info, actual);
+    isNotNull();
+    if (actual == null) return markAsDeadChain(new StringAssert(null));
     String actualAsString = new String(actual, charset);
     return assertThat(actualAsString).withAssertionState(myself);
   }
@@ -1296,7 +1297,8 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   @CheckReturnValue
   public AbstractStringAssert<?> asBase64Encoded() {
-    objects.assertNotNull(info, actual);
+    isNotNull();
+    if (actual == null) return markAsDeadChain(new StringAssert(null));
     return new StringAssert(Base64.getEncoder().encodeToString(actual)).withAssertionState(myself);
   }
 
@@ -1314,7 +1316,8 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
    */
   @CheckReturnValue
   public AbstractStringAssert<?> asBase64UrlEncoded() {
-    objects.assertNotNull(info, actual);
+    isNotNull();
+    if (actual == null) return markAsDeadChain(new StringAssert(null));
     return new StringAssert(Base64.getUrlEncoder().encodeToString(actual)).withAssertionState(myself);
   }
 

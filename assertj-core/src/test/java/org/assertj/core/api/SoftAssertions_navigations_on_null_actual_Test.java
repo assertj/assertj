@@ -801,6 +801,36 @@ class SoftAssertions_navigations_on_null_actual_Test {
       then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
     }
 
+    @Test
+    void should_not_throw_when_calling_asString_with_charset_on_null_byte_array() {
+      // GIVEN / WHEN
+      softly.assertThat((byte[]) null).asString(java.nio.charset.StandardCharsets.UTF_8).isEqualTo("foo");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_asBase64Encoded_on_null_byte_array() {
+      // GIVEN / WHEN
+      softly.assertThat((byte[]) null).asBase64Encoded().isEqualTo("foo");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_asBase64UrlEncoded_on_null_byte_array() {
+      // GIVEN / WHEN
+      softly.assertThat((byte[]) null).asBase64UrlEncoded().isEqualTo("foo");
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
   }
 
   /**
