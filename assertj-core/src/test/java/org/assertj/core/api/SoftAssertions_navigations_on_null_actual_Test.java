@@ -843,6 +843,121 @@ class SoftAssertions_navigations_on_null_actual_Test {
 
   }
 
+  @Nested
+  class StringNavigations {
+
+    @Test
+    void should_not_throw_when_calling_bytes_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).bytes().isEqualTo(new byte[0]);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_bytes_with_charset_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).bytes(java.nio.charset.StandardCharsets.UTF_8).isEqualTo(new byte[0]);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_bytes_with_charset_name_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).bytes("UTF-8").isEqualTo(new byte[0]);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_asBase64Decoded_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).asBase64Decoded().isEqualTo(new byte[0]);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_asBase64UrlDecoded_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).asBase64UrlDecoded().isEqualTo(new byte[0]);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_not_throw_when_calling_asByte_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).asByte().isEqualTo((byte) 0);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("to be a valid byte");
+    }
+
+    @Test
+    void should_not_throw_when_calling_asShort_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).asShort().isEqualTo((short) 0);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("to be a valid short");
+    }
+
+    @Test
+    void should_not_throw_when_calling_asInt_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).asInt().isEqualTo(0);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("to be a valid int");
+    }
+
+    @Test
+    void should_not_throw_when_calling_asLong_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).asLong().isEqualTo(0L);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("to be a valid long");
+    }
+
+    @Test
+    void should_not_throw_when_calling_asFloat_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).asFloat().isEqualTo(0.0f);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("to be a valid float");
+    }
+
+    @Test
+    void should_not_throw_when_calling_asDouble_on_null_string() {
+      // GIVEN / WHEN
+      softly.assertThat((String) null).asDouble().isEqualTo(0.0);
+      // THEN
+      List<Throwable> errors = softly.errorsCollected();
+      then(errors).hasSize(1);
+      then(errors.get(0)).hasMessageContaining("to be a valid double");
+    }
+
+  }
+
   /**
    * Regression guard for the dead-chain path of both {@link AbstractAssert}
    * {@link AssertFactory}-based {@code extracting} overloads. If the implementation returned

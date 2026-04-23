@@ -272,6 +272,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   @CheckReturnValue
   public AbstractByteArrayAssert<?> asBase64Decoded() {
     isBase64();
+    if (actual == null) return markAsDeadChain(new ByteArrayAssert((byte[]) null));
     return new ByteArrayAssert(Base64.getDecoder().decode(actual)).withAssertionState(myself);
   }
 
@@ -314,6 +315,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   @CheckReturnValue
   public AbstractByteArrayAssert<?> asBase64UrlDecoded() {
     isBase64Url();
+    if (actual == null) return markAsDeadChain(new ByteArrayAssert((byte[]) null));
     return new ByteArrayAssert(Base64.getUrlDecoder().decode(actual)).withAssertionState(myself);
   }
 
@@ -463,11 +465,14 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.25.0
    */
   public AbstractByteAssert<?> asByte() {
-    try {
-      return InstanceOfAssertFactories.BYTE.createAssert(Byte.parseByte(actual)).withAssertionState(myself);
-    } catch (NumberFormatException e) {
-      throw failures.failure(info, shouldBeNumeric(actual, BYTE));
-    }
+    return executeAssertionNavigation(() -> {
+      try {
+        return (AbstractByteAssert<?>) InstanceOfAssertFactories.BYTE.createAssert(Byte.parseByte(actual))
+                                                                     .withAssertionState(myself);
+      } catch (NumberFormatException e) {
+        throw failures.failure(info, shouldBeNumeric(actual, BYTE));
+      }
+    }, () -> new ByteAssert((Byte) null));
   }
 
   /**
@@ -488,6 +493,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    */
   public AbstractByteArrayAssert<?> bytes() {
     isNotNull();
+    if (actual == null) return markAsDeadChain(new ByteArrayAssert((byte[]) null));
     return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(actual.getBytes()).withAssertionState(myself);
   }
 
@@ -509,8 +515,10 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.26.0
    */
   public AbstractByteArrayAssert<?> bytes(Charset charset) {
+    requireNonNull(charset, "The charset must not be null");
     isNotNull();
-    byte[] bytes = actual.getBytes(requireNonNull(charset, "The charset must not be null"));
+    if (actual == null) return markAsDeadChain(new ByteArrayAssert((byte[]) null));
+    byte[] bytes = actual.getBytes(charset);
     return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(bytes).withAssertionState(myself);
   }
 
@@ -532,9 +540,11 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.26.0
    */
   public AbstractByteArrayAssert<?> bytes(String charsetName) {
+    requireNonNull(charsetName, "The charsetName must not be null");
     isNotNull();
+    if (actual == null) return markAsDeadChain(new ByteArrayAssert((byte[]) null));
     try {
-      byte[] bytes = actual.getBytes(requireNonNull(charsetName, "The charsetName must not be null"));
+      byte[] bytes = actual.getBytes(charsetName);
       return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(bytes).withAssertionState(myself);
     } catch (UnsupportedEncodingException e) {
       throw failures.failure(charsetName + " is not a supported Charset");
@@ -559,11 +569,14 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.25.0
    */
   public AbstractShortAssert<?> asShort() {
-    try {
-      return InstanceOfAssertFactories.SHORT.createAssert(Short.parseShort(actual)).withAssertionState(myself);
-    } catch (NumberFormatException e) {
-      throw failures.failure(info, shouldBeNumeric(actual, SHORT));
-    }
+    return executeAssertionNavigation(() -> {
+      try {
+        return (AbstractShortAssert<?>) InstanceOfAssertFactories.SHORT.createAssert(Short.parseShort(actual))
+                                                                       .withAssertionState(myself);
+      } catch (NumberFormatException e) {
+        throw failures.failure(info, shouldBeNumeric(actual, SHORT));
+      }
+    }, () -> new ShortAssert((Short) null));
   }
 
   /**
@@ -584,11 +597,14 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.25.0
    */
   public AbstractIntegerAssert<?> asInt() {
-    try {
-      return InstanceOfAssertFactories.INTEGER.createAssert(Integer.parseInt(actual)).withAssertionState(myself);
-    } catch (NumberFormatException e) {
-      throw failures.failure(info, shouldBeNumeric(actual, INTEGER));
-    }
+    return executeAssertionNavigation(() -> {
+      try {
+        return (AbstractIntegerAssert<?>) InstanceOfAssertFactories.INTEGER.createAssert(Integer.parseInt(actual))
+                                                                           .withAssertionState(myself);
+      } catch (NumberFormatException e) {
+        throw failures.failure(info, shouldBeNumeric(actual, INTEGER));
+      }
+    }, () -> new IntegerAssert((Integer) null));
   }
 
   /**
@@ -609,11 +625,14 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.25.0
    */
   public AbstractLongAssert<?> asLong() {
-    try {
-      return InstanceOfAssertFactories.LONG.createAssert(Long.parseLong(actual)).withAssertionState(myself);
-    } catch (NumberFormatException e) {
-      throw failures.failure(info, shouldBeNumeric(actual, LONG));
-    }
+    return executeAssertionNavigation(() -> {
+      try {
+        return (AbstractLongAssert<?>) InstanceOfAssertFactories.LONG.createAssert(Long.parseLong(actual))
+                                                                     .withAssertionState(myself);
+      } catch (NumberFormatException e) {
+        throw failures.failure(info, shouldBeNumeric(actual, LONG));
+      }
+    }, () -> new LongAssert((Long) null));
   }
 
   /**
@@ -634,11 +653,14 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.25.0
    */
   public AbstractFloatAssert<?> asFloat() {
-    try {
-      return InstanceOfAssertFactories.FLOAT.createAssert(Float.parseFloat(actual)).withAssertionState(myself);
-    } catch (NumberFormatException | NullPointerException e) {
-      throw failures.failure(info, shouldBeNumeric(actual, FLOAT));
-    }
+    return executeAssertionNavigation(() -> {
+      try {
+        return (AbstractFloatAssert<?>) InstanceOfAssertFactories.FLOAT.createAssert(Float.parseFloat(actual))
+                                                                       .withAssertionState(myself);
+      } catch (NumberFormatException | NullPointerException e) {
+        throw failures.failure(info, shouldBeNumeric(actual, FLOAT));
+      }
+    }, () -> new FloatAssert((Float) null));
   }
 
   /**
@@ -659,10 +681,13 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    * @since 3.25.0
    */
   public AbstractDoubleAssert<?> asDouble() {
-    try {
-      return InstanceOfAssertFactories.DOUBLE.createAssert(Double.parseDouble(actual)).withAssertionState(myself);
-    } catch (NumberFormatException | NullPointerException e) {
-      throw failures.failure(info, shouldBeNumeric(actual, DOUBLE));
-    }
+    return executeAssertionNavigation(() -> {
+      try {
+        return (AbstractDoubleAssert<?>) InstanceOfAssertFactories.DOUBLE.createAssert(Double.parseDouble(actual))
+                                                                         .withAssertionState(myself);
+      } catch (NumberFormatException | NullPointerException e) {
+        throw failures.failure(info, shouldBeNumeric(actual, DOUBLE));
+      }
+    }, () -> new DoubleAssert((Double) null));
   }
 }
