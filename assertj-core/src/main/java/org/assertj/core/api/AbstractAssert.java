@@ -736,7 +736,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return executeAssertionNavigation(() -> {
       objects.assertNotNull(info, actual);
       return Assertions.assertThat(actual.toString()).withAssertionState(myself);
-    }, () -> new StringAssert(null));
+    }, StringAssert::deadChainStringAssert);
   }
 
   /**
@@ -1336,7 +1336,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * {@link #markAsDeadChain(AbstractAssert)} with a factory-built instance of the correct type.
    */
   @SuppressWarnings("unchecked")
-  protected <A extends AbstractAssert<?, ?>> A deadChainSameType() {
+  protected <A extends AbstractAssert<?, ?>> A deadChain() {
     skipAssertions = true;
     return (A) myself;
   }

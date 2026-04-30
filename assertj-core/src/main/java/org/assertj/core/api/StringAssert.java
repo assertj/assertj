@@ -28,4 +28,8 @@ public class StringAssert extends AbstractStringAssert<StringAssert> {
     super(actual, StringAssert.class);
   }
 
+  public static StringAssert deadChainStringAssert() {
+    return new StringAssert(null).deadChain();
+  }
+
 }

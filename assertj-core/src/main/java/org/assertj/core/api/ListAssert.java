@@ -66,6 +66,10 @@ public class ListAssert<ELEMENT> extends
     return new ListAssert<>(actual);
   }
 
+  public static <ELEMENT> ListAssert<ELEMENT> deadChainListAssert() {
+    return new ListAssert<ELEMENT>((List<? extends ELEMENT>) null).deadChain();
+  }
+
   public ListAssert(List<? extends ELEMENT> actual) {
     super(actual, ListAssert.class, ObjectAssert::new);
   }

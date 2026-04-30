@@ -272,7 +272,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   @CheckReturnValue
   public AbstractByteArrayAssert<?> asBase64Decoded() {
     isBase64();
-    if (actual == null) return markAsDeadChain(new ByteArrayAssert((byte[]) null));
+    if (actual == null) return markAsDeadChain(ByteArrayAssert.deadChainByteArrayAssert());
     return new ByteArrayAssert(Base64.getDecoder().decode(actual)).withAssertionState(myself);
   }
 
@@ -315,7 +315,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   @CheckReturnValue
   public AbstractByteArrayAssert<?> asBase64UrlDecoded() {
     isBase64Url();
-    if (actual == null) return markAsDeadChain(new ByteArrayAssert((byte[]) null));
+    if (actual == null) return markAsDeadChain(ByteArrayAssert.deadChainByteArrayAssert());
     return new ByteArrayAssert(Base64.getUrlDecoder().decode(actual)).withAssertionState(myself);
   }
 
@@ -472,7 +472,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       } catch (NumberFormatException e) {
         throw failures.failure(info, shouldBeNumeric(actual, BYTE));
       }
-    }, () -> new ByteAssert((Byte) null));
+    }, ByteAssert::deadChainByteAssert);
   }
 
   /**
@@ -493,7 +493,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
    */
   public AbstractByteArrayAssert<?> bytes() {
     isNotNull();
-    if (actual == null) return markAsDeadChain(new ByteArrayAssert((byte[]) null));
+    if (actual == null) return markAsDeadChain(ByteArrayAssert.deadChainByteArrayAssert());
     return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(actual.getBytes()).withAssertionState(myself);
   }
 
@@ -517,7 +517,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   public AbstractByteArrayAssert<?> bytes(Charset charset) {
     requireNonNull(charset, "The charset must not be null");
     isNotNull();
-    if (actual == null) return markAsDeadChain(new ByteArrayAssert((byte[]) null));
+    if (actual == null) return markAsDeadChain(ByteArrayAssert.deadChainByteArrayAssert());
     byte[] bytes = actual.getBytes(charset);
     return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(bytes).withAssertionState(myself);
   }
@@ -542,7 +542,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
   public AbstractByteArrayAssert<?> bytes(String charsetName) {
     requireNonNull(charsetName, "The charsetName must not be null");
     isNotNull();
-    if (actual == null) return markAsDeadChain(new ByteArrayAssert((byte[]) null));
+    if (actual == null) return markAsDeadChain(ByteArrayAssert.deadChainByteArrayAssert());
     try {
       byte[] bytes = actual.getBytes(charsetName);
       return InstanceOfAssertFactories.BYTE_ARRAY.createAssert(bytes).withAssertionState(myself);
@@ -576,7 +576,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       } catch (NumberFormatException e) {
         throw failures.failure(info, shouldBeNumeric(actual, SHORT));
       }
-    }, () -> new ShortAssert((Short) null));
+    }, ShortAssert::deadChainShortAssert);
   }
 
   /**
@@ -604,7 +604,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       } catch (NumberFormatException e) {
         throw failures.failure(info, shouldBeNumeric(actual, INTEGER));
       }
-    }, () -> new IntegerAssert((Integer) null));
+    }, IntegerAssert::deadChainIntegerAssert);
   }
 
   /**
@@ -632,7 +632,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       } catch (NumberFormatException e) {
         throw failures.failure(info, shouldBeNumeric(actual, LONG));
       }
-    }, () -> new LongAssert((Long) null));
+    }, LongAssert::deadChainLongAssert);
   }
 
   /**
@@ -660,7 +660,7 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       } catch (NumberFormatException | NullPointerException e) {
         throw failures.failure(info, shouldBeNumeric(actual, FLOAT));
       }
-    }, () -> new FloatAssert((Float) null));
+    }, FloatAssert::deadChainFloatAssert);
   }
 
   /**
@@ -688,6 +688,6 @@ public class AbstractStringAssert<SELF extends AbstractStringAssert<SELF>> exten
       } catch (NumberFormatException | NullPointerException e) {
         throw failures.failure(info, shouldBeNumeric(actual, DOUBLE));
       }
-    }, () -> new DoubleAssert((Double) null));
+    }, DoubleAssert::deadChainDoubleAssert);
   }
 }

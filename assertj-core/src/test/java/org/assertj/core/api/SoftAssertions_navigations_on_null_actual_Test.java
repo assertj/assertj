@@ -17,6 +17,7 @@ package org.assertj.core.api;
 
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
+import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 
 import java.util.List;
 import java.util.Map;
@@ -52,11 +53,10 @@ class SoftAssertions_navigations_on_null_actual_Test {
     @Test
     void should_not_throw_when_chaining_extracting_by_name_after_failed_isNotNull() {
       // GIVEN / WHEN
-      softly.assertThat((Object) null).isNotNull().extracting("foo").isEqualTo("bar");
+      softly.assertThatObject(null).isNotNull().extracting("foo").isEqualTo("bar");
       // THEN - no RuntimeException, only soft-collected AssertionErrors
-      List<Throwable> errors = softly.errorsCollected();
+      List<AssertionError> errors = softly.assertionErrorsCollected();
       then(errors).hasSize(2); // explicit isNotNull() + extracting's internal isNotNull()
-      then(errors).allMatch(e -> e instanceof AssertionError);
       then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
       then(errors.get(1)).hasMessageContaining("Expecting actual not to be null");
     }
@@ -64,7 +64,7 @@ class SoftAssertions_navigations_on_null_actual_Test {
     @Test
     void should_noop_chain_after_navigation_on_null_so_subsequent_independent_chains_run() {
       // GIVEN / WHEN
-      softly.assertThat((Object) null).isNotNull().extracting("foo").isEqualTo("bar");
+      softly.assertThatObject(null).isNotNull().extracting("foo").isEqualTo("bar");
       softly.assertThat("THIS IS").isEqualTo("BUG");
       // THEN - the second chain MUST run and add its own error
       List<Throwable> errors = softly.errorsCollected();
@@ -77,11 +77,10 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN
       Function<Object, Object> extractor = Object::toString;
       // WHEN
-      softly.assertThat((Object) null).isNotNull().extracting(extractor).isEqualTo("bar");
+      softly.assertThatObject(null).isNotNull().extracting(extractor).isEqualTo("bar");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
+      List<AssertionError> errors = softly.assertionErrorsCollected();
       then(errors).hasSize(2);
-      then(errors).allMatch(e -> e instanceof AssertionError);
       then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
       then(errors.get(1)).hasMessageContaining("Expecting actual not to be null");
     }
@@ -89,34 +88,31 @@ class SoftAssertions_navigations_on_null_actual_Test {
     @Test
     void should_not_throw_when_extracting_by_name_without_explicit_isNotNull() {
       // GIVEN / WHEN
-      softly.assertThat((Object) null).extracting("foo").isEqualTo("bar");
+      softly.assertThatObject(null).extracting("foo").isEqualTo("bar");
       // THEN - extracting's internal isNotNull collects one error; downstream is noop
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
     void should_cascade_dead_chain_through_multiple_extracting_calls() {
       // GIVEN / WHEN
-      softly.assertThat((Object) null)
+      softly.assertThatObject(null)
             .extracting("foo")
             .extracting("bar")
             .isEqualTo("baz");
       // THEN - only the first extracting's internal isNotNull collects an error;
       // the second extracting is on a dead chain and must not add an error or throw.
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
     void should_not_throw_when_chaining_extracting_with_InstanceOfAssertFactory_after_null() {
       // GIVEN / WHEN
-      softly.assertThat((Object) null).isNotNull().extracting("foo", STRING).startsWith("Fro");
+      softly.assertThatObject(null).isNotNull().extracting("foo", STRING).startsWith("Fro");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).allMatch(e -> e instanceof AssertionError);
+      List<AssertionError> errors = softly.assertionErrorsCollected();
       then(errors).hasSize(2);
       then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
       then(errors.get(1)).hasMessageContaining("Expecting actual not to be null");
@@ -125,21 +121,19 @@ class SoftAssertions_navigations_on_null_actual_Test {
     @Test
     void should_not_throw_when_extracting_multiple_properties_on_null() {
       // GIVEN / WHEN
-      softly.assertThat((Object) null).extracting("a", "b", "c").contains("x");
+      softly.assertThatObject(null).extracting("a", "b", "c").contains("x");
       // THEN - extracting's isNotNull collects one error; contains on dead chain noops.
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
     void should_not_throw_when_extracting_multiple_functions_on_null() {
       // GIVEN / WHEN
-      softly.assertThat((Object) null).extracting(Object::toString, Object::hashCode).contains("x");
+      softly.assertThatObject(null).extracting(Object::toString, Object::hashCode).contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -162,9 +156,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).first().isEqualTo("foo");
       // THEN - first()'s internal isNotEmpty collects one error; downstream no-ops.
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -172,9 +165,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat(List.of()).first().isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("not to be empty");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("not to be empty");
     }
 
     @Test
@@ -182,9 +174,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).first(STRING).startsWith("Fro");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -192,9 +183,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).last(STRING).startsWith("Fro");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -202,9 +192,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).element(0, STRING).startsWith("Fro");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -212,9 +201,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).singleElement(STRING).startsWith("Fro");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -222,9 +210,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat(List.of()).last().isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("not to be empty");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("not to be empty");
     }
 
     @Test
@@ -232,8 +219,7 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat(List.of()).singleElement().isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
+      then(softly.assertionErrorsCollected()).hasSize(1);
     }
 
     @Test
@@ -242,9 +228,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // NoSuchElementException and must not re-collect a duplicate error
       softly.assertThat((Iterable<String>) null).elements(0, 1).first().isEqualTo("x");
       // THEN - only the initial isNotEmpty error is collected
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -252,9 +237,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).last().isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -262,9 +246,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).element(0).isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -272,9 +255,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).singleElement().isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -282,9 +264,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).elements(0, 1).containsExactly("foo", "bar");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -292,9 +273,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<Object>) null).extracting("foo").contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -302,9 +282,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<Object>) null).extracting("foo", String.class).contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -312,9 +291,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<Object>) null).extracting("foo", "bar").hasSize(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -322,9 +300,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<Object>) null).extractingResultOf("toString").contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -332,9 +309,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<Object>) null).extractingResultOf("toString", String.class).contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -342,9 +318,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).extracting(String::length).contains(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -352,9 +327,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).extracting(String::length, String::hashCode).hasSize(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -362,9 +336,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).map(String::length).contains(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -372,9 +345,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).flatExtracting(s -> List.of(s)).contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -382,9 +354,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<String>) null).flatExtracting(String::length, String::hashCode).hasSize(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -392,9 +363,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<Object>) null).flatExtracting("foo").contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -402,9 +372,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Iterable<Object>) null).flatExtracting("foo", "bar").hasSize(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -427,9 +396,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Object[]) null).extracting("foo").contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -437,9 +405,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Object[]) null).extracting("foo", String.class).contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -447,9 +414,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Object[]) null).extracting("foo", "bar").hasSize(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -457,9 +423,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String[]) null).extracting(String::length).contains(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -467,9 +432,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String[]) null).extracting(String::length, String::hashCode).hasSize(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -477,9 +441,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String[]) null).flatExtracting(s -> List.of(s)).contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -487,9 +450,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Object[]) null).flatExtracting("foo").contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -497,9 +459,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Object[]) null).extractingResultOf("toString").contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -507,9 +468,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Object[]) null).extractingResultOf("toString", String.class).contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
   }
@@ -522,9 +482,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Optional<String>) null).get().isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -532,9 +491,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat(Optional.<String> empty()).get().isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("to contain a value but it was empty");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("to contain a value but it was empty");
     }
 
     @Test
@@ -542,9 +500,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Optional<String>) null).get(STRING).startsWith("Fro");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -552,9 +509,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Optional<String>) null).map(String::length).contains(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -562,9 +518,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Optional<String>) null).flatMap(s -> Optional.of(s.length())).contains(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -576,9 +531,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
             .map(Integer::doubleValue)
             .contains(0.0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
   }
@@ -591,9 +545,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Map<String, String>) null).extractingByKey("k").isEqualTo("v");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -601,9 +554,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Map<String, String>) null).extractingByKey("k", STRING).startsWith("hi");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -611,9 +563,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Map<String, String>) null).extractingByKeys("a", "b").contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -621,9 +572,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Map<String, String>) null).extractingFromEntries(Map.Entry::getKey).contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -631,9 +581,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Map<String, String>) null).flatExtracting("a", "b").hasSize(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -641,9 +590,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Map<String, String>) null).extractingFromEntries(Map.Entry::getKey, Map.Entry::getValue).hasSize(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
   }
@@ -656,9 +604,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Throwable) null).cause().hasMessage("boom");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -666,9 +613,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat(new RuntimeException("boom")).cause().hasMessage("inner");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("cause");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("cause");
     }
 
     @Test
@@ -676,9 +622,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Throwable) null).rootCause().hasMessage("boom");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -686,9 +631,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat(new RuntimeException("boom")).rootCause().hasMessage("inner");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("cause");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("cause");
     }
 
     @Test
@@ -696,9 +640,18 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Throwable) null).throwablesChain().hasSize(3);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_cascade_dead_chain_through_multiple_cause_calls() {
+      // GIVEN / WHEN
+      softly.assertThat((Throwable) null).cause().cause().hasMessage("boom");
+      // THEN - only the first cause()'s isNotNull collects an error;
+      // the second cause() runs on a dead chain and must be skipped (no extra error, no leak).
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
   }
@@ -711,9 +664,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((java.io.File) null).content().contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -721,9 +673,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((java.io.File) null).content(java.nio.charset.StandardCharsets.UTF_8).contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -731,9 +682,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((java.nio.file.Path) null).content().contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -741,9 +691,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((java.nio.file.Path) null).content(java.nio.charset.StandardCharsets.UTF_8).contains("x");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -751,9 +700,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((java.io.File) null).binaryContent().isEqualTo(new byte[0]);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -761,9 +709,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((java.nio.file.Path) null).binaryContent().isEqualTo(new byte[0]);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
   }
@@ -774,11 +721,10 @@ class SoftAssertions_navigations_on_null_actual_Test {
     @Test
     void should_not_throw_when_calling_asString_on_null_object() {
       // GIVEN / WHEN
-      softly.assertThat((Object) null).asString().isEqualTo("foo");
+      softly.assertThatObject(null).asString().isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -786,9 +732,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((byte[]) null).asString().isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -796,9 +741,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((byte[]) null).asHexString().isEqualTo("00");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -806,9 +750,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((byte[]) null).asString(java.nio.charset.StandardCharsets.UTF_8).isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -816,9 +759,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((byte[]) null).asBase64Encoded().isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -826,9 +768,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((byte[]) null).asBase64UrlEncoded().isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -836,9 +777,18 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((java.io.InputStream) null).asString(java.nio.charset.StandardCharsets.UTF_8).isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
+    void should_cascade_dead_chain_through_asString_and_bytes() {
+      // GIVEN / WHEN - cross-type chain: byte[] -> String -> byte[]
+      softly.assertThat((byte[]) null).asString().bytes().isEqualTo(new byte[0]);
+      // THEN - only the first navigation's isNotNull collects an error;
+      // the second navigation runs on a dead chain and must be skipped.
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
   }
@@ -851,9 +801,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((java.util.regex.Matcher) null).group(1).isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -861,9 +810,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((java.util.regex.Matcher) null).group("g1").isEqualTo("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -871,9 +819,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((java.util.regex.Matcher) null).groups().contains("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -881,9 +828,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((java.util.Iterator<String>) null).toIterable().contains("foo");
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
   }
@@ -896,9 +842,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String) null).bytes().isEqualTo(new byte[0]);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -906,9 +851,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String) null).bytes(java.nio.charset.StandardCharsets.UTF_8).isEqualTo(new byte[0]);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -916,9 +860,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String) null).bytes("UTF-8").isEqualTo(new byte[0]);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -926,9 +869,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String) null).asBase64Decoded().isEqualTo(new byte[0]);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -936,9 +878,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String) null).asBase64UrlDecoded().isEqualTo(new byte[0]);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -946,9 +887,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String) null).asByte().isEqualTo((byte) 0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("to be a valid byte");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("to be a valid byte");
     }
 
     @Test
@@ -956,9 +896,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String) null).asShort().isEqualTo((short) 0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("to be a valid short");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("to be a valid short");
     }
 
     @Test
@@ -966,9 +905,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String) null).asInt().isEqualTo(0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("to be a valid int");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("to be a valid int");
     }
 
     @Test
@@ -976,9 +914,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String) null).asLong().isEqualTo(0L);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("to be a valid long");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("to be a valid long");
     }
 
     @Test
@@ -986,9 +923,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String) null).asFloat().isEqualTo(0.0f);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("to be a valid float");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("to be a valid float");
     }
 
     @Test
@@ -996,9 +932,18 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((String) null).asDouble().isEqualTo(0.0);
       // THEN
-      List<Throwable> errors = softly.errorsCollected();
-      then(errors).hasSize(1);
-      then(errors.get(0)).hasMessageContaining("to be a valid double");
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("to be a valid double");
+    }
+
+    @Test
+    void should_cascade_dead_chain_through_bytes_and_asHexString() {
+      // GIVEN / WHEN - cross-type chain: String -> byte[] -> String
+      softly.assertThat((String) null).bytes().asHexString().isEqualTo("00");
+      // THEN - only the first navigation's isNotNull collects an error;
+      // the second navigation runs on a dead chain and must be skipped.
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
   }
@@ -1020,9 +965,8 @@ class SoftAssertions_navigations_on_null_actual_Test {
     custom.extractingAsString().startsWith("foo");
     custom.extractingValueAsString().startsWith("bar");
     // THEN only the two isNotNull errors are collected, and no ClassCastException leaks
-    List<Throwable> errors = softly.errorsCollected();
+    List<AssertionError> errors = softly.assertionErrorsCollected();
     then(errors).hasSize(2);
-    then(errors).allMatch(e -> e instanceof AssertionError);
     then(errors.get(0)).hasMessageContaining("Expecting actual not to be null");
     then(errors.get(1)).hasMessageContaining("Expecting actual not to be null");
   }

@@ -94,7 +94,7 @@ public abstract class AbstractIteratorAssert<SELF extends AbstractIteratorAssert
    */
   public IterableAssert<ELEMENT> toIterable() {
     isNotNull();
-    if (actual == null) return markAsDeadChain(new IterableAssert<ELEMENT>((Iterable<? extends ELEMENT>) null));
+    if (actual == null) return markAsDeadChain(IterableAssert.<ELEMENT> deadChainIterableAssert());
     return new IterableAssert<ELEMENT>(IterableAssert.toIterable(actual)).withAssertionState(myself);
   }
 

@@ -459,7 +459,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   public <U> AbstractOptionalAssert<?, U> flatMap(Function<? super VALUE, Optional<U>> mapper) {
     isNotNull();
     // noinspection OptionalAssignedToNull
-    if (actual == null) return deadChainSameType();
+    if (actual == null) return deadChain();
     return assertThat(actual.flatMap(mapper)).withAssertionState(myself);
   }
 
@@ -489,7 +489,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
   public <U> AbstractOptionalAssert<?, U> map(Function<? super VALUE, ? extends U> mapper) {
     isNotNull();
     // noinspection OptionalAssignedToNull
-    if (actual == null) return deadChainSameType();
+    if (actual == null) return deadChain();
     OptionalAssert<U> result = assertThat(actual.map(mapper));
     result.withAssertionState(myself);
     return result;
@@ -720,7 +720,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   private AbstractObjectAssert<?, VALUE> internalGet() {
     isPresent();
-    if (actual == null || actual.isEmpty()) return markAsDeadChain(new ObjectAssert<>((VALUE) null));
+    if (actual == null || actual.isEmpty()) return markAsDeadChain(ObjectAssert.<VALUE> deadChainObjectAssert());
     // noinspection OptionalGetWithoutIsPresent
     return assertThat(actual.get()).withAssertionState(myself);
   }

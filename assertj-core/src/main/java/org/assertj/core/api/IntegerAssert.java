@@ -41,4 +41,8 @@ public class IntegerAssert extends AbstractIntegerAssert<IntegerAssert> {
   public IntegerAssert(AtomicInteger actual) {
     this(actual == null ? null : actual.get());
   }
+
+  public static IntegerAssert deadChainIntegerAssert() {
+    return new IntegerAssert((Integer) null).deadChain();
+  }
 }
