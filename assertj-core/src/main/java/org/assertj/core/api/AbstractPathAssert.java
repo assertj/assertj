@@ -1811,7 +1811,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
     return executeAssertionNavigation(() -> {
       paths.assertIsReadable(info, actual);
       return new ByteArrayAssert(readPath()).withAssertionState(myself);
-    }, ByteArrayAssert::deadChainByteArrayAssert);
+    }, ByteArrayAssert::nullByteArrayAssert);
   }
 
   /**
@@ -1863,7 +1863,7 @@ public abstract class AbstractPathAssert<SELF extends AbstractPathAssert<SELF>> 
       paths.assertIsReadable(info, actual);
       String pathContent = readPath(charset);
       return new StringAssert(pathContent).withAssertionState(myself);
-    }, StringAssert::deadChainStringAssert);
+    }, StringAssert::nullStringAssert);
   }
 
   private byte[] readPath() {

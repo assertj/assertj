@@ -38,7 +38,7 @@ public class FloatAssert extends AbstractFloatAssert<FloatAssert> {
     super(actual, FloatAssert.class);
   }
 
-  public static FloatAssert deadChainFloatAssert() {
-    return new FloatAssert(null).deadChain();
+  public static FloatAssert nullFloatAssert() {
+    return new FloatAssert(null);
   }
 }

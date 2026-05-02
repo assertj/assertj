@@ -35,7 +35,7 @@ public class ShortAssert extends AbstractShortAssert<ShortAssert> {
     super(actual, ShortAssert.class);
   }
 
-  public static ShortAssert deadChainShortAssert() {
-    return new ShortAssert(null).deadChain();
+  public static ShortAssert nullShortAssert() {
+    return new ShortAssert(null);
   }
 }

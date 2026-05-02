@@ -1217,7 +1217,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     return executeAssertionNavigation(() -> {
       objects.assertNotNull(info, actual);
       return assertThat(toHexString(actual)).withAssertionState(myself);
-    }, StringAssert::deadChainStringAssert);
+    }, StringAssert::nullStringAssert);
   }
 
   /**
@@ -1250,7 +1250,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
       objects.assertNotNull(info, actual);
       String actualAsString = new String(actual);
       return assertThat(actualAsString).withAssertionState(myself);
-    }, StringAssert::deadChainStringAssert);
+    }, StringAssert::nullStringAssert);
   }
 
   /**
@@ -1278,7 +1278,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   @CheckReturnValue
   public AbstractStringAssert<?> asString(Charset charset) {
     isNotNull();
-    if (actual == null) return markAsDeadChain(StringAssert.deadChainStringAssert());
+    if (actual == null) return markAsDeadChain(StringAssert.nullStringAssert());
     String actualAsString = new String(actual, charset);
     return assertThat(actualAsString).withAssertionState(myself);
   }
@@ -1298,7 +1298,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   @CheckReturnValue
   public AbstractStringAssert<?> asBase64Encoded() {
     isNotNull();
-    if (actual == null) return markAsDeadChain(StringAssert.deadChainStringAssert());
+    if (actual == null) return markAsDeadChain(StringAssert.nullStringAssert());
     return new StringAssert(Base64.getEncoder().encodeToString(actual)).withAssertionState(myself);
   }
 
@@ -1317,7 +1317,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   @CheckReturnValue
   public AbstractStringAssert<?> asBase64UrlEncoded() {
     isNotNull();
-    if (actual == null) return markAsDeadChain(StringAssert.deadChainStringAssert());
+    if (actual == null) return markAsDeadChain(StringAssert.nullStringAssert());
     return new StringAssert(Base64.getUrlEncoder().encodeToString(actual)).withAssertionState(myself);
   }
 

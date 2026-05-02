@@ -33,7 +33,7 @@ public class ObjectAssert<ACTUAL> extends AbstractObjectAssert<ObjectAssert<ACTU
     super(actual, ObjectAssert.class);
   }
 
-  public static <ACTUAL> ObjectAssert<ACTUAL> deadChainObjectAssert() {
-    return new ObjectAssert<ACTUAL>(null).deadChain();
+  public static <ACTUAL> ObjectAssert<ACTUAL> nullObjectAssert() {
+    return new ObjectAssert<>(null);
   }
 }

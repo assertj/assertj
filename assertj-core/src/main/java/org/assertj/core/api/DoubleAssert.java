@@ -40,7 +40,7 @@ public class DoubleAssert extends AbstractDoubleAssert<DoubleAssert> {
     super(actual, DoubleAssert.class);
   }
 
-  public static DoubleAssert deadChainDoubleAssert() {
-    return new DoubleAssert(null).deadChain();
+  public static DoubleAssert nullDoubleAssert() {
+    return new DoubleAssert(null);
   }
 }

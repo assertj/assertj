@@ -66,8 +66,8 @@ public class ListAssert<ELEMENT> extends
     return new ListAssert<>(actual);
   }
 
-  public static <ELEMENT> ListAssert<ELEMENT> deadChainListAssert() {
-    return new ListAssert<ELEMENT>((List<? extends ELEMENT>) null).deadChain();
+  public static <ELEMENT> ListAssert<ELEMENT> nullListAssert() {
+    return new ListAssert<>((List<? extends ELEMENT>) null);
   }
 
   public ListAssert(List<? extends ELEMENT> actual) {

@@ -85,7 +85,7 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    */
   public AbstractStringAssert<?> group(int groupIndex) {
     matches();
-    if (actual == null) return markAsDeadChain(StringAssert.deadChainStringAssert());
+    if (actual == null) return markAsDeadChain(StringAssert.nullStringAssert());
     return assertThat(extractGroup(() -> actual.group(groupIndex), groupIndex)).withAssertionState(myself);
   }
 
@@ -109,7 +109,7 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    */
   public AbstractStringAssert<?> group(String groupName) {
     matches();
-    if (actual == null) return markAsDeadChain(StringAssert.deadChainStringAssert());
+    if (actual == null) return markAsDeadChain(StringAssert.nullStringAssert());
     return assertThat(extractGroup(() -> actual.group(groupName), groupName)).withAssertionState(myself);
   }
 
@@ -131,7 +131,7 @@ public abstract class AbstractMatcherAssert<SELF extends AbstractMatcherAssert<S
    */
   public ListAssert<String> groups() {
     matches();
-    if (actual == null) return markAsDeadChain(ListAssert.deadChainListAssert());
+    if (actual == null) return markAsDeadChain(ListAssert.nullListAssert());
     return assertThat(rangeClosed(1, actual.groupCount()).mapToObj(actual::group).toList()).withAssertionState(myself);
   }
 

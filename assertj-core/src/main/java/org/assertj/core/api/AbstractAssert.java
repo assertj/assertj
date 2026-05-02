@@ -153,16 +153,16 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   /**
    * Wraps a navigation method that returns a different assert type and also performs assertion checks.
    * In soft mode, catches {@link AssertionError} from the assertion guards, collects it, and returns a
-   * dead-chain assertion built from {@code deadChainFactory} (marked with {@link #skipAssertions} so
+   * dead-chain assertion built from {@code emptyAssertProvider} (marked with {@link #skipAssertions} so
    * that subsequent chained assertions no-op instead of throwing a {@link RuntimeException}).
    *
    * @param <T> the return type of the navigation method
    * @param body the navigation method logic to execute
-   * @param deadChainFactory supplies a fresh assertion instance to mark as dead-chain when a soft
+   * @param emptyAssertProvider supplies a fresh assertion instance to mark as dead-chain when a soft
    *        assertion error is collected; typically wraps {@code null} actual
    * @return the navigation result, or a dead-chain assertion if an assertion error was collected in soft mode
    */
-  protected <T extends AbstractAssert<?, ?>> T executeAssertionNavigation(Supplier<T> body, Supplier<T> deadChainFactory) {
+  protected <T extends AbstractAssert<?, ?>> T executeAssertionNavigation(Supplier<T> body, Supplier<T> emptyAssertProvider) {
     if (assertionErrorHandler == null) {
       try {
         return body.get();
@@ -172,7 +172,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
         throw new RuntimeException(e);
       }
     }
-    if (skipAssertions) return markAsDeadChain(deadChainFactory.get());
+    if (skipAssertions) return markAsDeadChain(emptyAssertProvider.get());
     int depth = SOFT_CALL_DEPTH.get();
     SOFT_CALL_DEPTH.set(depth + 1);
     try {
@@ -182,7 +182,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     } catch (AssertionError e) {
       if (depth > 0) throw e;
       assertionErrorHandler.handleError(e);
-      return markAsDeadChain(deadChainFactory.get());
+      return markAsDeadChain(emptyAssertProvider.get());
     } catch (RuntimeException e) {
       throw e;
     } catch (Exception e) {
@@ -736,7 +736,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
     return executeAssertionNavigation(() -> {
       objects.assertNotNull(info, actual);
       return Assertions.assertThat(actual.toString()).withAssertionState(myself);
-    }, StringAssert::deadChainStringAssert);
+    }, StringAssert::nullStringAssert);
   }
 
   /**

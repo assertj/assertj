@@ -1725,7 +1725,7 @@ public abstract class AbstractMapAssert<SELF extends AbstractMapAssert<SELF, ACT
 
   private AbstractObjectAssert<?, V> internalExtractingByKey(K key) {
     isNotNull();
-    if (actual == null) return markAsDeadChain(ObjectAssert.<V> deadChainObjectAssert());
+    if (actual == null) return markAsDeadChain(ObjectAssert.<V> nullObjectAssert());
     V extractedValue = actual.get(key);
     String extractedPropertyOrFieldDescription = extractedDescriptionOf(key);
     String description = mostRelevantDescription(info.description(), extractedPropertyOrFieldDescription);

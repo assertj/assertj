@@ -720,7 +720,7 @@ public abstract class AbstractOptionalAssert<SELF extends AbstractOptionalAssert
 
   private AbstractObjectAssert<?, VALUE> internalGet() {
     isPresent();
-    if (actual == null || actual.isEmpty()) return markAsDeadChain(ObjectAssert.<VALUE> deadChainObjectAssert());
+    if (actual == null || actual.isEmpty()) return markAsDeadChain(ObjectAssert.<VALUE> nullObjectAssert());
     // noinspection OptionalGetWithoutIsPresent
     return assertThat(actual.get()).withAssertionState(myself);
   }

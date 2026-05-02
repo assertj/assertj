@@ -35,7 +35,7 @@ public class ByteAssert extends AbstractByteAssert<ByteAssert> {
     super(actual, ByteAssert.class);
   }
 
-  public static ByteAssert deadChainByteAssert() {
-    return new ByteAssert(null).deadChain();
+  public static ByteAssert nullByteAssert() {
+    return new ByteAssert(null);
   }
 }

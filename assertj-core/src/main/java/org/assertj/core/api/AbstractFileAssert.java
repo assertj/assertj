@@ -1237,7 +1237,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
     return executeAssertionNavigation(() -> {
       files.assertCanRead(info, actual);
       return new ByteArrayAssert(readFile()).withAssertionState(myself);
-    }, ByteArrayAssert::deadChainByteArrayAssert);
+    }, ByteArrayAssert::nullByteArrayAssert);
   }
 
   /**
@@ -1340,7 +1340,7 @@ public abstract class AbstractFileAssert<SELF extends AbstractFileAssert<SELF>> 
       files.assertCanRead(info, actual);
       String fileContent = readFile(charset);
       return new StringAssert(fileContent).withAssertionState(myself);
-    }, StringAssert::deadChainStringAssert);
+    }, StringAssert::nullStringAssert);
   }
 
   private byte[] readFile() {

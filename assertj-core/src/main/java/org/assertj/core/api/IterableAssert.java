@@ -52,8 +52,8 @@ public class IterableAssert<ELEMENT> extends
     return new IterableAssert<>(actual);
   }
 
-  public static <ELEMENT> IterableAssert<ELEMENT> deadChainIterableAssert() {
-    return new IterableAssert<ELEMENT>((Iterable<? extends ELEMENT>) null).deadChain();
+  public static <ELEMENT> IterableAssert<ELEMENT> nullIterableAssert() {
+    return new IterableAssert<>((Iterable<? extends ELEMENT>) null);
   }
 
   static <T> Iterable<T> toIterable(Iterator<T> iterator) {
