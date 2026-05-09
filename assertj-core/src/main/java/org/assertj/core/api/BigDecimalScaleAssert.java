@@ -16,6 +16,8 @@
 package org.assertj.core.api;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import java.math.BigDecimal;
+
 
 public class BigDecimalScaleAssert<T> extends AbstractBigDecimalScaleAssert<BigDecimalAssert> {
 
@@ -27,6 +29,15 @@ public class BigDecimalScaleAssert<T> extends AbstractBigDecimalScaleAssert<BigD
   @CheckReturnValue
   public AbstractBigDecimalAssert<BigDecimalAssert> returnToBigDecimal() {
     return super.returnToBigDecimal();
+  }
+
+  public static BigDecimalScaleAssert<?> nullBigDecimalScaleAssert() {
+    return new BigDecimalScaleAssert<>(new BigDecimalAssert(BigDecimal.ZERO));
+  }
+
+  @Override
+  BigDecimalScaleAssert<T> withAssertionState(AbstractAssert assertInstance) {
+    return (BigDecimalScaleAssert<T>) super.withAssertionState(assertInstance);
   }
 
 }

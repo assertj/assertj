@@ -16,8 +16,9 @@
 package org.assertj.core.internal.bigdecimals;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
 import static org.assertj.core.api.BDDAssertions.then;
+import static org.assertj.core.util.AssertionsUtil.expectAssertionError;
+import static org.assertj.core.util.FailureMessages.actualIsNull;
 
 import java.math.BigDecimal;
 
@@ -39,12 +40,13 @@ class BigDecimalAssert_scale_Test {
   }
 
   @Test
-  void should_have_a_helpful_error_message_when_scale_assertion_is_used_on_a_null_big_decimal() {
+  void should_fail_on_a_null_big_decimal() {
     // GIVEN
     BigDecimal nullBigDecimal = null;
-    // WHEN/THEN
-    assertThatNullPointerException().isThrownBy(() -> assertThat(nullBigDecimal).scale().isBetween(2, 3))
-                                    .withMessage("Can not perform assertions on the scale of a null BigDecimal");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(nullBigDecimal).scale().isBetween(2, 3));
+    // THEN
+    then(assertionError).hasMessage(actualIsNull());
   }
 
 }

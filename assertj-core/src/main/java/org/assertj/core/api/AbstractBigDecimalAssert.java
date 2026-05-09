@@ -15,24 +15,21 @@
  */
 package org.assertj.core.api;
 
-import static java.util.Objects.requireNonNull;
-
 import java.math.BigDecimal;
 import java.util.Comparator;
 
 import org.assertj.core.annotation.CheckReturnValue;
+import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 import org.assertj.core.data.Offset;
 import org.assertj.core.data.Percentage;
 import org.assertj.core.internal.BigDecimals;
-import org.assertj.core.api.comparisonstrategy.ComparatorBasedComparisonStrategy;
 
 /**
  * Base class for all implementations of assertions for {@link BigDecimal}s.
  *
  * @param <SELF> the "self" type of this assertion class. Please read &quot;<a href="https://bit.ly/1IZIRcY"
- *          target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
- *          for more details.
- *
+ *               target="_blank">Emulating 'self types' using Java Generics to simplify fluent API implementation</a>&quot;
+ *               for more details.
  * @author Drummond Dawson
  * @author David DIDIER
  * @author Ted M. Young
@@ -178,7 +175,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    *
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isBetween(new BigDecimal(&quot;6.0&quot;), new BigDecimal(&quot;7.0&quot;));</code></pre>
-   *
+   * <p>
    * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are
    * considered equal in value unlike {@link BigDecimal#equals(Object)}.
    */
@@ -225,7 +222,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
 
   /**
    * Same as {@link AbstractAssert#isNotEqualTo(Object) isNotEqualTo(BigDecimal)} but takes care of converting given String
-   to
+   * to
    * {@link BigDecimal} for you.
    * <p>
    * Example:
@@ -255,6 +252,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    *
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isEqualByComparingTo(&quot;2.0&quot;);</code></pre>
+   *
    * @param expected the expected {@link BigDecimal} passed as a String
    * @return {@code this} assertion object.
    */
@@ -272,6 +270,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    *
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.0&quot;)).isNotEqualByComparingTo(&quot;8.00&quot;);</code></pre>
+   *
    * @param notExpected the {@link BigDecimal} value passed as a String not to expect.
    * @return {@code this} assertion object.
    */
@@ -290,7 +289,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail
    * assertThat(new BigDecimal(&quot;8.00&quot;)).hasScaleOf(3);
    * assertThat(new BigDecimal(&quot;8.00&quot;).setScale(4)).hasScaleOf(2);</code></pre>
-   * 
+   *
    * @param expectedScale the expected scale value.
    * @return {@code this} assertion object.
    */
@@ -347,11 +346,11 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * assertThat(eightDotOne).isCloseTo(eight, within(new BigDecimal("0.001")));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param offset the given positive offset.
+   * @param offset   the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
+   * @throws AssertionError       if the actual value is not close to the given one.
    */
   @Override
   public SELF isCloseTo(final BigDecimal expected, final Offset<BigDecimal> offset) {
@@ -386,11 +385,11 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * assertThat(eightDotOne).isNotCloseTo(eight, byLessThan(new BigDecimal("0.2")));</code></pre>
    *
    * @param expected the given number to compare the actual value to.
-   * @param offset the given positive offset.
+   * @param offset   the given positive offset.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is close to the given one.
+   * @throws AssertionError       if the actual value is close to the given one.
    * @see Assertions#byLessThan(BigDecimal)
    * @since 2.6.0 / 3.6.0
    */
@@ -413,12 +412,12 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail
    * assertThat(BigDecimal.valueOf(11.0)).isCloseTo(BigDecimal.TEN, withinPercentage(BigDecimal.valueOf(5d)));</code></pre>
    *
-   * @param expected the given number to compare the actual value to.
+   * @param expected   the given number to compare the actual value to.
    * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is not close to the given one.
+   * @throws AssertionError       if the actual value is not close to the given one.
    */
   @Override
   public SELF isCloseTo(BigDecimal expected, Percentage percentage) {
@@ -441,12 +440,12 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * // assertion will fail
    * assertThat(eleven).isNotCloseTo(BigDecimal.TEN, withinPercentage(new BigDecimal("20")));</code></pre>
    *
-   * @param expected the given number to compare the actual value to.
+   * @param expected   the given number to compare the actual value to.
    * @param percentage the given positive percentage.
    * @return {@code this} assertion object.
    * @throws NullPointerException if the given offset is {@code null}.
    * @throws NullPointerException if the expected number is {@code null}.
-   * @throws AssertionError if the actual value is close to the given one.
+   * @throws AssertionError       if the actual value is close to the given one.
    */
   @Override
   public SELF isNotCloseTo(BigDecimal expected, Percentage percentage) {
@@ -465,7 +464,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    *
    * // assertions will fail
    * assertThat(BigDecimal.ONE).isLessThanOrEqualTo(BigDecimal.ZERO);</code></pre>
-   *
+   * <p>
    * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are
    * considered equal in value unlike {@link BigDecimal#equals(Object)}.
    *
@@ -491,7 +490,7 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    *
    * // assertions will fail
    * assertThat(BigDecimal.ZERO).isGreaterThanOrEqualTo(BigDecimal.ONE);</code></pre>
-   *
+   * <p>
    * Note that comparison of {@link BigDecimal} is done by value without scale consideration, i.e 2.0 and 2.00 are
    * considered equal in value unlike {@link BigDecimal#equals(Object)}.
    *
@@ -527,11 +526,11 @@ public abstract class AbstractBigDecimalAssert<SELF extends AbstractBigDecimalAs
    * @return AbstractBigDecimalScaleAssert built with the {@code BigDecimal}'s scale.
    * @throws NullPointerException if the given {@code BigDecimal} is {@code null}.
    */
-  @SuppressWarnings({ "rawtypes" })
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   public AbstractBigDecimalScaleAssert<SELF> scale() {
-    requireNonNull(actual, "Can not perform assertions on the scale of a null BigDecimal");
-    BigDecimalScaleAssert result = new BigDecimalScaleAssert(myself);
-    result.withAssertionState(myself);
-    return result;
+    return executeAssertionNavigation(() -> {
+      isNotNull();
+      return new BigDecimalScaleAssert(myself).withAssertionState(myself);
+    }, BigDecimalScaleAssert::nullBigDecimalScaleAssert);
   }
 }
