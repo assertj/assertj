@@ -19,6 +19,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.InstanceOfAssertFactories.STRING;
 import static org.assertj.core.api.InstanceOfAssertFactories.THROWABLE;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,6 +46,19 @@ class SoftAssertions_navigations_on_null_actual_Test {
   @BeforeEach
   void setup() {
     softly = new SoftAssertions();
+  }
+
+  @Nested
+  class BigDecimalNavigations {
+
+    @Test
+    void should_not_throw_when_calling_scale_on_null_BigDecimal() {
+      // GIVEN / WHEN
+      softly.assertThat((BigDecimal) null).scale().isZero();
+      // THEN
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
+    }
   }
 
   @Nested
@@ -598,6 +612,15 @@ class SoftAssertions_navigations_on_null_actual_Test {
   class ThrowableNavigations {
 
     @Test
+    void should_not_throw_when_calling_message_on_null_throwable() {
+      // GIVEN / WHEN
+      softly.assertThat((Throwable) null).message().isEqualTo("boom");
+      // THEN
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
+    }
+
+    @Test
     void should_not_throw_when_calling_cause_on_null_throwable() {
       // GIVEN / WHEN
       softly.assertThat((Throwable) null).cause().hasMessage("boom");
@@ -613,6 +636,16 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // THEN
       then(softly.errorsCollected()).singleElement(THROWABLE)
                                     .hasMessageContaining("cause");
+    }
+
+    @Test
+    void should_cascade_dead_chain_through_multiple_cause_calls() {
+      // GIVEN / WHEN
+      softly.assertThat((Throwable) null).cause().cause().hasMessage("boom");
+      // THEN - only the first cause()'s isNotNull collects an error;
+      // the second cause() runs on a dead chain and must be skipped (no extra error, no leak).
+      then(softly.errorsCollected()).singleElement(THROWABLE)
+                                    .hasMessageContaining("Expecting actual not to be null");
     }
 
     @Test
@@ -638,16 +671,6 @@ class SoftAssertions_navigations_on_null_actual_Test {
       // GIVEN / WHEN
       softly.assertThat((Throwable) null).throwablesChain().hasSize(3);
       // THEN
-      then(softly.errorsCollected()).singleElement(THROWABLE)
-                                    .hasMessageContaining("Expecting actual not to be null");
-    }
-
-    @Test
-    void should_cascade_dead_chain_through_multiple_cause_calls() {
-      // GIVEN / WHEN
-      softly.assertThat((Throwable) null).cause().cause().hasMessage("boom");
-      // THEN - only the first cause()'s isNotNull collects an error;
-      // the second cause() runs on a dead chain and must be skipped (no extra error, no leak).
       then(softly.errorsCollected()).singleElement(THROWABLE)
                                     .hasMessageContaining("Expecting actual not to be null");
     }

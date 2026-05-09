@@ -18,6 +18,7 @@ package org.assertj.core.api;
 import static java.util.Arrays.stream;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.description.Description.mostRelevantDescription;
 import static org.assertj.core.error.ShouldMatch.shouldMatch;
 import static org.assertj.core.error.ShouldNotBeNull.shouldNotBeNull;
@@ -735,8 +736,8 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   @CheckReturnValue
   public AbstractStringAssert<?> asString() {
     return executeAssertionNavigation(() -> {
-      objects.assertNotNull(info, actual);
-      return Assertions.assertThat(actual.toString()).withAssertionState(myself);
+      isNotNull();
+      return assertThat(actual.toString()).withAssertionState(myself);
     }, StringAssert::nullStringAssert);
   }
 
@@ -890,8 +891,7 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @throws NullPointerException if given {@link Predicate} is null.
    */
   public SELF matches(Predicate<? super ACTUAL> predicate) {
-    // use default PredicateDescription
-    return matches(predicate, PredicateDescription.GIVEN);
+    return matches(predicate, PredicateDescription.GIVEN.description);
   }
 
   /**
@@ -914,7 +914,13 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @throws NullPointerException if given predicateDescription is null.
    */
   public SELF matches(Predicate<? super ACTUAL> predicate, String predicateDescription) {
-    return matches(predicate, new PredicateDescription(predicateDescription));
+    requireNonNull(predicate, "The predicate must not be null");
+    return executeAssertion(() -> {
+      if (predicate.test(actual)) {
+        return;
+      }
+      throw Failures.instance().failure(info, shouldMatch(actual, predicate, new PredicateDescription(predicateDescription)));
+    });
   }
 
   /**
@@ -930,7 +936,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
    * @throws NullPointerException if given {@link Predicate} is null.
    */
   public SELF doesNotMatch(Predicate<? super ACTUAL> predicate) {
-    // use default PredicateDescription
     return doesNotMatch(predicate, PredicateDescription.GIVEN);
   }
 
@@ -1137,16 +1142,6 @@ public abstract class AbstractAssert<SELF extends AbstractAssert<SELF, ACTUAL>, 
   private AssertionError multipleAssertionsError(ACTUAL actual, List<AssertionError> assertionErrors) {
     // we don't allow overriding the error message to avoid loosing all the failed assertions error message.
     return assertionErrorCreator.multipleAssertionsError(info.description(), actual, assertionErrors);
-  }
-
-  private SELF matches(Predicate<? super ACTUAL> predicate, PredicateDescription predicateDescription) {
-    requireNonNull(predicate, "The predicate must not be null");
-    return executeAssertion(() -> {
-      if (predicate.test(actual)) {
-        return;
-      }
-      throw Failures.instance().failure(info, shouldMatch(actual, predicate, predicateDescription));
-    });
   }
 
   private SELF doesNotMatch(Predicate<? super ACTUAL> predicate, PredicateDescription predicateDescription) {

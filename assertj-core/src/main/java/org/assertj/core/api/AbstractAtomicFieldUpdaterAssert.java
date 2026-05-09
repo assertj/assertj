@@ -53,12 +53,8 @@ public abstract class AbstractAtomicFieldUpdaterAssert<SELF extends AbstractAtom
   protected void validate(VALUE expectedValue) {
     isNotNull();
     if (!expectedNullAllowed) {
-      checkNotNull(expectedValue);
+      checkArgument(expectedValue != null, "The expected value should not be <null>.");
     }
-  }
-
-  private void checkNotNull(VALUE expectedValue) {
-    checkArgument(expectedValue != null, "The expected value should not be <null>.");
   }
 
 }
