@@ -652,15 +652,14 @@ public class RecursiveComparisonDifferenceCalculator {
   private static void doCompareUnorderedIterables(DualValue dualValue, Iterable<?> actual, Iterable<?> expected,
                                                   ComparisonState comparisonState) {
     List<Object> expectedElementsNotFound = list();
+    // speed up comparison by selecting actual elements matching expected hash code, note that the hash code might not be
+    // relevant if fields used to compute it are ignored in the recursive comparison, it's a good heuristic though to check
+    // the first actual elements that could match the expected one, worst case we compare all actual elements.
+    // the map is built once before the loop so that actual elements removed via Iterator.remove() when matched stay
+    // removed across iterations, ensuring one-to-one matching between actual and expected elements.
+    Map<Integer, ? extends List<?>> actualElementsGroupedByHashCode = actualElementsGroupedByHashCode(actual);
     for (Object expectedElement : expected) {
       boolean expectedElementMatched = false;
-      // speed up comparison by selecting actual elements matching expected hash code, note that the hash code might not be
-      // relevant if fields used to compute it are ignored in the recursive comparison, it's a good heuristic though to check
-      // the first actual elements that could match the expected one, worst case we compare all actual elements.
-      // actualElementsGroupedByHashCode must be initialized for each expectedElement, as we remove elements from its
-      // entries when a match with expectedElement is found, the next expectedElement comparison is done on a smaller
-      // set of entries which leads to incorrect results.
-      Map<Integer, ? extends List<?>> actualElementsGroupedByHashCode = actualElementsGroupedByHashCode(actual);
       Integer expectedHash = Objects.hashCode(expectedElement);
       List<?> actualHashBucket = actualElementsGroupedByHashCode.get(expectedHash);
       if (actualHashBucket != null) {
@@ -699,8 +698,8 @@ public class RecursiveComparisonDifferenceCalculator {
     while (actualIterator.hasNext()) {
       Object actualElement = actualIterator.next();
       // we need to get the currently visited dual values otherwise a cycle would cause an infinite recursion.
-      List<ComparisonDifference> differences = determineDifferences(new DualValue(dualValue.fieldLocation, actualElement,
-                                                                                  expectedElement),
+      DualValue elementDualValue = new DualValue(dualValue.fieldLocation, actualElement, expectedElement);
+      List<ComparisonDifference> differences = determineDifferences(elementDualValue,
                                                                     comparisonState.visitedDualValues,
                                                                     comparisonState.recursiveComparisonConfiguration);
       if (differences.isEmpty()) {
@@ -708,6 +707,11 @@ public class RecursiveComparisonDifferenceCalculator {
         actualIterator.remove();
         return true;
       }
+
+      // add the differences to this pair's visited entry; otherwise they are added only to
+      // child dual values, and a later cycle-cache hit would falsely resolve the pair as "equal".
+      differences.forEach(difference -> comparisonState.visitedDualValues.registerComparisonDifference(elementDualValue,
+                                                                                                       difference));
     }
     return false;
   }

@@ -103,6 +103,43 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     compareRecursivelyFailsWithDifferences(actual, expected, comparisonDifference);
   }
 
+  @Test
+  void should_fail_when_expected_contains_duplicate_elements_not_present_in_actual_while_ignoring_collection_order() {
+    // GIVEN
+    List<String> actual = List.of("a", "b");
+    List<String> expected = List.of("a", "a");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .ignoringCollectionOrder()
+                                                                      .isEqualTo(expected));
+
+    // THEN
+    then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual List12:%n" +
+                                                     "  [\"a\"]"));
+  }
+
+  @Test
+  void should_fail_when_unmatched_pair_with_leaf_difference_is_compared_twice() {
+    // GIVEN
+    FriendlyPerson alice = new FriendlyPerson("Alice");
+    alice.add(friend("Charlie"));
+    alice.add(friend("Dave"));
+    FriendlyPerson bob = new FriendlyPerson("Bob");
+    bob.add(friend("Eve"));
+    bob.add(friend("Frank"));
+    List<FriendlyPerson> actual = List.of(alice, alice);
+    List<FriendlyPerson> expected = List.of(bob, bob);
+
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .ignoringCollectionOrder()
+                                                                      .isEqualTo(expected));
+
+    // THEN
+    then(assertionError).hasMessageContaining("The following expected elements were not matched")
+                        .hasMessageContaining("name=Bob");
+  }
+
   @ParameterizedTest(name = "{0}: actual={1} / expected={2} / ignore collection order in fields={3}")
   @MethodSource("should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_in_specified_fields_source")
   @SuppressWarnings("unused")
