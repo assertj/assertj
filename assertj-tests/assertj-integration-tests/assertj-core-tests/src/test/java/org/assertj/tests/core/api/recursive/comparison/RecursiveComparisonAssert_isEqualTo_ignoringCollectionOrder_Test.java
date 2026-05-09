@@ -103,6 +103,37 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     compareRecursivelyFailsWithDifferences(actual, expected, comparisonDifference);
   }
 
+  @Test
+  void should_fail_when_expected_contains_duplicate_elements_not_present_in_actual_while_ignoring_collection_order() {
+    // GIVEN
+    List<String> actual = List.of("a", "b");
+    List<String> expected = List.of("a", "a");
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .ignoringCollectionOrder()
+                                                                      .isEqualTo(expected));
+    // THEN
+    then(assertionError).hasMessageContaining(format("The following expected elements were not matched in the actual List12:%n" +
+                                                     "  [\"a\"]"));
+  }
+
+  @Test
+  void should_fail_when_unmatched_pair_with_leaf_difference_is_compared_twice() {
+    // GIVEN
+    FriendlyPerson alice = new FriendlyPerson("Alice");
+    FriendlyPerson bob = new FriendlyPerson("Bob");
+    List<FriendlyPerson> actual = List.of(alice, alice, alice);
+    List<FriendlyPerson> expected = List.of(bob, bob, bob);
+    // WHEN
+    var assertionError = expectAssertionError(() -> assertThat(actual).usingRecursiveComparison(recursiveComparisonConfiguration)
+                                                                      .ignoringCollectionOrder()
+                                                                      .isEqualTo(expected));
+    // THEN
+    then(assertionError).message()
+                        .containsOnlyOnce("The following expected elements were not matched")
+                        .containsSubsequence("name=Bob", "name=Bob", "name=Bob");
+  }
+
   @ParameterizedTest(name = "{0}: actual={1} / expected={2} / ignore collection order in fields={3}")
   @MethodSource("should_pass_for_objects_with_the_same_data_when_collection_order_is_ignored_in_specified_fields_source")
   @SuppressWarnings("unused")
@@ -336,9 +367,9 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<Integer> listAReverse = list(2, 1);
     List<Integer> listBReverse = list(2, 1);
     // WHEN - THEN
-    assertThat(list(listA, listB)).usingRecursiveComparison()
-                                  .ignoringCollectionOrder()
-                                  .isEqualTo(list(listAReverse, listBReverse));
+    then(list(listA, listB)).usingRecursiveComparison()
+                            .ignoringCollectionOrder()
+                            .isEqualTo(list(listAReverse, listBReverse));
 
   }
 
@@ -355,9 +386,9 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
     List<FriendlyPerson> listAReverse = list(p4, p3);
     List<FriendlyPerson> listBReverse = list(p4, p3);
     // WHEN - THEN
-    assertThat(list(listA, listB)).usingRecursiveComparison()
-                                  .ignoringCollectionOrder()
-                                  .isEqualTo(list(listAReverse, listBReverse));
+    then(list(listA, listB)).usingRecursiveComparison()
+                            .ignoringCollectionOrder()
+                            .isEqualTo(list(listAReverse, listBReverse));
 
   }
 
@@ -389,11 +420,11 @@ class RecursiveComparisonAssert_isEqualTo_ignoringCollectionOrder_Test
                                         new PersonWithEnum("name-2", SECOND));
 
     // WHEN/THEN
-    assertThat(persons).usingRecursiveComparison()
-                       .ignoringCollectionOrder()
-                       .isEqualTo(list(new PersonWithEnum("name-2", SECOND),
-                                       new PersonWithEnum("name-2", FIRST),
-                                       new PersonWithEnum("name-1", FIRST)));
+    then(persons).usingRecursiveComparison()
+                 .ignoringCollectionOrder()
+                 .isEqualTo(list(new PersonWithEnum("name-2", SECOND),
+                                 new PersonWithEnum("name-2", FIRST),
+                                 new PersonWithEnum("name-1", FIRST)));
   }
 
   static class PersonWithInt {
