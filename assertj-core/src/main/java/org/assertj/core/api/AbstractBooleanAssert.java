@@ -59,7 +59,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    */
   public SELF isTrue() {
     return executeAssertion(() -> {
-      objects.assertNotNull(info, actual);
+      isNotNull();
       if (actual) return;
       throw Failures.instance().failure(info, shouldBeTrue(actual), actual, true);
     });
@@ -83,7 +83,7 @@ public abstract class AbstractBooleanAssert<SELF extends AbstractBooleanAssert<S
    */
   public SELF isFalse() {
     return executeAssertion(() -> {
-      objects.assertNotNull(info, actual);
+      isNotNull();
       if (!actual) return;
       throw Failures.instance().failure(info, shouldBeFalse(actual), actual, false);
     });

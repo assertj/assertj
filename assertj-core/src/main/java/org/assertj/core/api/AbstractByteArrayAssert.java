@@ -1006,7 +1006,6 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
     // We can't get the best of both approaches even if we call assertContainsExactly only when assertEqual, assertContainsExactly
     // would take a long time to compute the diff between both arrays.
     // We can at least solve the representation of byte[] arrays so that they show the bytes
-
     requireNonNullParameter(values, "values");
     return executeAssertion(() -> objects.assertEqual(info, actual, toPrimitiveByteArray(values)));
   }
@@ -1228,7 +1227,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   @CheckReturnValue
   public AbstractStringAssert<?> asHexString() {
     return executeAssertionNavigation(() -> {
-      objects.assertNotNull(info, actual);
+      isNotNull();
       return assertThat(toHexString(actual)).withAssertionState(myself);
     }, StringAssert::nullStringAssert);
   }
@@ -1259,7 +1258,7 @@ public abstract class AbstractByteArrayAssert<SELF extends AbstractByteArrayAsse
   @CheckReturnValue
   public AbstractStringAssert<?> asString() {
     return executeAssertionNavigation(() -> {
-      objects.assertNotNull(info, actual);
+      isNotNull();
       String actualAsString = new String(actual);
       return assertThat(actualAsString).withAssertionState(myself);
     }, StringAssert::nullStringAssert);
