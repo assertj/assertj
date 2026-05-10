@@ -268,6 +268,7 @@ public final class Throwables {
           || className.startsWith("org.eclipse.jdt.internal.junit.")
           || className.startsWith("org.eclipse.jdt.internal.junit5.")
           || className.startsWith("com.intellij.junit5.")
+          || className.startsWith("com.intellij.junit6.")
           || className.startsWith("com.intellij.rt.execution.junit.")
           || className.startsWith("com.intellij.rt.junit.") // since IntelliJ IDEA build 193.2956.37
           || className.startsWith("org.apache.maven.surefire")
