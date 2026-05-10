@@ -48,7 +48,7 @@ import org.assertj.core.presentation.PredicateDescription;
  */
 // TODO deprecate completed for succeeds?
 public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompletableFutureAssert<SELF, RESULT>, RESULT> extends
-    AbstractAssertWithComparator<SELF, CompletableFuture<RESULT>> {
+  AbstractAssertWithComparator<SELF, CompletableFuture<RESULT>> {
 
   // TODO reduce the visibility of the fields annotated with @VisibleForTesting
   Futures futures = Futures.instance();
@@ -62,12 +62,11 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isDone();</code></pre>
-   *
+   * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(new CompletableFuture()).isDone();</code></pre>
    *
    * @return this assertion object.
-   *
    * @see CompletableFuture#isDone()
    */
   public SELF isDone() {
@@ -82,12 +81,11 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(new CompletableFuture()).isNotDone();</code></pre>
-   *
+   * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isNotDone();</code></pre>
    *
    * @return this assertion object.
-   *
    * @see CompletableFuture#isDone()
    */
   public SELF isNotDone() {
@@ -106,12 +104,11 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.completeExceptionally(new RuntimeException());
    * assertThat(future).isCompletedExceptionally();</code></pre>
-   *
+   * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isCompletedExceptionally();</code></pre>
    *
    * @return this assertion object.
-   *
    * @see CompletableFuture#isCompletedExceptionally()
    */
   public SELF isCompletedExceptionally() {
@@ -126,14 +123,13 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isNotCompletedExceptionally();</code></pre>
-   *
+   * <p>
    * Assertion will fail :
    * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.completeExceptionally(new RuntimeException());
    * assertThat(future).isNotCompletedExceptionally();</code></pre>
    *
    * @return this assertion object.
-   *
    * @see CompletableFuture#isCompletedExceptionally()
    */
   public SELF isNotCompletedExceptionally() {
@@ -150,12 +146,11 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.cancel(true);
    * assertThat(future).isCancelled();</code></pre>
-   *
+   * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(new CompletableFuture()).isCancelled();</code></pre>
    *
    * @return this assertion object.
-   *
    * @see CompletableFuture#isCancelled()
    */
   public SELF isCancelled() {
@@ -170,14 +165,13 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(new CompletableFuture()).isNotCancelled();</code></pre>
-   *
+   * <p>
    * Assertion will fail :
    * <pre><code class='java'> CompletableFuture future = new CompletableFuture();
    * future.cancel(true);
    * assertThat(future).isNotCancelled();</code></pre>
    *
    * @return this assertion object.
-   *
    * @see CompletableFuture#isCancelled()
    */
   public SELF isNotCancelled() {
@@ -193,7 +187,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isCompleted();</code></pre>
-   *
+   * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(new CompletableFuture()).isCompleted();</code></pre>
    *
@@ -212,7 +206,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * <p>
    * Assertion will pass :
    * <pre><code class='java'> assertThat(new CompletableFuture()).isNotCompleted();</code></pre>
-   *
+   * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something")).isNotCompleted();</code></pre>
    *
@@ -231,7 +225,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *           .isCompletedWithValue("something");</code></pre>
-   *
+   * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *           .isCompletedWithValue("something else");</code></pre>
@@ -242,7 +236,6 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   public SELF isCompletedWithValue(RESULT expected) {
     return executeAssertion(() -> {
       isCompleted();
-
       RESULT actualResult = actual.join();
       if (!Objects.equals(actualResult, expected))
         throw Failures.instance().failure(info, shouldBeEqual(actualResult, expected, info.representation()));
@@ -271,8 +264,8 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout with the satisfying value.
    */
   public SELF isCompletedWithValueMatchingWithin(Predicate<RESULT> resultPredicate, Duration completionDuration) {
-    succeedsWithin(completionDuration).matches(resultPredicate);
-    return myself;
+    ObjectAssert<RESULT> objectAssert = succeedsWithin(completionDuration).matches(resultPredicate);
+    return myself.withAssertionState(objectAssert); // withAssertionState needed to propagate skipping assertions
   }
 
   /**
@@ -281,7 +274,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *           .isCompletedWithValueMatching(result -&gt; result.equals("something"));</code></pre>
-   *
+   * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *           .isCompletedWithValueMatching(result -&gt; result.equals("something else"));</code></pre>
@@ -300,7 +293,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * Assertion will pass :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *           .isCompletedWithValueMatching(result -&gt; result != null, "expected not null");</code></pre>
-   *
+   * <p>
    * Assertion will fail :
    * <pre><code class='java'> assertThat(CompletableFuture.completedFuture("something"))
    *           .isCompletedWithValueMatching(result -&gt; result == null, "expected null");</code></pre>
@@ -309,7 +302,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    *   &lt;"something"&gt;
    * to match 'expected null' predicate.</code></pre>
    *
-   * @param predicate the {@link Predicate} to apply on the resulting value.
+   * @param predicate   the {@link Predicate} to apply on the resulting value.
    * @param description the {@link Predicate} description.
    * @return this assertion object.
    */
@@ -447,10 +440,10 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
   }
 
   private ObjectAssert<RESULT> internalSucceedsWithin(Duration timeout) {
-    // succeedsWithin does NOT integrate with soft assertions - errors are thrown directly.
-    // Only if it succeeds, the returned assert gets the handler for chained assertions.
-    RESULT result = futures.assertSucceededWithin(info, actual, timeout);
-    return newObjectAssert(result);
+    return executeAssertionNavigation(() -> {
+      RESULT result = futures.assertSucceededWithin(info, actual, timeout);
+      return newObjectAssert(result);
+    }, ObjectAssert::nullObjectAssert);
   }
 
   // introduced to be proxied for assumptions and soft assertions.
@@ -482,7 +475,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * assertThat(future).succeedsWithin(100, TimeUnit.MILLISECONDS);</code></pre>
    *
    * @param timeout the maximum time to wait
-   * @param unit the time unit of the timeout argument
+   * @param unit    the time unit of the timeout argument
    * @return a new assertion object on the future's result.
    * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
    * @throws AssertionError if the actual {@code CompletableFuture} does not succeed within the given timeout.
@@ -516,11 +509,11 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * assertThat(future).succeedsWithin(timeout, InstanceOfAssertFactories.DATE)
    *                   .isToday();</code></pre>
    *
-   * @param <ASSERT> the type of the resulting {@code Assert}
-   * @param timeout the maximum time to wait
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param timeout       the maximum time to wait
    * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
    * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the {@link CompletableFuture}
-   * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
+   * @throws AssertionError        if the actual {@code CompletableFuture} is {@code null}.
    * @throws IllegalStateException if the actual {@code CompletableFuture} does not succeed within the given timeout.
    */
   public <ASSERT extends AbstractAssert<?, ?>> ASSERT succeedsWithin(Duration timeout,
@@ -546,9 +539,9 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * assertThat(future).succeedsWithin(100, TimeUnit.MILLISECONDS, InstanceOfAssertFactories.DATE)
    *                   .isToday();</code></pre>
    *
-   * @param <ASSERT> the type of the resulting {@code Assert}
-   * @param timeout the maximum time to wait
-   * @param unit the time unit of the timeout argument
+   * @param <ASSERT>      the type of the resulting {@code Assert}
+   * @param timeout       the maximum time to wait
+   * @param unit          the time unit of the timeout argument
    * @param assertFactory the factory which verifies the type and creates the new {@code Assert}
    * @return a new narrowed {@link Assert} instance for assertions chaining on the value of the {@link CompletableFuture}
    * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
@@ -618,7 +611,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    * assertThat(future).failsWithin(200, TimeUnit.MILLISECONDS);</code></pre>
    *
    * @param timeout the maximum time to wait
-   * @param unit the time unit
+   * @param unit    the time unit
    * @return a new assertion instance on the future's exception.
    * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
    * @throws AssertionError if the actual {@code CompletableFuture} succeeds within the given timeout.
@@ -681,7 +674,7 @@ public abstract class AbstractCompletableFutureAssert<SELF extends AbstractCompl
    *                              .withMessageContaining("boom!");</code></pre>
    *
    * @param timeout the maximum time to wait
-   * @param unit the timeout unit
+   * @param unit    the timeout unit
    * @return a new assertion instance on the future's exception.
    * @throws AssertionError if the actual {@code CompletableFuture} is {@code null}.
    * @throws AssertionError if the actual {@code CompletableFuture} succeeds or doesn't complete at all within the given timeout.
